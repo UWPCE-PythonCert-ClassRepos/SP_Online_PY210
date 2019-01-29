@@ -46,7 +46,7 @@ def print_grid(n):
     
 
 def print_grid2(row_col, num_segments):
-    """Prints grid based on user inputs of #rows/cols and #segments"""
+    """Prints grid based on user inputs of #rows/cols and #segments."""
     plus_minus_pattern = row_col * ('+ ' + ('- ' * num_segments)) + '+'
     num_space = (2 * num_segments) + 1
     vert_bar_pattern = row_col * ('|' + (' ' * num_space)) + '|'
