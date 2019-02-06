@@ -50,7 +50,8 @@ rows = (
     ("A_bunch_of_random_names_strung_together_into_one_really_long_name", 9, "$10000.00"),
     ("Jimmy Johns", 555555555555555555555555555555555555555, "$100000000000000.00"),
     ("Sally", 85, "$0.45"),
-    ("Mr. Rogers", 105, "$999999999999999999999999.99"))
+    ("Mr. Rogers", 105, "$999999999999999999999999.99")
+)
 max_len_str = [0]*len(rows) # List providing the lengths of the longest items in each column
 for row in rows:
     for item in range(len(row)):
