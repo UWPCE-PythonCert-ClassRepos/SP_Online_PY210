@@ -35,5 +35,5 @@ def print_grid2(x,y):
         for i in range(box_size): #loop to make box height
             print(pipe_line)
         print(plus_line)
-
-print_grid2(5,3)    
+if __name__ == '__main__':
+    print_grid2(5,3)    
