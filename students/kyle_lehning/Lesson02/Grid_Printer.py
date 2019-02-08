@@ -1,4 +1,7 @@
+#!/usr/bin/env python3
+
 def print_grid_part1():
+    """Print a basic 4 box grid"""
     plus_line = '+ - - - - + - - - - +'
     pipe_line = '|         |         |'
     print(plus_line)
@@ -10,6 +13,7 @@ def print_grid_part1():
     print(plus_line)
 
 def print_grid(n):
+    """Print a basic 4 box grid that is n spaces tall/wide"""
     multiplier = int(n/2) #Forces an integer, rounds down if odd
     dash_line = '- ' * multiplier
     plus_line = '+ ' + dash_line + '+ ' + dash_line + '+'
@@ -21,6 +25,7 @@ def print_grid(n):
         print(plus_line)
 
 def print_grid2(x,y):
+    """Print a grid that has x many rows and columns and y many spaces tall/wide in each cell"""
     grid_size = int(x) #Forces an integer
     box_size = int(y) #Forces an integer
     dash_line = ' -' * box_size
