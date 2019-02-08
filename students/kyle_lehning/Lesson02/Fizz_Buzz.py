@@ -7,5 +7,5 @@ def Fizz_Buzz():
             print(number)
         else:
             print(output_string)
-      
-Fizz_Buzz()
+if __name__ == '__main__':
+    Fizz_Buzz()
