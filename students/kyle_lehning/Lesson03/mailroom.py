@@ -80,6 +80,7 @@ def main():
                     current_donor = add_donor(user_selection)
                 donation_amount = input("\nHow much did {} donate?: ".format(user_selection))
                 add_donation(current_donor, donation_amount)
+                print("Thank you {}, for your generous donation of {}!".format(current_donor[0], donation_amount))
         if user_selection == "2":
             print_report()
         if user_selection == "3":
