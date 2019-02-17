@@ -29,8 +29,7 @@ def add_donor(new_name):
 
 def add_donation(donor, donation_value):
     donor[2] += 1
-    donor[1] += float(donation_value)
-    donor[1] = round(donor[1], 2)
+    donor[1] = round(donor[1] + float(donation_value), 2)
     donor[3] = round(donor[1]/donor[2], 2)
 
 
