@@ -27,7 +27,7 @@ def list_data():
     format_string_header = f'{{:<{max_len_str[0]+10}}}{{:<{max_len_str[1]+10}}}{{:<{max_len_str[2]+15}}}{{:<{max_len_str[3]+10}}}'
     print("\n")
     print(format_string_header.format(*("Donor Name", "Total Given", "Num Gifts", "Average Gift")))
-    print("-"*(max_len_str[0]+max_len_str[1]+max_len_str[2]+max_len_str[3]+38))
+    print("-"*(max_len_str["name"]+max_len_str["total_don"]+max_len_str["number_don"]+max_len_str["avg_don"]+39))
     for row in initial_donor_list:
         print(format_string.format(*row.values()))
 
