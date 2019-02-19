@@ -1,11 +1,20 @@
 #!/usr/bin/env python3
-donors = [
-    ["Steve Jobs", 1002.40, 2, 501.20],
-    ["Jeff Bezos", 877.33, 1, 877.33],
-    ["Bill Gates", 653784.49, 2, 326892.24],
-    ["Mark Zuckerberg", 16396.10, 3, 5465.37],
-    ["Paul Allen", 708.42, 3, 236.14]
-]
+import tempfile
+import time
+
+
+donors = {
+    "STEVE JOBS":
+        {"name": "Steve Jobs", "total_don": 1002.40, "donations": 2, "avg": 501.20},
+    "JEFF BEZOS":
+        {"name": "Jeff Bezos", "total_don": 877.33, "donations": 1, "avg": 877.33},
+    "BILL GATES":
+        {"name": "Bill Gates", "total_don": 653784.49, "donations": 2, "avg": 326892.24},
+    "MARK ZUCKERBERG":
+        {"name": "Mark Zuckerberg", "total_don": 16396.10, "donations": 3, "avg": 5465.37},
+    "PAUL ALLEN":
+        {"name": "Paul Allen", "total_don": 708.42, "donations": 3, "avg": 236.14}
+}
 
 
 def menu_input():
@@ -13,12 +22,13 @@ def menu_input():
         "\nSelect an option number:"
         "\n1. Send a Thank You"
         "\n2. Create a Report"
-        "\n3. Quit\n"
+        "\n3. Send letters to all donors"
+        "\n4. Quit\n"
     )
 
 
 def thank_you():
-    thank_you_options ={
+    thank_you_options = {
         "MENU": False,
         "LIST": list_donors
     }
@@ -37,50 +47,60 @@ def thank_you():
 
 def list_donors():
     for name in donors:
-        print(name[0])
+        print(name)
 
 
 def write_letter(person):
-    for name in donors:
-        if person.upper() == name[0].upper():
-            current_donor = name
-            break
+    if person.upper() in donors:
+        current_donor = donors[person.upper()]
     else:
         current_donor = add_donor(person)
     donation_amount = input("\nHow much did {} donate?: ".format(person))
     add_donation(current_donor, donation_amount)
-    print("Thank you {}, for your generous donation of {}!".format(current_donor[0], donation_amount))
+    print("Thank you {}, for your generous donation of ${}!".format(current_donor["name"], donation_amount))
 
 
 def add_donor(new_name):
-    donors.append([new_name, 0, 0, 0])
-    return donors[-1]
+    donors[new_name.upper()] = {"name": new_name, "total_don": 0, "donations": 0, "avg": 0}
+    return donors[new_name.upper()]
 
 
 def add_donation(donor, donation_value):
-    donor[2] += 1
-    donor[1] = round(donor[1] + float(donation_value), 2)
-    donor[3] = round(donor[1]/donor[2], 2)
+    donor["donations"] += 1
+    donor["total_don"] = round(donor["total_don"] + float(donation_value), 2)
+    donor["avg"] = round(donor["total_don"]/donor["donations"], 2)
 
 
 def print_report():
     header = ["Donor Name", "Total Given", "Num Gifts", "Average Gift"]
     header_string = "{0:<{w1}} | {1:>{w2}} | {2:>{w3}} | {3:>{w4}}"
     data_string = "{0:<{w1}}  ${1:>{w2}}   {2:>{w3}}  ${3:>{w4}}"
-    report_list = donors[:]
-    width_list = donors[:]
-    report_list.sort(reverse=True, key=lambda x: int(x[1]))
-    width_list.insert(0, header)
-    w = find_widths(width_list)
+    # report_list = donors[:]
+    width_dictionary = donors.copy()
+    # report_list.sort(reverse=True, key=lambda x: int(x[1]))
+    width_dictionary["HEADER"] = {
+        "name": "Donor Name", "total_don": "Total Given", "donations": "Num Gifts", "avg": "Average Gift"
+    }
+    w = find_widths(width_dictionary)
     header_to_print = print_line(header_string, header, w)
     print(header_to_print)
     print('-' * len(header_to_print))
-    for row in report_list:
-        print(print_line(data_string, row, w))
+    for key, value in donors.items():
+        print(print_line(data_string, value.values(), w))
 
 
 def find_widths(seq):
-    return [max(len(str(row[i])) for row in seq) for i in range(len(seq[0]))]
+    width_lengths = [0, 0, 0, 0]
+    for i, v in seq.items():
+        if len(str(v["name"])) > width_lengths[0]:
+            width_lengths[0] = len(str(v["name"]))
+        if len(str(v["total_don"])) > width_lengths[1]:
+            width_lengths[1] = len(str(v["total_don"]))
+        if len(str(v["donations"])) > width_lengths[2]:
+            width_lengths[2] = len(str(v["donations"]))
+        if len(str(v["avg"])) > width_lengths[3]:
+            width_lengths[3] = len(str(v["avg"]))
+    return width_lengths
 
 
 def print_line(line_format, info, width):
@@ -88,11 +108,26 @@ def print_line(line_format, info, width):
     return row_string
 
 
+def print_all():
+    file_location = tempfile.gettempdir()
+    print("letters stored at: " + file_location)
+    for key, value in donors.items():
+        file_name = "{}{}{}{}{}".format(file_location, "\\", value["name"], time.strftime("%Y%m%d-%H%M%S"), ".txt")
+        with open(file_name, "w") as file:
+            file.write("Dear {name},"
+                       "\n\nThank you for your very kind donations totaling ${total_don}."
+                       "\nIt will be put to very good use."
+                       "\n\nSincerely,"
+                       "\n-The Team".format(**value))
+            file.close()
+
+
 def main():
     menu_switch = {
         "1": thank_you,
         "2": print_report,
-        "3": False
+        "3": print_all,
+        "4": False
     }
     while True:
         user_selection = menu_input()
