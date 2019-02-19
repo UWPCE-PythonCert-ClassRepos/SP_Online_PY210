@@ -75,9 +75,7 @@ def print_report():
     header = ["Donor Name", "Total Given", "Num Gifts", "Average Gift"]
     header_string = "{0:<{w1}} | {1:>{w2}} | {2:>{w3}} | {3:>{w4}}"
     data_string = "{0:<{w1}}  ${1:>{w2}}   {2:>{w3}}  ${3:>{w4}}"
-    # report_list = donors[:]
     width_dictionary = donors.copy()
-    # report_list.sort(reverse=True, key=lambda x: int(x[1]))
     width_dictionary["HEADER"] = {
         "name": "Donor Name", "total_don": "Total Given", "donations": "Num Gifts", "avg": "Average Gift"
     }
