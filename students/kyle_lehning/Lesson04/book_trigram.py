@@ -1,9 +1,7 @@
 # !/usr/bin/env python3
 import random
-# import string
-import sys
-import unicodedata
 import re
+
 
 def build_trigrams(all_words):
     """
@@ -26,18 +24,25 @@ def read_in_data(f_name):
 
    returns a string with all the words from the book
    """
-    replacements = {'\n': ' ', '--': ' ', '(': '', ')': ''}
     file_text = ""
     with open(f_name, "r") as file:
         for line in file:
             file_text += line
-    # file_text = file_text.replace('--', ' ')
-    #tbl = dict.fromkeys(i for i in range(sys.maxunicode)
-                        # if unicodedata.category(chr(i)).startswith('P'))
-    # file_text = file_text.translate(tbl)
+    updated_text = remove_punctuation(file_text)
+    return updated_text
+
+
+def remove_punctuation(p_string):
+    """
+   take an input string and remove punctuation, leaving in-word - and '
+   """
+    # (\b[-']\b) is a regular expression that captures intra-word ' and - in group(1)
+    # the \b states that it is within a word, not at the end
+    # |[\W_] is negated alpha num, same as [^a-zA-Z0-9], so captures all non alpha
     p = re.compile(r"(\b[-']\b)|[\W_]")
-    file_text = p.sub(lambda m: (m.group(1) if m.group(1) else " "), file_text)
-    return file_text
+    # in the sub function check if it is captured in group(1) and if so restore it, else replace punctuation with " "
+    updated_text = p.sub(lambda m: (m.group(1) if m.group(1) else " "), p_string)
+    return updated_text
 
 
 def make_words(input_string):
