@@ -62,6 +62,17 @@ def build_text(pairs):
 
     returns a string story.
     """
+    first_key = random.choice(list(pairs.keys()))
+    list_of_words = first_key.split()
+    while True:
+        current_key = list_of_words[-2:]
+        current_key_string = " ".join(map(str, current_key))
+        if current_key_string in pairs.keys():
+            next_word = random.choice(pairs[current_key_string])
+            list_of_words.append(next_word)
+        else:
+            break
+    return " ".join(list_of_words)
 
 
 if __name__ == "__main__":
