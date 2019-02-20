@@ -12,9 +12,10 @@ def build_trigrams(all_words):
        values: list of followers
     """
     trigrams = {}
-
-    # build up the dict here!
-
+    for idx, word in enumerate(all_words[:-2]):
+        word_pair = word + " " + all_words[idx + 1]
+        trigrams.setdefault(word_pair, [])
+        trigrams[word_pair].append(all_words[idx + 2])
     return trigrams
 
 
