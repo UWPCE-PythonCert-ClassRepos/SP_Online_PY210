@@ -1,6 +1,7 @@
 # !/usr/bin/env python3
 import random
 import re
+import os
 
 
 def build_trigrams(all_words):
@@ -28,7 +29,7 @@ def read_in_data(f_name):
     file_text = ""
     with open(f_name, "r") as file:
         for line in file:
-            file_text += line
+            file_text += line.lower()
     updated_text = remove_punctuation(file_text)
     return updated_text
 
@@ -64,28 +65,31 @@ def build_text(pairs):
     """
     first_key = random.choice(list(pairs.keys()))
     list_of_words = first_key.split()
+    desired_sentence_length = random.randint(15, 20)  # Randomize how long to make the sentence
+    sentence_length = 0
     while True:
         current_key = list_of_words[-2:]
         current_key_string = " ".join(map(str, current_key))
         if current_key_string in pairs.keys():
             next_word = random.choice(pairs[current_key_string])
             list_of_words.append(next_word)
+            sentence_length += 1
         else:
             break
-    return " ".join(list_of_words)
+        if sentence_length == desired_sentence_length:
+            break
+    list_of_words[0] = list_of_words[0].capitalize()  # Make first letter capital
+    list_with_cap = ["I" if x == "i" else x for x in list_of_words]  # Make I capital
+    return (" ".join(list_with_cap)) + "."
 
 
 if __name__ == "__main__":
-    # get the filename from the command line
-    # try:
-        # filename = sys.argv[1]
-    # except IndexError:
-        # print("You must pass in a filename")
-        # sys.exit(1)
-    filename = r"C:\Users\lehni\Documents\Education\UW\PYTHON210\SP_Online_PY210\students\kyle_lehning\Lesson04\sherlock_small.txt"
-    in_data = read_in_data(filename)
-    words = make_words(in_data)
-    word_pairs = build_trigrams(words)
-    new_text = build_text(word_pairs)
-
-    print(new_text)
+    filename = (input("Enter the path of your file: ")).replace(r'"', '')  # remove quotes if copy as path used
+    if os.path.exists(filename):
+        in_data = read_in_data(filename)
+        words = make_words(in_data)
+        word_pairs = build_trigrams(words)
+        new_text = build_text(word_pairs)
+        print(new_text)
+    else:
+        print("I did not find the file at, "+str(filename))
