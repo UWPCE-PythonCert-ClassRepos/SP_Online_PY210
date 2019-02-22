@@ -1,55 +1,28 @@
 #UWPCE PY210
 #Lesson02, Grid Printer
 
-PLUS = "+"
-MINUS ="-"
-VERT_BAR = "|"
+def print_grid(size, n):
+    """Prints a cell grid."""
+    print_rowBreak(size, n)
+    print_cellRow(size, n)
+    for i in range(size-1):
+        print_rowBreak(size, n)
+        print_cellRow(size, n)
+    print_rowBreak(size, n)
 
-def print_grid(n):
+def print_rowBreak(size, n):
+    """Prints the header/footer of a row in a cell"""
+    for i in range(size): #Number of columns.
+        print("+", end = " ")
+        for j in range(n): #Width of column.
+            print("-", end = " ")
+    print("+")
 
-    #Print Header/Footer Row
-    print(PLUS, end=" ")
-    for i in range(n//2):
-        print(MINUS, end=" ")
-    print(PLUS, end = " ")
-    for i in range(n//2):
-        print(MINUS, end = " ")
-    print(PLUS)
-
-    #Print Cell Rows
-    for i in range(n//2):
-        print("|", end = " ")
-        for j in range(n//2):
-            print(" ", end = " ")
-        print("|", end = " ")
-        for j in range(n//2):
-            print(" ", end = " ")
+def print_cellRow(size, n):
+    """Prints the cells in a row."""
+    for i in range(n): #Height of cell.
+        for num in range(size): #Number of columns.
+            print("|", end = " ")
+            for j in range(n): #Width of cell.
+                print(" ", end = " ")
         print("|")
-
-    #Print Header/Footer Row
-    print(PLUS, end=" ")
-    for i in range(n//2):
-        print(MINUS, end=" ")
-    print(PLUS, end = " ")
-    for i in range(n//2):
-        print(MINUS, end = " ")
-    print(PLUS)
-
-    #Print Cell Rows
-    for i in range(n//2):
-        print("|", end = " ")
-        for j in range(n//2):
-            print(" ", end = " ")
-        print("|", end = " ")
-        for j in range(n//2):
-            print(" ", end = " ")
-        print("|")
-
-    #Print Header/Footer Row
-    print(PLUS, end=" ")
-    for i in range(n//2):
-        print(MINUS, end=" ")
-    print(PLUS, end = " ")
-    for i in range(n//2):
-        print(MINUS, end = " ")
-    print(PLUS)
