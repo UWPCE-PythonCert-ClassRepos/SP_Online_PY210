@@ -1,12 +1,12 @@
 import os
 os.system('cls')
 
-def print_grid(size):
-    if size %2 == 0:
-        size = size + 1
+def print_grid(box_count,box_size):
+    
 
-    dash_count = (size - 1)//2 
-    pipe_range = size//2
+    dash_count = (box_size) 
+    pipe_range = (box_size)
+    
 
     plus = "+"
     minus = "-"
@@ -15,20 +15,19 @@ def print_grid(size):
     
     #Make the top line
     print(f'{plus}',end='')
-    print (f'{(space+minus)*dash_count}{space}{plus}'*2)
+    print (f'{(space+minus)*dash_count}{space}{plus}'*box_count)
 
-    for box in range(2):
+    for box in range(box_count):
         for x in range(pipe_range):
             #Make all the middle lines
             print(f'{pipe}',end='')
-            print (f'{space*size}{pipe}{space*size}{pipe}')
+            print (f'{space*box_size*2}{space}{pipe}'*box_count)
             
         #Make the bottom line
         print(f'{plus}',end='')
-        print (f'{(space+minus)*dash_count}{space}{plus}'*2)
+        print (f'{(space+minus)*dash_count}{space}{plus}'*box_count)
 
 if __name__ == "__main__":
-    print_grid(3)    
-    print_grid(11)    
-    print_grid(15)    
+    print_grid(5,3)    
+     
 
