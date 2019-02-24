@@ -29,7 +29,7 @@ def thank_you():
 def create_report():
     """Generate a tabular report of donation history"""
     header ='\n{:<18}|{:^13}|{:^13}|{:>13}'.format("Donor Name", "Total Given",
-                                                 "Num Gifts", "Average Gift")
+                                                   "Num Gifts", "Average Gift")
     print(header)
     print('-'*len(header))
     for entry in DONOR_LOG:
@@ -37,7 +37,7 @@ def create_report():
         num = len(entry[1])
         average = total/num
         print('{:<18} ${:>12,.2f}{:>13}  ${:>12,.2f}'.format(entry[0],total,num,average))
-    print("")
+    print('')
 
 def check_donor_list(name):
     """Check the global DONOR_LOG for an existing donor name."""
@@ -98,7 +98,6 @@ def initialize_donors():
     DONOR_LOG.append(['Dwight Eisenhower', [1953.00, 34.0]])
 
 def main():
-    initialize_donors()
     while True:
         option = display_menu()
         if option == '1':
@@ -112,4 +111,5 @@ def main():
                   "Please enter a valid option from the menu.\n")
 
 if __name__ == "__main__":
+    initialize_donors()
     main()
