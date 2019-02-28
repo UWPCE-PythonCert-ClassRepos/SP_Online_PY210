@@ -56,6 +56,7 @@ def write_letter(person):
         current_donor = donors[person.upper()]
     else:
         current_donor = add_donor(person)
+
     while True:  # Loop until a valid amount is provided
         donation_amount = input("\nHow much did {} donate?: ".format(person))
         try:
@@ -79,7 +80,21 @@ def add_donation(donor, donation_value):
     donor["avg"] = round(donor["total_don"]/donor["donations"], 2)
 
 
-def print_report():
+def create_report():
+    the_report = generate_report()
+    print(the_report)
+
+
+def print_line(line_format, info, width):
+    row_string = (line_format.format(*info, w1=width[0], w2=width[1], w3=width[2], w4=width[3]))
+    return row_string
+
+
+def find_widths(seq):
+    return [max(len(str(row[i])) for row in seq) for i in range(len(seq[0]))]
+
+
+def generate_report():
     header = ["Donor Name", "Total Given", "Num Gifts", "Average Gift"]
     header_string = "{0:<{w1}} | {1:>{w2}} | {2:>{w3}} | {3:>{w4}}"
     data_string = "{0:<{w1}}  ${1:>{w2}}   {2:>{w3}}  ${3:>{w4}}"
@@ -91,19 +106,10 @@ def print_report():
     width_list = [width_list[i * 4:(i + 1) * 4] for i in range((len(width_list) + 4 - 1) // 4)]  # list of lists
     w = find_widths(width_list)
     header_to_print = print_line(header_string, header, w)
-    print(header_to_print)
-    print('-' * len(header_to_print))
+    report = '\n' + header_to_print + '\n' + ('-' * len(header_to_print)) + '\n'
     for key, value in sorted(donors.items(), reverse=True, key=lambda x: x[1]['total_don']):
-        print(print_line(data_string, value.values(), w))
-
-
-def find_widths(seq):
-    return [max(len(str(row[i])) for row in seq) for i in range(len(seq[0]))]
-
-
-def print_line(line_format, info, width):
-    row_string = (line_format.format(*info, w1=width[0], w2=width[1], w3=width[2], w4=width[3]))
-    return row_string
+        report += (print_line(data_string, value.values(), w) + '\n')
+    return report
 
 
 def print_all():
@@ -122,7 +128,7 @@ def print_all():
 def main():
     menu_switch = {
         "1": thank_you,
-        "2": print_report,
+        "2": create_report,
         "3": print_all,
         "4": sys.exit
     }
