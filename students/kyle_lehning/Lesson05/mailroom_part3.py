@@ -93,7 +93,7 @@ def print_report():
     header_to_print = print_line(header_string, header, w)
     print(header_to_print)
     print('-' * len(header_to_print))
-    for key, value in donors.items():
+    for key, value in sorted(donors.items(), reverse=True, key=lambda x: x[1]['total_don']):
         print(print_line(data_string, value.values(), w))
 
 
