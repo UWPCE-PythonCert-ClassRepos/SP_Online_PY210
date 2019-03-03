@@ -1,24 +1,24 @@
 #!/usr/bin/env python3
 
 fruits = ["Apples", "Pears", "Oranges", "Peaches"]
-print(fruit)
+print(fruits)
 
 response = input("Please enter a new fruit. ")
-fruit.append(response)
-print(fruit)
+fruits.append(response)
+print(fruits)
 
 response = int(input("Please enter a number. "))
 number = response - 1
 #print(number)
-print(f'{response}  {fruit[number]}')
+print(f'{response}  {fruits[number]}')
 
-fruit = ['Bananas'] + fruit
-print(fruit)
+fruits = ['Bananas'] + fruits
+print(fruits)
 
-fruit.insert(0, 'Cherries')
-print(fruit)
+fruits.insert(0, 'Cherries')
+print(fruits)
 
 for fruit in fruits:
-    print(fruit)
+    #print(fruit)
     if fruit[0].upper() == 'P':
         print(fruit)
