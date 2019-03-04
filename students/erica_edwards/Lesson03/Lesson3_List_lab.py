@@ -52,14 +52,19 @@ fruits = ["Apples", "Pears", "Oranges", "Peaches"]
 # print(f'{" "*14}Begin Series 3')
 # print('='*40)       
 print(fruits)
-removables = []
-for fruit in fruits:
-    response = input(f"Do you like {fruit}? ")
-    print(response.upper())
-    if response.upper() == 'NO': 
-        removables.append(fruit)
-for remover in removables:
-    fruits.remove(remover)       
+
+for fruit in fruits[:]:
+    done = False
+    while not done:
+        response = input(f"Do you like {fruit.lower()}? ")
+        print(response.upper())
+        if response.upper() == 'NO': 
+            fruits.remove(fruit)
+            done = True
+        elif response.upper() == 'YES':
+            done = True
+        else: 
+            print('Please answer with a yes or no.')
 print(fruits)
 
 
