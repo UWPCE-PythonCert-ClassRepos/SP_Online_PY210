@@ -195,6 +195,29 @@ def test_head():
     assert file_contents.startswith("<head>")
     assert file_contents.endswith("</head>")
 
+
+def test_title():
+    e = Title("this is a single line title")
+
+    file_contents = render_result(e).strip()
+
+    assert"this is a single line title" in file_contents
+
+    assert file_contents.startswith("<title>")
+    assert file_contents.endswith("</title>")
+
+    assert not ("\n" in file_contents)
+
+
+def test_one_line_tag_append():
+    """
+    You should not be able to append content to a OneLineTag
+    """
+    e = OneLineTag("the initial content")
+    with pytest.raises(NotImplementedError):
+        e.append("some more content")
+
+
 # #####################
 # # indentation testing
 # #  Uncomment for Step 9 -- adding indentation
