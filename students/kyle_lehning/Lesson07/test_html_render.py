@@ -216,7 +216,37 @@ def test_one_line_tag_append():
     e = OneLineTag("the initial content")
     with pytest.raises(NotImplementedError):
         e.append("some more content")
+########
+# Step 4
+########
 
+
+def test_attributes():
+    e = P("A paragraph of text", style="text-align: center", id="intro")
+
+    file_contents = render_result(e).strip()
+
+    # note: The previous tests should make sure that the tags are getting
+    #       properly rendered, so we don't need to test that here.
+    #       so using only a "P" tag is fine
+    assert "A paragraph of text" in file_contents
+    # but make sure the embedded element's tags get rendered!
+    # first test the end tag is there -- same as always:
+    assert file_contents.endswith("</p>")
+
+    # but now the opening tag is far more complex
+    # but it starts the same:
+    assert file_contents.startswith("<p")
+
+    # order of the tags is not important in html, so we need to
+    # make sure not to test for that
+    # but each attribute should be there:
+    assert 'style="text-align: center"' in file_contents
+    assert 'id="intro"' in file_contents
+
+    assert file_contents.startswith("<p ")  # make sure there's space after the p
+
+    assert file_contents[:file_contents.index(">")].count(" ") == 3
 
 # #####################
 # # indentation testing
