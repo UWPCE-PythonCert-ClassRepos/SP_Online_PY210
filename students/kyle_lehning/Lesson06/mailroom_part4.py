@@ -66,7 +66,7 @@ def write_letter(person):
         else:
             break
     add_donation(current_donor, donation_amount)
-    print("Thank you {}, for your generous donation of ${:.2f}!".format(current_donor["name"], donation_amount))
+    print(thank_you_text(current_donor, str(donation_amount)))
 
 
 def add_donor(new_name):
@@ -116,13 +116,23 @@ def print_all():
     file_location = tempfile.gettempdir()
     print("letters stored at: " + file_location)
     for key, value in donors.items():
-        file_name = "{}{}{}{}{}".format(file_location, "\\", value["name"], time.strftime("%Y%m%d-%H%M%S"), ".txt")
-        with open(file_name, "w") as file:
-            file.write("Dear {name},"
-                       "\n\nThank you for your very kind donations totaling ${total_don:.2f}."
-                       "\nIt will be put to very good use."
-                       "\n\nSincerely,"
-                       "\n-The Team".format(**value))
+        file_path_name = "{}{}{}".format(file_location, "\\", value["name"])
+        file = file_creation(file_path_name)
+        file.write(thank_you_text(value))
+        file.close()
+
+
+def file_creation(file_name):
+    return open("{}{}{}".format(file_name, time.strftime("%Y%m%d-%H%M%S"), ".txt"), "w")
+
+
+def thank_you_text(donor_dict, amount="{total_don:.2f}"):
+    string_to_format = ("Dear {name},"
+                        "\n\nThank you for your kind donation of $" + amount + "."
+                        "\nIt will be put to very good use."
+                        "\n\nSincerely,"
+                        "\n-The Team")
+    return string_to_format.format(**donor_dict)
 
 
 def main():
