@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-class SparseArray():
+class SparseArray:
     def __init__(self, arr):
         self.len = len(arr)
         self.sparse = {index: item for index, item in enumerate(arr) if item}
@@ -10,6 +10,7 @@ class SparseArray():
             start = 0 if index.start is None or index.start < 0 else index.start
             stop = self.len if index.stop is None or index.stop > self.len else index.stop
             step = 1 if index.step is None else index.step
+
             return [self.sparse.get(i, 0) for i in range(start, stop, step)]
         elif index >= 0 and index < self.len:
             return self.sparse.get(index, 0)
