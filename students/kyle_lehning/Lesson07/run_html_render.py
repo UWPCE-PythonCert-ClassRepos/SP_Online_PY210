@@ -218,7 +218,7 @@ list.append( hr.Li("The first item in a list") )
 list.append( hr.Li("This is the second item", style="color: red") )
 
 item = hr.Li()
-item.append("And this is a ")
+item.append("And this is a")
 item.append( hr.A("http://google.com", "link") )
 item.append("to google")
 
