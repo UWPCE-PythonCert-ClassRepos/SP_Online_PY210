@@ -11,7 +11,7 @@ import math
 
 ### Print Grid Function ###
 
-def printGrid():
+def print_grid():
     plus = '+'
     bar = '|'
     dash = '-' 
