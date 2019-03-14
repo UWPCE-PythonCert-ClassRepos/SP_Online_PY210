@@ -39,14 +39,13 @@ def donor_name():
     while not done:
         donorName = input("Enter the full name of the donor. (or q to quit) ")
         
-        # If user types list print Donors.
         if donorName == 'q':
             return
+        # If user types list print Donors       
         elif donorName.upper() == "LIST":
             list_donors()
             continue
         else:  # user didn't type list    
-            #if donorName not in list(sorted(Donors, key=itemgetter(0))):
             if donorName not in [item[0] for item in Donors]:
                 Donors.append((donorName,list()))
         donation(donorName)
@@ -58,15 +57,13 @@ def list_donors():
     return
 
 def donation(donorName):    
-    donationAmount = float(input("Enter the donation amount (or q to quit)"))
+    donationAmount = float(input("Enter the donation amount (or q to quit) "))
     if donationAmount == 'q':
         return
     else:
-        # donorIndex = list(map(itemgetter(0), Donors)).index(donorName)
         donorIndex = [item[0] for item in Donors].index(donorName)
         name, donations = Donors[donorIndex]
         donations.append(donationAmount)
-        #print(Donors)
         send_thank_you(name, donationAmount)
         return
 
@@ -81,23 +78,19 @@ def totals():
     output_list = []
     for name, donations in Donors:
         total_Given = sum(donations)
-        print(sum(donations))
         number_Gifts = len(donations)
-        print(len(donations))
         average_Gift = sum(donations)/len(donations)
-        print(sum(donations)/len(donations))
         output_list.append((name, total_Given, number_Gifts, average_Gift))
-        print(output_list)
-    print(output_list)
+    
     sorted_output = sorted(output_list, key=itemgetter(1), reverse=True)
-    print(sorted_output)
+    create_report(sorted_output)
 
-    print() 
+def create_report(sorted_output):
+    print()
     print('Donor Name                | Total Given | Num Gifts | Average Gift')
     print('-'*66)
     for name, total_Given, number_Gifts, average_Gift in sorted_output:
         print(f'{name:<27}${total_Given:>11.2f}{number_Gifts:>12}  ${average_Gift:>11.2f}')
-
     return
 
 if __name__ == "__main__":
