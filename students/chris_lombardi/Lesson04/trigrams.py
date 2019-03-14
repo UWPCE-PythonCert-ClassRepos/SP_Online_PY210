@@ -6,7 +6,7 @@ import string
 
 def build_trigram(words):
     """Build a trigram association from a list of words and return
-    the trigram association as a dictionary."""
+    the trigram association as a dictionary"""
     trigrams = {}
 
     for i in range(len(words) - 2):
