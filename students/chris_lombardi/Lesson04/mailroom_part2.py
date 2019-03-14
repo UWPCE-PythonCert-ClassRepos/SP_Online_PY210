@@ -69,10 +69,10 @@ def send_letters():
 
 def thankyou_note(entry):
     note = (f'Dear {entry},\n\n\tThank you for your generous donation of '
-          f'${sum(donor_log.get(entry)):,.2f}!\n\tWe appreciate the '
-          f'{len(donor_log.get(entry)):d} total donation(s) that you have made.'
-          '\n\tYour donation will be put to good use.'
-          '\n\n\tSincerely,\n\t-The Mailroom Team')
+            f'${sum(donor_log.get(entry)):,.2f}!\n\tWe appreciate the '
+            f'{len(donor_log.get(entry)):d} total donation(s) that you have made.'
+            '\n\tYour donation will be put to good use.'
+            '\n\n\tSincerely,\n\t-The Mailroom Team')
     return note
 
 def initialize_donors():
