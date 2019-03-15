@@ -55,15 +55,6 @@ def remove_punctuation(str1):
             str2 += ch
     return str2
 
-#Delete this function before submitting. Verifies trigram matching.
-def max_length(test_dict):
-    max = 0
-    for key in test_dict:
-        test_max = len(test_dict.get(key))
-        if test_max > max:
-            max = test_max
-    return max
-
 def make_words(text_string):
     """Create a list of words with punctuation removed"""
     clean_text = remove_punctuation(text_string)
