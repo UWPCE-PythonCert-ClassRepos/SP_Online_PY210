@@ -1,5 +1,5 @@
 #UWPCE PY210
-#Lesson04, Mailroom Part 3
+#Lesson05, Mailroom Part 3
 import sys
 
 donor_log = {} #Log of donors and their respective donation history.
@@ -32,13 +32,16 @@ def create_report():
     header ='\n{:<18}|{:^13}|{:^13}|{:>13}'.format("Donor Name", "Total Given",
                                                    "Num Gifts", "Average Gift")
     print(header + '\n' + '-'*len(header))
-    for entry in donor_log:
-        total = total_donation(entry)
-        #total = sum(donor_log.get(name))
+    donor_sort = sorted(donor_log, key = sort_key, reverse = True)
+    for entry in donor_sort:
+        total = sum(donor_log.get(entry))
         num = len(donor_log.get(entry))
         average = total/num
         print('{:<18} ${:>12,.2f}{:>13}  ${:>12,.2f}'.format(entry,total,num,average))
     print('')
+
+def sort_key(entry):
+    return sum(donor_log.get(entry))
 
 def total_donation(name):
     """Return the sum of donations for a particular donor."""
