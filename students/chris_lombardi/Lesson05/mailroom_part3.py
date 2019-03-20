@@ -16,16 +16,17 @@ def thank_you():
 
     try:
         amount = float(input("Please enter a donation amount:"))
-            #Check if name exists in log and either create new entry or update history.
+    except ValueError:
+        print("\nNot a valid input.\nPlease try to record donation" +
+              " again using a valid amount.\n\n")
+    else:
+        #Check if name exists in log and either create new entry or update history.
         if response not in donor_log:
             donor_log[response] = [amount]
         else:
             donor_log[response] += [amount]
         #Print a thank you email for the latest donation.
         print(thankyou_note(response))
-    except ValueError:
-        print("\nNot a valid input.\nPlease try to record donation" +
-              " again using a valid amount.\n\n")
 
 def create_report():
     """Generate a tabular report of donation history"""
@@ -42,13 +43,6 @@ def create_report():
 
 def sort_key(entry):
     return sum(donor_log.get(entry))
-
-def total_donation(name):
-    """Return the sum of donations for a particular donor."""
-    total = 0.0
-    for donation in donor_log.get(name):
-        total += donation
-    return total
 
 def display_menu():
     """Displays the interactive menu to the user."""
@@ -70,7 +64,6 @@ def send_letters():
         filename = entry + '.txt'
         with open(filename, 'w') as f:
             f.write(thankyou_note(entry))
-        f.close()
 
 def thankyou_note(entry):
     note = (f'Dear {entry},\n\n\tThank you for your generous donation of '
@@ -91,14 +84,13 @@ def initialize_donors():
 def main():
     dict_menu_opts = {'1': thank_you, '2': create_report,
                       '3': send_letters, '4': exit_program}
-    menu_options = set(dict_menu_opts.keys())
     while True:
-        option = display_menu()
-        if option not in menu_options:
+        try:
+            option = display_menu()
+            dict_menu_opts.get(option)()
+        except TypeError:
             print("\nNot a valid option.\n"
                   "Please enter a valid option from the menu.\n")
-        else:
-            dict_menu_opts.get(option)()
 
 if __name__ == "__main__":
     initialize_donors()
