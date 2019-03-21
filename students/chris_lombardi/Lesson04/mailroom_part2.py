@@ -30,20 +30,16 @@ def create_report():
     header ='\n{:<18}|{:^13}|{:^13}|{:>13}'.format("Donor Name", "Total Given",
                                                    "Num Gifts", "Average Gift")
     print(header + '\n' + '-'*len(header))
-    for entry in donor_log:
-        total = total_donation(entry)
-        #total = sum(donor_log.get(name))
+    donor_sort = sorted(donor_log, key = sort_key, reverse = True)
+    for entry in donor_sort:
+        total = sum(donor_log.get(entry))
         num = len(donor_log.get(entry))
         average = total/num
         print('{:<18} ${:>12,.2f}{:>13}  ${:>12,.2f}'.format(entry,total,num,average))
     print('')
 
-def total_donation(name):
-    """Return the sum of donations for a particular donor."""
-    total = 0.0
-    for donation in donor_log.get(name):
-        total += donation
-    return total
+def sort_key(entry):
+    return sum(donor_log.get(entry))
 
 def display_menu():
     """Displays the interactive menu to the user."""
@@ -65,14 +61,13 @@ def send_letters():
         filename = entry + '.txt'
         with open(filename, 'w') as f:
             f.write(thankyou_note(entry))
-        f.close()
 
 def thankyou_note(entry):
     note = (f'Dear {entry},\n\n\tThank you for your generous donation of '
-          f'${sum(donor_log.get(entry)):,.2f}!\n\tWe appreciate the '
-          f'{len(donor_log.get(entry)):d} total donation(s) that you have made.'
-          '\n\tYour donation will be put to good use.'
-          '\n\n\tSincerely,\n\t-The Mailroom Team')
+            f'${sum(donor_log.get(entry)):,.2f}!\n\tWe appreciate the '
+            f'{len(donor_log.get(entry)):d} total donation(s) that you have made.'
+            '\n\tYour donation will be put to good use.'
+            '\n\n\tSincerely,\n\t-The Mailroom Team')
     return note
 
 def initialize_donors():
@@ -86,10 +81,9 @@ def initialize_donors():
 def main():
     dict_menu_opts = {'1': thank_you, '2': create_report,
                       '3': send_letters, '4': exit_program}
-    menu_options = set(dict_menu_opts.keys())
     while True:
         option = display_menu()
-        if option not in menu_options:
+        if option not in dict_menu_opts:
             print("\nNot a valid option.\n"
                   "Please enter a valid option from the menu.\n")
         else:
