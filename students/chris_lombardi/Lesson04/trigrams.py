@@ -32,7 +32,7 @@ def trigram_text(trigrams, length_string):
     for i in range(1,length_string-1):
         next_pair = tuple(new_text[i:i+2])
         #Test for a valid key in the trigram dictionary.
-        if trigrams.get(next_pair) == None:
+        if trigrams.get(next_pair):
             break
         new_text.append(random.choice(trigrams.get(next_pair)))
 
@@ -44,7 +44,6 @@ def read_data_file(filename):
     with open(filename, 'r') as f:
         for line in f:
             data_file += line
-    f.close()
     return data_file
 
 def remove_punctuation(str1):
