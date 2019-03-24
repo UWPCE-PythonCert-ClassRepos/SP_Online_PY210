@@ -2,11 +2,9 @@
 test code for circle.py
 """
 
-import io
-import pytest
 
-# import * is often bad form, but makes it easier to test everything in a module.
 from circle import *
+import pytest
 
 
 def test_init():
@@ -85,3 +83,70 @@ def test_mul():
     assert repr(c2) == "Circle(9)"
     c3 = 3 * c1
     assert repr(c3) == "Circle(9)"
+
+
+def test_compare():
+    """
+    Tests that circles can be compared
+    """
+    c1 = Circle(5)
+    c2 = Circle(6)
+    c3 = Circle.from_diameter(12)
+    c4 = Circle(2)
+
+    assert c1 < c2
+    assert not (c1 > c2)
+    assert c2 > c1
+    assert not (c2 < c1)
+    assert c2 == c3
+    assert not (c1 == c2)
+    assert c1 != c2
+    assert not c2 != c3
+    circles = [c1, c2, c4]
+    circles.sort()
+    assert circles == [Circle(2), Circle(5), Circle(6)]
+
+
+def test_div():
+    """
+    Tests that circles can be divided
+    """
+    c1 = Circle(6)
+    c2 = c1 / 2
+    assert repr(c2) == "Circle(3.0)"
+    c3 = 12 / c1
+    assert repr(c3) == "Circle(2.0)"
+    c4 = c1 // 2
+    assert repr(c4) == "Circle(3)"
+    c5 = 12 // c1
+    assert repr(c5) == "Circle(2)"
+
+
+def test_augmentation():
+    """
+    Tests that circles can be augmented
+    """
+    c1 = Circle(4)
+    c2 = Circle(6)
+    c2 += c1
+    assert repr(c2) == "Circle(10)"
+    c1 *= 2
+    assert repr(c1) == "Circle(8)"
+
+
+def test_sphere():
+    """
+    Tests sphere
+    """
+    e = Sphere(2)
+    assert e.radius == 2
+    assert e.diameter == 4
+    assert round(e.volume, 2) == 33.51
+    assert round(e.area, 2) == 50.27
+    assert str(e) == "Sphere with radius: 2.000000"
+    assert repr(e) == "Sphere(2)"
+    e2 = Sphere.from_diameter(10)
+    assert e2.radius == 5
+    e3 = Sphere(6)
+    assert repr(e + e3) == "Sphere(8)"
+    assert repr(e * 2) == "Sphere(4)"

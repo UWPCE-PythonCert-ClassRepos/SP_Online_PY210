@@ -3,8 +3,8 @@
 """
 A class-based system for a circle
 """
-
 import math
+
 
 
 # This is the framework for the base class
@@ -23,13 +23,31 @@ class Circle(object):
         return (self.__class__.__name__ + "({})").format(self.radius)
 
     def __add__(self, other):
-        return Circle(self.radius + other.radius)
+        return self.__class__(self.radius + other.radius)
 
     def __mul__(self, other):
-        return Circle(self.radius * other)
+        return self.__class__(self.radius * other)
 
     def __rmul__(self, other):
-        return Circle(self.radius * other)
+        return self.__class__(self.radius * other)
+
+    def __truediv__(self, other):
+        return self.__class__(self.radius / other)
+
+    def __rtruediv__(self, other):
+        return self.__class__(other / self.radius)
+
+    def __floordiv__(self,other):
+        return self.__class__(self.radius // other)
+
+    def __rfloordiv__(self, other):
+        return self.__class__(other // self.radius)
+
+    def __eq__(self, other):  # Equals, defined so that comparison based off radius works
+        return self.radius == other.radius
+
+    def __lt__(self, other):  # Less than, defined so that sorting based off radius works
+        return self.radius < other.radius
 
     @property
     def diameter(self):
@@ -48,3 +66,15 @@ class Circle(object):
     def from_diameter(cls, diameter):
         self = cls(diameter/2)
         return self
+
+
+class Sphere(Circle):
+    @property
+    def volume(self):
+        # Read only new sphere attribute
+        return (4 / 3) * math.pi * (self.radius ** 3)
+
+    @property
+    def area(self):
+        # Read only overwritten attribute
+        return 4 * math.pi * (self.radius ** 2)
