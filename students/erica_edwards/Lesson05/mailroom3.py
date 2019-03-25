@@ -21,11 +21,12 @@ def menu():
 
                     4. Quit.''')
         print()
-        response = int(input("Please enter a number to make your selection. "))-1
-
-        switch_func_dict = {0: ask_donor_name, 1: multi_thanks, 2: totals, 3: quit_now}
-        
-        switch_func_dict[response]()
+        try:
+            response = int(input("Please enter a number to make your selection. "))-1
+            switch_func_dict = {0: ask_donor_name, 1: multi_thanks, 2: totals, 3: quit_now}
+            switch_func_dict[response]()
+        except KeyError:
+            print("Please enter a menu option from 1-4.")
 
 
 def quit_now():
@@ -42,8 +43,9 @@ def ask_donor_name():
 
     # While collecting user input.
     while True:
+        # Did not put a try except here since names can be very short, have spaces, or have dashes. 
+        # I wasn't sure how to address that.
         donor_name = input("Enter the full name of the donor. (or q to quit) ")
-
         if donor_name == 'q':
             return
         # If user types list print donors
@@ -53,26 +55,28 @@ def ask_donor_name():
         else:  # user didn't type list
             donation(donor_name)
             return
-
+                    
 
 def donation(donor_name):
-    donation_amount = input("Enter the donation amount (or q to quit) ")
-    if donation_amount == 'q':
-        return
-    else:
-        donation_amount = int(donation_amount)
-        for name, donations in donors.items():
-            if name == donor_name:
-                donations.append(donation_amount)
-                break
+    try:
+        donation_amount = input("Enter the donation amount (or q to quit) ")
+        if donation_amount == 'q':
+            return
         else:
-            donors[donor_name] = [donation_amount]
+            donation_amount = float(donation_amount)
+            for name, donations in donors.items():
+                if name == donor_name:
+                    donations.append(donation_amount)
+                    break
+            else:
+                donors[donor_name] = [donation_amount]
 
-        send_thank_you(donor_name, donation_amount)
-
+            send_thank_you(donor_name, donation_amount)
+    except ValueError:
+        menu()
 
 def send_thank_you(donor_name, donation_amount):
-    print(f'Thank you {donor_name} for your donation of ${donation_amount}. We appreciate your generous support of our club.')
+    print(f'Thank you {donor_name} for your donation of ${donation_amount:.2f}. We appreciate your generous support of our club.')
     print()
 
 
@@ -81,6 +85,7 @@ def multi_thanks():
         with open('{donor_name}.txt'.format(**named_dict), 'w') as f:
             f.write('Thank you {donor_name}. You have donated a total of ${total}. We appreciate your generous support for our club.'.format(**named_dict))
     print('Created letters')
+
 # Create Report
 
 
