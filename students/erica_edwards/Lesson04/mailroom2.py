@@ -1,5 +1,6 @@
 
 from operator import itemgetter
+import sys
 
 donors = {'Sandy Pie' : [75],
           'Judy Smith': [75, 100, 1000],
@@ -20,18 +21,17 @@ def menu():
 
                     4. Quit.''')
         print()
-        response = input("Please enter a number to make your selection. ")
+        response = int(input("Please enter a number to make your selection. "))-1
 
-        switch_func_dict = {0: ask_donor_name, 1: multi_thanks, 2: totals, }
-        if response == '1':
-            switch_func_dict.get(0)()
-        if response == '2':
-            switch_func_dict.get(1)()
-        if response == '3':
-            switch_func_dict.get(2)()
-        if response == '4':
-            break
+        switch_func_dict = {0: ask_donor_name, 1: multi_thanks, 2: totals, 3: quit_now}
+        
+        switch_func_dict[response]()
 
+
+def quit_now():
+    # sys.exit throws a exception in debug mode in vscode.
+    sys.exit()
+    
 
 def list_donors():
     for item in donors:
@@ -76,6 +76,7 @@ def send_thank_you(donor_name, donation_amount):
     print()
 
 
+
 def multi_thanks():
     # In order to do the .format(**dict), I converted my dictionary to list of dictionaries. Otherwise refactor everything.
     named_list = []
@@ -84,7 +85,7 @@ def multi_thanks():
     for named_dict in named_list:
         with open('{donor_name}.txt'.format(**named_dict), 'w') as f:
             f.write('Thank you {donor_name}. You have donated a total of ${total}. We appreciate your generous support for our club.'.format(**named_dict))
-
+    print('Created letters')
 # Create Report
 
 
