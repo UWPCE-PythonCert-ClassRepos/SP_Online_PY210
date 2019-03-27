@@ -32,10 +32,10 @@ def swap_element(seq):
     
 a_string = "this is a string"
 a_tuple = (2, 54, 13, 12, 5, 32)
-#exchange_first_last(a_string)
+exchange_first_last(a_string)
 
-#swap_element(a_string)
-#swap_element(a_tuple)
+swap_element(a_string)
+swap_element(a_tuple)
 assert swap_element(a_string) == "gnirts a si siht"
 assert swap_element(a_tuple) == (32, 5, 12, 13, 54, 2)
 assert exchange_first_last(a_string) == "ghis is a strint"
