@@ -150,3 +150,16 @@ def test_sphere():
     e3 = Sphere(6)
     assert repr(e + e3) == "Sphere(8)"
     assert repr(e * 2) == "Sphere(4)"
+    e4 = Sphere(2)
+
+    assert e < e3
+    assert not (e > e3)
+    assert e3 > e
+    assert not (e3 < e)
+    assert e == e4
+    assert not (e == e2)
+    assert e != e2
+    assert not e != e4
+    circles = [e3, e, e2]
+    circles.sort()
+    assert circles == [Sphere(2), Sphere(5), Sphere(6)]
