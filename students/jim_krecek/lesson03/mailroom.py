@@ -17,7 +17,7 @@ def send_ty():
                 print(emailtext)
                 break
     
-        if askname not in d[0] and askname.lower() != "list":
+        if askname != d[0] and askname.lower() != "list":
             data.append([askname])
             askmoney = input("\nHow much did this person donate?\n>>> ")
             data[-1].append(int(askmoney))
@@ -31,11 +31,11 @@ def create_report():
     print("-"*len(firstline))
     data.sort(reverse=True, key=lambda list: sum(list[1:]))
     for d in data:
-            total = sum(d[1:])
-            average = total/(len(d)-1)
-            num = len(d)-1
-        
-            print("{:<25s} ${:>11.2f}  {:>10d}  ${:>12.2f}".format(d[0],total,num,average))
+        total = sum(d[1:])
+        average = total/(len(d)-1)
+        num = len(d)-1
+    
+        print("{:<25s} ${:>11.2f}  {:>10d}  ${:>12.2f}".format(d[0],total,num,average))
         
     
 def main():
