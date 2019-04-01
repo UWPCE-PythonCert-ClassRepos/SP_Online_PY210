@@ -1,43 +1,41 @@
-def ThankYou(donorlst):
+def thank_you(donor_lst):
     fullname = input('What is the full name of the donor? Type list to see donors. Type exit to quit task \n')
     if fullname.lower() == 'list':
-        for donor in donorlst:
+        for donor in donor_lst:
             print(donor[0])
     elif fullname.lower() == "exit":
         return None
     else:
         #Find where donor is in list or create a new one
         donorindex = None
-        for index,donors in enumerate(donorlst):
+        for index,donors in enumerate(donor_lst):
             if donors[0] == fullname:
                 donorindex = index
                 break
         if donorindex == None:
-            donorindex = len(donorlst)
+            donorindex = len(donor_lst)
             new_entry = [fullname]
-            donorlst.append(new_entry)
+            donor_lst.append(new_entry)
         newdonation = float(input('What is the value of the donation (numbers only)?\n'))
-        donorlst[donorindex].append(newdonation)
+        donor_lst[donorindex].append(newdonation)
 
         #Print the thank you email
         print(f'Dear {fullname}, \n Thank you for your generous donation. We appreciate the support from people like you. \n Thank you,\n Charity Name')
 
-def CreateReport(donorslist):
+def create_report(donorslist):
     # Create report data from donor list
     j = 0
     donor_report = []
-    for donor in donorlst:
-        name = donorlst[j][0]
-        donations = len(donorlst[j]) - 1
-        total_given = 0
+    for j,donor in enumerate(donor_lst):
+        name = donor_lst[j][0]
+        donations = len(donor_lst[j]) - 1
         # Add up all donations
-        k = 1
-        while k < donations + 1:
-            total_given += donorlst[j][k]
-            k += 1
+        total_given = sum(donor_lst[j][1:])
         avg_gift = total_given / donations
         donor_report.append([name, total_given, donations, avg_gift])
         j += 1
+
+    donor_report = sorted(donor_report, key = lambda donor: donor[1],reverse=True)
 
     # Format report
     header = ['Name', 'Total Given', '# of Gifts', 'Average Gift']
@@ -53,20 +51,20 @@ def CreateReport(donorslist):
 if __name__ == "__main__":
 
     #Donors
-    donorlst = [['Luke Skywalker', 100, 200, 300], ['Leslie Knope', 100], ['Dwight Schrute',345,35435], ['Freddie Mercury',32432,34], ['Jennifer Aniston', 324,543]]
+    donor_lst = [['Luke Skywalker', 10, 20, 30], ['Leslie Knope', 100,300], ['Dwight Schrute',345,35435], ['Freddie Mercury',32432,34], ['Jennifer Aniston', 324,543]]
 
     #MAIN
-    while (True):
+    while True:
         print("Options: \n 1 - Send a Thank You \n 2 - Create Report \n 3 - Exit ")
         response = input('What would you like to do?\n')
 
         #Send a Thank You
         if response == '1':
-            ThankYou(donorlst)
+            thank_you(donor_lst)
 
         #Create Report
         elif response == '2':
-           CreateReport(donorlst)
+           create_report(donor_lst)
 
         #Exit Program
         elif response =='3':
