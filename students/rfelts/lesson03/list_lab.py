@@ -36,10 +36,10 @@ def series1():
           fruit_list[int(response) - 1] + "\n")
 
     fruit_list = ["Pineapples"] + fruit_list[:]
-    print(fruit_list, "\n")
+    print("Adding Pineapples to the beginning of the list using +:\n", fruit_list, "\n")
 
     fruit_list.insert(0, "Cherries")
-    print(fruit_list, "\n")
+    print("Adding Cherries to the beginning of the list using insert:\n", fruit_list, "\n")
 
     # Display all the fruits that begin with “P”
     print("Printing all fruits in the list that start with the letter P:\n")
@@ -51,34 +51,41 @@ def series1():
 
 def series2(fruit_list):
     """
-    Receives a list and modifies it by:
-    Removing the last item from the list then asking the user for an item to delete
-    :param fruit_list - The list to modify
+    Receive a list make copy, to not modify the original list, and modify the copy by: removing the last item from the
+    it. Then asking the user for an item to delete from it.
+    :param fruit_list - The list to copy
     """
-    print("\nStart series 2...\nList:", fruit_list, "\n")
+    # Copy the list so no modification will happen to the original list
+    fruit_list_copy = fruit_list[:]
+    print("\nStart series 2...\nList:", fruit_list_copy, "\n")
 
-    del fruit_list[len(fruit_list)-1]
-    print("The list after deleting the last item:\n", fruit_list, "\n")
+    del fruit_list_copy[len(fruit_list_copy)-1]
+    print("The list after deleting the last item:\n", fruit_list_copy, "\n")
 
     request_string = "What fruit would you like to delete from the list? "
     response = input(request_string)
 
-    # Verify the requested fruit is in the list.
-    while not any(s.lower() == response.lower() for s in fruit_list):
-        print("\n", response, "is not in the list.\n", fruit_list, "\n")
+    # Verify the requested fruit is in the list and remove it. This code is not case insensitive
+
+    while not any(s == response for s in fruit_list_copy):
+        print("\n", response, "is not in the list. NOTE: The list is case sensitive.\n", fruit_list_copy, "\n")
         response = input(request_string)
 
-    fruit_list.remove(response)
-    print("\nNew list after removing ", response, ":\n", fruit_list, "\n")
+    fruit_list_copy.remove(response)
+
+    print("\nNew list after removing", response, ":\n", fruit_list_copy, "\n")
 
 
 def series3(fruit_list):
     """
-    Receives a list and modifies it by asking the user if they like the items in the list and removing the ones they
-    don't like.
-    :param fruit_list - The list to modify
+    Receive a list and make a copy. Modify the new list by asking the user if they like each item in the list and
+    removing the ones they don't like.
+    :param fruit_list - The list to copy
     """
-    print("Start series 3...\nList:", fruit_list, "\n")
+
+    # Copy the list so no modification will happen to the original list
+    fruit_list_copy = fruit_list[:]
+    print("Start series 3...\nList:", fruit_list_copy, "\n")
 
     for x in fruit_list:
         response = input("Do you like " + x.lower() + ": ")
@@ -89,15 +96,15 @@ def series3(fruit_list):
 
         # For each “no”, delete that fruit from the list.
         if response.lower() == "no":
-            fruit_list.remove(x)
+            fruit_list_copy.remove(x)
 
     print("\nHere is the new list without the items you don't like:",
-          fruit_list, "\n")
+          fruit_list_copy, "\n")
 
 
 def series4(fruit_list):
     """
-    Receives a list of strings and reverses the individual letters in each item. Then deletes the last item in the
+    Receive a list of strings and reverses the individual letters in each item. Then delete the last item in the
     original list and displays both lists.
     :param fruit_list - The list to modify
     """
@@ -109,10 +116,12 @@ def series4(fruit_list):
     for i, x in enumerate(fruit_list_copy):
         fruit_list_copy[i] = x[::-1]
 
-    # Delete the last item of the original list.
-    del fruit_list[len(fruit_list)-1]
+    fruit_list_copy_2 = fruit_list[:]
 
-    print("Here's the original list with the last item deleted:\n", fruit_list)
+    # Delete the last item of the original list.
+    del fruit_list_copy_2[len(fruit_list_copy_2)-1]
+
+    print("Here's the original list with the last item ", fruit_list[-1:], " deleted:\n", fruit_list_copy_2)
     print("Here is a copy of the original list with each item reversed:\n", fruit_list_copy)
 
 
