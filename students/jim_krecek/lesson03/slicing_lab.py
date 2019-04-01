@@ -1,18 +1,18 @@
 def exchange_first_last(seq):
-	return seq[-1:] + seq[1:-1] + seq[:1]
+    return seq[-1:] + seq[1:-1] + seq[:1]
 
 def every_other(seq):
-	return seq[0::2]
+    return seq[0::2]
 
 def f4_l4(seq):
-	return seq[4:-4:2]
+    return seq[4:-4:2]
 
 def rev(seq):
-	return seq[::-1]
+    return seq[::-1]
 
 def rearrange(seq):
-	third = len(seq)//3
-	return seq[third*2:] + seq[:third*2]
+    third = len(seq)//3
+    return seq[third*2:] + seq[:third*2]
 
 a_string = "this is a string"
 a_tuple = (2, 54, 13, 12, 5, 32)

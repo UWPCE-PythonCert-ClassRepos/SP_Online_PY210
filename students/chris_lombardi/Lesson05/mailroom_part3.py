@@ -1,5 +1,5 @@
 #UWPCE PY210
-#Lesson04, Mailroom Part 2
+#Lesson05, Mailroom Part 3
 import sys
 
 donor_log = {} #Log of donors and their respective donation history.
@@ -14,16 +14,19 @@ def thank_you():
             print(entry)
         response = input('Please enter a full name: ').title()
 
-    amount = float(input("Please enter a donation amount:"))
-
-    #Check if name exists in log and either create new entry or update history.
-    if response not in donor_log:
-        donor_log[response] = [amount]
+    try:
+        amount = float(input("Please enter a donation amount:"))
+    except ValueError:
+        print("\nNot a valid input.\nPlease try to record donation" +
+              " again using a valid amount.\n\n")
     else:
-        donor_log[response] += [amount]
-
-    #Print a thank you email for the latest donation.
-    print(thankyou_note(response))
+        #Check if name exists in log and either create new entry or update history.
+        if response not in donor_log:
+            donor_log[response] = [amount]
+        else:
+            donor_log[response] += [amount]
+        #Print a thank you email for the latest donation.
+        print(thankyou_note(response))
 
 def create_report():
     """Generate a tabular report of donation history"""
@@ -82,12 +85,12 @@ def main():
     dict_menu_opts = {'1': thank_you, '2': create_report,
                       '3': send_letters, '4': exit_program}
     while True:
-        option = display_menu()
-        if option not in dict_menu_opts:
+        try:
+            option = display_menu()
+            dict_menu_opts.get(option)()
+        except TypeError:
             print("\nNot a valid option.\n"
                   "Please enter a valid option from the menu.\n")
-        else:
-            dict_menu_opts.get(option)()
 
 if __name__ == "__main__":
     initialize_donors()
