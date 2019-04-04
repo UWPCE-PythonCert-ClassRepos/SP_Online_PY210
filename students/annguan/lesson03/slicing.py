@@ -13,7 +13,7 @@ def exchange_first_last(seq):
 
 def remove_every_other_item(seq):
     """take seq as an argument and return a copy of every other item removed"""
-    seq_copy = seq [0:len(seq):2]
+    seq_copy = seq [0::2]
     return seq_copy
 
 def remove_4s_every_other_in_between(seq):
