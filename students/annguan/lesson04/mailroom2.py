@@ -15,28 +15,37 @@ def get_donor_db():
 'Doctor Who': ("Doctor Who", [5600, 42]),
 'Eve WallE': ("Eve WallE",[2.22])}
 
+OUT_PATH = "thank_you_letters"
+
+def ready_run ():
+    if not os.path.isdir(OUT_PATH):
+        os.mkdir(OUT_PATH)
+
 # Write thank you letters to disk as a text file
 def write_letters_disk():
     for donor in donor_db.values():
         letter = comp_letter(donor)
-        filename = donor[0].replace(" ","_")+".txt"
-        open(filename,'w').write(letter)
+        filename = donor[0].replace(" ", "_") + ".txt"
+        print("writing letter to:", donor[0])
+        filename = os.path.join(OUT_PATH, filename)
+        open(filename, 'w').write(letter)
 
-# prompt user to choose from a menu of 3 actions: "Send a Thank you", "Create a Report", or "quit"
+# prompt user to choose from a menu of 4 actions: "send letters to all", Send a Thank you", "Create a Report", or "quit"
 def menu_selection():
     action = input(dedent('''
         Choose an action:
-        '1' - Send letters to all
-        '2' - Send a Thank You
-        '3' - Create a Report
-        '4' - Quit
+
+        1 - Send letters to all
+        2 - Send a Thank You
+        3 - Create a Report
+        4 - Quit
+
         >'''))
     return action.strip()
 
 # Thank You Letter Composition
 def comp_letter(donor):
-    return dedent('''
-        Dear {0:s}
+    return dedent('''Dear {0:s},
 
         Thank you for your donation of ${1:.2f}.
 
@@ -45,14 +54,20 @@ def comp_letter(donor):
         '''.format(donor[0], donor[1][-1]))
 
 #Validate donation inputs by user
-def check_donation(donation):
-    donmat = float(donmat)
-    if math.isnan(donmat) or math.isinf(donmat):
-        raise ValueError
-    if donmat < 0:
-        raise ValueError ("negative donation")
-    return donmat
 
+def receive_donation(name):
+    while True:
+        donmat = input ("Enter a donation amount or Menu to exit > ").strip()
+        if donmat == "menu":
+            return
+        try:
+            amount = float(donmat)
+            if math.isnan(amount) or math.isinf(amount) or round(amount, 2) == 0.00:
+                raise ValueError
+        except ValueError:
+            print("invalid donation amount\n")
+        else:
+            break
 
 # Sending a Thank You
 
@@ -81,17 +96,8 @@ def send_thank_you():
         elif name == "menu":
             return
         else:
-            break
-    while True:
-        donamt = input ("Enter the amount being donated (or 'menu' to exit )>").strip()
-        if donamt == "menu":
-            return
-        try:
-            amount = check_donation(donamt)
-        except ValueError:
-            print("invalid donation amount")
-        else:
-            break
+            receive_donation(name)
+
 
     donor = find_donor(name)
     if donor is None:
@@ -127,8 +133,13 @@ def create_donor_report():
 def print_donor_report():
     print(create_donor_report())
 
+def quit():
+    sys.exit(0)
+
 # main interaction
 if __name__ == "__main__":
+
+    ready_run()
 
     donor_db = get_donor_db()
 
@@ -137,7 +148,7 @@ if __name__ == "__main__":
     selection_dict = {"1": write_letters_disk,
                       "2": send_thank_you,
                       "3": print_donor_report,
-                      "4": sys.exit(0)
+                      "4": quit
                       }
 
     while True:
