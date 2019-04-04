@@ -4,6 +4,7 @@
 
 from textwrap import dedent
 import math
+import sys, traceback
 
 # a data structure holds a list of donors and a history of the amounts they have donated.
 donor_db = [("Abraham Lincoln", [145674.32, 23465]),
@@ -79,7 +80,7 @@ def sort_key(item):
 
 def create_donor_report():
     name_don = []
-    for (name,donation) in donor_db:
+    for name,donation in donor_db:
         total_donation = sum(donation)
         num_donation = len(donation)
         avg_donation = total_donation/num_donation
@@ -103,6 +104,6 @@ if __name__ == "__main__":
         elif selection == "b":
             create_donor_report()
         elif selection == "c":
-            running = False
+            sys.exit(0)
         else:
             print("invalid entry!")
