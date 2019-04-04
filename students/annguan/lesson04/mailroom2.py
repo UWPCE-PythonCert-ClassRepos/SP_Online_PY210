@@ -1,17 +1,19 @@
 #!/usr/bin/env python3
 
-### Lesson 3 Mailroom, Part 1
+### Lesson 4 Mailroom, Part 2, uses dict
 
 from textwrap import dedent
+import os
+import sys
 import math
-import sys, traceback
 
 # a data structure holds a list of donors and a history of the amounts they have donated.
-donor_db = [("Abraham Lincoln", [145674.32, 23465]),
-("Barack Obama", [3456324.11, 3495, 323]), 
-("Charlie Brown",[453.67]),
-("Doctor Who", [5600, 42]),
-("Eve WallE",[2.22]),]
+def get_donor_db():
+    return {('Abraham Lincoln': "Abraham Lincoln", [145674.32, 23465]),
+('Barack Obama': "Barack Obama", [3456324.11, 3495, 323]), 
+('Charlie Brown': "Charlie Brown",[453.67]),
+('Doctor Who': "Doctor Who", [5600, 42]),
+('Eve WallE': "Eve WallE",[2.22])}
 
 # prompt user to choose from a menu of 3 actions: "Send a Thank you", "Create a Report", or "quit"
 def menu_selection():
@@ -26,13 +28,13 @@ def menu_selection():
 # Thank You Letter Composition
 def comp_letter(donor):
     return dedent('''
-        Dear {}
+        Dear {0:s}
 
-        Thank you for your donation!
+        Thank you for your donation of ${1:.2f}.
 
         See you soon.
 
-        '''.format(donor[0]))
+        '''.format(donor[0], donor[1][-1]))
 
 # Sending a Thank You
 def print_donors():
@@ -80,7 +82,7 @@ def sort_key(item):
 
 def create_donor_report():
     name_don = []
-    for name,donation in donor_db:
+    for (name,donation) in donor_db:
         total_donation = sum(donation)
         num_donation = len(donation)
         avg_donation = total_donation/num_donation
@@ -104,6 +106,6 @@ if __name__ == "__main__":
         elif selection == "b":
             create_donor_report()
         elif selection == "c":
-            sys.exit(0)
+            running = False
         else:
             print("invalid entry!")
