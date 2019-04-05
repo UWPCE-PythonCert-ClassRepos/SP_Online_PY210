@@ -10,10 +10,11 @@ import math
 # a data structure holds a list of donors and a history of the amounts they have donated.
 def get_donor_db():
     return {'Abraham Lincoln': ("Abraham Lincoln", [145674.32, 23465]),
-'Barack Obama': ("Barack Obama", [3456324.11, 3495, 323]), 
-'Charlie Brown':("Charlie Brown",[453.67]),
-'Doctor Who': ("Doctor Who", [5600, 42]),
-'Eve WallE': ("Eve WallE",[2.22])}
+            'Barack Obama': ("Barack Obama", [3456324.11, 3495, 323]), 
+            'Charlie Brown':("Charlie Brown",[453.67]),
+            'Doctor Who': ("Doctor Who", [5600, 42]),
+            'Eve WallE': ("Eve WallE",[2.22])
+            }
 
 OUT_PATH = "thank_you_letters"
 
@@ -28,7 +29,8 @@ def write_letters_disk():
         filename = donor[0].replace(" ", "_") + ".txt"
         print("writing letter to:", donor[0])
         filename = os.path.join(OUT_PATH, filename)
-        open(filename, 'w').write(letter)
+        with open(filename, 'w') as file:
+            file.write(letter)
 
 # prompt user to choose from a menu of 4 actions: "send letters to all", Send a Thank you", "Create a Report", or "quit"
 def menu_selection():
@@ -57,17 +59,24 @@ def comp_letter(donor):
 
 def receive_donation(name):
     while True:
-        donmat = input ("Enter a donation amount or Menu to exit > ").strip()
-        if donmat == "menu":
+        donation_amount = input ("Enter a donation amount or Menu to exit > ").strip()
+        if donation_amount == "menu":
             return
         try:
-            amount = float(donmat)
+            amount = float(donation_amount)
             if math.isnan(amount) or math.isinf(amount) or round(amount, 2) == 0.00:
                 raise ValueError
         except ValueError:
             print("invalid donation amount\n")
         else:
             break
+
+    donor = find_donor(name)
+    if donor is None:
+        donor = add_donor(name)
+
+    donor[1].append(amount)
+    print(comp_letter(donor))
 
 # Sending a Thank You
 
@@ -92,42 +101,35 @@ def send_thank_you():
         name = input ("Enter the donor's name "
                         "or 'list' to see all donors or 'menu' to exit)> ").strip()
         if name == "list":
-            print(l1_donors())
+            print(list_donors())
         elif name == "menu":
             return
         else:
             receive_donation(name)
 
 
-    donor = find_donor(name)
-    if donor is None:
-        donor = add_donor(name)
-
-    donor[1].append(float(donamt))
-    print(comp_letter(donor))
-
 # Create a Report
 def sort_key(item):
     return item[1]
 
 def create_donor_report():
-    name_don = []
-    for name,donation in donor_db.values:
+    report_lines = []
+    for name,donation in donor_db.values():
         total_donation = sum(donation)
         num_donation = len(donation)
         avg_donation = total_donation/num_donation
-        name_don.append((name,total_donation,num_donation,avg_donation))
+        report_lines.append((name,total_donation,num_donation,avg_donation))
     
-    name_don.sort(key=sort_key)
+    report_lines.sort(key=sort_key)
     report = []
     report.append("{:25s} | {:11s} | {:9s} | {:12s}".format("Donor Name",
                                                             "Total Donation",
                                                             "Num Donation",
                                                             "Average Donation"))
 
-    report.append("-" * 66)
-    for row in name_don:
-        report.append("{:25s}   ${:11.2f}   {:9d}   ${:20.2f}".format(*row))
+    report.append("-" * 70)
+    for line in report_lines:
+        report.append("{:25s}   ${:11.2f}   {:9d}   ${:20.2f}".format(*line))
     return "\n".join(report)
 
 def print_donor_report():
@@ -142,8 +144,6 @@ if __name__ == "__main__":
     ready_run()
 
     donor_db = get_donor_db()
-
-    running = True
 
     selection_dict = {"1": write_letters_disk,
                       "2": send_thank_you,

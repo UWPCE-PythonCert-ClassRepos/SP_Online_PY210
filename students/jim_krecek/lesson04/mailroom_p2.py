@@ -1,3 +1,4 @@
+import sys
 
 data = {"Nate Secinaro":[12,44,9],"Jess Reid":[3],"Pat Carrier":[65,41],"Zac Fisher":[13,4,4],"Jim Krecek":[3,33,57]}
 
@@ -10,18 +11,14 @@ def send_ty():
         for d in data.keys():
             print(d)
     else:
+        askmoney = input("\nHow much did this person donate?\n>>> ")
         if data.get(askname):
-            askmoney = input("\nHow much did this person donate?\n>>> ")
             data[askname].append(int(askmoney))
-            emailtext = "\nDear {},\n\nThank you for your generous donation of ${}.\n\nSincerely, Jim".format(askname,askmoney)
-            print(emailtext)
-
         else:
-            askmoney = input("\nHow much did this person donate?\n>>> ")
             data[askname] = []
             data[askname].append(int(askmoney))
-            emailtext = "\nDear {},\n\nThank you for your generous donation of ${}.\n\nSincerely, Jim".format(askname,askmoney)
-            print(emailtext)
+        emailtext = "\nDear {},\n\nThank you for your generous donation of ${}.\n\nSincerely, Jim".format(askname,askmoney)
+        print(emailtext)
             
 
 def create_report():
@@ -40,17 +37,18 @@ def send_all():
         with open('{}.txt'.format(k.replace(' ','_')),'w+') as output:
             output.write(lettertext)
     print("\nLetters have been printed and are saved in the current directory")
-    
+
+def quit():
+    print('You are exiting the program. Come back again soon!')
+    sys.exit()
+ 
 def main():
-    main_menu = {'1': send_ty,'2': create_report,'3':send_all,'4':False}
+    main_menu = {'1': send_ty,'2': create_report,'3':send_all,'4':quit}
     while True:
         response = input(prompt)
         menu_function = main_menu.get(response)
-        if response == '1' or response == '2' or response == '3' or response == '4':
-            if response == '1' or response == '2' or response == '3':
-                menu_function()
-            else:
-                break
+        if response in main_menu:
+            menu_function()
         else:
             print("\n'{}' is not a valid entry. Please try again.".format(response))
 
