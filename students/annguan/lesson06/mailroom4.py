@@ -83,7 +83,7 @@ def receive_donation(name):
 def add_donor(name):
     name = name.strip()
     donor = (name,[])
-    donor_db[name.lower()] = donor
+#    donor_db[name.lower()] = donor
     return donor
 
 def find_donor(name):
@@ -93,7 +93,7 @@ def find_donor(name):
 def list_donors():
     l1 = ["Donor List:"]
     for donor in donor_db.values():
-        l1.append(donor[0])
+        l1.appendf(donor[0])
     return "\n".join(l1)
 
 def send_thank_you():
