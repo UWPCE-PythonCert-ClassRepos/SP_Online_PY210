@@ -94,6 +94,9 @@ def create_donor_report():
     for row in name_don:
         print("{:25s}   {:11.2f}   {:9d}   {:20.2f}".format(*row))
 
+def quit_now():
+    sys.exit(0)
+
 # main interaction
 if __name__ == "__main__":
     running = True
@@ -104,6 +107,6 @@ if __name__ == "__main__":
         elif selection == "b":
             create_donor_report()
         elif selection == "c":
-            sys.exit(0)
+            quit_now()
         else:
             print("invalid entry!")
