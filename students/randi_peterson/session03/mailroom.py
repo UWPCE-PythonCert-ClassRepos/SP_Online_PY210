@@ -24,7 +24,6 @@ def thank_you(donor_lst):
 
 def create_report(donorslist):
     # Create report data from donor list
-    j = 0
     donor_report = []
     for j,donor in enumerate(donor_lst):
         name = donor_lst[j][0]
@@ -33,7 +32,6 @@ def create_report(donorslist):
         total_given = sum(donor_lst[j][1:])
         avg_gift = total_given / donations
         donor_report.append([name, total_given, donations, avg_gift])
-        j += 1
 
     donor_report = sorted(donor_report, key = lambda donor: donor[1],reverse=True)
 
