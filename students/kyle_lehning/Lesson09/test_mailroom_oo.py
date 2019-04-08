@@ -39,6 +39,7 @@ def test_avg_donation():
     Tests that average donation property is calculated correctly
     """
     e = Donor("Frank Dolittle")
+    assert e.avg_donation == 0
     e.new_donation(400.50)
     assert e.avg_donation == 400.50
     e.new_donation(201.50)
@@ -98,6 +99,23 @@ def test_add_new_donor():
     e.add_new_donor("Jack Sparrow")
     assert len(e.donor_list) == 1
     assert any(x.name == "Jack Sparrow" for x in e.donor_list)
+    assert e.donor_list[0].name == "Jack Sparrow"
+    assert e.donor_list[0].total_donation == 0
+    assert e.donor_list[0].donation_num == 0
+    assert e.donor_list[0].avg_donation == 0
+
+
+def test_add_existing_donor():
+    """
+    Tests that an existing donor can be added to DonorCollection's donor_list
+    """
+    e = DonorCollection()
+    e.add_existing_donor("Steve Jobs", 1002.40, 2)
+    assert len(e.donor_list) == 1
+    assert e.donor_list[0].name == "Steve Jobs"
+    assert e.donor_list[0].total_donation == 1002.40
+    assert e.donor_list[0].donation_num == 2
+    assert e.donor_list[0].avg_donation == 501.20
 
 
 def test_list_donor_names():
@@ -111,5 +129,26 @@ def test_list_donor_names():
     all_donors = e.list_donor_names()
     assert len(e.donor_list) == 3
     assert all_donors == ["Jack Sparrow", "Russell Wilson", "Ron Burgundy"]
-    print(all_donors)
 
+
+def test_generate_report():
+    """
+    Tests that a report is generated correctly
+    """
+    compare_string = """
+Donor Name      | Total Given | Num Gifts | Average Gift
+--------------------------------------------------------
+Bill Gates       $  653784.49           2  $   326892.24
+Mark Zuckerberg  $    16396.1           3  $     5465.37
+Steve Jobs       $     1002.4           2  $       501.2
+Jeff Bezos       $     877.33           1  $      877.33
+Paul Allen       $     708.42           3  $      236.14
+"""
+    e = DonorCollection()
+    e.add_existing_donor("Jeff Bezos", 877.33, 1)
+    e.add_existing_donor("Paul Allen", 708.42, 3)
+    e.add_existing_donor("Steve Jobs", 1002.40, 2)
+    e.add_existing_donor("Mark Zuckerberg", 16396.1, 3)
+    e.add_existing_donor("Bill Gates", 653784.49, 2)
+    test_string = e.generate_report()
+    assert test_string == compare_string
