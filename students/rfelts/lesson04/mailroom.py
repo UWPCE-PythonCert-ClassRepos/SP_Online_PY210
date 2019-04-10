@@ -138,6 +138,8 @@ def add_donation():
     if not any(s.lower() == donor_name.lower() for s in donor_list):
         # Add the new donor and their donation
         donor_data[donor_name] = [prompt_donation_amount(donor_name)]
+
+        # Pass in a dict with the required info for the message
         print(compose_message({'name': donor_name, 'last_donation': donor_data.get(donor_name)[-1],
                                        'total_donations': sum(donor_data.get(donor_name))}))
     else:
