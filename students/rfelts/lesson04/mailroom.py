@@ -11,8 +11,8 @@ donor_data = {"Lionel Messi": [100], "Cristiano Ronaldo": [5000, 25, 9450], "Gia
 def prompt_user(prompt, menu):
     """
     Prompt the user to choose from a menu of 3 actions: “Send a Thank You”, “Create a Report” or “quit”.
-    :param prompt: String representing the menu options to present to the user
-    :param menu: Dictionary of valid menu values
+    :param prompt - String representing the menu options to present to the user
+    :param menu - Dictionary of valid menu values
     """
 
     input_string = "\nPlease enter one of the following options: " + ', '.join(prompt) + ": "
@@ -23,6 +23,18 @@ def prompt_user(prompt, menu):
             print("\n" + response + " is not a valid option.")
         elif menu[response]() == "exit":
             break
+
+
+def send_thank_you():
+    """
+    Prompt user to add a donation, to print a list of donors, or to exit.
+    """
+
+    # Thank You menu options to be presented to the user
+    thank_you_menu_options = ("\n1 - Add Donation", "\n2 - List Donors", "\n0 - Return to Main Menu")
+    thank_you_menu_dict = {"0": exit_menu, "1": add_donation, "2": list_donors}
+
+    prompt_user(thank_you_menu_options, thank_you_menu_dict)
 
 
 def create_report():
@@ -59,30 +71,19 @@ def create_report():
         print(f"{row[0]:<{name_padding}}  ${row[1]:>{donation_padding},.2f} {row[2]:>11d} {row[3]:>{donation_padding},.2f}")
 
 
-def send_thank_you():
-    """
-    Prompt user to add a donation, to print a list of donors, or to exit.
-    """
-
-    # Thank You menu options to be presented to the user
-    thank_you_menu_options = ("\n1 - Add Donation", "\n2 - List Donors", "\n0 - Return to Main Menu")
-    thank_you_menu_dict = {"0": exit_menu, "1": add_donation, "2": list_donors}
-
-    prompt_user(thank_you_menu_options, thank_you_menu_dict)
-
-
 def send_to_everyone():
     """
-    Write a file contains the thank you message.
+    Write a file for each donor containing the thank you message.
     """
 
     import datetime
     now = datetime.datetime.now()
 
-    donor_list = create_name_list()
+    donor_list = create_donor_list()
+
     for donor in donor_list:
-        f = open(donor + '_' + str(now.month) + '_' + str(now.year) + '.txt', 'w')
-        f.write(compose_email(donor))
+        f = open(donor["name"] + '_' + str(now.month) + '_' + str(now.year) + '.txt', 'w')
+        f.write(compose_message(donor))
         f.close()
 
 
@@ -92,6 +93,8 @@ def list_donors():
     """
 
     name_list = create_name_list()
+
+    print("\n")
     for name in sorted(name_list):
         print(name)
 
@@ -99,16 +102,30 @@ def list_donors():
 def create_name_list():
     """
     Create a list containing the names of the donors.
-    :return: a list of donor names
+    :return - a list of donor names
     """
 
     return donor_data.keys()
 
 
+def create_donor_list():
+    """
+    Create a list of dicts containing: the donor name, last donation amount, and total donation amount.
+    :return - a list of donor dicts
+    """
+
+    donor_info = []
+
+    for name, donations in donor_data.items():
+        donor_info.append({'name': name, 'last_donation': donations[-1], 'total_donations': sum(donations)})
+
+    return donor_info
+
+
 def add_donation():
     """
     Prompt for a donor name. If the user enters a name not in the current donor list, add that name to the data
-    structure along wiht the donation amount. If the user exits just update the donation history. Then compose a thank
+    structure along with the donation amount. If the user exits just update the donation history. Then compose a thank
     you email.
     """
 
@@ -121,20 +138,24 @@ def add_donation():
     if not any(s.lower() == donor_name.lower() for s in donor_list):
         # Add the new donor and their donation
         donor_data[donor_name] = [prompt_donation_amount(donor_name)]
-        print(compose_email(donor_name))
+        print(compose_message({'name': donor_name, 'last_donation': donor_data.get(donor_name)[-1],
+                                       'total_donations': sum(donor_data.get(donor_name))}))
     else:
         for s in donor_list:
             if s.lower() == donor_name.lower():
                 # Update the donor's donation history
                 donor_data[s].append(prompt_donation_amount(donor_name))
-                print(compose_email(s))
+
+                # Pass in a dict with the required info for the message
+                print(compose_message({'name': s, 'last_donation': donor_data.get(s)[-1],
+                                       'total_donations': sum(donor_data.get(s))}))
                 break
 
 
 def prompt_donation_amount(donor):
     """
     Prompt the user for the amount donated
-    :param donor: string representing the name of the person making the donation
+    :param donor - string representing the name of the person making the donation
     :return: a float representing the amount donated
     """
 
@@ -151,21 +172,21 @@ def prompt_donation_amount(donor):
             response = input(prompt_string)
 
 
-def compose_email(donor):
+def compose_message(donor_info):
     """
-    Compose a thank you email listing the current donation and the donor's donation total
-    :param donor: String representing the name of the donor
-    :return a String containing the thank you message for the user
+    Compose a thank you message listing the current/previous donation and the donor's donation total
+    :param donor_info - dict containing the donor's info: name, last donation, and total donation ammount
+    :return - a String containing the thank you message for the user
     """
 
-    return(f"\nTo: {donor}\nSubject: Thank you.\n\n{donor} thank you for your generous donation of "
-           f"${donor_data.get(donor)[-1]:<,.2f}.\nYou're total donations to date are now ${sum(donor_data.get(donor))}.")
+    return("\nTo: {name}\nSubject: Thank you.\n\n{name} thank you for your previous generous donation of "
+           "{last_donation:<,.2f}.\nYou're total donations to date are now: {total_donations:<,.2f}.".format(**donor_info))
 
 
 def exit_menu():
     """
     Exits the current menu or program
-    :return: a String to exit
+    :return - a String to exit
     """
 
     return "exit"
