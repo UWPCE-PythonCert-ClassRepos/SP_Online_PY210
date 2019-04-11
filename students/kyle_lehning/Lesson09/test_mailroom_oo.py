@@ -19,6 +19,14 @@ def test_donor_init():
     assert e.most_recent_donation == 0
 
 
+def test_donor_str():
+    """
+    Tests a donors str magic function
+    """
+    e = Donor("Frank Dolittle")
+    assert str(e) == "Donor with a name of Frank Dolittle"
+
+
 def test_new_donation():
     """
     Tests that a new donation can be added to a donor
@@ -103,6 +111,17 @@ def test_add_new_donor():
     assert e.donor_list[0].total_donation == 0
     assert e.donor_list[0].donation_num == 0
     assert e.donor_list[0].avg_donation == 0
+
+
+def test_donor_collection_str():
+    """
+    Tests that DonorCollection object returns correct str
+    """
+    e = DonorCollection()
+    e.add_new_donor("Jack Sparrow")
+    assert str(e) == "DonorCollection with 1 donors"
+    e.add_new_donor("New Person")
+    assert str(e) == "DonorCollection with 2 donors"
 
 
 def test_add_existing_donor():
