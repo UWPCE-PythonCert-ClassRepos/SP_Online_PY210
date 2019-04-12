@@ -8,7 +8,7 @@ ls.append(input("Please add another fruit for the list! > "))
 print(ls)
 num = int(input("Give me a number up to %i, boyo! > "%(len(ls))))
 print("You gave me the number %i and the corresponding fruit from the list are %s!"%(num, ls[num-1]))
-print(["Blueberries"] + ls) # Adding to the list using list concatenation
+print(ls.append("Blueberries")) # Modifying the original list
 ls.insert(0, "Lemons") # Adding to the list using insert
 print(ls)
 for item in ls: # Prints out the items that start with a "P"
