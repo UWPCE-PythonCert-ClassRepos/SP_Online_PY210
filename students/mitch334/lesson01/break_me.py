@@ -22,3 +22,4 @@ def SyntaxError():
 def AttributeError():
     x = 1
     print(x.name)
+    
