@@ -51,7 +51,7 @@ def print_grid(n):
 # Example: print_grid2(3,4)
 # (three rows, three columns, and each grid cell four “units” in size)
 
-def print_grid(n,s):
+def print_grid2(n,s):
     grid_size = s
     pipe_space = s*2 + 1
     # print(s,' | ',grid_size,' | ',pipe_space)
@@ -64,6 +64,5 @@ def print_grid(n,s):
         for i in range(grid_size):
             print(pipe)
     print(plus)
-
-# print_grid(3,4)
-# print_grid(5,3)
+# print_grid2(3,4)
+# print_grid2(5,3)
