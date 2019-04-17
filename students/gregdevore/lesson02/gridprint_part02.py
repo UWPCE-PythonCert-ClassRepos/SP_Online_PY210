@@ -18,13 +18,14 @@
 # If n is even, there should be n/2 dashes between the plus signs
 
 def print_grid(n):
+    # Input parameter n is an integer related to the size of the grid
     # Define the four symbols used to print the grid
     plus = '+'
     dash = '-'
     pipe = '|'
     space = ' '
     # Form the two types of lines based on the input
-    # Here, box size half the input size (use integer division)
+    # Here, box_size is half of n (use integer division)
     box_size = n//2
     boundary_line = plus + dash*box_size + plus + dash*box_size + plus
     interior_line = pipe + space*box_size + pipe + space*box_size + pipe
