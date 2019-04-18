@@ -68,6 +68,7 @@ if __name__ == "__main__":
     # Run some tests
 
     # Fibonacci series
+    # Assert first 10 terms are correct
     assert fibonacci(0) == 0
     assert fibonacci(1) == 1
     assert fibonacci(2) == 1
@@ -80,6 +81,7 @@ if __name__ == "__main__":
     assert fibonacci(9) == 34
 
     # Lucas numbers
+    # Assert first 10 terms are correct
     assert lucas(0) == 2
     assert lucas(1) == 1
     assert lucas(2) == 3
@@ -92,7 +94,9 @@ if __name__ == "__main__":
     assert lucas(9) == 76
 
     # Sum series
+    # Make sure defaults are for Fibonacci series
     assert sum_series(4) == fibonacci(4)
+    # Make sure entering Lucas number values generates correct term
     assert sum_series(4, 2, 1) == lucas(4)
 
     print("All tests passed")
