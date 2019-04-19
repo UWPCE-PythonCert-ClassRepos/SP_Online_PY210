@@ -23,8 +23,8 @@ def initialize_database():
                 ('Maddy North', 85426, 1, 85426)]
     return database
 
-def add_donor(database, name, amount):
-    new_donor = (name,amount)
+def add_new_donor(database, name, amount):
+    new_donor = (name,amount,1,amount)
     database.append(new_donor)
     return database
 
