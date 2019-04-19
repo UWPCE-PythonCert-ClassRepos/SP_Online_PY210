@@ -2,9 +2,7 @@ import sys
 #Mailroom.py
 
 def prompt_user():
-    prompt = "\n".join(('','------------Welcome to the Mailroom :)------------',
-             'What would you like to do?',
-             '1: Send thank you note',
+    prompt = "\n".join(('1: Send thank you note',
              '2: Create report',
              '3: Quit',
              '>>> '))
@@ -37,6 +35,9 @@ def create_report():
     return None
 
 def main():
+    welcome_message = "\n".join(('',
+                      '------------Welcome to the Mailroom :)------------',
+                      'What would you like to do?'))
     while True:
         #Prompt the user for one of the following actions:
         #print('Pick and action\n 1: Send thank you note\n 2: Create report\n 3: quit')
@@ -58,6 +59,7 @@ def main():
             return False
         else:
             print('Not a valid option...\n')
+            UserAction = prompt_user()
 
     return None
 
