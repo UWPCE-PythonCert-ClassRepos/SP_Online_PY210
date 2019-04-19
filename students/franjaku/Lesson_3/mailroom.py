@@ -57,7 +57,7 @@ def main():
             print('Goodbye!')
             return False
         else:
-            print('Pick and action\n 1: Send thank you note\n 2: Create report\n 3: quit')
+            print('Not a valid option...\n')
 
     return None
 
