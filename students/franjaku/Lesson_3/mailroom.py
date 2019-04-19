@@ -23,15 +23,37 @@ def initialize_database():
                 ('Maddy North', 85426, 1, 85426)]
     return database
 
+def print_donor_list(database):
+    print ('\nDonor List\n')
+    for donor in database:
+        print('{}'.format(donor[0]))
+
 def add_new_donor(database, name, amount):
     new_donor = (name,amount,1,amount)
     database.append(new_donor)
     return database
 
-def print_donor_list(database):
-    print ('\nDonor List\n')
-    for donor in database:
-        print('{}'.format(donor[0]))
+def add_new_donation(database,name,amount):
+    #by default this is for existing donors
+    donor_found=0
+
+    for donor,idx in enumerate(database):
+        if donor[0] == name:
+            donor_found=1
+
+            #update donor data
+            total_donation_new= donor[1] + amount
+            number_donations_new = donor[2] + 1
+            average_donation_new = total_donation_new/number_donations_new
+
+            donor_updated = (name,total_donation_new,number_donations_new,
+                            average_donation_new)
+
+            database(idx) = donor_updated
+        else:
+            print(f"Error: {name} donor not found in {print_donor_list(database)}")
+
+    return database
 
 # Mailroom functions
 def prompt_user():
