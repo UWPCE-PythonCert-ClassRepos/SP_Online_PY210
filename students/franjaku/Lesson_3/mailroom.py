@@ -37,7 +37,7 @@ def add_new_donation(database,name,amount):
     #by default this is for existing donors
     donor_found=0
 
-    for donor,idx in enumerate(database):
+    for idx,donor in enumerate(database):
         if donor[0] == name:
             donor_found=1
 
@@ -45,13 +45,14 @@ def add_new_donation(database,name,amount):
             total_donation_new= donor[1] + amount
             number_donations_new = donor[2] + 1
             average_donation_new = total_donation_new/number_donations_new
-
             donor_updated = (name,total_donation_new,number_donations_new,
                             average_donation_new)
 
-            database(idx) = donor_updated
-        else:
-            print(f"Error: {name} donor not found in {print_donor_list(database)}")
+            database[idx] = donor_updated
+
+    if donor_found==0:
+        print(f"Error: Donor '{name}' not found in")
+        print_donor_list(database)
 
     return database
 
@@ -66,8 +67,6 @@ def prompt_user():
     return UserAction
 
 def send_thank_you_note(database):
-    #-----User Options-----
-
 
     #Prompt for donation amount
         #convert amount to number
