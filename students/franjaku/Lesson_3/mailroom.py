@@ -24,20 +24,18 @@ def initialize_database():
     return database
 
 def print_donor_list(database):
-    print ('\nDonor List\n')
+    print ('\nDonor List\n----------')
     for donor in database:
         print('{}'.format(donor[0]))
+    print('----------')
 
-def add_new_donor(database, name):
-    donation_amount = get_donation_amount()
-    new_donor = (name,donation_amount,1,amount)
+def add_new_donor(database, name,donation_amount):
+    new_donor = (name,donation_amount,1,donation_amount)
     database.append(new_donor)
     return database
 
-def add_new_donation(database,name):
+def add_new_donation(database,name,donation_amount):
     #by default this is for existing donors
-
-    donation_amount = get_donation_amount()
     donor_found=0
 
     for idx,donor in enumerate(database):
@@ -61,7 +59,8 @@ def add_new_donation(database,name):
 
 # Mailroom functions
 def prompt_user():
-    prompt = "\n".join(('1: Send thank you note',
+    prompt = "\n".join(('What would you like to do?',
+             '1: Send thank you note',
              '2: Create report',
              '3: Quit',
              '>>> '))
@@ -70,38 +69,37 @@ def prompt_user():
     return UserAction
 
 def get_donation_amount():
-    donation_amount_prompt = 'Enter the donation amount.'
+    donation_amount_prompt = 'Enter the donation amount: $ '
     amount = input(donation_amount_prompt)
     amount = float(amount)
     return amount
 
 def send_thank_you_note(database):
 
-    #Prompt for donation amount
-        #convert amount to number
-        #add donation to user history
-
     #Compose an email: thank the user, print email to terminal
-    thank_you_prompt = 'Enter the donors full name or type "list" to see all donors in the database.'
-    donor_name = input(thank_you_prompt)
+    Email = '{} thank you for your generous donation of ${:.2f}'
 
-    if donor_name == 'list':
+    thank_you_prompt = 'Enter the donors full name or type "list" to see all donors in the database.\n>>> '
+    donor_name = (input(thank_you_prompt)).title()
+
+    if donor_name == 'List':
         print_donor_list(database)
     elif donor_name in database:
-        donor_name = donor_name.title()
-        database = add_new_donation(database,donor_name)
+        donation_amount = get_donation_amount()
+        database = add_new_donation(database,donor_name,donation_amount)
+        print(Email.format(donor_name,donation_amount))
     elif donor_name not in database:
-        donor_name = donor_name.title()
-        database = add_new_donor(database,donor_name)
+        donation_amount = get_donation_amount()
+        database = add_new_donor(database,donor_name,donation_amount)
+        print(Email.format(donor_name,donation_amount))
     else:
         #function error catching
         print('somethings not right')
 
-    print()
 
     return None
 
-def create_report():
+def create_report(database):
     #Print the list of donors sorted by historical donation amount
     #Include
         #Donor name
@@ -114,10 +112,8 @@ def create_report():
 
 # Driver Function
 def mail_room():
-    initialize_database()
-    welcome_message = "\n".join(('',
-                      '------------Welcome to the Mailroom :)------------',
-                      'What would you like to do?'))
+    database = initialize_database()
+    welcome_message = '------------Welcome to the Mailroom :)------------'
     print(welcome_message)
     while True:
         #Prompt the user for one of the following actions:
@@ -127,13 +123,11 @@ def mail_room():
         UserAction = prompt_user()
 
         if UserAction == '1':
-            #1 Send thank you: Prompt for a full name
-            print('User option 1')
-            #send_thank_you_note()
+            send_thank_you_note(database)
         elif UserAction == '2':
             #2 Create a report
             print('User option 2')
-            #create_report()
+            #create_report(database)
         elif UserAction == '3':
             #3 quit
             print('Goodbye!')
