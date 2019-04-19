@@ -28,13 +28,16 @@ def print_donor_list(database):
     for donor in database:
         print('{}'.format(donor[0]))
 
-def add_new_donor(database, name, amount):
-    new_donor = (name,amount,1,amount)
+def add_new_donor(database, name):
+    donation_amount = get_donation_amount()
+    new_donor = (name,donation_amount,1,amount)
     database.append(new_donor)
     return database
 
-def add_new_donation(database,name,amount):
+def add_new_donation(database,name):
     #by default this is for existing donors
+
+    donation_amount = get_donation_amount()
     donor_found=0
 
     for idx,donor in enumerate(database):
@@ -42,7 +45,7 @@ def add_new_donation(database,name,amount):
             donor_found=1
 
             #update donor data
-            total_donation_new= donor[1] + amount
+            total_donation_new= donor[1] + donation_amount
             number_donations_new = donor[2] + 1
             average_donation_new = total_donation_new/number_donations_new
             donor_updated = (name,total_donation_new,number_donations_new,
@@ -66,6 +69,12 @@ def prompt_user():
     UserAction = input(prompt)
     return UserAction
 
+def get_donation_amount():
+    donation_amount_prompt = 'Enter the donation amount.'
+    amount = input(donation_amount_prompt)
+    amount = float(amount)
+    return amount
+
 def send_thank_you_note(database):
 
     #Prompt for donation amount
@@ -77,17 +86,18 @@ def send_thank_you_note(database):
     donor_name = input(thank_you_prompt)
 
     if donor_name == 'list':
-        #print list of donors and re-prompt for name
         print_donor_list(database)
     elif donor_name in database:
-        # (Name in database) use it
-        pass
+        donor_name = donor_name.title()
+        database = add_new_donation(database,donor_name)
     elif donor_name not in database:
-        #add donor name to list and use it
-        pass
+        donor_name = donor_name.title()
+        database = add_new_donor(database,donor_name)
     else:
         #function error catching
         print('somethings not right')
+
+    print()
 
     return None
 
