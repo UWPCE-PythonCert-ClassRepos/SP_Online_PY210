@@ -57,6 +57,9 @@ def add_new_donation(database,name,donation_amount):
 
     return database
 
+def sort_key(donor):
+    return donor[1]
+
 # Mailroom functions
 def prompt_user():
     prompt = "\n".join(('What would you like to do?',
@@ -108,6 +111,15 @@ def create_report(database):
         #Average donation amount
     #End result should be nice and tabular
     #Re-prompt for an action
+
+    database = sorted(database, key=sort_key, reverse=True)
+    print('-----Donation Report-----')
+    print('\n{:<15} | {:>14} | {:>11} | {:>16}'.format('Donor Name', 'Total Donation', '# donations','Average Donation'))
+    print('-'*(15+14+11+16+10))
+    for donor in database:
+        print(f"{donor[0]:<15} | ${donor[1]:>13.2f} | {donor[2]:^11} | ${donor[3]:>15.2f}")
+
+    print('\n')
     return None
 
 # Driver Function
@@ -127,7 +139,7 @@ def mail_room():
         elif UserAction == '2':
             #2 Create a report
             print('User option 2')
-            #create_report(database)
+            create_report(database)
         elif UserAction == '3':
             #3 quit
             print('Goodbye!')
