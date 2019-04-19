@@ -1,5 +1,16 @@
+import sys
 #Mailroom.py
 
+def prompt_user():
+    prompt = "\n".join(('','------------Welcome to the Mailroom :)------------',
+             'What would you like to do?',
+             '1: Send thank you note',
+             '2: Create report',
+             '3: Quit',
+             '>>> '))
+
+    UserAction = input(prompt)
+    return UserAction
 
 def send_thank_you_note():
     #-----User Options-----
@@ -12,7 +23,6 @@ def send_thank_you_note():
         #add donation to user history
 
     #Compose an email: thank the user, print email to terminal
-        # and re-prompt user for an action
     return None
 
 def create_report():
@@ -26,21 +36,28 @@ def create_report():
     #Re-prompt for an action
     return None
 
-def quit():
-    #Exit the main() function
-    return False
-
 def main():
     while True:
         #Prompt the user for one of the following actions:
+        #print('Pick and action\n 1: Send thank you note\n 2: Create report\n 3: quit')
+        #UserAction = input()
+
+        UserAction = prompt_user()
+
+        if UserAction == '1':
             #1 Send thank you: Prompt for a full name
+            print('User option 1')
                 #send_thank_you_note()
-
+        elif UserAction == '2':
             #2 Create a report
+            print('User option 2')
                 #create_report()
-
+        elif UserAction == '3':
             #3 quit
-                #quit()
+            print('Goodbye!')
+            return False
+        else:
+            print('Pick and action\n 1: Send thank you note\n 2: Create report\n 3: quit')
 
     return None
 
