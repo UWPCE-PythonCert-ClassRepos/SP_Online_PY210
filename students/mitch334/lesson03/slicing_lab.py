@@ -35,8 +35,8 @@ def elements_reversed(seq):
 def thirds(seq):
     """return sequence with the last third, then first third, then the middle third in the new order."""
     one_third = len(seq)//3
-    # print(seq,' | ', seq[-one_third:] + seq[:one_third] + seq[one_third:-one_third])
-    return seq[-one_third:] + seq[:one_third] + seq[one_third:-one_third]
+    # print(seq,' | ', seq[-one_third:] + seq[:-one_third])
+    return seq[-one_third:] + seq[:-one_third]
 
 
 a_string = "this is a string"
