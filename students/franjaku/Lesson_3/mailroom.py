@@ -74,16 +74,28 @@ def prompt_user():
 def get_donation_amount():
     donation_amount_prompt = 'Enter the donation amount: $ '
     amount = input(donation_amount_prompt)
+
+    if amount == '':
+        amount = 0
+
     amount = float(amount)
     return amount
+
+def thank_you_note_prompt():
+    prompt = 'Enter the donors full name or type "list" to see all donors in the database.\n>>> '
+    donor_name = (input(prompt)).title()
+
+    if donor_name == '':
+        donor_name = 'List'
+
+    return donor_name
 
 def send_thank_you_note(database):
 
     #Compose an email: thank the user, print email to terminal
     Email = '{} thank you for your generous donation of ${:.2f}'
 
-    thank_you_prompt = 'Enter the donors full name or type "list" to see all donors in the database.\n>>> '
-    donor_name = (input(thank_you_prompt)).title()
+    donor_name = thank_you_note_prompt()
 
     if donor_name == 'List':
         print_donor_list(database)
