@@ -146,7 +146,6 @@ def mail_room():
             return False
         else:
             print('Not a valid option...\n')
-            UserAction = prompt_user()
 
     return None
 
