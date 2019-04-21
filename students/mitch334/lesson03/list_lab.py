@@ -27,11 +27,11 @@ print(int(response), ' | ', fruit[int(response)-1])
 
 
 # Add another fruit to the beginning of the list using “+” and display the list.
-fruit = ["Banana"] + fruit
+fruit = ["Bananas"] + fruit
 print(fruit)
 
 # Add another fruit to the beginning of the list using insert() and display the list.
-fruit.insert(0,"Kiwi")
+fruit.insert(0,"Kiwis")
 print(fruit)
 
 # Display all the fruits that begin with “P”, using a for loop.
@@ -57,7 +57,7 @@ response = input('Enter a fruit to remove > ')
 if response.title() in fruit:
     fruit.remove(response.title())
 else:
-    print(response, 'not found in list.')
+    print(response, 'not in list.')
 print(fruit)
 
 # (Bonus: Multiply the list times two. Keep asking until a match is found. Once found, delete all occurrences.)
@@ -71,5 +71,26 @@ while not fruit_match:
         fruit.remove(response.title())
         fruit_match = True
     else:
-        print(response, 'not found in list.')
+        print(response, 'not in list.')
+print(fruit)
+
+"""Series 3: Play with Series 1 fruit list again."""
+# Again, using the list from series 1:
+# Ask the user for input displaying a line like “Do you like apples?” for each fruit in the list (making the fruit all lowercase).
+# For each “no”, delete that fruit from the list.
+# For any answer that is not “yes” or “no”, prompt the user to answer with one of those two values (a while loop is good here)
+# Display the list.
+
+fruit = fruit_series1.copy()
+print(fruit)
+
+for item in fruit_series1:
+    response = input('Do you like ' + item.lower() + '? > ')
+
+    while response.lower() not in ['yes','no']:
+        print(response, 'is invalid. Enter yes or no.')
+        response = input('Do you like ' + item.lower() + '? > ')
+
+    if response.lower() == 'no':
+        fruit.remove(item)
 print(fruit)
