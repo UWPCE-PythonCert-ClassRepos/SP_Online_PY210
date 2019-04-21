@@ -1,5 +1,10 @@
-# Mailroom.py
+# Mailroom_2.py
+import os
 
+# Dictionarys for the following
+#   -User selections
+#   -Main donor structure
+#   - + .format() to produce a letter template
 
 # Database Functions
 """
@@ -140,11 +145,22 @@ def create_report(database):
     return None
 
 
+def quit(database=None):
+    print('Goodbye!')
+    os.sys.exit()
+
+
 # Driver Function
 def mail_room():
     database = initialize_database()
     welcome_message = '------------Welcome to the Mailroom :)------------'
     print(welcome_message)
+
+    options_dict = {
+        '1': send_thank_you_note,
+        '2': create_report,
+        '3': quit}
+
     while True:
         # Prompt the user for one of the following actions:
         # print('Pick and action\n 1: Send thank you note\n 2: Create report\n 3: quit')
@@ -152,16 +168,8 @@ def mail_room():
 
         UserAction = prompt_user()
 
-        if UserAction == '1':
-            send_thank_you_note(database)
-        elif UserAction == '2':
-            # 2 Create a report
-            print('User option 2')
-            create_report(database)
-        elif UserAction == '3':
-            # 3 quit
-            print('Goodbye!')
-            break
+        if UserAction in options_dict:
+            options_dict.get(UserAction)(database)
         else:
             print('Not a valid option...\n')
 
