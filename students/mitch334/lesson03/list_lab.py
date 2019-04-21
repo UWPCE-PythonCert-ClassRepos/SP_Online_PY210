@@ -40,3 +40,32 @@ for item in fruit:
     if item.upper().startswith('P'):
         fruit_with_p.append(item)
 print(fruit_with_p)
+
+"""Series 2: Pay with Series 1 fruit list."""
+# Using the list created in series 1 above:
+# Display the list.
+print(fruit)
+
+# Remove the last fruit from the list.
+# Display the list.
+del fruit[-1]
+print(fruit)
+
+response = input('Enter a fruit to remove > ')
+if response in fruit:
+    fruit.remove(response)
+else:
+    print('Entered fruit to remove is not in the list.')
+print(fruit)
+
+
+# Ask the user for a fruit to delete, find it and delete it.
+response = input('Enter another fruit to remove > ')
+for item in fruit:
+    if item.upper() == response.upper():
+        fruit.remove(item)
+print(fruit)
+
+# (Bonus: Multiply the list times two. Keep asking until a match is found. Once found, delete all occurrences.)
+fruit = fruit*2
+print(fruit)
