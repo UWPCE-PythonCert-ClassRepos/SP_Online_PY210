@@ -50,10 +50,9 @@ def add_new_donation(database,name,donation_amount):
                             average_donation_new)
 
             database[idx] = donor_updated
-
-    if donor_found==0:
-        print(f"Error: Donor '{name}' not found in")
-        print_donor_list(database)
+        else: #Error catching
+            print(f"Error: Donor '{name}' not found in")
+            print_donor_list(database)
 
     return database
 
