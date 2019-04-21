@@ -13,12 +13,11 @@ fruits.append(new_fruit.title())
 
 print('fruits = {}'.format(fruits))
 
-NumInvalid = 1
-while NumInvalid:
+while True:
     number = input("Type a number between 1 and {:d}: ".format(len(fruits)))
     number = int(number)
     if number > 0 and number < (len(fruits)+1):
-        NumInvalid=0
+        break
 
 print("{:d} {}".format(number,fruits[number-1]))
 
