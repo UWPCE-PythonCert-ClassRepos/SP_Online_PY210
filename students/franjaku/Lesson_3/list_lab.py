@@ -3,7 +3,7 @@
 # Series 1
 print('===========================')
 print('Series 1')
-fruits = ["Apples","Pears","Oranges","Peaches"]
+fruits = ["Apples", "Pears", "Oranges", "Peaches"]
 
 print('fruits = {}'.format(fruits))
 
@@ -19,7 +19,7 @@ while True:
     if number > 0 and number < (len(fruits)+1):
         break
 
-print("{:d} {}".format(number,fruits[number-1]))
+print("{:d} {}".format(number, fruits[number-1]))
 
 new_fruit2 = input("Add another fruit: ")
 
@@ -29,14 +29,13 @@ print('fruits = {}'.format(fruits))
 
 new_fruit3 = input("Add another fruit: ")
 
-fruits.insert(0,new_fruit3.title())
+fruits.insert(0, new_fruit3.title())
 
 print('fruits = {}'.format(fruits))
 
 for fruit in fruits:
     if fruit[0] == "P":
         print(fruit)
-
 
 
 print('End Series 1')
@@ -63,7 +62,7 @@ print('fruits2 = {}'.format(fruits2))
 print('End Series 2')
 print('===========================')
 
-#Series 3
+# Series 3
 print('Series 3')
 
 fruits3 = fruits[:]
@@ -71,7 +70,7 @@ fruits3 = fruits[:]
 response = "default"
 
 for fruit in fruits3[:]:
-    while response.lower() not in ["yes","no"]:
+    while response.lower() not in ["yes", "no"]:
         response = input('Do you like {}?\n'.format(fruit.lower()))
 
     if response.lower() == "no":
