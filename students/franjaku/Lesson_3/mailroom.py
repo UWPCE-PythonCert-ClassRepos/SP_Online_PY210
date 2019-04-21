@@ -154,7 +154,7 @@ def mail_room():
         elif UserAction == '3':
             #3 quit
             print('Goodbye!')
-            return False
+            break
         else:
             print('Not a valid option...\n')
 
