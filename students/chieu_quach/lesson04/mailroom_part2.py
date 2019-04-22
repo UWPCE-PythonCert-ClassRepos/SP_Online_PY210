@@ -39,28 +39,35 @@ msg  = ( " Dear {}, "
       "\n\n"
       )
 
-def send_thankyou():      
-      response = input(" Please enter full name ") 
-      for key, value in donation_list.items():
-            name   = value['first name'] + " " + value['last name']
-            if response == name:
+def send_thankyou():
+      
+     
+   response = input(" Please enter full name ") 
+   for key, value in donation_list.items():
+      name   = value['first name'] + " " + value['last name']
+      if response == name or response == value['first name']:
                      
-                amount = float(value['Amount'])                
-                last_name = value['last name']
-                # added "_" to last name
-                last_name = ("_".join(last_name.split()))
-                fullname = value['first name'] + "_" + last_name
-                fullname = fullname + ".txt"
-                #print ("fullname ", fullname)       
+          amount = float(value['Amount'])                
+          last_name = value['last name']
+          # added "_" to last name
+          last_name = ("_".join(last_name.split()))
+          fullname = value['first name'] + "_" + last_name
+          fullname = fullname + ".txt"
+          #print ("fullname ", fullname)       
                
-            
-            #print("msg".format(name_list[0], name_list[1]))
-                print(msg.format(name, amount))
-            # sends text message to output file
-                outfile = open(fullname, "w")
-                cpy = (msg.format(name, amount))
-                outfile.writelines(cpy)
-                 
+          #print("msg".format(name_list[0], name_list[1]))
+          print(msg.format(name, amount))
+          # sends text message to output file
+          outfile = open(fullname, "w")
+          cpy = (msg.format(name, amount))
+          outfile.writelines(cpy)
+          break       
+      else:
+          if key == len_donation_list:
+              print ("Please re-enter name ")
+              print ("\n")
+              send_thankyou()
+              
 def send_letters():
 
      # reading key and value in list
@@ -87,7 +94,7 @@ def send_letters():
           outfile.close()
             
       
-                                 
+                          
             
 def create_report():
 
@@ -114,20 +121,25 @@ def exit_program():
 
 def main():
 
-       # Use switch case to call functions from user input
-       switch = {1: send_thankyou,
-                 2: create_report,
-                 3: send_letters,               
-                 4: exit_program,
+       while True:
+             # Use switch case to call functions from user input
+           switch = {1: send_thankyou,
+               2: create_report,
+               3: send_letters,               
+               4: exit_program,
                           
-       }
-       response = input(prompt)
-       response = int(response)
-       switch[response]()
-       
+           }
+           
+            
+           response = input(prompt)
+           response = int(response)
+           if response in switch:
+               switch[response]()
+           else:
+               print ("Invalid input ")
      
 
 # Main function
 if __name__ == "__main__": 
-  
-   main()
+   
+   main() 
