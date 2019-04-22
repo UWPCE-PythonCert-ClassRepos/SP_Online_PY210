@@ -91,4 +91,4 @@ for row in table_data:
 
 # And for an extra task, given a tuple with 10 consecutive numbers, can you work how to quickly print the tuple in columns that are 5 charaters wide? It can be done on one short line!
 consecutive_tuple = (20,21,22,23,24,25,26,27,28,29)
-for item in consecutive_tuple: print(f'{item:5}', end="")
+for item in consecutive_tuple: print(f'{item:^5}', end="")
