@@ -39,11 +39,24 @@ print(formatted_tuple,'| formatted TASK 2')
 # In [21]: formatter((2,3,5,7,9))
 # Out[21]: 'the 5 numbers are: 2, 3, 5, 7, 9'
 
-# in_tuple = (2,4,6,8,10,12,100,1,3)
-# in_tuple = (99,)
+in_tuple = (2,4,6,8,10,12,100,1,3)
 
 def formatter(in_tuple):
     form_string = 'the '+ str(len(in_tuple)) + ' numbers are: ' + '{:d}, '*len(in_tuple)
     # print(form_string[:-2].format(*in_tuple))
     return form_string[:-2].format(*in_tuple)
-# formatter(in_tuple)
+
+print(formatter(in_tuple))
+
+"""Task 4"""
+# Given a 5 element tuple:
+# ( 4, 30, 2017, 2, 27)
+# use string formating to print:
+# '02 27 2017 04 30'
+# Hint: use index numbers to specify positions.
+
+input_format = (4, 30, 2017, 2, 27)
+output_format = '{:02} {:02} {:04} {:02} {:02}'.format(input_format[3],input_format[4],input_format[2],input_format[0],input_format[1])
+
+print('02 27 2017 04 30 | required format')
+print(output_format,'| formatted TASK 4')
