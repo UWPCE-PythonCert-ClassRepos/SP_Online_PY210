@@ -60,3 +60,17 @@ output_format = '{:02} {:02} {:04} {:02} {:02}'.format(input_format[3],input_for
 
 print('02 27 2017 04 30 | required format')
 print(output_format,'| formatted TASK 4')
+
+"""Task 5"""
+# Given the following four element list: ['oranges', 1.3, 'lemons', 1.1]
+# Write an f-string that will display:
+# The weight of an orange is 1.3 and the weight of a lemon is 1.1
+
+list = ['oranges', 1.3, 'lemons', 1.1]
+output = f'The weight of an {list[0][:-1]} is {list[1]} and the weight of a {list[2][:-1]} is {list[3]}'
+print('The weight of an orange is 1.3 and the weight of a lemon is 1.1 | required format')
+print(output, '| formatted Task 5.1')
+
+# Now see if you can change the f-string so that it displays the names of the fruit in upper case, and the weight 20% higher (that is 1.2 times higher).
+output = f'The weight of an {list[0][:-1].upper()} is {list[1]*1.2} and the weight of a {list[2][:-1].upper()} is {list[3]*1.2}'
+print(output, '| formatted Task 5.2')
