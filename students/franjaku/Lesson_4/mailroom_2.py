@@ -32,7 +32,7 @@ def initialize_database():
 def print_donor_list(database):
     print('\nDonor List\n----------')
     for donor in database:
-        print('{}'.format(donor[0]))
+        print('{}'.format(donor))
     print('----------')
 
 
