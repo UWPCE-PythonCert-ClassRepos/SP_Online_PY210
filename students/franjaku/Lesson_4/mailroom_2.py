@@ -37,8 +37,7 @@ def print_donor_list(database):
 
 
 def add_new_donor(database, name, donation_amount):
-    new_donor = (name, donation_amount, 1, donation_amount)
-    database.append(new_donor)
+    database[name] = (donation_amount, 1, donation_amount)
     return database
 
 
