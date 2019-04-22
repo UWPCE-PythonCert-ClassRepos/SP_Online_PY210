@@ -2,7 +2,7 @@
 
 # Ins and outs of Python Lists
 
-# Series1
+# Series 1
 
 # Create and display list of fruits
 fruits = ['Apples','Pears','Oranges','Peaches']
@@ -41,3 +41,40 @@ print('All fruits from the list that begin with \'P\':')
 for fruit in fruits:
     if fruit.startswith('P'):
         print(fruit)
+
+# Save copy of original list for future series
+original_fruits = fruits[:]
+
+# Series 2
+
+# Display current list of fruits
+print('Current list of fruits:',fruits)
+
+# Remove last fruit from list
+print('Removing last fruit from list')
+fruits.pop()
+print('New list of fruits:',fruits)
+
+# Remove a fruit by request
+to_remove = input('Name a fruit to remove from the list > ')
+if fruits.count(to_remove) > 0: # Make sure fruit exists (error will occur if it doesn't)
+    location = fruits.index(to_remove) # Find index of fruit
+    # Display fruit and remove from list
+    print('{} found at location {:d}. Removing from list.'.format(to_remove,location+1))
+    fruits.remove(to_remove)
+else:
+    print('{} not in list of fruits.'.format(to_remove))
+# Display current list of fruits
+print('New list of fruits:',fruits)
+
+# Bonus: Multiply list by two and remove all instances of a fruit
+double_fruits = fruits*2
+print('Long list of fruits: ',double_fruits)
+to_remove = input('Name a fruit to remove from this list > ')
+while double_fruits.count(to_remove) > 0: # Repeat process until all instances have been removed.
+    location = double_fruits.index(to_remove) # Find index of fruit
+    # Display fruit and remove from list
+    print('{} found at location {:d}. Removing from list.'.format(to_remove,location+1))
+    double_fruits.remove(to_remove)
+# Display current list of fruits
+print('New long list of fruits:',double_fruits)
