@@ -74,3 +74,21 @@ print(output, '| formatted Task 5.1')
 # Now see if you can change the f-string so that it displays the names of the fruit in upper case, and the weight 20% higher (that is 1.2 times higher).
 output = f'The weight of an {list[0][:-1].upper()} is {list[1]*1.2} and the weight of a {list[2][:-1].upper()} is {list[3]*1.2}'
 print(output, '| formatted Task 5.2')
+
+"""Task 6"""
+# Then you will need to use alignment specifiers. Do some research on this using the links below. Then:
+# Write some Python code to print a table of several rows, each with a name, an age and a cost. Make sure some of the costs are in the hundreds and thousands to test your alignment specifiers.
+
+table_data = [('Matthew',34.5,'$1,000')]
+table_data.append (('Sara',22,'$1'))
+table_data.append (('JJ',110,'$500'))
+table_data.append (('Saravana',22,'$10,000'))
+table_data.append (('Mitchell',22,'$120,000'))
+# print(table_data)
+
+for row in table_data:
+    print(f'{row[0]:15} {round(row[1]):>3} {row[2]:>15}')
+
+# And for an extra task, given a tuple with 10 consecutive numbers, can you work how to quickly print the tuple in columns that are 5 charaters wide? It can be done on one short line!
+consecutive_tuple = (20,21,22,23,24,25,26,27,28,29)
+for row in consecutive_tuple: print(f'{row:5}', end="")
