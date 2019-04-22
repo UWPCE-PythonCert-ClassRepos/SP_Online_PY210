@@ -21,11 +21,11 @@ Database Structure
 
 
 def initialize_database():
-    database = {'John Smith': [5000, 1, 5000],
-                'Jane Adams': [25000, 1, 25000],
-                'Brett Johnson': [50, 1, 50],
-                'Sofia Pippy': [623, 1, 623],
-                'Maddy North': [85426, 1, 85426]}
+    database = {'John Smith': (5000, 1, 5000),
+                'Jane Adams': (25000, 1, 25000),
+                'Brett Johnson': (50, 1, 50),
+                'Sofia Pippy': (623, 1, 623),
+                'Maddy North': (85426, 1, 85426)}
     return database
 
 
