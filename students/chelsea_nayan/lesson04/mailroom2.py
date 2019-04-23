@@ -60,11 +60,12 @@ def report():
 
 # Generates a thank you letter and writes it to a disk as a text file
 def send():
+    print('Sending letters...')
 
-    for sublist in donors_dict.keys():
-        name = sublist
+    for name in donors_dict.keys():
         amount = sum(donors_dict.get(name))
-        output = (f'{name}.txt')
+        txt_name = name.replace(" ", "_")
+        output = (f'{txt_name}.txt')
         with open(output, 'w') as f:
                f.write(
 f'''Dear {name},
@@ -75,22 +76,25 @@ f'''Dear {name},
             You're the best,
                 - Chelsea
 ''')
+    print('Sent the letters!')
 
 if __name__=='__main__': # the interpreter puts this to the top of the module?
-    #Prompts the user to one of three actions
+    #Prompts the user to one of four actions
+
+    #This is a switch-case dictionary! Note there is no paranthesis after the functions
+    arg_dict = {'1': thankyou,
+                '2': report,
+                '3': send,
+                '4': quit
+    }
+
+    # A loop to prompt the user for a response
     while True:
         response = input('''
-Choose one of three actions:
+Choose one of four actions:
 [1] Send a Thank You
 [2] Create a Report
 [3] Send letters to everyone
 [4] Quit
 ''')
-        if response == '1':
-            thankyou()
-        elif response == '2':
-            report()
-        elif response == '3':
-            send()
-        elif response == '4':
-            quit()
+        arg_dict.get(response)()
