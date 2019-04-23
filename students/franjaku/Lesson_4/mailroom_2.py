@@ -65,9 +65,10 @@ def sort_key(donor):
 # Mailroom functions
 def prompt_user():
     prompt = "\n".join(('What would you like to do?',
-                        '1: Send thank you note',
-                        '2: Create report',
-                        '3: Quit',
+                        '1: Send thank you note to a single donor.',
+                        '2: Create report.',
+                        '3: Send thank you letters to all donors.',
+                        '4: Quit.',
                         '>>> '))
 
     UserAction = input(prompt)
@@ -119,8 +120,18 @@ def send_thank_you_note(database):
     return None
 
 
-def send_thank_you_note_all():
-    pass
+def send_thank_you_note_all(database):
+
+    for donor, data in database.items():
+        create_letter(donor, data[2])
+
+
+def create_letter(name, total_donation):
+    with open(f"{name}.txt", 'w+') as outfile:
+        outfile.write(f"Dear {name}\n")
+        outfile.write(f"Thank you for you donation of ${total_donation}!\n")
+        outfile.write(f"Best wishes,\nThe Team")
+    outfile.close()
 
 
 def create_report(database):
