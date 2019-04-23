@@ -24,7 +24,7 @@ try:
 except SyntaxError:
     print('Run Away!')
 else:
-    print('not_joke')
+    print(not_joke)
 
 # What did that do? You can think of else in this context, as well as in
 # loops as meaning: "else if nothing went wrong"
