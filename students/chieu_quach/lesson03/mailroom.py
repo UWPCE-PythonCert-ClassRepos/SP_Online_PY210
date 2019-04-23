@@ -3,6 +3,7 @@
 # Assignment -  Lesson 3
 # Exercise   -  Mailroom Part 1
 
+# mailroom part 1
 import sys
 global donation_list, len_donation_list
 donation_list = {}

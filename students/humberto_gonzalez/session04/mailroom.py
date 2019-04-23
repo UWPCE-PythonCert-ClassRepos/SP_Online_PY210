@@ -9,6 +9,7 @@ Created on Wed Mar 13 17:53:34 2019
 import sys  
 import tempfile
 import os
+import operator
 
 
 donor_db = {"Tyrod Taylor": [1000.00, 45.50],
@@ -30,7 +31,18 @@ main_prompt = "\n".join(("Welcome to the Mailroom!",
               "4 - Exit Program",
               ">>> "))
 
-    
+ 
+def create_report_db(db):
+    '''Takes in the donor database and creates the required database to be used for printing out the report'''
+    report_df = {}
+    for donor in db:
+           donations = db[donor]
+           total = round(sum(donations),2)
+           num = len(donations)
+           average = round(total/num,2)
+           report_df[donor] = [total,num,average]
+    report_df = sorted(report_df.items(), key=operator.itemgetter(1),reverse=True)
+    return report_df
 
 def send_thank_you():
     '''Prompts user for a donor and donation amount, and then prints out a thank you email'''
@@ -46,7 +58,6 @@ def send_thank_you():
     print()
     print()
     print(f'Dear {donor_name},\n    Thank you for your generous donation of ${donation}')
-    main()
 
 
 def create_report():
@@ -55,14 +66,14 @@ def create_report():
           "Total Given","Num Gifts","Average Gift"))
     print('-'*64)
     formatter = "{:20}   ${:>10}   {:>10}   ${:>10}"
-    for donor_info in donor_db:
-        donor = donor_info
-        donations = donor_db[donor_info]
-        total = round(sum(donations),2)
-        num = len(donations)
-        average = round(total/num,2)
+    report_db = create_report_db(donor_db)
+    for donor_info in report_db:
+        donor = donor_info[0]
+        donation_info = donor_info[1]
+        total = donation_info[0]
+        num = donation_info[1]
+        average = donation_info[2]
         print(formatter.format(donor,total,num,average))
-    main()
 
 
 def send_letters():
@@ -79,7 +90,7 @@ def send_letters():
             file.write(txt)
             file.close()
     print('Letters have been created and saved to \n a new folder in your temp directory')
-    main()
+    
             
         
 def exit_program():
@@ -87,18 +98,19 @@ def exit_program():
     sys.exit()
 
 def main():
-    response = input(main_prompt)  # continuously collect user selection
-    # now redirect to feature functions based on the user selection
-    menu_options = {"1":send_thank_you,
-                    "2":create_report,
-                    "3":send_letters,
-                    "4":exit_program}
-    if response not in menu_options:
-        print()
-        print("Please select one of the available options")
-        print("You will be returned to the main menu")
-        main()
-    menu_options.get(response)()
+    while True:
+        response = input(main_prompt)  # continuously collect user selection
+        # now redirect to feature functions based on the user selection
+        menu_options = {"1":send_thank_you,
+                        "2":create_report,
+                        "3":send_letters,
+                        "4":exit_program}
+        if response not in menu_options:
+            print()
+            print("Please select one of the available options")
+            print("You will be returned to the main menu")
+            main()
+        menu_options.get(response)()
 
 
 if __name__ == "__main__":
