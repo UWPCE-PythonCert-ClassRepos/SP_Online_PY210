@@ -1,5 +1,7 @@
 # Mailroom_2.py
 import os
+import operator
+import collections
 
 # Dictionarys for the following
 #   -User selections
@@ -13,9 +15,9 @@ Database requirements
                 average donation.
 
 Database Structure
-    [('Donor Name', Total donated, number dontations, average donation),
-     ('Donor Name', Total donated, number dontations, average donation),
-     ...]
+    {'Donor Name': (Total donated, number dontations, average donation),
+     'Donor Name': (Total donated, number dontations, average donation),
+     ...}
 
 """
 
@@ -44,20 +46,14 @@ def add_new_donor(database, name, donation_amount):
 def add_new_donation(database, name, donation_amount):
     # by default this is for existing donors
 
-    for idx, donor in enumerate(database):
-        if donor[0] == name:
-
-            # update donor data
-            total_donation_new = donor[1] + donation_amount
-            number_donations_new = donor[2] + 1
-            average_donation_new = total_donation_new/number_donations_new
-            donor_updated = (name, total_donation_new, number_donations_new,
-                             average_donation_new)
-
-            database[idx] = donor_updated
-        else:  # Error catching
-            print(f"Error: Donor '{name}' not found in")
-            print_donor_list(database)
+    if name in database:
+        old_data = list(database.get(name))
+        new_data = (old_data[0]+donation_amount, old_data[1]+1,
+                    (old_data[0]+donation_amount)/(old_data[1]+1))
+        database[name] = new_data
+    else:  # Error catching
+        print(f"Error: Donor '{name}' not found in")
+        print_donor_list(database)
 
     return database
 
@@ -123,25 +119,20 @@ def send_thank_you_note(database):
     return None
 
 
-def create_report(database):
-    # Print the list of donors sorted by historical donation amount
-    # Include:
-        # Donor name
-        # Total donated
-        # Number of donations
-        # Average donation amount
-    # End result should be nice and tabular
-    # Re-prompt for an action
+def send_thank_you_note_all():
+    pass
 
-    database = sorted(database, key=sort_key, reverse=True)
+
+def create_report(database):
+    # Sort database by most $$ donated
+    sorted_database = collections.OrderedDict(sorted(database.items(), key=operator.itemgetter(1), reverse=True))
     print('-----Donation Report-----')
-    print('\n{:<15} | {:>14} | {:>11} | {:>16}'.format('Donor Name', 'Total Donation', '# donations','Average Donation'))
+    print('\n{:<15} | {:>14} | {:>11} | {:>16}'.format('Donor Name', 'Total Donation', '# donations', 'Average Donation'))
     print('-'*(15+14+11+16+10))
-    for donor in database:
-        print(f"{donor[0]:<15} | ${donor[1]:>13.2f} | {donor[2]:^11} | ${donor[3]:>15.2f}")
+    for donor, data in sorted_database.items():
+        print(f"{donor:<15} | ${data[0]:>13.2f} | {data[1]:^11} | ${data[2]:>15.2f}")
 
     print('\n')
-    return None
 
 
 def quit(database=None):
@@ -158,7 +149,8 @@ def mail_room():
     options_dict = {
         '1': send_thank_you_note,
         '2': create_report,
-        '3': quit}
+        '3': send_thank_you_note_all,
+        '4': quit}
 
     while True:
         UserAction = prompt_user()
