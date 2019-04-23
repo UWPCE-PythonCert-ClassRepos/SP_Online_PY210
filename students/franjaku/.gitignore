@@ -38,3 +38,4 @@ Thumbs.db
 
 # Franjaku Additions
 __pycache__
+*.txt
