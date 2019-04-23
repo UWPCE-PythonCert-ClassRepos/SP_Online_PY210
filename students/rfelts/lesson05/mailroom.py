@@ -11,12 +11,11 @@ donor_data = {"Lionel Messi": [100], "Cristiano Ronaldo": [5000, 25, 9450], "Gia
 def prompt_user(prompt, menu):
     """
     Prompt the user to choose from a menu of 3 actions: “Send a Thank You”, “Create a Report” or “quit”.
-    :param prompt - String representing the menu options to present to the user
-    :param menu - Dictionary of valid menu values
+    :param prompt: String representing the menu options to present to the user
+    :param menu: Dictionary of valid menu values
     """
 
     input_string = "\nPlease enter one of the following options: " + ', '.join(prompt) + ": "
-
 
     while True:
         response = input(input_string)
@@ -103,7 +102,7 @@ def list_donors():
 def create_name_list():
     """
     Create a list containing the names of the donors.
-    :return - a list of donor names
+    :return: a list of donor names
     """
 
     return donor_data.keys()
@@ -112,7 +111,7 @@ def create_name_list():
 def create_donor_list():
     """
     Create a list of dicts containing: the donor name, last donation amount, and total donation amount.
-    :return - a list of donor dicts
+    :return: a list of donor dicts
     """
 
     donor_info = [{'name': name, 'last_donation': donations[-1], 'total_donations': sum(donations)}
@@ -138,6 +137,8 @@ def add_donation():
         # Add the new donor and their donation
         donor_data[donor_name] = [prompt_donation_amount(donor_name)]
     else:
+        # Tried to make this for loop into a Comprehension but kept overwriting the current data instead of appending
+        # donor_data[donor_name] = [prompt_donation_amount(s) for s in donor_list if s.lower() == donor_name.lower()]
         for s in donor_list:
             if s.lower() == donor_name.lower():
                 # Update the donor's donation history
@@ -152,7 +153,7 @@ def add_donation():
 def prompt_donation_amount(donor):
     """
     Prompt the user for the amount donated
-    :param donor - string representing the name of the person making the donation
+    :param donor: string representing the name of the person making the donation
     :return: a float representing the amount donated
     """
 
@@ -172,8 +173,8 @@ def prompt_donation_amount(donor):
 def compose_message(donor_info):
     """
     Compose a thank you message listing the current/previous donation and the donor's donation total
-    :param donor_info - dict containing the donor's info: name, last donation, and total donation ammount
-    :return - a String containing the thank you message for the user
+    :param donor_info: dict containing the donor's info: name, last donation, and total donation ammount
+    :return: a String containing the thank you message for the user
     """
 
     return("\nTo: {name}\nSubject: Thank you.\n\n{name} thank you for your previous generous donation of "
