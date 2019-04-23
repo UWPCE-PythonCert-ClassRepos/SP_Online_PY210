@@ -17,12 +17,14 @@ def prompt_user(prompt, menu):
 
     input_string = "\nPlease enter one of the following options: " + ', '.join(prompt) + ": "
 
+
     while True:
         response = input(input_string)
-        if not any(s == response for s in menu):
+        try:
+            if menu[response]() == "exit":
+                break
+        except KeyError:
             print("\n" + response + " is not a valid option.")
-        elif menu[response]() == "exit":
-            break
 
 
 def send_thank_you():
@@ -49,12 +51,11 @@ def create_report():
     # Build a list containing donor names, total donation amounts, number of donations, average donation
     donors = list(donor_data.keys())
     donor_values = list(donor_data.values())
-    donor_totals = []
-    temp_data = []
 
-    for donor, value in zip(donors, donor_values):
-        donor_totals.append(sum(value[:]))
-        temp_data.append([donor, sum(value[:]), len(value[:]), sum(value[:]) / len(value[:])])
+    temp_data = [[donor, sum(value[:]), len(value[:]), sum(value[:]) / len(value[:])]
+                 for donor, value in zip(donors, donor_values)]
+
+    donor_totals = [temp_value[1] for temp_value in temp_data]
 
     # Create dynamic padding for the donation amount data
     donation_padding = len(str(max(donor_totals)))
@@ -114,10 +115,8 @@ def create_donor_list():
     :return - a list of donor dicts
     """
 
-    donor_info = []
-
-    for name, donations in donor_data.items():
-        donor_info.append({'name': name, 'last_donation': donations[-1], 'total_donations': sum(donations)})
+    donor_info = [{'name': name, 'last_donation': donations[-1], 'total_donations': sum(donations)}
+                  for name, donations in donor_data.items()]
 
     return donor_info
 
@@ -138,20 +137,16 @@ def add_donation():
     if not any(s.lower() == donor_name.lower() for s in donor_list):
         # Add the new donor and their donation
         donor_data[donor_name] = [prompt_donation_amount(donor_name)]
-
-        # Pass in a dict with the required info for the message
-        print(compose_message({'name': donor_name, 'last_donation': donor_data.get(donor_name)[-1],
-                                       'total_donations': sum(donor_data.get(donor_name))}))
     else:
         for s in donor_list:
             if s.lower() == donor_name.lower():
                 # Update the donor's donation history
                 donor_data[s].append(prompt_donation_amount(donor_name))
-
-                # Pass in a dict with the required info for the message
-                print(compose_message({'name': s, 'last_donation': donor_data.get(s)[-1],
-                                       'total_donations': sum(donor_data.get(s))}))
                 break
+
+    # Pass in a dict with the required info for the message
+    print(compose_message({'name': donor_name, 'last_donation': donor_data.get(donor_name)[-1],
+                                       'total_donations': sum(donor_data.get(donor_name))}))
 
 
 def prompt_donation_amount(donor):
@@ -169,7 +164,7 @@ def prompt_donation_amount(donor):
         try:
             response = float(response)
             return response
-        except:
+        except ValueError:
             print("The value enter was invalid.")
             response = input(prompt_string)
 
