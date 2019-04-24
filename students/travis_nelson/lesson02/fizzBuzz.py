@@ -1,6 +1,6 @@
 
 def fizzBuzz1(fizzUntil=100):
-    """This function will fizzBuzz from 1 through user-input integer"""
+    """Prints fizzBuzz from 1 through user-input integer"""
     for i in range(1,fizzUntil+1):
         if i % 3 == 0:
             if i % 5 == 0:
@@ -13,7 +13,7 @@ def fizzBuzz1(fizzUntil=100):
             print(i)
 
 def fizzBuzz2(fizzUntil=100):
-    """This is a different function that also fizzbuzzes. I wanted to use more functions"""
+    """Also prints fizzbuzzes. I wanted to use more functions"""
     def isFizz(i):
         """Returns true if an int parameter is divisible by 3"""
         if i % 3 == 0:
