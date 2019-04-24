@@ -1,5 +1,7 @@
+#!/usr/bin/env python3
+
 def string_bits(str):
-    '''Given a string, this function returns a new string made of every other char starting with the first, so "Hello" yields "Hlo", etc...'''
+    """Returns a new string made of every other char starting with the first"""
     number_of_letters = len(str)
     odd_str = ''
     for i in range(number_of_letters):
@@ -8,7 +10,7 @@ def string_bits(str):
     return odd_str
 
 if __name__ == "__main__":
-    '''These assert statements test that my function ouputs the expected values for known string inputs'''
+    """These assert statements test that my function ouputs the expected values for known string inputs"""
     assert string_bits('Hello')  == 'Hlo'
     assert string_bits('Hi') == 'H'
     assert string_bits('Heeololeo') == 'Hello' 
