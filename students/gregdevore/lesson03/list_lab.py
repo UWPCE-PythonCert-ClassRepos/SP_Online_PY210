@@ -2,7 +2,13 @@
 
 # Ins and outs of Python Lists
 
+def printseries(s):
+    print('********')
+    print('Series {:d}'.format(s))
+    print('********')
+
 # Series 1
+printseries(1)
 
 # Create and display list of fruits
 fruits = ['Apples','Pears','Oranges','Peaches']
@@ -46,6 +52,7 @@ for fruit in fruits:
 original_fruits = fruits[:]
 
 # Series 2
+printseries(2)
 
 # Display current list of fruits
 print('Current list of fruits:',fruits)
@@ -80,6 +87,7 @@ while double_fruits.count(to_remove) > 0: # Repeat process until all instances h
 print('New long list of fruits:',double_fruits)
 
 # Series 3
+printseries(3)
 
 # Recover original list
 fruits = original_fruits[:]
@@ -101,3 +109,22 @@ for fruit in fruits[:]:
 
 # Display updated list of fruits
 print('Updated list of fruits:',fruits)
+
+# Series 4
+printseries(4)
+
+# Recover original list
+fruits = original_fruits[:]
+
+# Display current list of fruits
+print('Current list of fruits:',fruits)
+
+# Create list of fruit but with each fruit reversed
+reverse_fruits = [fruit[::-1] for fruit in fruits[:]]
+
+# Delete last item from original list
+fruits.pop()
+
+# Display original list  and reversed copy
+print('Original list with last item removed:',fruits)
+print('Original list with reversed fruits:',reverse_fruits)
