@@ -13,13 +13,19 @@ so you’ve decided to let Python help you out of a jam and do your work for you
 
 """ Initial Donor List
     Data: Donor Name, Total Donated, Number of Donations, and Average Donation Amount"""
-donor_db = [("William Gates, III", [10000.00, 1, 10000.00]),
-            ("Jeff Bezos", [30000.00, 3, 10000.00]),
-            ("Paul Allen", [1000.00, 2, 500.00]),
-            ("Mark Zuckerberg", [20.00, 1, 20.00]),
-            ("Warren Buffet", [600.00, 2, 300.00]),
-            ]
+# donor_db = [("William Gates, III", [10000.00, 1, 10000.00]),
+#             ("Jeff Bezos", [30000.00, 3, 10000.00]),
+#             ("Paul Allen", [1000.00, 2, 500.00]),
+#             ("Mark Zuckerberg", [20.00, 1, 20.00]),
+#             ("Warren Buffet", [600.00, 2, 300.00]),
+#             ]
 
+donor_db = [["William Gates, III", [10.00, 1.00]],
+            ["Jeff Bezos", [30000.00, 3.00, 10000.00]],
+            ["Mark Zuckerberg", [20.00, 20.00]],
+            ["Warren Buffet", [600.00, 300.00]],
+            ["Paul Allen", [1000.00, 2.00, 500.00, 25.00]],
+            ]
 # Send a Thank You
 # If the user (you) selects “Send a Thank You” option, prompt for a Full Name.
 # If the user types list show them a list of the donor names and re-prompt.
@@ -37,47 +43,61 @@ def get_donor_names():
     return donor_names
 
     # print(donor_names)
+def create_donation(name):
+    donor_names = get_donor_names()
+    position = donor_names.index(name)
+
+    donation_amount = round(float(input('Enter donation amount: ')),2)
+    donor_db[position][1].append(donation_amount)
+
+    create_email(name,donation_amount)
+
+def create_email(name,amount):
+    print()
+    print(f'Dear {name},\n\nThank you for the generous donation of ${amount:.2f}.\n\n'
+      'Sincerely,\nMatthew Mitchell')
 
 def send_thankyou():
-    # pass
 
-    thankyou_input = ''
-    while thankyou_input != 'exit':
-        thankyou_input = input('Thank-You Menu:\n'
+    donor_name = ''
+    while donor_name != 'exit':
+        donor_name = input('Thank-You Menu:\n'
                             '\tOptions:\n'
                             "\t\tEnter 'list' for donor list\n"
                             "\t\tEnter 'exit' to return to the main menu\n"
                             '\tEnter full name of donor: ')
-        if thankyou_input.lower() == 'list':
+
+        donor_names = get_donor_names()
+
+        if donor_name.lower() == 'list':
             print('\nDonor List:')
             for donor in donor_db: print('\t',f'{donor[0]}')
-        elif thankyou_input.lower() == 'exit':
-            break
-        else:
-            donor_names = get_donor_names()
-            # donor_names = []
-            # for donor in donor_db:
-            #     donor_names.append(donor[0])
-            # # print(donor_names)
 
-            if thankyou_input.title() in donor_names:
-                print('Found donor name!\n')
-                
-            else:
-                confirm = None
-                while confirm != 'no':
-                    confirm = input("You entered "f'{thankyou_input}'".\n"
-                                                "\tIf this is correct? Note, the donor will be added to the list.\n"
-                                                "\tEnter 'yes' or 'no': ")
-                    if confirm.lower() == 'yes':
-                        donor_db.append((thankyou_input.title(),))
-                        print('Donor added to database.')
-                        break
-                    elif confirm.lower() == 'no':
-                        print('Donor not added.')
-                        break
-                    else:
-                        print('Invalid entry.')
+        elif donor_name.lower() == 'db':
+            print('\n',donor_db)
+
+        elif donor_name.lower() == 'exit':
+            break
+
+        elif donor_name.title() in donor_names:
+            create_donation(donor_name.title())
+
+        else:
+            confirm = None
+            while confirm != 'no':
+                confirm = input("Donor name '"f'{donor_name}'"' was not found.\n"
+                                            "\tWould you like to add this donor?\n"
+                                            "\tEnter 'yes' or 'no': ")
+                if confirm.lower() == 'yes':
+                    donor_db.append([donor_name.title(),[] ])
+
+                    create_donation(donor_name.title())
+                    break
+                elif confirm.lower() == 'no':
+                    print('Donor not added.')
+                    break
+                else:
+                    print('Invalid entry.')
 
 
 
