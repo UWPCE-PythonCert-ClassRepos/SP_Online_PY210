@@ -78,3 +78,26 @@ while double_fruits.count(to_remove) > 0: # Repeat process until all instances h
     double_fruits.remove(to_remove)
 # Display current list of fruits
 print('New long list of fruits:',double_fruits)
+
+# Series 3
+
+# Recover original list
+fruits = original_fruits[:]
+
+# Display current list of fruits
+print('Current list of fruits:',fruits)
+
+# List fruits, removing any that the user does not like
+for fruit in fruits[:]:
+    prompt = 'Do you like {}? '.format(fruit.lower())
+    while True:
+        answer = input(prompt)
+        if answer in ['yes','no']:
+            break
+        else:
+            print('Please reply with \'yes\' or \'no\'')
+    if answer == 'no':
+        fruits.remove(fruit)
+
+# Display updated list of fruits
+print('Updated list of fruits:',fruits)
