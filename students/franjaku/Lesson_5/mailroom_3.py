@@ -79,10 +79,12 @@ def get_donation_amount():
     donation_amount_prompt = 'Enter the donation amount: $ '
     amount = input(donation_amount_prompt)
 
-    if amount == '':
-        amount = 0
+    try:
+        amount = float(amount)
+    except ValueError:
+        print('Not a valid number.')
+        return get_donation_amount()
 
-    amount = float(amount)
     return amount
 
 
