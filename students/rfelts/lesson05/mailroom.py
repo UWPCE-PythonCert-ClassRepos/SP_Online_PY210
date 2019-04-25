@@ -51,11 +51,8 @@ def create_report():
     name_padding = len(max(donor_data, key=len)) + 4
 
     # Build a list containing donor names, total donation amounts, number of donations, average donation
-    donors = list(donor_data.keys())
-    donor_values = list(donor_data.values())
-
-    temp_data = [[donor, sum(value[:]), len(value[:]), sum(value[:]) / len(value[:])]
-                 for donor, value in zip(donors, donor_values)]
+    temp_data = [[donor, sum(donations), len(donations), sum(donations) / len(donations)]
+                 for donor, donations in donor_data.items()]
 
     donor_totals = [temp_value[1] for temp_value in temp_data]
 
