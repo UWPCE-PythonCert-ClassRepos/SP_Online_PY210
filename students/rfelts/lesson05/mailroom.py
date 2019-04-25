@@ -5,7 +5,6 @@
 
 
 import datetime
-import sys
 
 
 # Dictionary that has donors as the key and a list of the amounts they have donated as the value.
