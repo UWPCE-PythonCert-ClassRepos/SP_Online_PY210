@@ -1,4 +1,13 @@
 {
     "python.pythonPath": "C:\\Users\\travis.nelson\\AppData\\Local\\Programs\\Python\\Python37\\python.exe",
-    "python.linting.enabled": true
+    "window.zoomLevel": 0,
+    "python.linting.pylintCategorySeverity.convention": "Warning",
+    "python.linting.pylintCategorySeverity.refactor": "Warning",
+    "python.linting.pep8Enabled": false,
+    "python.linting.pylintEnabled": true,
+    "git.autofetch": true,
+    "python.linting.enabled": true,
+    "python.linting.banditEnabled": false,
+    "python.linting.flake8Enabled": false
+
 }
