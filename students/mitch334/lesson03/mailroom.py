@@ -11,21 +11,15 @@ so you’ve decided to let Python help you out of a jam and do your work for you
 #    You can store that data structure in the global namespace.
 # 2. The script should prompt the user (you) to choose from a menu of 3 actions: “Send a Thank You”, “Create a Report” or “quit”.
 
-""" Initial Donor List
-    Data: Donor Name, Total Donated, Number of Donations, and Average Donation Amount"""
-# donor_db = [("William Gates, III", [10000.00, 1, 10000.00]),
-#             ("Jeff Bezos", [30000.00, 3, 10000.00]),
-#             ("Paul Allen", [1000.00, 2, 500.00]),
-#             ("Mark Zuckerberg", [20.00, 1, 20.00]),
-#             ("Warren Buffet", [600.00, 2, 300.00]),
-#             ]
-
-donor_db = [["William Gates, III", [10.00, 1.00]],
-            ["Jeff Bezos", [30000.00, 3.00, 10000.00]],
-            ["Mark Zuckerberg", [20.00, 20.00]],
+""" Initial donor list with donation history
+    Data: Donor Name, Donation Amount(s)"""
+donor_db = [["William Gates, III", [100.00, 50.00]],
+            ["Jeff Bezos", [1000.00, 10.00, 500.00]],
+            ["Mark Zuckerberg", [200.00, 20.00, 50.00]],
             ["Warren Buffet", [600.00, 300.00]],
-            ["Paul Allen", [1000.00, 2.00, 500.00, 25.00]],
+            ["Paul Allen", [1000.00]],
             ]
+
 # Send a Thank You
 # If the user (you) selects “Send a Thank You” option, prompt for a Full Name.
 # If the user types list show them a list of the donor names and re-prompt.
@@ -42,7 +36,6 @@ def get_donor_names():
         donor_names.append(donor[0])
     return donor_names
 
-    # print(donor_names)
 def create_donation(name):
     donor_names = get_donor_names()
     position = donor_names.index(name)
@@ -73,8 +66,9 @@ def send_thankyou():
             print('\nDonor List:')
             for donor in donor_db: print('\t',f'{donor[0]}')
 
-        elif donor_name.lower() == 'db':
-            print('\n',donor_db)
+        # elif donor_name.lower() == 'db':
+        #     print('\nDonor Database:')
+        #     for donor in donor_db: print('\t',f'{donor}')
 
         elif donor_name.lower() == 'exit':
             break
@@ -99,10 +93,6 @@ def send_thankyou():
                 else:
                     print('Invalid entry.')
 
-
-
-
-
 # Create a Report
 # If the user (you) selected “Create a Report,” print a list of your donors, sorted by total historical donation amount.
 # Include Donor Name, total donated, number of donations, and average donation amount as values in each row. You do not need to print out all of each donor’s donations, just the summary info.
@@ -118,10 +108,26 @@ def send_thankyou():
 # Mark Zuckerberg            $   16396.10           3  $     5465.37
 # Jeff Bezos                 $     877.33           1  $      877.33
 # Paul Allen                 $     708.42           3  $      236.14
-def create_report():
-    pass
 
-send_thankyou()
+def donor_sort_sum(donor):
+    return sum(donor[1])
+
+def create_report():
+    print('Donor Name                | Total Given | Num Gifts | Average Gift')
+    print('-'*66)
+
+    donor_db_sorted = sorted(donor_db, key = donor_sort_sum, reverse=True)
+
+    for donor in donor_db_sorted:
+        donor_sum = sum(donor[1])
+        donor_gift = len(donor[1])
+        donor_average = donor_sum/len(donor[1])
+
+        print(f'{donor[0]:26} ${donor_sum:>11.2f} {donor_gift:>11.0f}  ${donor_average:>12.2f}')
+    print()
+
+# create_report()
+# send_thankyou()
 
 if __name__ == '__main__':
 
