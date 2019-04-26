@@ -135,5 +135,5 @@ def testing():
 if __name__ == "__main__":
     # print (fibonacci(5))
     # print (sum_series(5))
-    testign()
+    testing()
 
