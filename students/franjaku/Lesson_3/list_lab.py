@@ -3,41 +3,39 @@
 # Series 1
 print('===========================')
 print('Series 1')
-Fruits = ["Apples","Pears","Oranges","Peaches"]
+fruits = ["Apples", "Pears", "Oranges", "Peaches"]
 
-print('Fruits = {}'.format(Fruits))
+print('fruits = {}'.format(fruits))
 
-New_Fruit = input("Add another fruit: ")
+new_fruit = input("Add another fruit: ")
 
-Fruits.append(New_Fruit.title())
+fruits.append(new_fruit.title())
 
-print('Fruits = {}'.format(Fruits))
+print('fruits = {}'.format(fruits))
 
-NumInvalid = 1
-while NumInvalid:
-    number = input("Type a number between 1 and {:d}: ".format(len(Fruits)))
+while True:
+    number = input("Type a number between 1 and {:d}: ".format(len(fruits)))
     number = int(number)
-    if number > 0 and number < (len(Fruits)+1):
-        NumInvalid=0
+    if number > 0 and number < (len(fruits)+1):
+        break
 
-print("{:d} {}".format(number,Fruits[number-1]))
+print("{:d} {}".format(number, fruits[number-1]))
 
-New_Fruit2 = input("Add another fruit: ")
+new_fruit2 = input("Add another fruit: ")
 
-Fruits = Fruits + [New_Fruit2.title()]
+fruits = fruits + [new_fruit2.title()]
 
-print('Fruits = {}'.format(Fruits))
+print('fruits = {}'.format(fruits))
 
-New_Fruit3 = input("Add another fruit: ")
+new_fruit3 = input("Add another fruit: ")
 
-Fruits.insert(0,New_Fruit3.title())
+fruits.insert(0, new_fruit3.title())
 
-print('Fruits = {}'.format(Fruits))
+print('fruits = {}'.format(fruits))
 
-for fruit in Fruits:
+for fruit in fruits:
     if fruit[0] == "P":
         print(fruit)
-
 
 
 print('End Series 1')
@@ -46,37 +44,37 @@ print('===========================')
 # Series 2
 print("Series 2")
 
-Fruits2 = Fruits[:]
+fruits2 = fruits[:]
 
-print('Fruits2 = {}'.format(Fruits2))
+print('fruits2 = {}'.format(fruits2))
 
-Fruits2.pop()
+fruits2.pop()
 
-print('Fruits2 = {}'.format(Fruits2))
+print('fruits2 = {}'.format(fruits2))
 
 Del_fruit = input("Choose a fruit to delete: ")
 
-while (Del_fruit.title() in Fruits2):
-    Fruits2.remove(Del_fruit.title())
+while (Del_fruit.title() in fruits2):
+    fruits2.remove(Del_fruit.title())
 
-print('Fruits2 = {}'.format(Fruits2))
+print('fruits2 = {}'.format(fruits2))
 
 print('End Series 2')
 print('===========================')
 
-#Series 3
+# Series 3
 print('Series 3')
 
-Fruits3 = Fruits[:]
+fruits3 = fruits[:]
 
 response = "default"
 
-for fruit in Fruits3[:]:
-    while response.lower() not in ["yes","no"]:
+for fruit in fruits3[:]:
+    while response.lower() not in ["yes", "no"]:
         response = input('Do you like {}?\n'.format(fruit.lower()))
 
     if response.lower() == "no":
-        Fruits3.remove(fruit)
+        fruits3.remove(fruit)
 
     response = "default"
 
@@ -86,11 +84,11 @@ print('===========================')
 # Series 4
 print('Series 4')
 
-Fruits4 = Fruits[:len(Fruits)-1]
+fruits4 = fruits[:len(fruits)-1]
 
-for Idx, fruit in enumerate(Fruits4):
-    Fruits4[Idx] = fruit[::-1]
+for Idx, fruit in enumerate(fruits4):
+    fruits4[Idx] = fruit[::-1]
     print(fruit)
 
-print('Fruits4 = {}'.format(Fruits4))
-print('Fruits = {}'.format(Fruits))
+print('fruits4 = {}'.format(fruits4))
+print('fruits = {}'.format(fruits))
