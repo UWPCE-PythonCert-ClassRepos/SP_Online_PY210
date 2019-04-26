@@ -12,15 +12,14 @@ donors_dict = {
 def thankyou():
     name = input('Please provide a full name. > ')
     while name == 'list': # Prints out the current list of donors when input value = 'list'
-        #current = (sublist[0] for sublist in donors)
         for key in donors_dict:
             print(key)
         name = input('Here is a list of current donors. Please provide a full name. > ')
 
-    check = 0
     amount = input('Donation amount: > ')
+    check = 0
     # Checks to see if name is on the current donor list
-    if name in donors_dict.keys(): # If donor name is on the list, add donation amount to sublist
+    if name in donors_dict.keys(): # If donor name is on the 'list', add donation amount to value
         donors_dict.get(name).append(float(amount))
         check = 1 # Updates to 'remember' there was a donor name in the list
     if check == 0: # Runs when a donor name was not on the list, adds donor name and amount
@@ -79,16 +78,15 @@ f'''Dear {name},
     print('Sent the letters!')
 
 if __name__=='__main__': # the interpreter puts this to the top of the module?
-    #Prompts the user to one of four actions
 
-    #This is a switch-case dictionary! Note there is no paranthesis after the functions
+    #This is a switch-case dictionary! Note there is no paranthesis after the functions...
     arg_dict = {'1': thankyou,
                 '2': report,
                 '3': send,
                 '4': quit
     }
 
-    # A loop to prompt the user for a response
+    # A loop to prompt the user for a response of one of four options
     while True:
         response = input('''
 Choose one of four actions:
@@ -97,4 +95,4 @@ Choose one of four actions:
 [3] Send letters to everyone
 [4] Quit
 ''')
-        arg_dict.get(response)()
+        arg_dict.get(response)() # Execute the method if possible!
