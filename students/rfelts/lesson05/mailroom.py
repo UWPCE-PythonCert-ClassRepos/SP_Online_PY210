@@ -3,6 +3,10 @@
 # Russell Felts
 # Assignment 5 - Updated Mailroom
 
+
+import datetime
+
+
 # Dictionary that has donors as the key and a list of the amounts they have donated as the value.
 donor_data = {"Lionel Messi": [100], "Cristiano Ronaldo": [5000, 25, 9450], "Gianluigi Buffon": [1000000, 2500.50],
               "Neymar": [25.25, 30, 99.99, 250], "Paolo Maldini": [9500, 6789.95, 250, 7500]}
@@ -15,10 +19,8 @@ def prompt_user(prompt, menu):
     :param menu: Dictionary of valid menu values
     """
 
-    input_string = "\nPlease enter one of the following options: " + ', '.join(prompt) + ": "
-
     while True:
-        response = input(input_string)
+        response = input("\nPlease enter one of the following options: " + ', '.join(prompt) + ": ")
         try:
             if menu[response]() == "exit":
                 break
@@ -48,11 +50,8 @@ def create_report():
     name_padding = len(max(donor_data, key=len)) + 4
 
     # Build a list containing donor names, total donation amounts, number of donations, average donation
-    donors = list(donor_data.keys())
-    donor_values = list(donor_data.values())
-
-    temp_data = [[donor, sum(value[:]), len(value[:]), sum(value[:]) / len(value[:])]
-                 for donor, value in zip(donors, donor_values)]
+    temp_data = [[donor, sum(donations), len(donations), sum(donations) / len(donations)]
+                 for donor, donations in donor_data.items()]
 
     donor_totals = [temp_value[1] for temp_value in temp_data]
 
@@ -76,15 +75,13 @@ def send_to_everyone():
     Write a file for each donor containing the thank you message.
     """
 
-    import datetime
     now = datetime.datetime.now()
 
     donor_list = create_donor_list()
 
     for donor in donor_list:
-        f = open(donor["name"] + '_' + str(now.month) + '_' + str(now.year) + '.txt', 'w')
-        f.write(compose_message(donor))
-        f.close()
+        with open(donor["name"] + '_' + str(now.month) + '_' + str(now.year) + '.txt', 'w') as f:
+            f.write(compose_message(donor))
 
 
 def list_donors():
@@ -92,20 +89,11 @@ def list_donors():
     Print the list of the donors.
     """
 
-    name_list = create_name_list()
+    name_list = donor_data.keys()
 
     print("\n")
     for name in sorted(name_list):
         print(name)
-
-
-def create_name_list():
-    """
-    Create a list containing the names of the donors.
-    :return: a list of donor names
-    """
-
-    return donor_data.keys()
 
 
 def create_donor_list():
@@ -122,28 +110,18 @@ def create_donor_list():
 
 def add_donation():
     """
-    Prompt for a donor name. If the user enters a name not in the current donor list, add that name to the data
-    structure along with the donation amount. If the user exits just update the donation history. Then compose a thank
-    you email.
+    Prompt for a donor name and donatation amount. If the user enters a name not in the current donor list, add that name
+     to the data structure along with the donation amount. Then compose a thank you email.
     """
 
-    prompt_string = "\nPlease enter the donor's name: "
-    donor_name = input(prompt_string)
+    donor_name = input("\nPlease enter the donor's name: ")
 
-    donor_list = create_name_list()
+    amount = prompt_donation_amount(donor_name)
 
-    # Check for the donor's name (case insensitive) and updates or adds their donation history
-    if not any(s.lower() == donor_name.lower() for s in donor_list):
-        # Add the new donor and their donation
-        donor_data[donor_name] = [prompt_donation_amount(donor_name)]
+    if donor_name in donor_data:
+        donor_data[donor_name].append(amount)
     else:
-        # Tried to make this for loop into a Comprehension but kept overwriting the current data instead of appending
-        # donor_data[donor_name] = [prompt_donation_amount(s) for s in donor_list if s.lower() == donor_name.lower()]
-        for s in donor_list:
-            if s.lower() == donor_name.lower():
-                # Update the donor's donation history
-                donor_data[s].append(prompt_donation_amount(donor_name))
-                break
+        donor_data[donor_name] = [amount]
 
     # Pass in a dict with the required info for the message
     print(compose_message({'name': donor_name, 'last_donation': donor_data.get(donor_name)[-1],
@@ -157,17 +135,12 @@ def prompt_donation_amount(donor):
     :return: a float representing the amount donated
     """
 
-    prompt_string = "\nPlease enter " + donor + "'s donation amount: "
-    response = input(prompt_string)
-
     # Verify the value entered is numeric if not prompt the user for a new value
     while True:
         try:
-            response = float(response)
-            return response
+            return float(input("\nPlease enter " + donor + "'s donation amount: "))
         except ValueError:
             print("The value enter was invalid.")
-            response = input(prompt_string)
 
 
 def compose_message(donor_info):
@@ -186,7 +159,6 @@ def exit_menu():
     Exits the current menu or program
     :return - a String to exit
     """
-
     return "exit"
 
 
