@@ -15,9 +15,18 @@ prompt = '\n'.join(['Welcome to The Good Place charity donor database.',
             'Input > '])
 
 def return_donor_names():
+    # Generate list of donor names for lookup
     return [donor[0] for donor in donors]
 
-def generate_email(donor_name,donation_amount):
+def add_donation(donor_name, donation_amount):
+    # Find donor in database and add donation
+    donor_names = return_donor_names()
+    donor_index = donor_names.index(donor_name)
+    donations = donors[donor_index][1]
+    donations.append(donation_amount)
+    return
+
+def generate_email(donor_name, donation_amount):
     email = ('\n'.join(['','Dear {donor_name},','',
     'Thank you for your generous donation of ${donation_amount:.2f}.',
     'Your contribution will help new arrivals receive the highest quality care possible.',
@@ -35,16 +44,13 @@ def write_thank_you():
             print()
         else:
             if name not in donor_names: # New donor, add to list and refresh names
-                donors.append((name,[]))
-                donor_names = return_donor_names()
+                donors.append((name, []))
             # Prompt for donation amount
             amount = float(input('Enter donation amount in dollars: '))
-            # Find donor in database and add donation
-            donor_index = donor_names.index(name)
-            donations = donors[donor_index][1]
-            donations.append(amount)
+            # Add donation to database
+            add_donation(name, amount)
             # Generate and print email
-            email = generate_email(name,amount)
+            email = generate_email(name, amount)
             print(email)
             # Return to main program
             return
