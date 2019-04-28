@@ -51,19 +51,11 @@ print(d2)
 # Sets
 # Create sets s2, s3 and s4 that contain numbers from zero through twenty, divisible by 2, 3 and 4.
 # Display the sets.
-
-def create_set(div):
-    set_made = set()
-    for x in range(20+1):
-        if x%div == 0:
-            set_made.update([x])
-    return set_made
-
-s2 = create_set(2)
+s2 = set(range(0, 21, 2))
 print(s2)
-s3 = create_set(3)
+s3 = set(range(0, 21, 3))
 print(s3)
-s4 = create_set(4)
+s4 = set(range(0, 21, 4))
 print(s4)
 
 # Display if s3 is a subset of s2 (False)
