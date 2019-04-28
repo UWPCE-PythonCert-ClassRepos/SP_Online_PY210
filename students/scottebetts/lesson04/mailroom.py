@@ -36,7 +36,7 @@ def add_donor():
         amount = float(input("Amount of new donation?\n==>"))
         new_donation[1] += amount
         new_donation[2] += 1
-        new_donation[3] = amount
+        new_donation[3] = new_donation[1]/new_donation[2]
         donors[names.index(response)] = new_donation
     else:
         new_donation = []
