@@ -168,9 +168,9 @@ def mail_room():
     while True:
         UserAction = prompt_user()
 
-        if UserAction in options_dict:
+        try:
             options_dict.get(UserAction)(database)
-        else:
+        except TypeError:
             print('Not a valid option...\n')
 
     return None
