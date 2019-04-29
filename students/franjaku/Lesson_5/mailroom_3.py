@@ -34,8 +34,8 @@ def initialize_database():
 def print_donor_list(database):
     print('\nDonor List\n----------')
     for donor in database:
-        print('{}'.format(donor))
-    print('----------')
+        print(donor)
+    print('')
 
 
 def add_new_donor(database, name, donation_amount):
@@ -123,7 +123,6 @@ def send_thank_you_note(database):
 
 
 def send_thank_you_note_all(database):
-
     for donor, data in database.items():
         create_letter(donor, data[2])
 
@@ -141,7 +140,7 @@ def create_report(database):
     sorted_database = collections.OrderedDict(sorted(database.items(), key=operator.itemgetter(1), reverse=True))
     print('-----Donation Report-----')
     print('\n{:<15} | {:>14} | {:>11} | {:>16}'.format('Donor Name', 'Total Donation', '# donations', 'Average Donation'))
-    print('-'*(15+14+11+16+10))
+    print('-'*66)
     for donor, data in sorted_database.items():
         print(f"{donor:<15} | ${data[0]:>13.2f} | {data[1]:^11} | ${data[2]:>15.2f}")
 
@@ -156,8 +155,7 @@ def quit(database=None):
 # Driver Function
 def mail_room():
     database = initialize_database()
-    welcome_message = '------------Welcome to the Mailroom :)------------'
-    print(welcome_message)
+    print('------------Welcome to the Mailroom :)------------')
 
     options_dict = {
         '1': send_thank_you_note,
@@ -168,9 +166,9 @@ def mail_room():
     while True:
         UserAction = prompt_user()
 
-        if UserAction in options_dict:
+        try:
             options_dict.get(UserAction)(database)
-        else:
+        except TypeError:
             print('Not a valid option...\n')
 
     return None
