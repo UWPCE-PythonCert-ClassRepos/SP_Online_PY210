@@ -69,13 +69,18 @@ class DonorCollection:
     A class containing information of a list of Donor objects
     """
 
-    def __init__(self):
+    def __init__(self, donors=[]):
         """Create a collection of donor objects."""
-        self.list_donors = []
+        self.__list_donors = donors
 
+    @property
     def list_donors(self):
         """Return a list of all donors in the collection."""
-        return list_donors
+        return self.__list_donors
+
+    @list_donors.setter
+    def list_donors(self, donors = []):
+        self.__list_donors.extend(donors)
 
     def add_donor(self, *args):
         """Add a donor to the collection."""
