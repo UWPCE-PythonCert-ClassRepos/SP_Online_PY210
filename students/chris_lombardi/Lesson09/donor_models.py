@@ -56,9 +56,10 @@ class Donor:
         """Sends a thank you note when a donation is made."""
         ty_str = []
         ty_str.append(f'\nDear {self.name.title()},\n')
-        ty_str.append(f'Thank you for your generous donation ' +
-          'of ${don_amnt:,.2f}!\nWe appreciate your contribution to our ' +
-          'charity.\n\nSincerley,\nThe Mailroom\n')
+        ty_str.append('Thank you for your generous donation '
+                      f'of ${don_amnt:,.2f}!\nWe appreciate '
+                      'your contribution to our charity.'
+                      '\n\nSincerley,\nThe Mailroom\n')
         return ''.join(ty_str)
 
 
@@ -99,5 +100,4 @@ class DonorCollection:
             report_str = '{:<18} ${:>12,.2f}{:>13}  ${:>12,.2f}\n'.format(name,
                           total,num,ave)
             report_lines.append(report_str)
-        report_lines.append('')
         return "".join(report_lines)
