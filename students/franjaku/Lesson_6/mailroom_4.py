@@ -23,11 +23,11 @@ Database Structure
 
 
 def initialize_database():
-    database = {'John Smith': [5000, 1, 5000],
-                'Jane Adams': [25000, 1, 25000],
-                'Brett Johnson': [50, 1, 50],
-                'Sofia Pippy': [623, 1, 623],
-                'Maddy North': [85426, 1, 85426]}
+    database = {'John Smith': [5000, 52048, 20],
+                'Jane Adams': [25000, 5498, 3333, 87469],
+                'Brett Johnson': [50, 6584, 20, 68, 9857, 5412],
+                'Sofia Pippy': [623,98, 40658],
+                'Maddy North': [85426, 10, 25]}
     return database
 
 
@@ -46,7 +46,7 @@ def add_new_donation(database, name, donation_amount):
 
 
 def sort_key(donor):
-    return donor[1]
+    return sum(donor[1])
 
 
 # Mailroom functions
@@ -110,12 +110,12 @@ def send_thank_you_note_all(database):
 
 def create_report(database):
     # Sort database by most $$ donated
-    sorted_database = collections.OrderedDict(sorted(database.items(), key=operator.itemgetter(1), reverse=True))
+    sorted_database = collections.OrderedDict(sorted(database.items(), key=sort_key, reverse=True))
     print('-----Donation Report-----')
     print('\n{:<15} | {:>14} | {:>11} | {:>16}'.format('Donor Name', 'Total Donation', '# donations', 'Average Donation'))
     print('-'*66)
     for donor, data in sorted_database.items():
-        print(f"{donor:<15} | ${data[0]:>13.2f} | {data[1]:^11} | ${data[2]:>15.2f}")
+        print(f"{donor:<15} | ${sum(data):>13.2f} | {len(data):^11} | ${sum(data)/len(data):>15.2f}")
 
     print('\n')
 
