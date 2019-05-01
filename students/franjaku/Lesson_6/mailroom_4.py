@@ -15,8 +15,8 @@ Database requirements
                 average donation.
 
 Database Structure
-    {'Donor Name': (Total donated, number dontations, average donation),
-     'Donor Name': (Total donated, number dontations, average donation),
+    {'Donor Name': [donation 1, donation 2,...],
+     'Donor Name': [donation 1, donation 2,...],
      ...}
 
 """
@@ -38,24 +38,11 @@ def print_donor_list(database):
     print('')
 
 
-def add_new_donor(database, name, donation_amount):
-    database[name] = [donation_amount, 1, donation_amount]
-    return database
-
-
 def add_new_donation(database, name, donation_amount):
-    # by default this is for existing donors
-
     if name in database:
-        old_data = database.get(name)
-        new_data = [old_data[0]+donation_amount, old_data[1]+1,
-                    (old_data[0]+donation_amount)/(old_data[1]+1)]
-        database[name] = new_data
-    else:  # Error catching
-        print(f"Error: Donor '{name}' not found in")
-        print_donor_list(database)
-
-    return database
+        database[name].append(donation_amount)
+    else:
+        database.setdefault(name,[donation_amount])
 
 
 def sort_key(donor):
