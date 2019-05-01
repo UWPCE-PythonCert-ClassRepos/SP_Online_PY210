@@ -57,7 +57,6 @@ def prompt_user():
                         '3: Send thank you letters to all donors.',
                         '4: Quit.',
                         '>>> '))
-
     UserAction = input(prompt)
     return UserAction
 
@@ -66,11 +65,14 @@ def get_donation_amount():
     donation_amount_prompt = 'Enter the donation amount: $ '
     amount = input(donation_amount_prompt)
 
-    try:
-        amount = float(amount)
-    except ValueError:
-        print('Not a valid number.')
-        return get_donation_amount()
+    while True:
+        try:
+            amount = float(amount)
+        except ValueError:
+            print('Not a valid number.')
+            amount = input(donation_amount_prompt)
+        else:
+            break
 
     return amount
 
@@ -86,40 +88,24 @@ def thank_you_note_prompt():
 
 
 def send_thank_you_note(database):
-
     # Compose an email: thank the user, print email to terminal
-    Email = '{} thank you for your generous donation of ${:.2f}'
-
+    email = '{} thank you for your generous donation of ${:.2f}'
     donor_name = thank_you_note_prompt()
 
     if donor_name == 'List':
         print_donor_list(database)
-    elif donor_name in database:
-        donation_amount = get_donation_amount()
-        database = add_new_donation(database, donor_name, donation_amount)
-        print(Email.format(donor_name, donation_amount))
-    elif donor_name not in database:
-        donation_amount = get_donation_amount()
-        database = add_new_donor(database, donor_name, donation_amount)
-        print(Email.format(donor_name, donation_amount))
     else:
-        # function error catching
-        print('somethings not right')
-
-    return None
+        donation_amount = get_donation_amount()
+        add_new_donation(database, donor_name, donation_amount)
+        print(email.format(donor_name, donation_amount))
 
 
 def send_thank_you_note_all(database):
     for donor, data in database.items():
-        create_letter(donor, data[0])
-
-
-def create_letter(name, total_donation):
-    with open(f"{name}.txt", 'w+') as outfile:
-        outfile.write(f"Dear {name}\n")
-        outfile.write(f"Thank you for you donation of ${total_donation}!\n")
-        outfile.write(f"Best wishes,\nThe Team")
-    outfile.close()
+        with open(f"{donor}.txt", 'w+') as outfile:
+            outfile.write(f"Dear {donor}\n")
+            outfile.write(f"Thank you for you donation of ${data[0]}!\n")
+            outfile.write(f"Best wishes,\nThe Team")
 
 
 def create_report(database):
