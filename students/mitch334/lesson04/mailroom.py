@@ -131,6 +131,13 @@ def create_report():
     for donor, stat in sorted(donor_db_stats.items(), key=lambda d: d[1][0], reverse=True):
         print(f'{donor:26} ${stat[0]:>11.2f} {stat[1]:>11.0f}  ${stat[2]:>12.2f}')
 
+# Update mailroom with file writing.
+# Goal: Write a full set of letters to all donors to individual files on disk.
+# In the first version of mailroom, you generated a letter to a donor who had just made a new donation, and printed it to the screen.
+# In this version of your program, add a function (and a menu item to invoke it), that goes through all the donors in your donor data structure, generates a thank you letter for each donor, and writes each letter to disk as a text file.
+# The letters should each get a unique file name – you can keep it really simple and just use the donor’s name or add a date timestamp for additional uniqueness.
+# You want to avoid specifying a hardcoded file path when creating the files
+
 def send_letters():
     now = datetime.datetime.now()
     now = str(now)[:-7].replace(' ','_').replace(':','')
