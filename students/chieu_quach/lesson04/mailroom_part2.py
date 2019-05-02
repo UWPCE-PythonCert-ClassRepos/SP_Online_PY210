@@ -2,6 +2,9 @@
 # Author     -  Chieu Quach
 # Assignment -  Lesson 4
 # Exercise   -  Mailroom Part 2
+#               Prints list of users from donation_list.
+#               Update new record if username is not found in list
+
 
 import sys
 global donation_list, len_donation_list
@@ -41,20 +44,21 @@ msg  = ( " Dear {}, "
 
 def send_thankyou():
       
-     
-   response = input(" Please enter full name ") 
+   found_name = ""
+  # response = input(" Please enter full name ")
+   fname = input(" Please enter first name ")
+   lname = input(" Please enter last name ")
+   response = fname + " " + lname
    for key, value in donation_list.items():
       name   = value['first name'] + " " + value['last name']
-      if response == name or response == value['first name']:
-                     
+      if response == name:
+          found_name = "yes"
           amount = float(value['Amount'])                
           last_name = value['last name']
           # added "_" to last name
           last_name = ("_".join(last_name.split()))
           fullname = value['first name'] + "_" + last_name
-          fullname = fullname + ".txt"
-          #print ("fullname ", fullname)       
-               
+          fullname = fullname + ".txt"               
           #print("msg".format(name_list[0], name_list[1]))
           print(msg.format(name, amount))
           # sends text message to output file
@@ -63,10 +67,33 @@ def send_thankyou():
           outfile.writelines(cpy)
           break       
       else:
-          if key == len_donation_list:
-              print ("Please re-enter name ")
-              print ("\n")
-              send_thankyou()
+          continue
+
+   if found_name != "yes":
+    
+         
+      nu_amount =  float(input(" Please Enter Donation Amount: "))
+      newname = str(fname) + " " + str(lname)
+      num_gift = 1
+          
+      # update new length
+      new_len_list = len(donation_list) + 1
+      # store name and amount into new_list
+      new_list = {new_len_list: {"first name": fname, "last name": lname,
+                  "Amount": nu_amount, "num_gift": num_gift, "avg_amt": nu_amount}}          
+      # added "_" to last name
+      last_name = ("_".join(lname.split()))
+      fullname = fname + "_" + lname
+      fullname = fullname + ".txt"             
+      #print("msg".format(name_list[0], name_list[1]))
+      print(msg.format(newname, nu_amount))
+      # sends text message to output file
+      outfile = open(fullname, "w")
+      cpy = (msg.format(newname, nu_amount))          
+      donation_list.update(new_list)
+      outfile.writelines(cpy)
+      outfile.close()
+      main()
               
 def send_letters():
 
