@@ -1,12 +1,30 @@
 #!/usr/bin/env python3
 
-def printsection(s):
+def printsection(type,s):
     print('--------------')
-    print('Dictionaries {:d}'.format(s))
+    print('{} {:d}'.format(type, s))
     print('--------------')
 
+def find_in_dict(lookup_dict,item,type='key'):
+    """ Look for specific key or value in dictionary
+    Arguments:
+    lookup_dict -- Dictionary to search
+    item -- Item (key or value) to find
+
+    Keyword Arguments:
+    type -- 'key' (default) or 'value'
+    """
+    if type == 'key':
+        result = item in lookup_dict
+    elif type == 'value':
+        result = item in lookup_dict.values()
+    else:
+        print('Unknown type \'{}\' for dictionary lookup, only \'key\' or \'value\' accepted'.format(type))
+        return
+    print('Is {} \'{}\' in dictionary? {}'.format(type, item, result))
+
 # Dictionaries 1
-printsection(1)
+printsection('Dictionaries',1)
 dict1 = {'name':'Chris', 'city':'Seattle', 'cake':'Chocolate'}
 # Print dictionary
 print('Displaying initial dictionary')
@@ -26,10 +44,14 @@ print(dict1.keys())
 print('Dictionary values:')
 print(dict1.values())
 # Look for 'cake' as keys
-looking_for_key = 'cake'
-contains_key = looking_for_key in dict1
-print('Is key \'{}\' in dictionary? {}'.format(looking_for_key, contains_key))
+find_in_dict(dict1,'cake')
 # Look for 'Mango' as value
-looking_for_value = 'Mango'
-contains_value = looking_for_value in dict1.values()
-print('Is value \'{}\' in dictionary? {}'.format(looking_for_value, contains_value))
+find_in_dict(dict1,'Mango','value')
+
+# Dictionaries 2
+printsection('Dictionaries',2)
+dict2 = {}
+for key,value in dict1.items():
+    dict2[key] = value.lower().count('t')
+print('Displaying count of \'t\' in dict1 values:')
+print(dict2)
