@@ -55,3 +55,22 @@ for key,value in dict1.items():
     dict2[key] = value.lower().count('t')
 print('Displaying count of \'t\' in dict1 values:')
 print(dict2)
+
+# Sets 1
+printsection('Sets',1)
+# Creates sets for numbers divisible by 2,3,4 in interval [0,20]
+s2,s3,s4 = set(),set(),set()
+for num in range(21):
+    if num % 2 == 0:
+        s2.add(num)
+    if num % 3 == 0:
+        s3.add(num)
+    if num % 4 == 0:
+        s4.add(num)
+print('s2',s2)
+print('s3',s3)
+print('s4',s4)
+# Check if s3 is a subset of s2
+print('Is s3 a subset of s2? {}'.format(s3.issubset(s2)))
+# Check if s4 is a subset of s2
+print('Is s4 a subset of s2? {}'.format(s4.issubset(s2)))
