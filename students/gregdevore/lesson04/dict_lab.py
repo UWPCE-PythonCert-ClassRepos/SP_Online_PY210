@@ -74,3 +74,20 @@ print('s4',s4)
 print('Is s3 a subset of s2? {}'.format(s3.issubset(s2)))
 # Check if s4 is a subset of s2
 print('Is s4 a subset of s2? {}'.format(s4.issubset(s2)))
+
+# Sets 2
+printsection('Sets',2)
+# Create set with letters in Python
+set1 = set(list('Python'))
+# Add letter 'i'
+set1.add('i')
+# Print set
+print(set1)
+# Create a frozen set with the letters in 'marathon'
+set2 = frozenset(list('marathon'))
+print(set2)
+# Display union and intersection of two sets
+print('Union of sets:')
+print(set1.union(set2))
+print('Intersection of sets:')
+print(set1.intersection(set2))
