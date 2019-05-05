@@ -63,4 +63,3 @@ if __name__ == '__main__':
     assert reverse(test_string) == 'EDCBA987654321'
     assert third(test_list) == 'Last third is: [7, 8, 9], first third is: [1, 2, 3], middle third is: [4, 5, 6]'
     print('PASS')
-
