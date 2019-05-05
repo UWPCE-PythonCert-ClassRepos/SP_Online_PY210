@@ -3,26 +3,10 @@ def exchange_first_last(seq):
     :param seq: any python seq, like String,List,Tuple
     :return:
     """
-    first = seq[0]
-    last = seq[-1]
-    middle = seq[1:-1]
-    if type(seq) == str:
-        new_seq = last + middle + first
-        return new_seq
-    elif type(seq) == list:
-        middle.insert(0, last)
-        middle.append(first)
-        return middle
+    return (seq[-1:]+seq[1:-1]+seq[0])
 
 def every_other_item(seq):
-    new_list=[]
-    new_string = ''
-    for i in range(0,len(seq),2):
-        new_list.append(seq[i])
-    if type(seq) == list:
-        return new_list
-    elif type(seq) == str:
-        return new_string.join(new_list)
+    return (seq[0::2])
 
 
 def remove_first_four_last_four(seq):
