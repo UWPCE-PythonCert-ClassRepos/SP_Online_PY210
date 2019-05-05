@@ -232,6 +232,67 @@ def test_attributes():
     assert file_contents[:-1].index(">") > file_contents.index('id="intro"')
     assert file_contents[:file_contents.index(">")].count(" ") == 3
 
+#STEP 5
+def test_hr():
+    """horizontal rule with no attributes"""
+    hr = Hr()
+    file_contents = render_result(hr)
+    print(file_contents)
+    assert file_contents == '<hr />\n'
+
+def test_hr_attr():
+    """horizontal rule with attributes"""
+    hr = Hr(width=400)
+    file_contents = render_result(hr)
+    print(file_contents)
+    assert file_contents == '<hr width="400" />\n'
+
+def test_br():
+    br = Br()
+    file_contents = render_result(br)
+    print(file_contents)
+    assert file_contents == "<br />\n"
+
+def test_content_in_br():
+    with pytest.raises(TypeError):
+        br = Br("some content")
+
+def test_append_content_in_br():
+    with pytest.raises(TypeError):
+        br = Br()
+        br.append("some content")
+
+
+#STEP 6
+
+def test_anchor():
+    a = A("http://google.com", "link to google")
+    file_contents = render_result(a)
+    print(file_contents)
+    assert file_contents == '<a href="http://google.com">link to google</a>\n'
+
+#STEP 7
+
+def test_list():
+    li = Li('test material',attribute = 'hello')
+    file_contents = render_result(li)
+    print(file_contents)
+    assert file_contents == '<li attribute="hello">\ntest material\n</li>\n'
+
+def test_unordered():
+    l1 = Li('test material',attribute = 'hello')
+    l2 = Li('more test material',attribute = 'goodbye')
+    ul = Ul(content = [l1,l2],thing = "blue")
+    file_contents = render_result(ul)
+    print(file_contents)
+    assert file_contents == '<ul thing="blue">\n<li attribute="hello">\ntest material\n</li>\n<li attribute="goodbye">\nmore test material\n</li>\n</ul>\n'
+
+def test_header():
+    head = Header(1,"stuff")
+    file_contents = render_result(head)
+    print(file_contents)
+    assert file_contents == "<h1>stuff</h1>\n"
+
 # #####################
 # # indentation testing
 # #  Uncomment for Step 9 -- adding indentation
