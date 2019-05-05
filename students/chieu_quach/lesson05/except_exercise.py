@@ -30,34 +30,29 @@ first_fun = ['java', 'c']
 try:
     joke = fun(first_try[0])
 except NameError:
-    print("NameError")
-   # pass
+    pass
 
 # print spam, spam, spam
 try:
     joke = fun(first_try[1])
 except KeyError:
     print ("KeyError")
-  
-
-try:
-    print (fun(first_try[2]))
-except TypeError:
-    print ("TypeError")
-   
-
+     
     
     # Here is a try/except block. Add an else that prints not_joke
 try:
     not_joke = fun(first_try[2])
 except SyntaxError:
     print('Run Away!')
-
+else:
+    print(not_joke)
+    
 try:
     more_joke = more_fun(first_fun[1])
 except NameError:
-    print ("Nameerror ")
-    
+    pass
+else:
+    pass
 
 # What did that do? You can think of else in this context, as well as in
 # loops as meaning: "else if nothing went wrong"
@@ -81,11 +76,33 @@ try:
     more_joke = more_fun(langs[0])
 except IndexError:
     pass
+else:
+    pass
+    
+try:
+    more_joke = more_fun(langs[2])
+except IndexError:
+    pass
+else:
+    pass
+
+try:
+    more_joke = more_fun(langs[1])
+except TypeError:
+    print ("typeError")
+except NameError:
+    print ("NameError ")
+except ValueError:
+    print ("ValueError")
+else:
+    pass
 
 
 try:
     last_fun()
 except NameError:
     print ("NameError")
+else:
+    pass
 
 
