@@ -1,4 +1,5 @@
 def fibonacci(n):
+    """Calculate the fibonacci series"""
     if n <= 0:
         return 0
     elif  n == 1:
