@@ -25,13 +25,11 @@ def add_donation(donor_name, donation_amount):
     donor_names = get_donor_names()
     donor_index = donor_names.index(donor_name)
     # Get donation history and add latest donation
-    donations = donors[donor_index][1]
-    donations.append(donation_amount)
+    donors[donor_index][1].append(donation_amount)
     # Note: Even though each donor's data is stored as a tuple, which is immutable,
     #       their donation history is stored as a list, which is mutable. The tuple only
     #       contains a reference to the list, so the list can be changed even
     #       though it resides inside of a tuple. Hence, the above append statement works.
-    return
 
 def generate_email(donor_name, donation_amount):
     # Create formatted email that can be copied & pasted
@@ -41,7 +39,6 @@ def generate_email(donor_name, donation_amount):
     'Please know that your donation makes a world of difference!',
     '','Sincerely,','The Good Place Team'])).format(donor_name=donor_name,donation_amount=donation_amount)
     print(email)
-    return
 
 def write_thank_you():
     # Add donation for new or existing donor and compose 'Thank You' message
@@ -53,7 +50,6 @@ def write_thank_you():
         if name == 'list': # List donors
             print('\nCurrent list of donors:\n')
             print('\n'.join(donor_names))
-            print()
         elif name == 'quit': # Return to main prompt
             return
         else:
@@ -73,9 +69,8 @@ def write_thank_you():
                 amount = float(amount)
             # Add donation to database
             add_donation(name, amount)
-            # Generate email
+            # Generate email and return to main program
             generate_email(name, amount)
-            # Return to main program
             return
 
 def donor_key(donor):
@@ -85,9 +80,12 @@ def donor_key(donor):
 
 def generate_report_data():
     donor_names = get_donor_names()
-    total_donation = [sum(data[1]) for data in donors ]
-    num_donation = [len(data[1]) for data in donors]
-    avg_donation = [sum(data[1])/len(data[1]) for data in donors]
+    # Declare and populate lists for report data
+    total_donation, num_donation, avg_donation = [], [], []
+    for data in donors:
+        total_donation.append(sum(data[1]))
+        num_donation.append(len(data[1]))
+        avg_donation.append(total_donation[-1]/num_donation[-1])
     report = list(zip(donor_names, total_donation, num_donation, avg_donation))
     # Sorty by total donation, descending
     report.sort(key=donor_key, reverse=True)
@@ -105,7 +103,6 @@ def print_formatted_report(report):
         formatted_report.append(f'{donor_name:<30} ${total:>14.2f}  {number:14d}  ${average:>12.2f}')
     formatted_report.append('')
     print('\n'.join(formatted_report))
-    return
 
 def create_report():
     # Generate, format, and print report data
