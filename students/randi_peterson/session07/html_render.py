@@ -7,8 +7,8 @@ A class-based system for rendering html.
 
 # This is the framework for the base class
 class Element(object):
-
     tag ='html'
+    indent = "   "
     def __init__(self, content=None, **kwargs):
         self.kw_dict = kwargs
 
@@ -18,7 +18,7 @@ class Element(object):
             self.contents = [content]
         else:
             self.contents = content
-        print("contents is:",self.contents)
+        #print("contents is:",self.contents)
 
     def append(self, new_content):
         self.contents.append(new_content)
@@ -35,24 +35,28 @@ class Element(object):
         assembled_close = "</{}>\n".format(self.tag)
         return assembled_close
 
-    def render(self, out_file):
+    def render(self, out_file,cur_ind=""):
         #loop through list of contents
-        out_file.write(self._open_tag())
+        out_file.write(cur_ind + self._open_tag())
 
         for content in self.contents:
             try:
-                content.render(out_file)
+                content.render(out_file,cur_ind + self.indent)
             except AttributeError:
-                out_file.write(content)
+                out_file.write(cur_ind + self.indent + content)
                 out_file.write("\n")
 
-        out_file.write(self._close_tag())
+        out_file.write(cur_ind + self._close_tag())
 
 class Body(Element):
     tag = 'body'
 
 class Html(Element):
     tag = 'html'
+    def render(self, out_file,cur_ind=""):
+        doc = "<!DOCTYPE html>\n"
+        out_file.write(cur_ind + doc)
+        super().render(out_file,cur_ind)
 
 class P(Element):
     tag = 'p'
@@ -62,11 +66,11 @@ class Head(Element):
 
 class OneLineTag(Element):
     pass
-    def render(self, out_file):
+    def render(self, out_file,cur_ind=""):
         #loop through list of contents
-        out_file.write(self._open_tag()[:-1])
-        out_file.write(self.contents[0])
-        out_file.write(self._close_tag())
+        out_file.write(cur_ind + self._open_tag()[:-1])
+        out_file.write(cur_ind + self.contents[0])
+        out_file.write(cur_ind + self._close_tag())
 
     def append(self, content):
         raise NotImplementedError
@@ -107,7 +111,10 @@ class Ul(Element):
 class Li(Element):
     tag = "li"
 
-class Header(OneLineTag):
+class H(OneLineTag):
     def __init__(self, level, content=None, **kwargs):
          self.tag = "h{}".format(level)
          super().__init__(content,**kwargs)
+
+class Meta(SelfClosingTag):
+    tag = 'meta'
