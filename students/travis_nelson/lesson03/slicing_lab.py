@@ -25,24 +25,36 @@ def exchange_first_last(sequence):
     first_item = sequence_copy[:1]
     last_item = sequence_copy[-1:]
     sequence_copy_sans_first_and_last = sequence_copy[1:len(sequence_copy)-1]
-    return last_item + sequence_copy_sans_first_and_last + first_item
+    a_new_sequence = last_item + sequence_copy_sans_first_and_last + first_item
+    print(sequence)
+    return a_new_sequence
 
 
 def remove_every_other(sequence):
-    sequence_copy = list(sequence[:])
-    every_other_sequence_copy = sequence_copy[0::2]
-    return every_other_sequence_copy
+    """Returns a passed sequence with every other item removed"""
+    sequence_copy = sequence[:]
+    a_new_sequence = sequence_copy[::2]
+    print(sequence)
+    return a_new_sequence
 
 
 def remove_first_last_four(sequence):
-    pass
+    """Returns a passed sequence with the first and last 4 items removed,"""
+    """then every other element remaining"""
+    sequence_copy = sequence[:]
+    return
 
 
 def reverse_sequence(sequence):
+    """Returns a passed sequence with the elements reversed with slicing"""
+    sequence_copy = sequence[:]
     pass
 
 
 def return_last_first_middle_thirds(sequence):
+    """Returns a passed sequence with its last third,"""
+    """first third, then middle third in the new order"""
+    sequence_copy = sequence[:]
     pass
 
 a_string = "this is a string"
