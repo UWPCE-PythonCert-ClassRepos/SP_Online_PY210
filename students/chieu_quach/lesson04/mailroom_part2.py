@@ -4,23 +4,21 @@
 # Exercise   -  Mailroom Part 2
 #               Prints list of users from donation_list.
 #               Update new record if username is not found in list
-
+#               If use dictionary in tuple list, use append or remove to change.  
 
 import sys
 
 global donation_list, len_donation_list
 
 
-donation_list = {1: {'full name': 'William Gates III', 'Amount': '653684.49',
-                     'num_gift': '2', 'avg_amt': '326892.24'},
-                 2: {'full name': 'Mark Zukerberg', 'Amount': '16396.10',
-                     'num_gift': '3', 'avg_amt': '5465.37'},
-                 3: {'full name': 'Jeff Bezos', 'Amount': '877.33',
-                     'num_gift': '1', 'avg_amt': '877.33'},
-                 4: {'full name': 'Paul Allen', 'Amount': '708.42',
-                     'num_gift': '3', 'avg_amt': '236.14' },
-                            
-                }
+donation_list = [{'full name': 'William Gates III', "Amount": 653684.49,
+                     "num_gift": "2", "avg_amt": 326892.24},
+                 {'full name': 'Mark Zukerberg', 'Amount': 16396.10,
+                     'num_gift': '3', 'avg_amt': 5465.37},
+                 {'full name': 'Jeff Bezos', 'Amount': 877.33,
+                     'num_gift': '1', 'avg_amt': 877.33},          
+                 {'full name': 'Paul Allen', 'Amount': 708.42,
+                     'num_gift': '3', 'avg_amt': 236.14 }]
 
 len_donation_list = len(donation_list)
 prompt = "\n".join(("Welcome to the Mailroom Part 2",
@@ -43,15 +41,16 @@ msg  = ( " Dear {}, "
       "\n\n"
       )
 
+from operator import *
 def send_thankyou():
       
   name_found = ""
   e = 1
   # response = input(" Please enter full name ")
-  response = input(" Please enter full name ")
+  response = input(" Please enter full name (type 'list' to list report)") 
   
-  for key, value in donation_list.items():
-         
+  #for key, value in donation_list.items():
+  for value in donation_list:       
          if response == "list":
             
             if e == 1:
@@ -62,14 +61,14 @@ def send_thankyou():
             print("{:<19} {:14.2f} {:15d}{:=21.2f} ".format(*list_name))
             name_found = "list"         
          elif response == value['full name']:
-            
+            print("name found", value['full name'])
             name_found = "yes"
             fullname = value['full name']
             amount   = value['Amount']
             giftnum  = value ['num_gift']
            
-            keynum   = key
-            
+           # keynum   = key
+            name = value
          else:
             continue
 
@@ -84,10 +83,12 @@ def send_thankyou():
      amount_avg   = grand_amount / gift_tot
               
      # Update record to reflect new changes made
-     new_list = {keynum: {"full name": response, 
-                   "Amount": grand_amount, "num_gift": gift_tot, "avg_amt": amount_avg}}          
+     new_list = {"full name": response, 
+                   "Amount": grand_amount, "num_gift": gift_tot, "avg_amt": amount_avg}         
    #  print ("new_list ", new_list)
-     donation_list.update(new_list)
+     donation_list.remove(name)
+     donation_list.append(new_list)
+     
      full_name = response
      # added "_" to last name
      full_name = ("_".join(full_name.split()))
@@ -111,8 +112,8 @@ def send_thankyou():
      # update new length
      new_len_list = len(donation_list) + 1
      # store name and amount into new_list
-     new_list = {new_len_list: {"full name": response, 
-             "Amount": nu_amount, "num_gift": num_gift, "avg_amt": nu_amount}}          
+     new_list = {"full name": response, 
+             "Amount": nu_amount, "num_gift": num_gift, "avg_amt": nu_amount}         
      # added "_" to last name
      full_name = ("_".join(response.split()))
       
@@ -122,7 +123,7 @@ def send_thankyou():
      # sends text message to output file
      outfile = open(full_name, "w")
      cpy = (msg.format(response, nu_amount))          
-     donation_list.update(new_list)
+     donation_list.append(new_list)
      outfile.writelines(cpy)
      outfile.close() 
 
@@ -131,7 +132,7 @@ def send_letters():
 
      # reading key and value in list
      # prints list of letters from donation list
-      for key, value in donation_list.items():            
+      for value in donation_list:            
     
                    
           amount = float(value['Amount'])                
@@ -156,7 +157,7 @@ def send_letters():
                           
             
 def create_report():
-   from operator import itemgetter
+   
    
    name_header  = " Donor Name "
    total_given = " |  Total  Given   |"
@@ -166,9 +167,11 @@ def create_report():
    .format(name_header, total_given, num_gifts, average_gift))
    print (" ------------------------------------------------------------------------")
    # reading key and value in list
+   newlist = sorted(donation_list, key=itemgetter('Amount'), reverse=True)
    
-   for key,value in sorted(donation_list.items()):
-     
+  # for key,value in sorted(donation_list.items()):
+  # for key, value in sorted(donation_list.items(), key=lambda item: item[0]):
+   for value in newlist:   
       list_name = (value['full name'], float(value['Amount']), int(value['num_gift']), float(value['avg_amt']))
          
       print("{:<19} {:14.2f} {:15d}{:=21.2f} ".format(*list_name))
