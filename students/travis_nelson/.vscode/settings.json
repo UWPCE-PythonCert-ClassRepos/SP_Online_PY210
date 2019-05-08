@@ -3,11 +3,11 @@
     "window.zoomLevel": 0,
     "python.linting.pylintCategorySeverity.convention": "Warning",
     "python.linting.pylintCategorySeverity.refactor": "Warning",
-    "python.linting.pep8Enabled": false,
+    "python.linting.pep8Enabled": true,
     "python.linting.pylintEnabled": true,
     "git.autofetch": true,
     "python.linting.enabled": true,
-    "python.linting.banditEnabled": false,
+    "python.linting.banditEnabled": true,
     "python.linting.flake8Enabled": false
 
 }

@@ -1,7 +1,7 @@
 
 def fizz_buzz_1(fizz_until=100):
     """Prints fizzBuzz from 1 through user-input integer"""
-    for i in range(1, fizz_until+1):
+    for i in range(1, fizz_until + 1):
         if i % 3 == 0:
             if i % 5 == 0:
                 print("FizzBuzz")
