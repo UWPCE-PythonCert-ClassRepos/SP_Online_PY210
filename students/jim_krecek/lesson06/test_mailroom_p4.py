@@ -42,16 +42,16 @@ Thank you for your generous donation of $39.
 
 Sincerely, Jim"""
 
-def letter_test():
+def test_letters():
     # test the amount of letters generated
     data = {"Nate Secinaro":[12,44,9],"Jess Reid":[3],"Pat Carrier":[65,41]}
-    for k,v in data.items:
-        mailroom_p4.write_letters(k,v)
+    mailroom_p4.write_letters("Nate Secinaro",[12,44,9])
     directory = 'C:\\Users\\Jimmer\\Git Work\\SP_Online_PY210\\students\\jim_krecek\\lesson06'
     file_num = 0
     for file in os.listdir(directory):
         if file.endswith('.txt'):
             file_num = file_num + 1
-    assert file_num == len(data)
-    
+            file_name = file
+    assert file_num == 1
+    assert 'Nate_Secinaro.txt' == file_name
     
