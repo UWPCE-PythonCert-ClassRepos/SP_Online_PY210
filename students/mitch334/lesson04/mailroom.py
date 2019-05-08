@@ -49,8 +49,9 @@ def get_donor_names():
 
     return donor_names
 
+
 def create_donation(name):
-    donor_names = get_donor_names()
+    # donor_names = get_donor_names()
 
     donation_amount = round(float(input('Enter donation amount: ')),2)
     donor_db[name].append(donation_amount)
@@ -58,10 +59,12 @@ def create_donation(name):
     print()
     create_email(name,donation_amount)
 
+
 def create_email(name,amount):
 
     return (f'Dear {name},\n\nThank you for the generous donation of ${amount:.2f}.\n\n'
       'Sincerely,\nMatthew Mitchell')
+
 
 def send_thankyou():
 
@@ -77,11 +80,13 @@ def send_thankyou():
 
         if donor_name.lower() == 'list':
             print('\nDonor List:')
-            for donor in donor_db: print('\t',f'{donor}')
+            for donor in donor_db:
+                print('\t',f'{donor}')
 
         elif donor_name.lower() == 'db':
             print('\nDonor Database:')
-            for name, val in donor_db.items(): print('\t',f'{name:26}{val}')
+            for name, val in donor_db.items():
+                print('\t',f'{name:26}{val}')
 
         elif donor_name.lower() == 'exit':
             break
@@ -151,8 +156,10 @@ def send_letters():
             print(f'\t{name}')
     print(f'Complete. Letters located at: {location}')
 
+
 def quit():
     print('Enjoy! :)')
+
 
 def invalid_menu():
     print('Invalid option. Select 1, 2, 3, or 4.')
