@@ -3,7 +3,7 @@ def exchange_first_last(seq):
     :param seq: any python seq, like String,List,Tuple
     :return:
     """
-    return (seq[-1:]+seq[1:-1]+seq[0])
+    return (seq[-1:]+seq[1:-1]+seq[0:1])
 
 def every_other_item(seq):
     return (seq[0::2])
@@ -39,9 +39,11 @@ def third(seq):
 
 test_string = '123456789ABCDE'
 test_list = [1,2,3,4,5,6,7,8,9]
+print (exchange_first_last(test_list))
 
 if __name__ == '__main__':
     assert exchange_first_last(test_string) == 'E23456789ABCD1'
+    assert exchange_first_last(test_list) == [9, 2, 3, 4, 5, 6, 7, 8, 1]
     assert every_other_item(test_list) == [1, 3, 5, 7, 9]
     assert remove_first_four_last_four_every_other_item(test_string) == '579'
     assert reverse(test_string) == 'EDCBA987654321'
