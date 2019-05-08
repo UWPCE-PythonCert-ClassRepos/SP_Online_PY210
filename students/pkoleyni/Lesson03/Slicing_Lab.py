@@ -6,7 +6,7 @@ def exchange_first_last(seq):
     return (seq[-1:]+seq[1:-1]+seq[0:1])
 
 def every_other_item(seq):
-    return (seq[0::2])
+    return seq[::2]
 
 
 def remove_first_four_last_four(seq):
@@ -27,7 +27,7 @@ def remove_first_four_last_four_every_other_item(seq):
     :return:
     """
     seq = remove_first_four_last_four(seq)
-    return(every_other_item(seq))
+    return every_other_item(seq)
 
 def reverse(seq):
     return seq[::-1]
@@ -39,7 +39,6 @@ def third(seq):
 
 test_string = '123456789ABCDE'
 test_list = [1,2,3,4,5,6,7,8,9]
-print (exchange_first_last(test_list))
 
 if __name__ == '__main__':
     assert exchange_first_last(test_string) == 'E23456789ABCD1'
