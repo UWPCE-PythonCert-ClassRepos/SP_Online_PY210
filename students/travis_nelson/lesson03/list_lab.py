@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 
-# Series 1
-
 
 def series_1():
     """Create a list of fruit.
