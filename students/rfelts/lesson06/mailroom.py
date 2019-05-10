@@ -110,7 +110,7 @@ def create_donor_list():
 
 def add_donation():
     """
-    Prompt for a donor name and donatation amount. If the user enters a name not in the current donor list, add that name
+    Prompt for a donor name and donation amount. If the user enters a name not in the current donor list, add that name
      to the data structure along with the donation amount. Then compose a thank you email.
     """
 
@@ -118,14 +118,11 @@ def add_donation():
 
     amount = prompt_donation_amount(donor_name)
 
-    if donor_name in donor_data:
-        donor_data[donor_name].append(amount)
-    else:
-        donor_data[donor_name] = [amount]
+    update_donation_amount(donor_name, amount)
 
     # Pass in a dict with the required info for the message
     print(compose_message({'name': donor_name, 'last_donation': donor_data.get(donor_name)[-1],
-                                       'total_donations': sum(donor_data.get(donor_name))}))
+                           'total_donations': sum(donor_data.get(donor_name))}))
 
 
 def prompt_donation_amount(donor):
@@ -141,6 +138,17 @@ def prompt_donation_amount(donor):
             return float(input("\nPlease enter " + donor + "'s donation amount: "))
         except ValueError:
             print("The value enter was invalid.")
+
+
+def update_donation_amount(donor_name, amount):
+    """ Update the donation amount for current donors or add a new donor with their donation amount
+    :param donor_name: string representing the donor's name
+    :param amount: float representing the amount donated """
+
+    if donor_name in donor_data:
+        donor_data[donor_name].append(amount)
+    else:
+        donor_data[donor_name] = [amount]
 
 
 def compose_message(donor_info):
