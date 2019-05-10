@@ -4,6 +4,21 @@
 # Assignment 6 - Mailroom Unit Tests
 
 import mailroom as mailroom
+import datetime
+from pathlib import Path
+
+
+def test_create_report_data():
+    """ Use donor_data dict in mailroom to verify the method creates a list of lists containing:
+    donor name, total donation amount, number of donation, average donation """
+
+    temp_data = mailroom.create_report_data()
+
+    assert ['Lionel Messi', 100, 1, 100.0] in temp_data
+    assert ['Cristiano Ronaldo', 14475, 3, 4825.0] in temp_data
+    assert ['Gianluigi Buffon', 1002500.5, 2, 501250.25] in temp_data
+    assert ['Neymar', 405.24, 4, 101.31] in temp_data
+    assert ['Paolo Maldini', 24039.95, 4, 6009.9875] in temp_data
 
 
 def test_create_donor_list():
@@ -17,6 +32,17 @@ def test_create_donor_list():
     assert {'name': 'Gianluigi Buffon', 'last_donation': 2500.5, 'total_donations': 1002500.5}
     assert {'name': 'Neymar', 'last_donation': 250, 'total_donations': 405.24}
     assert {'name': 'Paolo Maldini', 'last_donation': 7500, 'total_donations': 24039.95}
+
+
+def test_write_letter():
+    """ Check to see if the requested file is created the file content is checked in test_compose_message"""
+
+    now = datetime.datetime.now()
+
+    mailroom.write_letter(now, {'name': 'Lionel Messi', 'last_donation': 100, 'total_donations': 100})
+
+    config = Path('Lionel Messi' + '_' + str(now.month) + '_' + str(now.year) + '.txt')
+    assert config.is_file()
 
 
 def test_compose_message():
