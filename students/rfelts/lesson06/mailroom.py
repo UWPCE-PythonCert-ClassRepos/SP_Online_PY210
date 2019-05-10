@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 
 # Russell Felts
-# Assignment 5 - Updated Mailroom
+# Assignment 6 - Updated Mailroom
 
 
 import datetime
+import operator
 
 
 # Dictionary that has donors as the key and a list of the amounts they have donated as the value.
@@ -60,7 +61,6 @@ def create_report():
     donation_padding += int((donation_padding / 3) + 2)
 
     # Sort the list by donation total (index 1) of the list
-    import operator
     temp_data.sort(key=operator.itemgetter(1), reverse=True)
 
     # Print the report
@@ -146,7 +146,7 @@ def prompt_donation_amount(donor):
 def compose_message(donor_info):
     """
     Compose a thank you message listing the current/previous donation and the donor's donation total
-    :param donor_info: dict containing the donor's info: name, last donation, and total donation ammount
+    :param donor_info: dict containing the donor's info: name, last donation, and total donation amount
     :return: a String containing the thank you message for the user
     """
 
