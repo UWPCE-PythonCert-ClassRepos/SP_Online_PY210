@@ -77,14 +77,11 @@ try:
 except IndexError:
     pass
 else:
-    pass
-    
-try:
-    more_joke = more_fun(langs[2])
-except IndexError:
-    pass
-else:
-    pass
+    try:
+        more_joke = more_fun(langs[2])
+    except IndexError:
+        pass
+
 
 try:
     more_joke = more_fun(langs[1])
@@ -102,7 +99,7 @@ try:
     last_fun()
 except NameError:
     print ("NameError")
-else:
+finally:
     pass
 
 
