@@ -56,9 +56,10 @@ class Donor:
         """Sends a thank you note when a donation is made."""
         ty_str = []
         ty_str.append(f'\nDear {self.name.title()},\n')
-        ty_str.append(f'Thank you for your generous donation ' +
-          'of ${don_amnt:,.2f}!\nWe appreciate your contribution to our ' +
-          'charity.\n\nSincerley,\nThe Mailroom\n')
+        ty_str.append('Thank you for your generous donation '
+                      f'of ${don_amnt:,.2f}!\nWe appreciate '
+                      'your contribution to our charity.'
+                      '\n\nSincerley,\nThe Mailroom\n')
         return ''.join(ty_str)
 
 
@@ -68,13 +69,18 @@ class DonorCollection:
     A class containing information of a list of Donor objects
     """
 
-    def __init__(self):
+    def __init__(self, donors=[]):
         """Create a collection of donor objects."""
-        self.list_donors = []
+        self.__list_donors = donors
 
+    @property
     def list_donors(self):
         """Return a list of all donors in the collection."""
-        return list_donors
+        return self.__list_donors
+
+    @list_donors.setter
+    def list_donors(self, donors = []):
+        self.__list_donors.extend(donors)
 
     def add_donor(self, *args):
         """Add a donor to the collection."""
@@ -99,5 +105,4 @@ class DonorCollection:
             report_str = '{:<18} ${:>12,.2f}{:>13}  ${:>12,.2f}\n'.format(name,
                           total,num,ave)
             report_lines.append(report_str)
-        report_lines.append('')
         return "".join(report_lines)

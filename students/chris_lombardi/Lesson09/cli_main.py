@@ -26,15 +26,24 @@ def record_donation():
         response = input('Please enter a full name: ').title()
 
     try:
-        amount = float(input("Please enter a donation amount:"))
+        amount = float(input('Please enter a donation amount:'))
     except ValueError:
-        print("\nNot a valid input.\nPlease try to record donation" +
-              " again using a valid amount.\n\n")
+        print('\nNot a valid input.\nPlease try to record donation' +
+              ' again using a valid amount.\n\n')
     else:
-        d1 = dm.Donor(response)
+        d1 = check_donor(response)
+        print(d1)
         d1.add_donation(amount)
-        don_list.add_donor(d1)
         print(d1.send_thank_you(amount))
+
+def check_donor(name):
+    for i, x in enumerate(don_list.list_donors):
+        if x.name == name:
+            return don_list.list_donors[i]
+    else:
+        donor_new = dm.Donor(name)
+        don_list.add_donor(donor_new)
+        return donor_new
 
 def create_report():
     """Menu option to create a tabular report of donor information."""
@@ -44,7 +53,6 @@ def exit_program():
     """Menu option to exit the script."""
     print("Exiting program...")
     sys.exit()
-
 
 def initialize_donors():
     """Add preset entries into the donor log."""
@@ -65,7 +73,7 @@ def main():
     while True:
         try:
             option = display_menu()
-            print(dict_menu_opts.get(option)())
+            dict_menu_opts.get(option)()
         except TypeError:
             print("\nNot a valid option.\n"
                   "Please enter a valid option from the menu.\n")
