@@ -76,6 +76,10 @@ def start_new_paragraph():
     # Start new paragraph with 25% probability
     return random.randint(1,4) == 1
 
+def return_random_word_pair(word_pairs):
+    seed = random.randint(0,len(word_pairs)-1)
+    return word_pairs[seed]
+
 def generate_text(trigrams, max_len=1000):
     """ Generate new text from trigram dictionary.
     Arguments:
@@ -85,19 +89,17 @@ def generate_text(trigrams, max_len=1000):
     max_len -- Length of text (in words) to generate (default=1000)
     """
     new_text = []
-    # Create list of keys to index into whenever generator gets stuck
-    key_list = list(trigrams.keys())
+    # Create list of keys to index into for cold start
+    trigram_keys = list(trigrams.keys())
     # Create list of words to not consider for the end of a paragraph
     ignore_period = ['Mr.','Mrs.','St.','Dr.']
-    # Start with random seed
-    seed = random.randint(0,len(trigrams)-1)
-    # Use this seed to index into sequence of keys
     # Start new text with random word pair
-    word_pair = key_list[seed]
+    word_pair = return_random_word_pair(trigram_keys)
     new_text.extend(word_pair)
     # Make sure first word is capitalized
     new_text[0] = new_text[0].capitalize()
     # Continue as long as new text is shorter than desired length
+    # Stop once desired length is reached and a complete sentence is written
     while True:
         if word_pair in trigrams:
             # Choose random next word from sequence
@@ -111,11 +113,9 @@ def generate_text(trigrams, max_len=1000):
                     break
                 else:
                     if start_new_paragraph():
-                        new_text.extend(['\n','\n'])
-                        # Get new random seed for text
-                        seed = random.randint(0,len(trigrams)-1)
-                        # Save word pair before capitalization
-                        word_pair = key_list[seed]
+                        new_text.extend(['\n\n'])
+                        # Get new random word pair
+                        word_pair = return_random_word_pair(trigram_keys)
                         new_text.extend(word_pair)
                         # Make sure first word of new paragraph is capitalized
                         new_text[-2] = new_text[-2].capitalize()
@@ -126,13 +126,14 @@ def generate_text(trigrams, max_len=1000):
                 # If not starting new paragraph, grab last two words for new pair
                 word_pair = tuple(new_text[-2:])
         else:
-            break
+            # Get new random seed for text
+            word_pair = return_random_word_pair(trigram_keys)
+
     # Create single string from text
     text = ' '.join(new_text)
     # Watch out for cases where new paragraph has extra space
-    text = text.replace('\n ','\n')
+    text = text.replace('\n\n ','\n\n')
     return text
-
 
 if __name__ == "__main__":
     try:
