@@ -2,14 +2,14 @@
 import sys, string, random
 
 # Overall program flow
-# 1. Read text
-# 2. Process text into individual words and clean up (remove punctuation)
-#    Be careful about contractions and proper nouns
-# 3. Generate trigrams from text
+# 1. Read input text and clean up trailing space and new line characters
+#    Keep punctuation so that commas and periods appear naturally.
+#    Allow for starting and ending lines in case of extraneous text.
+# 2. Process text into individual words
+# 3. Generate trigrams from sequence of words
 # 4. Generate new text
-#    Randomly insert commas and periods? How often should a quote occur?
-#    When to create a new paragraph? Randomly after some number of words generated?
-#    When to stop? After some predefined number of words?
+#    Randomly create new paragraphs after a minimum number of sentences.
+#    Stop after minimum length reached AND a proper sentence has been written.
 
 def read_data(filename, start_line=None, end_line=None):
     """ Read file and return a sequence of lines with newline characters removed
@@ -22,8 +22,6 @@ def read_data(filename, start_line=None, end_line=None):
     """
     print('Reading \'{}\''.format(filename))
     lines = []
-    # Create translator to replace puncuation with whitespace
-    translator = str.maketrans('','','\'\"')
     # If start_line supplied, set don't start processing lines until header seen
     process = False if start_line else True
     with open(filename, 'r') as f:
@@ -34,14 +32,13 @@ def read_data(filename, start_line=None, end_line=None):
                 if end_line and line.startswith(end_line):
                     break
                 # Otherwise, remove trailing whitespace/newline characters
-                line = line.rstrip()#.translate(translator)
+                line = line.rstrip()
                 if line:
                     lines.append(line)
             else:
                 # If not processing lines yet, check for start_line
                 if line.startswith(start_line):
                     process = True
-                    continue
     print('{:d} lines read.'.format(len(lines)))
     return lines
 
@@ -64,9 +61,9 @@ def make_trigrams(words):
     """
     trigrams = {}
     for i in range(len(words)-2): # Stop processing two words from the end to form a proper trigram
+        # Store current word pair and next word
         word_pair = tuple(words[i:i+2])
         next_word = words[i+2]
-        # print(word_pair, next_word)
         sequence = trigrams.get(word_pair,[])
         sequence.append(next_word)
         trigrams[word_pair] = sequence
@@ -77,18 +74,25 @@ def start_new_paragraph():
     return random.randint(1,4) == 1
 
 def return_random_word_pair(word_pairs):
+    """ Return random word pair from trigram key list.
+    Arguments:
+    word_pairs -- List of keys from trigram dictionary.
+    """
     seed = random.randint(0,len(word_pairs)-1)
     return word_pairs[seed]
 
-def generate_text(trigrams, max_len=1000):
+def generate_text(trigrams, min_len=1000):
     """ Generate new text from trigram dictionary.
     Arguments:
     trigrams -- Dictionary of trigrams of form key=(word1,word2), value=[words that follow]
 
     Keyword Arguments:
-    max_len -- Length of text (in words) to generate (default=1000)
+    min_len -- Minimum length of text (in words) to generate (default=1000)
     """
     new_text = []
+    # Keep track of sentence count for each paragraph
+    sentences_in_paragraph = 0
+    minimum_sentences = 3
     # Create list of keys to index into for cold start
     trigram_keys = list(trigrams.keys())
     # Create list of words to not consider for the end of a paragraph
@@ -98,40 +102,43 @@ def generate_text(trigrams, max_len=1000):
     new_text.extend(word_pair)
     # Make sure first word is capitalized
     new_text[0] = new_text[0].capitalize()
-    # Continue as long as new text is shorter than desired length
-    # Stop once desired length is reached and a complete sentence is written
+    # Continue to generate text as long length is shorter than minimum
+    # Stop once desired length is reached and next complete sentence is written
     while True:
-        if word_pair in trigrams:
+        if word_pair in trigrams: # Make sure word pair exists
             # Choose random next word from sequence
             next_word = random.choice(trigrams[word_pair])
             new_text.append(next_word)
-            # If last word ends in a period, stop if max length exceeded or
-            # start a new paragraph with 25% probability
+            # Check if last word ended a valid sentence
             if new_text[-1].endswith('.') and new_text[-1] not in ignore_period:
-                # If we've exceeded length, stop now
-                if len(new_text) >= max_len:
+                # If we've exceeded text length, stop now
+                if len(new_text) >= min_len:
                     break
+                # Otherwise, if current paragraph is long enough, randomly
+                # decide to start new paragraph
+                if sentences_in_paragraph >= minimum_sentences and start_new_paragraph():
+                    # Reset sentence counter and create new paragraph
+                    sentences_in_paragraph = 0
+                    new_text.extend(['\n\n'])
+                    # Get new random word pair
+                    word_pair = return_random_word_pair(trigram_keys)
+                    new_text.extend(word_pair)
+                    # Make sure first word of new paragraph is capitalized
+                    new_text[-2] = new_text[-2].capitalize()
+                    # Continue building text with next iteration
+                    continue
                 else:
-                    if start_new_paragraph():
-                        new_text.extend(['\n\n'])
-                        # Get new random word pair
-                        word_pair = return_random_word_pair(trigram_keys)
-                        new_text.extend(word_pair)
-                        # Make sure first word of new paragraph is capitalized
-                        new_text[-2] = new_text[-2].capitalize()
-                    else:
-                        # If not starting new paragraph, grab last two words for new pair
-                        word_pair = tuple(new_text[-2:])
-            else:
-                # If not starting new paragraph, grab last two words for new pair
-                word_pair = tuple(new_text[-2:])
+                    # If still in current paragraph, increment sentence counter
+                    sentences_in_paragraph += 1
+            # If not ending program or starting new paragraph, grab last two words for new pair
+            word_pair = tuple(new_text[-2:])
         else:
-            # Get new random seed for text
+            # If word pair not in trigrams, get new random seed for new text
             word_pair = return_random_word_pair(trigram_keys)
 
     # Create single string from text
     text = ' '.join(new_text)
-    # Watch out for cases where new paragraph has extra space
+    # Remove extra space from beginning of new paragraphs
     text = text.replace('\n\n ','\n\n')
     return text
 
