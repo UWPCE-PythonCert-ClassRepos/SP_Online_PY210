@@ -42,7 +42,7 @@ def generate_report(donors_list):
     print("{:<20}|{:^18}|{:^15}|{:^15}".format("Donor Name", "Total Given", "Num Gifts", "Average Gifts"))
     print("-" * 70)
     for i in sorted_list:
-        print(f"{i[0]:<20}${i[1]:>14}{i[2]:^18}${i[3]:>12}".format())
+        print(f"{i[0]:<20}${i[1]:>14.2f}{i[2]:^18}${i[3]:>12.2f}".format())
     return user_prompt(donors_list)
 
 # this function only finds the users 
