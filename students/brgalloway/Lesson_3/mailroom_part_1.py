@@ -89,9 +89,7 @@ def send_thankyou(fullname, donors_list=donors_list, times_donated=0, average_do
     for i in range(len(donors_list)):
         if fullname in str(donors_list[i]):
             if len(donors_list[i]) == 1:
-                donors_list[i].append(donation_amount)
-                donors_list[i].append(0)
-                donors_list[i].append(0)
+                donors_list[i].extend((donation_amount, 0, 0))
             else:
                 add_donation = donors_list[i][1] + donation_amount
                 donors_list[i].pop(1)
