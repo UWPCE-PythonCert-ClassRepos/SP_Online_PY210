@@ -52,17 +52,17 @@ print(fruit_list)
 print("Fruits that starts with 'P' in the list: ")
 for i in fruit_list:
 	if i[0] =='P':
-		print(i)
+		print(i,"\n")
 		
 #Series 2
 
-print("***Series2***")
+print("***Series2*** \n")
 
 print(fruit_list)
 
 #delete last item in the list
 fruit_list2 = fruit_list[:len(fruit_list)-1]
-print(fruit_list2)
+print(fruit_list2,"\n")
 
 
 while True:
@@ -74,14 +74,14 @@ while True:
 		user_delete = user_delete_a
 
 		fruit_list2.remove(user_delete)
-		print(fruit_list2)
+		print(fruit_list2,"\n")
 		break #added break or else it will keep asking to remove items
 	except:
 		
 		print("please select value that is in the list")
 		
 
-print("***Series3***")
+print("***Series3***","\n")
 		
 		
 #Series 3
@@ -95,11 +95,11 @@ for fruit in fruit_list3[:]:
     else:
         if user_delete2 == "no":
             fruit_list.remove(fruit)
-print(fruit_list3)
+print(fruit_list3, "\n")
         
 
 
-print("***Series4***")
+print("***Series4*** \n")
 
 fruit_list4 = ['Apples','Pears','Oranges','Peaches']
 
