@@ -32,23 +32,22 @@ def menu_selection(prompt, dispatch_dict):
     while True:
         response = input(prompt)
         if dispatch_dict[response]() == "quit":
-            break
+            sys.exit()
 
 def quit_app():
     return "quit"
+
+def list_names():
+    for i in sorted(donors_list.keys()):
+        print(i)
+    return find_donor()
 
 def find_donor():
     print("*" * 24)
     fullname = input("type list to display names or quit to exit to main menu\n" \
                     "Enter full name of donor: ")
-    # inner function for displaying list
-    # and recalling the send_thankyou() function
-    def list_names():
-        for i in sorted(donors_list.keys()):
-            print(i)
-        return find_donor()
-    while fullname != "quit":
-    # check what the user has entered
+    
+    while True:
         if fullname == "list":
             return list_names()
         elif fullname in donors_list.keys():
