@@ -20,7 +20,7 @@ donors_list = [
 ]
 
 # Main function to get users input
-def user_prompt():
+def main_prompt():
     display_menu = "Choose one of the following options. \n\n" \
                 "1 - Send a Thank You \n" \
                 "2 - Create a Report \n" \
@@ -29,14 +29,34 @@ def user_prompt():
         print(display_menu)
         prompt = input("Enter a choice to continue: ")  
         if prompt == "1":
-            find_donor()
+            sub_menu()
         elif prompt == "2":
             generate_report(donors_list)
         elif prompt == "3":
             sys.exit()
         else:
-            print("Not valid")
-    
+            print("Enter a valid response")
+
+def sub_menu():
+    while True:
+        fullname = input("Enter the full name of the donor or type list to display names\n" \
+                        "Typing quit will take you to the main menu\n" \
+                        ">> ")
+        if fullname == "list":
+            return list_names()
+        elif fullname == "quit":
+            return main_prompt()
+        elif fullname:
+            return send_thankyou(fullname,donors_list)
+        else:
+            print("Enter a valid response")
+
+def list_names():
+        sorted(donors_list)
+        for i in donors_list:
+            print(i[0])
+        return sub_menu()
+
 # Generate report based on menu choice
 # and return user to the menu prompt
 def generate_report(donors_list):
@@ -46,25 +66,6 @@ def generate_report(donors_list):
     for i in sorted_list:
         print(f"{i[0]:<20}${i[1]:>14.2f}{i[2]:^18}${i[3]:>12.2f}".format())
 
-def list_names():
-        sorted(donors_list)
-        for i in donors_list:
-            print(i[0])
-        return find_donor()
-
-def find_donor():
-    fullname = input("Enter the full name of the donor or type list to display names: ")
-    while True:
-        if fullname == "list":
-            return list_names()
-        elif fullname == "quit":
-            return user_prompt()
-        elif fullname:
-            return send_thankyou(fullname,donors_list)
-        else:
-            find_donor()
-           
-    
 # This function sends the formatted email
 # records donation amounts and adds new users 
 # and their donaitons to the database
@@ -89,8 +90,8 @@ def send_thankyou(fullname,donors_list=donors_list):
              "-The Team"
     
     print(email)
-    return user_prompt()
+    return main_prompt()
 
 
 if __name__ == '__main__':
-    user_prompt()
+    main_prompt()
