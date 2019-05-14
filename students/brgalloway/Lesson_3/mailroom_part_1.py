@@ -11,23 +11,23 @@ from operator import itemgetter, attrgetter
 # The script should prompt the user (you) to choose 
 # from a menu of 3 actions: “Send a Thank You”, “Create a Report” or “quit”.
 
-donors_list = (
-    ("Jeff Bezos", 877.33, 1, 877.33),
-    # ["Paul Allen", 708.42, 3, 236.14],
-    # ["William Gates, III", 653784.49, 2, 326892.24],
-    # ["Bill Ackman", 2354.05, 3, 784.68],
-    ("Mark Zuckerberg", 16396.10, 3, 5465.37) 
-)
+donors_list = [
+    ("Jeff Bezos", [877.33, 1, 877.33]),
+    ("Paul Allen", [708.42, 3, 236.14]),
+    ("William Gates, III", [653784.49, 2, 326892.24]),
+    ("Bill Ackman", [2354.05, 3, 784.68]),
+    ("Mark Zuckerberg", [16396.10, 3, 5465.37]) 
+]
 
 # Main function to get users input
-def user_prompt(donors_list=donors_list):
+def user_prompt():
     display_menu = "Choose one of the following options. \n\n" \
                 "1 - Send a Thank You \n" \
                 "2 - Create a Report \n" \
                 "3 - Quit \n"
-    print(display_menu)
-    prompt = input("Enter a choice to continue: ")   
     while True:
+        print(display_menu)
+        prompt = input("Enter a choice to continue: ")  
         if prompt == "1":
             find_donor()
         elif prompt == "2":
@@ -35,7 +35,7 @@ def user_prompt(donors_list=donors_list):
         elif prompt == "3":
             sys.exit()
         else:
-            user_prompt()
+            print("Not valid")
     
 # Generate report based on menu choice
 # and return user to the menu prompt
@@ -45,14 +45,7 @@ def generate_report(donors_list):
     print("-" * 70)
     for i in sorted_list:
         print(f"{i[0]:<20}${i[1]:>14.2f}{i[2]:^18}${i[3]:>12.2f}".format())
-    
-    return user_prompt(donors_list)
 
-# this function only finds the users 
-# in the donor database. if the user
-# is not found it will then pass that 
-# value to the send_thankyou letter 
-# where new users are added and recorded
 def list_names():
         sorted(donors_list)
         for i in donors_list:
@@ -96,7 +89,7 @@ def send_thankyou(fullname,donors_list=donors_list):
              "-The Team"
     
     print(email)
-    return user_prompt(donors_list)
+    return user_prompt()
 
 
 if __name__ == '__main__':
