@@ -3,13 +3,13 @@ import sys
 import random
 
 def read_in_data(filename):
-    '''Reads the lines of the file'''
+    """Reads the lines of the file"""
     with open(filename, 'r') as f:
         read_lines = f.read()
     return read_lines
 
 def make_words(in_data):
-    '''Splits the file into a list of words and removes header and footer'''
+    """Reads the lines of the file"""
     lst_data = in_data.split() #creates list of words
 
     if '***' in lst_data: #for cleaning Project Gutenberg texts
@@ -46,7 +46,7 @@ def build_trigrams(words):
     return trigrams
 
 def build_text(word_pairs):
-    '''Creates new text from trigrams'''
+    """Reads the lines of the file"""
     dictlist = []
     for key, value in word_pairs: #creates list of key pairs
         temp = [key, value]
