@@ -55,6 +55,7 @@ def list_names():
         sorted(donors_list)
         for i in donors_list:
             print(i[0])
+        print("-" * 12)
         return sub_menu()
 
 # Generate report based on menu choice
