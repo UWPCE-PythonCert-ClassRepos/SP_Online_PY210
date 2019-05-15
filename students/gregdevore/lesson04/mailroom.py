@@ -56,7 +56,6 @@ def write_thank_you():
             # Generate & print email, return to main program
             email = generate_email(name, amount, sum(donations))
             print(email)
-            return
 
 def donor_key(donor):
     # Donor is a tuple of the form (name, total donation, number of donations, average donation)
