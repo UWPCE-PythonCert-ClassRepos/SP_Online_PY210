@@ -1,8 +1,8 @@
-'''Lesson 05 | Mailroom Part 3'''
+"""Lesson 05 | Mailroom Part 3"""
 
-'''You work in the mail room at a local charity. Part of your job is to write incredibly boring,
+"""You work in the mail room at a local charity. Part of your job is to write incredibly boring,
 repetitive emails thanking your donors for their generous gifts. You are tired of doing this over and over again,
-so you’ve decided to let Python help you out of a jam and do your work for you.'''
+so you’ve decided to let Python help you out of a jam and do your work for you."""
 
 # The Program: Part 1
 # Write a small command-line script called mailroom.py. This script should be executable. The script should accomplish the following goals:
@@ -30,9 +30,9 @@ import os
 import tempfile
 import datetime
 
-''' Initial donor list with donation history
-    Data: Donor Name: [Donation Amount(s)]'''
-donor_db = {"William Gates, III": [100.00, 50.00],
+""" Initial donor list with donation history
+    Data: Donor Name: [Donation Amount(s)]"""
+donors = {"William Gates, III": [100.00, 50.00],
             "Jeff Bezos": [1000.00, 10.00, 500.00],
             "Mark Zuckerberg": [200.00, 20.00, 50.00],
             "Warren Buffet": [600.00, 300.00],
@@ -49,25 +49,20 @@ donor_db = {"William Gates, III": [100.00, 50.00],
 # Add that amount to the donation history of the selected user.
 # Finally, use string formatting to compose an email thanking the donor for their generous donation. Print the email to the terminal and return to the original prompt.
 # It is fine (for now) for the program not to store the names of the new donors that had been added, in other words, to forget new donors once the script quits running.
-def get_donor_names():
-    donor_names = []
-    for donor in donor_db:
-        donor_names.append(donor)
-
-    return donor_names
-
 
 def create_donation(name):
-    # donor_names = get_donor_names()
+    try:
+        donation_amount = round(float(input('Enter donation amount: ')),2)
+        donors[name].append(donation_amount)
 
-    donation_amount = round(float(input('Enter donation amount: ')),2)
-    donor_db[name].append(donation_amount)
+        print()
+        create_email(name, donation_amount)
+    except ValueError:
+        print('Input Error. Enter a valid donation amount.')
+        create_donation(name)
 
-    print()
-    create_email(name,donation_amount)
 
-
-def create_email(name,amount):
+def create_email(name, amount):
 
     return (f'Dear {name},\n\nThank you for the generous donation of ${amount:.2f}.\n\n'
       'Sincerely,\nMatthew Mitchell')
@@ -83,16 +78,16 @@ def send_thankyou():
                             "\t\tEnter 'exit' to return to the main menu\n"
                             '\tEnter full name of donor: ')
 
-        donor_names = get_donor_names()
+        donor_names = [donor for donor in donors]
 
         if donor_name.lower() == 'list':
             print('\nDonor List:')
-            for donor in donor_db:
+            for donor in donors:
                 print('\t',f'{donor}')
 
         elif donor_name.lower() == 'db':
             print('\nDonor Database:')
-            for name, val in donor_db.items():
+            for name, val in donors.items():
                 print('\t',f'{name:26}{val}')
 
         elif donor_name.lower() == 'exit':
@@ -108,7 +103,7 @@ def send_thankyou():
                                             "\tWould you like to add this donor?\n"
                                             "\tEnter 'yes' or 'no': ")
                 if confirm.lower() == 'yes':
-                    donor_db[donor_name.title()] = []
+                    donors[donor_name.title()] = []
 
                     create_donation(donor_name.title())
                     break
@@ -138,9 +133,9 @@ def create_report():
     print('Donor Name                | Total Given | Num Gifts | Average Gift')
     print('-'*66)
 
-    donor_db_stats = {k: [sum(v), len(v), sum(v)/len(v) ] for k, v in donor_db.items()}
+    donors_stats = {k: [sum(v), len(v), sum(v)/len(v) ] for k, v in donors.items()}
 
-    for donor, stat in sorted(donor_db_stats.items(), key=lambda d: d[1][0], reverse=True):
+    for donor, stat in sorted(donors_stats.items(), key=lambda d: d[1][0], reverse=True):
         print(f'{donor:26} ${stat[0]:>11.2f} {stat[1]:>11.0f}  ${stat[2]:>12.2f}')
 
 # Update mailroom with file writing.
@@ -157,9 +152,9 @@ def send_letters():
     location = tempfile.gettempdir()
 
     print('Creating letters for:')
-    for name, value in donor_db.items():
+    for name, value in donors.items():
         with open(location + '\\' + name.replace(' ','-') + '__' + str(now) + '.txt', 'w') as letter:
-            letter.write(create_email(name,value[-1]))
+            letter.write(create_email(name, value[-1]))
             print(f'\t{name}')
     print(f'Complete. Letters located at: {location}')
 
@@ -188,4 +183,4 @@ if __name__ == '__main__':
                     '\t4: Quit\n'
                     '\tSelect an option: ')
 
-        main_menu.get(option,invalid_menu)()
+        main_menu.get(option, invalid_menu)()
