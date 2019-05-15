@@ -12,11 +12,11 @@ from operator import itemgetter, attrgetter
 # from a menu of 3 actions: “Send a Thank You”, “Create a Report” or “quit”.
 
 donors_list = [
-    ("Jeff Bezos", [877.33, 1, 877.33]),
-    ("Paul Allen", [708.42, 3, 236.14]),
-    ("William Gates, III", [653784.49, 2, 326892.24]),
-    ("Bill Ackman", [2354.05, 3, 784.68]),
-    ("Mark Zuckerberg", [16396.10, 3, 5465.37]) 
+    ["Jeff Bezos", 877.33, 1, 877.33],
+    ["Paul Allen", 708.42, 3, 236.14],
+    ["William Gates, III", 653784.49, 2, 326892.24],
+    ["Bill Ackman", 2354.05, 3, 784.68],
+    ["Mark Zuckerberg", 16396.10, 3, 5465.37] 
 ]
 
 # Main function to get users input
@@ -52,7 +52,7 @@ def sub_menu():
             print("Enter a valid response")
 
 def list_names():
-        sorted(donors_list)
+        donors_list.sort()
         for i in donors_list:
             print(i[0])
         print("-" * 12)
@@ -73,8 +73,7 @@ def generate_report(donors_list):
 def send_thankyou(fullname,donors_list=donors_list):
     donation_amount = float(input("Donation amount: "))
     while True:
-        if any(fullname in donors_list for i in donors_list):
-        #if i[0] == fullname:
+        if fullname in donors_list:
             print("inside if", fullname)
             #print(float([i][2] + 1))
             # print(i[1] + donation_amount)
@@ -82,7 +81,7 @@ def send_thankyou(fullname,donors_list=donors_list):
         break
     else:
         print("user not found")
-        donors_list = ((fullname, donation_amount, 1, donation_amount),donors_list)
+        donors_list.append((fullname, donation_amount, 1, donation_amount))
 
                 
     email = f"Dear {fullname},\n\nThank you for your very kind donation of ${donation_amount:.2f}.\n\n" \
@@ -91,6 +90,7 @@ def send_thankyou(fullname,donors_list=donors_list):
              "-The Team"
     
     print(email)
+    print()
     return main_prompt()
 
 
