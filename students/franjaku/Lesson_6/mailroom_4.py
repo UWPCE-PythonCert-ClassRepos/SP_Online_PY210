@@ -26,7 +26,7 @@ def initialize_database():
     database = {'John Smith': [5000, 52048, 20],
                 'Jane Adams': [25000, 5498, 3333, 87469],
                 'Brett Johnson': [50, 6584, 20, 68, 9857, 5412],
-                'Sofia Pippy': [623,98, 40658],
+                'Sofia Pippy': [623, 98, 40658],
                 'Maddy North': [85426, 10, 25]}
     return database
 
@@ -77,24 +77,15 @@ def get_donation_amount():
     return amount
 
 
-def thank_you_note_prompt():
+def send_thank_you_note(database):
+    # Compose an email: thank the user, print email to terminal
     prompt = 'Enter the donors full name or type "list" to see all donors in the database.\n>>> '
     donor_name = (input(prompt)).title()
 
-    if donor_name == '':
-        donor_name = 'List'
-
-    return donor_name
-
-
-def send_thank_you_note(database):
-    # Compose an email: thank the user, print email to terminal
-    email = '{} thank you for your generous donation of ${:.2f}'
-    donor_name = thank_you_note_prompt()
-
-    if donor_name == 'List':
+    if donor_name == 'List' or '':
         print_donor_list(database)
     else:
+        email = '{} thank you for your generous donation of ${:.2f}'
         donation_amount = get_donation_amount()
         add_new_donation(database, donor_name, donation_amount)
         print(email.format(donor_name, donation_amount))
