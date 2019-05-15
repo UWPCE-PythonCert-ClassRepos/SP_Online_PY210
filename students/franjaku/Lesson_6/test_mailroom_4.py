@@ -14,6 +14,7 @@ def test_initialize_database():
 def test_add_new_donation():
     pass
 
+
 def test_sort_key():
     pass
 
@@ -34,7 +35,7 @@ def test_send_thank_you_note():
     pass
 
 
-def test_send_thank_you_note_all():
+def test_send_letters():
     pass
 
 

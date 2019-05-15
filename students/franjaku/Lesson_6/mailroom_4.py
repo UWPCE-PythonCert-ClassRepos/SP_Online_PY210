@@ -100,7 +100,7 @@ def send_thank_you_note(database):
         print(email.format(donor_name, donation_amount))
 
 
-def send_thank_you_note_all(database):
+def send_letters(database):
     for donor, data in database.items():
         with open(f"{donor}.txt", 'w+') as outfile:
             outfile.write(f"Dear {donor}\n")
@@ -133,7 +133,7 @@ def mail_room():
     options_dict = {
         '1': send_thank_you_note,
         '2': create_report,
-        '3': send_thank_you_note_all,
+        '3': send_letters,
         '4': quit}
 
     while True:
