@@ -77,11 +77,14 @@ def get_donation_amount():
     return amount
 
 
-def send_thank_you_note(database):
+def prompt_thank_you_note(database):
     # Compose an email: thank the user, print email to terminal
     prompt = 'Enter the donors full name or type "list" to see all donors in the database.\n>>> '
     donor_name = (input(prompt)).title()
+    send_thank_you_note(database, donor_name)
 
+
+def send_thank_you_note(database, donor_name):
     if donor_name == 'List' or '':
         print_donor_list(database)
     else:
@@ -122,7 +125,7 @@ def mail_room():
     print('------------Welcome to the Mailroom :)------------')
 
     options_dict = {
-        '1': send_thank_you_note,
+        '1': prompt_thank_you_note,
         '2': create_report,
         '3': send_letters,
         '4': quit}
