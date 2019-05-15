@@ -47,7 +47,7 @@ def sub_menu():
         elif fullname == "quit":
             return main_prompt()
         elif fullname:
-            return send_thankyou(fullname,donors_list)
+            return send_thankyou(fullname)
         else:
             print("Enter a valid response")
 
@@ -71,28 +71,25 @@ def generate_report(donors_list):
 # records donation amounts and adds new users 
 # and their donaitons to the database
 def send_thankyou(fullname,donors_list=donors_list):
+    donation_db = []
     donation_amount = float(input("Donation amount: "))
-    while True:
-        if fullname in donors_list:
-            print("inside if", fullname)
-            #print(float([i][2] + 1))
-            # print(i[1] + donation_amount)
-            # print(i[3] / i[2] + 1)
-        break
+    for donor in donors_list:
+        if fullname == donor[0]:
+            donor[1] = donor[1] + donation_amount
+            donor[2] = donor[2] + 1
+            donor[3] = donor[1] / donor[2]
+            donors_list[donors_list.index(donor)] = [donor[0], donor[1], donor[2], donor[3]]
+            break
     else:
         print("user not found")
-        donors_list.append((fullname, donation_amount, 1, donation_amount))
-
-                
+        donors_list.append([fullname, donation_amount, 1, donation_amount])
+            
     email = f"Dear {fullname},\n\nThank you for your very kind donation of ${donation_amount:.2f}.\n\n" \
              "It will be put to very good use.\n\n" \
              "Sincerely,\n" \
              "-The Team"
     
     print(email)
-    print()
-    return main_prompt()
-
 
 if __name__ == '__main__':
     main_prompt()
