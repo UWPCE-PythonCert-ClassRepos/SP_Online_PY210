@@ -71,7 +71,6 @@ def generate_report(donors_list):
 # records donation amounts and adds new users 
 # and their donaitons to the database
 def send_thankyou(fullname,donors_list=donors_list):
-    donation_db = []
     donation_amount = float(input("Donation amount: "))
     for donor in donors_list:
         if fullname == donor[0]:
@@ -81,7 +80,6 @@ def send_thankyou(fullname,donors_list=donors_list):
             donors_list[donors_list.index(donor)] = [donor[0], donor[1], donor[2], donor[3]]
             break
     else:
-        print("user not found")
         donors_list.append([fullname, donation_amount, 1, donation_amount])
             
     email = f"Dear {fullname},\n\nThank you for your very kind donation of ${donation_amount:.2f}.\n\n" \
