@@ -16,10 +16,6 @@ def test_initialize_database():
 
 
 def test_add_new_donation():
-    pass
-
-
-def test_sort_key():
     # Test Existing Donor
     database = ml.initialize_database()
     ml.add_new_donation(database, 'John Smith',50)
@@ -28,6 +24,11 @@ def test_sort_key():
     # Test New Donor
     ml.add_new_donation(database, 'Wiggle Jiggle', 500)
     assert sum(database['Wiggle Jiggle']) == 500
+
+
+def test_sort_key():
+    database = ml.initialize_database()
+    assert ml.sort_key(database.popitem()) == 85426+10+25
 
 
 def test_prompt_user():
