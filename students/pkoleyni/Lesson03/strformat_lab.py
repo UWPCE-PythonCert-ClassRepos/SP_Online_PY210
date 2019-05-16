@@ -36,8 +36,9 @@ item_string = [['item1', 41, 36.02],['item2', 22, 13.02],['item3', 2, 120.08],['
 for item in item_string:
     print ('{:<10}{:>2}{:>10}'.format(*item))
 
-# I need help wit second part of task 6
-a_tuple (1,2,3,4,5,6,7,8,9,10)
 
+print("\nTask SIX\n",'-'*50)
+a_tuple = (0,1,2,3,4,5,6,7,8,9)
+print (('{:<5}'*(len(a_tuple)-1)).format(*a_tuple) +'{}'.format(a_tuple[-1]))
 
 
