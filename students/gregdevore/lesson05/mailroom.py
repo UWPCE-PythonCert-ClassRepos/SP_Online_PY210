@@ -57,6 +57,12 @@ def write_thank_you(donor_name=None):
                 # Capture error if 'amount' not convertable
                 try:
                     amount = float(amount)
+                    if amount <= 0:
+                        print('Invalid amount, please enter a positive value.')
+                        # Re-call function with current name to re-prompt for amount
+                        write_thank_you(donor_name=name)
+                        # Need return statement here after return from recursive call
+                        return
                 except ValueError:
                     print('Invalid amount, please enter a numeric value.')
                     # Re-call function with current name to re-prompt for amount
@@ -133,7 +139,10 @@ def main():
     # Main function, repeatedly display prompt and react based on user input
     while True:
         response = input(prompt)
-        response_dict[response]() if response in response_dict else print('Not a valid option! Please try again.')
+        if response in response_dict:
+            response_dict[response]()
+        else:
+            print('Not a valid option! Please try again.')
 
 if __name__ == "__main__":
     # Driver for main function
