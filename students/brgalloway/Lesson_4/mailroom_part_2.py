@@ -36,16 +36,15 @@ def menu_selection(prompt, dispatch_dict):
         response = input(prompt)
         if dispatch_dict[response]() == "quit":
             sys.exit()
-        else:
-            print("Enter a valid response")
 
 def quit_app():
     return "quit"
 
+# Generate a list of donors from the database
 def list_names():
     for i in sorted(donors_list.keys()):
         print(i)
-    return find_donor()
+    return
 
 # sub menu for selecting donors
 def find_donor():
@@ -59,7 +58,7 @@ def find_donor():
         elif fullname == "quit":
             return menu_selection(main_menu, main_dispatch)
         else:
-            print("Enter a valid response")
+            return
 
 # helper function to sort by total
 def sort_donors(a_dict):
@@ -81,66 +80,56 @@ def generate_report(donors_list=donors_list):
 # This function sends the formatted email
 # records donation amounts and adds new users 
 # and their donaitons to the database
-def send_thankyou(fullname, donors_list=donors_list):
+def send_thankyou(fullname):
     donation_amount = float(input("Donation amount: "))
-    # TODO write email to file
-    for fullname in donors_list.keys():
+    if fullname in donors_list.keys():
         print("Selecting Donor " + fullname)
-    #     if fullname == donor[0]:
-    #         donor[1] = donor[1] + donation_amount
-    #         donor[2] = donor[2] + 1
-    #         donor[3] = donor[1] / donor[2]
-    #         donors_list[donors_list.index(donor)] = [donor[0], donor[1], donor[2], donor[3]]
-    #         break
+        donors_list[fullname]["donation_total"] = donors_list[fullname]["donation_total"] + donation_amount
+        donors_list[fullname]["times_donated"] += 1 
+        donors_list[fullname]["average_donation"] = donors_list[fullname]["donation_total"] / donors_list[fullname]["times_donated"]
     else:
-        print(fullname, "not found")
-    #     donors_list.append([fullname, donation_amount, 1, donation_amount])
-    #     donor_fields = ("donation_total", "times_donated","average_donation")
-    #     print(f"Adding new user {fullname}")
-    #     for i in donor_fields:
-    #         donors_list.setdefault(fullname, {})[i] = 0
-    #     return send_thankyou(fullname,donors_list)
-            
-    email = f"Dear {fullname},\n\nThank you for your very kind donation of ${donation_amount:.2f}.\n\n" \
-             "It will be put to very good use.\n\n" \
-             "Sincerely,\n" \
-             "-The Team"
-    
-    print(email)
+        donors_list.update({fullname: {"donation_total": donation_amount, "times_donated": 1, "average_donation": donation_amount}})
 
-def bulk_thankyou(fullname, donors_list=donors_list, times_donated=0, average_donation=0):
-    # TODO write all donors to file
-    # donation_amount = float(input("Donation amount: "))
-    # for donor in donors_list:
-    #     if fullname == donor[0]:
-    #         donor[1] = donor[1] + donation_amount
-    #         donor[2] = donor[2] + 1
-    #         donor[3] = donor[1] / donor[2]
-    #         donors_list[donors_list.index(donor)] = [donor[0], donor[1], donor[2], donor[3]]
-    #         break
-    # else:
-    #     donors_list.append([fullname, donation_amount, 1, donation_amount])
-            
-    # email = f"Dear {fullname},\n\nThank you for your very kind donation of ${donation_amount:.2f}.\n\n" \
-    #          "It will be put to very good use.\n\n" \
-    #          "Sincerely,\n" \
-    #          "-The Team"
-    
-    # print(email)
-    pass
+    email_template = "\n".join((f"Dear {fullname},\n\nThank you for your very kind donation of ${donation_amount:.2f}.\n",
+                     "It will be put to very good use.\n",
+                     "Sincerely,\n",
+                     "-The Team"))
 
+    with open(fullname + ".txt", "w") as file:
+        file.write(email_template)
+
+# Send email to all donors showing their total donations
+def bulk_thankyou():
+    for donors in donors_list.keys():
+        donation_amount = donors_list[donors]["donation_total"]
+        email_template = "\n".join((f"Dear {donors},\n\nThank you for your very kind donations this year totaling at ${donation_amount:.2f}.\n",
+                     "It will be put to very good use.\n",
+                     "Sincerely,",
+                     "-The Team"))
+        filename = donors.replace(" ","_") + ".txt"
+        if "," in filename:
+            filename = donors.replace(",","") + ".txt"
+            with open(filename.replace(" ", "_"), "w") as file:
+                file.write(email_template)
+        else:
+            with open(filename, "w") as file:
+                file.write(email_template)
+    
+# main menu items    
 main_menu = "Choose one of the following options. \n\n" \
             "1 - Send a Thank You to a single donor \n" \
             "2 - Create a Report \n" \
             "3 - Send letters to all donors \n" \
             "4 - Quit \n" \
             ">> "
+# value returned from choice keys
 main_dispatch = {
     "1": find_donor,
     "2": generate_report,
     "3": bulk_thankyou,
     "4": quit_app
 }
+
 
 if __name__ == '__main__':
     menu_selection(main_menu, main_dispatch)
