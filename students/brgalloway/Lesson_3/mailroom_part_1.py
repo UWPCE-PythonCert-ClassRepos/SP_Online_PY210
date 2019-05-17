@@ -52,11 +52,11 @@ def sub_menu():
             print("Enter a valid response")
 
 def list_names():
-        donors_list.sort()
-        for i in donors_list:
-            print(i[0])
-        print("-" * 12)
-        return sub_menu()
+    donors_list.sort()
+    for i in donors_list:
+        print(i[0])
+    print("-" * 12)
+    return 
 
 # Generate report based on menu choice
 # and return user to the menu prompt
