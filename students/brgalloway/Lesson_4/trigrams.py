@@ -63,15 +63,21 @@ def auto_word_pair(words):
 def trigram(word_pair,words):
     word_after= []
     word_length = len(words)
-    #assert word_length == 8
-
-    for i in range(word_length - 2):
-        if i + 1 <= word_length:
-            match = [words[0 + i], words[1+i]]
-            print("matchings: ",match)
-        if match == word_pair:
-            word_after.append(words[i +2])
-            print("words after match: ", word_after)
+    count = 0
+    first_element = 0
+    second_element = 1
+    
+    while count <= len(words) - 1:
+        for i in range(word_length - 2):
+            if i + 1 <= word_length:
+                match = [words[first_element + i], words[second_element + i]]
+                print("matchings: ",match)
+            if match == word_pair:
+                word_after.append(words[i +2])
+                print("words after match: ", word_after)
+        count+=1
+        first_element+=1
+        second_element+=1
     return word_after
 
 if __name__ == '__main__':
