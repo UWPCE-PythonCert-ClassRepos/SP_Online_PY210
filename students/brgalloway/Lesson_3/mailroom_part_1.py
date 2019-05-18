@@ -1,3 +1,4 @@
+import sys
 from operator import itemgetter, attrgetter
 
 # TODO
@@ -15,26 +16,48 @@ donors_list = [
     ["Paul Allen", 708.42, 3, 236.14],
     ["William Gates, III", 653784.49, 2, 326892.24],
     ["Bill Ackman", 2354.05, 3, 784.68],
-    ["Mark Zuckerberg", 16396.10, 3, 5465.37]  
+    ["Mark Zuckerberg", 16396.10, 3, 5465.37] 
 ]
 
 # Main function to get users input
-def user_prompt(donors_list):
+def main_prompt():
     display_menu = "Choose one of the following options. \n\n" \
                 "1 - Send a Thank You \n" \
                 "2 - Create a Report \n" \
                 "3 - Quit \n"
-    print(display_menu)
-    prompt = input("Enter a choice to continue: ")   
     while True:
+        print(display_menu)
+        prompt = input("Enter a choice to continue: ")  
         if prompt == "1":
-            find_donor()
-            break
+            sub_menu()
         elif prompt == "2":
             generate_report(donors_list)
-            break
-        else: 
-            break
+        elif prompt == "3":
+            sys.exit()
+        else:
+            print("Enter a valid response")
+
+def sub_menu():
+    while True:
+        fullname = input("Enter the full name of the donor or type list to display names\n" \
+                        "Typing quit will take you to the main menu\n" \
+                        ">> ")
+        if fullname == "list":
+            return list_names()
+        elif fullname == "quit":
+            return main_prompt()
+        elif fullname:
+            return send_thankyou(fullname)
+        else:
+            print("Enter a valid response")
+
+def list_names():
+    donors_list.sort()
+    for i in donors_list:
+        print(i[0])
+    print("-" * 12)
+    return 
+
 # Generate report based on menu choice
 # and return user to the menu prompt
 def generate_report(donors_list):
@@ -43,66 +66,28 @@ def generate_report(donors_list):
     print("-" * 70)
     for i in sorted_list:
         print(f"{i[0]:<20}${i[1]:>14.2f}{i[2]:^18}${i[3]:>12.2f}".format())
-    return user_prompt(donors_list)
 
-# this function only finds the users 
-# in the donor database. if the user
-# is not found it will then pass that 
-# value to the send_thankyou letter 
-# where new users are added and recorded
-def find_donor():
-    fullname = input("Enter the full name of the donor or type list to display names: ")
-    # inner function for displaying list
-    # and recalling the send_thankyou() function
-    def list_names():
-        donors_list.sort()
-        for i in range(len(donors_list)):
-            print(donors_list[i][0])
-        return find_donor()
-
-    while fullname != "quit":
-    # check what the user has entered
-        if fullname == "list":
-            return list_names()
-        elif fullname in str(donors_list):
-            print("Selecting Donor " + fullname)
-            for i in range(len(donors_list)):
-                if fullname in str(donors_list[i]):
-                    fullname = donors_list[i][0]  
-            return send_thankyou(fullname)
-        elif fullname == "quit":
-            return user_prompt()
-    # Else user not in database send new 
-    # user to the send_thankyou function
-        else:
-            donors_list.append([fullname])
-            for i in range(len(donors_list)):
-                if fullname in str(donors_list[i]):
-                    fullname = donors_list[i][0]
-            return send_thankyou(fullname,donors_list)
-    
 # This function sends the formatted email
 # records donation amounts and adds new users 
 # and their donaitons to the database
-def send_thankyou(fullname, donors_list=donors_list, times_donated=0, average_donation=0):
-    donation_amount = float(input(f"Donation amount: "))
-    for i in range(len(donors_list)):
-        if fullname in str(donors_list[i]):
-            if len(donors_list[i]) == 1:
-                donors_list[i].extend((donation_amount, 0, 0))
-            else:
-                add_donation = donors_list[i][1] + donation_amount
-                donors_list[i].pop(1)
-                donors_list[i].insert(1,add_donation)
-                
+def send_thankyou(fullname,donors_list=donors_list):
+    donation_amount = float(input("Donation amount: "))
+    for donor in donors_list:
+        if fullname == donor[0]:
+            donor[1] = donor[1] + donation_amount
+            donor[2] = donor[2] + 1
+            donor[3] = donor[1] / donor[2]
+            donors_list[donors_list.index(donor)] = [donor[0], donor[1], donor[2], donor[3]]
+            break
+    else:
+        donors_list.append([fullname, donation_amount, 1, donation_amount])
+            
     email = f"Dear {fullname},\n\nThank you for your very kind donation of ${donation_amount:.2f}.\n\n" \
              "It will be put to very good use.\n\n" \
              "Sincerely,\n" \
              "-The Team"
+    
     print(email)
 
-    return user_prompt(donors_list)
-
-
 if __name__ == '__main__':
-    user_prompt(donors_list)
+    main_prompt()
