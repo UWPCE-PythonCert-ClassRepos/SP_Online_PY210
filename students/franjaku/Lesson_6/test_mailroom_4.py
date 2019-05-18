@@ -1,4 +1,5 @@
 import mailroom_4 as ml
+import os
 
 """
 Uses pytest to test all the code in the mailroom_4 module.
@@ -49,7 +50,9 @@ def test_send_thank_you_note():
 
 
 def test_send_letters():
-    pass
+    database = ml.initialize_database()
+    for donor, data in database.items():
+        assert os.path.isfile(f"{donor}.txt")
 
 
 def test_create_report():
