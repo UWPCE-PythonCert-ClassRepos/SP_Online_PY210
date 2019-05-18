@@ -36,7 +36,8 @@ def test_prompt_user():
 
 
 def test_get_donation_amount():
-    pass
+    donation = ml.get_donation_amount(100)
+    assert type(donation) == float
 
 
 def test_thank_you_note_prompt():

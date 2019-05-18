@@ -61,16 +61,19 @@ def prompt_user():
     return UserAction
 
 
-def get_donation_amount():
+def prompt_donation_amount():
     donation_amount_prompt = 'Enter the donation amount: $ '
     amount = input(donation_amount_prompt)
+    return amount
 
+
+def get_donation_amount(amount):
     while True:
         try:
             amount = float(amount)
         except ValueError:
             print('Not a valid number.')
-            amount = input(donation_amount_prompt)
+            amount = prompt_donation_amount()
         else:
             break
 
@@ -89,7 +92,7 @@ def send_thank_you_note(database, donor_name):
         print_donor_list(database)
     else:
         email = '{} thank you for your generous donation of ${:.2f}'
-        donation_amount = get_donation_amount()
+        donation_amount = get_donation_amount(prompt_donation_amount())
         add_new_donation(database, donor_name, donation_amount)
         print(email.format(donor_name, donation_amount))
 
