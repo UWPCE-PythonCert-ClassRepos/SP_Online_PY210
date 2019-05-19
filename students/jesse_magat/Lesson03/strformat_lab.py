@@ -18,4 +18,17 @@ output2 = f"{x} {x1} {x2} {x3}"
 
 print(output2)
 
+#Task 3
+
+print('Task 3')
+t = (1,2,3)
+l = len(t)
+output3 = ("the {} numbers are: "+", ".join(["{}"]*l)).format(l,*t)
+
+print(output3)
+
+
+
+
+
 
