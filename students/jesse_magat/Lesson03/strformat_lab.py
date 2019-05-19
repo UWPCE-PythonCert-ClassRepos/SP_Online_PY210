@@ -27,6 +27,20 @@ output3 = ("the {} numbers are: "+", ".join(["{}"]*l)).format(l,*t)
 
 print(output3)
 
+#Task 4
+
+sample3 = (4,30,2017,2,27)
+
+y = '{:02d} '.format(sample3[0])
+y1 = '{} '.format(sample3[1])
+y2 =  '{} '.format(sample3[2])
+y3 = '{:02d} '.format(sample3[3])
+y4 = '{} '.format(sample3[4])
+
+output4 = f"{y3} {y4} {y2} {y} {y1}"
+print(output4)
+
+
 
 
 
