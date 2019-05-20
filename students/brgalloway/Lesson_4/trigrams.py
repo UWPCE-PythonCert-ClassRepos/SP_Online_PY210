@@ -73,27 +73,25 @@ def make_list_of_lists(words):
     return match_bucket
 
 def trigram(words, a_list):
-    match_bucket = []
-    words_after = []
+    # words variable is a bucket to create matches from
+    # a_list variable is a bucket of items to iterate over
+    membership_bucket = []
+    key_match_bucket = []
+    next_word_bucket = []
     count = 0
 
-    
-    # generate a list of matches in words
-    # only adding the values once
-    for i in a_list:
-    while count < len(a_list) - 2:
-        match = [words[count], words[count + 1]]
-        for i in a_list:
-            if match == i:
-                if match not in match_bucket:
-                    match_bucket.append(match)
-        count+=1
-    
-    for i in range(len(a_list)):
-        if a_list[i] == match_bucket[i]:
-            print(match_bucket[i])
-            print(a_list[i])
-    # return word_after
+    # 3 lists one for the keys and 2 for their
+    # postional owner and their values
+    for i in range(len(a_list) - 1):
+        match = [words[i],words[i + 1]]
+        if match == a_list[i]:
+            print(match)
+            # print list for membership
+            membership_bucket.append(a_list.index(a_list[i]))
+            # the actual value of that index + 1
+            next_word_bucket.append(a_list[i + 1][1])
+            if a_list[i] not in key_match_bucket:
+                key_match_bucket.append(match)
 
 if __name__ == '__main__':
     my_list = sanitize_text(words)
