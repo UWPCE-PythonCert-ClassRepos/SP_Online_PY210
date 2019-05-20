@@ -22,9 +22,15 @@ so you’ve decided to let Python help you out of a jam and do your work for you
 # The Program: Part 3
 # Exceptions
 # Now that you’ve learned about exception handling, you can update your code to handle errors better, such as when a user inputs bad data.
-#
 # Comprehensions
 # Can you use comprehensions to clean up your code a bit?
+
+# The Program: Part 4
+# Add a full suite of unit tests.
+# “Full suite” means all the code is tested. In practice, it’s very hard to test the user interaction, but you can test everything else. Therefore you should make sure that there is as little logic and untested code in the user interaction portion of the program as possible.
+# This is a big step; you may find that your code is hard to test. If that’s the case, it’s a good sign that you should refactor your code.
+# I like to say: “If it’s hard to test, it’s not well structured.”
+# Put in the tests before you make the other changes below. That’s much of the point of tests. You can know that you haven’t broken anything when you refactor!
 
 import os
 import tempfile
@@ -50,16 +56,41 @@ donors = {"William Gates, III": [100.00, 50.00],
 # Finally, use string formatting to compose an email thanking the donor for their generous donation. Print the email to the terminal and return to the original prompt.
 # It is fine (for now) for the program not to store the names of the new donors that had been added, in other words, to forget new donors once the script quits running.
 
-def create_donation(name):
-    try:
-        donation_amount = round(float(input('Enter donation amount: ')),2)
-        donors[name].append(donation_amount)
+def donors_list(list_output):
+    if list_output == 'list':
+        list = '\nDonor List:\n'
+        for donor in donors:
+            list += '\t' + f'{donor}' + '\n'
 
-        print()
-        create_email(name, donation_amount)
+    elif list_output == 'db':
+        list = '\nDonor Database:\n'
+        for name, val in donors.items():
+            list += '\t' + f'{name:26}{val}' + '\n'
+    else:
+        list = ''
+
+    return list
+
+
+def add_donation(name, amount = None):
+    donor_names = [donor for donor in donors]
+
+    if name not in donor_names:
+        donors[name] = []
+
+    if amount == None:
+        amount = input('Enter donation amount: ')
+
+    try:
+        amount = round(float(amount),2)
+        donors[name].append(amount)
+
+        # print()
+        # print(create_email(name, amount))
+
     except ValueError:
-        print('Input Error. Enter a valid donation amount.')
-        create_donation(name)
+        print('Error. Enter a valid donation amount.')
+        add_donation(name)
 
 
 def create_email(name, amount):
@@ -78,40 +109,17 @@ def send_thankyou():
                             "\t\tEnter 'exit' to return to the main menu\n"
                             '\tEnter full name of donor: ')
 
-        donor_names = [donor for donor in donors]
-
         if donor_name.lower() == 'list':
-            print('\nDonor List:')
-            for donor in donors:
-                print('\t',f'{donor}')
+            print(donors_list('list'))
 
         elif donor_name.lower() == 'db':
-            print('\nDonor Database:')
-            for name, val in donors.items():
-                print('\t',f'{name:26}{val}')
+            print(donors_list('db'))
 
         elif donor_name.lower() == 'exit':
             break
 
-        elif donor_name.title() in donor_names:
-            create_donation(donor_name.title())
-
         else:
-            confirm = None
-            while confirm != 'no':
-                confirm = input("Donor name '"f'{donor_name}'"' was not found.\n"
-                                            "\tWould you like to add this donor?\n"
-                                            "\tEnter 'yes' or 'no': ")
-                if confirm.lower() == 'yes':
-                    donors[donor_name.title()] = []
-
-                    create_donation(donor_name.title())
-                    break
-                elif confirm.lower() == 'no':
-                    print('Donor not added.')
-                    break
-                else:
-                    print('Invalid entry.')
+            add_donation(donor_name.title())
 
 # Create a Report
 # If the user (you) selected “Create a Report,” print a list of your donors, sorted by total historical donation amount.
@@ -130,13 +138,16 @@ def send_thankyou():
 # Paul Allen                 $     708.42           3  $      236.14
 
 def create_report():
-    print('Donor Name                | Total Given | Num Gifts | Average Gift')
-    print('-'*66)
+    report = 'Donor Name                | Total Given | Num Gifts | Average Gift\n'
+    report += '-'*66 + '\n'
 
     donors_stats = {k: [sum(v), len(v), sum(v)/len(v) ] for k, v in donors.items()}
 
     for donor, stat in sorted(donors_stats.items(), key=lambda d: d[1][0], reverse=True):
-        print(f'{donor:26} ${stat[0]:>11.2f} {stat[1]:>11.0f}  ${stat[2]:>12.2f}')
+        report += f'{donor:26} ${stat[0]:>11.2f} {stat[1]:>11.0f}  ${stat[2]:>12.2f}\n'
+
+    print(report)
+    return report
 
 # Update mailroom with file writing.
 # Goal: Write a full set of letters to all donors to individual files on disk.
@@ -150,14 +161,18 @@ def send_letters():
     now = str(now)[:-7].replace(' ','_').replace(':','')
 
     location = tempfile.gettempdir()
+    files = []
 
-    print('Creating letters for:')
     for name, value in donors.items():
-        with open(location + '\\' + name.replace(' ','-') + '__' + str(now) + '.txt', 'w') as letter:
-            letter.write(create_email(name, value[-1]))
-            print(f'\t{name}')
-    print(f'Complete. Letters located at: {location}')
+        file = location + '\\' + name.replace(' ','-') + '__' + str(now) + '.txt'
+        files.append(file)
 
+        with open(file, 'w') as letter:
+            letter.write(create_email(name, value[-1]))
+
+    print(f'Letters created and located at: {location}')
+
+    return files
 
 def quit():
     print('Enjoy! :)')
