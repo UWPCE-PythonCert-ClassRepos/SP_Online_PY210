@@ -30,7 +30,7 @@ def menu_selection(prompt, main_dispatch):
         try:
             if main_dispatch[response]() == "exit menu":
                 break
-        except:
+        except KeyError:
             print("Invalid selection.")
 
 def sub_menu():
