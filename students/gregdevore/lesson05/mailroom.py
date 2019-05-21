@@ -29,11 +29,16 @@ def generate_email(donor_name, donation_amount, total_amount):
     '','Sincerely,','The Good Place Team'])).format(**email_dict)
     return(email)
 
-def write_thank_you():
-    # Add donation for new or existing donor and compose 'Thank You' message
+def write_thank_you(donor_name=None):
+    # Add donation for new or existing donor and compose 'Thank You' message.
+    # Donor name can be specified in case re-calling after invalid donation amount.
     while True:
         print()
-        name = input('Enter donor name (type \'list\' to see donors or \'quit\' to exit): ')
+        # Prompt for name if not specified
+        if not donor_name:
+            name = input('Enter donor name (type \'list\' to see donors or \'quit\' to exit): ')
+        else:
+            name = donor_name
         if name == 'list': # List donors
             print('\nCurrent list of donors:\n')
             for donor in donors:
@@ -49,13 +54,29 @@ def write_thank_you():
             if amount == 'quit':
                 return
             else: # Otherwise, convert donation amount to float
-                amount = float(amount)
+                # Capture error if 'amount' not convertable
+                try:
+                    amount = float(amount)
+                    if amount <= 0:
+                        print('Invalid amount, please enter a positive value.')
+                        # Re-call function with current name to re-prompt for amount
+                        write_thank_you(donor_name=name)
+                        # Need return statement here after return from recursive call
+                        return
+                except ValueError:
+                    print('Invalid amount, please enter a numeric value.')
+                    # Re-call function with current name to re-prompt for amount
+                    write_thank_you(donor_name=name)
+                    # Need return statement here after return from recursive call
+                    return
             # Add donation to database
             donations.append(amount)
             donors[name] = donations
-            # Generate & print email, return to main program
+            # Generate & print email to screen, return to main program
             email = generate_email(name, amount, sum(donations))
             print(email)
+            # Need return statement here, otherwise while loop will repeat
+            return
 
 def donor_key(donor):
     # Donor is a tuple of the form (name, total donation, number of donations, average donation)
@@ -65,6 +86,7 @@ def donor_key(donor):
 def generate_report_data():
     # Declare and populate lists for report data
     total_donation, num_donation, avg_donation = [], [], []
+    # Use single for loop instead of three separate comprehensions
     for donor,donations in donors.items():
         total_donation.append(sum(donations))
         num_donation.append(len(donations))
@@ -96,8 +118,14 @@ def send_letters():
     # Prompt for directory to write to
     target = input('Enter directory to put letters > ')
     # Create directory if it does not exist within current directory
-    if not os.path.exists(target):
+    try:
         os.makedirs(target)
+    except OSError:
+        # If directory exists but error thrown, most likely accessibility issue
+        if not os.path.exists(target):
+            print('Error creating folder \'{}\'. Check directory write permissions.'.format(target))
+            return
+
     # Format current date to add as timestamp
     date = datetime.today().strftime('%Y-%m-%d')
     for donor, donation in donors.items():
@@ -106,8 +134,11 @@ def send_letters():
         email = generate_email(donor,donation[-1],sum(donation))
         # Create file with donor name and timestamp
         filename = '{}/{}_{}.txt'.format(target, donor.replace(' ','_'), date)
-        with open(filename,'w') as f:
-            f.write(email)
+        try:
+            with open(filename,'w') as f:
+                f.write(email)
+        except OSError: # Catch file write errors.
+            print('Error writing file. Check directory write permissions.')
 
 def exit_program():
     print('Exiting program...')
