@@ -3,7 +3,6 @@ import random
 from collections import defaultdict
 import pprint
 import re
-import random
 
 
 def words(file_in):
@@ -17,23 +16,32 @@ def words(file_in):
 def build_trigrams(words):
     trigrams = defaultdict(list)
     for i in range(len(words) - 2):
-        element = "{} {}".format(words[i], words[i+1])
+        element = (words[i], words[i+1])
         trigrams[element].append(words[i+2])
     return trigrams
 
 
-def build_text(trigrams):
-    seed_key = random.choice(list(trigrams.keys()))
-    sentence_length = random.randint(15, 20)
-    while True:
-        current_key
+def build_text(trigram_dict, length):
+    working_text = list(random.choice(list(trigram_dict.keys())))
+    key = tuple(working_text[-2:])
+    while key in trigram_dict:
+        value = random.choice(trigram_dict[key])
+        working_text.append(value)
+        key = tuple(working_text[-2:])
+        if len(working_text) > length:
+            break
+    return working_text
 
-    return first_key
+
+def paragraph(trigram_dict, num_para, length):
+    for number in range(num_para):
+        text = " ".join(build_text(trigram_dict, length))
+        text = text.capitalize()
+        print("\t{}.".format(text))
+    return
 
 
 if __name__ == "__main__":
     file_in = "./sherlock.txt"
-    # print(words(file_in))
     trigrams = build_trigrams(words(file_in))
-    pprint.pprint(trigrams)
-    # build_text(trigrams)
+    paragraph(trigrams, 2, 100)
