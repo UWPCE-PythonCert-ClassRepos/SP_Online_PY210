@@ -12,8 +12,8 @@ def find_by_index(seq):
 
 def find_by_letter(seq, letter ='P'):
     for item in fruit_list:
-        if letter in item:
-            return (item)
+        if item[:1] == letter:
+            return item
 
 def search_and_delete(seq):
     item_to_delete = input('Enter an item to be deleted from the list: ')
