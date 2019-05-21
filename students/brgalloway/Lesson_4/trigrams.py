@@ -32,6 +32,7 @@ def sanitize_text(in_data):
     # dump it back into the original list created
     in_data = wall_of_text.split()
 
+<<<<<<< HEAD
     return in_data
 
 def trigram(words):
