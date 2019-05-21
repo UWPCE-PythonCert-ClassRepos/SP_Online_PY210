@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# author: Scott Betts
+
 import random
 from collections import defaultdict
 import pprint
