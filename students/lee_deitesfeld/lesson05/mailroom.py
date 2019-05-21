@@ -2,7 +2,6 @@
 
 import sys
 from operator import itemgetter
-from collections import OrderedDict
 
 main_prompt = "\n".join(("Please choose from below mailroom options:",
           "1 - Manage Donors and Donations",
@@ -26,10 +25,13 @@ dic_donors = {"Bob Jones": [63.00, 30.00],
 
 def menu_selection(prompt, main_dispatch):
     """Pulls up main menu"""
-    while True:
-        response = input(prompt)
-        if main_dispatch[response]() == "exit menu":
-            break
+    try:
+        while True:
+            response = input(prompt)
+            if main_dispatch[response]() == "exit menu":
+                break
+    except:
+        print("Invalid selection")
 
 def sub_menu():
     """Pulls up sub menu"""
@@ -42,19 +44,13 @@ def quit():
 
 def report():
     """Creates a report of donors and donation amounts"""
-    report = []
-    for x in dic_donors:
-        ttl_amt = sum(dic_donors[x])
-        numofdonations = len(dic_donors[x])
-        average = ttl_amt/numofdonations
-        report.append((x, ttl_amt, numofdonations, average))
-        report.sort(key=itemgetter(1), reverse = True)
-    print(report)
+    final_report = [(x, sum(dic_donors[x]), len(dic_donors[x]), (sum(dic_donors[x])/len(dic_donors[x]))) for x in dic_donors]
+    final_report.sort(key=itemgetter(1), reverse = True)
     header = ["Name", "Donations Total", "Number of Donations", "Average Donation"]
-    print('{:>10} {:>20} {:>30} {:>40}'.format(*header))
+    print('{:>20} {:>20} {:>25} {:>25}'.format(*header))
     print('---'*35)
-    for line in report:
-        print('{:>10} {:>20.2f} {:>30} {:>40.2f}'.format(*line))
+    for line in final_report:
+        print('{:>20} {:>20.2f} {:>25} {:>25.2f}'.format(*line))
 
 def listof_donors():
     """Corresponds to submenu item List the Names of Donors"""
@@ -64,16 +60,18 @@ def listof_donors():
 def add_donor():
     """Corresponds to submenu item Add a New Donation"""
     donor_question = input("Please enter the name of a new or existing donor: ")
-    if donor_question in dic_donors:
+    try:
         donation_amount = input("Please enter donation amount for donor: ")
         donation_amount = float(donation_amount)
+    except ValueError:
+        print("Please enter a number")
+
+    if donor_question in dic_donors:
         dic_donors[donor_question].append(donation_amount)
         email = f'Dear {donor_question}, Thank you for your generous donation of ${donation_amount:.2f}. We hope you will consider donating again!'
         print(email)
-    if donor_question not in dic_donors:
+    else:
         dic_donors[donor_question] = []
-        donation_amount = input("Please enter donation amount for donor: ")
-        donation_amount = float(donation_amount)
         dic_donors[donor_question].append(donation_amount)
         email = f'Dear {donor_question}, Thank you for your generous donation of ${donation_amount:.2f}. We hope you will consider donating again!'
         print(email)
@@ -98,4 +96,8 @@ sub_dispatch = {"1" : listof_donors,
                 "3" : quit}
 
 if __name__ == "__main__":
-    menu_selection(main_prompt, main_dispatch)
+    try:
+        menu_selection(main_prompt, main_dispatch)
+    except:
+        print("Invalid selection")
+        menu_selection(main_prompt, main_dispatch)
