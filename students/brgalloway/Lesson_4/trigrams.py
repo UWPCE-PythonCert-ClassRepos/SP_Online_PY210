@@ -1,11 +1,20 @@
 import sys
+import random
+
+# read from a filename given as the 
+# second argument on the commandline
+def read_in_data(filename):
+    with open(filename, 'r') as file:
+        in_data = file.read()
+
+    return in_data
 
 # clean up text sent into trigram application
-def sanitize_text(words):
+def sanitize_text(in_data):
     # list of invalid characters to strip out
     invalid_chars = [",",".","-","(",")","[","]","--","#","!","+"]
     # split string on whitespace and create a list
-    wall_of_text = words.split()
+    wall_of_text = in_data.split()
     count = 0
     # loop through the length of the text
     # and remove all invalid characters
@@ -21,82 +30,50 @@ def sanitize_text(words):
     wall_of_text = " ".join(wall_of_text)
     # then split string based on whitespace and then 
     # dump it back into the original list created
-    words = wall_of_text.split()
+    in_data = wall_of_text.split()
 
-    return words
-#words = '''One night--it was on the twentieth seven nine'''
+    return in_data
 
-words = "I wish I may I wish I might"
-# words = '''One night--it was on the twentieth of March, 1888--I was
-# returning from a journey to a patient (for I had now returned to
-# civil practice), when my way led me through Baker Street. As I
-# passed the well-remembered door, which must always be associated
-# in my mind with my wooing, and with the dark incidents of the
-# Study in Scarlet, I was seized with a keen desire to see Holmes
-# again, and to know how he was employing his extraordinary powers.
-# His rooms were brilliantly lit, and, even as I looked up, I saw
-# his tall, spare figure pass twice in a dark silhouette against
-# the blind. He was pacing the room swiftly, eagerly, with his head
-# sunk upon his chest and his hands clasped behind him. To me, who
-# knew his every mood and habit, his attitude and manner told their
-# own story. He was at work again. He had risen out of his
-# drug-created dreams and was hot upon the scent of some new
-# problem. I rang the bell and was shown up to the chamber which
-# had formerly been in part my own.'''
-
-def get_word_pair():
-    word_pair = []
-
-    item1 = input("Enter first word: ")
-    item2 = input("Enter second word: ")
-
-    word_pair.insert(0, item1)
-    word_pair.insert(1, item2)
-
-    return word_pair
-
-def auto_word_pair(words):
-    auto_pair = []
-    auto_pair.insert(0, words[0])
-    auto_pair.insert(1, words[1])
-
-    return auto_pair
-
-def make_list_of_lists(words):
-    match_bucket = []
-    word_length = len(words)
-    count = 0
-    while count < word_length - 1:
-        match_bucket.append([words[count],words[count + 1]])
-        count+=1 
-
-    return match_bucket
-
-def trigram(words, a_list):
-    match_bucket = []
-    words_after = []
-    count = 0
-
+def trigram(words):
+    # words parameter is a list to create matches from
+    # trigrams empty dictionary to store key values in
+    trigrams = {}
     
-    # generate a list of matches in words
-    # only adding the values once
-    for i in a_list:
-    while count < len(a_list) - 2:
-        match = [words[count], words[count + 1]]
-        for i in a_list:
-            if match == i:
-                if match not in match_bucket:
-                    match_bucket.append(match)
-        count+=1
+    for i in range(len(words) - 2):
+        # dictionary keys
+        pair = tuple(words[i:i + 2])
+        # word after match for values
+        follower = words[i + 2]
+        # check if key is in dictionary and add it
+        if pair in trigrams:
+            trigrams[pair].append(follower)
+        else:
+            trigrams[pair] = [follower]
     
-    for i in range(len(a_list)):
-        if a_list[i] == match_bucket[i]:
-            print(match_bucket[i])
-            print(a_list[i])
-    # return word_after
+    return trigrams
+
+def build_text(word_pairs):
+    randomizer = []
+    temp_text = {}
+
+    for i in range(len(randomizer) - 2):
+        pair = tuple(randomizer[i:i + 2])
+        follower = randomizer[i + 2]
+        if pair in temp_text:
+            temp_text[pair].append(random.choice(word_pairs[pair]))
+        else:
+            temp_text[pair] = [follower]
+        # new_text = " ".join(temp_text)
 
 if __name__ == '__main__':
-    my_list = sanitize_text(words)
-    #pair_list = auto_word_pair(my_list)
-    list_lists = make_list_of_lists(my_list)
-    trigram(my_list,list_lists)
+    try:
+        filename = sys.argv[1]
+    except IndexError:
+        print("You must pass in a filename")
+        sys.exit(1)
+
+    in_data = read_in_data(filename)
+    words = sanitize_text(in_data)
+    word_pairs = trigram(words)
+    new_text = build_text(word_pairs)
+    print(new_text)
