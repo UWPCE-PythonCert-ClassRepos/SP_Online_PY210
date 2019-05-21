@@ -74,7 +74,7 @@ def report():
     print(dashy)
     report_donors = sorted(donors, key=sort_key, reverse=True)
     for donor in report_donors:
-        print('{:20} ${:>13} {:>15}   ${:>11.2f}'.format(*donor))
+        print('{:20} ${:>13.2f} {:>15}   ${:>11.2f}'.format(*donor))
     print("")
     return
 
