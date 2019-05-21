@@ -57,18 +57,19 @@ def write_thank_you(donor_name=None):
                 # Capture error if 'amount' not convertable
                 try:
                     amount = float(amount)
-                    if amount <= 0:
-                        print('Invalid amount, please enter a positive value.')
-                        # Re-call function with current name to re-prompt for amount
-                        write_thank_you(donor_name=name)
-                        # Need return statement here after return from recursive call
-                        return
                 except ValueError:
                     print('Invalid amount, please enter a numeric value.')
                     # Re-call function with current name to re-prompt for amount
                     write_thank_you(donor_name=name)
                     # Need return statement here after return from recursive call
                     return
+                else:
+                    if amount <= 0:
+                        print('Invalid amount, please enter a positive value.')
+                        # Re-call function with current name to re-prompt for amount
+                        write_thank_you(donor_name=name)
+                        # Need return statement here after return from recursive call
+                        return
             # Add donation to database
             donations.append(amount)
             donors[name] = donations
@@ -148,10 +149,9 @@ def main():
     response_dict = {'1':write_thank_you,'2':create_report,'3':send_letters,'4':exit_program}
     # Main function, repeatedly display prompt and react based on user input
     while True:
-        response = input(prompt)
-        if response in response_dict:
-            response_dict[response]()
-        else:
+        try:
+            response_dict[input(prompt)]()
+        except KeyError:
             print('Not a valid option! Please try again.')
 
 if __name__ == "__main__":
