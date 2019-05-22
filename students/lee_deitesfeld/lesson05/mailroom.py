@@ -25,13 +25,13 @@ dic_donors = {"Bob Jones": [63.00, 30.00],
 
 def menu_selection(prompt, main_dispatch):
     """Pulls up main menu"""
-    try:
-        while True:
-            response = input(prompt)
+    while True:
+        response = input(prompt)
+        try:
             if main_dispatch[response]() == "exit menu":
                 break
-    except:
-        print("Invalid selection")
+        except KeyError:
+            print("Invalid selection.")
 
 def sub_menu():
     """Pulls up sub menu"""
@@ -60,21 +60,21 @@ def listof_donors():
 def add_donor():
     """Corresponds to submenu item Add a New Donation"""
     donor_question = input("Please enter the name of a new or existing donor: ")
+    donation_amount = input("Please enter donation amount for donor: ")
     try:
-        donation_amount = input("Please enter donation amount for donor: ")
         donation_amount = float(donation_amount)
     except ValueError:
-        print("Please enter a number")
+        print("Please enter a number.")
 
     if donor_question in dic_donors:
         dic_donors[donor_question].append(donation_amount)
         email = f'Dear {donor_question}, Thank you for your generous donation of ${donation_amount:.2f}. We hope you will consider donating again!'
-        print(email)
+
     else:
         dic_donors[donor_question] = []
         dic_donors[donor_question].append(donation_amount)
         email = f'Dear {donor_question}, Thank you for your generous donation of ${donation_amount:.2f}. We hope you will consider donating again!'
-        print(email)
+    print(email)
 
 def email_all():
     """Generates an email to each donor and saves it to a txt file"""
@@ -96,8 +96,4 @@ sub_dispatch = {"1" : listof_donors,
                 "3" : quit}
 
 if __name__ == "__main__":
-    try:
-        menu_selection(main_prompt, main_dispatch)
-    except:
-        print("Invalid selection")
-        menu_selection(main_prompt, main_dispatch)
+    menu_selection(main_prompt, main_dispatch)
