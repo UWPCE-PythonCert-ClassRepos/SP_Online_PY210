@@ -53,21 +53,35 @@ def trigram(words):
     return trigrams
 
 def build_text(word_pairs):
+    pair = []
     convert_word_pairs = []
-    trigrams = []
-    convert_word_pairs = list(word_pairs)
-
-    for i in range(len(convert_word_pairs) - 2):
-        pair = convert_word_pairs[i:i + 2]
-        follower = convert_word_pairs[i + 2]
-        if pair in trigrams:
-            trigram.append(random.choice(convert_word_pairs))
-        else:
-            trigrams.append(follower)
+    trigrams_list = []
+    count = 0
     
-    new_text = map(" ".join,trigrams)
-    new_text = " ".join(new_text)
-    return new_text
+    pair = [k.append() for k word_pairs]
+    # for k, v in word_pairs.items():
+    #     pair.append([k,v])
+    print(pair)
+    
+    # while count < 20:
+    #     convert_word_pairs = random.choice(pair)
+    #     print(str(convert_word_pairs[0]))
+    #     count+=1
+    
+    # convert_word_pairs = " ".join(convert_word_pairs)
+    # print(convert_word_pairs)
+        # follower = convert_word_pairs[i + 2]
+        # if pair in trigrams:
+        #     #print(trigrams)
+        #     trigrams.append(random.choice(convert_word_pairs))
+        # else:
+        #     print(trigrams)
+        #     trigrams.append(follower)
+            
+    
+    # new_text = map(" ".join,trigrams)
+    # new_text = " ".join(trigrams)
+    # return new_text
 
 if __name__ == '__main__':
     try:
