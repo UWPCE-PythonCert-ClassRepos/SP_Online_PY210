@@ -21,6 +21,11 @@ prompt = '\n'.join(['','Welcome to The Good Place charity donor database.',
 def get_donors(donors):
     return list(donors.keys())
 
+def update_donor(name,amount):
+    donations = donors.get(name,[])
+    donations.append(amount)
+    donors[name] = donations
+
 def generate_email(donor_name, donation_amount, total_amount):
     email_dict = {'donor_name':donor_name, 'donation_amount':donation_amount, 'total_amount':total_amount}
     # Create formatted email that can be copied & pasted
@@ -48,7 +53,6 @@ def write_thank_you(donor_name=None):
         elif name == 'quit': # Return to main prompt
             return
         else: # Get donations for donors
-            donations = donors.get(name,[])
             # Prompt for donation amount
             amount = input('Enter donation amount in dollars (type \'quit\' to exit): ')
             # If the user wants to bail mid-entry, remove the donor that was just
@@ -72,9 +76,8 @@ def write_thank_you(donor_name=None):
                         write_thank_you(donor_name=name)
                         # Need return statement here after return from recursive call
                         return
-            # Add donation to database
-            donations.append(amount)
-            donors[name] = donations
+            # Update donor information
+            update_donor(name,amount)
             # Generate & print email to screen, return to main program
             email = generate_email(name, amount, sum(donations))
             print(email)

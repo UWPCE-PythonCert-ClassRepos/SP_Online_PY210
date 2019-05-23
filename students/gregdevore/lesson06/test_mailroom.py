@@ -1,13 +1,6 @@
 #!/usr/bin/env python3
 
-from mailroom import generate_email, get_donors
-
-# Test database
-donors = {'Eleanor Shellstrop':[25.00, 57.00],
-            'Chidi Anagonye':[150.00, 300.00, 275.00],
-            'Tahani Al-Jamil':[2000.00,7500.00,12000.00],
-            'Jason Mendoza':[15.00,40.00,60.00],
-            'Mindy St. Claire':[500.00]}
+from mailroom import donors, generate_email, get_donors, update_donor
 
 # Test email generation
 def test_email():
@@ -24,3 +17,13 @@ The Good Place Team"""
 # Test get donor list
 def test_donor_list():
     assert get_donors(donors) == ['Eleanor Shellstrop','Chidi Anagonye','Tahani Al-Jamil','Jason Mendoza','Mindy St. Claire']
+
+# Test new donor
+def test_new_donor():
+    update_donor('Janet',250.0)
+    assert donors['Janet'][-1] == 250.0
+
+# Test update existing donor
+def test_update_donor():
+    update_donor('Tahani Al-Jamil',1000.0)
+    assert donors['Tahani Al-Jamil'][-1] == 1000.0
