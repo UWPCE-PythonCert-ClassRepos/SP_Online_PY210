@@ -19,7 +19,7 @@ prompt = '\n'.join(['','Welcome to The Good Place charity donor database.',
             '','Input > '])
 
 def get_donors(donors):
-    return list(donors.keys())
+    return list(donors)
 
 def update_donor(name,amount):
     donations = donors.get(name,[])
@@ -79,7 +79,7 @@ def write_thank_you(donor_name=None):
             # Update donor information
             update_donor(name,amount)
             # Generate & print email to screen, return to main program
-            email = generate_email(name, amount, sum(donations))
+            email = generate_email(name, amount, sum(donors[name]))
             print(email)
             # Need return statement here, otherwise while loop will repeat
             return
