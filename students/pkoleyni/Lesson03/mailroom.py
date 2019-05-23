@@ -56,10 +56,6 @@ def add_donation(name, donation):
     :param donation: amount of donation
     :return: add donation to the list and print a message to confirm donation has been added to the list
     """
-    # for i in range(0, len(donor_list)):
-    #     if donor_list[i][0] == name:
-    #         donor_list[i].append(donation)
-    #         print ("${} added to the list of donations made by {} donations".format(donation,name))
 
     for donor in donor_list:
         if donor [0] == name:
@@ -138,26 +134,17 @@ def sort_key(key):
 def report():
     """
 
-    :return: will call other function to get the data and print the report
+    :return: This function created a sorted list of donors with their max donation and provide a report
     """
-    donor_list_length = len(list_donors())
-    report_list = [[] for i in range(donor_list_length)]
-    print()
 
-
-    for i in range(0,len(list_donors())):
-        donor_name = list_donors()[i]
-        report_list[i].append(donor_name)
-        report_list[i].append(total_donation(donor_name))
-        report_list[i].append(num_gifts(donor_name))
-        report_list[i].append(average_gifts(donor_name))
-    #
-    # for donor_name in list_donors():
-    #     # new_list.append(donor_name, total_donation(donor_name), num_gifts(donor_name), average_gifts(donor_name))
-    # print(report_list)
-
-    # print(f"{donor_name:<20}{total_donation(donor_name):<20f}{num_gifts(donor_name):<20f}{average_gifts(donor_name)}")
-
+    report_list = []
+    for donor in donor_list:  # loop over items in a list, don't use range()
+        name = donor[0]
+        donations = donor[1:]
+        num_gift = len(donations)
+        total_donations = sum(donations)
+        avg_gifts = total_donations / num_gift
+        report_list.append([name, total_donations, num_gift, avg_gifts])
 
     sorted_report_list = sorted(report_list, key = sort_key, reverse = True)
     report_head = ("{:<20}{:<20}{:<20}{:<20}".format('Donor Name','| Total Given', '| Num Gifts ', '| Average Gift' ))
