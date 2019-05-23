@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import datetime
+import sys
 
 donor_list_dic = {'pooria koleyni': {'donation': [130]},
                   'john adams': {'donation': [200, 340, 560]},
@@ -7,16 +8,6 @@ donor_list_dic = {'pooria koleyni': {'donation': [130]},
                   'meru cheng': {'donation': [150, 430]},
                   'maysam razm': {'donation': [25, 25]}
                   }
-
-
-def list_donors():
-    """
-    Return list of name of donors by getting keys for the donor_list_dic dictionary
-    :return:
-    """
-    donor_list = donor_list_dic.keys()
-    return donor_list
-
 
 def check_add_name(name):
     """
@@ -63,7 +54,10 @@ def thank_you():
     """
     usr_name_input = input('Enter full name of a donor or enter \"List\" for complete list of doors > ')
     while usr_name_input == 'List':
-        print(list_donors())
+        for donor in donor_list_dic.keys():
+            print (donor)
+        # d = donor_list_dic.keys()
+        # print (d)
         usr_name_input = input('Enter full name of a donor or enter \"List\" for complete list of doors > ')
     check_add_name(usr_name_input)
     usr_donation_input = input('Enter a donation amount > ')
@@ -97,20 +91,22 @@ def sort_key(key):
 def report():
     """
 
-    :return: will call other function to get the data and print the report
+    :return: This function created new list with the items required in the report, sort the list and print the report
     """
+
+    report_list = []
+    for donor in donor_list_dic.keys():
+        total_given = sum(donation_list(donor))
+        num_of_gifts = len(donation_list(donor))
+        average_gifts = total_given / num_of_gifts
+        report_list.append([donor, total_given, num_of_gifts, average_gifts])
+    sorted_report_list = sorted(report_list, key=sort_key, reverse=True)
 
     report_head = ("{:<20}{:<20}{:<20}{:<20}".format('Donor Name', '| Total Given', '| Num Gifts ', '| Average Gift'))
     print(report_head)
     print('-' * (len(report_head)))
-    for donor in list_donors():
-        # sorted_report_list = sorted(report_list, key = sort_key, reverse = True)
-        total_given = sum(donation_list(donor))
-        num_of_gifts = len(donation_list(donor))
-        average_gifts = total_given / num_of_gifts
-        print('{:<21}{:<21}{:<21}{:<21.2f}'.format(donor, total_given, num_of_gifts, average_gifts))
-    print(donor_list_dic)
-
+    for item in sorted_report_list:
+        print('{:<21}{:<21}{:<21}{:<21.2f}'.format(item[0], item[1], item[2], item[3]))
 
 def send_letter_to_all():
     write_letter_to_file('pooria koleyni')
@@ -139,26 +135,32 @@ def write_letter_to_file(name):
         f.write(line2.format(name))
         f.write(line3.format(name))
         f.write(line4.format(name))
-        f.close()
     print('Letter for "{}" is saved to "{}"'.format(name, file))
 
 
 def write_letter_for_everyone():
-    for donor in list_donors():
+    """
+    Get name of each donor from the donor_list_dic dictionary and call write_letter_to_file() function.
+    :return:
+    """
+    for donor in donor_list_dic.keys():
         write_letter_to_file(donor)
 
 
 def quit():
-    print("Quitting the menu")
-    return 'exit menu'
+    sys.exit()
 
 
 def menu_selection():
+    """
+    Display Main menu, Using a Dictionary to switch
+    :return:
+    """
     main_prompt = """
     Select from the following options:\n
-    1. Send a thank you
+    1. Send a Thank You to a single donor.
     2. Create a report
-    3. Send_letter_to_all
+    3. Send letters to all donors.
     4. Quit
 
     """
@@ -174,7 +176,4 @@ def menu_selection():
 
 
 if __name__ == '__main__':
-    # updating total donation made by each donor and add it to the dictionary
-    for name in list_donors():
-        update_total_donation_to_dic(name)
     menu_selection()
