@@ -48,41 +48,35 @@ def trigram(words):
         if pair in trigrams:
             trigrams[pair].append(follower)
         else:
+            # add list as value
             trigrams[pair] = [follower]
     
     return trigrams
 
 def build_text(word_pairs):
-    pair = []
-    convert_word_pairs = []
-    trigrams_list = []
+    next_word_list = []
+    list_pair = []
+    new_text = []
+    output_text = []
     count = 0
+  
+    # iterate through dicitonary keys and build two lists
+    # a list of keys and a list of the values and randomize output 
+    for i in word_pairs:
+        list_pair.append(list(i))
+        next_word_list.append(list(word_pairs[i]))
     
-    pair = [k.append() for k word_pairs]
-    # for k, v in word_pairs.items():
-    #     pair.append([k,v])
-    print(pair)
+    # set a predefined number of loops and generate a new list
+    # based on random keys followed by a random value
+    while count < 20:
+        output_text = random.choice(list_pair) + random.choice(next_word_list)
+        new_text.append(" ".join(output_text))
+        count+=1
     
-    # while count < 20:
-    #     convert_word_pairs = random.choice(pair)
-    #     print(str(convert_word_pairs[0]))
-    #     count+=1
+    return " ".join(new_text)
     
-    # convert_word_pairs = " ".join(convert_word_pairs)
-    # print(convert_word_pairs)
-        # follower = convert_word_pairs[i + 2]
-        # if pair in trigrams:
-        #     #print(trigrams)
-        #     trigrams.append(random.choice(convert_word_pairs))
-        # else:
-        #     print(trigrams)
-        #     trigrams.append(follower)
-            
     
-    # new_text = map(" ".join,trigrams)
-    # new_text = " ".join(trigrams)
-    # return new_text
-
+    
 if __name__ == '__main__':
     try:
         filename = sys.argv[1]
