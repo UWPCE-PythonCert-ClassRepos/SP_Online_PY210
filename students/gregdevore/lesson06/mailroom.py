@@ -120,18 +120,22 @@ def create_report():
     report = generate_report_data()
     print_formatted_report(report)
 
-def send_letters():
-    # Prompt for directory to write to
-    target = input('Enter directory to put letters > ')
+def create_directory(target):
     # Create directory if it does not exist within current directory
     try:
         os.makedirs(target)
+        success = True
     except OSError:
         # If directory exists but error thrown, most likely accessibility issue
-        if not os.path.exists(target):
+        if os.path.exists(target):
+            print('Writing to existing directory.')
+            success = True
+        else:
             print('Error creating folder \'{}\'. Check directory write permissions.'.format(target))
-            return
+            success = False
+    return success
 
+def write_letters(target):
     # Format current date to add as timestamp
     date = datetime.today().strftime('%Y-%m-%d')
     for donor, donation in donors.items():
@@ -145,6 +149,12 @@ def send_letters():
                 f.write(email)
         except OSError: # Catch file write errors.
             print('Error writing file. Check directory write permissions.')
+
+def send_letters():
+    # Prompt for directory to write to
+    target = input('Enter directory to put letters > ')
+    if create_directory(target):
+        write_letters(target)
 
 def exit_program():
     print('Exiting program...')

@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
-from mailroom import donors, generate_email, get_donors, update_donor, generate_report_data
+import os, random, string, tempfile
+from datetime import datetime
+from mailroom import donors, generate_email, get_donors, update_donor, generate_report_data, create_directory, write_letters
 
 # Test email generation
 def test_email():
@@ -31,4 +33,16 @@ def test_update_donor():
 # Test report generation
 def test_report_generation():
     report = generate_report_data()
+    assert len(report) == len(donors)
     assert report[-1] == ('Eleanor Shellstrop', 82.0, 2, 41.0)
+
+# Test letter generation
+def test_write_letters():
+    # Use temporary directory, will delete automatically
+    # Note: The content of the letters has already been verified in the test_email function
+    with tempfile.TemporaryDirectory() as target:
+        write_letters(target)
+        # Check for files with donor name and today's date
+        date = datetime.today().strftime('%Y-%m-%d')
+        # Make sure all donor files exist
+        assert all([ os.path.exists('{}/{}_{}.txt'.format(target, donor.replace(' ','_'), date)) for donor in donors ])
