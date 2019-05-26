@@ -30,10 +30,10 @@ donors_list = {
 }
 
 def menu_selection(prompt, dispatch_dict):
-    # TODO Fix KeyError when user presses enter
-    # causing an empty string to be sent as response
     while True:
         response = input(prompt)
+        response = response.lower()
+        response = response.strip()
         try:
             if dispatch_dict[response]() == "quit":
                 sys.exit()
@@ -47,14 +47,16 @@ def quit_app():
 
 # Generate a list of donors from the database
 def list_names():
-    donor_names = [print(k) for k in sorted(donors_list.keys())]
-    return
+    donor_names = [k for k in sorted(donors_list.keys())]
+    print("\n".join(donor_names))
 
 # sub menu for selecting donors
 def find_donor():
     while True:
         fullname = input("type list to display names or quit to exit to main menu\n" \
                          "Enter full name of donor: ")
+        fullname = fullname.lower()
+        fullname = fullname.strip()
         try:
             if fullname == "list":
                 return list_names()
@@ -76,12 +78,12 @@ def generate_report(donors_list=donors_list):
     sorted_list = sorted(donors_list.items(), key=sort_donors, reverse=True)
     print("{:<20}|{:^15}|{:^15}|{:^15}".format("Donor Name", "Total Given", "Num Gifts", "Average Gifts"))
     print("-" * 70)
-    for donors in sorted_list:
-        name = donors[0] 
-        total = donors[1]["donation_total"] 
-        times = donors[1]["times_donated"] 
-        average = donors[1]["average_donation"]
-        print(f"{name:<20}${total:>14.2f}{times:^18}${average:>12.2f}".format())
+
+    name = [i[0] for i in sorted_list]
+    for donors in range(len(name)):
+        total_formatted = [sorted_list[donors][1][i] for i in sorted_list[donors][1]]
+        print(f"{name[donors]:<20}${total_formatted[0]:>14.2f}{total_formatted[1]:^18}${total_formatted[2]:>12.2f}")
+        
 
 # This function sends the formatted email
 # records donation amounts and adds new users 
