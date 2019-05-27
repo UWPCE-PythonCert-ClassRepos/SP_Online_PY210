@@ -55,8 +55,6 @@ def find_donor():
     while True:
         fullname = input("type list to display names or quit to exit to main menu\n" \
                          "Enter full name of donor: ")
-        fullname = fullname.lower()
-        fullname = fullname.strip()
         try:
             if fullname == "list":
                 return list_names()
@@ -80,6 +78,7 @@ def generate_report(donors_list=donors_list):
     print("-" * 70)
 
     name = [i[0] for i in sorted_list]
+   
     for donors in range(len(name)):
         total_formatted = [sorted_list[donors][1][i] for i in sorted_list[donors][1]]
         print(f"{name[donors]:<20}${total_formatted[0]:>14.2f}{total_formatted[1]:^18}${total_formatted[2]:>12.2f}")
