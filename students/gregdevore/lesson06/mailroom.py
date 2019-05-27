@@ -18,6 +18,14 @@ prompt = '\n'.join(['','Welcome to The Good Place charity donor database.',
             '4 - Exit Program',
             '','Input > '])
 
+def get_donors(donors):
+    return list(donors)
+
+def update_donor(name,amount):
+    donations = donors.get(name,[])
+    donations.append(amount)
+    donors[name] = donations
+
 def generate_email(donor_name, donation_amount, total_amount):
     email_dict = {'donor_name':donor_name, 'donation_amount':donation_amount, 'total_amount':total_amount}
     # Create formatted email that can be copied & pasted
@@ -41,12 +49,10 @@ def write_thank_you(donor_name=None):
             name = donor_name
         if name == 'list': # List donors
             print('\nCurrent list of donors:\n')
-            for donor in donors:
-                print(donor)
+            print('\n'.join(get_donors(donors)))
         elif name == 'quit': # Return to main prompt
             return
         else: # Get donations for donors
-            donations = donors.get(name,[])
             # Prompt for donation amount
             amount = input('Enter donation amount in dollars (type \'quit\' to exit): ')
             # If the user wants to bail mid-entry, remove the donor that was just
@@ -70,11 +76,10 @@ def write_thank_you(donor_name=None):
                         write_thank_you(donor_name=name)
                         # Need return statement here after return from recursive call
                         return
-            # Add donation to database
-            donations.append(amount)
-            donors[name] = donations
+            # Update donor information
+            update_donor(name,amount)
             # Generate & print email to screen, return to main program
-            email = generate_email(name, amount, sum(donations))
+            email = generate_email(name, amount, sum(donors[name]))
             print(email)
             # Need return statement here, otherwise while loop will repeat
             return
@@ -115,18 +120,22 @@ def create_report():
     report = generate_report_data()
     print_formatted_report(report)
 
-def send_letters():
-    # Prompt for directory to write to
-    target = input('Enter directory to put letters > ')
+def create_directory(target):
     # Create directory if it does not exist within current directory
     try:
         os.makedirs(target)
+        success = True
     except OSError:
         # If directory exists but error thrown, most likely accessibility issue
-        if not os.path.exists(target):
+        if os.path.exists(target):
+            print('Writing to existing directory.')
+            success = True
+        else:
             print('Error creating folder \'{}\'. Check directory write permissions.'.format(target))
-            return
+            success = False
+    return success
 
+def write_letters(target):
     # Format current date to add as timestamp
     date = datetime.today().strftime('%Y-%m-%d')
     for donor, donation in donors.items():
@@ -140,6 +149,12 @@ def send_letters():
                 f.write(email)
         except OSError: # Catch file write errors.
             print('Error writing file. Check directory write permissions.')
+
+def send_letters():
+    # Prompt for directory to write to
+    target = input('Enter directory to put letters > ')
+    if create_directory(target):
+        write_letters(target)
 
 def exit_program():
     print('Exiting program...')
