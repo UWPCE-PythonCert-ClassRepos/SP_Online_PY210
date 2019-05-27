@@ -29,7 +29,7 @@ donors_list = {
     }
 }
 
-def menu_selection(prompt, dispatch_dict):
+def menu_selection(prompt, dispatch_dict): 
     while True:
         response = input(prompt)
         response = response.lower()
@@ -39,8 +39,6 @@ def menu_selection(prompt, dispatch_dict):
                 sys.exit()
         except KeyError:
             print("\n\ninvalid response\n")
-
-
 
 def quit_app():
     return "quit"
@@ -62,12 +60,13 @@ def find_donor():
             elif fullname:
                 donation_amount = float(input("Donation amount: "))
                 return send_thankyou(fullname,donation_amount)
+            elif fullname:
+                return bulk_thankyou(donors_list)
             elif fullname == "quit":
                 return menu_selection(main_menu, main_dispatch)
         except KeyError:
             print("Please enter a name, list, or quit")     
     
-
 # helper function to sort by total
 def sort_donors(a_dict):
     return a_dict[1]["donation_total"]
@@ -75,6 +74,7 @@ def sort_donors(a_dict):
 # Generate report based on menu choice
 # and return user to the menu prompt    
 def generate_report(donors_list=donors_list):
+    single_report = []
     sorted_list = sorted(donors_list.items(), key=sort_donors, reverse=True)
     print("{:<20}|{:^15}|{:^15}|{:^15}".format("Donor Name", "Total Given", "Num Gifts", "Average Gifts"))
     print("-" * 70)
@@ -84,8 +84,10 @@ def generate_report(donors_list=donors_list):
     for donors in range(len(name)):
         total_formatted = [sorted_list[donors][1][i] for i in sorted_list[donors][1]]
         print(f"{name[donors]:<20}${total_formatted[0]:>14.2f}{total_formatted[1]:^18}${total_formatted[2]:>12.2f}")
-
-    return donors_list
+        
+    single_report = f"{name[donors]:<20}${total_formatted[0]:>14.2f}{total_formatted[1]:^18}${total_formatted[2]:>12.2f}"
+    
+    return single_report
 # This function sends the formatted email
 # records donation amounts and adds new users 
 # and their donaitons to the database
@@ -103,30 +105,44 @@ def send_thankyou(fullname,donation_amount):
                         "It will be put to very good use.\n",
                         "Sincerely,\n",
                         "-The Team"))
-
-        with open(fullname + ".txt", "w") as file:
-            file.write(email_template)
     except ValueError:
         print("not a valid response exiting to donor selection")
+    finally:
+        filename = fullname.replace(" ","_") + ".txt"
+        if "," in filename:
+            filename = fullname.replace(",","") + ".txt"
+            with open(filename.replace(" ", "_"), "w") as file:
+                file.write(email_template)
+        else:
+            with open(filename, "w") as file:
+                file.write(email_template)
 
     return email_template
+
 # Send email to all donors showing their total donations
-def bulk_thankyou():
+def bulk_thankyou(donors_list=donors_list):
+    email_output = []
     for donors in donors_list.keys():
         donation_amount = donors_list[donors]["donation_total"]
         email_template = "\n".join((f"Dear {donors},\n\nThank you for your very kind donations this year totaling at ${donation_amount:.2f}.\n",
                      "It will be put to very good use.\n",
                      "Sincerely,",
                      "-The Team"))
+        
         filename = donors.replace(" ","_") + ".txt"
+
         if "," in filename:
             filename = donors.replace(",","") + ".txt"
             with open(filename.replace(" ", "_"), "w") as file:
+                email_output.append(filename)
                 file.write(email_template)
         else:
             with open(filename, "w") as file:
+                email_output.append(filename)
                 file.write(email_template)
-    return email_template
+ 
+    return email_output
+
 # main menu items    
 main_menu = "Choose one of the following options. \n\n" \
             "1 - Send a Thank You to a single donor \n" \
@@ -134,6 +150,7 @@ main_menu = "Choose one of the following options. \n\n" \
             "3 - Send letters to all donors \n" \
             "4 - Quit \n" \
             ">> "
+
 # value returned from choice keys
 main_dispatch = {
     "1": find_donor,
@@ -141,7 +158,6 @@ main_dispatch = {
     "3": bulk_thankyou,
     "4": quit_app
 }
-
 
 if __name__ == '__main__':
     menu_selection(main_menu, main_dispatch)
