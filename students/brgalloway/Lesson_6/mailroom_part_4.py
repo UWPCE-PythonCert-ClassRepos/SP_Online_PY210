@@ -71,9 +71,12 @@ def find_donor():
 def sort_donors(a_dict):
     return a_dict[1]["donation_total"]
 
-# Generate report based on menu choice
-# and return user to the menu prompt    
+
 def generate_report(donors_list=donors_list):
+    '''
+    Generate report based on menu choice
+    and return user to the menu prompt  
+    '''  
     single_report = []
     sorted_list = sorted(donors_list.items(), key=sort_donors, reverse=True)
     print("{:<20}|{:^15}|{:^15}|{:^15}".format("Donor Name", "Total Given", "Num Gifts", "Average Gifts"))
@@ -81,17 +84,20 @@ def generate_report(donors_list=donors_list):
 
     name = [i[0] for i in sorted_list]
    
-    for donors in range(len(name)):
+    for donors in range(len(name)):  
         total_formatted = [sorted_list[donors][1][i] for i in sorted_list[donors][1]]
         print(f"{name[donors]:<20}${total_formatted[0]:>14.2f}{total_formatted[1]:^18}${total_formatted[2]:>12.2f}")
         
     single_report = f"{name[donors]:<20}${total_formatted[0]:>14.2f}{total_formatted[1]:^18}${total_formatted[2]:>12.2f}"
     
     return single_report
-# This function sends the formatted email
-# records donation amounts and adds new users 
-# and their donaitons to the database
+
 def send_thankyou(fullname,donation_amount):
+    '''
+    This function sends the formatted email
+    records donation amounts and adds new users 
+    and their donaitons to the database
+    '''
     try:
         if fullname in donors_list.keys():
             print("Selecting Donor " + fullname)
@@ -119,8 +125,9 @@ def send_thankyou(fullname,donation_amount):
 
     return email_template
 
-# Send email to all donors showing their total donations
+
 def bulk_thankyou(donors_list=donors_list):
+    '''Send email to all donors showing their total donations'''
     email_output = []
     for donors in donors_list.keys():
         donation_amount = donors_list[donors]["donation_total"]
