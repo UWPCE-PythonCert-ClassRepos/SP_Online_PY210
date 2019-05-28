@@ -45,6 +45,7 @@ page.append("And here is another piece of text -- you should be able to add any 
 
 render_page(page, "test_html_output1.html")
 
+
 # The rest of the steps have been commented out.
 #  Uncomment them as you move along with the assignment.
 

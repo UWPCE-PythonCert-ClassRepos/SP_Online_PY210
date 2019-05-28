@@ -43,7 +43,6 @@ def test_init():
 
     e = Element("this is some text")
 
-
 def test_append():
     """
     This tests that you can append text

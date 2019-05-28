@@ -1,5 +1,4 @@
 import sys
-from operator import itemgetter, attrgetter
 
 donors_list = {
     "Jeff Bezos": {
