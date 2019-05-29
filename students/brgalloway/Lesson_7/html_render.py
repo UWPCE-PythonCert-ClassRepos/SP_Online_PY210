@@ -11,41 +11,61 @@ class Element(object):
     tag = "html"
 
     def __init__(self, content=None):
-        self.content = content
-        self.content = f"<{self.tag}>{self.content}</{self.tag}>"
-        if content == None:
-            self.content = f"<{self.tag}></{self.tag}>"
+        self.content = [content]
+
+        # prevent empty elements from being created with type None
+        if None in self.content:
+            self.content = []
+        
     def append(self, new_content):
-        self.new_content = new_content
-        self.content = self.content.replace("</html>", "")
-        self.content = f"{self.content}{new_content}</{self.tag}>"
+        self.content.append(new_content)
+        
     def render(self, out_file):
-        out_file.write(self.content)
+        out_file.write(f"<{self.tag}>\n")
+        for content in self.content:
+            out_file.write(content)
+            out_file.write("\n")
+        out_file.write(f"</{self.tag}>")
 
-
-
-class Html(object):
-
-    def __init__(self, content=None):
-        pass
-
-    def append(self, new_content):
-        pass
-
-
-class Body(object):
+class Html(Element):
 
     def __init__(self, content=None):
-        pass
+        self.content = [content]
 
-    def append(self, new_content):
-        pass
+        # prevent empty elements from being created with type None
+        if None in self.content:
+            self.content = []
+    
+class Body(Element):
 
+    tag = "body"
+
+    def __init__(self, content=None):
+        self.content = [content]
+
+        # prevent empty elements from being created with type None
+        if None in self.content:
+            self.content = []
+
+class P(Element):
+
+    tag = "p"
+
+    def __init__(self, content=None):
+        self.content = [content]
+
+        # prevent empty elements from being created with type None
+        if None in self.content:
+            self.content = []
   
-class Head(object):
+class Head(Element):
+    
+    tag = "head"
 
     def __init__(self, content=None):
-        pass
+        self.content = [content]
 
-    def append(self, new_content):
-        pass
+        # prevent empty elements from being created with type None
+        if None in self.content:
+            self.content = []
+  

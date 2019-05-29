@@ -40,7 +40,6 @@ def menu_selection(prompt, dispatch_dict):
             print("\n\ninvalid response\n")
 
 
-
 def quit_app():
     return "quit"
 
@@ -54,16 +53,13 @@ def find_donor():
     while True:
         fullname = input("type list to display names or quit to exit to main menu\n" \
                          "Enter full name of donor: ")
-        try:
-            if fullname == "list":
-                return list_names()
-            elif fullname:
-                return send_thankyou(fullname)
-            elif fullname == "quit":
-                return menu_selection(main_menu, main_dispatch)
-        except KeyError:
-            print("Please enter a name, list, or quit")     
-    
+        if fullname == "list":
+            list_names()
+            return find_donor()
+        elif fullname:
+            return send_thankyou(fullname)
+        elif fullname == "quit":
+            return menu_selection(main_menu, main_dispatch)
 
 # helper function to sort by total
 def sort_donors(a_dict):
@@ -89,6 +85,10 @@ def generate_report(donors_list=donors_list):
 def send_thankyou(fullname):
     try:
         donation_amount = float(input("Donation amount: "))
+    except ValueError:
+        print("not a valid response please enter a donation amount")
+        return find_donor()
+    finally:
         if fullname in donors_list.keys():
             print("Selecting Donor " + fullname)
             donors_list[fullname]["donation_total"] = donors_list[fullname]["donation_total"] + donation_amount
@@ -101,12 +101,16 @@ def send_thankyou(fullname):
                         "It will be put to very good use.\n",
                         "Sincerely,\n",
                         "-The Team"))
+    
+        filename = fullname.replace(" ","_") + ".txt"
+        if "," in filename:
+            filename = fullname.replace(",","") + ".txt"
+            with open(filename.replace(" ", "_"), "w") as file:
+                file.write(email_template)
+        else:
+            with open(filename, "w") as file:
+                file.write(email_template)
 
-        with open(fullname + ".txt", "w") as file:
-            file.write(email_template)
-    except ValueError:
-        print("not a valid response exiting to donor selection")
-        
 # Send email to all donors showing their total donations
 def bulk_thankyou():
     for donors in donors_list.keys():

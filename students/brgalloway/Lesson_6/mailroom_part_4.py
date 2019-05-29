@@ -52,20 +52,20 @@ def find_donor():
     while True:
         fullname = input("type list to display names or quit to exit to main menu\n" \
                          "Enter full name of donor: ")
-        try:
-            if fullname == "list":
-                output = list_names()
-                return print(output)
-            elif fullname:
+        if fullname == "list":
+            output = list_names()
+            return print(output)
+        elif fullname:
+            try:
                 donation_amount = float(input("Donation amount: "))
-                return send_thankyou(fullname,donation_amount)
-            elif fullname:
-                return bulk_thankyou(donors_list)
-            elif fullname == "quit":
-                return menu_selection(main_menu, main_dispatch)
-        except KeyError:
-            print("Please enter a name, list, or quit")     
-    
+            except ValueError:
+                print("not a valid response exiting to donor selection")
+            return send_thankyou(fullname,donation_amount)
+        elif fullname:
+            return bulk_thankyou(donors_list)
+        elif fullname == "quit":
+            return menu_selection(main_menu, main_dispatch) 
+
 # helper function to sort by total
 def sort_donors(a_dict):
     return a_dict[1]["donation_total"]
@@ -112,6 +112,14 @@ def send_thankyou(fullname,donation_amount):
                         "-The Team"))
     except ValueError:
         print("not a valid response exiting to donor selection")
+
+    else:
+            donors_list.update({fullname: {"donation_total": donation_amount, "times_donated": 1, "average_donation": donation_amount}})
+
+        email_template = "\n".join((f"Dear {fullname},\n\nThank you for your very kind donation of ${donation_amount:.2f}.\n",
+                        "It will be put to very good use.\n",
+                        "Sincerely,\n",
+                        "-The Team"))
     finally:
         filename = fullname.replace(" ","_") + ".txt"
         if "," in filename:
