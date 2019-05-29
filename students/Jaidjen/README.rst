@@ -1,1 +1,1 @@
-Python code for UWPCE-PythonCert class, written by Jaidjen
+Python Code for UWPCE-PythonCert Class, written by Jaidjen
