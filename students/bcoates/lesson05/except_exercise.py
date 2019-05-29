@@ -5,15 +5,6 @@ An exercise in playing with Exceptions.
 Make lots of try/except blocks for fun and profit.
 
 Make sure to catch specifically the error you find, rather than all errors.
-
-Expected output:
-Spam, Spam, Spam, Spam, Beautiful Spam
-
-Customer: Not much of a cheese shop really, is it? (cust, shop)
-Shopkeeper: Finest in the district, sir. (clerk, district)
-Customer: And what leads you to that conclusion? (cust, conclude)
-Shopkeeper: Well, it's so clean. (clerk, clean)
-Customer:  It's certainly uncontaminated by cheese. (cust, cheese)
 """
 
 from except_test import fun, more_fun, last_fun
@@ -21,10 +12,12 @@ from except_test import fun, more_fun, last_fun
 
 # Figure out what the exception is, catch it and while still
 # in that catch block, try again with the second item in the list
+first_try = ['spam', 'cheese', 'mr death']
+
 try:
-    first_try = ['spam', 'cheese', 'mr death']
     joke = fun(first_try[0])
 except NameError:
+    print("Encountered NameError, trying second item")
     joke = fun(first_try[1])
 
 # Here is a try/except block. Add an else that prints not_joke
@@ -51,13 +44,12 @@ else:
 # there were any exceptions, call the function last_fun with no
 # parameters. (pun intended)
 
+langs = ['java', 'c', 'python']
+
 try:
-    langs = ['java', 'c', 'python']
     more_joke = more_fun(langs[0])
-    last_fun()
 except IndexError:
+    print("Encountered IndexError, checking next language")
     more_joke = more_fun(langs[1])
-    last_fun()
-else:
-    more_fun(langs[-1])
+finally:
     last_fun()

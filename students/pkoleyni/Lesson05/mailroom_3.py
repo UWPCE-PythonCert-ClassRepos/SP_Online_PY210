@@ -9,9 +9,10 @@ donor_list_dic = {'pooria koleyni': {'donation': [130]},
                   'maysam razm': {'donation': [25, 25]}
                   }
 
+
 def check_add_name(name):
     """
-    :param name: name of a donor to be added to the donor_list_dic of donors if not already there
+    :param name: name of a donor to be added to the donor_list_dic of       donors if not already there
                 This function first verifies to see if name is not already in the donor_list_dic
                 Then it will add name to the donor_list_dic dictionary
 
@@ -54,15 +55,17 @@ def thank_you():
     """
     usr_name_input = input('Enter full name of a donor or enter \"List\" for complete list of doors > ')
     while usr_name_input == 'List':
-        for donor in donor_list_dic.keys():
-            print (donor)
-        # d = donor_list_dic.keys()
-        # print (d)
+        [print(donor) for donor in donor_list_dic]
         usr_name_input = input('Enter full name of a donor or enter \"List\" for complete list of doors > ')
     check_add_name(usr_name_input)
     usr_donation_input = input('Enter a donation amount > ')
-    add_donation(usr_name_input, int(usr_donation_input))
-    thank_you_message(usr_name_input, usr_donation_input)
+    try:
+        usr_donation_input = int(usr_donation_input)
+    except ValueError:
+        print('ValueError: {} is a {}, Enter a digit for donation value'.format(usr_donation_input,type(usr_donation_input)))
+    else:
+        add_donation(usr_name_input, usr_donation_input)
+        thank_you_message(usr_name_input, usr_donation_input)
 
 
 def thank_you_message(name, donation):
@@ -94,22 +97,26 @@ def report():
     :return: This function created new list with the items required in the report, sort the list and print the report
     """
 
-    report_list = []
-    for donor in donor_list_dic.keys():
-        total_given = sum(donation_list(donor))
-        num_of_gifts = len(donation_list(donor))
-        average_gifts = total_given / num_of_gifts
-        report_list.append([donor, total_given, num_of_gifts, average_gifts])
-    sorted_report_list = sorted(report_list, key=sort_key, reverse=True)
 
+    donor_names = [donor for donor in donor_list_dic]
+    total_given = [sum(donation_list(donor)) for donor in donor_names]
+    num_of_gifts = [len(donation_list(donor)) for donor in donor_names]
+    average_gifts = [t/g for t in total_given for g in num_of_gifts]
+
+    report_list = []
+    for i in range(len(donor_names)):
+        report_list.append([donor_names[i], total_given[i], num_of_gifts[i], average_gifts[i]])
+
+
+    sorted_report_list = sorted(report_list, key=sort_key, reverse=True)
     report_head = ("{:<20}{:<20}{:<20}{:<20}".format('Donor Name', '| Total Given', '| Num Gifts ', '| Average Gift'))
     print(report_head)
     print('-' * (len(report_head)))
-    for item in sorted_report_list:
-        print('{:<21}{:<21}{:<21}{:<21.2f}'.format(item[0], item[1], item[2], item[3]))
-
+    report_line= ('{:<21}{:<21}{:<21}{:<21.2f}'.format(item[0], item[1], item[2], item[3]) for item in sorted_report_list)
+    for i in report_line:
+        print (i)
 def send_letter_to_all():
-    write_letter_to_file('pooria koleyni')
+        write_letter_to_file('pooria koleyni')
 
 
 def file_name(name):
