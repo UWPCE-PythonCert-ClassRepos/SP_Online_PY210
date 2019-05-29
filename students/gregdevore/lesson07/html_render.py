@@ -7,8 +7,7 @@ A class-based system for rendering html.
 
 # This is the framework for the base class
 class Element(object):
-
-    tag_name = 'html'
+    tag = 'html'
 
     def __init__(self, content=None):
         self.content = [content] if content else []
@@ -17,7 +16,19 @@ class Element(object):
         self.content.append(new_content)
 
     def render(self, out_file):
-        out_file.write('<{}>\n'.format(self.tag_name))
+        out_file.write('<{}>\n'.format(self.tag))
         for line in self.content:
-            out_file.write(line + '\n')
-        out_file.write('</{}>\n'.format(self.tag_name))
+            try:
+                out_file.write(line + '\n')
+            except TypeError:
+                line.render(out_file)
+        out_file.write('</{}>\n'.format(self.tag))
+
+class Html(Element):
+    tag = 'html'
+
+class Body(Element):
+    tag = 'body'
+
+class P(Element):
+    tag = 'p'
