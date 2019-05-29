@@ -32,3 +32,18 @@ class Body(Element):
 
 class P(Element):
     tag = 'p'
+
+class Head(Element):
+    tag = 'head'
+
+class OneLineTag(Element):
+    # Make sure append cannot be used
+    def append(self, new_content):
+        raise NotImplementedError
+    # Override render method to print to a single line
+    def render(self, out_file):
+        out_file.write('<{}> {} </{}>'.format(self.tag, self.content[0], self.tag))
+        out_file.write('\n')
+
+class Title(OneLineTag):
+    tag = 'title'

@@ -184,6 +184,44 @@ def test_sub_element():
 # Step 3
 ########
 
+def test_title():
+    e = Title('This is a sample title')
+
+    file_contents = render_result(e).strip()
+
+    assert 'This is a sample title' in file_contents
+    print(file_contents)
+    assert file_contents.startswith('<title>')
+    assert file_contents.endswith('</title>')
+    assert '\n' not in file_contents
+
+def test_sub_element2():
+    """
+    tests that you can add another element and still render properly
+    """
+    page = Head()
+    page.append(Title("A simple paragraph of text"))
+
+    file_contents = render_result(page)
+    print(file_contents) # so we can see it if the test fails
+
+    # note: The previous tests should make sure that the tags are getting
+    #       properly rendered, so we don't need to test that here.
+    assert "A simple paragraph of text" in file_contents
+    # but make sure the embedded element's tags get rendered!
+    assert "<title>" in file_contents
+    assert "</title>" in file_contents
+    assert "<head>" in file_contents
+    assert "</head>" in file_contents
+    # make sure tags are in propert order
+    assert file_contents.index('head') < file_contents.index('title')
+    assert file_contents.index('/title') < file_contents.index('/head')
+
+def test_title_oneline():
+    page = Title('This is a test title')
+    with pytest.raises(NotImplementedError):
+        page.append('Here is some more title')
+
 # Add your tests here!
 
 # #####################
