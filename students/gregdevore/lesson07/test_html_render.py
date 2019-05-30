@@ -294,7 +294,22 @@ def test_no_content():
     e = Hr()
     with pytest.raises(TypeError):
         e.append('Some more content')
-        
+
+########
+# Step 6
+########
+
+def test_anchor():
+    """
+    tests that anchors are written properly
+    """
+    e = A("http://google.com", "link to google")
+
+    file_contents = render_result(e).strip()
+    print(file_contents)
+
+    assert file_contents == '<a href="http://google.com">link to google</a>'
+
 # Add your tests here!
 
 # #####################
