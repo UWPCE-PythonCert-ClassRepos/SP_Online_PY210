@@ -6,6 +6,7 @@ This is just a start -- you will need more tests!
 
 import io
 import pytest
+import filecmp
 
 # import * is often bad form, but makes it easier to test everything in a module.
 from html_render import *
@@ -115,6 +116,9 @@ def test_render_element2():
     # print(file_contents)
     # assert False
 
+def test_step1_file_compare():
+    filecmp.cmp('test_html_output1.html', 'test_html_output1_results.html')
+
 
 # ########
 # # Step 2
@@ -181,8 +185,10 @@ def test_sub_element():
     assert "<p>" in file_contents
     assert "</p>" in file_contents
 
+    # assert False
 
-
+def test_step2_file_compare():
+    filecmp.cmp('test_html_output2.html', 'test_html_output2_results.html')
 
 ########
 # Step 3

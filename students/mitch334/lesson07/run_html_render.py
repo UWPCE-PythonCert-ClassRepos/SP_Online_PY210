@@ -28,7 +28,7 @@ def render_page(page, filename, indent=None):
     else:
         page.render(f, indent)
 
-    print(f.getvalue())
+    # print(f.getvalue())
     with open(filename, 'w') as outfile:
         outfile.write(f.getvalue())
 
@@ -43,7 +43,7 @@ page.append("Here is a paragraph of text -- there could be more of them, "
 
 page.append("And here is another piece of text -- you should be able to add any number")
 
-render_page(page, "test_html_output1.html")
+render_page(page, "test_html_output1_results.html")
 
 # The rest of the steps have been commented out.
 #  Uncomment them as you move along with the assignment.
@@ -51,38 +51,38 @@ render_page(page, "test_html_output1.html")
 # ## Step 2
 # ##########
 
-# page = hr.Html()
+page = hr.Html()
 
-# body = hr.Body()
+body = hr.Body()
 
-# body.append(hr.P("Here is a paragraph of text -- there could be more of them, "
-#                  "but this is enough  to show that we can do some text"))
+body.append(hr.P("Here is a paragraph of text -- there could be more of them, "
+                 "but this is enough  to show that we can do some text"))
 
-# body.append(hr.P("And here is another piece of text -- you should be able to add any number"))
+body.append(hr.P("And here is another piece of text -- you should be able to add any number"))
 
-# page.append(body)
+page.append(body)
 
-# render_page(page, "test_html_output2.html")
+render_page(page, "test_html_output2_results.html")
 
-# # Step 3
-# ##########
+# Step 3
+##########
 
-# page = hr.Html()
+page = hr.Html()
 
-# head = hr.Head()
-# head.append(hr.Title("PythonClass = Revision 1087:"))
+head = hr.Head()
+head.append(hr.Title("PythonClass = Revision 1087:"))
 
-# page.append(head)
+page.append(head)
 
-# body = hr.Body()
+body = hr.Body()
 
-# body.append(hr.P("Here is a paragraph of text -- there could be more of them, "
-#                  "but this is enough  to show that we can do some text"))
-# body.append(hr.P("And here is another piece of text -- you should be able to add any number"))
+body.append(hr.P("Here is a paragraph of text -- there could be more of them, "
+                 "but this is enough  to show that we can do some text"))
+body.append(hr.P("And here is another piece of text -- you should be able to add any number"))
 
-# page.append(body)
+page.append(body)
 
-# render_page(page, "test_html_output3.html")
+render_page(page, "test_html_output3_results.html")
 
 # # Step 4
 # ##########
@@ -102,7 +102,7 @@ render_page(page, "test_html_output1.html")
 
 # page.append(body)
 
-# render_page(page, "test_html_output4.html")
+# render_page(page, "test_html_output4_results.html")
 
 # # Step 5
 # #########
@@ -124,7 +124,7 @@ render_page(page, "test_html_output1.html")
 
 # page.append(body)
 
-# render_page(page, "test_html_output5.html")
+# render_page(page, "test_html_output5_results.html")
 
 # # Step 6
 # #########
@@ -150,7 +150,7 @@ render_page(page, "test_html_output1.html")
 
 # page.append(body)
 
-# render_page(page, "test_html_output6.html")
+# render_page(page, "test_html_output6_results.html")
 
 # # Step 7
 # #########
@@ -188,7 +188,7 @@ render_page(page, "test_html_output1.html")
 
 # page.append(body)
 
-# render_page(page, "test_html_output7.html")
+# render_page(page, "test_html_output7_results.html")
 
 # # Step 8 and 9
 # ##############
@@ -228,4 +228,4 @@ render_page(page, "test_html_output1.html")
 
 # page.append(body)
 
-# render_page(page, "test_html_output8.html")
+# render_page(page, "test_html_output8_results.html")
