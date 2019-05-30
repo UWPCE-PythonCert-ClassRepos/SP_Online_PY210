@@ -222,6 +222,27 @@ def test_title_oneline():
     with pytest.raises(NotImplementedError):
         page.append('Here is some more title')
 
+########
+# Step 4
+########
+
+def test_attributes():
+    """
+    tests that you can add atributes to an element
+    """
+    e = Element('this is some text', font='script', font_size='99')
+
+    file_contents = render_result(e).strip()
+    print(file_contents) # so we can see it if the test fails
+
+    assert 'this is some text' in file_contents
+    assert 'font="script"' in file_contents
+    assert 'font_size="99"' in file_contents
+    assert file_contents.startswith('<html ')
+    assert file_contents.endswith('</html>')
+    # Make sure there are spaces between tag and attributes
+    assert file_contents[:file_contents.index('>')].count(' ') == 2
+
 # Add your tests here!
 
 # #####################

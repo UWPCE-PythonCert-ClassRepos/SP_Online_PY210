@@ -9,14 +9,23 @@ A class-based system for rendering html.
 class Element(object):
     tag = 'html'
 
-    def __init__(self, content=None):
+    def __init__(self, content=None, **kwargs):
         self.content = [content] if content else []
+        self.attributes = kwargs
 
     def append(self, new_content):
         self.content.append(new_content)
 
+    def render_open_tag(self, out_file):
+        # Write opening tag, then attributes, then close it
+        out_file.write('<{}'.format(self.tag))
+        for attribute, value in self.attributes.items():
+            out_file.write(' {}=\"{}\"'.format(attribute, value))
+        out_file.write('>')
+
     def render(self, out_file):
-        out_file.write('<{}>\n'.format(self.tag))
+        self.render_open_tag(out_file)
+        out_file.write('\n')
         for line in self.content:
             try:
                 out_file.write(line + '\n')
@@ -42,8 +51,8 @@ class OneLineTag(Element):
         raise NotImplementedError
     # Override render method to print to a single line
     def render(self, out_file):
-        out_file.write('<{}> {} </{}>'.format(self.tag, self.content[0], self.tag))
-        out_file.write('\n')
+        self.render_open_tag(out_file)
+        out_file.write('{} </{}>\n'.format(self.content[0], self.tag))
 
 class Title(OneLineTag):
     tag = 'title'

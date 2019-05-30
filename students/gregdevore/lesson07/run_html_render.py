@@ -67,6 +67,26 @@ def render_page(page, filename, indent=None):
 # # Step 3
 # ##########
 
+# page = hr.Html()
+#
+# head = hr.Head()
+# head.append(hr.Title("PythonClass = Revision 1087:"))
+#
+# page.append(head)
+#
+# body = hr.Body()
+#
+# body.append(hr.P("Here is a paragraph of text -- there could be more of them, "
+#                  "but this is enough  to show that we can do some text"))
+# body.append(hr.P("And here is another piece of text -- you should be able to add any number"))
+#
+# page.append(body)
+#
+# render_page(page, "test_html_output3.html")
+
+# # Step 4
+# ##########
+
 page = hr.Html()
 
 head = hr.Head()
@@ -77,32 +97,12 @@ page.append(head)
 body = hr.Body()
 
 body.append(hr.P("Here is a paragraph of text -- there could be more of them, "
-                 "but this is enough  to show that we can do some text"))
-body.append(hr.P("And here is another piece of text -- you should be able to add any number"))
+                 "but this is enough  to show that we can do some text",
+              style="text-align: center; font-style: oblique;"))
 
 page.append(body)
 
-render_page(page, "test_html_output3.html")
-
-# # Step 4
-# ##########
-
-# page = hr.Html()
-
-# head = hr.Head()
-# head.append(hr.Title("PythonClass = Revision 1087:"))
-
-# page.append(head)
-
-# body = hr.Body()
-
-# body.append(hr.P("Here is a paragraph of text -- there could be more of them, "
-#                  "but this is enough  to show that we can do some text",
-#               style="text-align: center; font-style: oblique;"))
-
-# page.append(body)
-
-# render_page(page, "test_html_output4.html")
+render_page(page, "test_html_output4.html")
 
 # # Step 5
 # #########
