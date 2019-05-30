@@ -230,7 +230,7 @@ def test_attributes():
     """
     tests that you can add atributes to an element
     """
-    e = Element('this is some text', font='script', font_size='99')
+    e = Element('this is some text', font='script', font_size=99)
 
     file_contents = render_result(e).strip()
     print(file_contents) # so we can see it if the test fails
@@ -243,6 +243,58 @@ def test_attributes():
     # Make sure there are spaces between tag and attributes
     assert file_contents[:file_contents.index('>')].count(' ') == 2
 
+########
+# Step 5
+########
+
+def test_self_closing_tags():
+    """
+    tests that self closing tags work properly without attributes
+    """
+    e = Hr()
+
+    file_contents = render_result(e).strip()
+    print(file_contents)
+
+    assert file_contents == '<hr />'
+
+def test_self_closing_hr_tag_with_attr():
+    """
+    tests that self closing tags work properly, with attributes
+    """
+    e = Hr(width=400)
+
+    file_contents = render_result(e).strip()
+    print(file_contents)
+
+    assert 'width="400"' in file_contents
+    assert file_contents.startswith('<hr ')
+    assert file_contents.endswith(' />')
+
+def test_self_closing_br_tag_with_attr():
+    """
+    tests that self closing tags work properly, with attributes
+    """
+    e = Br(font='standard')
+
+    file_contents = render_result(e).strip()
+    print(file_contents)
+
+    assert 'font="standard"' in file_contents
+    assert file_contents.startswith('<br ')
+    assert file_contents.endswith(' />')
+
+def test_no_content():
+    """
+    tests that self closing tags don't contain content
+    """
+    # Rendering should raise error if any content is present
+    with pytest.raises(TypeError):
+        e = Hr('Some content added')
+    e = Hr()
+    with pytest.raises(TypeError):
+        e.append('Some more content')
+        
 # Add your tests here!
 
 # #####################
