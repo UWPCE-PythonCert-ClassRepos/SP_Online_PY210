@@ -93,3 +93,14 @@ class Hr(SelfClosingTag):
 
 class Br(SelfClosingTag):
     tag = "br"
+
+class A(Element):
+    tag = "a"
+
+    def __init__(self, link, content, **kwargs):
+        self.contents = []
+        self.kwargs = kwargs
+        self.kwargs['href'] = link
+
+        if content:
+            self.contents.append(content)

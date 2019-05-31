@@ -217,10 +217,10 @@ def test_step4_file_compare():
 def test_step5_file_compare():
     assert(open('test_html_output5.html').read() == open('test_html_output5_results.html').read())
 
-#
-# def test_step6_file_compare():
-#     assert(open('test_html_output6.html').read() == open('test_html_output6_results.html').read())
-#
+
+def test_step6_file_compare():
+    assert(open('test_html_output6.html').read() == open('test_html_output6_results.html').read())
+
 
 # def test_step7_file_compare():
 #     assert(open('test_html_output7.html').read() == open('test_html_output7_results.html').read())
