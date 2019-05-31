@@ -194,7 +194,22 @@ def test_step2_file_compare():
 # Step 3
 ########
 
-# Add your tests here!
+def test_title():
+    e = Title("This is a Title")
+
+    file_contents = render_result(e).strip()
+
+    assert("This is a Title") in file_contents
+    print(file_contents)
+
+    assert file_contents.startswith("<title>")
+    assert "\n" not in file_contents
+    assert file_contents.endswith("</title>")
+
+
+def test_step3_file_compare():
+    filecmp.cmp('test_html_output3.html', 'test_html_output3_results.html')
+
 
 # #####################
 # # indentation testing

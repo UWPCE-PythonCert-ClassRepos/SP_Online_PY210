@@ -30,9 +30,7 @@ class Element(object):
             if hasattr(content, 'render'):
                 content.render(out_file)
             else:
-                out_file.write(content)
-
-            out_file.write('\n')
+                out_file.write(content + '\n')
 
         out_file.write('</{}>\n'.format(self.tag))
 
@@ -45,3 +43,23 @@ class Body(Element):
 
 class P(Element):
     tag = "p"
+
+class Head(Element):
+    tag = "head"
+
+class OneLineTag(Element):
+
+    def render(self, out_file):
+        # loop through the list of contents:
+        for content in self.contents:
+            out_file.write('<{}>'.format(self.tag))
+
+            if hasattr(content, 'render'):
+                content.render(out_file)
+            else:
+                out_file.write(content)
+
+            out_file.write('</{}>\n'.format(self.tag))
+
+class Title(OneLineTag):
+    tag = "title"
