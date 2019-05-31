@@ -6,7 +6,6 @@ This is just a start -- you will need more tests!
 
 import io
 import pytest
-import filecmp
 
 # import * is often bad form, but makes it easier to test everything in a module.
 from html_render import *
@@ -117,7 +116,7 @@ def test_render_element2():
     # assert False
 
 def test_step1_file_compare():
-    filecmp.cmp('test_html_output1.html', 'test_html_output1_results.html')
+    assert(open('test_html_output1.html').read() == open('test_html_output1_results.html').read())
 
 
 # ########
@@ -188,7 +187,7 @@ def test_sub_element():
     # assert False
 
 def test_step2_file_compare():
-    filecmp.cmp('test_html_output2.html', 'test_html_output2_results.html')
+    assert(open('test_html_output2.html').read() == open('test_html_output2_results.html').read())
 
 ########
 # Step 3
@@ -208,8 +207,11 @@ def test_title():
 
 
 def test_step3_file_compare():
-    filecmp.cmp('test_html_output3.html', 'test_html_output3_results.html')
+    assert(open('test_html_output3.html').read() == open('test_html_output3_results.html').read())
 
+
+def test_step4_file_compare():
+    assert(open('test_html_output4.html').read() == open('test_html_output4_results.html').read())
 
 # #####################
 # # indentation testing
