@@ -4,7 +4,6 @@
 A class-based system for rendering html.
 """
 
-
 # This is the framework for the base class
 class Element(object):
 
@@ -12,8 +11,7 @@ class Element(object):
 
     def __init__(self, content=None):
         self.content = [content]
-
-        # prevent empty elements from being created with type None
+        # prevent empty elements from being created with type None\
         if None in self.content:
             self.content = []
         
@@ -22,41 +20,35 @@ class Element(object):
         
     def render(self, out_file):
         out_file.write(f"<{self.tag}>\n")
+        
         for content in self.content:
-            out_file.write(content)
-            out_file.write("\n")
+            try:
+                content.render(out_file)
+            except AttributeError:
+                out_file.write(f"<{self.tag}>\n")
+                out_file.write(content)
+        out_file.write("\n")
         out_file.write(f"</{self.tag}>")
 
 class Html(Element):
 
-    def __init__(self, content=None):
-        self.content = [content]
+    tag = "html"
 
-        # prevent empty elements from being created with type None
-        if None in self.content:
-            self.content = []
-    
 class Body(Element):
 
     tag = "body"
-
-    def __init__(self, content=None):
-        self.content = [content]
-
-        # prevent empty elements from being created with type None
-        if None in self.content:
-            self.content = []
-
+    
+   
 class P(Element):
 
     tag = "p"
-
-    def __init__(self, content=None):
-        self.content = [content]
-
-        # prevent empty elements from being created with type None
-        if None in self.content:
-            self.content = []
+        
+    def render(self, out_file):
+        out_file.write(f"<{P.tag}>\n")
+        for content in self.content:
+            out_file.write(content)
+        out_file.write("\n")
+        out_file.write(f"</{P.tag}>")
   
 class Head(Element):
     
@@ -68,4 +60,4 @@ class Head(Element):
         # prevent empty elements from being created with type None
         if None in self.content:
             self.content = []
-  
+
