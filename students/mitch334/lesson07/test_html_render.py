@@ -213,6 +213,22 @@ def test_step3_file_compare():
 def test_step4_file_compare():
     assert(open('test_html_output4.html').read() == open('test_html_output4_results.html').read())
 
+
+def test_step5_file_compare():
+    assert(open('test_html_output5.html').read() == open('test_html_output5_results.html').read())
+
+#
+# def test_step6_file_compare():
+#     assert(open('test_html_output6.html').read() == open('test_html_output6_results.html').read())
+#
+
+# def test_step7_file_compare():
+#     assert(open('test_html_output7.html').read() == open('test_html_output7_results.html').read())
+#
+
+# def test_step8_file_compare():
+#     assert(open('test_html_output8.html').read() == open('test_html_output8_results.html').read())
+
 # #####################
 # # indentation testing
 # #  Uncomment for Step 9 -- adding indentation

@@ -21,9 +21,8 @@ class Element(object):
     def append(self, new_content):
         self.contents.append(new_content)
 
-    def render(self, out_file):
-        # print('self.contents: ', self.contents)
 
+    def render(self, out_file):
         if self.kwargs:
             attribute = ''
             for kwarg in self.kwargs:
@@ -56,7 +55,6 @@ class Head(Element):
     tag = "head"
 
 class OneLineTag(Element):
-
     def render(self, out_file):
         # loop through the list of contents:
         for content in self.contents:
@@ -71,3 +69,27 @@ class OneLineTag(Element):
 
 class Title(OneLineTag):
     tag = "title"
+
+class SelfClosingTag(Element):
+    def __init__(self, content=None, **kwargs):
+        self.kwargs = kwargs
+
+        if content:
+            raise TypeError('Content is not allowed in self closing tags.')
+
+
+    def render(self, out_file):
+        if self.kwargs:
+            attribute = ''
+            for kwarg in self.kwargs:
+                attribute += ' ' + kwarg + '=\"' + self.kwargs[kwarg] + '\"'
+
+            out_file.write('<{}{} />\n'.format(self.tag, attribute))
+        else:
+            out_file.write('<{} />\n'.format(self.tag))
+
+class Hr(SelfClosingTag):
+    tag = "hr"
+
+class Br(SelfClosingTag):
+    tag = "br"
