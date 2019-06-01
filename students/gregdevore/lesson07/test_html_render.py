@@ -310,6 +310,51 @@ def test_anchor():
 
     assert file_contents == '<a href="http://google.com">link to google</a>'
 
+########
+# Step 7
+########
+
+def test_ul():
+    """
+    tests that unorder list headers are written properly
+    """
+    e = Ul(id="TheList", style="line-height:200%")
+
+    file_contents = render_result(e).strip()
+    print(file_contents)
+
+    assert file_contents.startswith('<ul ')
+    assert file_contents.endswith('</ul>')
+    assert 'id="TheList"' in file_contents
+    assert 'style="line-height:200%"' in file_contents
+    # Make sure there are spaces between tag and attributes
+    assert file_contents[:file_contents.index('>')].count(' ') == 2
+
+def test_li():
+    """
+    tests that bulleted lists are written properly
+    """
+    e = Li("Test item in a list", style="color: red")
+
+    file_contents = render_result(e).strip()
+    print(file_contents)
+
+    assert file_contents.startswith('<li ')
+    assert file_contents.endswith('</li>')
+    assert 'style="color: red"' in file_contents
+    assert "Test item in a list" in file_contents
+
+def test_headers():
+    """
+    tests that headers are written properly
+    """
+    e = H(2, "Header text")
+
+    file_contents = render_result(e).strip()
+    print(file_contents)
+
+    assert file_contents == '<h2>Header text</h2>'
+
 # Add your tests here!
 
 # #####################

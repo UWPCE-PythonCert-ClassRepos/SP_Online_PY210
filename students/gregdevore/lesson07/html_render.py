@@ -87,3 +87,14 @@ class A(OneLineTag):
     def __init__(self, link, content=None, **kwargs):
         kwargs['href'] = link
         super().__init__(content, **kwargs)
+
+class Ul(Element):
+    tag = 'ul'
+
+class Li(Element):
+    tag = 'li'
+
+class H(OneLineTag):
+    def __init__(self, num, content):
+        self.tag = 'h{:d}'.format(num)
+        super().__init__(content)
