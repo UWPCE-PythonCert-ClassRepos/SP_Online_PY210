@@ -222,17 +222,17 @@ def test_step6_file_compare():
     assert(open('test_html_output6.html').read() == open('test_html_output6_results.html').read())
 
 
-# def test_step7_file_compare():
-#     assert(open('test_html_output7.html').read() == open('test_html_output7_results.html').read())
-#
+def test_step7_file_compare():
+    assert(open('test_html_output7.html').read() == open('test_html_output7_results.html').read())
 
-# def test_step8_file_compare():
-#     assert(open('test_html_output8.html').read() == open('test_html_output8_results.html').read())
 
-# #####################
-# # indentation testing
-# #  Uncomment for Step 9 -- adding indentation
-# #####################
+def test_step8_file_compare():
+    assert(open('test_html_output8.html').read() == open('test_html_output8_results.html').read())
+
+#####################
+# indentation testing
+#  Uncomment for Step 9 -- adding indentation
+#####################
 
 
 # def test_indent():
@@ -241,14 +241,17 @@ def test_step6_file_compare():
 #     """
 #     html = Html("some content")
 #     file_contents = render_result(html, ind="   ").rstrip()  #remove the end newline
-
+#
 #     print(file_contents)
 #     lines = file_contents.split("\n")
-#     assert lines[0].startswith("   <")
+#     assert lines[0].startswith("<")
+#     assert lines[1].startswith("   <")
+#     # assert lines[0].startswith("<")
 #     print(repr(lines[-1]))
-#     assert lines[-1].startswith("   <")
-
-
+#     assert lines[-1].startswith("  <")
+#     # assert lines[-1].startswith("<")
+#
+#
 # def test_indent_contents():
 #     """
 #     The contents in a element should be indented more than the tag
@@ -256,12 +259,12 @@ def test_step6_file_compare():
 #     """
 #     html = Element("some content")
 #     file_contents = render_result(html, ind="")
-
+#
 #     print(file_contents)
 #     lines = file_contents.split("\n")
 #     assert lines[1].startswith(Element.indent)
-
-
+#
+#
 # def test_multiple_indent():
 #     """
 #     make sure multiple levels get indented fully
@@ -269,37 +272,37 @@ def test_step6_file_compare():
 #     body = Body()
 #     body.append(P("some text"))
 #     html = Html(body)
-
+#
 #     file_contents = render_result(html)
-
+#
 #     print(file_contents)
 #     lines = file_contents.split("\n")
 #     for i in range(3):  # this needed to be adapted to the <DOCTYPE> tag
 #         assert lines[i + 1].startswith(i * Element.indent + "<")
-
+#
 #     assert lines[4].startswith(3 * Element.indent + "some")
-
-
+#
+#
 # def test_element_indent1():
 #     """
 #     Tests whether the Element indents at least simple content
-
+#
 #     we are expecting to to look like this:
-
+#
 #     <html>
 #         this is some text
 #     <\html>
-
+#
 #     More complex indentation should be tested later.
 #     """
 #     e = Element("this is some text")
-
+#
 #     # This uses the render_results utility above
 #     file_contents = render_result(e).strip()
-
+#
 #     # making sure the content got in there.
 #     assert("this is some text") in file_contents
-
+#
 #     # break into lines to check indentation
 #     lines = file_contents.split('\n')
 #     # making sure the opening and closing tags are right.
