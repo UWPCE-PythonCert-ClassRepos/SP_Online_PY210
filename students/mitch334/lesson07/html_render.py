@@ -8,6 +8,7 @@ A class-based system for rendering html.
 # This is the framework for the base class
 class Element(object):
     tag = "html"
+    indent = ' ' * 4
 
     def __init__(self, content=None, **kwargs):
         self.contents = []
@@ -21,8 +22,8 @@ class Element(object):
         self.contents.append(new_content)
 
 
-    def _open_tag(self):
-        open_tag = '<{}'.format(self.tag)
+    def _open_tag(self, cur_ind=''):
+        open_tag = '{}<{}'.format(cur_ind, self.tag)
 
         for kwarg in self.kwargs:
             open_tag += ' ' + kwarg + '=\"' + self.kwargs[kwarg] + '\"'
@@ -31,30 +32,31 @@ class Element(object):
         return open_tag
 
 
-    def _close_tag(self):
-        return '</{}>'.format(self.tag)
+    def _close_tag(self, cur_ind=''):
+        return '{}</{}>'.format(cur_ind, self.tag)
 
 
-    def render(self, out_file):
-        out_file.write(self._open_tag())
+    def render(self, out_file, cur_ind=''):
+        out_file.write(self._open_tag(cur_ind))
         out_file.write('\n')
 
         for content in self.contents:
             try:
-                content.render(out_file)
+                content.render(out_file, cur_ind + self.indent)
             except AttributeError:
-                out_file.write(content)
+                out_file.write(cur_ind + self.indent + content)
                 out_file.write('\n')
 
-        out_file.write(self._close_tag())
+        out_file.write(self._close_tag(cur_ind))
         out_file.write('\n')
 
 class Html(Element):
     tag = "html"
 
-    def render(self, out_file):
+    def render(self, out_file, cur_ind=''):
+        # cur_ind = ''
         out_file.write('<!DOCTYPE html>\n')
-        super().render(out_file)
+        super().render(out_file, cur_ind)
 
 class Body(Element):
     tag = "body"
@@ -66,23 +68,14 @@ class Head(Element):
     tag = "head"
 
 class OneLineTag(Element):
-    def render(self, out_file):
-        out_file.write(self._open_tag())
+    def render(self, out_file, cur_ind=''):
+        out_file.write(self._open_tag(cur_ind))
 
         out_file.write(self.contents[0])
         # out_file.write('</{}>'.format(self.tag))
         out_file.write(self._close_tag())
         out_file.write('\n')
 
-        # for content in self.contents:
-        #     out_file.write('<{}>'.format(self.tag))
-        #
-        #     if hasattr(content, 'render'):
-        #         content.render(out_file)
-        #     else:
-        #         out_file.write(content)
-        #
-        #     out_file.write('</{}>\n'.format(self.tag))
 
 class Title(OneLineTag):
     tag = "title"
@@ -95,8 +88,8 @@ class SelfClosingTag(Element):
             raise TypeError('Content is not allowed in self closing tags.')
 
 
-    def render(self, out_file):
-            out_file.write(self._open_tag()[:-1] + ' />\n')
+    def render(self, out_file, cur_ind=''):
+            out_file.write(self._open_tag(cur_ind)[:-1] + ' />\n')
 
 class Hr(SelfClosingTag):
     tag = "hr"

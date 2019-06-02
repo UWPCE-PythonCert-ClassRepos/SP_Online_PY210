@@ -228,5 +228,5 @@ body.append(list)
 
 page.append(body)
 
-render_page(page, "test_html_output8_results.html")
-# render_page(page, "test_html_output9_results.html")
+# render_page(page, "test_html_output8_results.html")
+render_page(page, "test_html_output9_results.html")
