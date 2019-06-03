@@ -5,6 +5,12 @@ import random
 
 
 def make_list_of_words(line):
+    """
+    This function remove punctuations from a string using translate()
+    Then split that string and return a list of words
+    :param line: is a string of big text
+    :return: List of words
+    """
     replace_reference = {ord('-'): ' ', ord(','): '', ord(','): '', ord('.'): '', ord(')'): '',  ord('('): '', ord ('"'): ''}
     line = line.translate(replace_reference)
     words = line.split()
@@ -19,6 +25,11 @@ def read_file (file_name):
 
 
 def build_trigrams(words):
+    """
+    Buit a trigram dictionary
+    :param words:
+    :return:
+    """
     word_pairs = dict()
     for i in range(len(words) - 2):
         pair = tuple(words[i:i + 2])
