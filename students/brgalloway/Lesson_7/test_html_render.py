@@ -76,8 +76,8 @@ def test_render_element():
     assert file_contents.startswith("<html>")
     assert file_contents.endswith("</html>")
 
-# # Uncomment this one after you get the one above to pass
-# # Does it pass right away?
+# # # Uncomment this one after you get the one above to pass
+# # # Does it pass right away?
 def test_render_element2():
     """
     Tests whether the Element can render two pieces of text
@@ -108,7 +108,7 @@ def test_render_element2():
 # # # Step 2
 # # ########
 
-# # tests for the new tags
+# tests for the new tags
 def test_html():
     e = Html("this is some text")
     e.append("and this is some more text")
@@ -157,7 +157,7 @@ def test_sub_element():
     page.append("Some more plain text.")
 
     file_contents = render_result(page)
-    #print(file_contents) # so we can see it if the test fails
+    print(file_contents) # so we can see it if the test fails
 
     # note: The previous tests should make sure that the tags are getting
     #       properly rendered, so we don't need to test that here.
@@ -176,7 +176,85 @@ def test_sub_element():
 # Step 3
 ########
 
-# Add your tests here!
+# tests for the new tags
+def test_oneline_tag():
+    """
+    tests to ensure title is working properly
+    """
+    t = Title("PythonClass = Revision 1087:")
+    file_contents = render_result(t).strip()
+    # note: The previous tests should make sure that the tags are getting
+    #       properly rendered, so we don't need to test that here.
+    assert "PythonClass = Revision 1087:" in file_contents
+    assert file_contents.startswith("<title>")
+    assert file_contents.endswith("</title>")
+    assert "\n" not in file_contents
+
+########
+# Step 4
+########
+# test element attributes
+def test_attributes():
+    e = P("A paragraph of text", style="text-align: center", id="intro")
+
+    file_contents = render_result(e).strip()
+    print(file_contents)
+    assert("A paragraph of text") in file_contents
+    assert 'style="text-align: center"' in file_contents
+    assert 'id="intro"' in file_contents
+    assert file_contents.startswith("<p")
+    assert file_contents.endswith("</p>")
+    assert file_contents[:-1].index(">") > file_contents.index('id="intro"')
+    assert file_contents[:file_contents.index(">")].count(" ") == 3
+
+########
+# Step 6
+########
+# 
+def test_hr():
+    hr = Hr()
+    file_contents = render_result(hr)
+    print(file_contents)
+    assert file_contents == '<hr />\n'
+
+
+def test_hr_attr():
+    hr = Hr(width=400)
+    file_contents = render_result(hr)
+    print(file_contents)
+    assert file_contents == '<hr width="400" />\n'
+
+
+def test_br():
+    br = Br()
+    file_contents = render_result(br)
+    print(file_contents)
+    assert file_contents == "<br />\n"
+
+def test_br():
+    br = Br()
+    file_contents = render_result(br)
+    print(file_contents)
+    assert file_contents == "<br />\n"
+
+def test_content_in_br():
+    br = Br()
+    with pytest.raises(TypeError):
+        br = Br("some content")
+
+def test_append_content_in_br():
+    with pytest.raises(TypeError):
+        br = Br()
+        br.append("some content")
+
+def test_anchor():
+    a = A("http://google.com", "link to google")
+    file_contents = render_result(a)
+    print(file_contents)
+    assert file_contents.startswith('<a ')
+    assert file_contents.endswith('</a>\n')
+    assert 'href="http://google.com"' in file_contents
+    assert 'link to google' in file_contents
 
 # #####################
 # # indentation testing
