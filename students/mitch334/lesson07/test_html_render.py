@@ -214,8 +214,31 @@ def test_step4_file_compare():
     assert(open('test_html_output4.html').read() == open('test_html_output4_results.html').read())
 
 
+def test_step4_file_attr():
+    el = P("A paragraph of text", style="text-align: center", id="intro")
+    el = render_result(el).strip()
+
+    assert el.startswith('<p style="text-align: center" id="intro">')
+
+
 def test_step5_file_compare():
     assert(open('test_html_output5.html').read() == open('test_html_output5_results.html').read())
+
+
+def test_hr():
+    """a simple horizontal rule with no attributes"""
+    hr = Hr()
+    file_contents = render_result(hr)
+    print(file_contents)
+    assert file_contents == '<hr />\n'
+
+
+def test_hr_attr():
+    """a horizontal rule with an attribute"""
+    hr = Hr(width="400")
+    file_contents = render_result(hr)
+    print(file_contents)
+    assert file_contents == '<hr width="400" />\n'
 
 
 def test_br():
@@ -306,7 +329,7 @@ def test_element_indent1():
 
     <html>
         this is some text
-    <\html>
+    <\\html>
 
     More complex indentation should be tested later.
     """
