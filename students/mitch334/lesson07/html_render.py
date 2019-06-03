@@ -50,22 +50,26 @@ class Element(object):
         out_file.write(self._close_tag(cur_ind))
         out_file.write('\n')
 
+
 class Html(Element):
     tag = "html"
 
     def render(self, out_file, cur_ind=''):
-        # cur_ind = ''
         out_file.write('<!DOCTYPE html>\n')
         super().render(out_file, cur_ind)
+
 
 class Body(Element):
     tag = "body"
 
+
 class P(Element):
     tag = "p"
 
+
 class Head(Element):
     tag = "head"
+
 
 class OneLineTag(Element):
     def render(self, out_file, cur_ind=''):
@@ -80,6 +84,7 @@ class OneLineTag(Element):
 class Title(OneLineTag):
     tag = "title"
 
+
 class SelfClosingTag(Element):
     def __init__(self, content=None, **kwargs):
         self.kwargs = kwargs
@@ -88,17 +93,24 @@ class SelfClosingTag(Element):
             raise TypeError('Content is not allowed in self closing tags.')
 
 
+    def append(self, *args):
+        raise TypeError("You can not add content to a SelfClosingTag")
+
+
     def render(self, out_file, cur_ind=''):
             out_file.write(self._open_tag(cur_ind)[:-1] + ' />\n')
 
 class Hr(SelfClosingTag):
     tag = "hr"
 
+
 class Br(SelfClosingTag):
     tag = "br"
 
+
 class Meta(SelfClosingTag):
     tag = "meta"
+
 
 class A(OneLineTag):
     tag = "a"
@@ -111,11 +123,14 @@ class A(OneLineTag):
         if content:
             self.contents.append(content)
 
+
 class Ul(Element):
     tag = "ul"
 
+
 class Li(Element):
     tag = "li"
+
 
 class H(OneLineTag):
     tag = "h"

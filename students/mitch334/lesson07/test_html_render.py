@@ -218,6 +218,24 @@ def test_step5_file_compare():
     assert(open('test_html_output5.html').read() == open('test_html_output5_results.html').read())
 
 
+def test_br():
+    br = Br()
+    file_contents = render_result(br)
+    print(file_contents)
+    assert file_contents == "<br />\n"
+
+
+def test_content_in_br():
+    with pytest.raises(TypeError):
+        br = Br("some content")
+
+
+def test_append_content_in_br():
+    with pytest.raises(TypeError):
+        br = Br()
+        br.append("some content")
+
+
 def test_step6_file_compare():
     assert(open('test_html_output6.html').read() == open('test_html_output6_results.html').read())
 
