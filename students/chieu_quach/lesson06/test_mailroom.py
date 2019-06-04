@@ -12,12 +12,12 @@ donation_list = [{'full name': 'William Gates III', "Amount": 653684.49,
                  {'full name': 'Paul Allen', 'Amount': 708.42,
                      'num_gift': '3', 'avg_amt': 236.14 }]
 
-def test_1():
+def test_select_user():
    
     assert select_user("Mark Zukerberg") == ("Mark Zukerberg", 16396.10, 3, 5465.37)
              
 
-def test_2():
+def test_user_list():
 
     msgz = ['William Gates III        653684.49       2                   326892.24 ',
            'Mark Zukerberg            16396.10       3                     5465.37 ',
@@ -26,7 +26,7 @@ def test_2():
 
     assert users_list() == msgz
            
-def test_3():
+def test_sent_thankyou():
     
     msgj = (" Dear Mark Zukerberg,\n\tThank you for your generous donation of 144.15\n"
         " \tIt will be put to very good use.\n\n\t"
@@ -38,7 +38,7 @@ def test_3():
       #assert(send_thankyou(11, 14) == 25)
     assert send_thankyou("Mark Zukerberg", 144.15) == msgj
       
-def test_4():
+def test_updating():
    #Updatin user record
    
     #assert updating_list(name) == ("Mark Zukerberg", 17896.1, 4, 4474.02)

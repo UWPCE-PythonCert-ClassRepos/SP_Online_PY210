@@ -55,7 +55,7 @@ def thank_you():
     """
     usr_name_input = input('Enter full name of a donor or enter \"List\" for complete list of doors > ')
     while usr_name_input == 'List':
-        [print(donor) for donor in donor_list_dic]
+        print("\n".join(list(donor_list_dic)))
         usr_name_input = input('Enter full name of a donor or enter \"List\" for complete list of doors > ')
     check_add_name(usr_name_input)
     usr_donation_input = input('Enter a donation amount > ')
@@ -78,7 +78,7 @@ def thank_you_message(name, donation):
     print("Thank you letter for {}".format(name))
     print('=' * 50)
     print("Dear {}".format(name))
-    print("We received your {} donation".format(donation))
+    print("We r eceived your {} donation".format(donation))
     print("Thank you for your donation\n")
 
 
@@ -97,24 +97,21 @@ def report():
     :return: This function created new list with the items required in the report, sort the list and print the report
     """
 
-
-    donor_names = [donor for donor in donor_list_dic]
-    total_given = [sum(donation_list(donor)) for donor in donor_names]
-    num_of_gifts = [len(donation_list(donor)) for donor in donor_names]
-    average_gifts = [t/g for t in total_given for g in num_of_gifts]
-
     report_list = []
-    for i in range(len(donor_names)):
-        report_list.append([donor_names[i], total_given[i], num_of_gifts[i], average_gifts[i]])
-
-
+    for donor in donor_list_dic.keys():
+        total_given = sum(donation_list(donor))
+        num_of_gifts = len(donation_list(donor))
+        average_gifts = total_given / num_of_gifts
+        report_list.append([donor, total_given, num_of_gifts, average_gifts])
     sorted_report_list = sorted(report_list, key=sort_key, reverse=True)
+
     report_head = ("{:<20}{:<20}{:<20}{:<20}".format('Donor Name', '| Total Given', '| Num Gifts ', '| Average Gift'))
     print(report_head)
     print('-' * (len(report_head)))
-    report_line= ('{:<21}{:<21}{:<21}{:<21.2f}'.format(item[0], item[1], item[2], item[3]) for item in sorted_report_list)
-    for i in report_line:
-        print (i)
+    for item in sorted_report_list:
+        print('{:<21}{:<21}{:<21}{:<21.2f}'.format(item[0], item[1], item[2], item[3]))
+
+
 def send_letter_to_all():
         write_letter_to_file('pooria koleyni')
 
@@ -169,7 +166,6 @@ def menu_selection():
     2. Create a report
     3. Send letters to all donors.
     4. Quit
-
     """
     main_menu_dic = {'1': thank_you,
                      '2': report,
@@ -177,9 +173,12 @@ def menu_selection():
                      '4': quit
                      }
     while True:
-        response = input(main_prompt)
-        if main_menu_dic[response]() == "exit menu":
-            break
+        try:
+            response = input(main_prompt)
+            if main_menu_dic[response]() == "quit":
+                break
+        except KeyError:
+            print ("{} is not a valid option".format(response))
 
 
 if __name__ == '__main__':
