@@ -4,7 +4,6 @@
 A class-based system for rendering html.
 """
 
-
 # This is the framework for the base class
 class Element(object):
 
