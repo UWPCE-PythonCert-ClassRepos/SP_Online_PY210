@@ -7,78 +7,89 @@ Recursion!
 '''
 
 
-def fibonacci(n):
+def fibonacci(number):
     '''
     Calculate Fibonacci sequence position of n, by calling this function reursively.
 
     Values for the first two positions in the sequence (0, 1) are 0, 1, so handle those separately.
 
-    Caches prior values in a dictionary to eliminate repeatedly calculating the same position in the sequence
+    Caches prior values in a dictionary to eliminate repeatedly calculating the same position
+    in the sequence
 
-    :param n: find the value of nth position in the sequence
+    :param number: find the value of nth position in the sequence
     :return:
     '''
-    if n in fibonacci_cache:
-        return fibonacci_cache[n]
+    if number in FIBONACCI_CACHE:
+        return FIBONACCI_CACHE[number]
 
-    if n <= 1:
-        value = n
+    if number <= 1:
+        value = number
     else:
-        value = fibonacci(n-1) + fibonacci(n-2)
-    fibonacci_cache[n] = value
+        value = fibonacci(number - 1) + fibonacci(number - 2)
+    FIBONACCI_CACHE[number] = value
 
     return value
 
-def lucas(n):
+def lucas(number):
     '''
-    Recursively compute a Lucas sequence, which is like Fibonacci, but the first two number in the sequence are 2, 1
+    Recursively compute a Lucas sequence, which is like Fibonacci, but the first two number in
+    the sequence are 2, 1
 
-    Caches prior values in a dictionary to eliminate repeatedly calculating the same position in the sequence
+    Caches prior values in a dictionary to eliminate repeatedly calculating the same position
+    in the sequence
 
-    :param n: spot in the sequence in the Nth position
+    :param number: spot in the sequence in the Nth position
     :return: return the calculation or cached value
     '''
 
-    if n in lucas_cache:
-        return lucas_cache[n]
+    if number in LUCAS_CACHE:
+        return LUCAS_CACHE[number]
 
-    if n == 0:
+    if number == 0:
         value = 2
-    elif n == 1:
+    elif number == 1:
         value = 1
     else:
-        value = lucas(n-1) + lucas(n-2)
-    lucas_cache[n] = value
+        value = lucas(number - 1) + lucas(number - 2)
+    LUCAS_CACHE[number] = value
 
     return value
 
 
-def sum_series(n, a=0, b=1):
+def sum_series(number, position_zero=0, position_one=1):
     '''
-    Make a more general function that will handle Fibonacci and Lucas with two addition, optional, args to the function
+    Make a more general function that will handle Fibonacci and Lucas with two addition, optional,
+    args to the function
 
-    Don't use a caching dictionary for this one, as the cache need to get deleted anytime the optional args change.
+    Don't use a caching dictionary for this one, as the cache need to get deleted anytime the
+    optional args change.
 
         * I need to go back and figure out how to do this later.
 
-    :param n: calculate series to 'n'
-    :param a: optional parameter for position 0, as fibonacci and lucas have different values in sequence 0 and 1
-    :param b: optional parameter for position 1, as fibonacci and lucas have different values in sequence 0 and 1
+    :param number: calculate series to 'n'
+    :param position_zero: optional parameter for position 0, as fibonacci and lucas have
+    different values in sequence 0 and 1
+    :param position_one: optional parameter for position 1, as fibonacci and lucas have
+    different values in sequence 0 and 1
     :return: the calculation or cached value
     '''
 
 
-    if n == 0:
-        return a
-    elif n == 1:
-        return b
+    if number == 0:
+        return position_zero
+    elif number == 1:
+        return position_one
     else:
-        value = sum_series(n-1, a, b) + sum_series(n-2, a, b)
+        value = sum_series(number - 1, position_zero, position_one) + \
+                sum_series(number - 2, position_zero, position_one)
 
     return value
 
-fibonacci_cache = {}  # Use a dictionary to cache previous results so we don't repeat recursion for previous values of n
-lucas_cache = {}  # Use a dictionary to cache previous results so we don't repeat recursion for previous values of n
+
+FIBONACCI_CACHE = {}    # Use a dictionary to cache previous results so we don't repeat
+                        # recursion for previous values of n
+LUCAS_CACHE = {}        # Use a dictionary to cache previous results so we don't repeat recursion
+                        # for previous values of n
 
 
 assert fibonacci(4) == 3
@@ -90,10 +101,4 @@ assert lucas(27) == 439204
 assert sum_series(7) == 13
 assert sum_series(7, 2, 1) == 29
 assert sum_series(27, 2, 1) == lucas(27)
-
 print("Tests Passed!")
-
-
-
-
-

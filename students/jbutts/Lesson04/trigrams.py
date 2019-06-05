@@ -1,60 +1,74 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-import string, random
+import string
+import random
 
-txt_file = "./great_expectations.txt"
-dont_end_with = ['the', 'was', 'to', 'and', 'for', 'a', 'in', 'on', 'of', 'at', 'with', 'i', 'as', 'but', 'if', 'what', 'which']
-punctuation = string.punctuation + "\n" + '”' + '“'
+'''
+James Butts
+Python-210 -- Trigrams
 
+'''
 
-def translate_string(input_string):
-    # Use string translation to remove all punctuation and newlines
-    return ' '.join(input_string.translate(str.maketrans('', '', punctuation)).split())
-
-
-def add_line_to_trigram(input_string):
-    for i in range(len(input_string) - 2):
-        trigram.update({(input_string[i], input_string[i + 1]): [input_string[i + 2]]})
+TXT_FILE = "./great_expectations.txt"
+#  Skip ending with words that don't naturally end most English sentences
+DONT_END_WITH = ['the', 'was', 'to', 'and', 'for', 'a', 'in', 'on', 'of',
+                 'at', 'with', 'i', 'as', 'but', 'if', 'what', 'which']
+PUNCTUATION = string.punctuation + "\n" + '”' + '“'
 
 
 def populate_dict(txt_file):
-    # Poulate the dictionary from txt after passing to the translate function that remove punctuation and newlines
-    f = open(txt_file)
-    for line in f:
-        line = translate_string(line)
+    '''
+    Populate the dictionary from txt after passing to the translate function
+    that remove punctuation and newlines
+    '''
+
+    input_file = open(txt_file)
+    for line in input_file:
+        # Use string translation to remove all punctuation and newlines
+        line = ' '.join(line.translate(str.maketrans('', '', PUNCTUATION)).split())
+        word_list = line.split(' ')
         # Add to the dictionary that we'll use to generate the output
-        add_line_to_trigram(line.split(' '))
+        for word in range(len(word_list) - 2):
+            TRIGRAM.update({(word_list[word], word_list[word + 1]): [word_list[word + 2]]})
 
 
-def get_words(tg, first="", second=""):
-    # Core algorithm to generate trigrams.
+def get_words(trigram, first="", second=""):
+    '''
+    Core algorithm to generate trigrams
+    '''
+
     if first == "" and second == "":
-        words = list(tg.keys())
-        rand = random.randint(1, len(trigram))
+        words = list(trigram.keys())
+        rand = random.randint(1, len(TRIGRAM))
         first = words[rand][0]
         second = words[rand][1]
-        third = tg.get((first, second)) # returns list
-        third = ''.join(third[random.randint(0, len(third) - 1)]) # randomly select item from list, return string.
+        third = trigram.get((first, second)) # returns list
+        third = ''.join(third[random.randint(0, len(third) - 1)])  # randomly select item from list,
+        #  return string.
     else:
-        third = tg.get((first, second))
+        third = trigram.get((first, second))
         if third is not None:
             third = ''.join(third[random.randint(0, len(third)-1)])
         else:
-            # At the end of a sentence an empty list gets returned. Return an emtpty string.
+            # At the end of a sentence an empty list gets returned. Return an empty string.
             third = ""
     return first, second, third
 
 
-def get_wordsalad(tg, exclude_last):
-    i = 0
-    first = ''
+def get_wordsalad(trigram, exclude_last):
+    '''
+    Pull it all together, construct the sentences.
+    '''
+
     second = ''
     third = ''
-    wordsalad = []
+    wordsalad = []  # List to contain our constructed trigram sentence.
 
-    for i in range(1, random.randint(12, 17)):
+    for word in range(1, random.randint(12, 17)):
+        #  Create a sentence that's between 12-17 words long.
         first, second, third = get_words(trigram, second, third)
-        if i == 1:
+        if word == 1:
+            #  for the beginning of a sentence, take the first three words
             wordsalad.append("{} {} {}".format(first.title(), second, third))
         else:
             if third != "":
@@ -62,22 +76,18 @@ def get_wordsalad(tg, exclude_last):
 
     while True:
         if wordsalad[len(wordsalad)-1].lower().strip(' ') in exclude_last:
-            # Don't with common prepositions or articles.
+            # Don't end with common prepositions or articles.
             wordsalad.pop(len(wordsalad)-1)
         else:
             break
+    return ' '.join(wordsalad).replace('  ', ' ')  # Remove any extra whitespace with replace
 
 
-    return ' '.join(wordsalad).replace('  ', ' ') # Remove any extra whitespace with replace
-
-
-# Here's our datastructure that we'll use to generate the output
-trigram = {}
-# Pull the text into a dict
-populate_dict(txt_file)
+# Here's our data structure that we'll use to generate the output
+TRIGRAM = {}
+# Pull the text of the book/article into a dict
+populate_dict(TXT_FILE)
 
 for i in range(0, random.randint(9, 12)):
-    print(get_wordsalad(trigram, dont_end_with) + ".  ")
-
-
-
+    #  Write 9-12 sentences of trigrams
+    print(get_wordsalad(TRIGRAM, DONT_END_WITH) + ".  ")
