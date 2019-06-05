@@ -9,9 +9,10 @@ donor_list_dic = {'pooria koleyni': {'donation': [130]},
                   'maysam razm': {'donation': [25, 25]}
                   }
 
+
 def check_add_name(name):
     """
-    :param name: name of a donor to be added to the donor_list_dic of donors if not already there
+    :param name: name of a donor to be added to the donor_list_dic of       donors if not already there
                 This function first verifies to see if name is not already in the donor_list_dic
                 Then it will add name to the donor_list_dic dictionary
 
@@ -54,15 +55,17 @@ def thank_you():
     """
     usr_name_input = input('Enter full name of a donor or enter \"List\" for complete list of doors > ')
     while usr_name_input == 'List':
-        for donor in donor_list_dic.keys():
-            print (donor)
-        # d = donor_list_dic.keys()
-        # print (d)
+        print("\n".join(list(donor_list_dic)))
         usr_name_input = input('Enter full name of a donor or enter \"List\" for complete list of doors > ')
     check_add_name(usr_name_input)
     usr_donation_input = input('Enter a donation amount > ')
-    add_donation(usr_name_input, int(usr_donation_input))
-    thank_you_message(usr_name_input, usr_donation_input)
+    try:
+        usr_donation_input = int(usr_donation_input)
+    except ValueError:
+        print('ValueError: {} is a {}, Enter a digit for donation value'.format(usr_donation_input,type(usr_donation_input)))
+    else:
+        add_donation(usr_name_input, usr_donation_input)
+        thank_you_message(usr_name_input, usr_donation_input)
 
 
 def thank_you_message(name, donation):
@@ -75,7 +78,7 @@ def thank_you_message(name, donation):
     print("Thank you letter for {}".format(name))
     print('=' * 50)
     print("Dear {}".format(name))
-    print("We received your {} donation".format(donation))
+    print("We r eceived your {} donation".format(donation))
     print("Thank you for your donation\n")
 
 
@@ -108,8 +111,9 @@ def report():
     for item in sorted_report_list:
         print('{:<21}{:<21}{:<21}{:<21.2f}'.format(item[0], item[1], item[2], item[3]))
 
+
 def send_letter_to_all():
-    write_letter_to_file('pooria koleyni')
+        write_letter_to_file('pooria koleyni')
 
 
 def file_name(name):
@@ -162,7 +166,6 @@ def menu_selection():
     2. Create a report
     3. Send letters to all donors.
     4. Quit
-
     """
     main_menu_dic = {'1': thank_you,
                      '2': report,
@@ -170,9 +173,12 @@ def menu_selection():
                      '4': quit
                      }
     while True:
-        response = input(main_prompt)
-        if main_menu_dic[response]() == "exit menu":
-            break
+        try:
+            response = input(main_prompt)
+            if main_menu_dic[response]() == "quit":
+                break
+        except KeyError:
+            print ("{} is not a valid option".format(response))
 
 
 if __name__ == '__main__':
