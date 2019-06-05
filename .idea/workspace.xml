@@ -577,16 +577,6 @@
           <option name="timeStamp" value="24" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/students/jbutts/Lesson05/comprehensions_lab.py</url>
-          <line>184</line>
-          <option name="timeStamp" value="42" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/students/jbutts/Lesson05/comprehensions_lab.py</url>
-          <line>234</line>
-          <option name="timeStamp" value="43" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/students/jbutts/Lesson05/except_exercise.py</url>
           <line>19</line>
           <option name="timeStamp" value="44" />
