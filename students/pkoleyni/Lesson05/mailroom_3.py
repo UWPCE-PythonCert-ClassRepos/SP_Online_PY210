@@ -180,6 +180,6 @@ def menu_selection():
         except KeyError:
             print ("{} is not a valid option".format(response))
 
-            
+
 if __name__ == '__main__':
     menu_selection()
