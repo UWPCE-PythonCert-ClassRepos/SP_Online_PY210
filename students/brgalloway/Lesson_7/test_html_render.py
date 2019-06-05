@@ -157,7 +157,7 @@ def test_sub_element():
     page.append("Some more plain text.")
 
     file_contents = render_result(page)
-    print(file_contents) # so we can see it if the test fails
+    # so we can see it if the test fails
 
     # note: The previous tests should make sure that the tags are getting
     #       properly rendered, so we don't need to test that here.
@@ -197,7 +197,6 @@ def test_attributes():
     e = P("A paragraph of text", style="text-align: center", id="intro")
 
     file_contents = render_result(e).strip()
-    print(file_contents)
     assert("A paragraph of text") in file_contents
     assert 'style="text-align: center"' in file_contents
     assert 'id="intro"' in file_contents
@@ -213,21 +212,18 @@ def test_attributes():
 def test_hr():
     hr = Hr()
     file_contents = render_result(hr)
-    print(file_contents)
     assert file_contents == '<hr />\n'
 
 
 def test_hr_attr():
     hr = Hr(width=400)
     file_contents = render_result(hr)
-    print(file_contents)
     assert file_contents == '<hr width="400" />\n'
 
 
 def test_br():
     br = Br()
     file_contents = render_result(br)
-    print(file_contents)
     assert file_contents == "<br />\n"
 
 def test_br():
@@ -252,7 +248,6 @@ def test_append_content_in_br():
 def test_anchor():
     a = A("http://google.com", "link to google")
     file_contents = render_result(a)
-    print(file_contents)
     assert file_contents.startswith('<a ')
     assert file_contents.endswith('</a>\n')
     assert 'href="http://google.com"' in file_contents
@@ -261,6 +256,11 @@ def test_anchor():
 ########
 # Step 7
 ########
+def test_br():
+    h = H(2, "test header")
+    file_contents = render_result(h)
+    assert file_contents == "<h2>test header</h2>\n"
+
 
 # #####################
 # # indentation testing

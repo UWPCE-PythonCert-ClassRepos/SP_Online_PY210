@@ -8,7 +8,7 @@ A class-based system for rendering html.
 class Element(object):
 
     tag = "html"
-    indent = "    "
+    indent = "   "
 
     def __init__(self, content=None, **kwargs):
         self.content = [content]
@@ -53,7 +53,7 @@ class Element(object):
 class Html(Element):
 
     tag = "html"
-    
+    # override render and call parent render
     def render(self, out_file, cur_ind=""):
         out_file.write(f"<!DOCTYPE html>\n")
         super().render(out_file, cur_ind)
@@ -78,6 +78,7 @@ class P(Element):
 
     tag = "p"
 
+# self closing tags on one line
 class SelfClosingTag(Element):
 
     def __init__(self, content=None, **kwargs):
@@ -101,7 +102,11 @@ class Hr(SelfClosingTag):
 
     tag = "hr"
 
+class Meta(SelfClosingTag):
 
+    tag = "meta"
+
+# single line tags that can contain content
 class OneLineTag(Element):
 
     def render(self, out_file, cur_ind=""):
@@ -125,6 +130,8 @@ class A(OneLineTag):
         super().__init__(content, **kwargs)
         
 class H(OneLineTag):
+
+    tag = "h"
     def __init__(self, num, content=None, **kwargs):
         assert type(num) == int
         self.tag = f"h{num}"
