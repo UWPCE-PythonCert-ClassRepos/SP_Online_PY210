@@ -18,9 +18,9 @@ class Circle(object):
     def area(self):
         return math.pi * self.radius**2
 
-    @staticmethod
-    def from_diameter(diameter):
-        return Circle(diameter/2)
+    @classmethod
+    def from_diameter(cls, diameter):
+        return cls(diameter/2)
 
     def __str__(self):
         return f"Circle with radius: {self.radius}"
@@ -32,7 +32,7 @@ class Circle(object):
         return Circle(self.radius + other.radius)
 
     def __mul__(self, other):
-        return Circle(self.radius * other)
+        return Circle(self.radius * other.radius)
 
     def __lt__(self, other):
         return True if self.radius < other.radius else False
@@ -58,10 +58,6 @@ class Sphere(Circle):
     def volume(self):
         return 4/3 * math.pi * self.radius**3
 
-    @staticmethod
-    def from_diameter(diameter):
-        return Sphere(math.pi * diameter**2)
-
     @property
     def area(self):
         return 4 * math.pi * self.radius**2
@@ -71,3 +67,9 @@ class Sphere(Circle):
 
     def __repr__(self):
         return f"Sphere({self.radius})"
+
+    def __add__(self, other):
+        return Sphere(self.radius + other.radius)
+
+    def __mul__(self, other):
+        return Sphere(self.radius * other.radius)
