@@ -8,7 +8,7 @@ in the first version.
 
 Added ability to create letters as text files, in a temp directory, in batch.
 
-Added sorting abilities here. Originally missed this in the first mailroom assignment.
+Added sorting abilities here. I originally missed this in the first mailroom assignment.
 
 '''
 
