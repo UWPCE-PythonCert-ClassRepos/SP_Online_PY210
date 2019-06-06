@@ -30,14 +30,38 @@ class SparseArray(object):
     def append(self, value):
         if value: # If non-zero, add value at next position
             self.value_dict[self.length] = value
-        self.length += 1 # Increase 'virtual' length
+            self.length += 1 # Increase 'virtual' length
 
     def __getitem__(self, index):
-        if index >= self.length:
-            raise IndexError('list index out of range')
-        else:
-            # Return zero if not in dictionary
-            return self.value_dict.get(index,0)
+        if isinstance(index,slice): # slice
+            array_slice = []
+            # Set step to 1 if not defined
+            if index.step == 0:
+                raise ValueError('slice step cannot be zero')
+            step = index.step if index.step else 1
+            # Populate slice from array
+            # Continue as long as current index is valid
+            if step > 0:
+                start, stop = index.start, index.stop
+                current = start
+                while current < self.length and current < stop:
+                    value = self.value_dict.get(current,0)
+                    array_slice.append(value)
+                    current += step
+            elif step < 0:
+                start, stop = index.stop, index.start
+                current = stop
+                while current >= 0 and current > start:
+                    value = self.value_dict.get(current,0)
+                    array_slice.append(value)
+                    current += step
+            return array_slice
+        elif isinstance(index,int): # single index
+            if index >= self.length:
+                raise IndexError('list index out of range')
+            else:
+                # Return zero if not in dictionary
+                return self.value_dict.get(index,0)
 
     def __setitem__(self, index, value):
         if index >= self.length:
