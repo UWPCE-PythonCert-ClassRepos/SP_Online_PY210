@@ -59,6 +59,18 @@ def test_delete():
     with pytest.raises(IndexError):
         del test_array[10]
 
+def test_contains():
+    # Test that 'in' works
+    test_array = SparseArray([1,2,0,0,0,0,3,0,0,4])
+    in_test = 2 in test_array
+    assert in_test
+
+def test_not_contains():
+    # Test that 'in' works
+    test_array = SparseArray([1,2,0,0,0,0,3,0,0,4])
+    in_test = 9 in test_array
+    assert not in_test
+
 # The remaining tests make sure various slicing operations work
 def test_slice():
     test_array = SparseArray([1,2,0,7,0,5,3,0,0,4])

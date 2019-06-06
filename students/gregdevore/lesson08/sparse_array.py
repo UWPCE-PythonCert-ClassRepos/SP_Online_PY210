@@ -32,6 +32,9 @@ class SparseArray(object):
             self.value_dict[self.length] = value
             self.length += 1 # Increase 'virtual' length
 
+    def __contains__(self, item):
+        return item in self.value_dict.values()
+
     def __getitem__(self, index):
         if isinstance(index,slice): # slice
             array_slice = []
