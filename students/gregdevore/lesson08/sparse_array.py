@@ -51,9 +51,3 @@ class SparseArray(object):
         else:
             if index in self.value_dict:
                 del self.value_dict[index]
-
-if __name__ == "__main__":
-    # Create a test array with functionality
-    test_array = SparseArray([1,2,0,0,0,0,3,0,0,4])
-    print(len(test_array))
-    print(test_array[9])
