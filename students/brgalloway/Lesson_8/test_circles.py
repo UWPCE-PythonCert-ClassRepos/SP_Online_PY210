@@ -32,3 +32,10 @@ def test_classmethod():
     c = Circle.from_diameter(8)
     assert c.diameter == 8
     assert c.radius == 4
+
+def test_addition():
+    c1 = Circle(4)
+    c2 = Circle(2)
+    _sum = c1 + c2
+    assert _sum == 6
+
