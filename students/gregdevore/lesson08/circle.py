@@ -51,6 +51,23 @@ class Circle(object):
         # Reversed addition should follow the same rules
         return self.__add__(other)
 
+    def __sub__(self, other):
+        if isinstance(other, int):
+            result = self.radius - other
+            if result <= 0:
+                raise ValueError('Circle radius must be positive.')
+            # Adding a constant should produce a circle with the new radius
+            return Circle(result)
+        elif isinstance(other, Circle):
+            result = self.radius - other.radius
+            if result <= 0:
+                raise ValueError('Circle radius must be positive.')
+            # Adding two circles should produce a circle with the combined radius
+            return Circle(result)
+        else:
+            # Other combinations not supported
+            raise TypeError('unsupported operand type(s) for -: \'Circle\' and \'{}\''.format(type(other).__name__))
+
     def __mul__(self, other):
         if isinstance(other, int):
             # Multiplying by a constant should produce a circle with the new radius
@@ -65,3 +82,28 @@ class Circle(object):
     def __rmul__(self, other):
         # Reversed multiplication should follow the same rules
         return self.__mul__(other)
+
+    def __truediv__(self, other):
+        if isinstance(other, int):
+            # Dividing by a constant should produce a circle with the new radius
+            return Circle(self.radius / other)
+        elif isinstance(other, Circle):
+            # Dividing two circles should produce a circle with the new radius
+            return Circle(self.radius / other.radius)
+        else:
+            # Other combinations not supported
+            raise TypeError('unsupported operand type(s) for /: \'Circle\' and \'{}\''.format(type(other).__name__))
+
+    def __pow__(self, other):
+        if isinstance(other, int):
+            # Dividing by a constant should produce a circle with the new radius
+            return Circle(self.radius ** other)
+        else:
+            # Other combinations not supported
+            raise TypeError('unsupported operand type(s) for /: \'Circle\' and \'{}\''.format(type(other).__name__))
+
+    def __lt__(self, other):
+        return self.radius < other.radius
+
+    def __eq__(self, other):
+        return self.radius == other.radius
