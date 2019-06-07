@@ -35,3 +35,33 @@ class Circle(object):
 
     def __repr__(self):
         return 'Circle({:f})'.format(self._radius)
+
+    def __add__(self, other):
+        if isinstance(other, int):
+            # Adding a constant should produce a circle with the new radius
+            return Circle(self.radius + other)
+        elif isinstance(other, Circle):
+            # Adding two circles should produce a circle with the combined radius
+            return Circle(self.radius + other.radius)
+        else:
+            # Other combinations not supported
+            raise TypeError('unsupported operand type(s) for +: \'Circle\' and \'{}\''.format(type(other).__name__))
+
+    def __radd__(self, other):
+        # Reversed addition should follow the same rules
+        return self.__add__(other)
+
+    def __mul__(self, other):
+        if isinstance(other, int):
+            # Multiplying by a constant should produce a circle with the new radius
+            return Circle(self.radius * other)
+        elif isinstance(other, Circle):
+            # Multiplying two circles should produce a circle with the combined radius
+            return Circle(self.radius * other.radius)
+        else:
+            # Other combinations not supported
+            raise TypeError('unsupported operand type(s) for *: \'Circle\' and \'{}\''.format(type(other).__name__))
+
+    def __rmul__(self, other):
+        # Reversed multiplication should follow the same rules
+        return self.__mul__(other)

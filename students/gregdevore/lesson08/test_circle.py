@@ -49,3 +49,35 @@ def test_repr():
     c = Circle(4)
     d = eval(repr(c))
     assert d.radius == 4
+
+def test_add():
+    # Test that two circles can be added together
+    c1 = Circle(2)
+    c2 = Circle(3)
+    c3 = c1 + c2
+    assert c3.radius == 5
+    # Test that a constant can be added to a circle
+    c4 = c1 + 2
+    assert c4.radius == 4
+    # Test that addition works both ways
+    c5 = 4 + c1
+    assert c5.radius == 6
+    # Test that adding another type fails
+    with pytest.raises(TypeError):
+        assert c1 + '5'
+
+def test_mul():
+    # Test that two circles can be added together
+    c1 = Circle(2)
+    c2 = Circle(3)
+    c3 = c1 * c2
+    assert c3.radius == 6
+    # Test that a constant can be added to a circle
+    c4 = c1 * 2
+    assert c4.radius == 4
+    # Test that multiplication works both ways
+    c5 = 4 * c1
+    assert c5.radius == 8
+    # Test that multiplying by another type fails
+    with pytest.raises(TypeError):
+        assert c1 * '5'
