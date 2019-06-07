@@ -1,5 +1,5 @@
-import pytest
-from circle import *
+
+from circle import Circle, Sphere
 from pytest import approx
 
 
@@ -56,15 +56,12 @@ def test_iadd():
     circle_a += circle_b    # same as circle_a = circle_a + circle_b
     assert circle_a.radius == 5
 
+
 def test_multiply():
-    c = Circle(4)
-    c2 = c * 3
-    assert c2.radius == 12
-
-
-# def test_multiply_2():
-#     c = Circle(4)
-#     assert 3 * c == circle(12)
+    c1 = Circle(4)
+    c2 = Circle(3)
+    c3 = c1 * c2
+    assert c3.radius == 12
 
 
 def test_comparisons():
@@ -85,7 +82,7 @@ def test_sort():
 def test_sphere_radius():
     c = Sphere(4)
     d = eval(repr(c))
-    assert c.radius == 4
+    assert d.radius == 4
 
 
 def test_volume():
@@ -95,7 +92,8 @@ def test_volume():
 
 def test_sphere_from_diameter():
     c = Sphere.from_diameter(5)
-    assert c.radius == approx(78.53, rel=1e-2)
+    assert isinstance(c, Sphere)
+    assert c.radius == approx(2.5, rel=1e-2)
 
 
 def test_sphere_area():
@@ -117,16 +115,19 @@ def test_sphere_str():
 
 
 def test_sphere_add():
-    c = Sphere(4)
-    c1 = Sphere(3)
-    c2 = c + c1
-    assert c2.radius == 7
+    s1 = Sphere(4)
+    s2 = Sphere(3)
+    s3 = s1 + s2
+    assert isinstance(s3, Sphere)
+    assert s3.radius == 7
 
 
 def test_Sphere_multiply():
-    c = Sphere(4)
-    c1 = c * 3
-    assert c1.radius == 12
+    s1 = Sphere(4)
+    s2 = Sphere(3)
+    s3 = s1 * s2
+    assert isinstance(s3, Sphere)
+    assert s3.radius == 12
 
 
 def test_sphere_comparisons():
