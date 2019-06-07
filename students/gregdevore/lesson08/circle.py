@@ -107,3 +107,19 @@ class Circle(object):
 
     def __eq__(self, other):
         return self.radius == other.radius
+
+class Sphere(Circle):
+    # Override area property to compute surface area of sphere (4*pi*r^2)
+    @property
+    def area(self):
+        return 4 * pi * self._radius ** 2
+
+    @property
+    def volume(self):
+        return (4/3) * pi * self.radius ** 3
+
+    def __str__(self):
+        return 'Sphere with radius {:f}'.format(self._radius)
+
+    def __repr__(self):
+        return 'Sphere({:f})'.format(self._radius)
