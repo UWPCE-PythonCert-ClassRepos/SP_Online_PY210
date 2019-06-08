@@ -47,7 +47,6 @@ def recipient_response():
                 return response
             else:
                 print("A new donor!\n")
-                # new_donor = (response, [])
                 donor_db[response] = []
                 return response
 
@@ -96,11 +95,29 @@ def create_report():
     print(str_grid_formatting)
     for i in sorted_donor_db:
         donor_name = i
-        donor_total = round(sum(donor_db[i]))
+        donor_total = round(sum(donor_db[i]), 2)
         number_donations = len(donor_db[i])
         average_donation = round(donor_total/number_donations)
         print("{:20} ${:>19} {:>20} ${:>20}".format(
               donor_name, donor_total, number_donations, average_donation))
+
+
+def generate_all_thanks():
+    for i in donor_db:
+        most_recent_donation = ''.join(str(e) for e in donor_db[i][-1:])
+        with open(f'{i}.txt', 'w') as f:
+            f.write("Dearest {},\n"
+                    "We are writing to formally thank you for your most recent"
+                    " donation of ${}.\n"
+                    "To date, you have donated ${} to our honorable mission.\n"
+                    "You are truly a valuable patron, and we thank you "
+                    "for your service (and money).\n"
+                    "{}\n"
+                    "{}".format(i,
+                                most_recent_donation,
+                                sum_donations(i),
+                                "Kindest regards,",
+                                "Baron Von Munchausen"))
 
 
 def exit_program():
@@ -116,9 +133,11 @@ def main():
                         "Please choose from below options:",
                         "1 - Send a Thank You to a single donor",
                         "2 - Create a Report",
-                        "3 - Quit",
+                        "3 - Send letters to all donors",
+                        "4 - Quit",
                         ">>> "))
-    arg_dict = {"1": single_thank_you, "2": create_report, "3": exit_program}
+    arg_dict = {"1": single_thank_you, "2": create_report,
+                "3": generate_all_thanks, "4": exit_program}
     while True:
         response = input(prompt)
         arg_dict.get(response, "Try again!")()
