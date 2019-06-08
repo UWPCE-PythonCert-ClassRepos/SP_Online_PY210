@@ -32,6 +32,6 @@ def sum_series(n, a=0, b=1):
 			free_series.append(b)
 		else:
 			free_series.append(free_series[i-1]+free_series[i-2])
-
+            
 	return free_series[n]
 
