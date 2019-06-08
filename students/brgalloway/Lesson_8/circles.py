@@ -18,7 +18,6 @@ class Circle(object):
     @diameter.setter
     def diameter(self, _diameter):
         self.radius = _diameter / 2
-        return self.radius
 
     # area property 
     @property
