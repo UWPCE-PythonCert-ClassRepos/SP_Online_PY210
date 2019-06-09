@@ -1,4 +1,5 @@
 import pytest
+import random
 from circles import *
 
 
@@ -37,5 +38,17 @@ def test_addition():
     c1 = Circle(4)
     c2 = Circle(2)
     _sum = c1 + c2
-    assert _sum == 6
+    assert print(c1 + c2) == print(Circle(6))
 
+def test_sort():
+    circle_list = [Circle(i) for i in range(10)]
+    random.shuffle(circle_list)
+    circle_list.sort()
+    assert circle_list[:3] == [Circle(0), Circle(1), Circle(2)]
+
+def test_volume():
+    s1 = Sphere(4)
+    with pytest.raises(NotImplementedError):
+        s1.area
+    assert s1.volume == 268.082573106329
+    
