@@ -5,8 +5,8 @@ import math
 
 class Circle(object): 
     '''
-    Class definitions, attributes, properities
-    and alternative constructor. 
+    Circle class takes radius as a single parameter to initialize. 
+    Inclues diameter, area, and an alternative constructor. 
     '''
     def __init__(self, radius):
         # populate instance with variable
@@ -21,7 +21,6 @@ class Circle(object):
     @diameter.setter
     def diameter(self, _diameter):
         self.radius = _diameter / 2
-        return self.radius
 
     # area property 
     @property
@@ -44,7 +43,6 @@ class Circle(object):
     # compare instances and ensure given raidus is less than
     def __lt__(self, other):
         return self.radius < other.radius
-    #
     def __le__(self, other):
         return self.radius <= other.radius
     # add two instances together
@@ -53,3 +51,22 @@ class Circle(object):
     # multiply instances together
     def __mul__(self, other):
         return Circle(self.radius * other.radius)
+
+class Sphere(Circle):
+    '''
+    Sphere objects inherit from the Circle class. 
+    Takes radius as a single parameter to initialize. 
+    '''
+    @property
+    def volume(self):
+        return ((4/3) * math.pi) * (self.radius ** 3.0)
+
+    @property 
+    def area(self):
+        raise NotImplementedError
+
+    # print format
+    def __str__(self):
+        return f"sphere with a volume of {self.volume:.2f}"
+    def __repr__(self):
+        return f"Sphere({self.volume:.2f})"
