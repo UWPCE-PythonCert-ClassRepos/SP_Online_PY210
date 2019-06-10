@@ -1,9 +1,6 @@
 # Welcome, Students!
 
-
-
 06/10/2019
 
 I studied fashion but want to learn how to code.
-I don't give up even if my husband does not belive in me.
 I will finish the three course by August 2020 and obtain the certification.
