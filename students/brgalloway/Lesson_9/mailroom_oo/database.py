@@ -1,3 +1,33 @@
+from mailroom_oo import donor_models as Donor
+
+donors_list = {
+    "Jeff Bezos": {
+        "donation_total": 877.33,
+        "times_donated": 1,
+        "average_donation": 877.33
+    },
+    "Paul Allen": {
+        "donation_total": 708.42,
+        "times_donated": 3,
+        "average_donation": 236.14
+    },
+    "William Gates, III": {
+        "donation_total": 653784.49,
+        "times_donated": 2,
+        "average_donation": 326892.24
+    },
+    "Bill Ackman": {
+        "donation_total": 2354.05,
+        "times_donated": 3,
+        "average_donation": 784.68
+    },
+    "Mark Zuckerberg": {
+        "donation_total": 16396.10,
+        "times_donated": 3,
+        "average_donation": 5465.37
+    }
+}
+
 class Database(object):
 
     # helper function to sort by total

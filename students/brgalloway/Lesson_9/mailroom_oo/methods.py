@@ -1,31 +1,4 @@
-
-donors_list = {
-    "Jeff Bezos": {
-        "donation_total": 877.33,
-        "times_donated": 1,
-        "average_donation": 877.33
-    },
-    "Paul Allen": {
-        "donation_total": 708.42,
-        "times_donated": 3,
-        "average_donation": 236.14
-    },
-    "William Gates, III": {
-        "donation_total": 653784.49,
-        "times_donated": 2,
-        "average_donation": 326892.24
-    },
-    "Bill Ackman": {
-        "donation_total": 2354.05,
-        "times_donated": 3,
-        "average_donation": 784.68
-    },
-    "Mark Zuckerberg": {
-        "donation_total": 16396.10,
-        "times_donated": 3,
-        "average_donation": 5465.37
-    }
-}
+from mailroom_oo import database as db
 
 # sub menu for selecting donors
 def find_donor():
@@ -51,7 +24,7 @@ def sort_donors(a_dict):
     return a_dict[1]["donation_total"]
 
 
-def generate_report(donors_list=donors_list):
+def generate_report(donors_list=db.donors_list):
     '''
     Generate report based on menu choice
     and return user to the menu prompt  
@@ -113,7 +86,7 @@ def send_thankyou(fullname,donation_amount):
     return email_template
 
 
-def bulk_thankyou(donors_list=donors_list):
+def bulk_thankyou(donors_list=db.donors_list):
     '''Send email to all donors showing their total donations'''
     email_output = []
     for donors in donors_list.keys():

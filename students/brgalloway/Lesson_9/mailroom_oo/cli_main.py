@@ -1,5 +1,6 @@
 import sys
-from mailroom_oo import methods
+from mailroom_oo import methods as m
+from mailroom_oo import donor_models as d
 
 class CliMenu(object):
     '''
@@ -17,9 +18,9 @@ class CliMenu(object):
         # value returned from choice keys
         # TODO configure options 1-3 as classes
         self.main_dispatch = {
-            "1": methods.find_donor,
-            "2": methods.generate_report,
-            "3": methods.bulk_thankyou,
+            "1": d.find_donor,
+            "2": m.generate_report,
+            "3": m.bulk_thankyou,
             "4": self.quit_app
         }
     
