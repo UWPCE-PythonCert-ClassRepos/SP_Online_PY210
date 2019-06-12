@@ -65,5 +65,6 @@ def test_create_report():
     assert lines[5] == '{:<15} | ${:>13.2f} | {:^11} | ${:>15.2f}'.format('John Smith', 57068.00, 3, 19022.67)
     assert lines[7] == '{:<15} | ${:>13.2f} | {:^11} | ${:>15.2f}'.format('Brett Johnson', 21991.00, 6, 3665.17)
 
+
 def test_mail_room():
     pass

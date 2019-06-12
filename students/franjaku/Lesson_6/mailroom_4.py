@@ -61,40 +61,44 @@ def prompt_user():
     return UserAction
 
 
-def prompt_donation_amount():
+# Check is this needs to be split up into prompt and logic...probably does
+def get_donation_amount():
     donation_amount_prompt = 'Enter the donation amount: $ '
     amount = input(donation_amount_prompt)
-    return amount
-
-
-def get_donation_amount(amount):
     while True:
         try:
             amount = float(amount)
         except ValueError:
             print('Not a valid number.')
-            amount = prompt_donation_amount()
+            amount = input(donation_amount_prompt)
         else:
             break
 
     return amount
 
 
-def prompt_thank_you_note(database):
+def prompt_thank_you_note():
     # Compose an email: thank the user, print email to terminal
     prompt = 'Enter the donors full name or type "list" to see all donors in the database.\n>>> '
     donor_name = (input(prompt)).title()
-    send_thank_you_note(database, donor_name)
+    return donor_name
 
 
-def send_thank_you_note(database, donor_name):
+def send_thank_you_note(database, donor_name, donation_amount):
+    email = '{} thank you for your generous donation of ${:.2f}'
+    print(email.format(donor_name, donation_amount))
+
+
+def driver_send_thank_you_note(database):
+    donor_name = prompt_thank_you_note()
+
+    #check is name is list, if not prompt_donation_amount()
     if donor_name == 'List' or '':
         print_donor_list(database)
     else:
-        email = '{} thank you for your generous donation of ${:.2f}'
-        donation_amount = get_donation_amount(prompt_donation_amount())
+        donation_amount = get_donation_amount()
+        send_thank_you_note(database, donor_name, donation_amount)
         add_new_donation(database, donor_name, donation_amount)
-        print(email.format(donor_name, donation_amount))
 
 
 def send_letters(database):
@@ -118,7 +122,8 @@ def create_report(database):
     return lines
 
 
-def print_report(lines):
+def print_report(database):
+    lines = create_report(database)
     report = "\n".join(lines)
     print(report)
     return report
@@ -136,7 +141,7 @@ def mail_room():
 
     options_dict = {
         '1': prompt_thank_you_note,
-        '2': create_report,
+        '2': print_report,
         '3': send_letters,
         '4': quit}
 
