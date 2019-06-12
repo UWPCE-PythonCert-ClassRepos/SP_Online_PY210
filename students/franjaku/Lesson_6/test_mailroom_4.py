@@ -56,8 +56,14 @@ def test_send_letters():
 
 
 def test_create_report():
-    pass
-
+    database = ml.initialize_database()
+    lines = ml.create_report(database)
+    assert lines[0] == '-----Donation Report-----'
+    assert lines[1] == '\n{:<15} | {:>14} | {:>11} | {:>16}'.format('Donor Name', 'Total Donation', '# donations', 'Average Donation')
+    assert lines[2] == '-'*66
+    assert lines[3] == '{:<15} | ${:>13.2f} | {:^11} | ${:>15.2f}'.format('Jane Adams', 121300.00, 4, 30325.00)
+    assert lines[5] == '{:<15} | ${:>13.2f} | {:^11} | ${:>15.2f}'.format('John Smith', 57068.00, 3, 19022.67)
+    assert lines[7] == '{:<15} | ${:>13.2f} | {:^11} | ${:>15.2f}'.format('Brett Johnson', 21991.00, 6, 3665.17)
 
 def test_mail_room():
     pass

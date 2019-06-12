@@ -108,13 +108,20 @@ def send_letters(database):
 def create_report(database):
     # Sort database by most $$ donated
     sorted_database = collections.OrderedDict(sorted(database.items(), key=sort_key, reverse=True))
-    print('-----Donation Report-----')
-    print('\n{:<15} | {:>14} | {:>11} | {:>16}'.format('Donor Name', 'Total Donation', '# donations', 'Average Donation'))
-    print('-'*66)
-    for donor, data in sorted_database.items():
-        print(f"{donor:<15} | ${sum(data):>13.2f} | {len(data):^11} | ${sum(data)/len(data):>15.2f}")
+    lines = list()
+    lines.append('-----Donation Report-----')
+    lines.append('\n{:<15} | {:>14} | {:>11} | {:>16}'.format('Donor Name', 'Total Donation', '# donations', 'Average Donation'))
+    lines.append('-'*66)
+    for donor, data, in sorted_database.items():
+        lines.append(f"{donor:<15} | ${sum(data):>13.2f} | {len(data):^11} | ${sum(data)/len(data):>15.2f}")
 
-    print('\n')
+    return lines
+
+
+def print_report(lines):
+    report = "\n".join(lines)
+    print(report)
+    return report
 
 
 def quit(database=None):
