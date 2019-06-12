@@ -56,9 +56,10 @@ def add_donation(name, donation):
     :param donation: amount of donation
     :return: add donation to the list and print a message to confirm donation has been added to the list
     """
-    for i in range(0, len(donor_list)):
-        if donor_list[i][0] == name:
-            donor_list[i].append(donation)
+
+    for donor in donor_list:
+        if donor [0] == name:
+            donor.append(donation)
             print ("${} added to the list of donations made by {} donations".format(donation,name))
 
 
@@ -78,7 +79,7 @@ def thank_you():
 
 def thank_you_message(name,donation):
     """
-    :param name: name of a donot to send thank you letter
+    :param name: name of a donor to send thank you letter
     :param donation: Amount of donation
     :return:
     """
@@ -121,17 +122,37 @@ def average_gifts(name):
             avarage = sum(donor_donation[1:]) / len(donor_donation[1:])
     return avarage
 
+
+def sort_key(key):
+    """
+
+    :param key: Key defines the item in the list to be used for sorting
+    :return:
+    """
+    return key[1]
+
 def report():
     """
 
-    :return: will call other function to get the data and print the report
+    :return: This function created a sorted list of donors with their max donation and provide a report
     """
-    print()
+
+    report_list = []
+    for donor in donor_list:  # loop over items in a list, don't use range()
+        name = donor[0]
+        donations = donor[1:]
+        num_gift = len(donations)
+        total_donations = sum(donations)
+        avg_gifts = total_donations / num_gift
+        report_list.append([name, total_donations, num_gift, avg_gifts])
+
+    sorted_report_list = sorted(report_list, key = sort_key, reverse = True)
     report_head = ("{:<20}{:<20}{:<20}{:<20}".format('Donor Name','| Total Given', '| Num Gifts ', '| Average Gift' ))
     print (report_head)
     print ('-'*(len(report_head)))
-    for donor_name in list_donors():
-        print(f"{donor_name:<20}{total_donation(donor_name):<20f}{num_gifts(donor_name):<20f}{average_gifts(donor_name)}")
+    for item in sorted_report_list:
+        print ('{:<21}{:<21.2f}{:<21}{:<21.2f}'.format(item[0],item[1], item[2], item[3]))
+
 
 def display_options():
     user_input = ''

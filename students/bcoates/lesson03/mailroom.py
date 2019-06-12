@@ -53,13 +53,14 @@ def prompt_and_add_donor():
             for donor in donor_history:
                 if full_name == donor[0]:
                     print("Found existing donor...")
-                    return donor[0]
+                    return donor
             else:
                 print("Adding new donor to list...")
-                donor_history.append([full_name, []])
-                return full_name
+                new_donor = [full_name, []]
+                donor_history.append(new_donor)
+                return new_donor
 
-def prompt_and_add_donation_amount(full_name):
+def prompt_and_add_donation_amount(donor):
     """ Prompt for a donation amount and add it for the donor """
     
     while True:
@@ -76,10 +77,14 @@ def prompt_and_add_donation_amount(full_name):
             float_amount = float(donation_amount)
 
             # Add the donation to the donor's list of donations
-            for donor in donor_history:
-                if donor[0] == full_name:
-                    print("Adding new donation of {} from {}".format(donation_amount, full_name))
-                    donor[1].append(float_amount)
+            print("Adding new donation of {} from {}".format(donation_amount, donor[0]))
+            donor.append(float_amount)
+
+            # Add the donation to the donor's list of donations
+            #for donor in donor_history:
+            #    if donor[0] == full_name:
+            #        print("Adding new donation of {} from {}".format(donation_amount, full_name))
+            #        donor[1].append(float_amount)
             
             # Return the donation amount
             return float_amount
@@ -88,15 +93,15 @@ def send_a_thank_you():
     """ Generate a thank you letter for a given donor and amount """
 
     # Prompt for donor's full name
-    full_name = prompt_and_add_donor()
+    donor = prompt_and_add_donor()
 
     # Return to main menu
-    if full_name == "NODATA":
+    if donor[0] == "NODATA":
         print("No data.  Returning to main menu...")
         return
 
     # Prompt for the donation amount
-    donation_amount = prompt_and_add_donation_amount(full_name)
+    donation_amount = prompt_and_add_donation_amount(donor)
 
     # Return to main menu
     if donation_amount == "NODATA":
@@ -105,7 +110,7 @@ def send_a_thank_you():
 
     # Print out a letter customized for the donor and amount
     print(f"""
-Dear {full_name},
+Dear {donor[0]},
 
 Thank you for your generous donation of ${donation_amount:.2f}!
 
@@ -128,7 +133,7 @@ def create_a_report():
             donor_summary.append([donor[0], sum(donor[1]), len(donor[1]), sum(donor[1])/len(donor[1])])
         # Handle zero in case they entered a new donor but no donations
         else:
-            donor_summary.append(donor[0], 0, 0, 0)
+            donor_summary.append([donor[0], 0, 0, 0])
 
     # Sort the new list descending by total donations and print the output
     donor_summary.sort(key=lambda x: x[1], reverse=True)
