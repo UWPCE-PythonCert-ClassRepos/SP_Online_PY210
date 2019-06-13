@@ -1,22 +1,32 @@
 # from mailroom_oo import database as db
 
-class Donor(object):
+class DonorCollection(object):
    '''
-   Donor class takes a fullname to initiate donor. 
+   A collection of donors and the donations contributed
    '''
    def __init__(self, fullname):
+      pass
+
+   def new_donor(self):
+      pass
+   def existing_donor(self):
+      pass
+
+class Donor(object):
+   '''
+   Donor class takes a fullname to initiate a single donor. 
+   Each donor has three attributes: total donated, number of donations, and average donation
+   '''
+   def __init__(self, fullname, **kwargs):
       self.fullname = fullname
-      self.times_donated = 0
+      self.donation_atttimes_donated = 0
       self.donation_total = 0
       self.average_donation = 0
       self.donordb = {}
       
    def __repr__(self):
       return f"{{\"{self.fullname}\": {{\"donation_total\": {self.donation_total:.2f}, \"times_donated\": {self.times_donated}, \"average_donation\": {self.average_donation:.2f}}}"
-   
-   def __iter__(self):
-      self.fullname.__iter__()
-      
+       
    @property
    def calculate_donations(self):
       return self.donation_total
@@ -33,3 +43,4 @@ class Donor(object):
   
    def send_thankyou(self):
       pass
+
