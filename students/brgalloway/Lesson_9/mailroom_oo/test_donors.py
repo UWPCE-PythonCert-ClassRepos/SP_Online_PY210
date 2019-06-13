@@ -5,7 +5,7 @@ from mailroom_oo.donor_models import Donor as d
 def test_donors():
     d1 = d("Billy Galloway")
     assert d1.fullname == "Billy Galloway"
-   
+    
     
     
     
