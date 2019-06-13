@@ -47,14 +47,14 @@ class Donor():
         """
         self.donations.append(amount)
 
-    def get_last_donation(self):
+    def last_donation(self):
         """
         Return last donation for donor.
         Returns $0 if donor has no donation history
         """
         return self.donations[-1] if self.donations else 0
 
-    def get_total_donations(self):
+    def total_donations(self):
         """
         Return total donations for donor
         """
@@ -65,8 +65,8 @@ class Donor():
         Generate email to donor
         """
         email_dict = {'donor_name':self.name,
-                      'donation_amount':self.get_last_donation(),
-                      'total_amount':self.get_total_donations()}
+                      'donation_amount':self.last_donation(),
+                      'total_amount':self.total_donations()}
 
         # Create formatted email that can be copied & pasted
         email = ('\n'.join(['Dear {donor_name},','',

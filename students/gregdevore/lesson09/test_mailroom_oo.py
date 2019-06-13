@@ -18,14 +18,14 @@ def test_add_donations():
     for amount in donations_to_add:
         d.add_donation(amount)
     assert d.donations == donations_to_add
-    assert d.get_last_donation() == 275.
-    assert d.get_total_donations() == 425.
+    assert d.last_donation() == 275.
+    assert d.total_donations() == 425.
 
 def test_empty_donation():
     # Test that a new donor returns $0 for last and total donations
     d = Donor('Eleanor Shellstrop')
-    assert d.get_last_donation() == 0
-    assert d.get_total_donations() == 0
+    assert d.last_donation() == 0
+    assert d.total_donations() == 0
 
 def test_generate_email():
     # Test that email is properly generated
