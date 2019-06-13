@@ -36,16 +36,25 @@ def test_prompt_user():
     pass
 
 
+def test_prompt_donation_amount():
+    pass
+
+
 def test_get_donation_amount():
     donation = ml.get_donation_amount(100)
     assert type(donation) == float
 
 
-def test_thank_you_note_prompt():
+def test_prompt_donor_name():
     pass
 
 
-def test_send_thank_you_note():
+def test_generate_thank_you_email():
+    email = ml.generate_thank_you_email('John Smith', 5205)
+    assert email == 'John Smith, thank you for your generous donation of $5205.00'
+
+
+def test_driver_send_thank_you_note():
     pass
 
 

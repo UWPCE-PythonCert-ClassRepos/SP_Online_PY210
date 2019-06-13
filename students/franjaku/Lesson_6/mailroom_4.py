@@ -61,43 +61,47 @@ def prompt_user():
     return UserAction
 
 
-# Check is this needs to be split up into prompt and logic...probably does
-def get_donation_amount():
+def prompt_donation_amount():
     donation_amount_prompt = 'Enter the donation amount: $ '
     amount = input(donation_amount_prompt)
+    return amount
+
+
+def get_donation_amount(amount):
     while True:
         try:
             amount = float(amount)
         except ValueError:
             print('Not a valid number.')
-            amount = input(donation_amount_prompt)
+            amount = prompt_donation_amount()
         else:
             break
 
     return amount
 
 
-def prompt_thank_you_note():
+def prompt_donor_name():
     # Compose an email: thank the user, print email to terminal
     prompt = 'Enter the donors full name or type "list" to see all donors in the database.\n>>> '
     donor_name = (input(prompt)).title()
     return donor_name
 
 
-def send_thank_you_note(database, donor_name, donation_amount):
-    email = '{} thank you for your generous donation of ${:.2f}'
-    print(email.format(donor_name, donation_amount))
+def generate_thank_you_email(donor_name, donation_amount):
+    email = f"{donor_name}, thank you for your generous donation of ${donation_amount:.2f}"
+    print(email)
+    return email
 
 
 def driver_send_thank_you_note(database):
-    donor_name = prompt_thank_you_note()
+    donor_name = prompt_donor_name()
 
     #check is name is list, if not prompt_donation_amount()
     if donor_name == 'List' or '':
         print_donor_list(database)
     else:
         donation_amount = get_donation_amount()
-        send_thank_you_note(database, donor_name, donation_amount)
+        generate_thank_you_email(donor_name, donation_amount)
         add_new_donation(database, donor_name, donation_amount)
 
 
@@ -140,7 +144,7 @@ def mail_room():
     print('------------Welcome to the Mailroom :)------------')
 
     options_dict = {
-        '1': prompt_thank_you_note,
+        '1': driver_send_thank_you_note,
         '2': print_report,
         '3': send_letters,
         '4': quit}
