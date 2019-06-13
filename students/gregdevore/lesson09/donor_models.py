@@ -38,4 +38,52 @@ class Donor():
         self.donations = []
 
     def add_donation(self, amount):
+        """
+        Add donation to donor's history
+
+        Args:
+            amount (float):
+                Donation amount (must be positive)
+        """
         self.donations.append(amount)
+
+    def get_last_donation(self):
+        """
+        Return last donation for donor.
+        Returns $0 if donor has no donation history
+        """
+        return self.donations[-1] if self.donations else 0
+
+    def get_total_donations(self):
+        """
+        Return total donations for donor
+        """
+        return sum(self.donations)
+
+    def generate_email(self):
+        """
+        Generate email to donor
+        """
+        email_dict = {'donor_name':self.name,
+                      'donation_amount':self.get_last_donation(),
+                      'total_amount':self.get_total_donations()}
+
+        # Create formatted email that can be copied & pasted
+        email = ('\n'.join(['Dear {donor_name},','',
+        'Thank you for your generous donation of ${donation_amount:.2f}.',
+        'To date, you have donated a total of ${total_amount:.2f} to our charity.',
+        'Your contributions help new arrivals receive the highest quality care possible.',
+        'Please know that your donations make a world of difference!',
+        '','Sincerely,','The Good Place Team'])).format(**email_dict)
+
+        return(email)
+
+class DonorCollection():
+    """
+    Class representing a collection of Donor instances
+
+    Args:
+        donors (dict):
+            Dictionary of donor objects (key = donor name, value = donor object)
+
+    """
