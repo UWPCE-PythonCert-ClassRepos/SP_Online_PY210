@@ -1,10 +1,13 @@
 from mailroom_oo import database as db
-
+from mailroom_oo import donor_models as d
 # sub menu for selecting donors
 def find_donor():
+
     while True:
         fullname = input("type list to display names or quit to exit to main menu\n" \
                          "Enter full name of donor: ")
+        search = d.(fullname)
+        
         if fullname == "list":
             output = list_names()
             return print(output)
