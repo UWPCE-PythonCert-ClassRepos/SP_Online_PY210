@@ -2,7 +2,7 @@
 
 import os, random, string, tempfile, pytest
 from datetime import datetime
-from donor_models import Donor
+from donor_models import Donor, DonorCollection
 
 def test_donor_init():
     # Test that donor can be created
@@ -42,3 +42,25 @@ Please know that your donations make a world of difference!
 
 Sincerely,
 The Good Place Team"""
+
+def test_donorcollection_init():
+    # Test that donor collection initializes with empty dict
+    dc = DonorCollection()
+    assert dc.donors == {}
+
+def test_add_donor():
+    # Test that donors can be added to collection
+    dc = DonorCollection()
+    dc.addDonor('Jason Mendoza')
+    donors = dc.donors
+    assert 'Jason Mendoza' in donors
+
+def test_get_donor():
+    # Test that donors can be retrieved from collection
+    dc = DonorCollection()
+    dc.addDonor('Jason Mendoza')
+    d = dc.getDonor('Jason Mendoza')
+    assert isinstance(d,Donor)
+    assert d.name == 'Jason Mendoza'
+    # Should return None if donor does not exist
+    assert dc.getDonor('Fake Donor') == None

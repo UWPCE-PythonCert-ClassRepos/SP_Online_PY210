@@ -86,4 +86,42 @@ class DonorCollection():
         donors (dict):
             Dictionary of donor objects (key = donor name, value = donor object)
 
+    Methods:
+        addDonor(name):
+            Creates a new Donor instance with the given name and adds it to the
+            collection
+
+        getDonor(name):
+            Returns Donor instance (returns None if not found)
+
     """
+    def __init__(self):
+        """
+        Create new DonorCollection instance with empty donor list
+        """
+        self.donors = {}
+
+    def addDonor(self, name):
+        """
+        Create a new Donor instance and add it to the donors dictionary
+
+        Args:
+            name (str):
+                Donor's name
+        """
+        d = Donor(name)
+        self.donors[name] = d
+
+    def getDonor(self, name):
+        """
+        Return Donor instance using name to lookup
+
+        Args:
+            name (str):
+                Donor name to look up.
+
+        Returns:
+            donor (Donor):
+                Donor instance. Will return None if donor name not found
+        """
+        return self.donors.get(name, None)
