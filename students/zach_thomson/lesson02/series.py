@@ -38,7 +38,7 @@ def sum_series(n, x = 0, y = 1):
         i = i + 1
     return gen_series[n]
 
-#Part 4: Integrating generalized sum_series into Fibonacci and Lucas series
+#Part 4: Integrating generalized sum_series into Fibonacci and Lucas series functions
 def fibonacci(n):
     """returns nth value of Fibonacci series using sum_series function"""
     return sum_series(n)
