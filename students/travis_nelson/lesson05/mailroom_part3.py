@@ -32,23 +32,30 @@ def recipient_response():
     If recipient was not previously in donor database, they are added"""
     keep_asking = True
     while keep_asking:
-        response = input("To whom should we address this Thank You?\n"
-                         "(Type 'list' to view existing donors)\n").title()
-        if response.lower() == "list":
-            for i in donor_db:
-                print("{}".format(i))
-        else:
-            donor_exists = False
-            for donor in donor_db:
-                if donor == response:
-                    donor_exists = True
-            if donor_exists:
-                print("An existing patron\n")
-                return response
+        response = input("\nTo whom should we address this Thank You?\n"
+                         "(Type 'list' to view existing donors)\n\n").title()
+        try:
+            if response[0].isalpha():
+                if response.lower() == "list":
+                    print("\n")
+                    for i in donor_db:
+                        print("{}".format(i))
+                else:
+                    donor_exists = False
+                    for donor in donor_db:
+                        if donor == response:
+                            donor_exists = True
+                    if donor_exists:
+                        print("\nAn existing patron!\n")
+                        return response
+                    else:
+                        print("\nA new donor!\n")
+                        donor_db[response] = []
+                        return response
             else:
-                print("A new donor!\n")
-                donor_db[response] = []
-                return response
+                raise TypeError
+        except TypeError:
+            print("\nType a name, plz\n")
 
 
 def donation_response(donor):
@@ -58,11 +65,11 @@ def donation_response(donor):
         donation = input("How much did they donate?\n")
         try:
             if float(donation):
-                print("Nice!\n")
+                print("\nNice!\n")
                 keep_asking = False
                 return donation
         except ValueError:
-            print("Try again")
+            print("\nJust a number is fine.\n")
 
 
 def store_new_donation(donor, donation):
@@ -103,6 +110,9 @@ def create_report():
 
 
 def generate_all_thanks():
+    """Creates text files containing a thank you letter to each of the donors.
+    Document provides their total amount contributed, as well as their most
+    recent donation amount."""
     for i in donor_db:
         most_recent_donation = ''.join(str(e) for e in donor_db[i][-1:])
         with open(f'{i}.txt', 'w') as f:
@@ -118,29 +128,36 @@ def generate_all_thanks():
                                 sum_donations(i),
                                 "Kindest regards,",
                                 "Baron Von Munchausen"))
+        print(f'Thank you letter created for {i}')
+    print('\nAll Thank You letters have been created.\n')
 
 
 def exit_program():
     """Exits the interactive script"""
-    print("Ok Bye!")
+    print("\nOk Bye!\n")
     sys.exit()
+
+
+def invalid_response():
+    """ To be called if user input doesn't map to the
+    dict of available tasks. Specifically necessary due to dict.get()"""
+    print("\nTry again!\n")
 
 
 def main():
     """Continuously asks the user for next task"""
-    prompt = "\n".join((">>>",
-                        "Let's do some stuff!",
-                        "Please choose from below options:",
+    prompt = "\n".join(("_________\n",
+                        "Welcome to the Donation Station!\n",
+                        "Please choose from below options:\n",
                         "1 - Send a Thank You to a single donor",
                         "2 - Create a Report",
                         "3 - Send letters to all donors",
-                        "4 - Quit",
-                        ">>> "))
+                        "4 - Quit\n\n",))
     arg_dict = {"1": single_thank_you, "2": create_report,
                 "3": generate_all_thanks, "4": exit_program}
     while True:
         response = input(prompt)
-        arg_dict.get(response, "Try again!")()
+        arg_dict.get(response, invalid_response)()
 
 if __name__ == "__main__":
     main()
