@@ -51,16 +51,44 @@ def test_donorcollection_init():
 def test_add_donor():
     # Test that donors can be added to collection
     dc = DonorCollection()
-    dc.addDonor('Jason Mendoza')
+    dc.updateDonor('Jason Mendoza',25.)
     donors = dc.donors
     assert 'Jason Mendoza' in donors
 
 def test_get_donor():
     # Test that donors can be retrieved from collection
     dc = DonorCollection()
-    dc.addDonor('Jason Mendoza')
+    dc.updateDonor('Jason Mendoza',100.)
     d = dc.getDonor('Jason Mendoza')
     assert isinstance(d,Donor)
     assert d.name == 'Jason Mendoza'
-    # Should return None if donor does not exist
-    assert dc.getDonor('Fake Donor') == None
+    assert d.last_donation() == 100.
+    # Should return new donor if donor does not exist
+    d = dc.getDonor('New Donor')
+    assert isinstance(d,Donor)
+    assert d.name == 'New Donor'
+
+def test_update_donor():
+    # Tests that new donor can be added and existing donor can be updated
+    dc = DonorCollection()
+    dc.updateDonor('Jason Mendoza',100.)
+    dc.updateDonor('Jason Mendoza',200.)
+    dc.updateDonor('Chidi Anagonye', 50.0)
+    d1 = dc.getDonor('Jason Mendoza')
+    d2 = dc.getDonor('Chidi Anagonye')
+    assert d1.last_donation() == 200.
+    assert d1.total_donations() == 300.
+    assert d2.last_donation() == 50.
+    assert d2.total_donations() == 50.
+
+# Test report generation
+def test_report_generation():
+    dc = DonorCollection()
+    donors = ['Eleanor Shellstrop', 'Jason Mendoza', 'Chidi Anagonye']
+    amounts = [[50.,25.,75.], [100.,50.,80.], [200.,100.,300.]]
+    for donor, amount in zip(donors,amounts):
+        for donation in amount:
+            dc.updateDonor(donor, donation)
+    report = dc.generate_report_data()
+    assert len(report) == len(donors)
+    assert report[-1] == ('Eleanor Shellstrop', 150., 3, 50.)
