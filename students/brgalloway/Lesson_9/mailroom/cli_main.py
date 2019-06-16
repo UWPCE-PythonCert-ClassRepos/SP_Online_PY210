@@ -1,26 +1,26 @@
-import mailroom_oo.donor_collection as db 
-import mailroom.donor_models as d
-
-menu_selection = cli.MenuSelection()
-menu_selection = menu_selection.selector()
-
-oop_donors_list = []
-
-d1 = d("Jeff Bezos")
-d2 = d("Paul Allen")
-d3 = d("William Gates, III")
-d4 = d("Bill Ackman")
-d5 = d("Mark Zuckerberg")
-
-oop_donors_list = [d1, d2, d3, d4, d5]
-
-donor_db = db(d1)
-
 import sys
-from mailroom_oo import methods as m
-from mailroom_oo import donor_models as d
+import donor_models as d
 
 
+d1 = d.Donor("Jeff Bezos")
+d2 = d.Donor("Paul Allen")
+d3 = d.Donor("William Gates, III")
+d4 = d.Donor("Bill Ackman")
+d5 = d.Donor("Mark Zuckerberg")
+d1.donation_total, d1.times_donated, d1.average_donation = 877.33, 1, 877.33
+d2.donation_total, d2.times_donated, d2.average_donation = 708.42, 3, 236.14
+d3.donation_total, d3.times_donated, d3.average_donation = 653784.49, 2, 326892.24
+d4.donation_total, d4.times_donated, d4.average_donation = 2354.05, 3, 784.68
+d5.donation_total, d5.times_donated, d5.average_donation =16396.10, 3, 5465.37
+
+donor_db = d.DonorCollection()
+donor_db.append(d1)
+donor_db.append(d2)
+donor_db.append(d3)
+donor_db.append(d4)
+donor_db.append(d5)
+
+print(donor_db.donor_list)
 # menu prompt and options to select from
 self.prompt = "Choose one of the following options. \n\n" \
     "1 - Send a Thank You to a single donor \n" \

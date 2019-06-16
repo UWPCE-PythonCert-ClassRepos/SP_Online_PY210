@@ -68,22 +68,19 @@ class DonorCollection(object):
          else:
             return print(fullname, "not in database")
 
-   def sort_donors(a_list):
-    return self.donor_list[0].donation_total
-
    def generate_report(self):
       '''
       Generate report based on menu choice
       and return user to the menu prompt  
       '''  
+      sorted_list = sorted(self.donor_list)
+
       print("{:<20}|{:^15}|{:^15}|{:^15}".format("Donor Name", "Total Given", "Num Gifts", "Average Gifts"))
       print("-" * 70)
 
       # print(self.donor_list[0].donation_total)
-      self.donor_list.sort(key=lambda x: self.donor_list.donation_total)
-      print([item.donation_total for item in donor_list])
-
-      for donors in self.sorted_list:
+   
+      for donors in sorted_list:
          name = donors.fullname 
          total = donors.donation_total
          times = donors.times_donated
