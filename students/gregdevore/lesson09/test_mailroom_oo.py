@@ -48,6 +48,7 @@ def test_donorcollection_init():
     # Test that donor collection initializes with empty dict
     dc = DonorCollection()
     assert dc.donors == {}
+    assert dc.donorNames == []
 
 def test_add_donor():
     # Test that donors can be added to collection
@@ -68,6 +69,16 @@ def test_get_donor():
     d = dc.getDonor('New Donor')
     assert isinstance(d,Donor)
     assert d.name == 'New Donor'
+
+def test_get_donor_names():
+    # Test that list of donor names can be retrieved
+    dc = DonorCollection()
+    dc.updateDonor('Eleanor Shellstrop',50.)
+    dc.updateDonor('Jason Mendoza',25.)
+    dc.updateDonor('Chidi Anagonye',100.)
+    donors = dc.donorNames
+    donors.sort()
+    assert donors == ['Chidi Anagonye', 'Eleanor Shellstrop', 'Jason Mendoza']
 
 def test_update_donor():
     # Tests that new donor can be added and updated

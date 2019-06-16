@@ -169,6 +169,17 @@ class DonorCollection():
         """
         return self.donors.get(name, Donor(name))
 
+    @property
+    def donorNames(self):
+        """
+        Return list of current donor names
+
+        Returns:
+            donors (list):
+                List of donor names
+        """
+        return list(self.donors)
+
     def generateReportData(self):
         """
         Generate report containing data for all donors
