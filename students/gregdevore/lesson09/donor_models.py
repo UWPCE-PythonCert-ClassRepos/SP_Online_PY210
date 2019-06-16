@@ -19,8 +19,18 @@ class Donor():
             List of donations (floats), arranged oldest to newest
 
     Methods:
-        add_donation(amount):
+        __lt__(self, other):
+            Magic method to enable custom sorting of Donor objects
+        addDonation(amount):
             Add donation to donation attribute
+        lastDonation():
+            Return last donation made by donor
+        totalDonations():
+            Return total donations made by donor
+        numDonations():
+            Return the number of donations made by donor
+        averageDonation():
+            Return the average donation made by donor
         generate_email(donor_name, donation_amount, total_amount):
             Generate text for email thanking donor for their donation
 
@@ -46,13 +56,12 @@ class Donor():
                 Two donor objects to compare
         """
         # If total amount is strictly less than, sort by it
-        if self.total_donations() < other.total_donations():
-            return self.total_donations() < other.total_donations()
-        else:
-        # Otherwise, sort by last name
+        if self.totalDonations() < other.totalDonations():
+            return self.totalDonations() < other.totalDonations()
+        else: # Otherwise, sort by last name
             return self.name.split()[-1] < other.name.split()[-1]
 
-    def add_donation(self, amount):
+    def addDonation(self, amount):
         """
         Add donation to donor's history
 
@@ -62,26 +71,38 @@ class Donor():
         """
         self.donations.append(amount)
 
-    def last_donation(self):
+    def lastDonation(self):
         """
         Return last donation for donor.
         Returns $0 if donor has no donation history
         """
         return self.donations[-1] if self.donations else 0
 
-    def total_donations(self):
+    def totalDonations(self):
         """
         Return total donations for donor
         """
         return sum(self.donations)
 
-    def generate_email(self):
+    def numDonations(self):
+        """
+        Return number of donations made by donor
+        """
+        return len(self.donations)
+
+    def averageDonation(self):
+        """
+        Return the average donation made by donor
+        """
+        return self.totalDonations()/self.numDonations() if self.donations else 0
+
+    def generateEmail(self):
         """
         Generate email to donor
         """
         email_dict = {'donor_name':self.name,
-                      'donation_amount':self.last_donation(),
-                      'total_amount':self.total_donations()}
+                      'donation_amount':self.lastDonation(),
+                      'total_amount':self.totalDonations()}
 
         # Create formatted email that can be copied & pasted
         email = ('\n'.join(['Dear {donor_name},','',
@@ -109,6 +130,8 @@ class DonorCollection():
         getDonor(name):
             Returns Donor instance (returns None if not found)
 
+        generate
+
     """
     def __init__(self):
         """
@@ -129,7 +152,7 @@ class DonorCollection():
         # Create donor object if it doesn't exist, otherwise retrieve from collection
         d = self.getDonor(name)
         # Update donor object and replace in collection
-        d.add_donation(amount)
+        d.addDonation(amount)
         self.donors[name] = d
 
     def getDonor(self, name):
@@ -146,17 +169,13 @@ class DonorCollection():
         """
         return self.donors.get(name, Donor(name))
 
-    def generate_report_data(self):
+    def generateReportData(self):
         """
         Generate report containing data for all donors
         """
-        # Initialize list for report data
-        report = []
-        # Get list of donors and sort using custom sort
+        # Get list of donors and sort by total donation
         donors = list(self.donors.values())
         donors.sort(reverse=True)
-        for donor in donors:
-            total = donor.total_donations()
-            num_donation = len(donor.donations)
-            report.append((donor.name, total, num_donation, total/num_donation))
+        report = [(donor.name, donor.totalDonations(), donor.numDonations(),
+            donor.averageDonation()) for donor in donors]
         return report
