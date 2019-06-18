@@ -3,6 +3,7 @@
 import os, random, string, tempfile, pytest
 from datetime import datetime
 from donor_models import Donor, DonorCollection
+from cli_main import *
 
 def test_donor_init():
     # Test that donor can be created
@@ -91,8 +92,8 @@ def test_update_donor():
     assert d.numDonations() == 2
     assert d.averageDonation() == 150.
 
-# Test report generation
 def test_report_generation():
+    # Test report generation
     dc = DonorCollection()
     donors = ['Eleanor Shellstrop', 'Jason Mendoza', 'Chidi Anagonye']
     amounts = [[50.,25.,75.], [100.,50.,80.], [200.,100.,300.]]

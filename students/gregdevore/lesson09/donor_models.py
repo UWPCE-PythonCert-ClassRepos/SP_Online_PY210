@@ -31,7 +31,7 @@ class Donor():
             Return the number of donations made by donor
         averageDonation():
             Return the average donation made by donor
-        generate_email(donor_name, donation_amount, total_amount):
+        generateEmail(donor_name, donation_amount, total_amount):
             Generate text for email thanking donor for their donation
 
     """
@@ -57,9 +57,11 @@ class Donor():
         """
         # If total amount is strictly less than, sort by it
         if self.totalDonations() < other.totalDonations():
-            return self.totalDonations() < other.totalDonations()
-        else: # Otherwise, sort by last name
+            return True
+        elif self.totalDonations() == other.totalDonations(): # Otherwise, sort by last name
             return self.name.split()[-1] < other.name.split()[-1]
+        else:
+            return False
 
     def addDonation(self, amount):
         """
@@ -122,6 +124,10 @@ class DonorCollection():
         donors (dict):
             Dictionary of donor objects (key = donor name, value = donor object)
 
+    Properties:
+        donorNames (list):
+            List of donor names. Only getter functionality enabled
+
     Methods:
         updateDonor(name, amount):
             Creates a new donor with amount if not in collection, Otherwise
@@ -130,7 +136,10 @@ class DonorCollection():
         getDonor(name):
             Returns Donor instance (returns None if not found)
 
-        generate
+        generateReportData():
+            Generates report data in the form of a tuple for each donor.
+            The tuple contains the donors name, total donations, number of
+            donations, and average donation
 
     """
     def __init__(self):
@@ -183,8 +192,10 @@ class DonorCollection():
     def generateReportData(self):
         """
         Generate report containing data for all donors
+        Each line of the report contains the donors name, total donations,
+        number of donations, and average donation
         """
-        # Get list of donors and sort by total donation
+        # Get list of donors and custom sort using magic method
         donors = list(self.donors.values())
         donors.sort(reverse=True)
         report = [(donor.name, donor.totalDonations(), donor.numDonations(),
