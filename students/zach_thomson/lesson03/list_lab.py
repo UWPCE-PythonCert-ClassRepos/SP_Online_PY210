@@ -29,4 +29,17 @@ delete_fruit = input('Please choose a fruit to toss: ')
 series2_fruit.remove(delete_fruit)
 print(series2_fruit)
 
-#Series 3 tasks
+#Series 3 tasks - oddly skipping values. Figure out how to use while loop 
+series3_fruit = fruit_list2[:]
+print(series3_fruit)
+for fruit in series3_fruit:
+    answer = input('Do you like ' + fruit.lower())
+    if  answer.lower() == 'no':
+        series3_fruit.remove(fruit)
+    elif answer.lower() == 'yes':
+        pass
+    else:
+        print('Please provide a yes or no answer.')
+print(series3_fruit)
+
+#Series 4 tasks
