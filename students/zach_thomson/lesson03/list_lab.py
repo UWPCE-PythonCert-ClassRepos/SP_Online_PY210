@@ -20,10 +20,13 @@ for fruit in fruit_list2:
         starts_with_P_list.append(fruit)
 print(starts_with_P_list)
 
-#Series 2 tasks
-print(fruit_list2)
-fruit_list2.pop(-1)
-print(fruit_list2)
+#Series 2 tasks - Make shallow copy of list so can change it without affecting original
+series2_fruit = fruit_list2[:]
+print(series2_fruit)
+series2_fruit.pop(-1)
+print(series2_fruit)
 delete_fruit = input('Please choose a fruit to toss: ')
-fruit_list2.remove(delete_fruit)
-print(fruit_list2)
+series2_fruit.remove(delete_fruit)
+print(series2_fruit)
+
+#Series 3 tasks
