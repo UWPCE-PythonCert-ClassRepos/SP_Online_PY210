@@ -126,15 +126,15 @@ class DonorCollection():
 
     Properties:
         donorNames (list):
-            List of donor names. Only getter functionality enabled
+            List of donor names. Only getter functionality enabled.
 
     Methods:
         updateDonor(name, amount):
-            Creates a new donor with amount if not in collection, Otherwise
+            Creates a new donor with amount if not in collection, otherwise
             adds donation to existing donor
 
         getDonor(name):
-            Returns Donor instance (returns None if not found)
+            Returns Donor instance (returns new Donor if not found)
 
         generateReportData():
             Generates report data in the form of a tuple for each donor.
@@ -144,7 +144,7 @@ class DonorCollection():
     """
     def __init__(self):
         """
-        Create new DonorCollection instance with empty donor list
+        Create new DonorCollection instance with empty donor dictionary
         """
         self.donors = {}
 
@@ -174,7 +174,7 @@ class DonorCollection():
 
         Returns:
             donor (Donor):
-                Donor instance. Will return new donor instance if donor not found
+                Donor instance. Will return new donor instance if donor not found.
         """
         return self.donors.get(name, Donor(name))
 

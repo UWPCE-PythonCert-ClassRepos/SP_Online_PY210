@@ -34,6 +34,15 @@ def write_thank_you(donor_name=None):
         elif name == 'quit': # Return to main prompt
             return
         else: # Get donations for donors
+            # Make sure first and last name are provided
+            if ' ' not in name:
+                print('Invalid entry, donors must provide first and last name')
+                continue
+            else: # Make sure all parts of a name begin with a capital letter
+                if not all([ piece[0].isupper() for piece in name.split() ]):
+                    print('Invalid entry, donors name must always begin with a capital letter')
+                    continue
+
             # Prompt for donation amount
             amount = input('Enter donation amount in dollars (type \'quit\' to exit): ')
             # If the user wants to bail mid-entry, remove the donor that was just

@@ -3,7 +3,6 @@
 import os, random, string, tempfile, pytest
 from datetime import datetime
 from donor_models import Donor, DonorCollection
-from cli_main import *
 
 def test_donor_init():
     # Test that donor can be created
@@ -12,22 +11,25 @@ def test_donor_init():
     with pytest.raises(TypeError):
         d = Donor()
 
-def test_addDonations():
-    # Test that donations can be added, and that last/total donations
+def test_add_donation():
+    # Test that donations can be added, and that last/total donations work
     d = Donor('Eleanor Shellstrop')
-    donations_to_add = [100., 50., 275.]
+    donations_to_add = [100., 50., 150.]
     for amount in donations_to_add:
         d.addDonation(amount)
     assert d.donations == donations_to_add
-    assert d.lastDonation() == 275.
-    assert d.totalDonations() == 425.
+    assert d.lastDonation() == 150.
+    assert d.totalDonations() == 300.
+    assert d.averageDonation() == 100.
+    assert d.numDonations() == 3
 
 def test_empty_donation():
-    # Test that a new donor returns $0 for last, total, and average donations
+    # Test that a new donor returns $0 for all donation methods
     d = Donor('Eleanor Shellstrop')
     assert d.lastDonation() == 0
     assert d.totalDonations() == 0
     assert d.averageDonation() == 0
+    assert d.numDonations() == 0
 
 def test_generate_email():
     # Test that email is properly generated
