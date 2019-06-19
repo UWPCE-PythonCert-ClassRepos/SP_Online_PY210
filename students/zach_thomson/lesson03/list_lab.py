@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-#series 1 tasks
+#Series 1 tasks
 fruit_list = ['Apples', 'Pears', 'Oranges', 'Peaches']
 print(fruit_list)
 new_fruit = input('Please add another fruit: ')
@@ -19,3 +19,11 @@ for fruit in fruit_list2:
     if fruit.startswith('P'):
         starts_with_P_list.append(fruit)
 print(starts_with_P_list)
+
+#Series 2 tasks
+print(fruit_list2)
+fruit_list2.pop(-1)
+print(fruit_list2)
+delete_fruit = input('Please choose a fruit to toss: ')
+fruit_list2.remove(delete_fruit)
+print(fruit_list2)
