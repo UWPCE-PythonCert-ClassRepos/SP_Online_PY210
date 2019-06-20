@@ -8,17 +8,23 @@ NEED TO CHANGE DICTIONARY KEYS TO BE ('Word1', 'Word2') NOT 'Word1 Word2'
 
 
 def cleanup_text(file):
+    """
+    Clean input text and make a list of words
+
+    data_final: List of word originally seperated by whitespace.
+    """
     with open(file, 'r') as f:
         data = f.read()
     f.closed
 
-    initial = string.punctuation + string.whitespace
-    final = 6*" " + "'" + (32-7)*" " + len(string.whitespace)*' '
-    translation_table = data.maketrans(initial, final)
+    data = data.lower()
+    translation_dict = dict.fromkeys(string.punctuation, ' ')
+    translation_dict.update(dict.fromkeys('\r\t\n', ' '))
+    translation_table = data.maketrans(translation_dict)
     data = data.translate(translation_table)
-    #data = data.split(" ")
-
-    return data
+    data = data.split(" ")
+    data_final = [word for word in data if word is not '']
+    return data_final
 
 
 def build_trigrams(inputtext):
@@ -80,11 +86,15 @@ def make_new_paragraph(trigram_dict):
     # What defines the end of file? aomount of lines/words/characters?
     """
     paragraph = []
-    line = make_new_line(trigram_dict,['I', 'wish'])
-    paragraph.append(" ".join(line) + '.')
+    # keylist = list(trigram_dict.keys())
+    line = make_new_line(trigram_dict, ['one', 'night'])
+    seed = [line[-2], line[-1]]
+    paragraph.append(" ".join(line))
+
     while len(paragraph) < random.choice(range(5,15)):
-        line = make_new_line(trigram_dict,['I', 'wish'])
-        paragraph.append(" ".join(line) + '.')
+        line = make_new_line(trigram_dict, seed)
+        seed = [line[-2], line[-1]]
+        paragraph.append(" ".join(line[2:]))
 
     return paragraph
 
@@ -95,7 +105,11 @@ if __name__ == "__main__":
     # 3. Build trigram dictionary with input string
     # 4. Create new text with trigram dictionary
     data = cleanup_text('sherlock_small.txt')
-    print(data)
+    trigram_dict = build_trigrams(data)
+    paragraph = make_new_paragraph(trigram_dict)
+    book = ". ".join(paragraph)
+
+    print(book)
     #dummy_input = ['I', 'wish', 'I', 'may', 'I', 'wish', 'I', 'might']
     #trigram_dict = build_trigrams(dummy_input)
     #paragraph = make_new_paragraph(trigram_dict)
