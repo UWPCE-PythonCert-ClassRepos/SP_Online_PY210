@@ -6,12 +6,16 @@ class Donor(object):
    '''
    def __init__(self, fullname, donation):
       self.fullname = fullname
-      self.donation_total = [donation]
+      self.donation_total = donation
       
    def __repr__(self):
       # Prints out the object in dictionary format
       # TODO output Donor object as dictionary to match representation
-      return f"{{\"{self.fullname}\": {{\"donation_total\": {self.sum_of_donations:.2f} \"times_donated\": {self.times_donated}, \"average_donation\": {self.average_donation:.2f}}}"
+      return f"[{self.sum_of_donations:.2f}, {self.times_donated}, {self.average_donation:.2f}]"
+
+   def __lt__(self, other):
+         # allow the donations to be sorted
+         return self.donation_total < other.donation_total
 
    @property
    def times_donated(self):
@@ -33,10 +37,7 @@ class Donor(object):
       # append a donation to the list of donations
       self.donation_total.append(donation)
 
-   def __lt__(self, other):
-      # allow the donations to be sorted
-      return self.donation_total < other.donation_total
-
+   
    def send_thankyou(self, fullname, donation):
       '''Send email to a single donor showing their single donation'''
       email_output = []
@@ -70,8 +71,12 @@ class DonorCollection(object):
       initailizes with a list to hold donors and their information
       as well as a tracking variable
       '''
-      self.donor_list = {d.name: d for d in args}
+      self.donor_list = {d.fullname: d for d in args}
       self.new_user = False
+
+   def __repr__(self):
+      # Prints full database
+      return self.donor_list
 
    def __iter__(self):
       # allows the list to be iterated over
@@ -123,10 +128,6 @@ class DonorCollection(object):
          average = donors.average_donation
          print(f"{name:<20}${total:>14.2f}{times:^18}${average:>12.2f}".format())
          
-   def __repr__(self):
-      # Prints full database
-      return self.donor_list
-   
    def list_names(self):
       for i in self.donor_list:
          print(i.fullname)
