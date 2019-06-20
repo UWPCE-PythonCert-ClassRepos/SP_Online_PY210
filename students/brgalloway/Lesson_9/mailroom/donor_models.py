@@ -4,56 +4,48 @@ class Donor(object):
    Donor class takes a fullname to initiate a single donor. 
    Each donor has three attributes: total donated, number of donations, and average donation
    '''
-   def __init__(self, fullname):
+   def __init__(self, fullname, donation):
       self.fullname = fullname
-      self.donation_total = 0
-      self.times_donated = 0
-      self.average_donation = 0
+      self.donation_total = [donation]
       
    def __repr__(self):
       # Prints out the object in dictionary format
       # TODO output Donor object as dictionary to match representation
-      return f"{{\"{self.fullname}\": {{\"donation_total\": {self.donation_total:.2f}, \"times_donated\": {self.times_donated}, \"average_donation\": {self.average_donation:.2f}}}"
-       
-   @property
-   def donate(self):
-      # returns the donation total amount
-      return self.donation_total
-   
-   @donate.setter
-   def donate(self, donation):
-      # calculates all donor attribute actions
-      self.donation_total = donation + self.donation_total
-      self.times_donated+=1
-      self.average_donation = self.donation_total / self.times_donated
-      self.donor_attributes = [self.fullname, self.donation_total, self.times_donated, self.average_donation]
+      return f"{{\"{self.fullname}\": {{\"donation_total\": {self.sum_of_donations:.2f} \"times_donated\": {self.times_donated}, \"average_donation\": {self.average_donation:.2f}}}"
 
-   # TODO Fix to properly function as an alternative constructor 
-   @classmethod
-   def from_donor(cls, fullname, donation_total, times_donated=1):
-      # alternative constructor
-      cls.fullname = fullname
-      cls.donation_total = donation_total
-      cls.times_donated = times_donated
-      cls.average_donation = donation_total / cls.times_donated
-      cls.donor_attributes = [fullname, donation_total, cls.times_donated, cls.average_donation]
+   @property
+   def times_donated(self):
+      # return the length of the list to automatically 
+      # calculate the number of total donations
+      return len(self.donation_total)
    
-      return  cls
-   
+   @property
+   def sum_of_donations(self):
+      # returns the sum for string formatting
+      return sum(self.donation_total)
+
+   @property
+   def average_donation(self):
+      # returns the average for string formatting
+      return  self.sum_of_donations / self.times_donated
+
+   def apply_donation(self, donation):
+      # append a donation to the list of donations
+      self.donation_total.append(donation)
+
    def __lt__(self, other):
+      # allow the donations to be sorted
       return self.donation_total < other.donation_total
 
    def send_thankyou(self, fullname, donation):
       '''Send email to a single donor showing their single donation'''
       email_output = []
-      self.fullname = fullname
-      self.donation = donation
-      email_template = "\n".join((f"Dear {fullname},\n\nThank you for your very kind donations this year totaling at ${donation:.2f}.\n",
+      email_template = "\n".join((f"Dear {self.fullname},\n\nThank you for your very kind donations this year totaling at ${self.donation:.2f}.\n",
                      "It will be put to very good use.\n",
                      "Sincerely,",
                      "-The Team"))
          
-      filename = fullname.replace(" ","_") + ".txt"
+      filename = self.fullname.replace(" ","_") + ".txt"
 
       if "," in filename:
          filename = filename.replace(",","") + ".txt"
@@ -67,18 +59,18 @@ class Donor(object):
 
       return email_output
 
-class DonorCollection(Donor):
+class DonorCollection(object):
    '''
    A collection of donors and the donations contributed. 
    Donor Collection can also be used to send an email to 
    all donors. 
    '''
-   def __init__(self):
+   def __init__(self, *args):
       '''
       initailizes with a list to hold donors and their information
       as well as a tracking variable
       '''
-      self.donor_list = []
+      self.donor_list = {d.name: d for d in args}
       self.new_user = False
 
    def __iter__(self):
