@@ -151,6 +151,15 @@ def update_donation_amount(donor_name, amount):
         donor_data[donor_name] = [amount]
 
 
+def compose_message(donor_info):
+    """ Compose a thank you message listing the current/previous donation and the donor's donation total
+    :param donor_info: dict containing the donor's info: name, last donation, and total donation amount
+    :return: a String containing the thank you message for the user """
+
+    return("\nTo: {name}\nSubject: Thank you.\n\n{name} thank you for your previous generous donation of "
+           "{last_donation:<,.2f}.\nYou're total donations to date are now: {total_donations:<,.2f}.".format(**donor_info))
+
+
 def exit_menu():
     """ Exits the current menu or program
     :return - a String to exit """
