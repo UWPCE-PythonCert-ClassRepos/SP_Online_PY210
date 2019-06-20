@@ -30,7 +30,7 @@ def write_thank_you(donor_name=None):
             name = donor_name
         if name == 'list': # List donors
             print('\nCurrent list of donors:\n')
-            print('\n'.join(dc.donorNames))
+            print('\n'.join(dc.donor_names))
         elif name == 'quit': # Return to main prompt
             return
         else: # Get donations for donors
@@ -67,9 +67,9 @@ def write_thank_you(donor_name=None):
                         # Need return statement here after return from recursive call
                         return
             # Update donor information
-            dc.updateDonor(name,amount)
+            dc.update_donor(name,amount)
             # Generate & print email to screen, return to main program
-            email = dc.getDonor(name).generateEmail()
+            email = dc.get_donor(name).generate_email()
             print(email)
             # Need return statement here, otherwise while loop will repeat
             return
@@ -89,7 +89,7 @@ def print_formatted_report(report):
 
 def create_report():
     # Generate, format, and print report data
-    report = dc.generateReportData()
+    report = dc.generate_report_data()
     print_formatted_report(report)
 
 def create_directory(target):
@@ -110,10 +110,10 @@ def create_directory(target):
 def write_letters(target):
     # Format current date to add as timestamp
     date = datetime.today().strftime('%Y-%m-%d')
-    for name in dc.donorNames:
+    for name in dc.donor_names:
         print('Writing letter to {}'.format(name))
         # Generate email with donor name, last donation amount, and total donation amount
-        email = dc.getDonor(name).generateEmail()
+        email = dc.get_donor(name).generate_email()
         # Create file with donor name and timestamp
         filename = '{}/{}_{}.txt'.format(target, name.replace(' ','_'), date)
         try:
@@ -148,6 +148,6 @@ if __name__ == "__main__":
     amounts = [[50.,25.,75.], [100.,50.,80.], [200.,100.,300.]]
     for donor, amount in zip(donors,amounts):
         for donation in amount:
-            dc.updateDonor(donor, donation)
+            dc.update_donor(donor, donation)
     # Driver for main function
     main()
