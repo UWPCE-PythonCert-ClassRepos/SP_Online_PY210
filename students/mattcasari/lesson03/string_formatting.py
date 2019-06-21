@@ -53,14 +53,6 @@ def print_table(values):
     for value in values:
         print( "".join(["{:>10}"]*len(value)).format(*value) )
 
-    
-
-# def create_format_string():
-#     return "file_{:03d} : {:.2f}, {:.2e}, {:.3e}"
-
-# def create_f_string(a_tuple):
-#     return f"file_{a_tuple[0]:03d} : {a_tuple[1]:.2f}, {a_tuple[2]:.2e}, {a_tuple[3]:.3e}"
-
 def formatter(values):
     """ Creates a f-string of varying length based on number of tuples """
     sstr = ",".join([" {:d}"]*len(values))
