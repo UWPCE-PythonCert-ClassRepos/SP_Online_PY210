@@ -16,28 +16,28 @@ def test_add_donation():
     d = Donor('Eleanor Shellstrop')
     donations_to_add = [100., 50., 150.]
     for amount in donations_to_add:
-        d.addDonation(amount)
+        d.add_donation(amount)
     assert d.donations == donations_to_add
-    assert d.lastDonation() == 150.
-    assert d.totalDonations() == 300.
-    assert d.averageDonation() == 100.
-    assert d.numDonations() == 3
+    assert d.last_donation() == 150.
+    assert d.total_donations() == 300.
+    assert d.average_donation() == 100.
+    assert d.num_donations() == 3
 
 def test_empty_donation():
     # Test that a new donor returns $0 for all donation methods
     d = Donor('Eleanor Shellstrop')
-    assert d.lastDonation() == 0
-    assert d.totalDonations() == 0
-    assert d.averageDonation() == 0
-    assert d.numDonations() == 0
+    assert d.last_donation() == 0
+    assert d.total_donations() == 0
+    assert d.average_donation() == 0
+    assert d.num_donations() == 0
 
 def test_generate_email():
     # Test that email is properly generated
     d = Donor('Eleanor Shellstrop')
     donations_to_add = [100., 50.]
     for amount in donations_to_add:
-        d.addDonation(amount)
-    assert d.generateEmail() == """Dear Eleanor Shellstrop,
+        d.add_donation(amount)
+    assert d.generate_email() == """Dear Eleanor Shellstrop,
 
 Thank you for your generous donation of $50.00.
 To date, you have donated a total of $150.00 to our charity.
@@ -51,48 +51,48 @@ def test_donorcollection_init():
     # Test that donor collection initializes with empty dict
     dc = DonorCollection()
     assert dc.donors == {}
-    assert dc.donorNames == []
+    assert dc.donor_names == []
 
 def test_add_donor():
     # Test that donors can be added to collection
     dc = DonorCollection()
-    dc.updateDonor('Jason Mendoza',25.)
+    dc.update_donor('Jason Mendoza',25.)
     donors = dc.donors
     assert 'Jason Mendoza' in donors
 
 def test_get_donor():
     # Test that donors can be retrieved from collection
     dc = DonorCollection()
-    dc.updateDonor('Jason Mendoza',100.)
-    d = dc.getDonor('Jason Mendoza')
+    dc.update_donor('Jason Mendoza',100.)
+    d = dc.get_donor('Jason Mendoza')
     assert isinstance(d,Donor)
     assert d.name == 'Jason Mendoza'
-    assert d.lastDonation() == 100.
+    assert d.last_donation() == 100.
     # Should return new donor if donor does not exist
-    d = dc.getDonor('New Donor')
+    d = dc.get_donor('New Donor')
     assert isinstance(d,Donor)
     assert d.name == 'New Donor'
 
 def test_get_donor_names():
     # Test that list of donor names can be retrieved
     dc = DonorCollection()
-    dc.updateDonor('Eleanor Shellstrop',50.)
-    dc.updateDonor('Jason Mendoza',25.)
-    dc.updateDonor('Chidi Anagonye',100.)
-    donors = dc.donorNames
+    dc.update_donor('Eleanor Shellstrop',50.)
+    dc.update_donor('Jason Mendoza',25.)
+    dc.update_donor('Chidi Anagonye',100.)
+    donors = dc.donor_names
     donors.sort()
     assert donors == ['Chidi Anagonye', 'Eleanor Shellstrop', 'Jason Mendoza']
 
 def test_update_donor():
     # Tests that new donor can be added and updated
     dc = DonorCollection()
-    dc.updateDonor('Jason Mendoza',100.)
-    dc.updateDonor('Jason Mendoza',200.)
-    d = dc.getDonor('Jason Mendoza')
-    assert d.lastDonation() == 200.
-    assert d.totalDonations() == 300.
-    assert d.numDonations() == 2
-    assert d.averageDonation() == 150.
+    dc.update_donor('Jason Mendoza',100.)
+    dc.update_donor('Jason Mendoza',200.)
+    d = dc.get_donor('Jason Mendoza')
+    assert d.last_donation() == 200.
+    assert d.total_donations() == 300.
+    assert d.num_donations() == 2
+    assert d.average_donation() == 150.
 
 def test_report_generation():
     # Test report generation
@@ -101,7 +101,7 @@ def test_report_generation():
     amounts = [[50.,25.,75.], [100.,50.,80.], [200.,100.,300.]]
     for donor, amount in zip(donors,amounts):
         for donation in amount:
-            dc.updateDonor(donor, donation)
-    report = dc.generateReportData()
+            dc.update_donor(donor, donation)
+    report = dc.generate_report_data()
     assert len(report) == len(donors)
     assert report[-1] == ('Eleanor Shellstrop', 150., 3, 50.)
