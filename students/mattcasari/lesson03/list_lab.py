@@ -15,7 +15,8 @@ Tasks:
         - Display the list.
         - Ask the user for a number and display the number back to the user and the fruit corresponding to that number (on a 1-is-first basis). Remember that Python uses zero-based indexing, so you will need to correct.
         - Add another fruit to the beginning of the list using “+” and display the list.
-        - Add another fruit to the beginning of the list using insert() and disp
+        - Add another fruit to the beginning of the list using insert() and display the list.
+        - Display all the fruits that begin with “P”, using a for loop.
 
     Series 2:
         Using the list created in series 1 above:
@@ -39,5 +40,99 @@ Tasks:
 
 """
 
+def create_list():
+    return ["Apples", "Pears", "Oranges", "Peaches"]
 
+def display_list(list):
+    print(list)
+    return
 
+def get_new_fruit(list):
+    list.append(input("Enter a new fruit: "))
+    display_list(list)
+    return list
+
+def display_list_by_number(list):
+    index = int(input("Enter a number:" ))
+    display_list(list[index-1])
+
+def prepend_new_fruit(list):
+    list = [input("Enter a new fruit: ")] + list
+    display_list(list)
+    return list
+
+def prepend_with_insert(list):
+    list.insert(0, input("Enter a new fruit: "))
+    display_list(list)
+    return list
+
+def display_fruits_with_p(list):
+    for fruit in list:
+        if fruit.lower().find('p') == 0:
+            print(fruit)
+    return
+
+def remove_last_fruit(list):
+    list.pop()
+    display_list(list)
+    return list
+
+def remove_fruit(list, fruit_to_remove):
+    remove_idx = []
+    for idx, fruit in enumerate(list):
+        if fruit.lower().find(fruit_to_remove.lower())==0:
+            remove_idx.append(idx)
+        if len(remove_idx):
+            for idx in remove_idx[::-1]:
+                del list[idx]
+            break
+    return list
+
+def remove_user_fruit(list):
+
+    remove_idx = []
+    while True:
+        user_fruit = input("Enter fruit to remove: ").lower()
+        
+    remove_fruit(list, user_fruit)
+
+    display_list(list)
+    return list
+
+def prompt_user_dislikes(list):
+    for fruit in list[:]:
+        result = input("Do you like {}? ".format(fruit.lower()))
+    
+        while result.lower() != 'yes' and result.lower() != 'no':
+            result = input("yes or no >")
+
+        if result == "no":
+            list = remove_fruit(list, fruit)
+
+    display_list(list)
+
+def main():
+    # Series 1
+    # print("Start Series 1")
+    # list = create_list()
+    # display_list(list)
+    # list = get_new_fruit(list)
+    # display_list_by_number(list)
+    # list = prepend_new_fruit(list)
+    # list = prepend_with_insert(list)
+    # display_fruits_with_p(list)
+
+    # # Series 2
+    # print("\nStart Series 2")
+    # list = create_list()
+    # display_list(list)
+    # remove_last_fruit(list)
+    # list = remove_user_fruit(list*2)
+
+    # Series 3
+    print("\nStart Series 3")
+    list = create_list()
+    prompt_user_dislikes(list)
+
+if __name__ == "__main__":
+    main()
