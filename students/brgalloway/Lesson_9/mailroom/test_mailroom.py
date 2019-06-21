@@ -3,8 +3,11 @@ from donor_models import *
 import donor_models as d
 
 def test_donors():
-    d1 = Donor("Billy Galloway", [100, 1, 100])
+    d1 = Donor("Billy Galloway", 100)
     assert d1.fullname == "Billy Galloway"
+    assert d1.donation_total == [100]
+    d1.apply_donation(1)
+    d1.apply_donation(100)
     assert d1.donation_total == [100, 1, 100]
     assert d1.sum_of_donations == 201
     assert d1.times_donated == 3

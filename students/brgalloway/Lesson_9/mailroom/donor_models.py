@@ -6,7 +6,12 @@ class Donor(object):
    '''
    def __init__(self, fullname, donation):
       self.fullname = fullname
-      self.donation_total = donation
+      self.donation_total = []
+      # ensure instantiation of the object is a list
+      if type(donation) == list:
+         self.donation_total = donation
+      else:
+         self.donation_total.append(donation)
       
    def __repr__(self):
       # Prints out the object in dictionary format
@@ -72,7 +77,6 @@ class DonorCollection(object):
       as well as a tracking variable
       '''
       self.donor_list = {d.fullname: d for d in args}
-      self.new_user = False
 
    def __iter__(self):
       # allows the list to be iterated over
@@ -97,13 +101,8 @@ class DonorCollection(object):
       '''  
       print("{:<20}|{:^15}|{:^15}|{:^15}".format("Donor Name", "Total Given", "Num Gifts", "Average Gifts"))
       print("-" * 70)
-  
       for donors in self.donor_list.values():
-         name = donors.fullname
-         total = donors.sum_of_donations
-         times = donors.times_donated
-         average = donors.average_donation
-         print(f"{name:<20}${total:>14.2f}{times:^18}${average:>12.2f}")
+         print(f"{donors.fullname:<20}${donors.sum_of_donations:>14.2f}{donors.times_donated:^18}${donors.average_donation:>12.2f}")
           
    def bulk_thankyou(self):
       '''Send email to all donors showing their total donations'''
