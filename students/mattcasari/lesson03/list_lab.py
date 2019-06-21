@@ -111,28 +111,56 @@ def prompt_user_dislikes(list):
 
     display_list(list)
 
-def main():
+def reverse_item_characters(list):
+    temp = []
+    for fruit in list[:]:
+        temp.append( fruit[::-1] )
+    return temp
+
+def series_1():
     # Series 1
-    # print("Start Series 1")
-    # list = create_list()
-    # display_list(list)
-    # list = get_new_fruit(list)
-    # display_list_by_number(list)
-    # list = prepend_new_fruit(list)
-    # list = prepend_with_insert(list)
-    # display_fruits_with_p(list)
+    print("Start Series 1")
+    list = create_list()
+    display_list(list)
+    list = get_new_fruit(list)
+    display_list_by_number(list)
+    list = prepend_new_fruit(list)
+    list = prepend_with_insert(list)
+    display_fruits_with_p(list)
 
-    # # Series 2
-    # print("\nStart Series 2")
-    # list = create_list()
-    # display_list(list)
-    # remove_last_fruit(list)
-    # list = remove_user_fruit(list*2)
+def series_2():
+    # Series 2
+    print("\nStart Series 2")
+    list = create_list()
+    display_list(list)
+    remove_last_fruit(list)
+    list = remove_user_fruit(list*2)
 
+def series_3():
     # Series 3
     print("\nStart Series 3")
     list = create_list()
     prompt_user_dislikes(list)
+
+def series_4():
+    # Series 4
+    print("\nStart Series 4")
+    list1 = create_list()
+    list2 = reverse_item_characters(list1[:])
+    del list1[-1]
+    display_list(list1)
+    display_list(list2)
+
+def main():
+    # series_1()
+    # series_2()
+    # series_3()
+    series_4()
+
+
+ 
+
+
 
 if __name__ == "__main__":
     main()
