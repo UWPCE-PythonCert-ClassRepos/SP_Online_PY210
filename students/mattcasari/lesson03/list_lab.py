@@ -82,19 +82,18 @@ def remove_fruit(list, fruit_to_remove):
     for idx, fruit in enumerate(list):
         if fruit.lower().find(fruit_to_remove.lower())==0:
             remove_idx.append(idx)
-        if len(remove_idx):
-            for idx in remove_idx[::-1]:
-                del list[idx]
-            break
+    
+    if len(remove_idx):
+        for idx in remove_idx[::-1]:
+            del list[idx]
+
     return list
 
 def remove_user_fruit(list):
 
-    remove_idx = []
-    while True:
-        user_fruit = input("Enter fruit to remove: ").lower()
+    user_fruit = input("Enter fruit to remove: ").lower()
         
-    remove_fruit(list, user_fruit)
+    list = remove_fruit(list, user_fruit)
 
     display_list(list)
     return list
@@ -152,9 +151,9 @@ def series_4():
     display_list(list2)
 
 def main():
-    # series_1()
-    # series_2()
-    # series_3()
+    series_1()
+    series_2()
+    series_3()
     series_4()
 
 
