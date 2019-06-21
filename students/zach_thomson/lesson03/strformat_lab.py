@@ -22,6 +22,7 @@ assert formatter((1,2,3,4,5)) == 'The 5 numbers are: 1, 2, 3, 4, 5'
 
 #task 4
 task4_tuple = (4, 30, 2017, 2, 27)
+print(f'{task4_tuple[3]:02d} {task4_tuple[-1]} {task4_tuple[2]} {task4_tuple[0]:02d} {task4_tuple[1]}')
 
 #task 5
 task5_tuple = ('oranges', 1.3, 'lemons', 1.1)
@@ -32,3 +33,12 @@ print(f'The weight of an {remove_plural(task5_tuple[0])} is {task5_tuple[1]} and
 print(f'The weight of an {remove_plural(task5_tuple[0].upper())} is {task5_tuple[1]*1.2} and the weight of a {remove_plural(task5_tuple[2].upper())} is {task5_tuple[3]*1.2}')
 
 #task 6
+table = ['Bob', 32, 999.99,
+        'Sarah', 45, 2000,
+        'Banjo', 99, 10.10]
+
+def print_table(t):
+    strings = ("{:<10}{:<10}{:<10}" + '\n') * (int(len(t)/3)-1) + "{:<10}{:<10}{:<10}"
+    print(strings.format(*t))
+
+print_table(table)
