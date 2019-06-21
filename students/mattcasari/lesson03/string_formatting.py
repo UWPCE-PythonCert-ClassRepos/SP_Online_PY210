@@ -3,6 +3,8 @@
 
 """ Lesson 3, Excercise 3
 
+String Formatting Exercise
+
 @author: Matt Casari
 
 Link: https://uwpce-pythoncert.github.io/PythonCertDevel/exercises/string_formatting.html
@@ -13,6 +15,10 @@ Task 1:
     and produce:
     'file_002 :   123.46, 1.00e+04, 1.23e+04'
 Task 2:
+    Using your results from Task One, repeat the exercise, but this time using
+    an alternate type of format string (hint: think about alternative ways to
+    use .format() (keywords anyone?), and also consider f-strings if you’ve not 
+    used them already).
 
 Task 3:
     Rewrite:
@@ -24,6 +30,7 @@ Task 4:
     ( 4, 30, 2017, 2, 27)
     use string formating to print:
     '02 27 2017 04 30'
+
 Task 5:
     Here’s a task for you: Given the following four element list:
     ['oranges', 1.3, 'lemons', 1.1]
@@ -58,6 +65,8 @@ def formatter(values):
     sstr = ",".join([" {:d}"]*len(values))
     return f"the {len(values)} numbers are:{sstr}".format(*values)
 
+
+
 def task1():
     print("\nTask 1:")
     a_tuple = ( 2, 123.4567, 10000, 12345.67)
@@ -72,9 +81,7 @@ def task2():
 
 def task3():
     print("\nTask 3:")
-
     print(formatter((2,3,5)))
-
     print(formatter((2,3,5,7,9)))
     
 
@@ -89,7 +96,6 @@ def task5():
     # The weight of an orange is 1.3 and the weight of a lemon is 1.1
     fstr = f"The weight of an {t_list[0][:-1]} is {t_list[1]} and the weight of a {t_list[2][:-1]} is {t_list[3]}"
     print(fstr)
-
     fstr = f"The weight of an {t_list[0][:-1].upper()} is {t_list[1]*1.2} and the weight of a {t_list[2][:-1].upper()} is {t_list[3]*1.2}"
     print(fstr)
 
