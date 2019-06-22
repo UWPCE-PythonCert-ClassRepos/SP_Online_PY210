@@ -15,24 +15,22 @@ donors = [["Usagi", [12.5, 11.17, 130.1]], ["Ami", [17, 230, 2115]],
 #functions
 
 def send_thankyou():
-    donorname = input("Please input a name:\n")
-    if donorname == "cancel":
-        return
-    if donorname == "list":
-        for i in donors:
-            print(i[0])
+    while True:
         donorname = input("Please input a name:\n")
-        if donorname == "cancel":
+        if donorname == "C":
             return
+        if donorname == "list":
+            for i in donors:
+                print(i[0])
+        else:
+            break
     donationamount = input("Please enter a donation amount:\n")
-    if donationamount == "cancel":
+    if donationamount == "C":
         return
-    existingdonor = False
     for d in donors:
         if d[0] == donorname:
-            existingdonor = True
             break
-    if existingdonor == False:
+    else:
         donors.append([donorname, []])
     for d in donors:
         if d[0] == donorname:
@@ -47,9 +45,9 @@ def write_report():
         dname = d[0]
         dtotal = sum(d[1])
         dnum = len(d[1])
-        davggift = mean(d[1])
+        davggift = dtotal/dnum
         reportlines.append([dname, dtotal, dnum, davggift])
-    for r in sorted(reportlines, key = itemgetter(1), reverse = True):
+    for r in sorted(reportlines, key=itemgetter(1), reverse = True):
         print(f"{r[0]:15} {r[1]:>20.2f} {r[2]:>10} {r[3]:>20.2f}")
 
 def quit_program():
@@ -60,7 +58,7 @@ def quit_program():
 
 def main():
     while True:
-        response = input("Select an action: 1 - Send a Thank You, 2 - Create a Report, or 3 - Quit\nReturn to main menu any time by entering 'cancel'\n")
+        response = input("Select an action: 1 - Send a Thank You, 2 - Create a Report, or 3 - Quit\nReturn to main menu any time by entering 'C'\n")
         if response == "1":
             send_thankyou()
         elif response == "2":
