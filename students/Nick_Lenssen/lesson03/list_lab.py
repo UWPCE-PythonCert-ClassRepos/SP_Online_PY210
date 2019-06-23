@@ -20,8 +20,8 @@ def series_one(l):
     return l
 
 def series_two(l):
-    print (l, "\n")
-    l.pop()
+    print ("\n",l, "\n")
+    l = l[:-1]
     print (l, "\n")
     elim_element = input("Please type in a fruit to delete: ")
     l = l *2
@@ -41,10 +41,23 @@ def series_three(l):
             l.remove(i)
         else:
             continue
-    print (l)
+    print (l, "\n")
 
+def series_four(l):
+    l_reverse = []
+    for i in l:
+        l_reverse.append(i[::-1])
+    l.pop()
+    print (l_reverse)
+    print (l)
 
 l = ["Apples", "Pears", "Oranges", "Peaches"]
 l_2 = series_one(l)
-#series_two(l_2)
-series_three(l_2)
+l_3 = l_2[:] #not sure If i need to make copies here. Lists are mutable so each function following sereis 1 will be manipulating it
+l_4 = l_2[:]
+series_two(l_2)
+series_three(l_3)
+series_four(l_4)
+
+
+
