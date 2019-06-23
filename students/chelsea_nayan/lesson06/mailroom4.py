@@ -1,5 +1,5 @@
-# chelsea_nayan, UWPCE Python 210, Lesson05: Mailroom Pt3
-import sys
+# chelsea_nayan, UWPCE Python 210, Lesson05: Mailroom Pt4
+import sys # Use to quit out of menu
 
 # Dictionary of donors and their donations
 donors_dict = {
@@ -9,6 +9,8 @@ donors_dict = {
 'Prince Variety': [1.50, 2.00],
 'Malakai Maitai': [10000000, 300000, 354132]
 }
+
+# ------------ Send a Thank You ---------------- #
 
 # Get the name of the donor / Print the current list of donors
 def list_thankyou():
@@ -30,6 +32,7 @@ def update_thankyou():
             continue
     return amount
 
+# Send a thank you to the donor
 def check_thankyou(name, amount): # Check to see if name is on the current donor list
     check = 0
     if name in donors_dict.keys(): # If donor name is on the 'list', add donation amount to value
@@ -37,64 +40,81 @@ def check_thankyou(name, amount): # Check to see if name is on the current donor
         check = 1 # Update to 'remember' there was a donor name in the list
     if check == 0: # Run when a donor name was not on the list, add donor name and amount
         donors_dict[name] = [float(amount)]
-    # Generate thank you text
-    print(f'Thank you {name} for your generous donation of ${float(amount):.2f}.')
+
+    pair = [name, amount]
+    return pair
+
+# Generate thank you note
+def note_thankyou(pair):
+    text = (f'Thank you {pair[0]} for your generous donation of ${float(pair[1]):.2f}.')
+    return text
 
 # Print out a "Thank you" note to a previous or new donor.
-# Update donation histories.
-
 def thankyou():
-    check_thankyou(list_thankyou(), update_thankyou())
+    print(note_thankyou(check_thankyou(list_thankyou(), update_thankyou())))
 
-# Print a report on the list of donors sorted by their historical donation amount which includes
-# (1) donor name, (2) total sum of donations, (3) number of donations and (4) average donation
 
-def print_report(donor_names, total_given, num_gifts, average_gift):
-    # Ensure a list of type string to use string methods
+# ------------ Create a Report ---------------- #
+
+# Calculate the maximum lengths of each column for spacing considerations
+def setup_report(donor_names, total_given, num_gifts, average_gift):
     col1, col2, col3, col4 = [str(i) for i in donor_names], [str(i) for i in total_given], [str(i) for i in num_gifts], [str(i) for i in average_gift]
-
     # Get the maximum number of characters in an element in each column to estimate how much spacing there needs to be in the header
     max_donor_names, max_total_given, max_num_gifts, max_average_gift = len(max(col1, key=len)), len(max(col2, key=len)), len(max(col3, key=len))+len("| Num Gifts"), len(max(col4, key=len))
+    dataset = [max_donor_names, max_total_given, max_num_gifts, max_average_gift]
+    return dataset
 
-    # # Print out the header for the report
-    heading = ("Donor Name".ljust(max_donor_names, ' ') + "|  Total Given ".ljust(max_total_given+3, ' ') + "|  Num Gifts ".ljust(max_num_gifts, ' ')+ "|  Average Gift".ljust(max_average_gift+3, ' '))
+# Print the header
+def header_report(dataset):
+    heading = ("Donor Name".ljust(dataset[0], ' ') + "|  Total Given ".ljust(dataset[1]+3, ' ') + "|  Num Gifts ".ljust(dataset[2], ' ')+ "|  Average Gift".ljust(dataset[3]+3, ' '))
     separation = ("-"*len(heading))
     header = heading +  "\n" + separation
-    print(header)
+    return header
 
-    # Print out the rest of the report
-    for i in range(len(donor_names)):
-        print(f"{donor_names[i].ljust(max_donor_names,' ')}  $ {str(total_given[i]).rjust(max_total_given, ' ')} {str(num_gifts[i]).rjust(max_num_gifts, ' ')}  $ {str(average_gift[i]).rjust(max_average_gift, ' ')} ")
+# Sort the donor list by the sum of their donations, from highest total to least
+# Make an iterable of the donor name and then a list of their donations
+def sort_report(donors_dict):
+    sorted_dict = sorted(donors_dict.items(), key=lambda elem: sum(elem[1]), reverse=True)
+    return sorted_dict
 
 def report():
-    # Sort the donor list by the sum of their donations, from highest total to least
-    # Make an iterable of the donor name and then a list of their donations
-    sorted_dict = sorted(donors_dict.items(), key=lambda elem: sum(elem[1]), reverse=True)
+    # Sort donor list by sum of their donations (high to low)
+    sort_report(donors_dict)
 
     # Create separate lists of the four donation summary columns
     donor_names, total_given, num_gifts, average_gift = [], [], [], []
-    for sublist in sorted_dict:
+    for sublist in sort_report(donors_dict):
         donor_names.append(sublist[0])
         total_given.append(f"{sum(sublist[1]):.2f}") # Format to two decimals
         num_gifts.append(len(sublist[1]))
         average_gift.append(f"{sum(sublist[1])/len(sublist[1]):.2f}") # Format to two decimals
 
-    print_report(donor_names, total_given, num_gifts, average_gift)
+    dataset = setup_report(donor_names, total_given, num_gifts, average_gift)
+
+    # Print the header
+    print(header_report(dataset))
+
+    # Print the summary tables
+    for i in range(len(donor_names)):
+        print(f"{donor_names[i].ljust(dataset[0],' ')}  $ {str(total_given[i]).rjust(dataset[1], ' ')} {str(num_gifts[i]).rjust(dataset[2], ' ')}  $ {str(average_gift[i]).rjust(dataset[3], ' ')} ")
+
+# ------------ Send letters to everyone ---------------- #
 
 def text_send(name, amount):
-    text = f'''Dear {name},
+    text = f'''
+    Dear {name},
 
-            Thank you for your super, duper total donation of ${float(amount):.2f}.
-            I will buy so many things for myself.
+        Thank you for your super, duper total donation of ${float(amount):.2f}.
+        I will buy so many things for myself.
 
-                You're the best,
-                    - Chelsea
+            You're the best,
+                - Chelsea
     '''
     return text
 
-# Generate a thank you letter and writes it to a disk as a text file
+# Generate a thank you letter and write it to a disk as a text file
 def send():
-    print('Sending letters...')
+    print('\nSending letters...')
 
     for name in donors_dict.keys():
         amount = sum(donors_dict.get(name))
@@ -102,14 +122,18 @@ def send():
         output = (f'{txt_name}.txt')
         with open(output, 'w') as f:
             f.write(text_send(name, amount))
-    print('Sent the letters!')
+
+    print('\nSent the letters!')
+
+# ------------ Quit ---------------- #
 
 # Exit the program
 def quit():
     sys.exit(0)
 
 
-# Run the main program
+# ------------ Run the Main Program ---------------- #
+
 if __name__=='__main__':
 
     arg_dict = {1: thankyou,

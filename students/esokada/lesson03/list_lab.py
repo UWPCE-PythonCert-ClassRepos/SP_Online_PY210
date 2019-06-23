@@ -1,4 +1,5 @@
 #Series 1
+
 print("Series 1")
 mylist = ["Apples", "Pears", "Oranges", "Peaches"]
 print(mylist)
