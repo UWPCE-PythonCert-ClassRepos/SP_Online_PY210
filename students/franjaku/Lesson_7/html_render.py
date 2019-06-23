@@ -10,7 +10,7 @@ class Element(object):
 
     tag = 'html'
 
-    def __init__(self, content=None):
+    def __init__(self, content=None, **kwargs):
         """
         Initialize each instance of element.
         """
@@ -19,8 +19,20 @@ class Element(object):
         else:
             self.content_list = []
 
+        self.attributes = kwargs
+
     def append(self, new_content):
         self.content_list.append(new_content)
+
+    def render_open_tag(self):
+        open_tag = []
+
+        for key, value in self.attributes.items():
+            open_tag.append(f' {key}')
+            open_tag.append(f'="{value}"')
+        open_tag = "".join(open_tag)
+
+        return "".join(open_tag)
 
     def render(self, out_file):
         """
@@ -29,8 +41,7 @@ class Element(object):
         If an another element is in the content list call the render
         function of the element in the list
         """
-
-        out_file.write(f"<{self.tag}>\n")
+        out_file.write(f"<{self.tag}{self.render_open_tag()}>\n")
 
         for content in self.content_list:
             # type out content if string type
@@ -65,6 +76,9 @@ class P(Element):
 
 
 class Head(Element):
+    """
+    Head subclass of element.
+    """
     tag = 'head'
 
 
@@ -78,7 +92,7 @@ class OneLineTag(Element):
 
     def render(self, out_file):
         for content in self.content_list:
-            out_file.write(f"<{self.tag}>{content}<{self.tag}/>")
+            out_file.write(f"<{self.tag}{self.render_open_tag()}>{content}</{self.tag}>\n")
 
 
 class Title(OneLineTag):
@@ -86,4 +100,4 @@ class Title(OneLineTag):
     Title subclass of one line tags.
 
     """
-    tag = 'tile'
+    tag = 'title'

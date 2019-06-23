@@ -205,7 +205,7 @@ def test_OneLineTag():
 
 
 def test_title():
-    e = Tile("this is some text")
+    e = Title("this is some text")
     e.append("and this is some more text")
 
     file_contents = render_result(e).strip()
@@ -215,7 +215,68 @@ def test_title():
 
     assert file_contents.startswith("<title>")
     assert file_contents.endswith("</title>")
-# test for overriden render method
+
+
+# test overriden render method
+def test_render_OneLineTag():
+    e = OneLineTag("Render on one line please")
+
+    file_contents = render_result(e).strip()
+    print(file_contents)
+
+    assert file_contents == ('<OneLineTag>Render on one line please</OneLineTag>')
+
+
+# test new subclass structure
+def test_title_sub_element():
+    """
+    tests that you can add another element for title and still render properly
+    """
+    page = Html()
+
+    page_head = Head()
+    page_head.append(Title("Python Class Sample Page"))
+
+    page.append(page_head)
+    page.append("some plain text.")
+    page.append(P("A simple paragraph of text"))
+    page.append("Some more plain text.")
+
+    file_contents = render_result(page)
+    print(file_contents)  # so we can see it if the test fails
+
+    # note: The previous tests should make sure that the tags are getting
+    #       properly rendered, so we don't need to test that here.
+    assert "<title>Python Class Sample Page</title>" in file_contents
+    assert "some plain text" in file_contents
+    assert "A simple paragraph of text" in file_contents
+    assert "Some more plain text." in file_contents
+    assert "some plain text" in file_contents
+    # but make sure the embedded element's tags get rendered!
+    assert "<title>" in file_contents
+    assert "</title>" in file_contents
+    assert "<p>" in file_contents
+    assert "</p>" in file_contents
+
+
+########
+# Step 4
+########
+
+# test adding attributes to render classes
+def test_render_element_attr():
+    assert 0 == 1
+    pass
+
+
+def test_render_open_tag():
+    assert 0 == 1
+    pass
+
+
+def test_render_OneLineTag_attr():
+    assert 0 == 1
+    pass
 
 
 # #####################
