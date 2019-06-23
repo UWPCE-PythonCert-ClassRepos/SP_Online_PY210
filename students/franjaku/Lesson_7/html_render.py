@@ -24,14 +24,23 @@ class Element(object):
 
     def render(self, out_file):
         """
-        Render the element.
+        Render the element content list.
+
+        If an another element is in the content list call the render
+        function of the element in the list
         """
-        out_file.write("".join(['<', self.tag, '>\n']))
+
+        out_file.write(f"<{self.tag}>\n")
 
         for content in self.content_list:
-            out_file.write("".join([content, '\n']))
+            # type out content if string type
+            if type(content) is str:
+                out_file.write(f"{content}\n")
 
-        out_file.write("".join(['</', self.tag, '>\n']))
+            else:
+                content.render(out_file)
+
+        out_file.write('</{}>\n'.format(self.tag))
 
 
 class Html(Element):
@@ -53,3 +62,28 @@ class P(Element):
     Paragraph subclass of element.
     """
     tag = 'p'
+
+
+class Head(Element):
+    tag = 'head'
+
+
+class OneLineTag(Element):
+    """
+    Subclass for one line tags.
+
+    Overide the render function.
+    """
+    tag = 'OneLineTag'
+
+    def render(self, out_file):
+        for content in self.content_list:
+            out_file.write(f"<{self.tag}>{content}<{self.tag}/>")
+
+
+class Title(OneLineTag):
+    """
+    Title subclass of one line tags.
+
+    """
+    tag = 'tile'
