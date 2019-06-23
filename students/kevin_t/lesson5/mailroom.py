@@ -26,7 +26,12 @@ def send_thank_you(donor_info):
     #If user entered 'quit', skip all this
     if name != 'Quit':
         #Ask the donor's donation amount
-        amount = float(input("Please enter donation amount: "))
+        while True:
+            try:
+                amount = float(input("Please enter donation amount: "))
+                break
+            except ValueError:
+                print('Please enter a valid donation amount')
         #If an existing donor, add the amount to the end of their previous list.
         if name in donor_info:
             donor_info[name].append(amount)
