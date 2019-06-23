@@ -12,6 +12,7 @@ def change_order(seq):
     split = int(len(seq)/3)
     return (seq[2*split:]+seq[:split]+seq[split:2*split])
 
+
 a_string = "this is a string"
 a_tuple = (2, 54, 13, 12, 5, 32,2,6,1,0,'my',6)
 
