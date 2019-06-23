@@ -29,8 +29,22 @@ def series_two(l):
         elim_element = input("That fruit is not available to delete. Please type in a fruit to delete: ")
     while elim_element in l:
         l.remove(elim_element)  
+    print (l, '\n')
+
+def series_three(l):
+    l_copy = l[:]
+    for i in l_copy:
+        yay_nay = input("Do you like {}: ".format(i.lower()))
+        while yay_nay.lower() != "yes" and yay_nay.lower() != "no":
+            yay_nay = input("Do you like {}: ".format(i.lower()))
+        if yay_nay.lower() == "no":
+            l.remove(i)
+        else:
+            continue
     print (l)
+
 
 l = ["Apples", "Pears", "Oranges", "Peaches"]
 l_2 = series_one(l)
-series_two(l_2)
+#series_two(l_2)
+series_three(l_2)
