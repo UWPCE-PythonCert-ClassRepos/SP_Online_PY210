@@ -16,36 +16,48 @@ prompt = '\n'.join(('Welcome to the mailroom',
          '3 - Quit',
          '> '))
 
+#send a thank you tasks
+#initial_thank_you_prompt = input('Please enter a full name: ')
+
+
 def thank_you():
     pass
 
 #create a report functions
 def sum_function(x):
     total = 0
-    for i in donor_db[x][1]:
+    for i in donor_db_copy[x][1]:
         total = total + i
     return total
 
 def number_donations(x):
-    return len(donor_db[x][1])
+    return len(donor_db_copy[x][1])
 
 def average_gift(x):
-    return sum_function(x)/len(donor_db[x][1])
+    return sum_function(x)/len(donor_db_copy[x][1])
 
+def sum_second(elem):
+    total = 0
+    for i in elem[1]:
+        total = i + total
+    return total
 
+donor_db_copy = donor_db[:]
+donor_db_copy.sort(key = sum_second, reverse = True)
+#print(donor_db_copy)
 
 def create_table():
     report_table = []
     i = 0
-    while i < len(donor_db):
-        report_table.append(donor_db[i][0])
+    while i < len(donor_db_copy):
+        report_table.append(donor_db_copy[i][0])
         report_table.append(sum_function(i))
         report_table.append(number_donations(i))
         report_table.append(average_gift(i))
         i = i + 1
     return report_table
 
-print(create_table())
+#print(create_table())
 
 header = ('Donor Name', 'Total Given', 'Num Gifts', 'Average Gift')
 table_header = "{:<20}| {} | {} | {}".format(*header) + '\n' + "-" * 60
@@ -57,7 +69,7 @@ def create_report():
     line_format = ("{:<20}" + " $" + "{:>12.2f}" + "{:>11}" + "  $" + "{:>12.2f}" + '\n') * len(donor_db)
     print(line_format.format(*table))
 
-#create_report()
+create_report()
 
 def exit_program():
     print('Bye')
