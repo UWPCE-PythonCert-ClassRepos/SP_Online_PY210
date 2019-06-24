@@ -12,7 +12,7 @@ third_num = lab_tuple[3]
 
 print(f'file_{file_name:03d}:  {first_num:.2f}, {second_num:.2e}, {third_num:.2e}')
 
-#task 3 - maybe update str(len(t)) to be formatted as well
+#task 3
 def formatter(t):
     strings = "{:d}, " * (len(t)-1) + "{:d}"
     return 'The ' + str(len(t)) + ' numbers are: ' + strings.format(*t)
@@ -42,3 +42,7 @@ def print_table(t):
     print(strings.format(*t))
 
 print_table(table)
+
+#extra task
+consecutive_numbers = (1,2,3,4,5,6,7,8,9,10)
+print(("{:<5}"*len(consecutive_numbers)).format(*consecutive_numbers))
