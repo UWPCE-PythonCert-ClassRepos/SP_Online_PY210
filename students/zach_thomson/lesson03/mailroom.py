@@ -32,12 +32,7 @@ def number_donations(x):
 def average_gift(x):
     return sum_function(x)/len(donor_db[x][1])
 
-header = ('Donor Name', 'Total Given', 'Num Gifts', 'Average Gift')
 
-table_header = print("{:<20}| {} | {} | {}".format(*header) + '\n' + "-" * 60)
-
-print(table_header)
-print(donor_db[1])
 
 def create_table():
     report_table = []
@@ -52,9 +47,17 @@ def create_table():
 
 print(create_table())
 
+header = ('Donor Name', 'Total Given', 'Num Gifts', 'Average Gift')
+table_header = "{:<20}| {} | {} | {}".format(*header) + '\n' + "-" * 60
+
 def create_report():
     '''formats create_table into the create_report format'''
-    pass
+    table = create_table()
+    print(table_header)
+    line_format = ("{:<20}" + " $" + "{:>12.2f}" + "{:>11}" + "  $" + "{:>12.2f}" + '\n') * len(donor_db)
+    print(line_format.format(*table))
+
+#create_report()
 
 def exit_program():
     print('Bye')
