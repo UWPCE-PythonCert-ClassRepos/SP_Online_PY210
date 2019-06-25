@@ -16,6 +16,7 @@ prompt = '\n'.join(('Welcome to the mailroom',
 
 #send a thank you tasks
 def donor_in_list(x):
+    """takes in a name and determines if it is in the donor database"""
     i = 0
     result = False
     while i < len(donor_db):
@@ -27,6 +28,7 @@ def donor_in_list(x):
     return result
 
 def donor_idx(x):
+    """takes in a name and finds the index number in donor database"""
     i = 0
     while i < len(donor_db):
         if x == donor_db[i][0]:
@@ -35,6 +37,7 @@ def donor_idx(x):
             i += 1
 
 def donor_names():
+    """return a list of names in the donor database"""
     i = 0
     donors = []
     while i < len(donor_db):
@@ -42,7 +45,7 @@ def donor_names():
         i += 1
     return donors
 
-donation_email = "Dear {},\nThank you for your generous donation of ${:.2f}!"
+donation_email = "\nDear {},\nThank you for your generous donation of ${:.2f}!\n"
 
 def thank_you():
     ty_prompt = input('Please enter a full name or type list to see all the current donors: ')
@@ -61,19 +64,17 @@ def thank_you():
 
 
 #create a report functions
-donor_db_copy = donor_db[:]
-
 def sum_function(x):
     total = 0
-    for i in donor_db_copy[x][1]:
+    for i in donor_db[x][1]:
         total = total + i
     return total
 
 def number_donations(x):
-    return len(donor_db_copy[x][1])
+    return len(donor_db[x][1])
 
 def average_gift(x):
-    return sum_function(x)/len(donor_db_copy[x][1])
+    return sum_function(x)/len(donor_db[x][1])
 
 def sum_second(elem):
     total = 0
@@ -82,11 +83,13 @@ def sum_second(elem):
     return total
 
 def create_table():
-    donor_db_copy.sort(key = sum_second, reverse = True)
+    """takes the donor database and sorts on total given. also makes a summary
+    table with total given, number of gifts and average amount of gift"""
+    donor_db.sort(key = sum_second, reverse = True)
     report_table = []
     i = 0
-    while i < len(donor_db_copy):
-        report_table.append(donor_db_copy[i][0])
+    while i < len(donor_db):
+        report_table.append(donor_db[i][0])
         report_table.append(sum_function(i))
         report_table.append(number_donations(i))
         report_table.append(average_gift(i))
