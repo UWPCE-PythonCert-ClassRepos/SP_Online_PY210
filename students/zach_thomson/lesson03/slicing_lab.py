@@ -1,4 +1,4 @@
-#slicing lab
+#slicing lab - updated for pull request/submission
 
 def exchange_first_last(seq):
     return seq[-1:] + seq[1:-1] + seq[:1]
