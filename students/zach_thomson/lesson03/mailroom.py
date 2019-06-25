@@ -1,6 +1,4 @@
-#import sys
-
-#for adding new donor, just add to list with addition as a tuple but issue with editing previous donors
+import sys
 
 donor_db = [('donor 1', [10000.00, 20000.00, 4500.00]),
             ('donor 2', [100.00, 500.00]),
@@ -8,10 +6,6 @@ donor_db = [('donor 1', [10000.00, 20000.00, 4500.00]),
             ('donor 4', [100000.00, 50000.00, 125000.00]),
             ('donor 5', [50.00])]
 
-
-#print(donor_db)
-#print(donor_db)
-#print(donor_db[1][1])
 
 prompt = '\n'.join(('Welcome to the mailroom',
          'Please choose from the following options:',
@@ -21,7 +15,6 @@ prompt = '\n'.join(('Welcome to the mailroom',
          '> '))
 
 #send a thank you tasks
-#initial_thank_you_prompt = input('Please enter a full name: ')
 def donor_in_list(x):
     i = 0
     result = False
@@ -49,30 +42,23 @@ def donor_names():
         i += 1
     return donors
 
-def add_donor():
-    pass
-
-def thank_you_initial():
-    prompt = input('Please enter a full name or type list to see all the current donors: ')
-    if donor_in_list(prompt) == True:
-        donation_amount = float(input('Please enter a donation amount: '))
-        print(donor_idx(prompt))
-        #add donation amount to data structure
-    elif prompt.lower() == 'list':
-        #display names and rerun prompt
-        print(donor_names())
-        #figure out how to get back to original prompt (while loop most likely)
-        prompt
-    else:
-        donation_amount = float(input('Please enter a donation amount: '))
-        new_entry = (prompt, [donation_amount])
-        donor_db.append(new_entry)
-        print(donor_db)
-
-thank_you_initial()
+donation_email = "Dear {},\nThank you for your generous donation of ${:.2f}!"
 
 def thank_you():
-    pass
+    ty_prompt = input('Please enter a full name or type list to see all the current donors: ')
+    while ty_prompt.lower() == 'list':
+        print(donor_names())
+        ty_prompt = input('Please enter a full name or type list to see all the current donors: ')
+    else:
+        if donor_in_list(ty_prompt) == True:
+            donation_amount = float(input('Please enter a donation amount: '))
+            donor_db[donor_idx(ty_prompt)][1].append(float(donation_amount))
+        else:
+            donation_amount = float(input('Please enter a donation amount: '))
+            new_entry = (ty_prompt, [donation_amount])
+            donor_db.append(new_entry)
+    print(donation_email.format(ty_prompt, donation_amount))
+
 
 #create a report functions
 donor_db_copy = donor_db[:]
@@ -139,5 +125,5 @@ def main():
         else:
             print('Not a valid option')
 
-#if __name__ == "__main__":
-#    main()
+if __name__ == "__main__":
+    main()
