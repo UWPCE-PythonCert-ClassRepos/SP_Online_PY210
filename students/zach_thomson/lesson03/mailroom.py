@@ -1,10 +1,10 @@
 import sys
 
-donor_db = [('donor 1', [10000.00, 20000.00, 4500.00]),
-            ('donor 2', [100.00, 500.00]),
-            ('donor 3', [25.00]),
-            ('donor 4', [100000.00, 50000.00, 125000.00]),
-            ('donor 5', [50.00])]
+donor_db = [('Eddie Vedder', [10000.00, 20000.00, 4500.00]),
+            ('Chris Cornell', [100.00, 500.00]),
+            ('Kurt Cobain', [25.00]),
+            ('Dave Matthews', [100000.00, 50000.00, 125000.00]),
+            ('Dave Grohl', [50.00])]
 
 
 prompt = '\n'.join(('Welcome to the mailroom',
@@ -81,10 +81,8 @@ def sum_second(elem):
         total = i + total
     return total
 
-donor_db_copy.sort(key = sum_second, reverse = True)
-#print(donor_db_copy)
-
 def create_table():
+    donor_db_copy.sort(key = sum_second, reverse = True)
     report_table = []
     i = 0
     while i < len(donor_db_copy):
@@ -94,8 +92,6 @@ def create_table():
         report_table.append(average_gift(i))
         i = i + 1
     return report_table
-
-#print(create_table())
 
 header = ('Donor Name', 'Total Given', 'Num Gifts', 'Average Gift')
 table_header = "{:<20}| {} | {} | {}".format(*header) + '\n' + "-" * 60
@@ -107,10 +103,9 @@ def create_report():
     line_format = ("{:<20}" + " $" + "{:>12.2f}" + "{:>11}" + "  $" + "{:>12.2f}" + '\n') * len(donor_db)
     print(line_format.format(*table))
 
-#create_report()
-
+#make a function to exit the program
 def exit_program():
-    print('Bye')
+    print('Have a nice day!')
     sys.exit() # exit the interactive script
 
 def main():
