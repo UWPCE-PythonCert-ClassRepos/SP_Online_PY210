@@ -63,10 +63,6 @@ def menu_selection(main_prompt, main_dispatch):
         else:
             print("Please select a valid option")
 
-
-#add a function to send letters to all donors
-#Feel free to enhance your letter template with some more information about past generosity, etc….
-
 #prompt
 
 main_prompt = ("Select an action: 1 - Send a Thank You, 2 - Create a Report, 3 - Generate letters to all donors, or 4 - Quit\nReturn to main menu any time by entering 'C'\n")
