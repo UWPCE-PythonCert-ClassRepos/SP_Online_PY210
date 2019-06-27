@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-""" Lesson 3, Excercise 1
+""" Lesson 3, Excercise 4
 
 @author: Matt Casari
 

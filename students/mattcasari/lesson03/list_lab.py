@@ -100,12 +100,15 @@ def remove_fruit(list, fruit_to_remove):
 
 def remove_user_fruit(list):
     """ Query the user for fruit to remove """
-    user_fruit = input("Enter fruit to remove: ").lower()
-        
-    list = remove_fruit(list, user_fruit)
+    while True:
+        user_fruit = input("Enter fruit to remove: ").lower()
+        list2 = remove_fruit(list[:], user_fruit)
+        if len(list) != len(list2):
+            display_list(list2)
+            break
 
-    display_list(list)
-    return list
+    
+    return list2
 
 def prompt_user_dislikes(list):
     """ Query the user for fruit they dislike and remove that fruit from the list """
