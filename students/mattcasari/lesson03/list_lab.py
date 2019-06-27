@@ -41,43 +41,52 @@ Tasks:
 """
 
 def create_list():
+    """ Returns the list used throughout the Lesson """
     return ["Apples", "Pears", "Oranges", "Peaches"]
 
 def display_list(list):
+    """ Prints all the items in the list """
     print(list)
     return
 
 def get_new_fruit(list):
+    """ Query user for new fruit """
     list.append(input("Enter a new fruit: "))
     display_list(list)
     return list
 
 def display_list_by_number(list):
+    """ Displays the list item by user selected index """
     index = int(input("Enter a number:" ))
     display_list(list[index-1])
 
 def prepend_new_fruit(list):
+    """ Add new user input fruit to the beginning of the list """
     list = [input("Enter a new fruit: ")] + list
     display_list(list)
     return list
 
 def prepend_with_insert(list):
+    """ Add new user input fruit to beginning of the list using the insert function """
     list.insert(0, input("Enter a new fruit: "))
     display_list(list)
     return list
 
 def display_fruits_with_p(list):
+    """ Displays all fruit in the list that start with the letter P """
     for fruit in list:
         if fruit.lower().find('p') == 0:
             print(fruit)
     return
 
 def remove_last_fruit(list):
+    """ Remove the last fruit on the list """
     list.pop()
     display_list(list)
     return list
 
 def remove_fruit(list, fruit_to_remove):
+    """ Remove fruit from list by the name selected """
     remove_idx = []
     for idx, fruit in enumerate(list):
         if fruit.lower().find(fruit_to_remove.lower())==0:
@@ -90,7 +99,7 @@ def remove_fruit(list, fruit_to_remove):
     return list
 
 def remove_user_fruit(list):
-
+    """ Query the user for fruit to remove """
     user_fruit = input("Enter fruit to remove: ").lower()
         
     list = remove_fruit(list, user_fruit)
@@ -99,6 +108,7 @@ def remove_user_fruit(list):
     return list
 
 def prompt_user_dislikes(list):
+    """ Query the user for fruit they dislike and remove that fruit from the list """
     for fruit in list[:]:
         result = input("Do you like {}? ".format(fruit.lower()))
     
@@ -111,12 +121,14 @@ def prompt_user_dislikes(list):
     display_list(list)
 
 def reverse_item_characters(list):
+    """ Reverse the fruit order and return the new list """
     temp = []
     for fruit in list[:]:
         temp.append( fruit[::-1] )
     return temp
 
 def series_1():
+    """ Run tasks in series 1 """
     # Series 1
     print("Start Series 1")
     list = create_list()
@@ -128,6 +140,7 @@ def series_1():
     display_fruits_with_p(list)
 
 def series_2():
+    """ Run tasks in series 2 """
     # Series 2
     print("\nStart Series 2")
     list = create_list()
@@ -136,12 +149,14 @@ def series_2():
     list = remove_user_fruit(list*2)
 
 def series_3():
+    """ Run tasks in series 3 """
     # Series 3
     print("\nStart Series 3")
     list = create_list()
     prompt_user_dislikes(list)
 
 def series_4():
+    """ Run tasks in series 4 """
     # Series 4
     print("\nStart Series 4")
     list1 = create_list()
@@ -151,13 +166,11 @@ def series_4():
     display_list(list2)
 
 def main():
+    """ Main Program """
     series_1()
     series_2()
     series_3()
     series_4()
-
-
- 
 
 
 
