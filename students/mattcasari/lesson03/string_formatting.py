@@ -103,6 +103,8 @@ def task6():
     print("\nTask 6:")
     values = (("Matt", 39, "$1332.54"), ("Moe", 23, "$12.73"),("Beth", 37, "412.44"),("Lindsay", 41, "$12121.77"))
     print_table(values)
+
+    print("\nVarying Length tuple 5 char wide: ")
     print_tuple((1, 2.2, 3, 4, 5, 6, 7, 8, 9, 10))
 
 
