@@ -25,6 +25,10 @@ class Element(object):
         self.content_list.append(new_content)
 
     def render_open_tag(self):
+        """
+        Render the opening tag that includes all the attributes passed in
+        <tag style="text-align: center; font-style: oblique;">
+        """
         open_tag = []
 
         for key, value in self.attributes.items():
@@ -101,3 +105,46 @@ class Title(OneLineTag):
 
     """
     tag = 'title'
+
+
+class SelfClosingTag(Element):
+    """
+    Defines a selfclosing tag class that subclasses from element
+
+    Example: SelfClosingTag(width=400) == <SelfClosingTag width="400" />
+    """
+    tag = 'SelfClosingTag'
+
+    def render(self, out_file):
+        """
+        Called the reneder_open_tag method from the parent class
+        """
+        out_file.write(f"<{self.tag}{self.render_open_tag()} />\n")
+
+
+class Hr(SelfClosingTag):
+    """
+    Header break object
+    """
+    tag = 'Hr'
+
+
+class Br(SelfClosingTag):
+    """
+    Line break object
+    """
+    tag = 'Br'
+
+
+class A(OneLineTag):
+    """
+    Anchor object that currently subclasses from OneLineTag
+    """
+
+    tag = 'a'
+
+    def __init__(self, link, content):
+        super(Element, self).__init__()
+        self.attributes = {'href': f"{str(link)}"}
+        self.content_list = [content]
+

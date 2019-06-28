@@ -265,19 +265,121 @@ def test_title_sub_element():
 
 # test adding attributes to render classes
 def test_render_element_attr():
-    assert 0 == 1
-    pass
+    """
+    Tests whether the Element can render two pieces of text
+    So it is also testing that the append method works correctly.
+
+    Tests whether the attributes are added to the opening line
+
+    It is not testing whether indentation or line feeds are correct.
+    """
+    e = P("Here is a paragraph of text -- there could be more of them, "
+          "but this is enough  to show that we can do some text",
+          style="text-align: center; font-style: oblique;")
+    e.append(P('more and more text for fun'))
+
+    # This uses the render_results utility above
+    file_contents = render_result(e).strip()
+
+    # make sure the properties are in the opening tag
+    assert '<p style="text-align: center; font-style: oblique;">' in file_contents
+    assert '</p>' in file_contents
+
+    # make sure extra text did not get the attributes
+    assert '<p>' in file_contents
+    assert 'more and more text for fun' in file_contents
+
+    # making sure the opening and closing tags are right.
+    assert file_contents.endswith("</p>")
 
 
-def test_render_open_tag():
-    assert 0 == 1
-    pass
+def test_multiple_attributes():
+    e = P('some text', width=400, id="Boys", style="text-align:center")
+
+    file_contents = render_result(e).strip()
+
+    print(file_contents)
+
+    # check all attributes in file
+    assert 'width="400"' in file_contents
+    assert 'id="Boys"' in file_contents
+    assert 'style="text-align:center"' in file_contents
+
+    # check for attribute order
+    assert file_contents.index('width="400"') < file_contents.index('id="Boys"')
 
 
 def test_render_OneLineTag_attr():
-    assert 0 == 1
-    pass
+    e = Html('parent level')
+    body_title = Title('Testing one line tag attributes', style="text-align: center")
+    e.append(body_title)
 
+    file_contents = render_result(e).strip()
+
+    # in case the test fails
+    print(file_contents)
+
+    # test that attributes are there all in one line
+    assert '<title style="text-align: center">Testing one line tag attributes</title>' in file_contents
+
+    # test start and ending tags
+    assert file_contents.startswith("<html>")
+    assert file_contents.endswith("</html>")
+
+
+########
+# Step 5
+########
+
+def test_render_SelfClosingTag():
+    e = SelfClosingTag(width=400)
+
+    file_contents = render_result(e).strip()
+
+    assert 'width="400"' in file_contents
+    assert '<SelfClosingTag width="400" />' in file_contents
+
+def test_Hr_class():
+    e = Hr(width=400)
+
+    file_contents = render_result(e).strip()
+
+    assert e.tag == 'Hr'
+    assert '<Hr width="400" />' in file_contents
+
+########
+# Step 6
+########
+
+# test anchor element
+
+def test_initialization_type_A():
+    e = A("http://google.com", "link to google")
+
+    print(e.attributes)
+
+    assert e.tag == 'a'
+    assert e.attributes == {'href': "http://google.com"}
+    assert "link to google" in e.content_list
+
+    file_contents = render_result(e).strip()
+
+    print(file_contents)
+
+    assert '<a href="http://google.com">link to google</a>' in file_contents
+
+########
+# Step 7
+########
+
+# test Unorder list Ul
+
+
+# test ordered list li
+
+########
+# Step 8
+########
 
 # #####################
 # # indentation testing
