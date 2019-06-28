@@ -2,15 +2,11 @@
 
 import sys
 
-
 donor_db = {'Eddie Vedder': [10000.00, 20000.00, 4500.00],
             'Chris Cornell': [100.00, 500.00],
             'Kurt Cobain': [25.00],
             'Dave Matthews': [100000.00, 50000.00, 125000.00],
             'Dave Grohl': [50.00]}
-
-#print(donor_db.keys())
-#print(donor_db.values())
 
 
 prompt = '\n'.join(('Welcome to the mailroom',
@@ -43,4 +39,63 @@ def thank_you():
             donor_db[ty_prompt] = [donation_amount]
     print(donation_email.format(ty_prompt, donation_amount))
 
-thank_you()
+#create a report functions
+donor_db_copy = donor_db.copy()
+
+def sum_function(x):
+    total = 0
+    i = 0
+    for i in x:
+        total = total + i
+        i += 1
+    return total
+
+
+def number_donations(x):
+    return len(x)
+
+def average_gift(x):
+    return sum_function(x)/len(x)
+
+def create_table(d):
+    """takes the donor database and sorts on total given. also makes a summary
+    table with total given, number of gifts and average amount of gift"""
+    report_table = []
+    for key in d:
+        report_table.append(key)
+        report_table.append(sum_function(d[key]))
+        report_table.append(number_donations(d[key]))
+        report_table.append(average_gift(d[key]))
+    return report_table
+
+header = ('Donor Name', 'Total Given', 'Num Gifts', 'Average Gift')
+table_header = "{:<20}| {} | {} | {}".format(*header) + '\n' + "-" * 60
+
+def create_report(db):
+    '''formats create_table into the create_report format'''
+    table = create_table(db)
+    print(table_header)
+    line_format = ("{:<20}" + " $" + "{:>12.2f}" + "{:>11}" + "  $" + "{:>12.2f}" + '\n') * len(donor_db)
+    print(line_format.format(*table))
+
+print(create_report(donor_db))
+
+#make a function to exit the program
+def exit_program():
+    print('Have a nice day!')
+    sys.exit() # exit the interactive script
+
+def main():
+    while True:
+        response = input(prompt)
+        if response == '1':
+            thank_you()
+        elif response == '2':
+            create_report()
+        elif response == '3':
+            exit_program()
+        else:
+            print('Not a valid option')
+
+#if __name__ == "__main__":
+#    main()
