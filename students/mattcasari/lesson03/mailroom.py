@@ -20,16 +20,18 @@ Description:
     actions: “Send a Thank You”, “Create a Report” or “quit”.    
 
 """
-data = [ ["William Gates, III", [300000.00, 353784.49],[],[],[]],
-["Mark Zuckerberg", [12000.10, 4395.00, 1],[],[],[]],
-["Jeff Bezos", [877.33],[],[],[]],
-["Paul Allen", [7.00, 1.42, 700],[],[],[]],
-["The RZA", [225000.10, 171000.23],[],[],[]],
-["ODB", [0.0, 0.0, 0.0],[],[],[]]]
+
+# data list structure is [Name, [Amount1, Amount 2,...], Sum, Len, Average]
+data = [ ["Neil Armstrong", [15000.00, 15000.00],[],[],[]],
+["Buzz Aldrin", [23021.10, 25020.30, 28999.29],[],[],[]],
+["Sally Ride", [42917.42, 38281.28],[],[],[]],
+["Al Shepard", [2387.00,  2321.42, 3700.00],[],[],[]],
+["Alan Bean", [28477.13, 727.1],[],[],[]],
+["Chris Hadfield", [17325.42, 13823.83, 0.99],[],[],[]]]
 
 def prompt_user():
     """ Prompts the user for menu option """
-    PROMPT_TEXT = ("Select an option:\n"
+    PROMPT_TEXT = ("\nSelect an option:\n"
     "1. Send a Thank You\n"
     "2. Create a Report\n"
     "3. Quit\n"
@@ -84,17 +86,16 @@ def print_donor_list(values):
 
 def thank_you_email(name, amount):
     """ Format the email and print to terminal """
-    txt = f"""\nDear {name},\n
-Thank you for your recent donation of ${amount:.2f}. The money donated will go toward many useful purchases,
-such as: blankets, pool floaties, chick peas and a taxidermied seagull.
-Please consider donating again at your earliest convenience.
-
-Regretfully yours,
-The Human Fund\n"""
+    txt = f"""\nDear {name},\n""" \
+          f"""Thank you for your recent donation of ${amount:.2f}. """ \
+          f"""Your donation will help us purchase a taxidermied seagull.\n""" \
+          f"""Please consider donating again at your earliest convenience.\n\n""" \
+          f"""Sincerely,\n""" \
+          f"""The Human Fund\n"""
 
     print(txt)
 
-def send_thank_you(values):
+def add_donor(values):
     """ Adds new donor or new donation to existing donor """
     valid_donor = False
     while not valid_donor:
@@ -115,12 +116,10 @@ def send_thank_you(values):
                 valid_donor = True
                 break
             
-         
-    while True:
-        amount = input("Enter donation amount ($): ")
-        if amount.isnumeric():
-            amount = float(amount)
-            break
+    
+    amount = input("Enter donation amount ($): ")
+    amount = float(amount)
+            # break
     
     # Add amount to data
     values[idx][1].append(amount)
@@ -138,14 +137,14 @@ def main():
         option = prompt_user()
 
         if option == 1:
-            send_thank_you(data)
+            add_donor(data)
         elif option == 2:
             generate_report(data)
         elif option == 3:
             print("\nExiting Program")
             break
         else:
-            pass
+            print("\nPlease select a valid option")
     
 
 if __name__ == "__main__":
