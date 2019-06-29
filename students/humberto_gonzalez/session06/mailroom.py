@@ -61,29 +61,11 @@ def append_donation_info(donor_name,donation):
     donor_db[donor_name].append(float(donation))
 
 
-def test_append_donation_info():
-    expected = {"Tyrod Taylor": [1000.00, 45.50],
-                "Jarvis Landry": [150.25],
-                "Philip Rivers": [650.23, 40.87, 111.32],
-                "Melvin Gordon": [1677.25, 4300.23, 10532.00],
-                "Mike Williams": [230.56, 12.45, 11.00],
-                "Antonio Brown": [100.00, 88.88],
-                "Tom Brady": [50.0]
-                }
-    append_donation_info('Tom Brady',50.0)
-    assert donor_db == expected
-    print('Test Passed')
-
-
 def create_thank_you_txt(donor_name,donation):  
     """Creates thank you text for a given donor and donation amount"""
     txt = f'Dear {donor_name},\n    Thank you for your generous donation of ${donation}'
     return txt
 
-def test_create_thank_you_txt():
-    expected = 'Dear Tom Brady,\n    Thank you for your generous donation of $50.0'
-    assert create_thank_you_txt('Tom Brady',50.0) == expected
-    print('Test Passed')
     
 def print_thank_you_txt(txt):
     """Given text, will print out the thank you note"""
@@ -99,6 +81,7 @@ def send_thank_you():
     append_donation_info(donor_name,donation)
     txt = create_thank_you_txt(donor_name,donation)
     print_thank_you_txt(txt)
+    
 
 def create_report(db):
     """Creates the rows needed to print out the report"""
@@ -112,17 +95,6 @@ def create_report(db):
         average = round(total/num,2)
         report_rows.append([donor_info,total,num,average])
     return report_rows
-    
-
-def test_create_report():
-    expected = [['Melvin Gordon', 16509.48, 3, 5503.16],
-                ['Tyrod Taylor', 1045.5, 2, 522.75],
-                ['Philip Rivers', 802.42, 3, 267.47],
-                ['Mike Williams', 254.01, 3, 84.67],
-                ['Antonio Brown', 188.88, 2, 94.44],
-                ['Jarvis Landry', 150.25, 1, 150.25]]
-    assert create_report(donor_db) == expected
-    print('Test Passed')
     
     
 def display_report():
@@ -146,12 +118,6 @@ def create_letter_txt(donor,donation):
     return txt
 
 
-def test_create_letter_txt():
-    expected = '''Dear Tom Brady,\n    Thank you for your generous donation of $50.0. \n    Your donation will be put to great use. \n         Sincerely, \n          -The Organization'''
-    assert create_letter_txt('Tom Brady',50.0) == expected
-    print('Test Passed.')
-
-
 def send_letters():
     """Writes and saves letters to all donors in the database
        in the form of txt files"""
@@ -168,16 +134,6 @@ def send_letters():
             txt = create_letter_txt(donor,donation)
             tfile.write(txt)
     print('Letters have been created and saved to \n a new folder in your temp directory')
-   
-
-def test_send_letters():
-    send_letters()   
-    for donor in donor_db:
-        path = tempfile.gettempdir()
-        path = path + "/" + "Letters to Donors"
-        temp = path + "/" + donor.replace(' ','_') + '.txt'
-        assert os.path.exists(temp)
-    print('Test Passed.')
     
         
 def exit_program():
