@@ -22,7 +22,10 @@ class TestArgKwargLab(unittest.TestCase):
     known_kwargs = ((({'fore_color': 'blue', 'link_color': 'raspberry'}),
                      ('blue', 'blue', 'raspberry', 'purple')),
                     (({'fore_color': 'red'}),
-                    ('red', 'blue', 'yellow', 'purple'))
+                    ('red', 'blue', 'yellow', 'purple')),
+                    (({'fore_color': 'teal', 'back_color': 'black',
+                       'link_color': 'red', 'visited_color': 'white'}),
+                       ('teal', 'black', 'red', 'white'))
                     )
 
     def test_args(self):
