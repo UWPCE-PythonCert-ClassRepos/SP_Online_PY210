@@ -11,6 +11,7 @@ def test_donors():
     assert d1.donation_total == [100, 1, 100]
     assert d1.sum_of_donations == 201
     assert d1.times_donated == 3
+    print(d1.fullname)
 
 def test_database():
     

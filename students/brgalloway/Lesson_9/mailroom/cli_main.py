@@ -1,28 +1,36 @@
 import sys
 import donor_models as d
 
+# donor = d.Donor()
+# database = d.DonorCollection()
 # form some starting dating 
-d1 = d.Donor("Jeff Bezos")
-d2 = d.Donor("Paul Allen")
-d3 = d.Donor("William Gates, III")
-d4 = d.Donor("Bill Ackman")
-d5 = d.Donor("Mark Zuckerberg")
-d1.donation_total, d1.times_donated, d1.average_donation = 877.33, 1, 877.33
-d2.donation_total, d2.times_donated, d2.average_donation = 708.42, 3, 236.14
-d3.donation_total, d3.times_donated, d3.average_donation = 653784.49, 2, 326892.24
-d4.donation_total, d4.times_donated, d4.average_donation = 2354.05, 3, 784.68
-d5.donation_total, d5.times_donated, d5.average_donation = 16396.10, 3, 5465.37
+d1 = d.DonorCollection(d.Donor("Jeff Bezos", [877.33]))
 
 # TODO add another function to create new donors from user input
 
 # Take the 5 donors and put them into a collection
-donor_db = d.DonorCollection()
-donor_db.append(d1)
-donor_db.append(d2)
-donor_db.append(d3)
-donor_db.append(d4)
-donor_db.append(d5)
+def find_donor():
+    while True:
+        fullname = input("type list to display names or quit to exit to main menu\n" \
+                         "Enter full name of donor: ")
+        if fullname == "list":
+            output = list_names()
+            return print(output)
+        elif fullname:
+            try:
+                donation_amount = float(input("Donation amount: "))
+                d1.apply_donation = (fullname, donation_amount)
+            except ValueError:
+                print("not a valid response exiting to donor selection")
+            d2 = d.Donor(fullname, donation_amount)
+            d1.donor_list[fullname].apply_donation(donation_amount)
+            print(d2.send_thankyou())
+        elif fullname == "quit":
+            return menu_selection(main_menu, main_dispatch) 
 
+def list_names():
+    donor_names = [k for k in sorted(d1.donor_list.keys())]
+    return "\n".join(donor_names)
 
 def quit_app():
     return "quit"
@@ -35,16 +43,11 @@ prompt = "Choose one of the following options. \n\n" \
     "4 - Quit \n" \
     ">> "
 
-# shortend names for dipatch dictionary
-find_donor = d.DonorCollection.find_donor
-generate_report = d.DonorCollection.generate_report
-bulk_thankyou = d.DonorCollection.bulk_thankyou
-
 # value returned from choice keys
 main_dispatch = {
     "1": find_donor,
-    "2": generate_report,
-    "3": bulk_thankyou,
+    "2": d1.generate_report,
+    "3": d1.bulk_thankyou,
     "4": quit_app
 }
     
@@ -55,15 +58,8 @@ def menu_selection(prompt, main_dispatch):
         response = response.lower()
         response = response.strip()
         try:
-            if response in main_dispatch:
-                if response == "1":
-                    find_donor(d.DonorCollection, donor_db)
-                elif response == "2":
-                    generate_report(d.DonorCollection, donor_db)
-                elif response == "3":
-                    bulk_thankyou(d.DonorCollection, donor_db)
-                elif response == "4":
-                    sys.exit()
+            if main_dispatch[response]() == "quit":
+                sys.exit()
         except KeyError:
             print("\n\ninvalid response\n")
 
