@@ -10,15 +10,15 @@ def find_donor():
         fullname = input("type list to display names or quit to exit to main menu\n" \
                          "Enter full name of donor: ")
         if fullname == "list":
-            list_names()
-        elif fullname and fullname != "quit":
+            print(list_names())
+        elif fullname != "quit":
             try:
                 donation_amount = float(input("Donation amount: "))
                 d1.apply_donation(fullname, donation_amount)
             except ValueError:
                 print("not a valid response exiting to donor selection")
             d1.donor_list[fullname].send_thankyou()
-        elif fullname == "quit":
+        else:
             return 
 
 def list_names():
