@@ -143,8 +143,6 @@ class A(OneLineTag):
 
     tag = 'a'
 
-    def __init__(self, link, content):
-        super(Element, self).__init__()
-        self.attributes = {'href': f"{str(link)}"}
-        self.content_list = [content]
-
+    def __init__(self, link, content, **kwargs):
+        kwargs['href'] = link
+        super().__init__(content, **kwargs)
