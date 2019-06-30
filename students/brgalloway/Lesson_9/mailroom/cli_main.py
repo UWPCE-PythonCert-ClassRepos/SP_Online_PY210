@@ -1,32 +1,25 @@
 import sys
 import donor_models as d
 
-# donor = d.Donor()
-# database = d.DonorCollection()
-# form some starting dating 
+# sample data to start with
 d1 = d.DonorCollection(d.Donor("Jeff Bezos", [877.33]))
+d1.apply_donation("Paul Allen", [100, 10, 800])
 
-# TODO add another function to create new donors from user input
-
-# Take the 5 donors and put them into a collection
 def find_donor():
     while True:
         fullname = input("type list to display names or quit to exit to main menu\n" \
                          "Enter full name of donor: ")
         if fullname == "list":
-            output = list_names()
-            return print(output)
-        elif fullname:
+            list_names()
+        elif fullname and fullname != "quit":
             try:
                 donation_amount = float(input("Donation amount: "))
-                d1.apply_donation = (fullname, donation_amount)
+                d1.apply_donation(fullname, donation_amount)
             except ValueError:
                 print("not a valid response exiting to donor selection")
-            d2 = d.Donor(fullname, donation_amount)
-            d1.donor_list[fullname].apply_donation(donation_amount)
-            print(d2.send_thankyou())
+            d1.donor_list[fullname].send_thankyou()
         elif fullname == "quit":
-            return menu_selection(main_menu, main_dispatch) 
+            return 
 
 def list_names():
     donor_names = [k for k in sorted(d1.donor_list.keys())]

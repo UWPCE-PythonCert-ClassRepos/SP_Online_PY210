@@ -42,7 +42,6 @@ class Donor(object):
       # append a donation to the list of donations
       self.donation_total.append(donation)
 
-   
    def send_thankyou(self):
       '''Send email to a single donor showing their single donation'''
       email_output = []
