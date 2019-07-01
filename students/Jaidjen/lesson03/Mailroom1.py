@@ -26,13 +26,11 @@ def view_mail(Mail):
         tot_ave= dnr_ave/ave_amt
         donate.append(dnr_ave)
         donate.sort()
-        #print("{:20s}{:^20.2f}{:^19d}{:^18.2f}".format(Mail[i][0], sum(Mail[i][1]), len(Mail[i][1]),tot_ave))
         print("{:20s}{:^20.2f}{:^19d}{:^18.2f}".format(Mail[i][0], dnr_ave, len(Mail[i][1]), tot_ave))
 
 def add_mail():
     print("If you want a list of donors please type 'list' ")
     new_mail = input("Please enter the full name of the donor? ")
-    #print("If you want a list of donors please type 'list' ")
     for i in range(len(Mail)):
          if new_mail == 'list':
              print("{:<20s}".format(Mail[i][0]))
@@ -47,6 +45,7 @@ def add_mail():
              print('Dear',new_mail,',')
              print('Thank you', new_mail,'for donating','{:.2f}'.format(int(dnr_amt)))
              print('We appreciate your generosity.')
+             print( )
              print('Sincerely, Donation Team')
              break
 
