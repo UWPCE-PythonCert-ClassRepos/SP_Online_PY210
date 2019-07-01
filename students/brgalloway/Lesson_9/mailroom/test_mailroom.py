@@ -14,7 +14,6 @@ def test_donors():
     print(d1.fullname)
 
 def test_database():
-    
     db = DonorCollection(Donor("Billy Galloway", [100, 1, 100]))
     db.generate_report()
     db.apply_donation("Billy Galloway", 10)
