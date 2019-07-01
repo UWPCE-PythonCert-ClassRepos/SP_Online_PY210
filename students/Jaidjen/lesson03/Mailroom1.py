@@ -25,7 +25,7 @@ def view_mail(Mail):
         ave_amt= int(len(Mail[i][1]))
         tot_ave= dnr_ave/ave_amt
         donate.append(dnr_ave)
-        donate.sort()
+        sorted(donate)
         print("{:20s}{:^20.2f}{:^19d}{:^18.2f}".format(Mail[i][0], dnr_ave, len(Mail[i][1]), tot_ave))
 
 def add_mail():
