@@ -20,7 +20,7 @@ def view_mail(Mail):
     print("{:20s}{:20s}{:20s}{:20s}".format("DONOR ", "| TOTAL GIVEN ", "| NUMBER OF GIFTS ", "| AVERAGE GIFTS "))
     print("-----------------------------------------------------------------------------")
     for mail in Mail:
-        sorted(Mail[mail]['Donation'])
+        sorted(Mail)
         print("{:20s}{:^20.2f}{:^19d}{:^18.2f}".format(Mail[mail]['Name'],sum(Mail[mail]['Donation']), len(Mail[mail]['Donation']),(sum(Mail[mail]['Donation'])/(len(Mail[mail]['Donation'])))))
 
 
@@ -31,7 +31,6 @@ def add_mail():
     if new_mail == 'list':
         print("{:<20s}".format(Mail[Name]))
     elif new_mail == Mail[1]:
-        #return Mail({[1][Name]})
         dnr_amt = input("Please enter the donation amount: ")
         print('Thank you', {new_mail}, 'for donating', {dnr_amt})
     else:
@@ -42,7 +41,7 @@ def add_mail():
         print('Thank you', new_mail,'for donating','{:.2f}'.format(int(dnr_amt)))
         print('We appreciate your generosity.')
         print('Sincerely, Donation Team')
-    #break
+
 
 def thankyou_mail():
     for mail in Mail:
@@ -50,6 +49,7 @@ def thankyou_mail():
         print('Thank you for your very kind donation of','{:.2f}'.format(sum(Mail[mail]['Donation'])))
         print('It will be put to very good use.')
         print('Sincerely, Donation Team')
+        print(  )
 
 
 def exit_program():
