@@ -19,11 +19,11 @@ def test_init():
     """
     Test that we pass the
     """
-    c = Circle(5)
-
+    # check for missing radius intput
     with pytest.raises(TypeError):
         c = Circle()
 
+    c = Circle(5)
     assert c.radius == 5
 
 
@@ -33,6 +33,12 @@ def test_init():
 """
 Add a diameter property so the user can get the diameter of the circle
 """
+def test_diameter():
+    """Test that diameter attribute exists and twice the radius"""
+    c = Circle(5)
+
+    assert c.diameter == 10
+
 
 ########
 # Step 3
