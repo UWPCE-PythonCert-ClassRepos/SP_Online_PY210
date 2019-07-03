@@ -13,5 +13,20 @@ class Circle(object):
         """
         Require parameters: Radius
         """
-        self.radius = radius
-        self.diameter = radius*2
+        self._radius = radius
+
+    @property
+    def radius(self):
+        return self._radius
+
+    @radius.setter
+    def radius(self, radius):
+        self._radius = radius
+
+    @property
+    def diameter(self):
+        return self.radius * 2
+
+    @diameter.setter
+    def diameter(self, diameter):
+        self._radius = diameter / 2
