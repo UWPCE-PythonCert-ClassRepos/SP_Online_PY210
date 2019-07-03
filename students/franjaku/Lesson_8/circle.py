@@ -14,3 +14,4 @@ class Circle(object):
         Require parameters: Radius
         """
         self.radius = radius
+        self.diameter = radius*2
