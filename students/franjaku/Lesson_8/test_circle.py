@@ -60,3 +60,9 @@ def test_diameter_radius_property():
 
     assert c.diameter == 20
     assert c.radius == 10
+
+    # check that radius change works and updates diameter
+    c.radius = 25
+
+    assert c.radius == 25
+    assert c.diameter == 50
