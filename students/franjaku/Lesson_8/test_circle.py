@@ -21,6 +21,9 @@ def test_init():
     """
     c = Circle(5)
 
+    with pytest.raises(TypeError):
+        c = Circle()
+
     assert c.radius == 5
 
 
