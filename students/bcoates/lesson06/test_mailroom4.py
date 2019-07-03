@@ -13,17 +13,17 @@ def test_create_a_report():
 
 def test_add_donor():
     # Test for existing donor
-    assert mailroom.add_donor('Lana Kane') == 'donor_1'
-    assert mailroom.donor_history['donor_1'] == {"name": "Lana Kane", "donations": [2999.99]}
+    assert mailroom.add_donor('Lana Kane') == None
+    assert mailroom.donor_history['Lana Kane'] == [2999.99]
     
     # Test for new donor
-    assert mailroom.add_donor('Test User') == 'donor_6'
-    assert mailroom.donor_history['donor_6'] == {"name": 'Test User', 'donations': []}
+    mailroom.add_donor('Test User')
+    assert mailroom.donor_history['Test User'] == []
 
 def test_add_donation_amount():
     # Test adding a donation to an existing donor
-    assert mailroom.add_donation_amount('donor_1', 50.25) == 50.25
-    assert mailroom.donor_history['donor_1'] == {"name": "Lana Kane", "donations": [2999.99, 50.25]}
+    mailroom.add_donation_amount('Lana Kane', 50.25) == 50.25
+    assert mailroom.donor_history['Lana Kane'] == [2999.99, 50.25]
 
 def test_format_thank_you_letter():
     letter_output = "\nDear Test User,\n\nThank you for your generous donation of $75.50!\n\nSincerely,\n\nThe Owners"
