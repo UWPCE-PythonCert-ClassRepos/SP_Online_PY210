@@ -45,5 +45,18 @@ def test_diameter():
 ########
 """
 Allow the user to set the diameter of the circle.
-Ensure that the radius and diameter are always in sync
+Ensure that the radius and diameter are always in sync.
+Make the diameter and radius both properties.
 """
+
+def test_diameter_radius_property():
+    c = Circle(5)
+
+    assert c.radius == 5
+    assert c.diameter == 10
+
+    # check that diameter change works and updates radius
+    c.diameter = 20
+
+    assert c.diameter == 20
+    assert c.radius == 10
