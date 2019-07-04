@@ -232,22 +232,22 @@ def test_euqal():
     assert (c == c2)
     assert not (c == c3)
 
-# def test_filled_in_operators():
-#     c = Circle(5)
-#     c2 = Circle(10)
-#     c3 = Circle(5)
+def test_filled_in_operators():
+    c = Circle(5)
+    c2 = Circle(10)
+    c3 = Circle(5)
 
-#     # test less than or equal too
-#     assert (c <= c2)
-#     assert (c <= c3)
-#     assert not (c2 <= c3)
+    # test less than or equal too
+    assert (c <= c2)
+    assert (c <= c3)
+    assert not (c2 <= c3)
 
-#     # test greater than
-#     assert (c2 > c3)
-#     assert not (c > c2)
-#     assert not (c > c3)
+    # test greater than
+    assert (c2 > c3)
+    assert not (c > c2)
+    assert not (c > c3)
 
-#     # test greater than or equal too
-#     assert (c2 >= c3)
-#     assert (c >= c3)
-#     assert not (c >= c2)
+    # test greater than or equal too
+    assert (c2 >= c3)
+    assert (c >= c3)
+    assert not (c >= c2)
