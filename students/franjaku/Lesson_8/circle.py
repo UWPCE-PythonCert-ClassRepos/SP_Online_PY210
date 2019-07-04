@@ -32,6 +32,12 @@ class Circle(object):
     def __rmul__(self, other):
         return Circle(self.radius * other)
 
+    def __lt__(self, other):
+        return (self.radius < other.radius)
+
+    def __eq__(self, other):
+        return (self.radius == other.radius)
+
     @property
     def radius(self):
         return self._radius
