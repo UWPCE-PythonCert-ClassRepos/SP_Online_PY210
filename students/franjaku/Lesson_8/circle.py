@@ -36,3 +36,7 @@ class Circle(object):
     @property
     def area(self):
         return math.pow(self.radius, 2)*math.pi
+
+    @classmethod
+    def from_diameter(self, diameter):
+        return Circle(diameter/2)
