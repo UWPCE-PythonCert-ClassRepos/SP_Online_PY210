@@ -87,7 +87,7 @@ def test_area():
     c = Circle(5)
 
     # test area gets calculated properly
-    assert c.area == 5*5*math.pi()
+    assert c.area == 5*5*math.pi
 
     # test user can't set area property
     with pytest.raises(AttributeError):
@@ -96,8 +96,8 @@ def test_area():
     # ensure area gets updated with radius and diameter updates
     c.diameter = 20
     assert c.radius == 10
-    assert c.area == 100*math.pi()
+    assert c.area == 100*math.pi
 
     c.radius = 20
     assert c.diameter == 40
-    assert c.area == 20*20*math.pi()
+    assert c.area == 20*20*math.pi

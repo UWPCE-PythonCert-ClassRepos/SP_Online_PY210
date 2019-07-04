@@ -4,6 +4,8 @@
 A class-based system for rendering html.
 """
 
+import math
+
 
 # This is the framework for the circle class
 class Circle(object):
@@ -30,3 +32,7 @@ class Circle(object):
     @diameter.setter
     def diameter(self, diameter):
         self._radius = diameter / 2
+
+    @property
+    def area(self):
+        return math.pow(self.radius, 2)*math.pi
