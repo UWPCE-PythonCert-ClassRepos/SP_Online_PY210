@@ -23,6 +23,15 @@ class Circle(object):
     def __repr__(self):
         return "Circle({:.0f})".format(self.radius)
 
+    def __add__(self, c2):
+        return Circle(self.radius + c2.radius)
+
+    def __mul__(self, other):
+        return Circle(self.radius * other)
+
+    def __rmul__(self, other):
+        return Circle(self.radius * other)
+
     @property
     def radius(self):
         return self._radius

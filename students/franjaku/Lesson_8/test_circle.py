@@ -189,3 +189,11 @@ def test_multiplication_function():
     assert c2.radius == 25
     assert c2.diameter == 50
     assert c2.area == 25*25*math.pi
+
+    # test reverse order multiplication
+    c3 = 5 * c
+
+    # test all properties correctly initialized
+    assert c3.radius == 25
+    assert c3.diameter == 50
+    assert c3.area == 25*25*math.pi
