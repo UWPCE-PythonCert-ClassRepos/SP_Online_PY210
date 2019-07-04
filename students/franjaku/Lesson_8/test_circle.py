@@ -133,7 +133,7 @@ def test_initialize_diameter():
 # Step 6
 ########
 """
-Create a __str___ method to create the informal string representation of cirlces
+Create a __str___ method to create the informal string representation of circles
 Create a __repr__ method to create the formal string representation of circle
 
 print(c) == "Circle with radius: 4.000000"
@@ -251,3 +251,14 @@ def test_filled_in_operators():
     assert (c2 >= c3)
     assert (c >= c3)
     assert not (c >= c2)
+
+
+def test_sorting():
+    circles = [Circle(5), Circle(2), Circle(12), Circle(2), Circle(7), Circle(56)]
+    print(circles)
+
+    circles.sort()
+    print(circles)
+
+    # test list got sorted properly
+    assert circles == [Circle(2), Circle(2), Circle(5), Circle(7), Circle(12), Circle(56)]
