@@ -156,3 +156,36 @@ def test__repr_method():
     repr(c)
     d = c.__repr__()
     assert d == "Circle(5)"
+
+
+########
+# Step 7
+########
+"""
+Add numerical protocol to add and multiply circles
+"""
+
+
+def test_add_function():
+    c = Circle(5)
+    c2 = Circle(5)
+
+    # test operator works
+    c3 = c + c2
+
+    # test all properties correctly initialized
+    assert c3.radius == 10
+    assert c3.diameter == 20
+    assert c3.area == 100*math.pi
+
+
+def test_multiplication_function():
+    c = Circle(5)
+
+    # test operator works
+    c2 = c * 5
+
+    # test all properties correctly initialized
+    assert c2.radius == 25
+    assert c2.diameter == 50
+    assert c2.area == 25*25*math.pi
