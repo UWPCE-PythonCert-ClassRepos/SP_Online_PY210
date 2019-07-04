@@ -5,9 +5,10 @@ A class-based system for rendering html.
 """
 
 import math
-
+from functools import total_ordering
 
 # This is the framework for the circle class
+@total_ordering
 class Circle(object):
     """This is the circle class"""
 
