@@ -101,3 +101,29 @@ def test_area():
     c.radius = 20
     assert c.diameter == 40
     assert c.area == 20*20*math.pi
+
+
+########
+# Step 5
+########
+"""
+Created an alternate initializer so the user can initialize from a diameter.
+"""
+
+
+def test_initialize_diameter():
+    c = Circle.from_diameter(10)
+
+    # test radius, area, diameter properties
+    assert c.diameter == 10
+    assert c.radius == 5
+    assert c.area == 25*math.pi
+
+    # test chaning radius updates diameter and area
+    c.radius = 10
+    assert c.diameter == 20
+    assert c.area == 100*math.pi
+
+    # test initializer fails on empty diameter
+    with pytest.raises(TypeError):
+        c = Circle.from_diameter()
