@@ -197,3 +197,57 @@ def test_multiplication_function():
     assert c3.radius == 25
     assert c3.diameter == 50
     assert c3.area == 25*25*math.pi
+
+
+########
+# Step 8
+########
+"""
+Add numerical protocol to compare circles
+__lt__ = less than
+__eq__ = equal
+
+Implementing those two will allow python to fill in the following
+__le__
+__gt__
+__ge__
+"""
+
+
+def test_less_than_equal():
+    c = Circle(5)
+    c2 = Circle(10)
+    c3 = Circle(5)
+
+    assert (c < c2)
+    assert not (c2 < c3)
+    assert not (c < c3)
+
+
+def test_euqal():
+    c = Circle(5)
+    c2 = Circle(5)
+    c3 = Circle(1)
+
+    assert (c == c2)
+    assert not (c == c3)
+
+# def test_filled_in_operators():
+#     c = Circle(5)
+#     c2 = Circle(10)
+#     c3 = Circle(5)
+
+#     # test less than or equal too
+#     assert (c <= c2)
+#     assert (c <= c3)
+#     assert not (c2 <= c3)
+
+#     # test greater than
+#     assert (c2 > c3)
+#     assert not (c > c2)
+#     assert not (c > c3)
+
+#     # test greater than or equal too
+#     assert (c2 >= c3)
+#     assert (c >= c3)
+#     assert not (c >= c2)
