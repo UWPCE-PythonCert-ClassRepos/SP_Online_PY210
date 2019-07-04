@@ -127,3 +127,32 @@ def test_initialize_diameter():
     # test initializer fails on empty diameter
     with pytest.raises(TypeError):
         c = Circle.from_diameter()
+
+
+########
+# Step 6
+########
+"""
+Create a __str___ method to create the informal string representation of cirlces
+Create a __repr__ method to create the formal string representation of circle
+
+print(c) == "Circle with radius: 4.000000"
+
+repr(c) == "Circle(5)"
+"""
+
+
+def test__str__method():
+    c = Circle(5)
+
+    print(c)
+    d = c.__str__()
+    assert d == "Circle with radius: 5.000000"
+
+
+def test__repr_method():
+    c = Circle(5)
+
+    repr(c)
+    d = c.__repr__()
+    assert d == "Circle(5)"
