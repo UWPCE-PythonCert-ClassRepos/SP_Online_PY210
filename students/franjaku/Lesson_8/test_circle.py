@@ -262,3 +262,130 @@ def test_sorting():
 
     # test list got sorted properly
     assert circles == [Circle(2), Circle(2), Circle(5), Circle(7), Circle(12), Circle(56)]
+
+
+########
+# Step 8: Optional
+########
+"""
+Make reflected numerics do the right thing.
+Add augmented assignment operators where they make sense.
+"""
+
+
+########
+# Step 9
+########
+"""
+Subclass a sphere from the circle class.
+- Overwrite the __str__ and __repr__ methods.
+- Add a volume property.
+- Override the area property to show the area of a sphere.
+- Ensure numerics work properly.
+- Ensure you can instantiate a sphere with the _from_diameter() initializer
+"""
+
+
+def test_initialize_sphere():
+    """
+    Test we can initialize a sphere and compute basic properties.
+    """
+    s = Sphere(5)
+
+    assert s.radius == 5
+    assert s.diameter == 10
+
+
+def test_sphere__str__method():
+    s = Sphere(5)
+
+    print(s)
+    d = s.__str__()
+
+    assert d == "Sphere with radius: 5.000000"
+
+
+def test_sphere__repr__method():
+    s = Sphere(5)
+
+    repr(s)
+    d = eval(repr(s))
+
+    assert d == "Sphere(5)"
+
+
+def test_volume_property():
+    s = Sphere(5)
+
+    assert s.volume == 4/3*math.pi*math.pow(s.radius, 3)
+
+
+def test_sphere_area_property():
+    s = Sphere(5)
+
+    assert s.area == 4*math.pi*math.pow(s.radius, 2)
+
+
+def test_sphere_numerics():
+    s = Sphere(5)
+    s2 = Sphere(2)
+
+
+    # check addition works
+    s3 = s + s2
+    print(s3)
+    assert s3.radius == 7
+    assert s3.diameter == 14
+
+    # check multiplication works
+    s4 = s*2
+    print(s4)
+    assert s4.radius == 10
+    assert s4.diameter == 20
+
+    s5 = 2*s
+    print(s5)
+    assert s5.radius == 10
+    assert s5.diameter == 20
+
+
+def test_total_ordering():
+    s = Sphere(5)
+    s2 = Sphere(10)
+    s3 = Sphere(5)
+
+    # check less than and equal to
+    assert s < s2
+    assert not s3 < s
+
+    assert s == s3
+    assert not s == s2
+
+    # check total ordering
+    assert s <= s3
+    assert s3 >= s
+    assert s2 > s3
+
+
+def test_sorting():
+    s = Sphere(5)
+    s2 = Sphere(7)
+    s3 = Sphere(10)
+    s4 = Sphere(12)
+    s5 = Sphere(25)
+    s6 = Sphere(30)
+
+    spheres = [s2, s, s5, s4, s6, s3]
+    print(spheres)
+
+    spheres.sort()
+    print(spheres)
+
+    assert spheres == [s, s2, s3, s4, s5, s6]
+
+
+def test_from_diameter():
+    s = Sphere.from_diameter(10)
+
+    assert s.radius == 5
+    assert s.diameter == 10
