@@ -65,4 +65,22 @@ class Circle(object):
 
 
 class Sphere(Circle):
-    pass
+    """
+    Simple sphere class that subclasses from circle.
+    """
+
+    def __str__():
+        pass
+
+    def __repr__():
+        pass
+
+    @property
+    def area(self):
+        return 4*math.pi*math.pow(self.radius, 2)
+
+
+    @property
+    def volume(self):
+        return 4/3*math.pi*math.pow(self.radius, 3)
+
