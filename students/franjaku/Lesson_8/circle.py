@@ -69,18 +69,16 @@ class Sphere(Circle):
     Simple sphere class that subclasses from circle.
     """
 
-    def __str__():
-        pass
+    def __str__(self):
+        return "Sphere with radius: {:.6f}".format(self.radius)
 
-    def __repr__():
-        pass
+    def __repr__(self):
+        return "Sphere({:.0f})".format(self.radius)
 
     @property
     def area(self):
         return 4*math.pi*math.pow(self.radius, 2)
 
-
     @property
     def volume(self):
         return 4/3*math.pi*math.pow(self.radius, 3)
-
