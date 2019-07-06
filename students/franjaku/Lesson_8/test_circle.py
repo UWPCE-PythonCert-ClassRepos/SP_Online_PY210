@@ -322,7 +322,7 @@ def test_volume_property():
 
     assert s.volume == 4/3*math.pi*math.pow(s.radius, 3)
 
-    with pytest.raises(TypeError):
+    with pytest.raises(AttributeError):
         s.volume = 10
 
 
@@ -334,7 +334,7 @@ def test_sphere_area_property():
 
     assert s.area == 4*math.pi*math.pow(s.radius, 2)
 
-    with pytest.raises(TypeError):
+    with pytest.raises(AttributeError):
         s.area = 10
 
 
