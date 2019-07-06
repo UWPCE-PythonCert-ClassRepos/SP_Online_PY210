@@ -62,3 +62,7 @@ class Circle(object):
     @classmethod
     def from_diameter(self, diameter):
         return Circle(diameter/2)
+
+
+class Sphere(Circle):
+    pass
