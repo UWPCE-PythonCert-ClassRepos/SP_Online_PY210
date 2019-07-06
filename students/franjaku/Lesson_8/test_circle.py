@@ -309,8 +309,7 @@ def test_sphere__repr__method():
     s = Sphere(5)
 
     repr(s)
-    d = eval(repr(s))
-
+    d = s.__repr__()
     assert d == "Sphere(5)"
 
 
