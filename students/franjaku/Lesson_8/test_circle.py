@@ -315,15 +315,27 @@ def test_sphere__repr__method():
 
 
 def test_volume_property():
+    """
+    Ensure volume gets computed correctly and can't be set by the user.
+    """
     s = Sphere(5)
 
     assert s.volume == 4/3*math.pi*math.pow(s.radius, 3)
 
+    with pytest.raises(TypeError):
+        s.volume = 10
+
 
 def test_sphere_area_property():
+    """
+    Ensure area gets computed correctly and can't be set by the user.
+    """
     s = Sphere(5)
 
     assert s.area == 4*math.pi*math.pow(s.radius, 2)
+
+    with pytest.raises(TypeError):
+        s.area = 10
 
 
 def test_sphere_numerics():
