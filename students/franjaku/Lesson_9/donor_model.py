@@ -63,6 +63,10 @@ class Donor(object):
     def total_donated(self):
         return sum(self.donations)
 
+    @property
+    def average_donation(self):
+        return self.total_donated / self.num_donations
+
 
 # Collection of donors
 class DonorColletion(object):
