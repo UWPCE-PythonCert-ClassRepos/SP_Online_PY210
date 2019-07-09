@@ -32,7 +32,7 @@ def test_init():
 def test_add_donation():
     d = Donor('John')
 
-    d.add_donation(100)
+    d.add_donation(100.00)
 
     # Test donation attribute
     assert d.donations == [100]
@@ -56,10 +56,10 @@ def test_add_donation():
 def test_tot_donated():
     d = Donor('John')
 
-    d.add_donation(100)
+    d.add_donation(100.00)
 
     assert d.total_donated == 100
 
-    d.add_donation(100)
+    d.add_donation(100.00)
 
     assert d.total_donated == 200
