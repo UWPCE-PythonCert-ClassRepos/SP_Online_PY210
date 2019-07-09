@@ -32,13 +32,15 @@ def test_init():
 def test_add_donation():
     d = Donor('John')
 
+    # Test adding float
     d.add_donation(100.00)
-
-    # Test donation attribute
     assert d.donations == [100]
-
-    # Test donation method
     assert d.num_donations == 1
+
+    # Test adding integer value
+    d.add_donation(20)
+    assert d.donations == [100, 20]
+    assert d.num_donations == 2
 
     # Test donation amount can't be empty or zero
     with pytest.raises(TypeError):
@@ -47,6 +49,10 @@ def test_add_donation():
     # Test donation added can't be negative
     with pytest.raises(ValueError):
         d.add_donation(-100)
+
+    # Test donation is greater than 0
+    with pytest.raises(ValueError):
+        d.add_donation(0)
 
     # Test donation has to be a number
     with pytest.raises(TypeError):
@@ -57,9 +63,7 @@ def test_tot_donated():
     d = Donor('John')
 
     d.add_donation(100.00)
-
     assert d.total_donated == 100
 
     d.add_donation(100.00)
-
     assert d.total_donated == 200
