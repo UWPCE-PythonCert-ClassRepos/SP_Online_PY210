@@ -33,7 +33,35 @@ class Donor(object):
         Because of the error checking required for adding a donation I am
         choosing to not add a donation amount in __init__.
         """
-        pass
+        self._name = name
+        self._donations = []
+
+    def add_donation(self, donation):
+        if type(donation) == float or int:
+            if donation > 0:
+                self._donations.append(donation)
+            else:
+                print('Donation must be > 0')
+                raise ValueError
+        else:
+            print('Donation must by integer or float')
+            raise TypeError
+
+    @property
+    def name(self):
+        return self._name
+
+    @property
+    def donations(self):
+        return self._donations
+
+    @property
+    def num_donations(self):
+        return len(self.donations)
+
+    @property
+    def total_donated(self):
+        return sum(self.donations)
 
 
 # Collection of donors
