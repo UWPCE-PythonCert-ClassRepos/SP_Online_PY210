@@ -67,3 +67,13 @@ def test_tot_donated():
 
     d.add_donation(100.00)
     assert d.total_donated == 200
+
+
+def test_average_donation():
+    d = Donor('John')
+
+    d.add_donation(100)
+    assert d.average_donation == 100
+
+    d.add_donation(50)
+    assert d.average_donation == 75
