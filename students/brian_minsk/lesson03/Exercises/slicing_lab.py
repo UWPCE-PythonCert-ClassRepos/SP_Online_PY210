@@ -1,3 +1,5 @@
+# Author: Brian Minsk
+
 def exchange_first_last(seq):
     """ Exchange the first and last items in the sequence.
 

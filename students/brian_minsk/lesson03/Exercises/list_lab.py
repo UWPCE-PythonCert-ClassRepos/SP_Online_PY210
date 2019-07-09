@@ -1,4 +1,8 @@
+# Author: Brian Minsk
+
 def main():
+    """ Call the other functions which do the actual work.
+    """
     list_fruit = ["Apples", "Pears", "Oranges", "Peaches"]
     list_fruit2 = series1(list_fruit)
     series2(list_fruit2)
@@ -17,6 +21,9 @@ def series1(list_fruit):
     6. Add another fruit to the beginning of the list using “+” and display the list.
     7. Add another fruit to the beginning of the list using insert() and display the list.
     8. Display all the fruits that begin with “P”, using a for loop.
+
+    Keyword arguments:
+    list_fruit -- list of strings
     """
     #2
     print(list_fruit)
@@ -58,6 +65,9 @@ def series2(list_fruit):
     3. Display the list.
     4. Ask the user for a fruit to delete, find it and delete it.
     5. (Bonus: Multiply the list times two. Keep asking until a match is found. Once found, delete all occurrences.)
+
+    Keyword arguments:
+    list_fruit -- list of strings
     """
     #1
     print(list_fruit)
@@ -89,6 +99,9 @@ def series3(list_fruit):
     2. For each “no”, delete that fruit from the list.
     3. For any answer that is not “yes” or “no”, prompt the user to answer with one of those two values (a while loop is good here)
     4. Display the list.
+
+    Keyword arguments:
+    list_fruit -- list of strings
     """
     list_fruit_iterable = list_fruit[:] # need to make a copy because items in list_fruit will be deleted and it will mess up the iteration of the for loop
     # 1
@@ -114,6 +127,9 @@ def series4(list_fruit):
     Once more, using the list from series 1:
     1. Make a new list with the contents of the original, but with all the letters in each item reversed.
     2. Delete the last item of the original list. Display the original list and the copy.
+
+    Keyword arguments:
+    list_fruit -- list of strings
     """
     # 1
     list_fruit_reversed_letters = []
