@@ -44,10 +44,22 @@ def test_add_donation():
     with pytest.raises(TypeError):
         d.add_donation()
 
+    # Test donation added can't be negative
+    with pytest.raises(ValueError):
+        d.add_donation(-100)
 
-# def test_tot_donated():
-#     d = Donor('John')
+    # Test donation has to be a number
+    with pytest.raises(TypeError):
+        d.add_donation('hello')
 
-#     d.add_donation(100)
 
-#     d.add_donation(100)
+def test_tot_donated():
+    d = Donor('John')
+
+    d.add_donation(100)
+
+    assert d.total_donated == 100
+
+    d.add_donation(100)
+
+    assert d.total_donated == 200
