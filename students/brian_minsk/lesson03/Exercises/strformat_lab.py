@@ -106,7 +106,7 @@ def task6a(a_tuple):
     Keyword arguments:
     a_tuple -- a tuple of lists with each list containing a name, age, and cost
     """
-        for i,j,k in a_tuple:
+    for i,j,k in a_tuple:
         print("{:20}{:>5d}{:>10}".format(i,j,k))
 
 if __name__ == "__main__":
