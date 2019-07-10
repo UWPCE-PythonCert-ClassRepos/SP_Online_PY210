@@ -18,7 +18,7 @@ def main():
     assert task5b(['oranges', 1.3, 'lemons', 1.1]) == "The weight of an ORANGE is 1.56 and the weight of a LEMON is 1.32"
 
     task6a((["Dee Zaster", 22, "$319.50"], ["Owen Money", 38, "$1456.00"], ["Shanda Lear", 53, "$999.98"], ["Artie Choke", 103, "$1.95"]))
-    
+    task6b((2, 3, 4, 5, 6, 7, 8, 9, 10, 11))
 
 def task1(a_tuple):
     """ For the input ( 2, 123.4567, 10000, 12345.67) return 'file_002 :   123.46, 1.00e+04, 1.23e+04'
@@ -108,6 +108,15 @@ def task6a(a_tuple):
     """
     for i,j,k in a_tuple:
         print("{:20}{:>5d}{:>10}".format(i,j,k))
+
+def task6b(a_tuple):
+    """ Given a tuple with 10 consecutive numbers quickly print the tuple in columns that are 5 charaters wide
+    using one line of code
+
+    Keyword arguments:
+    a_tuple -- a tuple of 10 consecutive numbers
+    """
+    for number in a_tuple: print("{:>5d}".format(number), end = "")
 
 if __name__ == "__main__":
     main()
