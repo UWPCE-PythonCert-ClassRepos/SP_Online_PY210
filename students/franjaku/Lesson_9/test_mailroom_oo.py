@@ -77,3 +77,52 @@ def test_average_donation():
 
     d.add_donation(50)
     assert d.average_donation == 75
+
+
+def test_total_ordering():
+    d = Donor('John')
+    d.add_donation(100)
+
+    d2 = Donor('Tim')
+    d2.add_donation(50)
+
+    assert d2 < d
+
+
+def test_sorting():
+    d = Donor('John')
+    d.add_donation(10)
+
+    d2 = Donor('Tim')
+    d2.add_donation(50)
+
+    d3 = Donor('Beth')
+    d3.add_donation(250)
+
+    d4 = Donor('Abby')
+    d4.add_donation(5050)
+
+    donor_list = [d3, d, d4, d2]
+
+    donor_list.sort()
+
+    assert donor_list == [d, d2, d3, d4]
+
+
+def test__str__():
+    d = Donor('John')
+
+    print(d)
+
+    strd = d.__str__()
+
+    assert strd == "Donor: John"
+
+def test__repr__():
+    d = Donor('John')
+
+    print(d)
+
+    reprd = d.__repr__()
+
+    assert reprd == "Donor(John)"
