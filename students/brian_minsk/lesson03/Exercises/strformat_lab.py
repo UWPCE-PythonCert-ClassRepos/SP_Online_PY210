@@ -14,6 +14,9 @@ def main():
 
     assert task4((4, 30, 2017, 2, 27)) == '02 27 2017 04 30'
 
+    assert task5a(['oranges', 1.3, 'lemons', 1.1]) == "The weight of an orange is 1.3 and the weight of a lemon is 1.1"
+    assert task5b(['oranges', 1.3, 'lemons', 1.1]) == "The weight of an ORANGE is 1.56 and the weight of a LEMON is 1.32"
+
 
 def task1(a_tuple):
     """ For the input ( 2, 123.4567, 10000, 12345.67) return 'file_002 :   123.46, 1.00e+04, 1.23e+04'
@@ -65,6 +68,27 @@ def task4(a_tuple):
     a_tuple: a tuple of 5 integers
     """
     return "{:0>2d} {:d} {:d} {:0>2d} {:d}".format(a_tuple[3], a_tuple[4], a_tuple[2], a_tuple[0], a_tuple[1])
+
+def task5a(a_list):
+    """ Given the following four element list:
+    ['oranges', 1.3, 'lemons', 1.1]
+    return "The weight of an orange is 1.3 and the weight of a lemon is 1.1"
+
+    Keyword arguments:
+    a_list -- a list of the form above
+    """
+    return f"The weight of an {a_list[0][:-1]} is {a_list[1]} and the weight of a {a_list[2][:-1]} is {a_list[3]}"
+
+def task5b(a_list):
+    """ Given the following four element list:
+    ['oranges', 1.3, 'lemons', 1.1]
+    return "The weight of an ORANGE is 1.56 and the weight of a LEMON is 1.32"
+    where the weights are 1.2 times the value in the list.
+
+    Keyword arguments:
+    a_list -- a list of the form above
+    """
+    return f"The weight of an {a_list[0].upper()[:-1]} is {1.2 * a_list[1]} and the weight of a {a_list[2].upper()[:-1]} is {1.2 * a_list[3]}"
 
 def create_file_name(file_number):
     if file_number < 10:
