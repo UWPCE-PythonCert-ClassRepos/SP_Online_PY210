@@ -13,89 +13,86 @@ prompt = '\n'.join(('Welcome to the mailroom',
          'Please choose from the following options:',
          '1 - Send a Thank You',
          '2 - Create a Report',
-         '3 - Quit',
+         '3 - Send letters to all donors',
+         '4 - Quit',
          '> '))
 
 #send a thank you tasks
-def donor_in_list(x):
-    result = False
-    if x in donor_db.keys():
-        result = True
-    return result
-
-donation_email = "\nDear {},\nThank you for your generous donation of ${:.2f}!\n"
-
 def thank_you():
     ty_prompt = input('Please enter a full name or type list to see all the current donors: ')
     while ty_prompt.lower() == 'list':
         print(donor_db.keys())
         ty_prompt = input('Please enter a full name or type list to see all the current donors: ')
     else:
-        if donor_in_list(ty_prompt) == True:
-            donation_amount = float(input('Please enter a donation amount: '))
-            donor_db[ty_prompt].append(donation_amount)
+        donation_amount = float(input('Please enter a donation amount: '))
+        for donor in donor_db.keys():
+            if donor == ty_prompt:
+                donor_db[ty_prompt].append(donation_amount)
+                break
         else:
-            donation_amount = float(input('Please enter a donation amount: '))
             donor_db[ty_prompt] = [donation_amount]
+    donation_email = "\nDear {},\nThank you for your generous donation of ${:.2f}!\n"
     print(donation_email.format(ty_prompt, donation_amount))
 
 #create a report functions
-donor_db_copy = donor_db.copy()
-
-def sum_function(x):
-    total = 0
-    i = 0
-    for i in x:
-        total = total + i
-        i += 1
-    return total
-
-
 def number_donations(x):
     return len(x)
 
 def average_gift(x):
-    return sum_function(x)/len(x)
+    return sum(x)/len(x)
+
+def second_sort(elem):
+    return elem[1]
 
 def create_table(d):
     """takes the donor database and sorts on total given. also makes a summary
     table with total given, number of gifts and average amount of gift"""
     report_table = []
-    for key in d:
-        report_table.append(key)
-        report_table.append(sum_function(d[key]))
-        report_table.append(number_donations(d[key]))
-        report_table.append(average_gift(d[key]))
+    for key in d.keys():
+        new_entry = (key, sum(d[key]), number_donations(d[key]), average_gift(d[key]))
+        report_table.append(new_entry)
+    report_table.sort(key = second_sort, reverse = True)
     return report_table
 
-header = ('Donor Name', 'Total Given', 'Num Gifts', 'Average Gift')
-table_header = "{:<20}| {} | {} | {}".format(*header) + '\n' + "-" * 60
-
-def create_report(db):
+def create_report():
     '''formats create_table into the create_report format'''
-    table = create_table(db)
+    header = ('Donor Name', 'Total Given', 'Num Gifts', 'Average Gift')
+    table_header = "{:<20}| {} | {} | {}".format(*header) + '\n' + "-" * 60
+    line_format = ("{:<20}" + " $" + "{:>12.2f}" + "{:>11}" + "  $" + "{:>12.2f}")
     print(table_header)
-    line_format = ("{:<20}" + " $" + "{:>12.2f}" + "{:>11}" + "  $" + "{:>12.2f}" + '\n') * len(donor_db)
-    print(line_format.format(*table))
+    table = create_table(donor_db)
+    for entry in table:
+        print(line_format.format(*entry))
 
-print(create_report(donor_db))
+#make a function to send letters to all donors
+FORM_LETTER = "Dear {},\n\n\tThank you for donating ${:.2f}!\n\n\tThe kids will greatly appreciate it.\n\n\tSincerely,\n\t  -Our Team"
+
+def send_letters():
+    for key in donor_db:
+        with open(str(key) + '.txt', 'w') as f:
+            f.write(FORM_LETTER.format(key, sum(donor_db[key])))
 
 #make a function to exit the program
 def exit_program():
     print('Have a nice day!')
     sys.exit() # exit the interactive script
 
+def not_valid_option(x):
+    if x != 1 or 2 or 3:
+        print('Not a valid option')
+
+switch_dict = {1: thank_you,
+               2: create_report,
+               3: send_letters,
+               4: exit_program,
+               }
+
+
 def main():
     while True:
         response = input(prompt)
-        if response == '1':
-            thank_you()
-        elif response == '2':
-            create_report()
-        elif response == '3':
-            exit_program()
-        else:
-            print('Not a valid option')
+        switch_dict.get(int(response))()
 
-#if __name__ == "__main__":
-#    main()
+
+if __name__ == "__main__":
+    main()
