@@ -60,6 +60,15 @@ class Donor(object):
             print('Donation must by integer or float')
             raise TypeError
 
+    def thank_you(self):
+        # pass
+        if self.donations == []:
+            print("Error: Donor has no donation history.")
+            raise RuntimeError
+        else:
+            thank_you = "Dear {},\n Thank you for your donation of ${:.2f}!".format(self.name, self.donations[-1])
+            return thank_you
+
     @property
     def name(self):
         return self._name
