@@ -17,6 +17,8 @@ def main():
     assert task5a(['oranges', 1.3, 'lemons', 1.1]) == "The weight of an orange is 1.3 and the weight of a lemon is 1.1"
     assert task5b(['oranges', 1.3, 'lemons', 1.1]) == "The weight of an ORANGE is 1.56 and the weight of a LEMON is 1.32"
 
+    task6a((["Dee Zaster", 22, "$319.50"], ["Owen Money", 38, "$1456.00"], ["Shanda Lear", 53, "$999.98"], ["Artie Choke", 103, "$1.95"]))
+    
 
 def task1(a_tuple):
     """ For the input ( 2, 123.4567, 10000, 12345.67) return 'file_002 :   123.46, 1.00e+04, 1.23e+04'
@@ -97,6 +99,15 @@ def create_file_name(file_number):
         return "file_0{:0>2d}".format(file_number)
     else:
         return "file_{:d}".format(file_number)
+
+def task6a(a_tuple):
+    """ Print a table of several rows, each with a name, an age and a cost. 
+
+    Keyword arguments:
+    a_tuple -- a tuple of lists with each list containing a name, age, and cost
+    """
+        for i,j,k in a_tuple:
+        print("{:20}{:>5d}{:>10}".format(i,j,k))
 
 if __name__ == "__main__":
     main()
