@@ -2,9 +2,10 @@
 """
 Donor models contains the Donor and DonorColletion classes.
 """
-
+from functools import total_ordering
 
 # Donor
+@total_ordering
 class Donor(object):
     """
     Create a new donor object (expand).
@@ -35,6 +36,18 @@ class Donor(object):
         """
         self._name = name
         self._donations = []
+
+    def __str__(self):
+        return "Donor: {}".format(self.name)
+
+    def __repr__(self):
+        return "Donor({})".format(self.name)
+
+    def __lt__(self, other):
+        return (self.total_donated < other.total_donated)
+
+    def __eq__(self, other):
+        return (self.total_donated == other.total_donated)
 
     def add_donation(self, donation):
         if type(donation) == float or int:
