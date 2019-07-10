@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-#import sys
+import sys
 
 donor_db = [('Eddie Vedder', [10000.00, 20000.00, 4500.00]),
             ('Chris Cornell', [100.00, 500.00]),
@@ -24,8 +24,6 @@ def donor_names():
         donor_list.append(donor[0])
     return donor_list
 
-donation_email = "\nDear {},\nThank you for your generous donation of ${:.2f}!\n"
-
 def thank_you():
     ty_prompt = input('Please enter a full name or type list to see all the current donors: ')
     while ty_prompt.lower() == 'list':
@@ -36,11 +34,11 @@ def thank_you():
         for idx, donor in enumerate(donor_db):
             if donor[0] == ty_prompt:
                 donor_db[idx][1].append(donation_amount)
-                print(donor_db)
+                break
         else:
             new_entry = (ty_prompt, [donation_amount])
             donor_db.append(new_entry)
-            print(donor_db)
+    donation_email = "\nDear {},\nThank you for your generous donation of ${:.2f}!\n"
     print(donation_email.format(ty_prompt, donation_amount))
 
 #create a report functions
@@ -81,8 +79,6 @@ def create_report():
     for entry in table:
         print(line_format.format(*entry))
 
-create_report()
-
 #make a function to exit the program
 def exit_program():
     print('Have a nice day!')
@@ -100,5 +96,5 @@ def main():
         else:
             print('Not a valid option')
 
-#if __name__ == "__main__":
-    #main()
+if __name__ == "__main__":
+    main()
