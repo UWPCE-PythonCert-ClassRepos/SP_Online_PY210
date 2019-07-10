@@ -126,3 +126,17 @@ def test__repr__():
     reprd = d.__repr__()
 
     assert reprd == "Donor(John)"
+
+
+def test_thank_you():
+    d = Donor("John")
+
+    # Test error
+    with pytest.raises(RuntimeError):
+        d.thank_you()
+
+    d.add_donation(100)
+
+    thank_you = d.thank_you()
+
+    assert thank_you == "Dear John,\n Thank you for your donation of $100.00!"
