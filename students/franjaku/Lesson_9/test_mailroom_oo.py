@@ -149,7 +149,7 @@ def test_thank_you():
 
 
 def test_init_collector():
-    DonorRecords = DonorColletion()
+    DonorRecords = DonorCollection()
 
     d = Donor('John')
     d.add_donation(10)
@@ -178,7 +178,7 @@ def test_init_collector():
 
 
 def test_report():
-    DonorRecords = DonorColletion()
+    DonorRecords = DonorCollection()
 
     d = Donor('John')
     d.add_donation(10)
@@ -208,4 +208,24 @@ def test_report():
 
 
 def test__str__DonorCollection():
-    pass
+    DonorRecords = DonorCollection()
+
+    d = Donor('John')
+    d.add_donation(10)
+
+    d2 = Donor('Tim')
+    d2.add_donation(50)
+
+    d3 = Donor('Beth')
+    d3.add_donation(250)
+
+    d4 = Donor('Abby')
+    d4.add_donation(5050)
+
+    DonorRecords.add_donor(d, d2, d3, d4)
+
+    dstr = DonorRecords.__str__()
+    print(dstr)
+
+    # Test all keys get printed
+    assert dstr == "DonorCollection({})".format(DonorRecords.donors)
