@@ -229,3 +229,25 @@ def test__str__DonorCollection():
 
     # Test all keys get printed
     assert dstr == "DonorCollection({})".format(DonorRecords.donors)
+
+
+def test_add_donation_interface():
+    DonorRecords = DonorCollection()
+
+    d = Donor('John')
+    d.add_donation(10)
+
+    d2 = Donor('Tim')
+    d2.add_donation(50)
+
+    d3 = Donor('Beth')
+    d3.add_donation(250)
+
+    d4 = Donor('Abby')
+    d4.add_donation(5050)
+
+    DonorRecords.add_donor(d, d2, d3, d4)
+
+    DonorRecords.add_donation('Tim', 520)
+
+    assert DonorRecords._donors.get('Tim').total_donated == 570
