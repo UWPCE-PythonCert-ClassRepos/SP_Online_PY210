@@ -119,30 +119,34 @@ class DonorColletion(object):
             for Donor in args:
                 self._donors.setdefault(Donor.name, Donor)
 
-
     def create_report(self):
-        # sort_donors = OrderedDict(sorted(self._donors.items(), key=sort_key, reverse=True))
-        # lines = list()
-        # lines.append('-----Donation Report-----')
-        # lines.append('\n{:<15} | {:>14} | {:>11} | {:>16}'.format('Donor Name', 'Total Donation', '# donations', 'Average Donation'))
-        # lines.append('-'*66)
-        # line = "{:<15} | ${:>13.2f} | {:^11} | ${:>15.2f}"
+        sorted_donors = OrderedDict(sorted(self.items, key=sort_key, reverse=True))
 
-        # for d in sort_donors._donors:
-        #     lines.append(line.format(d.name, d.total_donated, d.num_donations, d.average_donation))
+        lines = list()
+        lines.append('-----Donation Report-----')
+        lines.append('\n{:<15} | {:>14} | {:>11} | {:>16}'.format('Donor Name', 'Total Donation', '# donations', 'Average Donation'))
+        lines.append('-'*66)
+        line = "{:<15} | ${:>13.2f} | {:^11} | ${:>15.2f}"
 
-        # return lines
-        pass
+        for key, d in sorted_donors.items():
+            lines.append(line.format(d.name, d.total_donated, d.num_donations, d.average_donation))
 
-    def print_report(self):
-        lines = self.create_report()
-        report = "\n".join(lines)
-        return report
+        return lines
+
+    # def print_report(self):
+    #     lines = self.create_report()
+    #     report = "\n".join(lines)
+    #     print(report)
+    #     return report
 
     @property
     def donors(self):
         return self._donors.keys()
 
+    @property
+    def items(self):
+        return self._donors.items()
+
 
 def sort_key(Donor):
-    return Donor.total_donated
+    return Donor[1].total_donated
