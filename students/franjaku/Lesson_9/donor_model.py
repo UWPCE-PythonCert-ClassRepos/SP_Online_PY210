@@ -134,7 +134,12 @@ class DonorCollection(object):
         return lines
 
     def add_donation(self, key, amount):
-        self._donors[key].add_donation(amount)
+        if key in self.donors:
+            self._donors[key].add_donation(amount)
+        else:
+            d = Donor(key)
+            d.add_donation(amount)
+            self.add_donor(d)
 
     # def print_report(self):
     #     lines = self.create_report()

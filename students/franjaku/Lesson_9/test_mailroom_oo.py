@@ -19,6 +19,7 @@ def test_init():
     Make sure name can't be set.
     Make sure donation can't be set
     """
+    # Test adding donor with no amount
     d = Donor('John')
 
     assert d.name == 'John'
@@ -118,6 +119,7 @@ def test__str__():
     strd = d.__str__()
 
     assert strd == "Donor: John"
+
 
 def test__repr__():
     d = Donor('John')
@@ -265,5 +267,5 @@ def test_add_donation_interface():
 
     # Test adding donation for donator not in current DonatorCollector
     DonorRecords.add_donation('Bro', 50)
-
-    assert DonorRecords.donors == {'John', 'Tim', 'Abby', 'Beth', 'Bro'}
+    DonorRecords.add_donation('Bro2', 150)
+    assert DonorRecords.donors == {'Bro2', 'John', 'Tim', 'Abby', 'Beth', 'Bro'}
