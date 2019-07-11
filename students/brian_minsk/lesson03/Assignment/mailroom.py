@@ -91,13 +91,59 @@ def thank_you_message(donor_name, donation_amount):
     donor_name = name of the donor
     donation_amount = donation amount as a float
     """
-    print("Dear {},".format(donor_name.title()))
-    print("Thank you very much for your generous donation of ${:.2f}.".format(donation_amount))
-    print("You ROCK!")
+    print("\nDear {},".format(donor_name.title()))
+    print("     Thank you very much for your generous donation of ${:.2f}.".format(donation_amount))
+    print("     You ROCK!\n")
+
+def create_report():
+    """ Print a list of your donors, sorted by total historical donation amount.
+    Include Donor Name, total donated, number of donations, and average donation amount as values in each row. 
+    The end result should be tabular (values in each column should align with those above and below) and look something like this:
+
+    Donor Name                | Total Given | Num Gifts | Average Gift
+    ------------------------------------------------------------------
+    William Gates, III         $  653784.49           2  $   326892.24
+    Mark Zuckerberg            $   16396.10           3  $     5465.37
+    Jeff Bezos                 $     877.33           1  $      877.33
+    Paul Allen                 $     708.42           3  $      236.14
+    """
+    # print header
+    print("{:<26}| {:<11}| {:<10}| {:<12}".format("Donor Name", "Total Given", "Num Gifts", "Average Gift"))
+    # print header line
+    for __ in range(0,65):
+        print("-", end = "")
+    print("") # get a new line
+    create_report_rows()
+    print("")
+
+def create_report_rows():
+    """ Create the rows (as described in create_report()) with the data from the donor db, 
+    sorted by total donation amount (computed by the sort_key function).
+    """
+    sorted_donor_db = sorted(donor_db, key=sort_key, reverse=True)
+
+    for donor in sorted_donor_db:
+        total_donation = 0.0
+        num_donations = 0
+        for donation in donor[1]:
+            total_donation += donation
+            num_donations += 1
+        average_donation = 0.0
+        if num_donations > 0:
+            average_donation = total_donation / num_donations
+
+        print("{:<26} ${:>11.2f} ${:>10d} ${:>12.2f}".format(donor[0].title(), total_donation, num_donations, average_donation))
+
+
+def sort_key(donor):
+    total = 0.0
+    for donation_amount in donor[1]:
+        total += donation_amount
+    return total
     
 def main():
     """ Prompt the user to select an option (send a thank you, create a report, or quit), 
-    which invokes the appropriate function.
+    which invokes the appropriate function. Except for the "quit" response, the others will return to this prompt after finishing.
     """
     while True:
         response = input(main_prompt)
@@ -106,7 +152,7 @@ def main():
         elif response == "2":
             create_report()
         elif response == "3":
-            exit_program()
+            break
         else:
             print("Please type '1', '2', or '3' to select one of the available options.")
 
