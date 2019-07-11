@@ -90,7 +90,7 @@ class Donor(object):
 
 
 # Collection of donors
-class DonorColletion(object):
+class DonorCollection(object):
     """
     Colletion object that has all the donor objects.
 
@@ -108,8 +108,8 @@ class DonorColletion(object):
     def __init__(self):
         self._donors = {}
 
-    def __str__():
-        pass
+    def __str__(self):
+        return "DonorCollection({})".format(self.donors)
 
     def add_donor(self, *args):
         if args == ():
