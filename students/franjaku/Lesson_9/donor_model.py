@@ -3,7 +3,7 @@
 Donor models contains the Donor and DonorColletion classes.
 """
 from functools import total_ordering
-
+from collections import OrderedDict
 # Donor
 @total_ordering
 class Donor(object):
@@ -61,7 +61,6 @@ class Donor(object):
             raise TypeError
 
     def thank_you(self):
-        # pass
         if self.donations == []:
             print("Error: Donor has no donation history.")
             raise RuntimeError
@@ -92,4 +91,58 @@ class Donor(object):
 
 # Collection of donors
 class DonorColletion(object):
-    pass
+    """
+    Colletion object that has all the donor objects.
+
+    Stores the donors in a dict with the name as the key.
+
+    DonorCollection Properties
+    - DonorCollection.donors: set-like items with names of donors
+    -
+
+    DonorCollection Methods
+    - Add a donor new donor
+    - Interface with Donor objects to add a new donation to an existing donor
+    - Generate a report
+    """
+    def __init__(self):
+        self._donors = {}
+
+    def __str__():
+        pass
+
+    def add_donor(self, *args):
+        if args == ():
+            print('No donor added')
+            raise UserWarning
+        else:
+            for Donor in args:
+                self._donors.setdefault(Donor.name, Donor)
+
+
+    def create_report(self):
+        # sort_donors = OrderedDict(sorted(self._donors.items(), key=sort_key, reverse=True))
+        # lines = list()
+        # lines.append('-----Donation Report-----')
+        # lines.append('\n{:<15} | {:>14} | {:>11} | {:>16}'.format('Donor Name', 'Total Donation', '# donations', 'Average Donation'))
+        # lines.append('-'*66)
+        # line = "{:<15} | ${:>13.2f} | {:^11} | ${:>15.2f}"
+
+        # for d in sort_donors._donors:
+        #     lines.append(line.format(d.name, d.total_donated, d.num_donations, d.average_donation))
+
+        # return lines
+        pass
+
+    def print_report(self):
+        lines = self.create_report()
+        report = "\n".join(lines)
+        return report
+
+    @property
+    def donors(self):
+        return self._donors.keys()
+
+
+def sort_key(Donor):
+    return Donor.total_donated
