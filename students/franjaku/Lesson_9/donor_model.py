@@ -4,6 +4,7 @@ Donor models contains the Donor and DonorColletion classes.
 """
 from functools import total_ordering
 from collections import OrderedDict
+
 # Donor
 @total_ordering
 class Donor(object):
