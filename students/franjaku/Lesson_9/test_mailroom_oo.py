@@ -8,8 +8,9 @@ import pytest
 from donor_model import *
 
 
-##########
-# Test initializing
+#####################
+# Donor Class Tests #
+#####################
 
 def test_init():
     """
@@ -140,3 +141,71 @@ def test_thank_you():
     thank_you = d.thank_you()
 
     assert thank_you == "Dear John,\n Thank you for your donation of $100.00!"
+
+
+##############################
+# DonorCollector Class Tests #
+##############################
+
+
+def test_init_collector():
+    DonorRecords = DonorColletion()
+
+    d = Donor('John')
+    d.add_donation(10)
+
+    d2 = Donor('Tim')
+    d2.add_donation(50)
+
+    d3 = Donor('Beth')
+    d3.add_donation(250)
+
+    d4 = Donor('Abby')
+    d4.add_donation(5050)
+
+    # Test adding one donor
+    DonorRecords.add_donor(d)
+
+    # Test adding multiple donors
+    DonorRecords.add_donor(d2, d3, d4)
+
+    # Test all donors got added, also tests the donor property
+    assert DonorRecords.donors == {'John', 'Tim', 'Beth', 'Abby'}
+
+    # Test no donor added('No donor added')
+    with pytest.raises(UserWarning):
+        DonorRecords.add_donor()
+
+
+def test_report():
+    DonorRecords = DonorColletion()
+
+    d = Donor('John')
+    d.add_donation(10)
+
+    d2 = Donor('Tim')
+    d2.add_donation(50)
+
+    d3 = Donor('Beth')
+    d3.add_donation(250)
+
+    d4 = Donor('Abby')
+    d4.add_donation(5050)
+
+    DonorRecords.add_donor(d, d2, d3, d4)
+
+    lines = DonorRecords.create_report()
+    line = "{:<15} | ${:>13.2f} | {:^11} | ${:>15.2f}"
+
+    # Test lines
+    assert lines[0] == '-----Donation Report-----'
+    assert lines[1] == '\n{:<15} | {:>14} | {:>11} | {:>16}'.format('Donor Name', 'Total Donation', '# donations', 'Average Donation')
+    assert lines[2] == '-'*66
+    assert lines[3] == line.format(d4.name, d4.total_donated, d4.num_donations, d4.average_donation)
+    assert lines[4] == line.format(d3.name, d3.total_donated, d3.num_donations, d3.average_donation)
+    assert lines[5] == line.format(d2.name, d2.total_donated, d2.num_donations, d2.average_donation)
+    assert lines[6] == line.format(d.name, d.total_donated, d.num_donations, d.average_donation)
+
+
+def test__str__DonorCollection():
+    pass
