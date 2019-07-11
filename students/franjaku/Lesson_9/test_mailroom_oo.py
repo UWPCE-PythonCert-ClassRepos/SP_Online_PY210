@@ -248,8 +248,22 @@ def test_add_donation_interface():
 
     DonorRecords.add_donor(d, d2, d3, d4)
 
+    # Test adding donation
     DonorRecords.add_donation('Tim', 520)
 
     # Test Tim's total donation amount got updated
     assert DonorRecords._donors.get('Tim').donations == [50, 520]
     assert DonorRecords._donors.get('Tim').total_donated == 570
+
+    # Test adding zero donation
+    with pytest.raises(ValueError):
+        DonorRecords.add_donation('Tim', 0)
+
+    # Test adding negative donation
+    with pytest.raises(ValueError):
+        DonorRecords.add_donation('Tim', -10)
+
+    # Test adding donation for donator not in current DonatorCollector
+    DonorRecords.add_donation('Bro', 50)
+
+    assert DonorRecords.donors == {'John', 'Tim', 'Abby', 'Beth', 'Bro'}
