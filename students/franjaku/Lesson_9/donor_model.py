@@ -98,7 +98,7 @@ class DonorCollection(object):
 
     DonorCollection Properties
     - DonorCollection.donors: set-like items with names of donors
-    -
+    - DonorCollection.items: returns DonorCollection.donors.items()
 
     DonorCollection Methods
     - Add a donor new donor
@@ -132,6 +132,9 @@ class DonorCollection(object):
             lines.append(line.format(d.name, d.total_donated, d.num_donations, d.average_donation))
 
         return lines
+
+    def add_donation(self, key, amount):
+        self._donors[key].add_donation(amount)
 
     # def print_report(self):
     #     lines = self.create_report()

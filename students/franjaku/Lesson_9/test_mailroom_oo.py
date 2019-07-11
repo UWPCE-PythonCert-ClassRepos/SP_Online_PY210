@@ -250,4 +250,6 @@ def test_add_donation_interface():
 
     DonorRecords.add_donation('Tim', 520)
 
+    # Test Tim's total donation amount got updated
+    assert DonorRecords._donors.get('Tim').donations == [50, 520]
     assert DonorRecords._donors.get('Tim').total_donated == 570
