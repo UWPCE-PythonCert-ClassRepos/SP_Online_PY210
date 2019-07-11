@@ -1,4 +1,5 @@
 # Author: Brian Minsk
+
 donor_db = [("Dee Zaster", [10000.00, 1500.00]), 
             ("Owen Money", [7000.00]), 
             ("Shanda Lear", [100.00, 900.00, 1500.00]), 
@@ -10,6 +11,7 @@ main_prompt = "\n".join(("Please choose an option:",
           "2 - Create a Report",
           "3 - Quit",
           ">>> "))
+
 thank_you_prompt = "\n".join(("Please type a donor name or type 'list' to show all the donor names:",
           ">>> "))
 
@@ -133,7 +135,6 @@ def create_report_rows():
             average_donation = total_donation / num_donations
 
         print("{:<26} ${:>11.2f} ${:>10d} ${:>12.2f}".format(donor[0].title(), total_donation, num_donations, average_donation))
-
 
 def sort_key(donor):
     total = 0.0
