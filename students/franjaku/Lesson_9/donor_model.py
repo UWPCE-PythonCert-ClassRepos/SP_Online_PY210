@@ -109,6 +109,11 @@ class DonorCollection(object):
         self._donors = {}
 
     def __str__(self):
+        print("\n Donor List\n-------------")
+        for donor in self.donors:
+            print(donor)
+        print("\n")
+
         return "DonorCollection({})".format(self.donors)
 
     def add_donor(self, *args):
