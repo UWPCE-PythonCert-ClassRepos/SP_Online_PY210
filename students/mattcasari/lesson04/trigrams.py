@@ -8,7 +8,7 @@
 Link: https://uwpce-pythoncert.github.io/PythonCertDevel/eiercises/kata_fourteen.html
 
 """
-
+from pprint import pprint
 words = "I wish I may I wish I might".split()
 
 
@@ -34,4 +34,4 @@ def build_trigrams(words):
 
 if __name__ == "__main__":
     trigrams = build_trigrams(words)
-    print(trigrams)
+    pprint(trigrams)
