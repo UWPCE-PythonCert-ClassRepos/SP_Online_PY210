@@ -44,15 +44,31 @@ with open(source_filename, "rb") as infile, open(destination_filename, "wb") as 
     while outfile.write(infile.read(num_bytes)):
         pass
 
+# File reading and parsing
+
 # "Write a little script that reads that file and generates a list of all the languages that have been used." task
 language_dict = {}
+first_line = True
 with open("students.txt") as f:
     while True:
         line = f.readline()
         if not line:
             break
-        if line == "Name: Nickname, languages": #header line
+        if first_line: # skip the header line
+            first_line = False
             continue
-        
-
-
+        line_split = line.split(": ")
+        if len(line_split) < 2:
+            continue
+        languages = line_split[1].split(", ")
+        for language in languages:
+            if language.islower(): # nicknames seem to have title case
+                clean_language = language.strip()
+                clean_language = clean_language.rstrip(",")
+                if not clean_language in language_dict: #language hasn't been added yet
+                    language_dict[clean_language] = 1
+                else:
+                    language_dict[clean_language] += 1
+print("{:<20}{:>14}".format("Language", "# of Students"))
+for language_name in language_dict:
+    print("{:<20}{:>14}".format(language_name, language_dict[language_name]))
