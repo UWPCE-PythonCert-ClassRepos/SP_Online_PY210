@@ -38,16 +38,21 @@ while True:
     else:
         print("Not a valid directory.")
 
-"""
 # Not validating the user response for this. Passing -1 (or any negative number) to read will read the whole file at once.
 num_bytes = int(input("Type number of bytes to copy at a time (e.g. 1024) or type '-1' to read the whole file into memory: "))
 with open(source_filename, "rb") as infile, open(destination_filename, "wb") as outfile:
-    for chunk in infile.read(num_bytes):
-        outfile.write(chunk)
-"""
+    while outfile.write(infile.read(num_bytes)):
+        pass
+
+# "Write a little script that reads that file and generates a list of all the languages that have been used." task
+language_dict = {}
+with open("students.txt") as f:
+    while True:
+        line = f.readline()
+        if not line:
+            break
+        if line == "Name: Nickname, languages": #header line
+            continue
+        
 
 
-
-
-
-    
