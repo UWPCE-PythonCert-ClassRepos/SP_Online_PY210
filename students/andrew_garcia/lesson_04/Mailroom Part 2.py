@@ -46,7 +46,8 @@ def thank_all(all_donations = all_donations):
         donation_amount += all_donations[key]
         for item in donation_amount:
             thank_donations += [[key, item]]
-
+        donation_amount = []
+    print(thank_donations)
     for item in thank_donations:
         filename = item[0] + '-' + str(item[1])  # creates file named after donor and donation amount
         with open(f'{filename}.txt', 'w+') as f:
