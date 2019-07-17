@@ -41,8 +41,9 @@ import os
 import tempfile
 import datetime
 
-# Class responsible for donor data encapsulation
 class Donor:
+    """Class responsible for donor data encapsulation"""
+
     def __init__(self, name, donations=None):
         self.name = name
 
@@ -63,9 +64,28 @@ class Donor:
     def donations(self):
         return self._donations
 
+    def add_donation(self, amount):
+        self.donations.append(amount)
 
-# Class responsible for donor collection data encapsulation
+    def donations_sum(self):
+        return sum(self.donations)
+
+    def donations_count(self):
+        return len(self.donations)
+
+    def donations_avg(self):
+        return self.donations_sum() / self.donations_count()
+
+    def create_email(self, amount):
+        """Create emails after donation"""
+
+        return (f'Dear {self.name},\n\nThank you for the generous donation of ${amount:.2f}.\n\n'
+            'Sincerely,\nMatthew Mitchell')
+
+
 class DonorCollection:
+    """Class responsible for donor collection data encapsulation"""
+
     def __init__(self, donors=None):
         if donors == None:
             donors = []
@@ -77,6 +97,8 @@ class DonorCollection:
         return self._donors
 
     def donors_list(self, list_output):
+        """Create donor list or database details"""
+
         list = '\n'
 
         for donor in self.donors:
@@ -90,6 +112,8 @@ class DonorCollection:
 
 
     def add_donor(self, name):
+        """add donor to the donors list"""
+
         donor_exists = False
 
         for donor in self.donors:
@@ -103,6 +127,44 @@ class DonorCollection:
 
         return donor
 
+    def donors_sort_donations(self):
+        return(sorted(self.donors, key=donor_sort_key_donations, reverse=True))
+
+
+    def create_report(self):
+        """Create donor report"""
+
+        donors_sorted = donors.donors_sort_donations()
+
+        report = '\nDonor Name                | Total Given | Num Gifts | Average Gift\n'
+        report += '-'*66 + '\n'
+        for donor in donors_sorted:
+            report += f'{donor.name:26} ${donor.donations_sum():>11.2f} {donor.donations_count():>11.0f}  ${donor.donations_avg():>12.2f}\n'
+
+        print(report)
+        return report
+
+
+    def send_letters(self):
+        """Create letters for each of the donors last donation"""
+
+        now = datetime.datetime.now()
+        now = str(now)[:-7].replace(' ','_').replace(':','')
+
+        location = tempfile.gettempdir()
+        files = []
+
+        for donor in self.donors:
+            file = location + '\\' + donor.name.replace(' ','-') + '__' + str(now) + '.txt'
+            files.append(file)
+
+            with open(file, 'w') as letter:
+                letter.write(donor.create_email(donor.donations[-1]))
+
+        print(f'Letters created and located at: {location}')
+        return files
+
+
 """ Initial donor list"""
 donors = DonorCollection([
     Donor("William Gates, III", [100.00, 50.00]),
@@ -113,7 +175,12 @@ donors = DonorCollection([
     ])
 
 
+def donor_sort_key_donations(donor):
+    return sum(donor.donations)
+
+
 def send_thankyou():
+    """Capture a donation and send a thankyou note"""
 
     donor_name = ''
     while donor_name != 'exit':
@@ -127,28 +194,27 @@ def send_thankyou():
             print(donors.donors_list('list'))
         elif donor_name.lower() == 'db':
             print(donors.donors_list('db'))
-        elif donor_name.lower() == 'exit' or donor_name.lower() == '4':
+        elif donor_name.lower() == 'exit':
             break
         else:
-            donor = donors.add_donor(donor_name.title())
+            current_donor = donors.add_donor(donor_name.title())
 
-            amount = verify_donation()
-            print('verify_donation amount: ', amount)
+            amount = None
+            while amount == None:
+                amount_input = input('Enter donation amount: $')
+                try:
+                    amount = round(float(amount_input),2)
+                    if amount <= 0:
+                        amount = None
+                        print('Error. Enter a positive donation amount.')
 
-            donor.donations.append(amount)
+                except ValueError:
+                    print('Error. Enter a valid donation amount.')
 
-def verify_donation():
-    amount_input = input('Enter donation amount: $')
 
-    try:
-        amount = round(float(amount_input),2)
+            current_donor.add_donation(amount)
 
-        print('return amount: ', amount)
-        return amount
-
-    except ValueError:
-        print('Error. Enter a valid donation amount.')
-        verify_donation()
+            print(current_donor.create_email(amount))
 
 
 def quit():
@@ -158,15 +224,14 @@ def quit():
 def invalid_menu():
     print('Invalid option. Select 1, 2, 3, or 4.')
 
-send_thankyou()
-# create_report()
-# send_letters()
+# send_thankyou()
+# donors.create_report()
+# donors.send_letters()
 
 if __name__ == '__main__':
 
     option = None
-    # main_menu = {'1': send_thankyou, '2': create_report, '3': send_letters, '4': quit }
-    main_menu = {'1': send_thankyou, '2': quit, '3': quit, '4': quit }
+    main_menu = {'1': send_thankyou, '2': donors.create_report, '3': donors.send_letters, '4': quit }
 
     while option != '4':
         option = input('Main Menu:\n'
