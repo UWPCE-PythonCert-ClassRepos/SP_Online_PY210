@@ -9,50 +9,47 @@ Created on Tue May 14 2019
 Puzzle:
 Given an int n, return the absolute difference between n and 21, except return double the absolute difference if n is over 21.
 
-diff21(19) → 2
-diff21(10) → 11
-diff21(21) → 0
+diff_21(19) → 2
+diff_21(10) → 11
+diff_21(21) → 0
 
 """
-# Global constant, idk if this is good form.
-constInt = 21
+# Global constant
+global_const_int = 21
 
-#import sys
 import random
 
-def diff21(n):
-    # Our constant
-    # constInt = 21
+def diff_21(n):
            
     # Generate pseudo-random int
-    myInt = random.randint(-50,50)
-    print("\n\n>>> The PRNG returned: '%d'. <<<" % (myInt))
-    print("\nThe value of our constant is: '%d'." % (constInt))
+    my_int = random.randint(-50,50)
+    print("\n\n>>> The PRNG returned: '%d'. <<<" % (my_int))
+    print("\nThe value of our constant is: '%d'." % (global_const_int))
     
     # Determine abs of the difference between PRNG and constant.
-    diffInt = abs(myInt - constInt)
-    # diffInt = ((abs(myInt)) - (constInt)) # incorrect
-    print("\nThe ABS of the difference between our constant and PRNG is: '%d'." % (diffInt))
+    diff_int = abs(my_int - global_const_int)
+    # diff_int = ((abs(my_int)) - (global_const_int)) # incorrect
+    print("\nThe ABS of the difference between our constant and PRNG is: '%d'." % (diff_int))
     
     # Is abs of difference greater than the constant?
-    if(diffInt > constInt):
-        print("\n'%d' is Greater Than '%d', so we will double it." % (diffInt, constInt))
-        diffInt += diffInt
-        print("\nThe value of our difference has been doubled to: '%d'." % (diffInt))
+    if(diff_int > global_const_int):
+        print("\n'%d' is Greater Than '%d', so we will double it." % (diff_int, global_const_int))
+        diff_int += diff_int
+        print("\nThe value of our difference has been doubled to: '%d'." % (diff_int))
     # Value of abs of difference is equal to constant.
-    elif(diffInt == constInt):
-        print("\n'%d' is Equal to '%d', so we will return '%d'." % (diffInt, constInt, diffInt))
-        print("\nThe value of our difference, '%d' was not changed." % (diffInt))            
+    elif(diff_int == global_const_int):
+        print("\n'%d' is Equal to '%d', so we will return '%d'." % (diff_int, global_const_int, diff_int))
+        print("\nThe value of our difference, '%d' was not changed." % (diff_int))            
     # Value of abs of difference is less than the constant.
-    elif(diffInt < constInt):
-        print("\n'%d' is Less Than '%d', so we will return '%d'." % (diffInt, constInt, diffInt))
-        print("\nThe value of our difference, '%d' was not changed." % (diffInt))          
+    elif(diff_int < global_const_int):
+        print("\n'%d' is Less Than '%d', so we will return '%d'." % (diff_int, global_const_int, diff_int))
+        print("\nThe value of our difference, '%d' was not changed." % (diff_int))          
     else:
         print("\nAn error occurred. Please rerun.")      
         
-    return diffInt
+    return diff_int
 
-diff21(constInt)
+diff_21(global_const_int)
 
 
  
