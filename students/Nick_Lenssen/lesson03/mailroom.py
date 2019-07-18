@@ -1,69 +1,68 @@
-#!/usr/bin/env python3
 from sys import exit
 
+from operator import itemgetter
 
-def create_report():
-    print("\n{:<22}{:<5}{:<20}{}{:<25}{}{:<15}".format(*('Donor Name','|','Total Given','|','Num Gifts','|','Average Gift')))
-    print ('-'*90)
-    for val, i in enumerate(main_list[0]):
-        print ("{:<20} {:>9} {:>9} {:>26}{:>11}{:>12}".format(*(i, '$', sum(main_list[val+1]), len(main_list[val+1]), '$',round(sum(main_list[val+1])/len(main_list[val+1]),1))))
-        
-def use_it(full_name):
+def use_it():
     while True:
-        amount = input("\nPlease enter in the amount you want to donate: ")
+        amount = input("\nPlease enter in the amount you want to donate or c to go to original prompt: ")
         if amount == 'c':
-            main_list[0].pop()
-            main_list.pop()
-            print (main_list)
             main()
+            #donor_db.pop()
         else:
             amount = int(amount)
-            main_list[main_list[0].index(full_name)+1].append(amount)
-            print ('Thank you {} for your generous donation of {}'.format(full_name, amount))
-            main()
-def send_thanks():
-    full_name = input("\n\nPlease enter a name for a Thank You to go out: ")
-    while True:
-        while full_name == 'list':
-            print (main_list[0])
-            full_name = input("\n\nPlease enter a name for a Thank You to go out: ")
-        if full_name == 'c':
-            main()
-        if full_name in main_list[0]:
-            print ('in')
-            use_it(full_name)
-        elif full_name not in main_list[0]:
-            print ('not in')
-            main_list[0].append(full_name)
-            main_list.append([])
-            use_it(full_name)
+        return amount
 
-def get_option():
+def create_report():
+    print("\n{:<18}{:<6}{:<20}{}{:<25}{}{:<15}".format(*('Donor Name','|','Total Given','|','Num Gifts','|','Average Gift')))
+    print ('-'*90)
+    #donor_db_c = sorted(donor_db, key=itemgetter(1))
+    for i in sorted(donor_db, key=itemgetter(1)):
+        print ("{:<20} {:>2} {:>12} {:>17}{:>17}{:>12}".format(*(i[0], '$', round(sum(i[1]),2), len(i[1]), '$',round(sum(i[1])/len(i[1]),1))))
+
+def send_thanks():
     while True:
-        print ("\nYou have 3 options: \n a: Send a Thank you\n b: Create a Report\n c: quit")
-        num = 'd'
-        while num!='a' and num!='b' and num!='c':
-            num = input("Please enter a valid option: ")
-            if num == 'c':
-                exit()
-        return num
+        full_name = input("\n\nPlease enter a name for a Thank You to go out or c to go to orginal prompt: ")
+        if full_name == 'list':
+            for i in donor_db:
+            	print (i[0])
+        elif full_name == 'c':
+            main()
+        else:
+            for i in donor_db:
+                if i[0] == full_name:
+                    i[1].append(use_it())
+                    break
+            else:
+                donor_db.append((full_name, [use_it()]))
+            main()
+
+def exit_program():
+	print ('Goodbye')
+	exit()
+
 def main():
     while True:
-        num = get_option()
+        num = input(prompt)
         if num =='a':
-            print ('send')
             send_thanks()
-        if num == 'b':
-            print ('create')
+        elif num == 'b':
             create_report()
+        elif num == 'c':
+        	exit_program()
+        else:
+        	print ('Not a valid option')
 
-main_list = [['Dan C','Erika K','Mindy P','Mike H','Lovey G'], [1,200,20],[34000],[40,50,60],
-                        [13,60,42],[22]]
+donor_db = [("William Gates, III", [653772.32, 12.17]),
+            ("Jeff Bezos", [877.33]),
+            ("Paul Allen", [663.23, 43.87, 1.32]),
+            ("Mark Zuckerberg", [1663.23, 4300.87, 10432.0]),
+            ]
 
+prompt = "\n".join(("Please choose from below options:",
+          "a - Send a Thank you",
+          "b - Create a report",
+          "c - Exit",
+          ">>> "))
 
 if __name__ == "__main__":
     main()
-
-
-
-
