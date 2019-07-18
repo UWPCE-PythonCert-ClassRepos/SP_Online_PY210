@@ -3,17 +3,18 @@
 import random
 import pathlib
 
-# This subclasses dict to make the logic simple if trying to add to the value list when the key doesn't already exist.
-# To add a value for a key that does already exist in the simply state the new key with an 'append' with the value
-# e.g. dt[("word1", "word2")].append("word3") will work even when the ("word1", "word2") key doesn't already exist.
 class DictTrigram(dict):
+    """ Subclasses dict to make the logic simple if trying to add to the value list when the key doesn't already exist.
+    Allow an 'append' with the value for a key that does already exist.
+    e.g. dt[("word1", "word2")].append("word3") works even when the ("word1", "word2") key doesn't already exist.
+    """
     def __missing__(self, key):
         self[key] = []
         return self[key]
 
 def get_filename():
-    # get the filename from the command line
-    
+    """ Show the files in the current directory and get file name from the command line
+    """    
     print("Files in the current directory:")
     pth = pathlib.Path('./')
     for f in pth.iterdir():
@@ -27,7 +28,23 @@ def get_filename():
             print("Not a valid file path/name.")
     return filename
 
+def get_num_iterations():
+    while True:
+        iteration_input = input("How many trigrams to use to build the text? ")
+        num_iterations = 0
+        try:
+            num_iterations = int(iteration_input)
+            return num_iterations
+        except:
+            print("Please type an integer.")
+
 def get_text(filename):
+    """ Open a text file, stripping out any whitespace/non-printing characters on the right of each line, append the lines to
+    a list, and return the a string will all the text.
+
+    Keyword arguments:
+    filename - name of the file to read
+    """
     lines = []
     with open(filename, "r", encoding='utf8', errors='ignore') as f:
         for line in f:
@@ -36,13 +53,23 @@ def get_text(filename):
     return " ".join(lines)  
 
 def parse_words(full_text):
-    """
-    Leave punctuation next to words with words for now as it usually denotes phrase and/or sentence ending.
+    """ Create a list from a string with each element a string seperated by whitespace.
+    Leave punctuation next to words with words for now as it usually denotes a natural phrase and/or sentence ending.
     Future: Treat contiguous punctuation as seperate 'words'.
+
+    Keyword arguments:
+    full_text - string to parse
     """
     return full_text.split()    
 
 def build_trigrams(words):
+    """ Create all the trigram structures from a list of strings, with each structure as a tuple of the one word and the next
+    word, followed by a list of the following word for everywhere the first two words appear next to each other (in the orginal order)
+    from the input list. e.g. (word1, word2):[word3a, word3b, word3c, ...]. Put all these trigram structures in a dict and return the  dict.
+
+    Keyword arguments:
+    words - list of strings
+    """
     trigrams = DictTrigram()
     #iterate the words but, since we are looking at three words at a time, make sure we don't go past the end
     words_len = len(words)
@@ -55,6 +82,15 @@ def build_trigrams(words):
     return trigrams
 
 def build_text(trigrams, num_iterations=100):
+    """ Build text three words at a time from a dictionary of trigram structures 
+    - e.g. (word1, word2):[word3a, word3b, word3c, ...] - by randomly choosing the first two words to start a recursive
+    function that chooses the trigrams and adds to the text.
+    Return the resulting text.
+
+    Keyword arguments:
+    trigrams - dictionary of trigrams of the form (word1, word2):[word3a, word3b, word3c, ...]
+    num_iterations - number of times to recursively call the chain_on_third_word function. More iterations creates longer text.
+    """
     new_text_list = []
 
     first_two = choose_start(trigrams)    
@@ -67,6 +103,19 @@ def build_text(trigrams, num_iterations=100):
     return " ".join(new_text_list)
 
 def chain_on_third_word(trigrams, first_word, second_word, text_list, i=0, num_iterations=100):
+    """ Randomly choose the third word from a trigram structure given two consecutive words in order. 
+    If the two consecutive words are not found then get a randomly choosen pair to get the third word.
+    Add the third word onto the string being built then recurse, but now with the second word as the first
+    word and the third word as the second.
+
+    Keyword arguments:
+    trigrams - dictionary of trigrams of the form (word1, word2):[word3a, word3b, word3c, ...]
+    first_word - string that is the first word of a trigram structure
+    second_word - string that is the second word of a trigram structure
+    text_list - list of the strings with the text that is being created
+    i - tracks the number of times chain_on_third_word has been called.
+    num_iterations - number of times to recursively call the chain_on_third_word function. More iterations creates longer text.
+    """
     if i == num_iterations:
         return
     if not (first_word, second_word) in trigrams:
@@ -82,16 +131,17 @@ def chain_on_third_word(trigrams, first_word, second_word, text_list, i=0, num_i
     chain_on_third_word(trigrams, second_word, third_word, text_list, i, num_iterations)
 
 def choose_start(trigrams):
+    """ Return a random pair of the first & second word (i.e. the list that is a key in a trigram structure)
+    """
     return random.choice(list(trigrams.keys()))
 
 if __name__ == "__main__":
-    
-    #filename = "sherlock.txt"
-
+    """ Create and print text from a text file using a trigram methodology explained at 
+    https://uwpce-pythoncert.github.io/PythonCertDevel/exercises/kata_fourteen.html
+    """    
     filename = get_filename()
     full_text = get_text(filename)
     words = parse_words(full_text)
-    trigrams = build_trigrams(words, get_num_iterations())
-    new_text = build_text(trigrams)
-
+    trigrams = build_trigrams(words)
+    new_text = build_text(trigrams, get_num_iterations())
     print(new_text)
