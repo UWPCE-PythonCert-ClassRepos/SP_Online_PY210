@@ -40,7 +40,8 @@ def get_num_iterations():
 
 def get_text(filename):
     """ Open a text file, stripping out any whitespace/non-printing characters on the right of each line, append the lines to
-    a list, and return the a string will all the text.
+    a list, and return a string with all the text. Also, test to see if text is from Project Gutenberg and, if so, remove the
+    header and footer text.
 
     Keyword arguments:
     filename - name of the file to read
@@ -50,8 +51,26 @@ def get_text(filename):
         for line in f:
             line = line.rstrip()
             lines.append(line)
-    return " ".join(lines)  
+    cleaned_lines = degutenbergerator(lines)
+    return " ".join(cleaned_lines)  
 
+def degutenbergerator(lines):
+    """ Remove the Gutenberg header and footer, if found, and return the result
+
+    Keyword arguments:
+    lines - a list of strings (lines from a text file)
+    """
+    for i, line in enumerate(lines):
+        if "*** START OF THIS PROJECT GUTENBERG" in line:
+            lines = lines[(i + 1):]
+            break
+    for i, line in enumerate(lines):
+        if "*** END OF THIS PROJECT GUTENBERG" in line or "End of Project Gutenberg" in line:
+            lines = lines[:i]
+            break
+    print(lines)
+    return lines
+            
 def parse_words(full_text):
     """ Create a list from a string with each element a string seperated by whitespace.
     Leave punctuation next to words with words for now as it usually denotes a natural phrase and/or sentence ending.
@@ -131,9 +150,13 @@ def chain_on_third_word(trigrams, first_word, second_word, text_list, i=0, num_i
     chain_on_third_word(trigrams, second_word, third_word, text_list, i, num_iterations)
 
 def choose_start(trigrams):
-    """ Return a random pair of the first & second word (i.e. the list that is a key in a trigram structure)
+    """ Return a random pair of the first & second word (i.e. the list that is a key in a trigram structure).
+    Only return a pair where the first word is capatilized to try to make sure we start sentences with a capatital.
     """
-    return random.choice(list(trigrams.keys()))
+    while True:
+        first_two = random.choice(list(trigrams.keys()))
+        if first_two[0].istitle():
+            return first_two
 
 if __name__ == "__main__":
     """ Create and print text from a text file using a trigram methodology explained at 
