@@ -36,8 +36,8 @@ def donor_full_names(donor_tuple):
 
 action_input = 'Choose from the following 3 actions: Send a Thank You, Create a Report, quit > '
 
-if __name__ == '_main_':
-	response = input(actions_input)
+if __name__ == '__main__':
+	response = input(action_input)
 	'''Will execute while the response is 'Send a Thank You' or 'Create a Report'''
 	while response == 'Send a Thank You' or 'Create a Report':
 		if response == 'Send a Thank You':
@@ -74,6 +74,6 @@ if __name__ == '_main_':
 				donator_names = donor_full_names(donors)
 				middle_string = middle_string + align_name.format(donator_names[i]) + dollar_string + align_sum.format(donor_sum(donors[i])) + '  ' + align_num.format(len(donors[i])-1) + dollar_string + align_avg.format(donor_average(donors[i])) + '\n'
 			print (top_string + middle_string)
-			response = input(actions_input)
+			response = input(action_input)
 		else:
 			break
