@@ -1,55 +1,55 @@
 def fibonacci(n):
 	"""This function returns the nth value of the fibonacci series"""
-	i = 0
-	x = 0
-	y = 1
-	z = 0
-	for i in range(n+1):
-		if i == 0:
-			z = x
-		elif i == 1:
-			z = y
-		else:
-			z = y + x
-			x = y 
-			y = z
-	return z
+    i = 0
+    x = 0
+    y = 1
+    z = 0
+    for i in range(n+1):
+        if i == 0:
+            z = x
+        elif i == 1:
+            z = y
+        else:
+            z = y + x
+            x = y 
+            y = z
+    return z
 
 
 def lucas(n):
 	"""This function returns the nth value of the fibonacci series, except the integer series starts with 2 and 1 (Lucas numbers)"""
-	i = 0
-	x = 2
-	y = 1
-	z = 0
-	for i in range(n+1):
-		if i == 0:
-			z = x
-		elif i == 1:
-			z = y
-		else:
-			z = y + x
-			x = y 
-			y = z
-	return z
+    i = 0
+    x = 2
+    y = 1
+    z = 0
+    for i in range(n+1):
+        if i == 0:
+            z = x
+        elif i == 1:
+            z = y
+        else:
+            z = y + x
+            x = y 
+            y = z
+    return z
 
 
 def sum_series(n, a = 0, b = 1):
 	"""This function returns the nth value of a fibonacci-like series with 2 inputted numbers"""
-	i = 0
-	x = a
-	y = b
-	z = 0
-	for i in range(n+1):
-		if i == 0:
-			z = x
-		elif i == 1:
-			z = y
-		else:
-			z = y + x
-			x = y 
-			y = z
-	return z
+    i = 0
+    x = a
+    y = b
+    z = 0
+    for i in range(n+1):
+        if i == 0:
+            z = x
+        elif i == 1:
+            z = y
+        else:
+            z = y + x
+            x = y 
+            y = z
+    return z
 
 
 if __name__ == "__main__":
