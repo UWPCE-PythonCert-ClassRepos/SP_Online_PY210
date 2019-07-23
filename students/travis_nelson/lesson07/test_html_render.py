@@ -315,7 +315,7 @@ def test_indent():
     """
     Tests that the indentation gets passed through to the renderer
     """
-    html = Html("some content")
+    html = Head("some content")
     file_contents = render_result(html, ind="   ").rstrip()  #remove the end newline
 
     print(file_contents)
@@ -351,9 +351,9 @@ def test_multiple_indent():
     print(file_contents)
     lines = file_contents.split("\n")
     for i in range(3):  # this needed to be adapted to the <DOCTYPE> tag
-        assert lines[i + 1].startswith(i * Element.indent + "<")
+        assert lines[i].startswith(i * Element.indent + "<")
 
-    assert lines[4].startswith(3 * Element.indent + "some")
+    assert lines[5].startswith(2 * P.indent + "some")
 
 
 def test_element_indent1():
