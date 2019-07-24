@@ -60,8 +60,8 @@ class Circle(object):
         return math.pow(self.radius, 2)*math.pi
 
     @classmethod
-    def from_diameter(self, diameter):
-        return Circle(diameter/2)
+    def from_diameter(cls, diameter):
+        return cls(diameter/2)
 
 
 class Sphere(Circle):

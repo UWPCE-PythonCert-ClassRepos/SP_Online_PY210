@@ -4,6 +4,7 @@ Test suite for all the code in mailroom object assignment.
 """
 
 import pytest
+import os
 
 from donor_model import *
 
@@ -57,7 +58,7 @@ def test_add_donation():
         d.add_donation(0)
 
     # Test donation has to be a number
-    with pytest.raises(TypeError):
+    with pytest.raises(ValueError):
         d.add_donation('hello')
 
 
@@ -136,13 +137,13 @@ def test_thank_you():
 
     # Test error
     with pytest.raises(RuntimeError):
-        d.thank_you()
+        d.create_thank_you_note()
 
     d.add_donation(100)
 
-    thank_you = d.thank_you()
+    thank_you = d.create_thank_you_note()
 
-    assert thank_you == "Dear John,\n Thank you for your donation of $100.00!"
+    assert thank_you == "\nDear John,\n Thank you for your donation of $100.00!\n"
 
 
 ##############################
@@ -269,3 +270,38 @@ def test_add_donation_interface():
     DonorRecords.add_donation('Bro', 50)
     DonorRecords.add_donation('Bro2', 150)
     assert DonorRecords.donors == {'Bro2', 'John', 'Tim', 'Abby', 'Beth', 'Bro'}
+
+
+def test_send_letters():
+    DonorRecords = DonorCollection()
+
+    d = Donor('John')
+    d.add_donation(10)
+
+    d2 = Donor('Tim')
+    d2.add_donation(50)
+
+    d3 = Donor('Beth')
+    d3.add_donation(250)
+
+    d4 = Donor('Abby')
+    d4.add_donation(5050)
+
+    DonorRecords.add_donor(d, d2, d3, d4)
+    DonorRecords.send_letters()
+
+    # Test files
+    for donor, data in DonorRecords.items:
+        print('In test loop')
+        print(DonorRecords.get_donor(donor))
+        print(data.total_donated)
+        print(f"{donor}.txt")
+
+        # File exists
+        assert os.path.isfile(f"{donor}.txt")
+
+        # File contents
+        with open(f"{donor}.txt", 'r') as outfile:
+            contents = outfile.read()
+            print(contents)
+            assert contents == f"Dear {donor}\nThank you for your total donation amount of ${data.total_donated}!\nBest wishes,\nThe Team"
