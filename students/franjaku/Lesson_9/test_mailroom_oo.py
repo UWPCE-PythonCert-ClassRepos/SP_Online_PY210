@@ -57,7 +57,7 @@ def test_add_donation():
         d.add_donation(0)
 
     # Test donation has to be a number
-    with pytest.raises(TypeError):
+    with pytest.raises(ValueError):
         d.add_donation('hello')
 
 
@@ -136,13 +136,13 @@ def test_thank_you():
 
     # Test error
     with pytest.raises(RuntimeError):
-        d.thank_you()
+        d.create_thank_you_note()
 
     d.add_donation(100)
 
-    thank_you = d.thank_you()
+    thank_you = d.create_thank_you_note()
 
-    assert thank_you == "Dear John,\n Thank you for your donation of $100.00!"
+    assert thank_you == "Dear John,\n Thank you for your donation of $100.00!\n"
 
 
 ##############################
@@ -269,3 +269,16 @@ def test_add_donation_interface():
     DonorRecords.add_donation('Bro', 50)
     DonorRecords.add_donation('Bro2', 150)
     assert DonorRecords.donors == {'Bro2', 'John', 'Tim', 'Abby', 'Beth', 'Bro'}
+
+
+# def test_thank_you_note():
+#     DonorRecords = DonorCollection()
+
+#     d = Donor('John')
+#     d.add_donation(10)
+
+#     DonorRecords.add_donor(d)
+
+#     thank_you = DonorRecords.donor_thank_you_note('John')
+
+#     assert thank_you == "Dear John,\n Thank you for your donation of $10.00!"
