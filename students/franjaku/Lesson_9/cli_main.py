@@ -18,7 +18,7 @@ def prompt_user():
 
 
 def send_letters(DonorRecord):
-    pass
+    DonorRecord.send_letters()
 
 
 def print_report(DonorRecord):
@@ -28,7 +28,7 @@ def print_report(DonorRecord):
         print(report)
         print("\n")
     else:
-        print('\nNo donors data available.\n')
+        print('\nNo donor data available.\n')
 
 
 def send_thank_you_note(DonorRecord):

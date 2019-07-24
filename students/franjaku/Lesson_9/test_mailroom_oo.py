@@ -4,6 +4,7 @@ Test suite for all the code in mailroom object assignment.
 """
 
 import pytest
+import os
 
 from donor_model import *
 
@@ -142,7 +143,7 @@ def test_thank_you():
 
     thank_you = d.create_thank_you_note()
 
-    assert thank_you == "Dear John,\n Thank you for your donation of $100.00!\n"
+    assert thank_you == "\nDear John,\n Thank you for your donation of $100.00!\n"
 
 
 ##############################
@@ -271,14 +272,36 @@ def test_add_donation_interface():
     assert DonorRecords.donors == {'Bro2', 'John', 'Tim', 'Abby', 'Beth', 'Bro'}
 
 
-# def test_thank_you_note():
-#     DonorRecords = DonorCollection()
+def test_send_letters():
+    DonorRecords = DonorCollection()
 
-#     d = Donor('John')
-#     d.add_donation(10)
+    d = Donor('John')
+    d.add_donation(10)
 
-#     DonorRecords.add_donor(d)
+    d2 = Donor('Tim')
+    d2.add_donation(50)
 
-#     thank_you = DonorRecords.donor_thank_you_note('John')
+    d3 = Donor('Beth')
+    d3.add_donation(250)
 
-#     assert thank_you == "Dear John,\n Thank you for your donation of $10.00!"
+    d4 = Donor('Abby')
+    d4.add_donation(5050)
+
+    DonorRecords.add_donor(d, d2, d3, d4)
+    DonorRecords.send_letters()
+
+    # Test files
+    for donor, data in DonorRecords.items:
+        print('In test loop')
+        print(DonorRecords.get_donor(donor))
+        print(data.total_donated)
+        print(f"{donor}.txt")
+
+        # File exists
+        assert os.path.isfile(f"{donor}.txt")
+
+        # File contents
+        with open(f"{donor}.txt", 'r') as outfile:
+            contents = outfile.read()
+            print(contents)
+            assert contents == f"Dear {donor}\nThank you for your total donation amount of ${data.total_donated}!\nBest wishes,\nThe Team"
