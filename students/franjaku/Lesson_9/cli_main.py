@@ -17,21 +17,31 @@ def prompt_user():
     return UserAction
 
 
-def send_letters(DonorCollection):
-    pass
+def send_letters(DonorRecord):
+    DonorRecord.send_letters()
 
 
-def print_report(DonorCollection):
-    lines = DonorCollection.create_report()
-    report = "\n".join(lines)
-    print(report)
+def print_report(DonorRecord):
+    if DonorRecord.donors:
+        lines = DonorRecord.create_report()
+        report = "\n".join(lines)
+        print(report)
+        print("\n")
+    else:
+        print('\nNo donor data available.\n')
 
 
-def send_thank_you_note(DonorCollection):
-    pass
+def send_thank_you_note(DonorRecord):
+    donor_name = input('Enter the donors full name: ')
+    donor_name = donor_name.strip().title()
+    donation_amount = input('Enter donation amount: ')
+    DonorRecord.add_donation(donor_name, donation_amount)
+    donor = DonorRecord.get_donor(donor_name)
+    thank_you = donor.create_thank_you_note()
+    print(thank_you)
 
 
-def quit(DonorCollection):
+def quit(DonorRecord):
     print('Goodbye')
     os.sys.exit()
 
@@ -53,7 +63,7 @@ def mail_room():
         try:
             options_dict.get(UserAction)(DonorRecord)
         except TypeError:
-            print('Nota a valid option....\n')
+            print('Not a valid option....\n')
 
     return None
 

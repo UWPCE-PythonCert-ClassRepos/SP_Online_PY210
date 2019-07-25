@@ -22,20 +22,19 @@ print(fruits_2)
 response_three = input("Please remove a fruit > ")
 fruits_2.remove(response_three)
 '''Series 3 actions'''
-fruits_3 = fruits
+fruits_3 = fruits.copy()
 response_four = ''
-for i in range(len(fruits_3)):
+for i in range(len(fruits_3)-1):
 	response_four = input("Do you like " + fruits_3[i].lower() + "? > ")
-	if response_four == 'no':
-		fruits_3.remove(fruits_3[i])
-	while response_four != 'no' or response_four != 'yes':
+	while response_four != 'no' and response_four != 'yes':
 		response_four = input("yes or no > ")
 	if response_four == 'no':
-		fruits_3.remove(fruits_3[i])
+		fruits.remove(fruits_3[i])
 print(fruits_3)
 '''Series 4 actions'''
+fruits_4 = fruits.copy()
 for i in range(len(fruits_4)):
 	fruits_4[i] = fruits[i][::-1]
 fruits.pop()
-print[fruits]
-print[fruits_4]
+print(fruits_4)
+print(fruits)
