@@ -20,7 +20,7 @@ Each course lesson will contain its own folder.  The folders will use the naming
         `-- lesson2             <Content for lesson 2>
             |-- exercise_1      <Content for Lesson 2 Exercise 1 - Grid Printer>
             |-- exercise_2      <Content for Lesson 2 Exercise 2 - FizzBuzz>
-            `-- exercise_3      <Content for Lesson 2 Exercise 2 - Fibonacci Series>
+            `-- exercise_3      <Content for Lesson 2 Exercise 3 - Fibonacci Series>
 ```
 
 ## Branching
