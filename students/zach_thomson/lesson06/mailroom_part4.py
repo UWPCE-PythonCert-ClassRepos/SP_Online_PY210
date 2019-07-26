@@ -25,28 +25,46 @@ def initial_input():
     return ty_prompt
 
 
-def update_database(name):
+def donation_prompt():
     donation_amount = input('Please enter a donation amount: ')
     try:
         donation_amount = float(donation_amount)
     except ValueError:
         print('Please enter an integer for the donation amount.')
     else:
-        for donor in donor_db.keys():
-            if donor == name:
-                donor_db[name].append(donation_amount)
-                break
-        else:
-            donor_db[name] = [donation_amount]
-        donation_email = "\nDear {},\nThank you for your generous donation of ${:.2f}!\n"
-        print(donation_email.format(name, donation_amount))
+        return donation_amount
+
+
+def update_database(name,donation):
+    for donor in donor_db.keys():
+        if donor == name:
+            donor_db[name].append(donation)
+            break
+    else:
+        donor_db[name] = [donation]
+    donation_email = "\nDear {},\nThank you for your generous donation of ${:.2f}!\n"
+    print(donation_email.format(name, donation))
+
+
+def test_update_database_current():
+    '''Confirm that a donation amount from a donor already in list gets
+    properly appended to database'''
+    update_database('Kurt Cobain', 1000)
+    assert donor_db['Kurt Cobain'] == [25.00, 1000.00]
+
+
+def test_update_database_new():
+    '''Confirm that a donation amount for a new donor gets properly added to database'''
+    update_database('Zach Thomson', 250)
+    assert donor_db['Zach Thomson'] == [250.00]
 
 
 def thank_you_logic(name):
     if name.lower() == 'list':
         print(donor_db.keys())
     else:
-        update_database(name)
+        update_database(name, donation_prompt())
+
 
 def thank_you_updated():
     return thank_you_logic(initial_input())
@@ -84,12 +102,14 @@ def create_report():
         print(line_format.format(*entry))
 
 def test_create_table():
+    '''Confirms entries from database are placed in a list'''
     test_list = create_table(donor_db)
     assert ('Dave Grohl', 50.0, 1, 50.0) in test_list
     assert ('Chris Cornell', 600.0, 2, 300.0) in test_list
 
 
 def test_table_order():
+    '''Confirms entries into list are then sorted in descending order'''
     test_list = create_table(donor_db)
     i = 0
     while i < len(test_list)-1:
