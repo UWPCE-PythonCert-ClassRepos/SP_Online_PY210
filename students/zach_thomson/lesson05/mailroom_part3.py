@@ -22,7 +22,7 @@ prompt = '\n'.join(('Welcome to the mailroom',
 def thank_you():
     ty_prompt = input('Please enter a full name or type list to see all the current donors: ')
     try:
-        ty_prompt = int(ty_prompt)
+        ty_prompt = float(ty_prompt)
     except ValueError:
         while ty_prompt.lower() == 'list':
             print(donor_db.keys())
@@ -44,6 +44,7 @@ def thank_you():
                 print(donation_email.format(ty_prompt, donation_amount))
     else:
         print('Please enter a name and not a number')
+
 
 #create a report functions
 def number_donations(x):
