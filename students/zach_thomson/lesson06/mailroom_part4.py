@@ -35,7 +35,7 @@ def donation_prompt():
         return donation_amount
 
 
-def update_database(name,donation):
+def update_database(name, donation):
     for donor in donor_db.keys():
         if donor == name:
             donor_db[name].append(donation)
@@ -57,6 +57,10 @@ def test_update_database_new():
     '''Confirm that a donation amount for a new donor gets properly added to database'''
     update_database('Zach Thomson', 250)
     assert donor_db['Zach Thomson'] == [250.00]
+
+def test_ty_letter():
+    donation_email = "\nDear {},\nThank you for your generous donation of ${:.2f}!\n"
+    assert donation_email.format('Kurt Cobain', 1000) == "\nDear Kurt Cobain,\nThank you for your generous donation of $1000.00!\n"
 
 
 def thank_you_logic(name):
@@ -133,14 +137,13 @@ def test_letter_creation():
     for key in donor_db:
         assert os.path.basename(str(key) + '.txt') == (str(key) + '.txt')
 
-#needs work
+
 def test_letter_content():
     """checks proper content in letter"""
     send_letters()
     expected = "Dear Dave Grohl,\n\n\tThank you for donating $50.00!\n\n\tThe kids will greatly appreciate it.\n\n\tSincerely,\n\t  -Our Team"
     with open('Dave Grohl.txt') as f:
         assert f.read() == expected
-
 
 
 #make a function to exit the program
