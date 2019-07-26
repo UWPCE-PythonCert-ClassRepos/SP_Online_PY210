@@ -20,31 +20,36 @@ prompt = '\n'.join(('Welcome to the mailroom',
 
 
 #send a thank you tasks
-def thank_you():
+def initial_input():
     ty_prompt = input('Please enter a full name or type list to see all the current donors: ')
+    return ty_prompt
+
+
+def update_database(name):
+    donation_amount = input('Please enter a donation amount: ')
     try:
-        ty_prompt = float(ty_prompt)
+        donation_amount = float(donation_amount)
     except ValueError:
-        while ty_prompt.lower() == 'list':
-            print(donor_db.keys())
-            ty_prompt = input('Please enter a full name or type list to see all the current donors: ')
-        else:
-            donation_amount = input('Please enter a donation amount: ')
-            try:
-                donation_amount = float(donation_amount)
-            except ValueError:
-                print('Please enter an integer for the donation amount.')
-            else:
-                for donor in donor_db.keys():
-                    if donor == ty_prompt:
-                        donor_db[ty_prompt].append(donation_amount)
-                        break
-                else:
-                    donor_db[ty_prompt] = [donation_amount]
-                donation_email = "\nDear {},\nThank you for your generous donation of ${:.2f}!\n"
-                print(donation_email.format(ty_prompt, donation_amount))
+        print('Please enter an integer for the donation amount.')
     else:
-        print('Please enter a name and not a number')
+        for donor in donor_db.keys():
+            if donor == name:
+                donor_db[name].append(donation_amount)
+                break
+        else:
+            donor_db[name] = [donation_amount]
+        donation_email = "\nDear {},\nThank you for your generous donation of ${:.2f}!\n"
+        print(donation_email.format(name, donation_amount))
+
+
+def thank_you_logic(name):
+    if name.lower() == 'list':
+        print(donor_db.keys())
+    else:
+        update_database(name)
+
+def thank_you_updated():
+    return thank_you_logic(initial_input())
 
 
 #create a report functions
@@ -124,7 +129,7 @@ def exit_program():
     sys.exit() # exit the interactive script
 
 
-switch_dict = {1: thank_you,
+switch_dict = {1: thank_you_updated,
                2: create_report,
                3: send_letters,
                4: exit_program,
