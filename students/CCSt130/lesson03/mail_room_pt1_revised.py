@@ -8,16 +8,19 @@ Lesson03 :: Mailroom Part 1
 @author: Chuck Stevens :: CCSt130
 Edited Sun July 21 19:32:15 2019
 
-This is a reworked, shorter Part1 that follows the directions.
+This is a reworked (2x), shorter Part1 that follows the directions.
 
 """
 
 import datetime # dates needed for comparison
 
-from collections import Counter
+from collections import Counter # Count of donations
 
 from statistics import mean # Calc AVG
-    
+
+from datetime import date # Need current date for new donations
+
+
 def main():
     """ Contains list of donors and displays Menu. """
     all_donations = [[2018,8,26,"Bill and Melinda Gates Foundation",48405000], \
@@ -56,6 +59,7 @@ def main():
         
     while True:
         # Displaying menu header
+        print()
         print()
         print(50 * '*')
         print()
@@ -167,11 +171,8 @@ def donor_sub_menu(upd_donation_list): # updated donation list
             print()                
             print("Invalid entry--try again!")
             print()
-    
-    # Need current date for comparison
-    from datetime import date
-    the_date = (date.today())
 
+    # New donation option
     print()
     print("Would you like to enter a new Donation?")
 
@@ -180,13 +181,13 @@ def donor_sub_menu(upd_donation_list): # updated donation list
         # Capture user choice 
         usr_input = str(input(input_msg))
         
-        if(usr_input == 'Y' or usr_input == 'y'): # Why, yes!
+        if usr_input == 'Y' or usr_input == 'y': # Why, yes!
             break
-        elif(usr_input == 'N' or usr_input == 'n'): # Well, no.
+        elif usr_input == 'N' or usr_input == 'n': # Well, no.
             print()
             print("No Donation Added.")
             return(new_donor)
-        elif(usr_input == 'Q' or usr_input == 'q'): # Outta here
+        elif usr_input == 'Q' or usr_input == 'q': # Outta here
             return
         elif usr_input.isdigit(): 
             print("Invalid entry--try again!") # A for effort
@@ -195,13 +196,14 @@ def donor_sub_menu(upd_donation_list): # updated donation list
             print("Invalid entry--try again!")
             print()
 
+    the_date = (date.today())
     # Append today's date as date of donation
     temp_list.append(the_date.year)
     temp_list.append(the_date.month)
     temp_list.append(the_date.day)
 
     # Include donor name already entered
-    if(new_donor != ""):
+    if new_donor != "":
         print()
         print("A Donation from '{}' will be entered into our list...".format(new_donor))
         # print()
@@ -212,7 +214,7 @@ def donor_sub_menu(upd_donation_list): # updated donation list
         # print()
         if amt_input.isdigit():
             new_amt = float(amt_input)
-            if(new_amt > 0 and new_amt < 1000000000): # n < billion
+            if new_amt > 0 and new_amt < 1000000000: # n < billion
                 # add to list
                 print()
                 temp_list.append(new_amt)
@@ -228,8 +230,7 @@ def donor_sub_menu(upd_donation_list): # updated donation list
     
     # Add to master list
     upd_donation_list.append(temp_list)
-    # Test
-    # print(all_donations)
+
     print("Donation Has Been Entered.") # This could be try/except
     print()
     print("###")
@@ -241,7 +242,7 @@ def donor_sub_menu(upd_donation_list): # updated donation list
 def list_donor_donations(all_donations, a_donor):
     """Prints formatted donation details for a specific donor. """
     # Sort based on first element
-    all_donations.sort()
+    # all_donations.sort()
     # Column labels
     header1 = ['Date', '| Donor', '| Amount']
 
@@ -252,7 +253,7 @@ def list_donor_donations(all_donations, a_donor):
     print(66 * '-')
 
     for donor in all_donations:
-        if(donor[:][3] == a_donor):
+        if donor[:][3] == a_donor:
             # Add donor name only to new list
 
             formatted_date = (datetime.date(donor[0], donor[1], donor[2]))
@@ -263,7 +264,6 @@ def list_donor_donations(all_donations, a_donor):
             print('{:<36} ${:>14,.2f}'.format(donor[3], donor[4]))
     return
 
-# Email print with only contributions from Donor X
 def prn_an_email(all_donations, donor_selected):
     """ Prints formatted email template to screen with donation details. """
     # For today's date to be printed in email
@@ -305,16 +305,13 @@ def prn_an_email(all_donations, donor_selected):
           "Foundation for Feline Intestinal Health")
     print()
 
+def findKey(ttl):
+    """ Determines key to sort in AVG list. """
+    return ttl[1] # key to sort
+
 def prn_donor_avg(donations):
     """ Prints a list of donors with their donation count and avg donation. """
-    usd = "$"
-    # Hold list of donor names
-    donor_names = []
-    # Collect list of unique individual donor names
-    for donor in donations:
-        if not donor[:][3] in donor_names:
-            #donor[:][3] = temp_donor 
-            donor_names.append(donor[:][3])
+
     # Holds the names of donors
     donor_name_list = []
     # Temp list for loop
@@ -327,7 +324,6 @@ def prn_donor_avg(donations):
     for donor in donations:
         temp_donor_list.append(donor[:][3])
         
-    # Determine AVG
     # Put Counter output into a name
     # To determine count of each donor's donations 
     donor_name_list = Counter(temp_donor_list)
@@ -343,9 +339,19 @@ def prn_donor_avg(donations):
     header1 = ["Donor Name", "| Total Given", "| Num Gifts", "| Average Gift"]
     print()
     # Print header
-    #print(header2)
     print('{} {:>37} {:>16} {}'.format(*header1))
     print(83 * '-')
+
+    # This list is used to pull ea. donor's records from data set
+    donor_names = []
+    # Collect list of unique individual donor names
+    for donor in donations:
+        if not donor[:][3] in donor_names:
+            donor_names.append(donor[:][3])
+
+    usd = "$" # USD!
+    # Big list of all AVGs
+    master_list = []
 
     for ea_name in donor_names:
         # Holds new donor and donation so it can be appended to list
@@ -357,22 +363,34 @@ def prn_donor_avg(donations):
                 temp_list.append(donor[:][4])
                 # Count or sum of tl individual donations for each donor
                 donation_ctr = (len(temp_list))
-
+                # Sum all donor's donations
                 donation_ttl = (sum(temp_list))
-                
                 # Find the average of the donations
                 donation_avg = mean(temp_list)
-
+                # Name used to find donor in tuple
                 search = ea_name
+                # Temp list holding Total, Num Gifts, AVG
+                donor_ttl_avg = []
                 
                 for sublist in donation_count:
                     if sublist[0] == search:
-                        if((sublist[1]) == (donation_ctr)):
+                        if sublist[1] == donation_ctr:
+                            # Sortable list holding Total, Num Gifts, AVG
+                            donor_ttl_avg.append(ea_name)
+                            donor_ttl_avg.append(donation_ttl)
+                            donor_ttl_avg.append(donation_ctr)
+                            donor_ttl_avg.append(donation_avg)
+                            master_list.append(donor_ttl_avg)
+    
+    # Sort by second item in sublist
+    master_list_sorted = sorted(master_list, key = findKey, reverse = True)
+    
+    for sublist in master_list_sorted:
+        print('{:<36} {:>} {:>14,.2f} {:>3} {:>11} {:>13,.2f}'.format(sublist[0], usd, sublist[1], sublist[2], usd, sublist[3]))
 
-                            # Print formatted string of donations
-                            print('{:<36} {:>} {:>14,.2f} {:>3} {:>11} {:>13,.2f}'.format(ea_name, usd, donation_ttl, donation_ctr, usd, donation_avg))
     print()
-
+    print()
+        
 if __name__ == "__main__":
 
     main()  
