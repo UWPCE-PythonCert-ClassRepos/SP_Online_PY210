@@ -28,6 +28,7 @@ class Donor(object):
     - compute total donation amount by a donor
     - compute total number of donations by a donor
     - compute average donation amount
+    - send thank you note to a donor
     """
     def __init__(self, name):
         """
@@ -51,22 +52,23 @@ class Donor(object):
         return (self.total_donated == other.total_donated)
 
     def add_donation(self, donation):
-        if type(donation) == float or int:
+        try:
+            donation = float(donation)
             if donation > 0:
                 self._donations.append(donation)
             else:
                 print('Donation must be > 0')
                 raise ValueError
-        else:
-            print('Donation must by integer or float')
-            raise TypeError
+        except ValueError:
+            raise ValueError
+            print('\nValue Error: Donation must by integer or float\n')
 
-    def thank_you(self):
+    def create_thank_you_note(self):
         if self.donations == []:
-            print("Error: Donor has no donation history.")
+            print("Error: Donor has no donation history.\n")
             raise RuntimeError
         else:
-            thank_you = "Dear {},\n Thank you for your donation of ${:.2f}!".format(self.name, self.donations[-1])
+            thank_you = "\nDear {},\n Thank you for your donation of ${:.2f}!\n".format(self.name, self.donations[-1])
             return thank_you
 
     @property
@@ -147,11 +149,26 @@ class DonorCollection(object):
             d.add_donation(amount)
             self.add_donor(d)
 
-    # def print_report(self):
-    #     lines = self.create_report()
-    #     report = "\n".join(lines)
-    #     print(report)
-    #     return report
+    def get_donor(self, key):
+        return self._donors.get(key)
+
+    def send_letters(self):
+        # if self.items:
+        print(self.items)
+        for donor, data in self.items:
+            print(donor)
+            print(data)
+            print(data.total_donated)
+            print("")
+            with open(f"{donor}.txt", 'w') as outfile:
+                print(f"Dear {donor}\n")
+                outfile.write(f"Dear {donor}\n")
+                print(f"Thank you for your total donation amount of ${data.total_donated}!\n")
+                outfile.write(f"Thank you for your total donation amount of ${data.total_donated}!\n")
+                print(f"Best wishes,\nThe Team")
+                outfile.write(f"Best wishes,\nThe Team")
+        # else:
+        #     print('\nNo donor data available.\n')
 
     @property
     def donors(self):
