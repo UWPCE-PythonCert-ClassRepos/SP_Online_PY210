@@ -16,6 +16,7 @@ Be able to compare to see if they are are equal.
 (follows from above) be able to put them in a list and sort them.
 
 """
+
 import pytest
 from random import shuffle
 from circle import *
