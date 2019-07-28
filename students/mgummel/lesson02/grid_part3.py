@@ -30,4 +30,3 @@ def print_grid2(squares, scalar):
 if __name__=='__main__':
     print_grid2(3,4)
     print_grid2(5,3)
-    print_grid2(7, 7)
