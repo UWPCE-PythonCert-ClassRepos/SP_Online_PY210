@@ -2,7 +2,7 @@ def print_grid2(squares, scalar):
     """
     Print a grid sized on the squares and scalar paramaters
 
-    :param squares: Number of squares
+    :param squares: Row size based on number of squares
     :type squares: int
     :param scalar: Size of squares
     :type scalar: int

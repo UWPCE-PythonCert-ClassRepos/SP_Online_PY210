@@ -3,11 +3,11 @@ def print_grid(scalar):
     """
     Print a grid sized on the scalar parameters
 
-    :param scalar: Size of squares
+    :param scalar: Row size made of squares
     :type scalar: int
 
     """
-    
+
     grid_size = int(scalar / 2)
 
     # The outer loop to print both row pattern types

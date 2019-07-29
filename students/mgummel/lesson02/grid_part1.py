@@ -1,5 +1,10 @@
 def print_grid():
 
+    """
+    Print a grid of 4 squares with sides of 4 dashes
+     
+    """
+
     # The outer loop to print both row pattern types
     for plus_row in range(3):
 
