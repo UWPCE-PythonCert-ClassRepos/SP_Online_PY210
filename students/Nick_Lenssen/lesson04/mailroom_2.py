@@ -1,5 +1,5 @@
 from sys import exit
-
+import pathlib
 from operator import itemgetter
 
 def get_donation_amount():
@@ -41,21 +41,30 @@ def send_thanks():
 
             #main()
 
+def send_thanks_to_all():
+    pth = str(pathlib.Path.cwd())+'/'
+    for key, value in donor_db.items():
+        mydestin = pth + key.replace(", ", "_").replace(" ", "_")+".txt"
+        print (mydestin)
+        with open(mydestin, "w") as myfile:
+            myfile.write("Dear {},\n\t Thank you for your kind donation of {}\n. It will be put to good use\n\tSincerely\n\t\tThe team"\
+                .format(key, round(sum(donor_db[key]),2)))
+        
+
 def exit_program():
     print ('Goodbye')
     exit()
 
 def main():
+    switch_func_dict = {
+        'a': send_thanks,
+        'b': create_report,
+        'c': send_thanks_to_all,
+        'd': exit_program
+    }
     while True:
         num = input(prompt)
-        if num =='a':
-            send_thanks()
-        elif num == 'b':
-            create_report()
-        elif num == 'c':
-            exit_program()
-        else:
-            print ('Not a valid option')
+        switch_func_dict.get(num)()
 
 donor_db = {"William Gates, III": [653772.32, 12.17],
             "Jeff Bezos": [877.33],
@@ -66,7 +75,8 @@ donor_db = {"William Gates, III": [653772.32, 12.17],
 prompt = "\n".join(("Please choose from below options:",
           "a - Send a Thank you",
           "b - Create a report",
-          "c - Exit",
+          "c - Send a Thank you to all donors",
+          "d - Exit",
           ">>> "))
 
 if __name__ == "__main__":
