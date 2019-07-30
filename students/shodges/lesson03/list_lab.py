@@ -52,3 +52,17 @@ while True:
 
 while fruitprompt in fruits2:
     fruits2.remove(fruitprompt)
+
+#series 3
+fruits3 = fruits[:]
+
+for fruit in fruits: #purposely iterating through the original here -- if we remove an element inside the for loop, we'll skip over the next element
+    while True:
+        response = input('Do you like {}? [yes, no] '.format(fruit.lower()))
+        if response == 'no':
+            fruits3.remove(fruit)
+            break
+        elif response == 'yes':
+            break
+
+print(fruits3)
