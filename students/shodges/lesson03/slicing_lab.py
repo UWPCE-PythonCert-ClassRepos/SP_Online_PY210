@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 test_string = "This is a string."
 test_tuple = (1,2,3,5,8,13)
