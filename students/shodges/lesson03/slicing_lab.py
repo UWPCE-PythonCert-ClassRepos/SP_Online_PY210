@@ -8,3 +8,9 @@ def exchange_first_last(seq):
 
 assert exchange_first_last(test_string) == ".his is a stringT"
 assert exchange_first_last(test_tuple) == (13,2,3,5,8,1)
+
+def remove_every_other(seq):
+    return seq[::2]
+
+assert remove_every_other(test_string) == "Ti sasrn."
+assert remove_every_other(test_tuple) == (1,3,8)
