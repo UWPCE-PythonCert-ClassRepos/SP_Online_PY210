@@ -5,6 +5,7 @@ values = (2, 123.4567, 10000, 12345.67)
 print('file_{:03d} :   {:.2f}, {:.2e}, {:.2e}'.format(*values))
 
 #task 2
+print(f"file_{values[0]:03d} :   {values[1]:.2f}, {values[2]:.2e}, {values[3]:.2e}")
 
 #task 3
 def formatter(nums):
