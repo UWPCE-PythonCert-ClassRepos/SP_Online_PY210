@@ -20,3 +20,9 @@ def ditch_outer_fours_every_other(seq):
 
 assert ditch_outer_fours_every_other(test_string) == " sasr"
 assert ditch_outer_fours_every_other(test_tuple) == ()
+
+def reverse(seq):
+    return seq[::-1]
+
+assert reverse(test_string) == ".gnirts a si sihT"
+assert reverse(test_tuple) == (13,8,5,3,2,1)
