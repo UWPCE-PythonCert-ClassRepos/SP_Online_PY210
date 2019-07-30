@@ -21,3 +21,9 @@ thelist = ['oranges', 1.3, 'lemons', 1.1]
 print(f"The weight of an {thelist[0][:-1]} is {thelist[1]} and the weight of a {thelist[2][:-1]} is {thelist[3]}")
 
 print(f"The weight of an {thelist[0][:-1].upper()} is {thelist[1]*1.2} and the weight of a {thelist[2][:-1].upper()} is {thelist[3]*1.2}")
+
+#task 6
+values = [['Apple', 27, 1.67], ['Orange', 12, 2.99], ['Banana', 37, .67], ['Broccoli', 4, 4.99], ['Cheese', 1067, 18.99], ['Boat', 10670, 5099.87], ['House', 102478, 106070.42]]
+
+for value in values:
+    print('{:15} {:6d}         ${:10.2f}'.format(*value))
