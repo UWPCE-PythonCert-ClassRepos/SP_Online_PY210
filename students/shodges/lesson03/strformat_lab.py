@@ -28,3 +28,7 @@ values = [['Apple', 27, 1.67], ['Orange', 12, 2.99], ['Banana', 37, .67], ['Broc
 
 for value in values:
     print('{:15} {:6d}         ${:10.2f}'.format(*value))
+
+#extra tasks
+consecutive_tuple = (1,2,3,4,5,6,7,8,9,10)
+print((' '.join(['{:5d}']*len(consecutive_tuple))).format(*consecutive_tuple))
