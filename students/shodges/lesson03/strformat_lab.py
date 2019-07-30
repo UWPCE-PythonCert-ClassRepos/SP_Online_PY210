@@ -15,3 +15,9 @@ def formatter(nums):
 #task 4
 date = (4, 30, 2017, 2, 27)
 print('{3:02d} {4} {2} {0:02d} {1}'.format(*date))
+
+#task 5
+thelist = ['oranges', 1.3, 'lemons', 1.1]
+print(f"The weight of an {thelist[0][:-1]} is {thelist[1]} and the weight of a {thelist[2][:-1]} is {thelist[3]}")
+
+print(f"The weight of an {thelist[0][:-1].upper()} is {thelist[1]*1.2} and the weight of a {thelist[2][:-1].upper()} is {thelist[3]*1.2}")
