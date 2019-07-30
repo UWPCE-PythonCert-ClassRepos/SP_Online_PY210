@@ -66,3 +66,15 @@ for fruit in fruits: #purposely iterating through the original here -- if we rem
             break
 
 print(fruits3)
+
+#series 4
+fruits4 = []
+for fruit in fruits:
+    fruits4 += [fruit[::-1]]
+
+fruits.remove(fruits[-1])
+
+print('Copied list:')
+print(fruits4)
+print('Original list:')
+print(fruits)
