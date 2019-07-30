@@ -26,3 +26,11 @@ def reverse(seq):
 
 assert reverse(test_string) == ".gnirts a si sihT"
 assert reverse(test_tuple) == (13,8,5,3,2,1)
+
+# Right now this doesn't account super well for sequences that don't divide evenly into thirds; going to start here and clean it up a bit..
+def reorder_thirds(seq):
+    target_len = round(len(seq) / 3)
+    return seq[(-1*target_len):] + seq[0:target_len] + seq[target_len:(-1*target_len)]
+
+assert reorder_thirds(test_string) == "tring.This is a s"
+assert reorder_thirds(test_tuple) == (8,13,1,2,3,5)
