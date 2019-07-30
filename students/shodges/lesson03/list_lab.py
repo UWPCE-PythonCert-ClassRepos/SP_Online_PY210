@@ -2,10 +2,10 @@
 
 # series 1
 fruits = ['Apples', 'Pears', 'Oranges', 'Peaches']
-fruitprompt = ''
 
 print(fruits)
 
+fruitprompt = ''
 while not fruitprompt:
     fruitprompt = input('Name a fruit, any fruit! ')
 fruits.append(fruitprompt)
@@ -34,3 +34,21 @@ print("All the fruits that start with the letter of the day .. 'P'!")
 for fruit in fruits:
     if fruit.startswith('P'):
         print(fruit)
+
+# series 2
+fruits2 = fruits[:]
+
+print(fruits2)
+
+fruits2.remove(fruits2[-1])
+
+print(fruits2)
+
+fruits2 = fruits2*2
+while True:
+    fruitprompt = input('What fruit are we deleting? ')
+    if fruitprompt in fruits2:
+        break
+
+while fruitprompt in fruits2:
+    fruits2.remove(fruitprompt)
