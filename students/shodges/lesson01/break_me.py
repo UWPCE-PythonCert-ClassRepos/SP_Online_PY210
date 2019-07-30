@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 
-def ne():
+def name_error():
 	print(test)
 
-def te():
+def type_error():
 	a=1
 	b='2'
 	print (a+b)
 
-def se():
+def syntax_error():
 	print (eval('a+'))
 
-def ae():
+def attribute_error():
 	val='attribute error'
 	print (val.doesnotexist)
