@@ -22,3 +22,15 @@ else:
     except:
         # catch all manner of bad input, including not numbers and bad indicies
         print("I don't have a fruit number {} :()".format(fruitprompt))
+
+newfruit = 'Kiwi'
+fruits = [newfruit] + fruits
+print(fruits)
+
+fruits.insert(0, 'Dragonfruit')
+print(fruits)
+
+print("All the fruits that start with the letter of the day .. 'P'!")
+for fruit in fruits:
+    if fruit.startswith('P'):
+        print(fruit)
