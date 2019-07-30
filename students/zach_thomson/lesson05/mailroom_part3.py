@@ -17,22 +17,34 @@ prompt = '\n'.join(('Welcome to the mailroom',
          '4 - Quit',
          '> '))
 
+
 #send a thank you tasks
 def thank_you():
     ty_prompt = input('Please enter a full name or type list to see all the current donors: ')
-    while ty_prompt.lower() == 'list':
-        print(donor_db.keys())
-        ty_prompt = input('Please enter a full name or type list to see all the current donors: ')
-    else:
-        donation_amount = float(input('Please enter a donation amount: '))
-        for donor in donor_db.keys():
-            if donor == ty_prompt:
-                donor_db[ty_prompt].append(donation_amount)
-                break
+    try:
+        ty_prompt = float(ty_prompt)
+    except ValueError:
+        while ty_prompt.lower() == 'list':
+            print(donor_db.keys())
+            ty_prompt = input('Please enter a full name or type list to see all the current donors: ')
         else:
-            donor_db[ty_prompt] = [donation_amount]
-    donation_email = "\nDear {},\nThank you for your generous donation of ${:.2f}!\n"
-    print(donation_email.format(ty_prompt, donation_amount))
+            donation_amount = input('Please enter a donation amount: ')
+            try:
+                donation_amount = float(donation_amount)
+            except ValueError:
+                print('Please enter an integer for the donation amount.')
+            else:
+                for donor in donor_db.keys():
+                    if donor == ty_prompt:
+                        donor_db[ty_prompt].append(donation_amount)
+                        break
+                else:
+                    donor_db[ty_prompt] = [donation_amount]
+                donation_email = "\nDear {},\nThank you for your generous donation of ${:.2f}!\n"
+                print(donation_email.format(ty_prompt, donation_amount))
+    else:
+        print('Please enter a name and not a number')
+
 
 #create a report functions
 def number_donations(x):
@@ -50,12 +62,9 @@ def second_sort(elem):
 def create_table(d):
     """takes the donor database and sorts on total given. also makes a summary
     table with total given, number of gifts and average amount of gift"""
-    report_table = []
-    for key in d.keys():
-        new_entry = (key, sum(d[key]), number_donations(d[key]), average_gift(d[key]))
-        report_table.append(new_entry)
-    report_table.sort(key = second_sort, reverse = True)
-    return report_table
+    report_list = [(key, sum(d[key]), number_donations(d[key]), average_gift(d[key])) for key in d.keys()]
+    report_list.sort(key=second_sort, reverse=True)
+    return report_list
 
 
 def create_report():
@@ -67,6 +76,7 @@ def create_report():
     table = create_table(donor_db)
     for entry in table:
         print(line_format.format(*entry))
+
 
 #make a function to send letters to all donors
 FORM_LETTER = "Dear {},\n\n\tThank you for donating ${:.2f}!\n\n\tThe kids will greatly appreciate it.\n\n\tSincerely,\n\t  -Our Team"
@@ -94,7 +104,15 @@ switch_dict = {1: thank_you,
 def main():
     while True:
         response = input(prompt)
-        switch_dict.get(int(response))()
+        try:
+            response = int(response)
+        except ValueError:
+            print('Please input a valid response')
+        else:
+            try:
+                switch_dict.get(int(response))()
+            except TypeError:
+                print('Please input a valid response')
 
 
 if __name__ == "__main__":
