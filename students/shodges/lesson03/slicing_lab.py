@@ -14,3 +14,9 @@ def remove_every_other(seq):
 
 assert remove_every_other(test_string) == "Ti sasrn."
 assert remove_every_other(test_tuple) == (1,3,8)
+
+def ditch_outer_fours_every_other(seq):
+    return seq[4:-4:2]
+
+assert ditch_outer_fours_every_other(test_string) == " sasr"
+assert ditch_outer_fours_every_other(test_tuple) == ()
