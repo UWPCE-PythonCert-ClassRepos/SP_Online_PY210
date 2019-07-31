@@ -33,7 +33,7 @@ def main():
 
     # Series 2 instructions
     print(series2_fruits)
-    del series2_fruits[-1:]
+    del series2_fruits[-1]
     print(series2_fruits)
     series2_fruits = 2 * series2_fruits
     print(series2_fruits)
@@ -74,7 +74,7 @@ def main():
         fruit_in_reverse.append(series4_fruits[reverse_index])
         reverse_index -= 1
 
-    del series4_fruits[-1:]
+    del series4_fruits[-1]
     print(series4_fruits)
     print(fruit_in_reverse)
 
