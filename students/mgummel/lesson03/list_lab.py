@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 def main():    
     
-    fruits = ["Apples", "Pears", "Oranges", "Peaches"]
+    fruits = ["Apples", "Pears", "Pears", "Oranges", "Peaches"]
 
     print(fruits)
 
@@ -36,19 +36,19 @@ def main():
     del series2_fruits[-1:]
     print(series2_fruits)
     series2_fruits = 2 * series2_fruits
-    fruit_length = len(series2_fruits)
+    print(series2_fruits)
+    
+    delete_fruit = input("Which fruit would you like to be removed?: ")
+    while delete_fruit not in series2_fruits:
+        delete_fruit = input("That fruit is not in the list. Try again: ")
+    
 
-    while len(series2_fruits) == fruit_length:
-        print(series2_fruits)
-        delete_fruit = input("Which fruit would you like to be removed?: ")
-        for fruit in series2_fruits:
-            if fruit == delete_fruit:
-                series2_fruits.remove(fruit)
-
-        if len(series2_fruits) == fruit_length:
-            print("That fruit is not in the list. Try again.")
-        else:
-            print(series2_fruits)
+    index = len(series2_fruits) - 1
+    while index >= 0:
+        if delete_fruit == series2_fruits[index]:
+            del series2_fruits[index]
+        index -= 1        
+    print(series2_fruits)
 
 if __name__=='__main__':
     main()
