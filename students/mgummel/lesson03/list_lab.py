@@ -69,12 +69,12 @@ def main():
     #Delete the last item of the original list. Display the original list and the copy.
     fruit_in_reverse = []
     reverse_index = len(series4_fruits) - 1
-    
+
     while reverse_index >= 0:
         fruit_in_reverse.append(series4_fruits[reverse_index])
         reverse_index -= 1
 
-    series4_fruits = series4_fruits[:-1]
+    del series4_fruits[-1:]
     print(series4_fruits)
     print(fruit_in_reverse)
 
