@@ -1,7 +1,7 @@
 '''
 Andrew Garcia
 Mailroom Part 2
-7/19/19
+7/25/19
 '''
 
 #!/usr/bin/env python3
@@ -39,23 +39,22 @@ def options_menu():
 
 
 def thank_all(all_donations = all_donations):
-    """Creates a text file for all donors and their donations"""
+    """Creates a text file for all donors, thanking their total donation amount"""
 
-    thank_donations = []  # create a list of donor and donation amount
-    donation_amount = []  # takes note of all donation amounts from one donor
+    thank_donations = []
+    donation_amount = []
+
     for key in all_donations:
-        donation_amount += all_donations[key]
-        for item in donation_amount:
-            thank_donations += [[key, item]]
-
-    for item in thank_donations:
-        filename = item[0] + '-' + str(item[1])  # creates file named after donor and donation amount
+        donation_amount = all_donations[key]
+        thank_donations = sum(donation_amount)
+        filename = key
         with open(f'{filename}.txt', 'w+') as f:
-            text = (f'''\nDear {item[0]},
-    
-            Thank you so much for your generous donation of ${item[1]:.2f}!
+            text = (f'''\nDear {key},
+
+            Thank you so much for the donations you have been giving to our charity.
+            You have made {len(donation_amount)} donations, giving a total of ${thank_donations:.2f}
             The kind generosity that you and others give us helps us complete the great work we are doing for others.
-    
+
             From,
             Your Local Charity
             \n''')
@@ -150,7 +149,7 @@ def create_report():
     Uses the sorting_donors function to have the list of donors in the right order"""
 
 
-    print('\nDonor Name          | # Donations |   Average Donation   |   Total Donations  | ')
+    print('\nDonor Name          | # Donations |   Total Donation   |   Average Donations  | ')
     print('-------------------------------------------------------------------------------')
     sorted_donors = sorting_donors()
     for item in sorted_donors:
