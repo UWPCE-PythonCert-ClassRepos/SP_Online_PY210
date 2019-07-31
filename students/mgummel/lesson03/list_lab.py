@@ -25,7 +25,7 @@ def main():
         if item[0] == "P":
             print(item)
 
-    # Get copies of the fruit list so that we can manipulate them
+    # Get copies of the fruit list so that we can manipulate them later on
     series2_fruits = fruits[:]
     series3_fruits = fruits[:]
     series4_fruits = fruits[:]
@@ -57,7 +57,7 @@ def main():
     #Series 3 
     temp = []
     for element in series3_fruits:
-        fruit_prefs = input(f"Do you like {element}? ")
+        fruit_prefs = input(f"Do you like {element.lower()}? ")
         while fruit_prefs != "no" and fruit_prefs != "yes":
             fruit_prefs = input(f"Use only 'yes' or 'no'. Please try again: ")
         if fruit_prefs == "yes":
@@ -65,7 +65,18 @@ def main():
     series3_fruits = temp
     print(series3_fruits)
 
+    #Make a new list with the contents of the original, but with all the letters in each item reversed.
+    #Delete the last item of the original list. Display the original list and the copy.
+    fruit_in_reverse = []
+    reverse_index = len(series4_fruits) - 1
+    
+    while reverse_index >= 0:
+        fruit_in_reverse.append(series4_fruits[reverse_index])
+        reverse_index -= 1
+
+    series4_fruits = series4_fruits[:-1]
+    print(series4_fruits)
+    print(fruit_in_reverse)
+
 if __name__=='__main__':
     main()
-
-
