@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 def main():    
     
-    fruits = ["Apples", "Pears", "Pears", "Oranges", "Peaches"]
+    fruits = ["Apples", "Pears", "Oranges", "Peaches"]
 
     print(fruits)
 
@@ -40,8 +40,7 @@ def main():
     
     delete_fruit = input("Which fruit would you like to be removed?: ")
     while delete_fruit not in series2_fruits:
-        delete_fruit = input("That fruit is not in the list. Try again: ")
-    
+        delete_fruit = input("That fruit is not in the list. Try again: ") 
 
     index = len(series2_fruits) - 1
     while index >= 0:
@@ -49,6 +48,22 @@ def main():
             del series2_fruits[index]
         index -= 1        
     print(series2_fruits)
+
+    # Ask the user for input displaying a line like “Do you like apples?” for each fruit in the list (making the fruit all lowercase).
+    # For each “no”, delete that fruit from the list.
+    # For any answer that is not “yes” or “no”, prompt the user to answer with one of those two values (a while loop is good here)
+    # Display the list.
+
+    #Series 3 
+    temp = []
+    for element in series3_fruits:
+        fruit_prefs = input(f"Do you like {element}? ")
+        while fruit_prefs != "no" and fruit_prefs != "yes":
+            fruit_prefs = input(f"Use only 'yes' or 'no'. Please try again: ")
+        if fruit_prefs == "yes":
+            temp.append(element)
+    series3_fruits = temp
+    print(series3_fruits)
 
 if __name__=='__main__':
     main()
