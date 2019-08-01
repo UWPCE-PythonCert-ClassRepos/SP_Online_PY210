@@ -128,6 +128,7 @@ def test_html():
     assert("and this is some more text") in file_contents
     print(file_contents)
     assert file_contents.endswith("</html>")
+    assert file_contents.startswith("<!DOCTYPE html>")
 
 
 def test_body():
@@ -186,7 +187,7 @@ def test_sub_element():
 ########
 
 def test_head():
-    e = head("this is some text")
+    e = Head("this is some text")
     e.append("and this is some more text")
 
     file_contents = render_result(e).strip()
@@ -197,8 +198,8 @@ def test_head():
     assert file_contents.startswith("<head>")
     assert file_contents.endswith("</head>")
 
-def test_OneLineTag():
-    e = OneLineTag("This is a title")
+def test_title():
+    e = Title("This is a title")
 
     file_contents = render_result(e).strip()
 
@@ -257,7 +258,75 @@ def test_hr_attr():
 
 
 def test_br():
-    pass
+    br = Br()
+    file_contents = render_result(br)
+    print(file_contents)
+    assert file_contents == '<br />\n'
+
+def test_content_in_br():
+    with pytest.raises(TypeError):
+        br = Br('some content')
+
+def test_append_content_in_br():
+    with pytest.raises(TypeError):
+        br = Br()
+        br.append('some content')
+
+
+########
+# Step 6
+########
+
+def test_A():
+    a = A("http://google.com", 'link to google')
+
+    file_contents = render_result(a).strip()
+    print(file_contents)
+
+    assert file_contents.startswith('<a')
+    assert file_contents.endswith('</a>')
+    assert 'href="http://google.com"' in file_contents
+    assert 'link to google' in file_contents
+
+########
+# Step 7
+########
+
+def test_Ul():
+    e = Ul("this is some text")
+    e.append("and this is some more text")
+
+    file_contents = render_result(e).strip()
+
+    assert("this is some text") in file_contents
+    assert("and this is some more text") in file_contents
+
+    assert file_contents.startswith("<ul>")
+    assert file_contents.endswith("</ul>")
+
+
+def test_Li():
+    e = Li("this is some text")
+    e.append("and this is some more text")
+
+    file_contents = render_result(e).strip()
+
+    assert("this is some text") in file_contents
+    assert("and this is some more text") in file_contents
+
+    assert file_contents.startswith("<li>")
+    assert file_contents.endswith("</li>")
+
+
+def test_Header():
+    h = Header(2, "The text of the header")
+
+    file_contents = render_result(h).strip()
+    print(file_contents)
+
+    assert file_contents.startswith('<h2')
+    assert file_contents.endswith('</h2>')
+    assert 'The text of the header' in file_contents
 
 # #####################
 # # indentation testing

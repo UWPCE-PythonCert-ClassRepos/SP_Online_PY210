@@ -20,19 +20,27 @@ class Element(object):
     def append(self, new_content):
         self.contents.append(new_content)
 
-    def render(self, out_file):
+    def _opentag(self):
         open_tag = ['<{}'.format(self.tag)]
         for key, value in self.style.items():
             open_tag.append(' {}="{}"'.format(key, value))
-        open_tag.append('>\n')
-        out_file.write("".join(open_tag))
+        open_tag.append('>')
+        return "".join(open_tag)
+
+    def _closetag(self):
+        return "</{}>".format(self.tag)
+
+    def render(self, out_file):
+        out_file.write(self._opentag())
+        out_file.write('\n')
         for content in self.contents:
             try:
                 content.render(out_file)
             except AttributeError:
                 out_file.write(content)
-            out_file.write("\n")
-        out_file.write("</{}>\n".format(self.tag))
+                out_file.write("\n")
+        out_file.write(self._closetag())
+        out_file.write('\n')
 
 
 class Body(Element):
@@ -42,34 +50,50 @@ class Body(Element):
 class Html(Element):
     tag = 'html'
 
+    def render(self, out_file):
+        out_file.write("<!DOCTYPE html>\n")
+        Element.render(self, out_file)
+
 
 class P(Element):
     tag = 'p'
 
 
-class head(Element):
+class Head(Element):
     tag = 'head'
 
 
 class OneLineTag(Element):
-    tag = 'title'
-
     def append(self, new_content):
         raise NotImplementedError
 
     def render(self, out_file):
-        out_file.write("<{}> ".format(self.tag))
+        #out_file.write("<{}> ".format(self.tag))
+        out_file.write(self._opentag())
         for content in self.contents:
             try:
                 content.render(out_file)
             except AttributeError:
                 out_file.write(content)
-        out_file.write(" </{}>".format(self.tag))
+        out_file.write(self._closetag())
+        #out_file.write(" </{}>".format(self.tag))
 
+
+class Title(OneLineTag):
+    tag = 'title'
 
 class SelfClosingTag(Element):
-    pass
+    def render(self, out_file):
+        tag = self._opentag()[:-1] + ' />\n'
+        out_file.write(tag)
 
+    def append(self, *args):
+        raise TypeError('You can not add content to a SelfClosingTag')
+
+    def __init__(self, content=None, **kwargs):
+        if content is not None:
+            raise TypeError('SelfClosingTag can not contain any content')
+        super().__init__(content=content, **kwargs)
 
 class Hr(SelfClosingTag):
     tag = 'hr'
@@ -77,3 +101,25 @@ class Hr(SelfClosingTag):
 
 class Br(SelfClosingTag):
     tag = 'br'
+
+
+class A(OneLineTag):
+    tag = 'a'
+
+    def __init__(self, link, content=None, **kwargs):
+        kwargs['href'] = link
+        super().__init__(content, **kwargs)
+
+
+class Ul(Element):
+    tag = 'ul'
+
+
+class Li(Element):
+    tag = 'li'
+
+
+class Header(OneLineTag):
+    def __init__(self, level, content=None, **kwargs):
+        self.tag = 'h' + str(level)
+        super().__init__(content, **kwargs)
