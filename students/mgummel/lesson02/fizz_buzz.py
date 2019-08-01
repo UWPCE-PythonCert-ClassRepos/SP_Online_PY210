@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 def fizz_buzz():
     """
     Print numbers in range from 1 to 100. Will print 'Fizz' if the number
