@@ -10,6 +10,8 @@ class Element(object):
 
     tag = 'html'
 
+    indent = '    '
+
     def __init__(self, content=None, **kwargs):
         self.style = dict(kwargs)
         if content is not None:
@@ -30,8 +32,9 @@ class Element(object):
     def _closetag(self):
         return "</{}>".format(self.tag)
 
-    def render(self, out_file):
-        out_file.write(self._opentag())
+    def render(self, out_file, cur_ind=''):
+        #Element.render(self, out_file, cur_ind + self.indent)
+        out_file.write(cur_ind + self._opentag())
         out_file.write('\n')
         for content in self.contents:
             try:
@@ -50,9 +53,9 @@ class Body(Element):
 class Html(Element):
     tag = 'html'
 
-    def render(self, out_file):
+    def render(self, out_file, cur_ind=''):
         out_file.write("<!DOCTYPE html>\n")
-        Element.render(self, out_file)
+        Element.render(self, out_file, cur_ind='')
 
 
 class P(Element):
@@ -67,8 +70,7 @@ class OneLineTag(Element):
     def append(self, new_content):
         raise NotImplementedError
 
-    def render(self, out_file):
-        #out_file.write("<{}> ".format(self.tag))
+    def render(self, out_file, cur_ind=''):
         out_file.write(self._opentag())
         for content in self.contents:
             try:
@@ -76,14 +78,13 @@ class OneLineTag(Element):
             except AttributeError:
                 out_file.write(content)
         out_file.write(self._closetag())
-        #out_file.write(" </{}>".format(self.tag))
 
 
 class Title(OneLineTag):
     tag = 'title'
 
 class SelfClosingTag(Element):
-    def render(self, out_file):
+    def render(self, out_file, cur_ind=''):
         tag = self._opentag()[:-1] + ' />\n'
         out_file.write(tag)
 
