@@ -49,8 +49,8 @@ while fruit != "" and fruit != "exit":
     for del_fruit in fruits_list2:
         if fruit == del_fruit:
             fruits_list2.remove(fruit)
-else:
-    print_fruit(fruits_list2, "Remaining fruit:")
+
+print_fruit(fruits_list2, "Remaining fruit:")
 
 print("\nSeries 3: Do you like this fruit?\n")
 fruits_list3 = fruits_list[:]
