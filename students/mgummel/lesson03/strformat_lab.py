@@ -22,8 +22,7 @@ def formatter(in_tuple):
 
 
 def formatter3(test_tuple):
-    print("'{:02d} {} {} {:02d} {}'".format(test_tuple[3], test_tuple[4], test_tuple[2],
-                                            test_tuple[0], test_tuple[1]))
+    print("'{3:02d} {4:02d} {2:02d} {0:02d} {1:02d}'".format(*test_tuple))
 
 
 def fruit_weight(weights):
