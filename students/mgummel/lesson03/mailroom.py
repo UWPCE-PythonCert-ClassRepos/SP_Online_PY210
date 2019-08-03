@@ -1,6 +1,7 @@
 #! /usr/bin/env python3
 
 import sys
+from operator import itemgetter
 
 donor_db = [("William Gates, III", [653772.32, 12.17]),
             ("Jeff Bezos", [877.33]),
@@ -12,9 +13,9 @@ donor_db = [("William Gates, III", [653772.32, 12.17]),
 
 prompt = "\n".join(("Welcome to the Mailroom App!",
           "Please choose from below options:",
-          "Send a Thank You",
-          "Create a Report",
-          "Quit",
+          "(*) - Send a Thank You",
+          "(*) - Create a Report",
+          "(*) - Quit",
           ">>> "))
 
 def quit_program():
@@ -40,28 +41,35 @@ def send_thank_you():
     print(f"Thank you {donor} for your generous donation of ${new_donation}.", end = " ")
     print("Your contribution will help our organization do good out in the community.\n")
 
-def find_tuple(dude):
+def find_tuple(donor_tuple):
     donation = float(input("What's the new donation amount? \n >>> "))
     if donation <= 0:
         quit_program()
     
     for index in donor_db:
-        if dude == index[0]:
-            index[1].append(round(donation, 2))
+        if donor_tuple == index[0]:
+            index[1].append(donation)
     return donation 
 
 def create_report():
+    create_header()
+
+def create_header():
+    print("{:<20}|{:^15}|{:^13}|{:>14}".format("Donor Name", "Total Given", "Num Gifts", "Average Gift"))
+    print("-" * 65)
+    
+def find_average(donations):
     pass
 
+
 def main():
-    loop = True
-    while loop:
+
+    while True:
         response = input(prompt).title()
         if response == "Quit":
             quit_program()
         elif response == "Send A Thank You":
             send_thank_you()
-            print(donor_db)
         elif response == "Create A Report":
             create_report()
         else:
