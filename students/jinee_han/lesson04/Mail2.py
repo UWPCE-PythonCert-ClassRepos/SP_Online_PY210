@@ -42,10 +42,13 @@ def send_thank_you_note():
         display_list()
         inputValue = input("Enter a full name. (Type 'list' to see the donor list)")
 
-    if not donor_present(inputValue):
-        add_donor(inputValue)
+    # Store the donor name with the first character as an upper case letter
+    donor_name = inputValue.title()
 
-    donation_name = inputValue
+    if not donor_present(donor_name):
+        add_donor(donor_name)
+
+    donation_name = donor_name
     donation_amount = float(input("Please enter the donation amount: "))
     add_donation_amount(donation_name, donation_amount)
     format_thank_you_note(donation_name, donation_amount)
@@ -122,7 +125,7 @@ def format_thank_you_note(donator, donation_amount):
     list_object.append("\t\t\t\t\t - The Team")
 
     thank_you_note_formatted = " ".join(list_object)
-    save_thank_you_to_file(donator.title(), donation_amount, thank_you_note_formatted)
+    save_thank_you_to_file(donator, donation_amount, thank_you_note_formatted)
 
 
 def create_report():
@@ -150,6 +153,8 @@ def send_thank_you_to_all_donors():
     '''
     for donor in donor_db:
         format_thank_you_note(donor, sum(donor_db[donor]))
+
+    print ("All thank you notes saved.")
 
 
 def exit_program():
