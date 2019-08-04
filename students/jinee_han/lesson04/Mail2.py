@@ -48,10 +48,9 @@ def send_thank_you_note():
     if not donor_present(donor_name):
         add_donor(donor_name)
 
-    donation_name = donor_name
     donation_amount = float(input("Please enter the donation amount: "))
-    add_donation_amount(donation_name, donation_amount)
-    format_thank_you_note(donation_name, donation_amount)
+    add_donation_amount(donor_name, donation_amount)
+    format_thank_you_note(donor_name, donation_amount)
 
 
 def add_donation_amount(donation_name, donation_amount):
