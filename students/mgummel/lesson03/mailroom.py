@@ -11,11 +11,10 @@ donor_db = [("William Gates, III", [653772.32, 12.17]),
             ]
 
 
-prompt = "\n".join(("Welcome to the Mailroom App!",
-          "Please choose from below options:",
-          "(*) - Send a Thank You",
-          "(*) - Create a Report",
-          "(*) - Quit",
+prompt = "\n".join(("Please choose from below options:",
+          "- Send a Thank You",
+          "- Create a Report",
+          "- Quit",
           ">>> "))
 
 def quit_program():
@@ -53,16 +52,40 @@ def find_tuple(donor_tuple):
 
 def create_report():
     create_header()
+    sorted_list = []
+    computed_list = []
+
+    for donor_tuple in donor_db:
+        total_donation, avg_donation, num_of_donations = compute_donation(donor_tuple[1])
+        computed_list.append((donor_tuple[0], total_donation, num_of_donations, avg_donation))
+    sorted_list = sorted(computed_list, key=itemgetter(1), reverse=True)
+
+    for sorted_item in sorted_list:
+        print("{:<27}${:>12.2f}{:>14}   ${:>13.2f}".format(*sorted_item))
 
 def create_header():
-    print("{:<20}|{:^15}|{:^13}|{:>14}".format("Donor Name", "Total Given", "Num Gifts", "Average Gift"))
-    print("-" * 65)
+    header = "{:<26}|{:^15}|{:^13}|{:>14}".format("Donor Name", "Total Given", "Num Gifts", "Average Gift")
+    print("\n" + header)
+    print("-" * len(header))
     
-def find_average(donations):
-    pass
+def compute_donation(donations):
+    total_amount = 0 
+    donation_num = 0 
+    avg_amount = 0
+
+    for amount in donations:
+        donation_num += 1
+        total_amount += amount
+
+    total_amount = round(total_amount, 2)
+    avg_amount = round(total_amount / donation_num, 2)
+    
+    return total_amount, avg_amount, donation_num
 
 
 def main():
+
+    print("Welcome to the Mailroom App!")
 
     while True:
         response = input(prompt).title()
@@ -70,10 +93,12 @@ def main():
             quit_program()
         elif response == "Send A Thank You":
             send_thank_you()
+            print("\n\n")
         elif response == "Create A Report":
             create_report()
+            print("\n\n")
         else:
-            print("Not a valid option!")
+            print("Not a valid option!\n\n")
 
 
 
