@@ -27,9 +27,9 @@ def send_thank_you():
             except ValueError:
                 break
             print("""Dear {},
-Thank you for your generous gift of ${:.2f}.  When it comes to ensuring marmots have loving homes, every dollar goes a long way.
+On behalf of all of us at Save the Marmots, thank you for your generous gift of ${:.2f}.  When it comes to ensuring marmots have loving homes, every dollar goes a long way.
 
-Something something something.
+Your gift will help us provide food and shelter for all of the rescued marmots, and ensure our staff have the resources to train them for placement with a family.
 
 Warmest regards,
 
