@@ -14,3 +14,18 @@ def fibonacci(n):
             fi2 = fi1
             fi1 = fi
         return fi
+
+def lucas(n):
+    """Returns the nth element (0-based) of the lucas numbers."""
+    if n == 0:
+        return 2
+    elif n == 1:
+        return 1
+    else:
+        li2 = 2 # lucas(i-2)
+        li1 = 1 # lucas(i-1)
+        for i in range(2,n+1):
+            li = li2 + li1
+            li2 = li1
+            li1 = li
+        return li
