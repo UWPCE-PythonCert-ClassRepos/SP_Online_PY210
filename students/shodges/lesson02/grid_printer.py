@@ -26,8 +26,8 @@ def print_grid2(n):
     print(horizontal_border)
 
 #part 3
-# ed. note -- there was a change between part 2 and 3 in how the grid was calculated. In parts 1 and 2, the "columns" were measured by spaces and minuses
-# in part 3, columns only measures minuses.  I'm not sure if that's the spirit of this but I stuck with the change in counting methodology as the examples
+# ed. note -- there was a change between part 2 and 3 in how the grid was calculated. In parts 1 and 2, the "columns" were = spaces + minuses
+# in part 3, columns = only minuses.  I'm not sure if that's the spirit of this but I stuck with the change in counting methodology as the examples
 # given reflected that change.  Sorry if wrong here!
 def print_grid3(n, s):
     horizontal_border = (('+ ' + ('- ' * s)) * n) + '+'
