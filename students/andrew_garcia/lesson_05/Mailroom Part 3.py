@@ -1,44 +1,48 @@
 '''
 Andrew Garcia
-Mailroom Part 2
-7/25/19
+Mailroom Part 3
+7/31/19
 '''
 
-#!/usr/bin/env python3
+# !/usr/bin/env python3
 
 all_donations = {'Jayson Black': [156.80, 207.32, 219.92],
-          'Bryan Fultan': [1236.28],
-          'Danica Dolores': [163.51, 100.42, 186.22],
-          'Skylar Odell': [167.90, 151.62],
-          'Roy Max': [137.97, 227.63]}
+                 'Bryan Fultan': [1236.28],
+                 'Danica Dolores': [163.51, 100.42, 186.22],
+                 'Skylar Odell': [167.90, 151.62],
+                 'Roy Max': [137.97, 227.63]}
+
 
 def options_menu():
     """Menu of options the user is shown, allowing them to navigate through the script """
     while True:
-        answer = input('''
-    Options:
-    1 - Send a Thank You 
-    2 - Send All Donors a Thank You
-    3 - View a Report
-    4 - Quit
-    
-        Select an Option: ''')
+        try:
+            answer = int(input('''
+        Options:
+            1 - Send a Thank You 
+            2 - Send All Donors a Thank You
+            3 - View a Report
+            4 - Quit
 
-        switch_dict = {1: send_thank_you, 2: thank_all, 3: create_report}
-        if answer == '1':
-            switch_dict.get(1)()
-        elif answer == '2':
-            switch_dict.get(2)()
-        elif answer == '3':
-            switch_dict.get(3)()
-        elif answer == '4':
-            break
-        else:
-            print('That is not a valid answer!')
+        Select an Option: '''))
+
+            switch_dict = {1: send_thank_you, 2: thank_all, 3: create_report}
+
+            if answer == 1:
+                switch_dict.get(1)()
+            elif answer == 2:
+                switch_dict.get(2)()
+            elif answer == 3:
+                switch_dict.get(3)()
+            elif answer == 4:
+                break
+            else:
+                print('That is not a valid choice.')
+        except ValueError:
+            print('Your choice must be in the form of a number.')
 
 
-
-def thank_all(all_donations = all_donations):
+def thank_all(all_donations=all_donations):
     """Creates a text file for all donors, thanking their total donation amount"""
 
     thank_donations = []
@@ -75,22 +79,29 @@ Your Local Charity
 \n''')
 
 
-def existing_donor(name, all_donations = all_donations):
+def existing_donor(name, all_donations=all_donations):
     """Creates a Thank You Letter based on existing donations"""
 
     if all_donations.get(name):  # looks for donation amounts from a donor
         print('List of Donations:')
-        for item in all_donations[name.title()]:
-            print(item)
+        number = 1
+        donations = []
+        for item in all_donations[name.title()]:  # prints number option and donation for user to choose
+            donations.append(item)
+            print(number, ':', item)
+            number += 1
 
-        donation_number = float(input('Which donation amount would you like to use?: '))
-        if donation_number in all_donations[name.title()]:  # takes a donation amount and formats a thank you
-            format_thank_you(name, donation_number)
-        else:
-            print('That is not a valid donation amount!')
+        try:
+            donation_number = int(input('Which donation would you like to use?: '))
+            format_thank_you(name, donations[donation_number - 1])
+        except ValueError:
+            print('That is not a valid donation choice.')
+        except IndexError:
+            print('The donor does not have that many donations.')
 
 
-def add_donation(name, all_donations = all_donations):
+
+def add_donation(name, all_donations=all_donations):
     """Takes a new or existing donor and adds their donation to the list"""
 
     amount = input(f'How much did {name} donate?: ')
@@ -102,17 +113,20 @@ def add_donation(name, all_donations = all_donations):
     format_thank_you(name, float(amount))
 
 
-def send_thank_you(all_donations = all_donations): #edit for dict
+def send_thank_you(all_donations=all_donations):  # edit for dict
     """Gets donor name so that a thank you letter can be formatted"""
     while True:
         name = input('Which Donor would you like to send a note to?: ')
+        name = name.title()
         if name.lower() == 'list':  # gives list of donors
             print(all_donations)
         elif name.lower() == 'quit':
             options_menu()
         elif all_donations.get(name):  # uses existing donor
             while True:
-                new_or_old = input('{} is already an existing donor. Would you like to use a new or existing donation?: [new/existing] '.format(name))
+                new_or_old = input(
+                    '{} is already an existing donor. Would you like to use a new or existing donation?: [new/existing] '.format(
+                        name))
                 if new_or_old.lower() == 'new':  # allows user to add a new donation for existing donor
                     add_donation(name)
                 elif new_or_old.lower() == 'existing':  # uses an existing donation amount
@@ -124,7 +138,8 @@ def send_thank_you(all_donations = all_donations): #edit for dict
             add_donation(name)
         break
 
-def sorting_donors(all_donations = all_donations):
+
+def sorting_donors(all_donations=all_donations):
     """Sorts the all_donations, ordering them in terms of highest total donation amount"""
 
     sorting_donors = []
@@ -139,7 +154,7 @@ def sorting_donors(all_donations = all_donations):
         return sorting_donors[2]
 
     # sorts donor by total amount of money donated
-    highest_donation = sorted(sorting_donors, key = sort_key)
+    highest_donation = sorted(sorting_donors, key=sort_key)
     highest_donation.reverse()
     return highest_donation
 
@@ -148,7 +163,6 @@ def create_report():
     """Creates the report format for donors, sorting by highest donation amount
     Uses the sorting_donors function to have the list of donors in the right order"""
 
-
     print('\nDonor Name          | # Donations |   Total Donation   |   Average Donations  | ')
     print('-------------------------------------------------------------------------------')
     sorted_donors = sorting_donors()
@@ -156,14 +170,7 @@ def create_report():
         print(f'{item[0]:27}{item[1]}       ${item[2]:18.2f}    ${item[3]:18.2f}')
 
 
-
 if __name__ == '__main__':
     options_menu()
-
-
-
-
-
-
 
 
