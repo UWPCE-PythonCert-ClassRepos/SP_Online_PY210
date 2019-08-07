@@ -21,3 +21,10 @@ def sum_series(n, a = 0, b = 1):
             a = b
             b = sum
         return sum
+
+if __name__ == "__main__":
+    assert fibonacci(7) == sum_series(7, 0, 1) # Since fibonacci() is just calling back to sum_series, let's ensure we implemented the logic correctly
+    assert lucas(12) == sum_series(12, 2, 1) # Same here for lucas()
+
+    assert lucas(7) == 29 # The 7th element is 29 -- validate that here
+    assert fibonacci(7) == 13 # The 7th element should be 13
