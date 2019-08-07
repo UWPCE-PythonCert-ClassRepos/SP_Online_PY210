@@ -343,7 +343,7 @@ def test_indent():
 
     print(file_contents)
     lines = file_contents.split("\n")
-    assert lines[0].startswith("   <")
+    assert lines[1].startswith("   <")
     print(repr(lines[-1]))
     assert lines[-1].startswith("   <")
 

@@ -33,17 +33,17 @@ class Element(object):
         return "</{}>".format(self.tag)
 
     def render(self, out_file, cur_ind=''):
-        #Element.render(self, out_file, cur_ind + self.indent)
         out_file.write(cur_ind + self._opentag())
         out_file.write('\n')
         for content in self.contents:
             try:
-                content.render(out_file)
+                content.render(out_file, cur_ind + self.indent)
             except AttributeError:
-                out_file.write(content)
+                out_file.write(cur_ind + self.indent + content)
                 out_file.write("\n")
-        out_file.write(self._closetag())
+        out_file.write(cur_ind + self._closetag())
         out_file.write('\n')
+
 
 
 class Body(Element):
@@ -55,7 +55,7 @@ class Html(Element):
 
     def render(self, out_file, cur_ind=''):
         out_file.write("<!DOCTYPE html>\n")
-        Element.render(self, out_file, cur_ind='')
+        Element.render(self, out_file, cur_ind=cur_ind)
 
 
 class P(Element):
@@ -71,13 +71,14 @@ class OneLineTag(Element):
         raise NotImplementedError
 
     def render(self, out_file, cur_ind=''):
-        out_file.write(self._opentag())
+        out_file.write(cur_ind + self._opentag())
         for content in self.contents:
             try:
-                content.render(out_file)
+                content.render(out_file, cur_ind)
             except AttributeError:
                 out_file.write(content)
         out_file.write(self._closetag())
+        out_file.write('\n')
 
 
 class Title(OneLineTag):
@@ -86,7 +87,7 @@ class Title(OneLineTag):
 class SelfClosingTag(Element):
     def render(self, out_file, cur_ind=''):
         tag = self._opentag()[:-1] + ' />\n'
-        out_file.write(tag)
+        out_file.write(cur_ind + tag)
 
     def append(self, *args):
         raise TypeError('You can not add content to a SelfClosingTag')
@@ -96,12 +97,17 @@ class SelfClosingTag(Element):
             raise TypeError('SelfClosingTag can not contain any content')
         super().__init__(content=content, **kwargs)
 
+
 class Hr(SelfClosingTag):
     tag = 'hr'
 
 
 class Br(SelfClosingTag):
     tag = 'br'
+
+
+class Meta(SelfClosingTag):
+    tag = 'meta'
 
 
 class A(OneLineTag):
@@ -124,3 +130,6 @@ class Header(OneLineTag):
     def __init__(self, level, content=None, **kwargs):
         self.tag = 'h' + str(level)
         super().__init__(content, **kwargs)
+
+class H(Header):
+    pass
