@@ -1,6 +1,7 @@
 
 #By Reem Alqaysi
 #lesson01
+""" script should calculate Lunch portion size for a reguler day, but it's Break me code """
 
 #This Function will cause NameError exception
 def lunch_NameError():
@@ -40,7 +41,9 @@ def lunch_AttributeError():
  print(lunch.portionSize)
  print('The function is working fine')
 
-#lunch_NameError()
-#lunch_TypeError()
-lunch_SyntaxError()
-#lunch_AttributeError()
+  
+if __name__ == ""__main__""
+  lunch_NameError()
+  lunch_TypeError()
+  lunch_SyntaxError()
+  lunch_AttributeError()

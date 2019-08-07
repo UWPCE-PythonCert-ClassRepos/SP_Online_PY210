@@ -1,5 +1,7 @@
-#Warmup
+#Warmup-1
 #by ReemAlqaysi
+""" this file includes many functions puzzle from codeingbat.com """
+
 #sleep_in 
 def sleep_in(weekday, vacation):
   if not weekday:
@@ -8,7 +10,6 @@ def sleep_in(weekday, vacation):
     return True
   else:
    return False
-sleep_in(False, False)
 
 
 #diff21
@@ -18,7 +19,6 @@ def diff21(n):
   else:
    result = (n-21)*2
   return result
-diff21(16)
 
 
 # parrot_trouble 
@@ -27,7 +27,7 @@ def parrot_trouble(talking, hour):
    return True
  else:
    return False
-parrot_trouble(true,3)
+
 
 #makes10
 def makes10(a,b):
@@ -37,7 +37,6 @@ def makes10(a,b):
    return True
   else:
    return False
-makes10(4,6)
 
 
 
@@ -47,7 +46,7 @@ def near_hundred(n):
   return True
  else:
   return False
-near_hundred(97)
+
 
 
 #not_string
@@ -56,14 +55,14 @@ def not_string(str):
     return str
   else:
     return ('not '+str)
-not_string('cute')
+
 
 
 #front3 
 def front3(str):
   str = str[0:3]+str[0:3]+str[0:3]
   return str
-not_string(abc)
+
 
 
 #monkey_trouble 
@@ -72,7 +71,7 @@ def monkey_trouble(a_smile, b_smile):
     return True
   else:
     return False
-monkey_trouble(True,True)
+
 
 
 #sum_double 
@@ -81,7 +80,49 @@ def sum_double(a, b):
     return (a+b)*2
   else:
    return a+b
-sum_double(2,5)
 
 
+#pos_Neg
+def pos_neg(a, b, negative):
+ if negative and (a <0 and b < 0):
+    return True
+ elif not negative and  ((a <0 and b > 0) or (a>0 and b<0)):
+    return True
+ else:
+    return False
 
+
+#missing_char 
+def missing_char(str, n):
+    front = str[:n]
+    back = str[n+1:]
+    return front + back
+
+#front_back 
+def front_back(str):
+  n = len(str)
+  if n <= 1:
+   return str
+  elif n == 2:
+    return str[n-1]+str[0]
+  else:
+    first = str[0]
+    last = str[n-1]
+    middle = str[1:(n-1)]
+    return last+middle+first
+
+
+if __name__ == "__main__":
+    
+  sleep_in(False,True)
+  monkey_trouble(True,True)
+  sum_double(1,2)
+  diff21(21)
+  parrot_trouble(True,6)
+  makes10(9,10)
+  near_hundred(93)
+  pos_neg(1,-1,False)
+  not_string('candy')
+  missing_char('kitten',0)
+  front_back('code')
+  front3('Java')
