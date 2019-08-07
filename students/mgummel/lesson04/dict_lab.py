@@ -33,16 +33,10 @@ def dict_exercise1():
 
 #Set exercise for the lab.
 def set_exercise():
-    s2 = set()
-    s3 = set()
-    s4 = set()
-    for num in range(21):
-        if num % 2 == 0:
-            s2.add(num)
-        if num % 3 == 0:
-            s3.add(num)
-        if num % 4 == 0:
-            s4.add(num)
+    s2 = set(range(0, 21, 2))
+    s3 = set(range(0, 21, 3))
+    s4 = set(range(0, 21, 4))
+
     print(f"This is s2: {s2}")
     print(f"This is s3: {s3}")
     print(f"This is s4: {s4}")
