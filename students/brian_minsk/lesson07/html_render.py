@@ -11,12 +11,16 @@ class Element(object):
     tag_name = "html"
 
     def __init__(self, content=None):
-        self.content = [content]
+        if content:
+            self.content = [content]
+        else:
+            self.content = []
 
     def append(self, new_content):
         self.content.append(new_content)
 
     def render(self, out_file):
+        print(self.content)
         opening_tag = self.create_opening_tag(self.tag_name)
         closing_tag = self.create_closing_tag(self.tag_name)
         body = "\n".join([opening_tag, "\n".join(self.content), closing_tag])
