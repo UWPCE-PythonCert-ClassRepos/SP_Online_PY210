@@ -47,11 +47,15 @@ Sean Hodges
 def generate_report():
     print('{:24} | {:10} | {:10} | {:12}'.format('Donor Name', 'Total Given', 'Num Gifts', 'Average Gift'))
     print('-'*68)
+    report_output = []
     for item in donors:
         total = 0
         for amount in item[1]:
             total += amount
-        print('{:24}  ${:10.2f}   {:10d}   ${:12.2f}'.format(item[0], total, len(item[1]), total/len(item[1])))
+        report_output.append([item[0], len(item[1]), total])
+    report_output.sort(key = lambda x: x[2], reverse = True)
+    for item in report_output:
+        print('{:24}  ${:10.2f}   {:10d}   ${:12.2f}'.format(item[0], item[2], item[1], item[2]/item[1]))
     print('')
 
 if __name__ == '__main__':
