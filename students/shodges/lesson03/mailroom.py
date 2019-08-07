@@ -53,7 +53,6 @@ def generate_report():
             total += amount
         print('{:24}  ${:10.2f}   {:10d}   ${:12.2f}'.format(item[0], total, len(item[1]), total/len(item[1])))
     print('')
-    return
 
 if __name__ == '__main__':
     while True:
@@ -71,5 +70,3 @@ Options:
             generate_report()
         elif option == '3':
             quit()
-        else:
-            continue
