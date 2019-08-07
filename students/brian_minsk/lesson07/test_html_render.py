@@ -67,7 +67,7 @@ def test_render_element():
 
     # This uses the render_results utility above
     file_contents = render_result(e).strip()
-    print(file_contents)
+    
     # making sure the content got in there.
     assert("this is some text") in file_contents
     assert("and this is some more text") in file_contents
@@ -78,6 +78,7 @@ def test_render_element():
     # making sure the opening and closing tags are right.
     assert file_contents.startswith("<html>")
     assert file_contents.endswith("</html>")
+    
 
 # # Uncomment this one after you get the one above to pass
 # # Does it pass right away?

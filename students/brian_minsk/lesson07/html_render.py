@@ -10,17 +10,20 @@ class Element(object):
 
     tag_name = "html"
 
-    open_tag = {"start": "<", "end": ">"}
-    close_tag = {"start": "</", "end": ">"}
-
     def __init__(self, content=None):
-        self.content = content
+        self.content = [content]
 
     def append(self, new_content):
-        self.content = " ".join([self.content, (new_content)])
+        self.content.append(new_content)
 
     def render(self, out_file):
-        out_file.write("".join([self.open_tag["start"], self.tag_name,
-                                self.open_tag["end"], self.content,
-                                self.close_tag["start"], self.tag_name,
-                                self.close_tag["end"]]))
+        opening_tag = self.create_opening_tag(self.tag_name)
+        closing_tag = self.create_closing_tag(self.tag_name)
+        body = "\n".join([opening_tag, "\n".join(self.content), closing_tag])
+        out_file.write(body)
+
+    def create_opening_tag(self, tag_name):
+        return "".join(["<", tag_name, ">"])
+
+    def create_closing_tag(self, tag_name):
+        return "".join(["</", tag_name, ">"])
