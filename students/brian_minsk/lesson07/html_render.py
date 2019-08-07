@@ -25,15 +25,17 @@ class Element(object):
         opening_tag = self.create_opening_tag(self.tag_name)
         closing_tag = self.create_closing_tag(self.tag_name)
         out_file.write(opening_tag)
+        out_file.write("\n")
         for item in self.content:
             item.render(out_file)
+            out_file.write("\n")        
         out_file.write(closing_tag)
 
     def create_opening_tag(self, tag_name):
-        return "".join(["<", tag_name, ">"]) + "\n"
+        return "".join(["<", tag_name, ">"])
 
     def create_closing_tag(self, tag_name):
-        return "".join(["</", tag_name, ">"]) + "\n"
+        return "".join(["</", tag_name, ">"])
 
 class Html(Element):
     tag_name = "html"
@@ -44,6 +46,13 @@ class Body(Element):
 class P(Element):
     tag_name = "p"
 
+class Head(Element):
+    tag_name = "head"
+
+class OneLineTag(Element):
+    pass
+    
+
 class TextWrapper():
     """
     A simple wrapper that creates a class with a render method
@@ -53,4 +62,4 @@ class TextWrapper():
         self.text = text
 
     def render(self, file_out):
-        file_out.write(self.text + "\n")
+        file_out.write(self.text)
