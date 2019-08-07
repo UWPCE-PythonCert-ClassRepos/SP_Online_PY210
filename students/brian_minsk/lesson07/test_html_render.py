@@ -180,7 +180,46 @@ def test_sub_element():
 # Step 3
 ########
 
-# Add your tests here!
+# Run all the Step 2 tests - don't comment them out for Step 3
+
+def test_head():
+    e = Head("this is some text")
+    e.append("and this is some more text")
+
+    file_contents = render_result(e).strip()
+
+    assert("this is some text") in file_contents
+    assert("and this is some more text") in file_contents
+
+    assert file_contents.startswith("<head>")
+    assert file_contents.endswith("</head>")
+
+
+def test_title():
+    e = Title("this is some text")
+    e.append("and this is some more text")
+
+    file_contents = render_result(e).strip()
+
+    assert("this is some text") in file_contents
+    assert("and this is some more text") in file_contents
+
+    assert file_contents.startswith("<title>")
+    assert file_contents.endswith("</title>")
+
+
+def test_one_line_tag():
+    """ Test to see if the tags and text between the tags are on the same line.
+    Title is a subclass of OneLineTag.
+    """
+    e = Title("this is some text")
+    e.append("and this is some more text")
+
+    file_contents = render_result(e).strip()
+
+    assert("\n") not in file_contents
+    assert("\r") not in file_contents
+
 
 # #####################
 # # indentation testing

@@ -50,7 +50,16 @@ class Head(Element):
     tag_name = "head"
 
 class OneLineTag(Element):
-    pass
+    def render(self, out_file):
+        opening_tag = self.create_opening_tag(self.tag_name)
+        closing_tag = self.create_closing_tag(self.tag_name)
+        out_file.write(opening_tag)
+        for item in self.content:
+            item.render(out_file)
+        out_file.write(closing_tag)
+
+class Title(OneLineTag):
+    tag_name = "title"
     
 
 class TextWrapper():
