@@ -26,14 +26,21 @@ def send_thank_you():
                 donors[donorindex][1].append(float(amount))
             except ValueError:
                 break
-            print("""Dear {},
+            print("""
+
+
+
+Dear {},
 On behalf of all of us at Save the Marmots, thank you for your generous gift of ${:.2f}.  When it comes to ensuring marmots have loving homes, every dollar goes a long way.
 
-Your gift will help us provide food and shelter for all of the rescued marmots, and ensure our staff have the resources to train them for placement with a family.
+Your gift will help us provide food and shelter for all of the rescued marmots, and ensure our staff have the resources to train them for placement.
 
 Warmest regards,
 
-Sean Hodges""".format(donor, float(amount)))
+Sean Hodges
+
+
+""".format(donor, float(amount)))
             break
     return
 
@@ -45,18 +52,18 @@ def generate_report():
         for amount in item[1]:
             total += amount
         print('{:24}  ${:10.2f}   {:10d}   ${:12.2f}'.format(item[0], total, len(item[1]), total/len(item[1])))
+    print('')
     return
 
 if __name__ == '__main__':
     while True:
-        print('')
-        print('Mailroom -- Main Menu')
-        print('')
-        print('Options:')
-        print('  1 Send a Thank You')
-        print('  2 Generate a Report')
-        print('  3 Quit')
-        print('')
+        print("""Mailroom -- Main Menu
+
+Options:
+  1 Send a Thank You
+  2 Generate a Report
+  3 Quit
+""")
         option = input('Please select an option (1, 2, 3): ')
         if option == '1':
             send_thank_you()
