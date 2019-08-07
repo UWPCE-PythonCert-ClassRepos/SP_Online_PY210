@@ -12,9 +12,9 @@ donor_db = [("William Gates, III", [653772.32, 12.17]),
 
 
 prompt = "\n".join(("Please choose from below options:",
-          "1 - Send a Thank You",
-          "2 - Create a Report",
-          "3 - Quit",
+          "- Send a Thank You",
+          "- Create a Report",
+          "- Quit",
           ">>> "))
 
 def quit_program():
@@ -24,7 +24,7 @@ def quit_program():
 def send_thank_you():
     donor = "List"
     while donor == "List":
-        donor = input("Please type a donor's full name or type 'list' to view donors.\n>>> ").title()
+        donor = input("Please type a donor's full name or type 'list' to view donors. \n >>> ").title()
         names = []
         for row in donor_db:
             names.append(row[0])
@@ -37,7 +37,7 @@ def send_thank_you():
             donor_db.append((donor, []))
 
     new_donation = find_tuple(donor)
-    print("Thank you {0} for your generous donation of ${1:.2f}.".format(donor, new_donation), end = " ")
+    print(f"Thank you {donor} for your generous donation of ${new_donation}.", end = " ")
     print("Your contribution will help our organization do good out in the community.\n")
 
 def find_tuple(donor_tuple):
@@ -48,7 +48,7 @@ def find_tuple(donor_tuple):
     for index in donor_db:
         if donor_tuple == index[0]:
             index[1].append(donation)
-    return round(donation, 2)
+    return donation 
 
 def create_report():
     create_header()
@@ -80,21 +80,28 @@ def compute_donation(donations):
     total_amount = round(total_amount, 2)
     avg_amount = round(total_amount / donation_num, 2)
     
-    return total_amount, avg_amount, donation_num 
+    return total_amount, avg_amount, donation_num
 
 
-if __name__=='__main__':
+def main():
 
     print("Welcome to the Mailroom App!")
+
     while True:
         response = input(prompt).title()
-        if response == "Quit" or response == "3":
+        if response == "Quit":
             quit_program()
-        elif response == "Send A Thank You" or response == "1":
+        elif response == "Send A Thank You":
             send_thank_you()
             print("\n\n")
-        elif response == "Create A Report" or response == "2":
+        elif response == "Create A Report":
             create_report()
             print("\n\n")
         else:
             print("Not a valid option!\n\n")
+
+
+
+if __name__=='__main__':
+    main()
+    
