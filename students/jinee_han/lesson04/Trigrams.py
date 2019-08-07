@@ -1,5 +1,6 @@
 import random, re, sys
 
+
 def read_and_clean_text(filename):
     '''
     Read and clean text file of unwanted characters
@@ -14,6 +15,7 @@ def read_and_clean_text(filename):
         for word in line.split():
             word_collection.append(word.lower())
     return word_collection
+
 
 def build_trigram_dict(words):
     '''
@@ -35,6 +37,7 @@ def build_trigram_dict(words):
             dict_text.update(dict_element)
 
     return dict_text
+
 
 def create_text(dict_text, max_length):
     '''
@@ -58,6 +61,7 @@ def create_text(dict_text, max_length):
             story_list.append(random.choice(dict_text[random_key]))
 
     return " ".join(story_list)
+
 
 if __name__ == "__main__":
     try:
