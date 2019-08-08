@@ -281,7 +281,7 @@ def test_br():
 # Step 6
 ########
 
-# Run all the Step 2, 3, & 4 tests - don't comment them out for Step 5
+# Run all the Step 2, 3, 4, & 5 tests - don't comment them out for Step 6
 
 def test_a():
     e = Html()
@@ -291,6 +291,54 @@ def test_a():
 
     assert('<a href="http://google.com">link to google</a>') in file_contents
     
+
+########
+# Step 7
+########
+
+# Run all the Step 2, 3, 4, 5, & 6 tests - don't comment them out for Step 7
+
+def test_h():
+    e = Html()
+    e.append(H(1, "This is level 1 header"))
+    e.append(H(2, "This is level 2 header"))
+    e.append(H(3, "This is level 3 header"))    
+
+    file_contents = render_result(e).strip()
+
+    assert('<h1>This is level 1 header</h1>') in file_contents
+    assert('<h2>This is level 2 header</h2>') in file_contents
+    assert('<h3>This is level 3 header</h3>') in file_contents
+
+
+def test_ul():
+    e = Html()
+    e.append(Ul(id="AList", style="line-height:150%"))
+    
+    file_contents = render_result(e).strip()
+
+    assert('<ul id="AList" style="line-height:150%">') in file_contents
+    assert('</ul>') in file_contents
+
+
+def test_li():
+    e = Html()
+    e.append(Li("An item in a list"))
+    
+    file_contents = render_result(e).strip()
+
+    assert('<li>\nAn item in a list\n</li>') in file_contents
+
+
+def test_li_with_attr():
+    e = Html()
+    e.append(Li("An item in a list",  style="color: blue"))
+
+    file_contents = render_result(e).strip()
+
+    assert('<li style="color: blue">\nAn item in a list\n</li>') in file_contents
+    
+
 
 # #####################
 # # indentation testing

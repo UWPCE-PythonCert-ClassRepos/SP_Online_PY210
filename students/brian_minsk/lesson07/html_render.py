@@ -70,6 +70,15 @@ class Head(Element):
     tag_name = "head"
 
 
+class Ul(Element):
+    tag_name = "ul"
+
+
+class Li(Element):
+    tag_name = "li"
+
+
+
 class OneLineTag(Element):
     def render(self, out_file):
         opening_tag = self.create_opening_tag(self.tag_name)
@@ -94,6 +103,15 @@ class A(OneLineTag):
 
         self.tag_attributes = {"href": link}
 
+
+class H(OneLineTag):
+    tag_name = "h"
+
+    def __init__(self, level, content=None, **kwargs):
+        # TODO - Check that level is an int
+        self.tag_name = "{}{}".format(self.tag_name, str(level))
+        super().__init__(content, **kwargs)
+        
 
 class SelfClosingTag(OneLineTag):
     def create_opening_tag(self, tag_name):
