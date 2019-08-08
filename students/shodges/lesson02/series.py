@@ -17,10 +17,10 @@ def sum_series(n, a = 0, b = 1):
     elif n == 1: return b
     else:
         for i in range(2,n+1):
-            sum = a + b
+            tempsum = a + b
             a = b
-            b = sum
-        return sum
+            b = tempsum
+        return tempsum
 
 if __name__ == "__main__":
     # Since fibonacci() and lucas() are just calling back to sum_series(), let's validate that they're calling the correct start points
