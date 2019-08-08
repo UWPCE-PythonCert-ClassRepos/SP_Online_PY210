@@ -170,7 +170,7 @@ def build_trigrams(words):
 
 def build_text(word_pairs, num_sentences=40):
 
-    output_text = []
+    output_text = ['\t']
 
     for idx in range(num_sentences):
         # Start of Paragraph
@@ -181,18 +181,29 @@ def build_text(word_pairs, num_sentences=40):
         for sentence_cnt in range(paragraph_length):
             # Start of sentence
             sentence_length = random.randint(15, 20)
+            # print(sentence_length)
             sentence = []
 
             for word_cnt in range(sentence_length):
+                # print(word_cnt)
                 # Start of word
                 word = []
                 if word_cnt == 0:
-                    word = random.choice(list(word_pairs.keys()))
-                    sentence.append(word[0])
-                    sentence.append(word[1])
+                    word_pair = random.choice(list(word_pairs.keys()))
+                    sentence.append(word_pair[0])
+                    sentence.append(word_pair[1])
                 else:
-                    word = "whoops"
-                    sentence.append(word)
+                    word_pair = tuple(sentence[-2:])
+                    # print(word_pair)
+                    # if word_pair not in word_pairs:
+                    #     break
+                    word_pair = word_pairs[word_pair]    
+                    # print(word_pair)
+                    if not word_pair:
+                        break
+                    sentence.append(random.choice(list(word_pair)))
+                    # sentence.append(word_pair[1])
+                    # print(sentence)
 
             sentence = " ".join(sentence)
             sentence += "."
@@ -202,8 +213,9 @@ def build_text(word_pairs, num_sentences=40):
         output_text.append("\n\n\t".join(paragraph))
 
     output_text = " ".join(output_text)
-    print("".join(output_text))
+    # print("".join(output_text))
 
+    return "".join(output_text)
 
 if __name__ == "__main__":
 
@@ -258,13 +270,13 @@ if __name__ == "__main__":
     except IndexError:
         print("You must pass in a filename")
         sys.exit(1)
-    # in_data = read_in_data(filename)
     in_data = read_in_data(filename, BOOK_START_STR, BOOK_END_STR)
-    # if in_data:
     words = make_words(in_data)
     word_pairs = build_trigrams(words)
     new_text = build_text(word_pairs)
-
+    print(new_text)
+    with open('temp.txt', 'w') as f:
+        f.write(new_text)
     # # trigrams = build_trigrams_old(words)
     # # pprint(trigrams)
 
