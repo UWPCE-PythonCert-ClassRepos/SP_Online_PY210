@@ -84,6 +84,17 @@ class Title(OneLineTag):
     tag_name = "title"
 
 
+class A(OneLineTag):
+    tag_name = "a"
+
+    def __init__(self, link, content):
+        self.content = []
+        if content:
+            self.append(content)
+
+        self.tag_attributes = {"href": link}
+
+
 class SelfClosingTag(OneLineTag):
     def create_opening_tag(self, tag_name):
         attr_part = self.create_attribute_string()

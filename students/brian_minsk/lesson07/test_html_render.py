@@ -277,6 +277,21 @@ def test_br():
     assert('<br />') in file_contents
 
 
+########
+# Step 6
+########
+
+# Run all the Step 2, 3, & 4 tests - don't comment them out for Step 5
+
+def test_a():
+    e = Html()
+    e.append(A("http://google.com", "link to google"))    
+
+    file_contents = render_result(e).strip()
+
+    assert('<a href="http://google.com">link to google</a>') in file_contents
+    
+
 # #####################
 # # indentation testing
 # #  Uncomment for Step 9 -- adding indentation
