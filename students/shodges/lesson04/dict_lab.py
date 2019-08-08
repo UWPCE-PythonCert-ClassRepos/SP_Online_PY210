@@ -22,3 +22,15 @@ for key, value in d1.items():
     d2.update({key: value.lower().count('t')})
 
 print(d2)
+
+# sets 1
+s2 = []
+s3 = []
+s4 = []
+for n in range(0,21):
+    if n % 2 == 0: s2.append(n)
+    if n % 3 == 0: s3.append(n)
+    if n % 4 == 0: s4.append(n)
+print(s2)
+print(s3)
+print(s4)
