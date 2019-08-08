@@ -15,3 +15,10 @@ print('Dictionary values:')
 print(d1.values())
 print('Is cake a key? ' + str('cake' in d1.keys()))
 print('Is Mango a value? ' + str('Mango' in d1.values()))
+
+# dictionaries 2
+d2 = {}
+for key, value in d1.items():
+    d2.update({key: value.lower().count('t')})
+
+print(d2)
