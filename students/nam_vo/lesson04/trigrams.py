@@ -1,10 +1,28 @@
 #!/usr/bin/env python3
 
-import random
+import sys, random
 
-words = "I wish I may I wish I might".split()
+def read_in_data(filename):
+    """Return a list of all words in filename"""
 
-def build_trigrams(words):
+    words = []
+
+    # Read input file
+    with open(filename, 'r') as f:
+        while True:
+            # Read each line
+            line = f.readline()
+            # Done reading
+            if not line:
+                break
+            # Skip header
+            if line.find('***'):
+                # Add all words from each line
+                words += line.split()
+
+    return words
+
+def build_trigram(words):
     """
     build up the trigrams dict from the list of words
 
@@ -13,8 +31,6 @@ def build_trigrams(words):
        values: list of followers
     """
     trigrams = {}
-
-    print(f"words = {words}")
 
     # build up the dict here!
     for i in range(len(words) - 2):
@@ -34,6 +50,7 @@ def build_text(trigrams, pair):
 
     return a new text
     """
+
     if pair in trigrams:
         # Get the first word associated with the pair and remove it from the list
         word = trigrams[pair].pop(0)
@@ -48,14 +65,22 @@ def build_text(trigrams, pair):
         return ''
 
 if __name__ == "__main__":
-    trigrams = build_trigrams(words)
-    print(f"trigrams = {trigrams}")
+    # get the filename from the command line
+    try:
+        filename = sys.argv[1]
+    except IndexError:
+        print("You must pass in a filename")
+        sys.exit(1)
+
+    words = read_in_data(filename)
+
+    print(f"words = {words}\n")
+
+    word_pairs = build_trigram(words)
 
     # Pick a random pair from the trigrams
-    pair = random.choice(list(trigrams.keys()))
-    print(f"pair = {pair}")
+    pair = random.choice(list(word_pairs.keys()))
 
-    # Build new text from the trigrams
-    text = build_text(trigrams, pair)
-    print(f"text = {text}")
+    new_text = build_text(word_pairs, pair)
 
+    print(f"new_text = {new_text}\n")
