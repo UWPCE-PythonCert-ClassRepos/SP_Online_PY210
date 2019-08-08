@@ -18,6 +18,7 @@ words = "I wish I may I wish I might".split()
 
 BOOK_START_STR = "*** START OF THIS PROJECT GUTENBERG EBOOK"
 BOOK_END_STR = "*** END OF THIS PROJECT GUTENBERG EBOOK "
+AVERAGE_SENTENCE_LENGTH = 20
 
 
 def build_trigrams_old(words):
@@ -79,6 +80,9 @@ def format_text(lines):
     """
     Remove punctuation and lowercase all words except for special cases.
 
+    ToDo: 
+        Allow contraction apostrophes to pass
+
     Args:
         lines: text lines to format.
 
@@ -86,15 +90,14 @@ def format_text(lines):
         data: formatted text
     """
     data = []
-    print(lines)
     for line in lines.split():
+        line = line.rstrip()
         line = line.translate(
             str.maketrans(string.punctuation, " " * len(string.punctuation))
         )
         line = remove_capitalization(line)
         if line:
-            line = line.replace("  ", " ")
-            data.append(line)
+            data.append(" ".join(line.split()))
     data = " ".join(data)
     data = data.replace("  ", " ")
     return data
@@ -116,10 +119,6 @@ def read_in_data(filename, start_str="", end_str=""):
     lines = []
     with open(filename, "r+") as infile:
         text = "".join(infile.readlines())
-        # text = text[
-        #     find_start_of_text(text, start_str) : find_end_of_text(text, end_str)
-        # ]
-        print(text[-1:-1])
     return format_text(text)
 
 
@@ -169,33 +168,44 @@ def build_trigrams(words):
     return trigrams
 
 
-def build_text(word_pairs):
-    pass
+def build_text(word_pairs, num_sentences=40):
+
+    output_text = []
+
+    for idx in range(num_sentences):
+        # Start of Paragraph
+        paragraph = []
+        paragraph_length = random.randint(3, 8)
+        # output_text.append('\n\t')
+
+        for sentence_cnt in range(paragraph_length):
+            # Start of sentence
+            sentence_length = random.randint(15, 20)
+            sentence = []
+
+            for word_cnt in range(sentence_length):
+                # Start of word
+                word = []
+                if word_cnt == 0:
+                    word = random.choice(list(word_pairs.keys()))
+                    sentence.append(word[0])
+                    sentence.append(word[1])
+                else:
+                    word = "whoops"
+                    sentence.append(word)
+
+            sentence = " ".join(sentence)
+            sentence += "."
+            sentence = sentence.capitalize()
+            paragraph.append(sentence)
+
+        output_text.append("\n\n\t".join(paragraph))
+
+    output_text = " ".join(output_text)
+    print("".join(output_text))
 
 
 if __name__ == "__main__":
-    # trigrams = build_trigrams_old(words)
-    # pprint(trigrams)
-
-    # trigrams2 = build_trigrams(words2)
-    # pprint(trigrams2)
-
-    try:
-        filename = sys.argv[1]
-    except IndexError:
-        print("You must pass in a filename")
-        sys.exit(1)
-
-    in_data = read_in_data(filename)
-    print(in_data)
-    # in_data = read_in_data(filename, BOOK_START_STR, BOOK_END_STR)
-    # if in_data:
-    # words = make_words(in_data)
-    # print(words)
-    # word_pairs = build_trigrams(words)
-    # new_text = build_text(word_pairs)
-
-    # pprint(new_text)
 
     # Test Find Start String
     test_str = "I once found a shell\n *** Story Start\n Gooble Gobble says the Turkey"
@@ -211,10 +221,21 @@ if __name__ == "__main__":
     assert 67 == find_end_of_text(test_str, end_str1)
     assert None == find_end_of_text(test_str, end_str2)
 
-    # Test Remove Capitilization Function
+    # Test Remove Capitalization Function
     test_str = "The story of how I wrote this program"
     remove_cap_string = remove_capitalization(test_str)
     assert "the story of how I wrote this program" == remove_cap_string
+
+    # Test Format Text function
+    test_str = "Welcome to another - chance to test my func() code!"
+    formatted_str = format_text(test_str)
+    assert "welcome to another chance to test my func code" == formatted_str
+
+    # Test Format Text function with apostrophes
+    # test_str = "He said 'Hello, this is Sam's' and left"
+    # formatted_str = format_text(test_str)
+    # print(formatted_str)
+    # assert "he said hello this is sam's and left" == formatted_str
 
     # Test Make Words
     test_str = "one two three four five"
@@ -231,3 +252,21 @@ if __name__ == "__main__":
         ("wish", "I"): ["may", "might"],
     }
     assert tri_expected == build_tri_response
+
+    try:
+        filename = sys.argv[1]
+    except IndexError:
+        print("You must pass in a filename")
+        sys.exit(1)
+    # in_data = read_in_data(filename)
+    in_data = read_in_data(filename, BOOK_START_STR, BOOK_END_STR)
+    # if in_data:
+    words = make_words(in_data)
+    word_pairs = build_trigrams(words)
+    new_text = build_text(word_pairs)
+
+    # # trigrams = build_trigrams_old(words)
+    # # pprint(trigrams)
+
+    # # trigrams2 = build_trigrams(words2)
+    # # pprint(trigrams2)
