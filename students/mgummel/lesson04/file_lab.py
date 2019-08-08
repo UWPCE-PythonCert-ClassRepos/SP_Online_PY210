@@ -6,6 +6,20 @@ def main():
     for f in pth.iterdir():
         print(pth.absolute() / f)
 
+def languages(text_file):
+    with open(text_file, mode='r', encoding='utf-8') as a_file:
+        a_file.readline()
+
+        for line in a_file:
+            data = line[line.index(':') + 1 :].lstrip()
+            if data[:1].isupper():
+                pass
+            print(data)
+
+def plus_one():
+    pass
+
+
 def copy_file(source, dest):
     with open(source, 'rb') as infile, open(dest, 'wb') as outfile:
         while True:
@@ -13,7 +27,11 @@ def copy_file(source, dest):
             if not data:
                 break
             outfile.write(data)
+
+
+
             
 if __name__ == '__main__':
     main()
-    copy_file('students.txt', 'this_is_a_successful_test.txt')
+    languages('students.txt')
+    #copy_file('students.txt', 'this_is_a_successful_test.txt')
