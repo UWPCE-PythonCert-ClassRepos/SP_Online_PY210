@@ -174,8 +174,6 @@ def test_sub_element():
     assert "</p>" in file_contents
 
 
-
-
 ########
 # Step 3
 ########
@@ -220,6 +218,35 @@ def test_one_line_tag():
     assert("\n") not in file_contents
     assert("\r") not in file_contents
 
+
+########
+# Step 4
+########
+
+# Run all the Step 2 & 3 tests - don't comment them out for Step 4
+
+def test_one_tag_attribute():
+    e = Html()
+    e.append(P("Here is a paragraph of text -- there could be more of them, "
+               "but this is enough  to show that we can do some text",
+                style="text-align: center; font-style: oblique;"))
+
+    file_contents = render_result(e).strip()
+
+    assert('<p style="text-align: center; font-style: oblique;">') in file_contents
+
+
+def test_two_tag_attributes():
+    e = Html()
+    e.append(P("Here is a paragraph of text -- there could be more of them, "
+               "but this is enough  to show that we can do some text",
+                style="text-align: center; font-style: oblique;", spellcheck="true"))
+
+    file_contents = render_result(e).strip()
+
+    assert('<p style="text-align: center; font-style: oblique;" spellcheck="true">') in file_contents
+
+   
 
 # #####################
 # # indentation testing
