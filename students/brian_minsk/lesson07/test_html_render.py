@@ -246,7 +246,36 @@ def test_two_tag_attributes():
 
     assert('<p style="text-align: center; font-style: oblique;" spellcheck="true">') in file_contents
 
-   
+########
+# Step 5
+########
+
+# Run all the Step 2, 3, & 4 tests - don't comment them out for Step 5
+
+def test_hr():
+    e = Html()
+    e.append(Hr())    
+
+    file_contents = render_result(e).strip()
+
+    assert('<hr />') in file_contents
+
+def test_hr_with_attr():
+    e = Html()
+    e.append(Hr(display="block", title="seperator"))    
+
+    file_contents = render_result(e).strip()
+
+    assert('<hr display="block" title="seperator" />') in file_contents
+
+def test_br():
+    e = Html()
+    e.append(Br())    
+
+    file_contents = render_result(e).strip()
+
+    assert('<br />') in file_contents
+
 
 # #####################
 # # indentation testing

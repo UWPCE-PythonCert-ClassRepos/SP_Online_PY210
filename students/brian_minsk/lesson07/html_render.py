@@ -36,6 +36,13 @@ class Element(object):
         out_file.write(closing_tag)
 
     def create_opening_tag(self, tag_name):
+        attr_part = self.create_attribute_string()
+        return "".join(["<", tag_name, attr_part, ">"])
+
+    def create_closing_tag(self, tag_name):
+        return "".join(["</", tag_name, ">"])
+
+    def create_attribute_string(self):
         attr_list = []
         attr_part = ""
         for key, value in self.tag_attributes.items():
@@ -44,10 +51,7 @@ class Element(object):
         if len(attr_list) > 0:
             attr_part = " " + " ".join(attr_list)
 
-        return "".join(["<", tag_name, attr_part, ">"])
-
-    def create_closing_tag(self, tag_name):
-        return "".join(["</", tag_name, ">"])
+        return attr_part
 
 
 class Html(Element):
@@ -78,7 +82,21 @@ class OneLineTag(Element):
 
 class Title(OneLineTag):
     tag_name = "title"
-    
+
+
+class SelfClosingTag(OneLineTag):
+    def create_opening_tag(self, tag_name):
+        attr_part = self.create_attribute_string()
+        return "".join(["<", tag_name, attr_part, " />"])
+
+    def create_closing_tag(self, tag_name):
+        return ""
+
+class Hr(SelfClosingTag):
+    tag_name = "hr"
+
+class Br(SelfClosingTag):
+    tag_name = "br"
 
 class TextWrapper():
     """
