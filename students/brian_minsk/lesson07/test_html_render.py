@@ -337,10 +337,33 @@ def test_li_with_attr():
     file_contents = render_result(e).strip()
 
     assert('<li style="color: blue">\nAn item in a list\n</li>') in file_contents
-    
 
 
-# #####################
+########
+# Step 8
+########
+
+# Run all the Step 2, 3, 4, 5, 6, 7 tests - don't comment them out for Step 8
+
+def test_doctype_tag():
+    e = Html()
+
+    file_contents = render_result(e).strip()
+
+    assert file_contents.startswith('<!DOCTYPE html>')
+
+def test_meta():
+    e = Html()
+    head = Head()
+    e.append(head)
+    head.append(Meta(charset="UTF-8"))
+
+    file_contents = render_result(e).strip()
+
+    assert('<meta charset="UTF-8" />') in file_contents
+
+
+# # #####################
 # # indentation testing
 # #  Uncomment for Step 9 -- adding indentation
 # #####################

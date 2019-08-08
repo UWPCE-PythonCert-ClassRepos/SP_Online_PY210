@@ -57,6 +57,10 @@ class Element(object):
 class Html(Element):
     tag_name = "html"
 
+    def render(this, out_file):
+        out_file.write("<!DOCTYPE html>\n")
+        super().render(out_file)
+
 
 class Body(Element):
     tag_name = "body"
@@ -76,7 +80,6 @@ class Ul(Element):
 
 class Li(Element):
     tag_name = "li"
-
 
 
 class OneLineTag(Element):
@@ -126,6 +129,9 @@ class Hr(SelfClosingTag):
 
 class Br(SelfClosingTag):
     tag_name = "br"
+
+class Meta(SelfClosingTag):
+    tag_name = "meta"
 
 class TextWrapper():
     """
