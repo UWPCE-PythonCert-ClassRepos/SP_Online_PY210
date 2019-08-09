@@ -34,3 +34,8 @@ for n in range(0,21):
 print(s2)
 print(s3)
 print(s4)
+
+print('s3 is subset of s2? ' + str(set(s3).issubset(s2)))
+print('s4 is subset of s2? ' + str(set(s4).issubset(s2)))
+
+# sets 2
