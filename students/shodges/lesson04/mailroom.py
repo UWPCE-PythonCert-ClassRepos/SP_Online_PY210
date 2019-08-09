@@ -53,6 +53,7 @@ def generate_report():
     print('')
 
 if __name__ == '__main__':
+    menu_dispatch = {1: send_thank_you, 2: generate_report, 3: quit}
     while True:
         print("""Mailroom -- Main Menu
 
@@ -62,9 +63,7 @@ Options:
   3 Quit
 """)
         option = input('Please select an option (1, 2, 3): ')
-        if option == '1':
-            send_thank_you()
-        elif option == '2':
-            generate_report()
-        elif option == '3':
-            quit()
+        try:
+            menu_dispatch.get(int(option))()
+        except:
+            continue
