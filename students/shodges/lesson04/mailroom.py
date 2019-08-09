@@ -87,5 +87,6 @@ Options:
   4 Quit
 """)
         option = input('Please select an option (1, 2, 3, 4): ')
-        if int(option) in menu_dispatch.keys():
-            if menu_dispatch.get(int(option))() == 1: break # breaking out of the loop /appears/ to be the cleanest way to do this, if I dispatch to quit() the loop is still repeating
+        if option.isnumeric():
+            if int(option) in menu_dispatch.keys():
+                if menu_dispatch.get(int(option))() == 1: break # breaking out of the loop /appears/ to be the cleanest way to do this, if I dispatch to quit() the loop is still repeating
