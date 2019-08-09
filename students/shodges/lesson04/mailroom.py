@@ -43,9 +43,6 @@ def send_thank_you():
         break
     return
 
-def exit_mailroom():
-    return 1
-
 def generate_report():
     print('{:24} | {:10} | {:10} | {:12}'.format('Donor Name', 'Total Given', 'Num Gifts', 'Average Gift'))
     print('-'*68)
@@ -59,6 +56,9 @@ def generate_report():
     for item in report_output:
         print('{:24}  ${:10.2f}   {:10d}   ${:12.2f}'.format(item[0], item[2], item[1], item[2]/item[1]))
     print('')
+
+def exit_mailroom():
+    return 1
 
 if __name__ == '__main__':
     menu_dispatch = {1: send_thank_you, 2: generate_report, 3: exit_mailroom}
