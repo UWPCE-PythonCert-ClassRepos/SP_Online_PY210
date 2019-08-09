@@ -17,7 +17,7 @@ class Element(object):
     def append(self, new_content):
         self.content.append(new_content)
 
-    def _render_open_tag(self, out_file, self_closing=False, curr_ind='')
+    def _render_open_tag(self, out_file, self_closing=False, curr_ind=''):
         #  Write the beginning of the tag
         out_file.write(curr_ind + "<{}".format(self.tag))
         for attribute, value in self.attributes.items():
