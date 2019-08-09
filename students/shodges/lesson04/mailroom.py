@@ -60,7 +60,7 @@ def generate_report():
     print('')
 
 def save_all_letters():
-    letter_dir = Path(input('Please specify a directory to save letters in (or leave blank to use temp directory): '))
+    letter_dir = Path(input('Please specify a directory to save letters in: '))
     if not letter_dir.is_dir():
         print('{} is an invalid directory; using {}'.format(letter_dir, tempfile.gettempdir()))
         letter_dir = Path(tempfile.gettempdir())
@@ -71,7 +71,7 @@ def save_all_letters():
         print(letter)
         with letter.open("w") as fileio: fileio.write(letter_template.format(**letter_values))
         fileio.close()
-
+    print('Saved letters in {}'.format(letter_dir).as_uri()
 def exit_mailroom():
     return 1
 
