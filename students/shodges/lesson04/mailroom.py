@@ -9,9 +9,9 @@ donors = {'William Henry Harrison' : [806.25, 423.10],
           'Chester A. Arthur' : [10236.91]}
 
 letter_template = """Dear {name},
-On behalf of all of us at Save the Marmots, thank you for your generous gift of ${amount:.2f}.  When it comes to ensuring marmots have loving homes, every dollar goes a long way.
+On behalf of all of us at Save the Marmots, thank you for your recent gift of ${amount:.2f}.  When it comes to ensuring marmots have loving homes, every dollar goes a long way.
 
-Your gift will help us provide food and shelter for all of the rescued marmots, and ensure our staff have the resources to train them for placement.
+Your very generous gifts of ${total:.2f} will help us provide food and shelter for all of the rescued marmots, and ensure our staff have the resources to train them for placement.
 
 Warmest regards,
 
@@ -33,8 +33,9 @@ def send_thank_you():
                 donors[donor].append(float(amount))
             except ValueError:
                 break
-
-            letter_values = {'name': donor, 'amount': float(amount)}
+            total = 0
+            for gift in donors[donor]: total += gift
+            letter_values = {'name': donor, 'amount': float(amount), 'total': total}
             print(("""
 
 
@@ -65,13 +66,15 @@ def save_all_letters():
         print('{} is an invalid directory; using {}'.format(letter_dir, tempfile.gettempdir()))
         letter_dir = Path(tempfile.gettempdir())
     for donor in donors.keys():
-        letter_values = {'name': donor, 'amount': donors[donor][-1]}
+        total = 0
+        for amount in donors[donor]: total += amount
+        letter_values = {'name': donor, 'amount': donors[donor][-1], 'total': total}
         print(letter_values)
         letter = letter_dir / (donor.replace(' ', '_') + '.txt')
         print(letter)
         with letter.open("w") as fileio: fileio.write(letter_template.format(**letter_values))
         fileio.close()
-    print('Saved letters in {}'.format(letter_dir).as_uri()
+    print('Saved letters in {}'.format(letter_dir.absolute()))
 def exit_mailroom():
     return 1
 
