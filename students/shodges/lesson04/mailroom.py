@@ -5,6 +5,16 @@ donors = {'William Henry Harrison' : [806.25, 423.10],
           'Millard Fillmore' : [476.21, 2376.21],
           'Chester A. Arthur' : [10236.91]}
 
+letter_template = """Dear {name},
+On behalf of all of us at Save the Marmots, thank you for your generous gift of ${amount:.2f}.  When it comes to ensuring marmots have loving homes, every dollar goes a long way.
+
+Your gift will help us provide food and shelter for all of the rescued marmots, and ensure our staff have the resources to train them for placement.
+
+Warmest regards,
+
+Sean Hodges
+"""
+
 def send_thank_you():
     while True:
         donor = input('Please enter a donor name: ')
@@ -22,21 +32,14 @@ def send_thank_you():
                 break
 
             letter_values = {'name': donor, 'amount': float(amount)}
-            print("""
+            print(("""
 
 
 
-Dear {name},
-On behalf of all of us at Save the Marmots, thank you for your generous gift of ${amount:.2f}.  When it comes to ensuring marmots have loving homes, every dollar goes a long way.
-
-Your gift will help us provide food and shelter for all of the rescued marmots, and ensure our staff have the resources to train them for placement.
-
-Warmest regards,
-
-Sean Hodges
+{}
 
 
-""".format(**letter_values))
+""".format(letter_template)).format(**letter_values)) # I'm doing this because I like the extra whitespace when the letter is in-line, otherwise it gets smooshed with the prompts
         break
     return
 
