@@ -2,6 +2,6 @@
 
 from pathlib import Path
 
-textfile = Path("./sherlock.txt")
+textfile = Path("./sherlock_small.txt")
 
-with textfile.open() as fileio: text = fileio.read()
+with textfile.open() as fileio: words = fileio.read().split()
