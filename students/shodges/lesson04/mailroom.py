@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-import os, tempfile
+import tempfile
+from pathlib import Path
 
 donors = {'William Henry Harrison' : [806.25, 423.10],
           'James K. Polk' : [37.67, 127.65, 1004.29],
@@ -59,15 +60,17 @@ def generate_report():
     print('')
 
 def save_all_letters():
-    letter_dir = input('Please specify a directory to save letters in (or leave blank to use temp directory): ')
-    if not os.path.isdir(letter_dir):
+    letter_dir = Path(input('Please specify a directory to save letters in (or leave blank to use temp directory): '))
+    if not letter_dir.is_dir():
         print('{} is an invalid directory; using {}'.format(letter_dir, tempfile.gettempdir()))
-        letter_dir = tempfile.gettempdir()
+        letter_dir = Path(tempfile.gettempdir())
     for donor in donors.keys():
         letter_values = {'name': donor, 'amount': donors[donor][-1]}
-        letterio = open(letter_dir + "/" + donor + ".txt", "w")
-        letterio.write(letter_template.format(**letter_values))
-        letterio.close()
+        print(letter_values)
+        letter = letter_dir / (donor + '.txt')
+        print(letter)
+        with letter.open("w") as fileio: fileio.write(letter_template.format(**letter_values))
+        fileio.close()
 
 def exit_mailroom():
     return 1
