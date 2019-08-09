@@ -39,3 +39,8 @@ print('s3 is subset of s2? ' + str(s3.issubset(s2)))
 print('s4 is subset of s2? ' + str(s4.issubset(s2)))
 
 # sets 2
+pyset = set("Python")
+pyset.add("i")
+maraset = set("marathon")
+print(pyset.union(maraset))
+print(pyset.intersection(maraset))
