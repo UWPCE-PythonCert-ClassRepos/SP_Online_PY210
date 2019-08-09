@@ -14,6 +14,7 @@ update
 
 import sys, datetime
 
+
 # Donor List
 donor_db = {"Kim Kardasian": [653772.32, 12.17],
             "Kendal Jenner": [877.33],
@@ -27,7 +28,8 @@ prompt = "\n".join(("Welcome to the donor list!",
           "Please choose from below options:",
           "1 - Send a Thank you",
           "2 - Create a Report",
-          "3 - Exit",
+          "3 - Send Thank You to All Donors",
+          "4 - Exit",
           ">>> "))
 
 def send_thank_you_note():
@@ -40,13 +42,16 @@ def send_thank_you_note():
         display_list()
         inputValue = input("Enter a full name. (Type 'list' to see the donor list)")
 
-    if not donor_present(inputValue):
-        add_donor(inputValue)
+    # Store the donor name with the first character as an upper case letter
+    donor_name = inputValue.title()
 
-    donation_name = inputValue
+    if not donor_present(donor_name):
+        add_donor(donor_name)
+
     donation_amount = float(input("Please enter the donation amount: "))
-    add_donation_amount(donation_name, donation_amount)
-    format_thank_you_note(donation_name, donation_amount)
+    add_donation_amount(donor_name, donation_amount)
+    format_thank_you_note(donor_name, donation_amount)
+
 
 def add_donation_amount(donation_name, donation_amount):
     '''
@@ -56,6 +61,7 @@ def add_donation_amount(donation_name, donation_amount):
     :return: nothing
     '''
     donor_db[donation_name].append(donation_amount)
+
 
 def donor_present(donor_name):
     '''
@@ -69,6 +75,7 @@ def donor_present(donor_name):
 
     return donor_present
 
+
 def display_list():
     '''
     Display the list of current donors
@@ -76,6 +83,7 @@ def display_list():
     '''
     for keys in donor_db:
         print(keys)
+
 
 def add_donor(donor_name):
     '''
@@ -86,6 +94,7 @@ def add_donor(donor_name):
     donation_history = []
     donor_db.update({donor_name:donation_history})
 
+
 def save_thank_you_to_file(donor_name, donation_amount, thank_you_note_formatted):
     '''
     Save the thank you note to file
@@ -94,10 +103,11 @@ def save_thank_you_to_file(donor_name, donation_amount, thank_you_note_formatted
     :param thank_you_note_formatted: The formatted note to write to file
     :return: nothing
     '''
-    filename = "{}_{}_{}.txt".format(donor_name, donation_amount, len(donor_db[donor_name]))
-    f = open("{}".format(filename), "w")
-    f.write(thank_you_note_formatted)
-    f.close()
+    filename = "{}_{}_{}donations.txt".format(donor_name, donation_amount, len(donor_db[donor_name]))
+
+    with open("{}".format(filename), "w") as f:
+        f.write(thank_you_note_formatted)
+
 
 def format_thank_you_note(donator, donation_amount):
     '''
@@ -106,15 +116,16 @@ def format_thank_you_note(donator, donation_amount):
     :param donation_amount: The donation amount
     :return: nothing
     '''
-    lstObj = []
-    lstObj.append("Dear {},\n\n".format(donator.title())  )
-    lstObj.append("\tThank you for your very kind donation of  ${:10.2f}!\n".format(donation_amount)  )
-    lstObj.append("\tIt will be put to very good use.\n\n")
-    lstObj.append("\t\t\tSincerely,\n")
-    lstObj.append("\t\t\t\t\t - The Team")
+    list_object = []
+    list_object.append("Dear {},\n\n".format(donator.title())  )
+    list_object.append("\tThank you for your very kind donation of  ${:10.2f}!\n".format(donation_amount)  )
+    list_object.append("\tIt will be put to very good use.\n\n")
+    list_object.append("\t\t\tSincerely,\n")
+    list_object.append("\t\t\t\t\t - The Team")
 
-    thank_you_note_formatted = " ".join(lstObj)
-    save_thank_you_to_file(donator.title(), donation_amount, thank_you_note_formatted)
+    thank_you_note_formatted = " ".join(list_object)
+    save_thank_you_to_file(donator, donation_amount, thank_you_note_formatted)
+
 
 def create_report():
     '''
@@ -133,6 +144,18 @@ def create_report():
         print('{:^18} ${:>12,.2f}{:^13}  ${:>12,.2f}'.format(donor[0],total,num,average))
     print('')
 
+
+def send_thank_you_to_all_donors():
+    '''
+    Send a thank you note to all donors
+    :return: nothing
+    '''
+    for donor in donor_db:
+        format_thank_you_note(donor, sum(donor_db[donor]))
+
+    print ("All thank you notes saved.")
+
+
 def exit_program():
     '''
     Exit the program
@@ -141,12 +164,14 @@ def exit_program():
     print("Thank you for your donations!")
     sys.exit()  # exit the interactive script
 
-input_dict = {1: send_thank_you_note, 2: create_report, 3: exit_program}
+
+input_dict = {1: send_thank_you_note, 2: create_report, 3: send_thank_you_to_all_donors, 4: exit_program}
 
 def main():
     while True:
         response = int(input(prompt))  # continuously collect user selection
         input_dict.get(response)()
+
 
 if __name__ == "__main__":
     main()

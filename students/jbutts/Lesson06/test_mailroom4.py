@@ -4,10 +4,11 @@ import os
 import tempfile
 from mailroom4 import *
 
+
 #  Build our data structure to use in these tests
 
-DONOR_DB = {}  # dict that contains user/donation records
-DONOR_DB = populate_data(DONOR_DB)
+donor_db = {}  # dict that contains user/donation records
+donor_db = populate_data()
 
 
 '''
@@ -44,30 +45,30 @@ def test_format_email():
 
 #  Add contribution for a new donor
 def test_add_contribution():
-    add_contribution("James Butts", 100, DONOR_DB)
-    assert DONOR_DB["James Butts"][-1:] == [100]
+    add_contribution("James Butts", 100)
+    assert donor_db["James Butts"][-1:] == [100]
     # Test that we are summing total contributions correctly
-    assert sum(DONOR_DB["James Butts"]) == 100
+    assert sum(donor_db["James Butts"]) == 100
 
 
     #  Pass a contribution to a recurring donor
-    add_contribution("Daenerys Targaryen", 100, DONOR_DB)
-    assert DONOR_DB["Daenerys Targaryen"][-1:] == [100]
+    add_contribution("Daenerys Targaryen", 100)
+    assert donor_db["Daenerys Targaryen"][-1:] == [100]
     # Test that we are summing total contributions correctly
-    assert sum(DONOR_DB["Daenerys Targaryen"]) == 8355.00
+    assert sum(donor_db["Daenerys Targaryen"]) == 8355.00
 
     # Pass multiple contributions to a recurring donor
-    add_contribution("Daenerys Targaryen", [100, 200], DONOR_DB)
-    assert DONOR_DB["Daenerys Targaryen"][-2:] == [100, 200]
+    add_contribution("Daenerys Targaryen", [100, 200])
+    assert donor_db["Daenerys Targaryen"][-2:] == [100, 200]
     # Test that we are summing total contributions correctly for multiple contributions
-    assert sum(DONOR_DB["Daenerys Targaryen"]) == 8655.00
+    assert sum(donor_db["Daenerys Targaryen"]) == 8655.00
 
 # Test listing of donors
 def test_list_donors():
     # Test formatting and sorting of the dictionary when listing donors
-    assert str(list_donors(DONOR_DB)).split("\n")[0] == "No.  Name   "
-    assert str(list_donors(DONOR_DB)).split("\n")[1] == "==== ======="
-    assert str(list_donors(DONOR_DB)).split("\n")[2] == "1    Arya Stark"
+    assert str(list_donors()).split("\n")[0] == "No.  Name   "
+    assert str(list_donors()).split("\n")[1] == "==== ======="
+    assert str(list_donors()).split("\n")[2] == "1    Arya Stark"
 
 
 '''
@@ -77,15 +78,15 @@ Create Report tests
 def test_show_donors():
     #  Check calculations
     #  Number of donations
-    assert len(DONOR_DB["Melisandre"]) == 4
+    assert len(donor_db["Melisandre"]) == 4
     #  Total donations
-    assert sum(DONOR_DB["Melisandre"]) == 300019.00
+    assert sum(donor_db["Melisandre"]) == 300019.00
     #  Average donation
-    assert sum(DONOR_DB["Melisandre"])/len(DONOR_DB["Melisandre"]) == 75004.75
+    assert sum(donor_db["Melisandre"]) / len(donor_db["Melisandre"]) == 75004.75
 
 def test_get_donors_details():
     #  Check output and formating of get_donor_details()
-    donor_list = get_donors_details(DONOR_DB)
+    donor_list = get_donors_details()
     assert donor_list[1] == 'Arya Stark               $10899.92           5         $2179.98      \n'
 
 
@@ -94,26 +95,33 @@ Send Letters tests
 '''
 
 #  Run the code in question to generate letters
-send_letter_to_all(DONOR_DB)
-file_to_test = tempfile.gettempdir() + "/James_Butts.txt"
+
 
 def test_file_created():
+    send_letter_to_all()
+    file_to_test = tempfile.gettempdir() + "/James_Butts.txt"
     #  Make sure letters are getting created (written to temp)
     assert os.path.exists(file_to_test)
 
 
 
 def test_get_letter_text():
-    #  Check that the contents of the letter is what we expect
+    send_letter_to_all()
     letter_text = ""
-
-    with open(file_to_test, "r") as letter_file:
+    tempfilepath = tempfile.gettempdir() + "/James_Butts.txt"
+    with open(tempfilepath, "r") as letter_file:
         letter_text = letter_file.readlines()
         letter_text = "".join(letter_text)
+        print(letter_text)
+        print(''.join(("Dear James Butts,\n\n",
+        "Thank you for your recent contribution of $100.00.\n\n",
+        "We appreciate your generosity in support of our mission.\n\n",
+        "Thank you for your lifetime contributions of $100.00.\n\n",
+        "Warmest Regards,\n\n",
+        "Charity Staff\n")))
     assert letter_text == ''.join(("Dear James Butts,\n\n",
         "Thank you for your recent contribution of $100.00.\n\n",
         "We appreciate your generosity in support of our mission.\n\n",
         "Thank you for your lifetime contributions of $100.00.\n\n",
         "Warmest Regards,\n\n",
         "Charity Staff\n"))
-

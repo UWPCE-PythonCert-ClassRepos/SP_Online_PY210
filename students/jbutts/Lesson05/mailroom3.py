@@ -13,23 +13,22 @@ Added sorting abilities here. I originally missed this in the first mailroom ass
 '''
 
 
-def populate_data(donor_db):
+def populate_data():
     '''
     Populate dictionary with initial data
     '''
 
-    donor_db = add_contribution("Daenerys Targaryen", [100.00, 1000], donor_db)
-    donor_db = add_contribution("Arya Stark", [65.00, 45.92, 1004, 2008, 7777], donor_db)
-    donor_db = add_contribution("Melisandre", [19.00, 100000, 100000, 100000], donor_db)
-    donor_db = add_contribution("Cersei Lannister", [10.00], donor_db)
-    donor_db = add_contribution("Daenerys Targaryen", [400, 500, 700, 5555], donor_db)
-    donor_db = add_contribution("Bran Stark", [666], donor_db)
-    donor_db = add_contribution("Bran Stark", 777, donor_db) # We even handle for floats instead
-    # of lists, just in case
-    return donor_db
+    add_contribution("Daenerys Targaryen", [100.00, 1000])
+    add_contribution("Arya Stark", [65.00, 45.92, 1004, 2008, 7777])
+    add_contribution("Melisandre", [19.00, 100000, 100000, 100000])
+    add_contribution("Cersei Lannister", [10.00])
+    add_contribution("Daenerys Targaryen", [400, 500, 700, 5555])
+    add_contribution("Bran Stark", [666])
+    add_contribution("Bran Stark", 777) # We even handle for floats instead
 
 
-def show_donors(donor_db):
+
+def show_donors():
     '''
     Write a report to screen of donors and information about how they've donated
 
@@ -47,17 +46,15 @@ def show_donors(donor_db):
 
     #  Get a sorted list of donors names sorted by their contributions, descending
     ordered_donors = sorted(donor_db, key=lambda k: sum(donor_db[k]), reverse=True)
-    for donor in ordered_donors:
-        #  Iterate through the dict to match the sorted list.
-        for key, value in donor_db.items():
-            if key == donor:
-                # alphabetical by keys. Write out rows: "Donor", "Total", "Gifts", "Average"
-                row = key, sum(value), len(value), sum(value)/len(value)
-                print("{:<25s}${:<19.2f}{:<10d}${:<13.2f}".format(*row))
+    for name in ordered_donors:
+        contributions = donor_db.get(name)
+        # alphabetical by keys. Write out rows: "Donor", "Total", "Gifts", "Average"
+        row = name, sum(contributions), len(contributions), sum(contributions)/len(contributions)
+        print("{:<25s}${:<19.2f}{:<10d}${:<13.2f}".format(*row))
 
 
 
-def list_donors(donor_db):
+def list_donors():
     '''
     Write a numbered list for the purpose of selecting a donor
 
@@ -66,7 +63,9 @@ def list_donors(donor_db):
     # List current donors in the dictionary as '#. First Last'
     print("{:<4} {:<7}".format("No.", "Name"))
     print("{} {}".format("=" * 4, "=" * 7))
-    [print("{:<4} {:<7}". format(i + 1, donor)) for i, donor in enumerate(sorted(donor_db))]
+
+    for i, donor in enumerate(sorted(donor_db)):
+        print("{:<4} {:<7}".format(i + 1, donor))
 
 
 def print_menu():
@@ -84,7 +83,7 @@ def print_menu():
     ))
 
 
-def record_contribution(donor_db):
+def record_contribution():
     '''
     Prompt user for new contribution for a new or existing donor. Return dictionary with any updates
 
@@ -96,20 +95,19 @@ def record_contribution(donor_db):
     while donor_name == "" or donor_name == 'list':
         donor_name = input("Please enter donor full name or type 'list': ")
         if donor_name == 'list':
-            list_donors(donor_db)
+            list_donors()
         else:
             amount = float(input("Please enter donation amount: "))
     else:
         if donor_db.get(donor_name):
-            add_contribution(donor_name, amount, donor_db)  # Add the contribution
+            add_contribution(donor_name, amount)  # Add the contribution
             print(format_email(donor_name, amount, sum(donor_db[donor_name])))  # print mail
             #  to terminal
         else:
             response = str(input("Donor {} doesn't exist, add them (y/n)?:".format(donor_name)))
             if response.lower() == 'y':
-                add_contribution(donor_name, amount, donor_db)
+                add_contribution(donor_name, amount)
                 print(format_email(donor_name, amount, sum(donor_db[donor_name])))
-    return donor_db
 
 
 def format_email(donor, amount, total_contribution):
@@ -128,7 +126,7 @@ def format_email(donor, amount, total_contribution):
     return mail_str
 
 
-def add_contribution(donor, amount, donor_db):
+def add_contribution(donor, amount):
     '''
     After record_contribution() prompts user for input, add records to dictionary as needed.
 
@@ -140,6 +138,7 @@ def add_contribution(donor, amount, donor_db):
             if isinstance(amount, list):
                 donor_db[donor].extend(amount)  # when amount is a list
             else:
+                #  Append for adding one value, vs above where it's a list...
                 donor_db[donor].extend([amount])  # in case we get passed a float for amount
     else:
         # otherwise, add a single contribution with a new user
@@ -164,7 +163,7 @@ def send_letter_to_all(donor_db):
             print("IOError: Could not create file:" + tempfilepath)
 
 
-def switcher(arg, donor_db):
+def switcher(arg):
     '''
     Use a switcher dictionary as a way to present a menu-driven interface for users
     '''
@@ -177,23 +176,21 @@ def switcher(arg, donor_db):
         4: exit,
     }
     func = switcher.get(arg, lambda: print("Invalid Entry"))
-    if func == exit:
-        func()
-    else:
-        func(donor_db)
+    func()
 
 
-def main(donor_db):
+
+def main():
     '''
     main loop, continually present users with menu options
     '''
 
     while True:
-        switcher(int(input(print_menu())), donor_db)
+        switcher(int(input(print_menu())))
 
 
 if __name__ == '__main__':
     # We're not getting imported, run main():
-    DONOR_DB = {}  # dict that contains user/donation records
-    DONOR_DB = populate_data(DONOR_DB)
-    main(DONOR_DB)
+    donor_db = {}  # dict that contains user/donation records
+    populate_data()
+    main()
