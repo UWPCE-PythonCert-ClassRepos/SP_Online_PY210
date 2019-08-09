@@ -5,7 +5,7 @@
 
 @author: Matt Casari
 
-Link: https://uwpce-pythoncert.github.io/PythonCertDevel/eiercises/kata_fourteen.html
+Link: https://uwpce-pythoncert.github.io/PythonCertDevel/exercises/kata_fourteen.html
 
 """
 import sys
@@ -13,12 +13,8 @@ import string
 import random
 from pprint import pprint
 
-words = "I wish I may I wish I might".split()
-# words2 = "I wish I may I wish I might have the wish I wish tonight".split()
-
 BOOK_START_STR = "*** START OF THIS PROJECT GUTENBERG EBOOK"
 BOOK_END_STR = "*** END OF THIS PROJECT GUTENBERG EBOOK "
-AVERAGE_SENTENCE_LENGTH = 20
 
 
 def build_trigrams_old(words):
@@ -96,6 +92,7 @@ def format_text(lines):
             str.maketrans(string.punctuation, " " * len(string.punctuation))
         )
         line = remove_capitalization(line)
+        # print(line)
         if line:
             data.append(" ".join(line.split()))
     data = " ".join(data)
@@ -136,8 +133,16 @@ def remove_capitalization(in_data):
     """
     return_data = []
     for data in in_data.split(" "):
-        if data != "I":
-            data = data.lower()
+        # print(data)
+        data = data.lower()
+        if len(data) == 1:
+            if data == 'i':
+                data = data.capitalize()
+                # print(data)
+        if len(data) > 1:
+            if data[0] == 'i' and data[1] == '\'':
+                data = data.capitalize()
+                print(data)
         return_data.extend("".join(data))
         return_data += " "
     return "".join(return_data[:-1])
@@ -157,6 +162,14 @@ def make_words(in_data):
 
 
 def build_trigrams(words):
+    """
+    Creates the trigram keyword pairs and values.
+
+    Args:
+        words: List of words in text
+    Returns:
+        trigrams: All trigram keyword pairs and values in tuple format
+    """
     trigrams = {}
     num_words = len(words) - 1
     for i in range(len(words) - 2):
@@ -168,24 +181,32 @@ def build_trigrams(words):
     return trigrams
 
 
-def build_text(word_pairs, num_sentences=40):
+def build_text(word_pairs, num_paragraphs=40):
+    """
+    Build new text based on trigram word pairs.  Creates text with assumption of
 
-    output_text = ['\t']
 
-    for idx in range(num_sentences):
+    Args:
+        word_pairs: trigram keyword pair tuples to generate text with
+        num_paragraphs:
+
+    Return:
+        output_text: Newly generated random text
+
+    """
+    output_text = ["\t"]
+
+    for idx in range(num_paragraphs):
         # Start of Paragraph
         paragraph = []
         paragraph_length = random.randint(3, 8)
-        # output_text.append('\n\t')
 
         for sentence_cnt in range(paragraph_length):
             # Start of sentence
             sentence_length = random.randint(15, 20)
-            # print(sentence_length)
             sentence = []
 
             for word_cnt in range(sentence_length):
-                # print(word_cnt)
                 # Start of word
                 word = []
                 if word_cnt == 0:
@@ -194,28 +215,22 @@ def build_text(word_pairs, num_sentences=40):
                     sentence.append(word_pair[1])
                 else:
                     word_pair = tuple(sentence[-2:])
-                    # print(word_pair)
-                    # if word_pair not in word_pairs:
-                    #     break
-                    word_pair = word_pairs[word_pair]    
-                    # print(word_pair)
+                    word_pair = word_pairs[word_pair]
                     if not word_pair:
                         break
                     sentence.append(random.choice(list(word_pair)))
-                    # sentence.append(word_pair[1])
-                    # print(sentence)
 
             sentence = " ".join(sentence)
+            sentence = sentence[0].upper() + sentence[1:]
             sentence += "."
-            sentence = sentence.capitalize()
             paragraph.append(sentence)
 
-        output_text.append("\n\n\t".join(paragraph))
+        output_text.append("  ".join(paragraph))
 
-    output_text = " ".join(output_text)
-    # print("".join(output_text))
+    output_text = "\n\n\t".join(output_text)
 
     return "".join(output_text)
+
 
 if __name__ == "__main__":
 
@@ -243,6 +258,11 @@ if __name__ == "__main__":
     formatted_str = format_text(test_str)
     assert "welcome to another chance to test my func code" == formatted_str
 
+    # Test Format Text Function does not change I's
+    test_str = "I suspect that I did not Identify all of my bugs"
+    formatted_str = format_text(test_str)
+    assert "I suspect that I did not identify all of my bugs" == formatted_str
+
     # Test Format Text function with apostrophes
     # test_str = "He said 'Hello, this is Sam's' and left"
     # formatted_str = format_text(test_str)
@@ -265,6 +285,7 @@ if __name__ == "__main__":
     }
     assert tri_expected == build_tri_response
 
+    # Run main program to generate new text
     try:
         filename = sys.argv[1]
     except IndexError:
@@ -274,11 +295,6 @@ if __name__ == "__main__":
     words = make_words(in_data)
     word_pairs = build_trigrams(words)
     new_text = build_text(word_pairs)
-    print(new_text)
-    with open('temp.txt', 'w') as f:
+    # print(new_text)
+    with open("temp.txt", "w") as f:
         f.write(new_text)
-    # # trigrams = build_trigrams_old(words)
-    # # pprint(trigrams)
-
-    # # trigrams2 = build_trigrams(words2)
-    # # pprint(trigrams2)
