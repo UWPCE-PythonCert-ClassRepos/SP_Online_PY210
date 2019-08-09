@@ -67,7 +67,7 @@ def save_all_letters():
     for donor in donors.keys():
         letter_values = {'name': donor, 'amount': donors[donor][-1]}
         print(letter_values)
-        letter = letter_dir / (donor + '.txt')
+        letter = letter_dir / (donor.replace(' ', '_') + '.txt')
         print(letter)
         with letter.open("w") as fileio: fileio.write(letter_template.format(**letter_values))
         fileio.close()
