@@ -5,7 +5,6 @@ This is just a start -- you will need more tests!
 """
 
 import io
-import pytest
 
 # import * is often bad form, but makes it easier to test everything in a module.
 from html_render import *
@@ -38,6 +37,7 @@ def render_result(element, ind=0):
 ########
 # Step 1
 ########
+
 
 def test_init():
     """
@@ -80,7 +80,6 @@ def test_render_element():
     # make sure it's in the right order
     assert file_contents.index("this is") < file_contents.index("and this")
 
-    
     # making sure the opening and closing tags are right.
     # This breaks with Step 9 so commenting out
     # assert file_contents.startswith("<html>")
@@ -115,10 +114,10 @@ def test_render_element2():
     assert file_contents.endswith("</html>")
 
 
-
 # ########
 # Step 2
 # ########
+
 
 # tests for the new tags
 def test_html():
@@ -168,8 +167,8 @@ def test_sub_element():
     page.append("Some more plain text.")
 
     file_contents = render_result(page)
-    print(file_contents) # so we can see it if the test fails
-    
+    print(file_contents)  # so we can see it if the test fails
+
     # note: The previous tests should make sure that the tags are getting
     #       properly rendered, so we don't need to test that here.
     assert "some plain text" in file_contents
@@ -188,6 +187,9 @@ def test_sub_element():
 # Run all the Step 2 tests - don't comment them out for Step 3
 
 def test_head():
+    """ Test that the head tag renders properly.
+    """
+
     e = Head("this is some text")
     e.append("and this is some more text")
 
@@ -201,6 +203,9 @@ def test_head():
 
 
 def test_title():
+    """ Test that the title tag renders properly.
+    """
+
     e = Title("this is some text")
     e.append("and this is some more text")
 
@@ -233,6 +238,9 @@ def test_one_line_tag():
 # Run all the Step 2 & 3 tests - don't comment them out for Step 4
 
 def test_one_tag_attribute():
+    """ Test that a single tag attribute renders properly.
+    """
+
     e = Html()
     e.append(P("Here is a paragraph of text -- there could be more of them, "
                "but this is enough  to show that we can do some text",
@@ -240,10 +248,13 @@ def test_one_tag_attribute():
 
     file_contents = render_result(e).strip()
 
-    assert('<p style="text-align: center; font-style: oblique;">') in file_contents
+    assert('<p style="text-align: center; font-style: oblique;">')in file_contents
 
 
 def test_two_tag_attributes():
+    """ Test that two tag attributes render properly.
+    """
+
     e = Html()
     e.append(P("Here is a paragraph of text -- there could be more of them, "
                "but this is enough  to show that we can do some text",
@@ -259,25 +270,37 @@ def test_two_tag_attributes():
 
 # Run all the Step 2, 3, & 4 tests - don't comment them out for Step 5
 
+
 def test_hr():
+    """ Test that the hr tag renders properly.
+    """
+
     e = Html()
-    e.append(Hr())    
+    e.append(Hr())
 
     file_contents = render_result(e).strip()
 
     assert('<hr />') in file_contents
 
+
 def test_hr_with_attr():
+    """ Test that the hr tag with an attribute renders properly.
+    """
+
     e = Html()
-    e.append(Hr(display="block", title="seperator"))    
+    e.append(Hr(display="block", title="seperator"))
 
     file_contents = render_result(e).strip()
 
     assert('<hr display="block" title="seperator" />') in file_contents
 
+
 def test_br():
+    """ Test that the br tag renders properly.
+    """
+
     e = Html()
-    e.append(Br())    
+    e.append(Br())
 
     file_contents = render_result(e).strip()
 
@@ -290,14 +313,22 @@ def test_br():
 
 # Run all the Step 2, 3, 4, & 5 tests - don't comment them out for Step 6
 
+def test_init_a():
+    """
+    This only tests that it can be initialized with and without
+    some content -- but it's a start
+    """
+    a = A("https://cat-bounce.com/", "CAT BOUNCE!")
+
+
 def test_a():
     e = Html()
-    e.append(A("http://google.com", "link to google"))    
+    e.append(A("http://google.com", "link to google"))
 
     file_contents = render_result(e).strip()
 
     assert('<a href="http://google.com">link to google</a>') in file_contents
-    
+
 
 ########
 # Step 7
@@ -305,11 +336,24 @@ def test_a():
 
 # Run all the Step 2, 3, 4, 5, & 6 tests - don't comment them out for Step 7
 
+def test_init_h():
+    """
+    This only tests that it can be initialized with and without
+    some content -- but it's a start
+    """
+    h = H(2)
+
+    h = H(3, "some text", some_kwarg="value")
+
+
 def test_h():
+    """ Test that the h tag renders properly.
+    """
+
     e = Html()
     e.append(H(1, "This is level 1 header"))
     e.append(H(2, "This is level 2 header"))
-    e.append(H(3, "This is level 3 header"))    
+    e.append(H(3, "This is level 3 header"))
 
     file_contents = render_result(e).strip()
 
@@ -319,9 +363,12 @@ def test_h():
 
 
 def test_ul():
+    """ Test that the ul tag renders properly.
+    """
+
     e = Html()
     e.append(Ul(id="AList", style="line-height:150%"))
-    
+
     file_contents = render_result(e).strip()
 
     assert('<ul id="AList" style="line-height:150%">') in file_contents
@@ -329,6 +376,9 @@ def test_ul():
 
 
 def test_li():
+    """ Test that the li tag renders properly.
+    """
+
     e = Html()
     e.append(Li("An item in a list"))
     
@@ -338,10 +388,13 @@ def test_li():
 
     assert lines[2] == (" " * e.indent) + '<li>'
     assert lines[3] == (" " * 2 * e.indent) + 'An item in a list'
-    assert lines[4] == (" " * e.indent) + '</li>'s
+    assert lines[4] == (" " * e.indent) + '</li>'
 
 
 def test_li_with_attr():
+    """ Test that the li tag with an attribute renders properly.
+    """
+
     e = Html()
     e.append(Li("An item in a list",  style="color: blue"))
 
@@ -361,13 +414,20 @@ def test_li_with_attr():
 # Run all the Step 2, 3, 4, 5, 6, 7 tests - don't comment them out for Step 8
 
 def test_doctype_tag():
+    """ Test that the doctype tag gets rendered properly.
+    """
+
     e = Html()
 
     file_contents = render_result(e).strip()
 
     assert file_contents.startswith('<!DOCTYPE html>')
 
+
 def test_meta():
+    """ Test that the meta tag renders properly.
+    """
+
     e = Html()
     head = Head()
     e.append(head)
@@ -396,7 +456,7 @@ def test_meta():
 #     # file_contents = render_result(html, ind="   ").rstrip()  #remove the end newline
 #     # Changed to this:
 #     file_contents = render_result(html, ind=3).rstrip()  #remove the end newline
-# 
+
 #     print(file_contents)
 #     lines = file_contents.split("\n")
 #     assert lines[0].startswith("   <")
@@ -413,7 +473,7 @@ def test_indent():
     # Following doesn't work since my Element.indent is an int
     # file_contents = render_result(html, ind="   ").rstrip()  #remove the end newline
     # Changed to this:
-    file_contents = render_result(html, ind=3).rstrip()  #remove the end newline
+    file_contents = render_result(html, ind=3).rstrip()  # remove the end newline
 
     print(file_contents)
     lines = file_contents.split("\n")
@@ -455,7 +515,7 @@ def test_multiple_indent():
         # assert lines[i + 1].startswith(i * Element.indent + "<")
         # Changed to this:
         assert lines[i + 1].startswith(i * (" " * Element.indent) + "<")
-    
+
     # Following doesn't work since my Element.indent is an int
     # assert lines[4].startswith(3 * Element.indent + "some")
     # Changed to this:
@@ -470,7 +530,7 @@ def test_element_indent1():
 
     <html>
         this is some text
-    <\html>
+    </html>
 
     More complex indentation should be tested later.
     """
@@ -490,6 +550,47 @@ def test_element_indent1():
     # by the class attribute: "indent"
     # Since I used an int for Element.indent the following doesn't work
     # assert lines[1].startswith(Element.indent + "thi")
-    assert lines[1].startswith((" " * Element.indent) + "thi") # changed previous line to this
+    assert lines[1].startswith((" " * Element.indent) + "thi")  # changed previous line to this
     assert lines[2] == "</html>"
     assert file_contents.endswith("</html>")
+
+
+def test_element_indent2():
+    """
+    Tests two levels of element indents
+
+    we are expecting to to look like this:
+
+    <html>
+        <b>
+            this is some text
+        </b>
+    </html>
+
+    """
+    e = Element()
+    b = Body("this is some text")
+    e.append(b)
+
+    # This uses the render_results utility above
+    file_contents = render_result(e).strip()
+
+    # making sure the content got in there.
+    assert("this is some text") in file_contents
+    print(file_contents)
+
+    # break into lines to check indentation
+    lines = file_contents.split('\n')
+    # making sure the opening and closing tags are right.
+    assert lines[0] == "<html>"
+    assert lines[-1] == "</html>"
+    # Make sure the 2nd level opening and closing tags are right.
+    # These lines should be indented by the amount specified
+    # by the class attribute: "indent"
+    assert lines[1] == (" " * Element.indent) + "<body>"
+    assert lines[-2] == (" " * Element.indent) + "</body>"
+
+    # Make sure the 3rd level indent is right.
+    # This line should be indented by twice the amount specified
+    # by the class attribute: "indent"
+    assert lines[2] == (" " * 2 * Element.indent) + "this is some text"
