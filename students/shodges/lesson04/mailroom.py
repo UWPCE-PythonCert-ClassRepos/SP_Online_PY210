@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+import os, tempfile
+
 donors = {'William Henry Harrison' : [806.25, 423.10],
           'James K. Polk' : [37.67, 127.65, 1004.29],
           'Martin van Buren' : [126.47],
@@ -57,7 +59,12 @@ def generate_report():
     print('')
 
 def save_all_letters():
-    return
+    letter_dir = input('Please specify a directory to save letters in (or leave blank to use temp directory): ')
+    if not os.path.isdir(letter_dir):
+        print('{} is an invalid directory; using {}'.format(letter_dir, tempfile.gettempdir()))
+        letter_dir = tempfile.gettempdir()
+    for donor in donors.keys():
+        continue
 
 def exit_mailroom():
     return 1
