@@ -64,7 +64,10 @@ def save_all_letters():
         print('{} is an invalid directory; using {}'.format(letter_dir, tempfile.gettempdir()))
         letter_dir = tempfile.gettempdir()
     for donor in donors.keys():
-        continue
+        letter_values = {'name': donor, 'amount': donors[donor][-1]}
+        letterio = open(letter_dir + "/" + donor + ".txt", "w")
+        letterio.write(letter_template.format(**letter_values))
+        letterio.close()
 
 def exit_mailroom():
     return 1
