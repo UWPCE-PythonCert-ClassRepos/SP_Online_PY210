@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-donors = [('William Henry Harrison', [806.25, 423.10]),
-          ('James K. Polk', [37.67, 127.65, 1004.29]),
-          ('Martin van Buren', [126.47]),
-          ('Millard Fillmore', [476.21, 2376.21]),
-          ('Chester A. Arthur', [10236.91])]
+donors = {'William Henry Harrison' : [806.25, 423.10],
+          'James K. Polk' : [37.67, 127.65, 1004.29],
+          'Martin van Buren' : [126.47],
+          'Millard Fillmore' : [476.21, 2376.21],
+          'Chester A. Arthur' : [10236.91]}
 
 def send_thank_you():
     while True:
@@ -11,19 +11,13 @@ def send_thank_you():
         if donor == 'quit':
             break
         elif donor == 'list':
-            for item in donors:
-                print(item[0])
+            for item in donors.keys():
+                print(item)
         else:
-            for index, item in enumerate(donors):
-                if item[0] == donor:
-                    donorindex = index
-                    break
-            else:
-                donors.append((donor, []))
-                donorindex = len(donors) - 1
+            if not donor in donors.keys(): donors[donor] = []
             amount = input('Please enter a donation amount: ')
             try:
-                donors[donorindex][1].append(float(amount))
+                donors[donor].append(float(amount))
             except ValueError:
                 break
             print("""
@@ -48,11 +42,11 @@ def generate_report():
     print('{:24} | {:10} | {:10} | {:12}'.format('Donor Name', 'Total Given', 'Num Gifts', 'Average Gift'))
     print('-'*68)
     report_output = []
-    for item in donors:
+    for donor in donors.keys():
         total = 0
-        for amount in item[1]:
+        for amount in donors[donor]:
             total += amount
-        report_output.append([item[0], len(item[1]), total])
+        report_output.append([donor, len(donors[donor]), total])
     report_output.sort(key = lambda x: x[2], reverse = True)
     for item in report_output:
         print('{:24}  ${:10.2f}   {:10d}   ${:12.2f}'.format(item[0], item[2], item[1], item[2]/item[1]))
