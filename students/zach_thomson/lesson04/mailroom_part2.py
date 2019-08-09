@@ -38,11 +38,14 @@ def thank_you():
 def number_donations(x):
     return len(x)
 
+
 def average_gift(x):
     return sum(x)/len(x)
 
+
 def second_sort(elem):
     return elem[1]
+
 
 def create_table(d):
     """takes the donor database and sorts on total given. also makes a summary
@@ -53,6 +56,7 @@ def create_table(d):
         report_table.append(new_entry)
     report_table.sort(key = second_sort, reverse = True)
     return report_table
+
 
 def create_report():
     '''formats create_table into the create_report format'''
@@ -67,19 +71,18 @@ def create_report():
 #make a function to send letters to all donors
 FORM_LETTER = "Dear {},\n\n\tThank you for donating ${:.2f}!\n\n\tThe kids will greatly appreciate it.\n\n\tSincerely,\n\t  -Our Team"
 
+
 def send_letters():
     for key in donor_db:
         with open(str(key) + '.txt', 'w') as f:
             f.write(FORM_LETTER.format(key, sum(donor_db[key])))
+
 
 #make a function to exit the program
 def exit_program():
     print('Have a nice day!')
     sys.exit() # exit the interactive script
 
-def not_valid_option(x):
-    if x != 1 or 2 or 3:
-        print('Not a valid option')
 
 switch_dict = {1: thank_you,
                2: create_report,
