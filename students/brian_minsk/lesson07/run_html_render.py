@@ -193,8 +193,7 @@ def render_page(page, filename, indent=None):
 # Step 8 and 9
 ##############
 
-page = hr.Html()
-
+page = hr.Html(indent=3)
 
 head = hr.Head()
 head.append( hr.Meta(charset="UTF-8"))
