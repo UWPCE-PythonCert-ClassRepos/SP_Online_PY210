@@ -57,20 +57,24 @@ def generate_report():
         print('{:24}  ${:10.2f}   {:10d}   ${:12.2f}'.format(item[0], item[2], item[1], item[2]/item[1]))
     print('')
 
+def save_all_letters():
+    return
+
 def exit_mailroom():
     return 1
 
 if __name__ == '__main__':
-    menu_dispatch = {1: send_thank_you, 2: generate_report, 4: exit_mailroom}
+    menu_dispatch = {1: send_thank_you, 2: generate_report, 3:save_all_letters, 4: exit_mailroom}
     while True:
         print("""Mailroom -- Main Menu
 
 Options:
   1 Send a Thank You
   2 Generate a Report
+  3 Send letters to all donors
   4 Quit
 """)
-        option = input('Please select an option (1, 2, 4): ')
+        option = input('Please select an option (1, 2, 3, 4): ')
         try:
             if menu_dispatch.get(int(option))() == 1: break # breaking out of the loop /appears/ to be the cleanest way to do this, if I dispatch to quit() the loop is still repeating
         except:
