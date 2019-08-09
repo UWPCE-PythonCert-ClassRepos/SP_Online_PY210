@@ -37,7 +37,7 @@ def build_text(word_dict):
         else:
             text.append(word_dict[key][random.randint(0, len(word_dict[key])-1)])
         i += 1
-    return " ".join(text)
+    return ('...' + " ".join(text) + '...')
 
 def make_words(text):
     clean_text = ""

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 '''
-py210: Mod2: FizzBuzz
+py210: Mod2: GridPrinter
 
 '''
 

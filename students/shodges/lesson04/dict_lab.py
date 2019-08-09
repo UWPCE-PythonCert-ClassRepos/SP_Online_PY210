@@ -24,18 +24,23 @@ for key, value in d1.items():
 print(d2)
 
 # sets 1
-s2 = []
-s3 = []
-s4 = []
+s2 = set()
+s3 = set()
+s4 = set()
 for n in range(0,21):
-    if n % 2 == 0: s2.append(n)
-    if n % 3 == 0: s3.append(n)
-    if n % 4 == 0: s4.append(n)
+    if n % 2 == 0: s2.add(n)
+    if n % 3 == 0: s3.add(n)
+    if n % 4 == 0: s4.add(n)
 print(s2)
 print(s3)
 print(s4)
 
-print('s3 is subset of s2? ' + str(set(s3).issubset(s2)))
-print('s4 is subset of s2? ' + str(set(s4).issubset(s2)))
+print('s3 is subset of s2? ' + str(s3.issubset(s2)))
+print('s4 is subset of s2? ' + str(s4.issubset(s2)))
 
 # sets 2
+pyset = set("Python")
+pyset.add("i")
+maraset = set("marathon")
+print(pyset.union(maraset))
+print(pyset.intersection(maraset))
