@@ -66,6 +66,6 @@ Options:
 """)
         option = input('Please select an option (1, 2, 3): ')
         try:
-            menu_dispatch.get(int(option))()
+            menu_dispatch.get(int(option))() # turns out you can't dispatch to quit -- need to fix this later
         except:
             continue
