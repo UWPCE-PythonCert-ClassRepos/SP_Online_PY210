@@ -49,14 +49,14 @@ def send_thank_you():
 def generate_report():
     print('{:24} | {:10} | {:10} | {:12}'.format('Donor Name', 'Total Given', 'Num Gifts', 'Average Gift'))
     print('-'*68)
-    report_output = []
+    donor_report = []
     for donor in donors.keys():
         total = 0
         for amount in donors[donor]:
             total += amount
-        report_output.append([donor, len(donors[donor]), total])
-    report_output.sort(key = lambda x: x[2], reverse = True)
-    for item in report_output:
+        donor_report.append([donor, len(donors[donor]), total])
+    donor_report.sort(key = lambda x: x[2], reverse = True)
+    for item in donor_report:
         print('{:24}  ${:10.2f}   {:10d}   ${:12.2f}'.format(item[0], item[2], item[1], item[2]/item[1]))
     print('')
 
