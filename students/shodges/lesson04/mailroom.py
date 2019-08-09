@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import tempfile
 from pathlib import Path
+from datetime import datetime
 
 donors = {'William Henry Harrison' : [806.25, 423.10],
           'James K. Polk' : [37.67, 127.65, 1004.29],
@@ -66,16 +67,22 @@ def save_all_letters():
     if not letter_dir.is_dir():
         print('{} is an invalid directory; using {}'.format(letter_dir, tempfile.gettempdir()))
         letter_dir = Path(tempfile.gettempdir())
+    letter_dir = letter_dir / ('{:%Y%m%d-%H%M}'.format(datetime.now()))
+    try:
+        letter_dir.mkdir(exist_ok=True)
+    except:
+        print('Error creating {}'.format(letter_dir.absolute()))
+        return
+
     for donor in donors.keys():
         total = 0
         for amount in donors[donor]: total += amount
         letter_values = {'name': donor, 'amount': donors[donor][-1], 'total': total}
-        print(letter_values)
         letter = letter_dir / (donor.replace(' ', '_') + '.txt')
-        print(letter)
         with letter.open("w") as fileio: fileio.write(letter_template.format(**letter_values))
         fileio.close()
     print('Saved letters in {}'.format(letter_dir.absolute()))
+
 def exit_mailroom():
     return 1
 
