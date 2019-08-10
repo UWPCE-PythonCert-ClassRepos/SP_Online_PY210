@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import random
 from pathlib import Path
 
 def build_trigrams(words):
@@ -14,3 +15,10 @@ if __name__ == '__main__':
     textfile = Path("./sherlock.txt")
     with textfile.open() as fileio: words = fileio.read().split()
     trigrams = build_trigrams(words)
+
+    literature = "It is"
+
+    for i in range(0,210):
+        next = trigrams[tuple(literature.split()[-2:])]
+        literature = ' '.join((literature, random.choice(next)))
+    print(literature)
