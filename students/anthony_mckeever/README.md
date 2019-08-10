@@ -21,11 +21,18 @@ Each course lesson will contain its own folder.  The folders will use the naming
         |   |-- exercise_1      <Content for Lesson 2 Exercise 1 - Grid Printer>
         |   |-- exercise_2      <Content for Lesson 2 Exercise 2 - FizzBuzz>
         |   `-- exercise_3      <Content for Lesson 2 Exercise 3 - Fibonacci Series>
-        `-- lesson3             <Content for Lesson 3>
-            |-- assignment_1    <Content for Lesson 3 Assigment 1 - Mail Room>
-            |-- exercise_1      <Content for Lesson 3 Exercise 1 - Slice Lab>
-            |-- exercise_2      <Content for Lesson 3 Exercise 2 - StrFormat Lab>
-            `-- exercise_3      <Content for Lesson 3 Exercise 3 - List Lab>
+        |-- lesson3             <Content for Lesson 3>
+        |   |-- assignment_1    <Content for Lesson 3 Assigment 1 - Mail Room>
+        |   |-- exercise_1      <Content for Lesson 3 Exercise 1 - Slice Lab>
+        |   |-- exercise_2      <Content for Lesson 3 Exercise 2 - StrFormat Lab>
+        |   `-- exercise_3      <Content for Lesson 3 Exercise 3 - List Lab>
+        `-- lesson4             <Content for Lesson 4>
+            |-- assignment_1    <Content for Lesson 4 Assigment 1 - Mail Room>
+            |-- exercise_1      <Content for Lesson 4 Exercise 1 - Dictionary Lab>
+            |-- exercise_2      <Content for Lesson 4 Exercise 2 - Files Lab>
+            |   `-- test_files  <A collection of files for testing the various file labs with>
+            `-- exercise_3      <Content for Lesson 4 Exercise 3 - Trigrams>
+                `-- test_files  <A collection of files for testing the trigrams with>
 ```
 
 ## Branching
