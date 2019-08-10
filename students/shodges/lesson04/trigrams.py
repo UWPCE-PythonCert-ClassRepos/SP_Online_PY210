@@ -8,6 +8,7 @@ def build_trigrams(words):
         if k + 2 < len(words):
             if not (w, words[k+1]) in trigrams.keys(): trigrams[(w, words[k+1])] = []
             trigrams[(w, words[k+1])].append(words[k+2])
+    return trigrams
 
 if __name__ == '__main__':
     textfile = Path("./sherlock.txt")
