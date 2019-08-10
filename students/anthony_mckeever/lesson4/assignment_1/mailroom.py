@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 """
 Programming In Python - Lesson 4 Assignment 1: Mailroom Part 2
 Code Poet: Anthony McKeever
@@ -7,6 +9,7 @@ End Date: 08/07/2019
 import os
 import sys
 import tempfile
+
 
 def main():
     """
@@ -81,8 +84,7 @@ def print_options(show_opts):
             print("\t" + opts_string + value[0])
             skip.update(skippable)
             
-            
-                
+
 def key_from_lower(user_choice, keys):
     """
     Return the user's lower case input to a properly cased dictionary key.
@@ -90,13 +92,14 @@ def key_from_lower(user_choice, keys):
     :user_choice:   The choice the user made at a menu.
     :keys:          The keys from the dictionary the user is choosing from.
     """
-    lower_keys = {k.lower() : k for k in keys}
+    lower_keys = {k.lower(): k for k in keys}
     return lower_keys[user_choice] if user_choice in lower_keys.keys() else None
 
 
 def get_opts_string(key, dictionary):
     """
-    Return a string for multiple keys where the value the key represents is duplicated in the dictionary and the keys that were combined in a list.
+    Return a string for multiple keys where the value the key represents is duplicated in the dictionary and the keys
+    that were combined in a list.
     
     :key:   The key in the dictionary to find duplicate values of.
     """
@@ -124,7 +127,8 @@ def send_thanks():
     """
     Initializes the menu system to prompt the acceptance of a donation and creation of a thank you letter.
     """
-    menu_system(list_dict, "\n\nLets send thanks!", "\nWho do you want to thank? > ", include_main=True, include_donors=True, invalid_opt=accept_donation)
+    menu_system(list_dict, "\n\nLets send thanks!", "\nWho do you want to thank? > ", include_main=True,
+                include_donors=True, invalid_opt=accept_donation)
 
 
 def accept_donation(donor_name):
@@ -176,7 +180,7 @@ def send__to_all():
         email = get_email(k, v[0][-1])
         write_file = open(file_path, "w")
         write_file.write(email)
-        write_file.close
+        write_file.close()
     
     print(f"Donor letters have been written to: {write_dir}")
 
@@ -223,6 +227,7 @@ def main_or_exit(selection):
 
     return False
 
+
 def get_email(name, donation):
     """
     Print the thank you email to the console.
@@ -258,7 +263,7 @@ def get_donor(user_choice):
         if user_choice.lower() == donor.lower():
             return donor_dict[donor]
     
-    donor_dict.update({user_choice : ([], accept_donation)})
+    donor_dict.update({user_choice: ([], accept_donation)})
     return donor_dict[user_choice]
 
 
@@ -352,36 +357,37 @@ def get_lengths(seq, header):
     return [name_len, total_len, count_len, avg_len]
 
 
-main_menu_dict = { "Send A Thank You" :           ("\tGet prepopulated email template to thank a donor.", send_thanks),
-                   "Create a Report" :            ("\t\tView a list of all donors and their cumulative donations.", create_report),
-                   "Send Letters to All" :        ("\tGenerate a letter for every donor.", send__to_all) }
+main_menu_dict = {"Send A Thank You":    ("\tGet prepopulated email template to thank a donor.", send_thanks),
+                  "Create a Report":     ("\t\tView a list of all donors and their cumulative donations.", create_report),
+                  "Send Letters to All": ("\tGenerate a letter for every donor.", send__to_all)
+                  }
 
 
-main_dict = { "main" :   ("\tReturn to the main menu.  Can be used at any input prompt.", None),
-              "return" : ("\tReturn to the main menu.  Can be used at any input prompt.", None),
-              "stop" :   ("\tReturn to the main menu.  Can be used at any input prompt.", None)
-            }
+main_dict = {"main":   ("\tReturn to the main menu.  Can be used at any input prompt.", None),
+             "return": ("\tReturn to the main menu.  Can be used at any input prompt.", None),
+             "stop":   ("\tReturn to the main menu.  Can be used at any input prompt.", None)
+             }
 
 
-quit_dict = { "exit" : ("\t\tQuit the script.  Can be used at any input prompt.", sys.exit),
-              "end" :  ("\t\tQuit the script.  Can be used at any input prompt.", sys.exit),
-              "quit" : ("\t\tQuit the script.  Can be used at any input prompt.", sys.exit),
-            }
+quit_dict = {"exit": ("\t\tQuit the script.  Can be used at any input prompt.", sys.exit),
+             "end":  ("\t\tQuit the script.  Can be used at any input prompt.", sys.exit),
+             "quit": ("\t\tQuit the script.  Can be used at any input prompt.", sys.exit),
+             }
 
             
-list_dict = { "list" : ("\t\tPrint a list of available donors.", print_donors),
-              "l" :    ("\t\tPrint a list of available donors.", print_donors),
-              "ls" :   ("\t\tPrint a list of available donors.", print_donors)
-            }
+list_dict = {"list": ("\t\tPrint a list of available donors.", print_donors),
+             "l":    ("\t\tPrint a list of available donors.", print_donors),
+             "ls":   ("\t\tPrint a list of available donors.", print_donors)
+             }
 
             
 donor_dict = {"Cresenta Starchelle": ([99.99, 6000.00, 10345.23, 29.99], get_donor),
-               "Delilah Matsuka"    : ([199.99, 299.99, 2100.00]        , get_donor),
-               "Astra Matsume"      : ([599.99]                         , get_donor),
-               "Kima Metoyo"        : ([3600.00, 1200.00]               , get_donor),
-               "Kayomi Matsuka"     : ([0.01]                           , get_donor),
-               "Katie Starchelle"   : ([600.00]                         , get_donor)
-             }
+              "Delilah Matsuka":     ([199.99, 299.99, 2100.00],         get_donor),
+              "Astra Matsume":       ([599.99],                          get_donor),
+              "Kima Metoyo":         ([3600.00, 1200.00],                get_donor),
+              "Kayomi Matsuka":      ([0.01],                            get_donor),
+              "Katie Starchelle":    ([600.00],                          get_donor)
+              }
 
 
 if __name__ == "__main__":

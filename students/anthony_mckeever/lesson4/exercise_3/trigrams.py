@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 """
 Programming In Python - Lesson 4 Exercise 3: Trigrams
 Code Poet: Anthony McKeever
@@ -59,7 +61,7 @@ def get_trigrams(content):
         follower = words[i + 2]
 
         if pair not in trigrams.keys():
-            entry = {pair : []}
+            entry = {pair: []}
             trigrams.update(entry)
 
         trigrams[pair].append(follower)
@@ -105,7 +107,7 @@ def build_text(trigrams, max_words):
             word = word.capitalize()
             capitalize_next = False
                     
-        # If we select an period, question mark, or exclaimation point, capitalize the next word.
+        # If we select an period, question mark, or exclamation point, capitalize the next word.
         capitalize_next = p in punctuation[:4] and puctuate
 
         output.append(word)

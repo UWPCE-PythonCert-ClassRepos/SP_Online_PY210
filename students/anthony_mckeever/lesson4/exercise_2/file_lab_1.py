@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 """
 Programming In Python - Lesson 4 Exercise 2 (Part 1.1): Paths and File Processing (Part 1)
 Code Poet: Anthony McKeever
