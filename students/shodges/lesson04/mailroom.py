@@ -28,14 +28,14 @@ def send_thank_you():
             for item in donors.keys():
                 print(item)
         else:
-            if not donor in donors.keys(): donors[donor] = []
+            if not donor in donors.keys():
+                donors[donor] = []
             amount = input('Please enter a donation amount: ')
             try:
                 donors[donor].append(float(amount))
             except ValueError:
                 break
-            total = 0
-            for gift in donors[donor]: total += gift
+            total = sum(donors[donor])
             letter_values = {'name': donor, 'amount': float(amount), 'total': total}
             print(("""
 
@@ -52,9 +52,7 @@ def generate_report():
     print('-'*68)
     donor_report = [] # not a ton of value in converting this to a list.  it made things a bit more complicated...
     for donor in donors.keys():
-        total = 0
-        for amount in donors[donor]:
-            total += amount
+        total = sum(donors[donor])
         donor_report.append([donor, len(donors[donor]), total])
     donor_report.sort(key = lambda x: x[2], reverse = True) # ...for instance here, where sorting the dict with a lambda function in sorted() was still possible, but then I'd have to cast the resultant list back to a dict
     for item in donor_report:
@@ -72,22 +70,18 @@ def save_all_letters():
         letter_dir.mkdir(exist_ok=True)
     except:
         print('Error creating {}'.format(letter_dir.absolute()))
-        return
 
     for donor in donors.keys():
         total = 0
         for amount in donors[donor]: total += amount
         letter_values = {'name': donor, 'amount': donors[donor][-1], 'total': total}
         letter = letter_dir / (donor.replace(' ', '_') + '.txt')
-        with letter.open("w") as fileio: fileio.write(letter_template.format(**letter_values))
-        fileio.close()
+        with letter.open("w") as fileio:
+            fileio.write(letter_template.format(**letter_values))
     print('Saved letters in {}'.format(letter_dir.absolute()))
 
-def exit_mailroom():
-    return 1
-
 if __name__ == '__main__':
-    menu_dispatch = {1: send_thank_you, 2: generate_report, 3:save_all_letters, 4: exit_mailroom}
+    menu_dispatch = {1: send_thank_you, 2: generate_report, 3:save_all_letters, 4: quit}
     while True:
         print("""Mailroom -- Main Menu
 
@@ -100,4 +94,4 @@ Options:
         option = input('Please select an option (1, 2, 3, 4): ')
         if option.isnumeric():
             if int(option) in menu_dispatch.keys():
-                if menu_dispatch.get(int(option))() == 1: break # breaking out of the loop /appears/ to be the cleanest way to do this, if I dispatch to quit() the loop is still repeating
+                menu_dispatch.get(int(option))()
