@@ -1,15 +1,10 @@
-#!/usr/bin/python
-
 # lesson01
 # Exception exercise
 # Chuck Stevens :: CCSt130
 
-# need for exceptions
-# import sys
-
 #NameError
 
-def nameErr():
+def name_err():
 
     tee = 10
     #hee = 20
@@ -24,12 +19,12 @@ def nameErr():
     finally:
         print("\nThat's all I have to say about that.")        
 
-nameErr()
+name_err()
 
 '''
 #TypeError
 
-def typeErr():
+def type_err():
 
     tee = 50
     # hee = 100
@@ -44,13 +39,13 @@ def typeErr():
     finally:
         print("\nThat's all I have to say about that.")        
 
-typeErr()
+type_err()
 '''
 
 '''
 #SyntaxError
 
-def syntaxErr():
+def syntax_err():
 
     tee = 200
     hee = 400
@@ -66,13 +61,13 @@ def syntaxErr():
     finally:
         print("\nThat's all I have to say about that.")        
 
-syntaxErr()
+syntax_err()
 '''
 
 '''
 #AttributeError
 
-def attribErr():
+def attrib_err():
 
     tee = 300
     hee = 500
@@ -87,7 +82,7 @@ def attribErr():
     finally:
         print("\nThat's all I have to say about that.")        
 
-attribErr()
+attrib_err()
 '''
 
 
