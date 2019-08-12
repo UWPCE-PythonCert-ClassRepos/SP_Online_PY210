@@ -1,49 +1,61 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-""" Lesson 3, Excercise 4
+""" Lesson 4, Exercise 3
 
 @author: Matt Casari
 
-Link: https://uwpce-pythoncert.github.io/PythonCertDevel/exercises/mailroom-part1.html
+Link: https://uwpce-pythoncert.github.io/PythonCertDevel/exercises/mailroom-part2.html
 
 Description:
-    The Program: Part 1
-    Write a small command-line script called mailroom.py. This script should be
-    executable. The script should accomplish the following goals:
+    The Program: Part 2
+    Update the program from Lesson 3 (Part 1) by using dicts where appropriate.
 
-    It should have a data structure that holds a list of your donors and a 
-    history of the amounts they have donated. This structure should be 
-    populated at first with at least five donors, with between 1 and 3 
-    donations each. You can store that data structure in the global namespace.
-    The script should prompt the user (you) to choose from a menu of 3 
-    actions: “Send a Thank You”, “Create a Report” or “quit”.    
+    Also, add file writing.
 
 """
 
 # data list structure is [Name, [Amount1, Amount 2,...], Sum, Len, Average]
-data = [ ["Neil Armstrong", [15000.00, 15000.00],[],[],[]],
-["Buzz Aldrin", [23021.10, 25020.30, 28999.29],[],[],[]],
-["Sally Ride", [42917.42, 38281.28],[],[],[]],
-["Al Shepard", [2387.00,  2321.42, 3700.00],[],[],[]],
-["Alan Bean", [28477.13, 727.1],[],[],[]],
-["Chris Hadfield", [17325.42, 13823.83, 0.99],[],[],[]]]
+DONORS = {}
 
 def prompt_user():
+
+    switch_func_dict = {1: thank_you_email,
+                        2: generate_report,
+                        3: create_file,
+                        4: quit_program}
+
     """ Prompts the user for menu option """
     PROMPT_TEXT = ("\nSelect an option:\n"
-    "1. Send a Thank You\n"
-    "2. Create a Report\n"
-    "3. Quit\n"
+    "1. Send a Thank You to a single donor.\n"
+    "2. Create a Report.\n"
+    "3. Send letters to all donors.\n"
+    "4. Quit\n"
     "> ")
 
+
+
     result = input(PROMPT_TEXT)
-    if result.isnumeric():
-        result = int(result)
-        if 0 < result < 4:
-            return result
-    else:
-        return False
+    result = int(result)
+    switch_func_dict.get(result)()
+    # if result.isnumeric():
+    #     result = int(result)
+        # if 0 < result < len(PROMPT_TEXT)-2:
+        #     print(result)
+        #     switch_func_dict.get(result)()
+    # if result.isnumeric():
+    #     result = int(result)
+    #     if 0 < result < 4:
+    #         return result
+    # else:
+    #     return False
+def initialize_donors():
+    DONORS['Neil Armstrong'] =  [15000.00, 15000.00]
+    DONORS['Buzz Aldrin'] = [23021.10, 25020.30, 28999.29]
+    DONORS['Sally Ride'] = [42917.42, 38281.28]
+    DONORS['Al Shepard'] = [2387.00,  2321.42, 3700.00]
+    DONORS['Alan Bean'] = [28477.13, 727.1]
+    DONORS['Chris Hadfield'] = [17325.42, 13823.83, 0.99]
 
 def calculate_stats(donor):
     """ Calculates the sum, average and number of donations for a donor """
@@ -57,7 +69,18 @@ def sort_donors_by_total(donors):
     """ Function used to sort donors by total contributions """
     return donors[2]
 
-def generate_report(values):
+def quit_program():
+    """ 
+    Exits out of program
+    """
+    print("Exiting Program")
+    quit()
+
+def create_file():
+    pass
+
+def generate_report():
+    values = DONORS
     """ Generates a formatted report of donor names, total donation, # of donations and average donation """
     print("\n")
     column_donor_length = 0
@@ -95,22 +118,31 @@ def thank_you_email(name, amount):
 
     print(txt)
 
-def add_donor(values):
+def add_donor():
+
+
+    # trigrams = {}
+    # num_words = len(words) - 1
+    # for i in range(len(words) - 2):
+    #     pair = tuple(words[i : i + 2])
+    #     follower = words[i + 2]
+    #     trigrams.setdefault(pair, [])
+    #     trigrams[pair].append(follower)
     """ Adds new donor or new donation to existing donor """
     valid_donor = False
     while not valid_donor:
-        donor = input("Enter Full Name (or list): ")
+        donor = input("Enter Full Name ([First Name] [Last Name])(or list): ")
 
-        for idx, value in enumerate(values):
+        for idx, value in enumerate(DONORS):
             if value[0] == donor:
                 valid_donor = True
                 break
         else:
             if donor == "list":
-                print_donor_list(values)
+                print_donor_list(DONORS)
                 continue
             else:   
-                values.append([donor,[]])
+                DONORS.append([donor,[]])
                 
                 idx += 1
                 valid_donor = True
@@ -132,19 +164,20 @@ def add_donor(values):
     return values
 
 def main():
+    initialize_donors()
     """ Main Run Loop """
     while True:
         option = prompt_user()
 
-        if option == 1:
-            add_donor(data)
-        elif option == 2:
-            generate_report(data)
-        elif option == 3:
-            print("\nExiting Program")
-            break
-        else:
-            print("\nPlease select a valid option")
+        # if option == 1:
+        #     add_donor(data)
+        # elif option == 2:
+        #     generate_report(data)
+        # elif option == 3:
+        #     print("\nExiting Program")
+        #     break
+        # else:
+        #     print("\nPlease select a valid option")
     
 
 if __name__ == "__main__":
