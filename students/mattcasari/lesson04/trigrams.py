@@ -100,6 +100,7 @@ def format_text(lines):
     data = data.replace("  ", " ")
     return data
 
+
 def remove_punctuation(line):
     """
     Remove punctuation, but leave apostrophes for contraction words.
@@ -110,28 +111,29 @@ def remove_punctuation(line):
         line: Formatted text with punctuation removed
 
     """
-    punctuation = "/:;~=+_*&^%$#@!?.,-()\""
-    translation = line.maketrans(punctuation, " "*len(punctuation))
+    punctuation = '/:;~=+_*&^%$#@!?.,-()"'
+    translation = line.maketrans(punctuation, " " * len(punctuation))
     line = line.translate(translation)
 
     line2 = line.split()
     result = []
     for l in line2:
-        if l[0] == '\'' or l[-1] == '\'':
+        if l[0] == "'" or l[-1] == "'":
             if len(l) > 1:
-                if l[0] == '\'':
+                if l[0] == "'":
                     l = l[1:]
-                elif l[-1] == '\'':
+                elif l[-1] == "'":
                     l = l[:-1]
                 else:
                     l = []
                 result.append(l)
         else:
             result.append(l)
-        
+
     line = " ".join(result)
 
     return line
+
 
 def read_in_data(filename, start_str="", end_str=""):
     """
@@ -168,10 +170,10 @@ def remove_capitalization(in_data):
     for data in in_data.split(" "):
         data = data.lower()
         if len(data) == 1:
-            if data == 'i':
+            if data == "i":
                 data = data.capitalize()
         if len(data) > 1:
-            if data[0] == 'i' and data[1] == '\'':
+            if data[0] == "i" and data[1] == "'":
                 data = data.capitalize()
         return_data.extend("".join(data))
         return_data += " "
@@ -258,7 +260,6 @@ def build_text(word_pairs, num_paragraphs=40):
         temp = "  ".join(paragraph)
         temp = textwrap.wrap(temp)
         output_text.append("\n".join(paragraph))
-
 
     output_text = "\n\n\t".join(output_text)
     return "".join(output_text)
