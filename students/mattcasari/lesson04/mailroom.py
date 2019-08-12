@@ -30,7 +30,7 @@ PROMPT_TEXT = (
 def prompt_user():
 
     switch_func_dict = {
-        1: thank_you_email,
+        1: add_donor,
         2: generate_report,
         3: create_file,
         4: quit_program,
@@ -52,18 +52,18 @@ def initialize_donors():
     DONORS["Chris Hadfield"] = [17325.42, 13823.83, 0.99]
 
 
-def calculate_stats(donor):
+def calculate_stats(donations):
+    # print(donor)
     """ Calculates the sum, average and number of donations for a donor """
-    donor_sum = sum(donor[1])
-    donor_num = len(donor[1])
+    donor_sum = sum(donations)
+    donor_num = len(donations)
     donor_average = donor_sum / donor_num
-
     return (donor_sum, donor_num, donor_average)
 
 
-def sort_donors_by_total(donors):
+def sort_donors_by_total(name):
     """ Function used to sort donors by total contributions """
-    return donors[2]
+    return sum(DONORS[name])
 
 
 def quit_program():
@@ -83,21 +83,21 @@ def generate_report():
     """ Generates a formatted report of donor names, total donation, # of donations and average donation """
     print("\n")
     column_donor_length = 0
-
-    for idx, value in enumerate(values[:]):
-        column_donor_length = max(len(value[0]), column_donor_length) + 5
-        [values[idx][2], values[idx][3], values[idx][4]] = calculate_stats(value)
+    for value in values:
+        column_donor_length = max(len(values),column_donor_length) + 5
 
     f_str = " {" + f":<{column_donor_length}" + "} | {} | {} | {}"
     title_str = f_str.format("Donor Name", "Total Given", "Num Gifts", "Average Gift")
     print(title_str)
     print("-" * len(title_str))
-
-    values = sorted(values, key=sort_donors_by_total, reverse=True)
+ 
+    values = sorted(DONORS, key=sort_donors_by_total, reverse=True)
 
     for value in values:
         f_str = " {" + f":<{column_donor_length}" + "}  ${:11.2f}   {:9}  ${:12.2f}"
-        v_str = f_str.format(value[0], value[2], value[3], value[4])
+        (d_sum, d_num, d_ave) = calculate_stats(DONORS[value])
+        v_str = f_str.format(value, d_sum, d_num, d_ave)
+        
         print(v_str)
 
 
@@ -105,11 +105,20 @@ def print_donor_list(values):
     """ Prints the list of donors passed to function"""
     print("\nList of donors:".upper())
     for value in values:
-        print(value[0])
+        print(value)
 
 
 def thank_you_email(name, amount):
-    """ Format the email and print to terminal """
+    """
+    Create the email from a template.
+    
+    Args:
+        name: Name of donor
+        amount: Amount donated (this time)
+    Return:
+        email: Contents of email
+    """
+
     txt = (
         f"""\nDear {name},\n"""
         f"""Thank you for your recent donation of ${amount:.2f}. """
@@ -119,22 +128,15 @@ def thank_you_email(name, amount):
         f"""The Human Fund\n"""
     )
 
-    print(txt)
+    return txt
 
 
 def add_donor():
 
-    # trigrams = {}
-    # num_words = len(words) - 1
-    # for i in range(len(words) - 2):
-    #     pair = tuple(words[i : i + 2])
-    #     follower = words[i + 2]
-    #     trigrams.setdefault(pair, [])
-    #     trigrams[pair].append(follower)
     """ Adds new donor or new donation to existing donor """
     valid_donor = False
     while not valid_donor:
-        donor = input("Enter Full Name ([First Name] [Last Name])(or list): ")
+        donor = input("Enter Full Name (or list): ")
 
         for idx, value in enumerate(DONORS):
             if value[0] == donor:
@@ -145,7 +147,7 @@ def add_donor():
                 print_donor_list(DONORS)
                 continue
             else:
-                DONORS.append([donor, []])
+                DONORS[donor] = []
 
                 idx += 1
                 valid_donor = True
@@ -153,34 +155,20 @@ def add_donor():
 
     amount = input("Enter donation amount ($): ")
     amount = float(amount)
-    # break
 
     # Add amount to data
-    values[idx][1].append(amount)
-    values[idx].append([])
-    values[idx].append([])
-    values[idx].append([])
+    DONORS[donor].append(amount)
 
-    thank_you_email(values[idx][0], amount)
-
-    return values
+    txt = thank_you_email(donor, amount)
+    print(txt)
 
 
 def main():
     initialize_donors()
     """ Main Run Loop """
     while True:
-        option = prompt_user()
+        prompt_user()
 
-        # if option == 1:
-        #     add_donor(data)
-        # elif option == 2:
-        #     generate_report(data)
-        # elif option == 3:
-        #     print("\nExiting Program")
-        #     break
-        # else:
-        #     print("\nPlease select a valid option")
 
 
 if __name__ == "__main__":
