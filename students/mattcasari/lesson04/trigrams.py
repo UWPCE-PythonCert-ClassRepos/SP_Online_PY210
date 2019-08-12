@@ -17,6 +17,9 @@ from pprint import pprint
 BOOK_START_STR = "*** START OF THIS PROJECT GUTENBERG EBOOK"
 BOOK_END_STR = "*** END OF THIS PROJECT GUTENBERG EBOOK "
 
+# Change to True to save a file called temp.txt
+WRITE_TO_FILE = False
+
 
 def build_trigrams_old(words):
     """
@@ -115,10 +118,17 @@ def remove_punctuation(line):
     result = []
     for l in line2:
         if l[0] == '\'' or l[-1] == '\'':
-            pass
+            if len(l) > 1:
+                if l[0] == '\'':
+                    l = l[1:]
+                elif l[-1] == '\'':
+                    l = l[:-1]
+                else:
+                    l = []
+                result.append(l)
         else:
             result.append(l)
-
+        
     line = " ".join(result)
 
     return line
@@ -245,16 +255,11 @@ def build_text(word_pairs, num_paragraphs=40):
             sentence += "."
             paragraph.append(sentence)
 
-        # paragraph = " ".join(paragraph)
-        # paragraph = textwrap.wrap(paragraph)
-        # output_text.append(textwrap.wrap(paragraph))
         temp = "  ".join(paragraph)
         temp = textwrap.wrap(temp)
         output_text.append("\n".join(paragraph))
-        # output_text.append("  ".join(paragraph))
 
-    # output_text = "\n\t".join(output_text)
-    # output_text = textwrap.wrap(output_text)
+
     output_text = "\n\n\t".join(output_text)
     return "".join(output_text)
 
@@ -291,10 +296,9 @@ if __name__ == "__main__":
     assert "I suspect that I did not identify all of my bugs" == formatted_str
 
     # Test Format Text function with apostrophes
-    # test_str = "He said 'Hello, this is Sam's' and left"
-    # formatted_str = format_text(test_str)
-    # print(formatted_str)
-    # assert "he said hello this is sam's and left" == formatted_str
+    test_str = "He said 'Hello, this is Sam's' and left"
+    formatted_str = format_text(test_str)
+    assert "he said hello this is sam's and left" == formatted_str
 
     # Test Make Words
     test_str = "one two three four five"
@@ -323,8 +327,7 @@ if __name__ == "__main__":
     word_pairs = build_trigrams(words)
     new_text = build_text(word_pairs)
     print(new_text)
-    # new_text = textwrap.wrap(new_text)
-    
-    # print("\n".join(new_text))
-    with open("temp.txt", "w") as f:
-        f.write(new_text)
+
+    if WRITE_TO_FILE:
+        with open("temp.txt", "w") as f:
+            f.write(new_text)
