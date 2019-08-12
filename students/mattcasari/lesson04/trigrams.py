@@ -11,6 +11,7 @@ Link: https://uwpce-pythoncert.github.io/PythonCertDevel/exercises/kata_fourteen
 import sys
 import string
 import random
+import textwrap
 from pprint import pprint
 
 BOOK_START_STR = "*** START OF THIS PROJECT GUTENBERG EBOOK"
@@ -76,9 +77,6 @@ def format_text(lines):
     """
     Remove punctuation and lowercase all words except for special cases.
 
-    ToDo: 
-        Allow contraction apostrophes to pass
-
     Args:
         lines: text lines to format.
 
@@ -88,17 +86,42 @@ def format_text(lines):
     data = []
     for line in lines.split():
         line = line.rstrip()
-        line = line.translate(
-            str.maketrans(string.punctuation, " " * len(string.punctuation))
-        )
+        # line = line.translate(
+        #     str.maketrans(string.punctuation, " " * len(string.punctuation))
+        # )
+        line = remove_punctuation(line)
         line = remove_capitalization(line)
-        # print(line)
         if line:
             data.append(" ".join(line.split()))
     data = " ".join(data)
     data = data.replace("  ", " ")
     return data
 
+def remove_punctuation(line):
+    """
+    Remove punctuation, but leave apostrophes for contraction words.
+
+    Args:
+        line: Text to remove punctuation from.
+    Return:
+        line: Formatted text with punctuation removed
+
+    """
+    punctuation = "/:;~=+_*&^%$#@!?.,-()\""
+    translation = line.maketrans(punctuation, " "*len(punctuation))
+    line = line.translate(translation)
+
+    line2 = line.split()
+    result = []
+    for l in line2:
+        if l[0] == '\'' or l[-1] == '\'':
+            pass
+        else:
+            result.append(l)
+
+    line = " ".join(result)
+
+    return line
 
 def read_in_data(filename, start_str="", end_str=""):
     """
@@ -133,16 +156,13 @@ def remove_capitalization(in_data):
     """
     return_data = []
     for data in in_data.split(" "):
-        # print(data)
         data = data.lower()
         if len(data) == 1:
             if data == 'i':
                 data = data.capitalize()
-                # print(data)
         if len(data) > 1:
             if data[0] == 'i' and data[1] == '\'':
                 data = data.capitalize()
-                print(data)
         return_data.extend("".join(data))
         return_data += " "
     return "".join(return_data[:-1])
@@ -225,10 +245,17 @@ def build_text(word_pairs, num_paragraphs=40):
             sentence += "."
             paragraph.append(sentence)
 
-        output_text.append("  ".join(paragraph))
+        # paragraph = " ".join(paragraph)
+        # paragraph = textwrap.wrap(paragraph)
+        # output_text.append(textwrap.wrap(paragraph))
+        temp = "  ".join(paragraph)
+        temp = textwrap.wrap(temp)
+        output_text.append("\n".join(paragraph))
+        # output_text.append("  ".join(paragraph))
 
+    # output_text = "\n\t".join(output_text)
+    # output_text = textwrap.wrap(output_text)
     output_text = "\n\n\t".join(output_text)
-
     return "".join(output_text)
 
 
@@ -295,6 +322,9 @@ if __name__ == "__main__":
     words = make_words(in_data)
     word_pairs = build_trigrams(words)
     new_text = build_text(word_pairs)
-    # print(new_text)
+    print(new_text)
+    # new_text = textwrap.wrap(new_text)
+    
+    # print("\n".join(new_text))
     with open("temp.txt", "w") as f:
         f.write(new_text)
