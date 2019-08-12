@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import pathlib
+from pprint import pprint
 
 def main():
     pth = pathlib.Path('./')
@@ -9,14 +10,28 @@ def main():
 def languages(text_file):
     with open(text_file, mode='r', encoding='utf-8') as a_file:
         a_file.readline()
+        lang_dict = {}
 
         for line in a_file:
             data = line[line.index(':') + 1 :].lstrip()
-            if data[:1].isupper():
-                pass
-            print(data)
+            data = data.replace('\n', '')
+            a_list = data.split(',')
+            #print(a_list)
 
-def plus_one():
+            for lang in a_list:
+                if ' ' in lang:
+                    lang = lang[lang.index(' ')+1:]
+                if lang and not lang.istitle():
+                    if lang not in lang_dict:
+                        lang_dict[lang] = 1
+                    else:
+                        lang_dict[lang] += 1
+        pprint(lang_dict)
+    return lang_dict
+    
+            #for lang in a_list:
+
+def language_tracker():
     pass
 
 
