@@ -30,8 +30,8 @@ def add_next_word(trigrams, wip):
     return ' '.join((wip, next))
 
 def literature_complete(literature):
-    global in_quote
-    if len(literature.split()) < 200:
+    global in_quote, target_length
+    if len(literature.split()) < target_length:
         return False # Keep going if we haven't hit the minimum word length
     if in_quote == True:
         return False # Always keep going if we have an ongoing quote
@@ -46,8 +46,16 @@ def literature_complete(literature):
     return False
 
 if __name__ == '__main__':
-    if not len(argv) == 2:
-        print("Syntax: {} [filename]".format(argv[0]))
+    if len(argv) == 3:
+        if argv[2].isnumeric():
+            target_length = int(argv[2])
+        else:
+            print("Invalid target_length {}".format(argv[1]))
+            quit()
+    elif len(argv) == 2:
+        target_length = 200
+    else:
+        print("Syntax: {} [filename] [OPTIONAL: target_length]".format(argv[0]))
         quit()
     textfile = Path(argv[1])
     try:
