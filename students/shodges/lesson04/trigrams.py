@@ -2,6 +2,7 @@
 
 import random
 from pathlib import Path
+from sys import argv
 
 def build_trigrams(words):
     trigrams = {}
@@ -13,9 +14,16 @@ def build_trigrams(words):
     return trigrams
 
 if __name__ == '__main__':
-    textfile = Path("./sherlock.txt")
-    with textfile.open() as fileio:
-        words = fileio.read().split()
+    if not len(argv) == 2:
+        print("Syntax: {} [filename]".format(argv[0]))
+        quit()
+    textfile = Path(argv[1])
+    try:
+        with textfile.open() as fileio:
+            words = fileio.read().split()
+    except FileNotFoundError:
+        print("Unable to read {}".format(argv[1]))
+        quit()
     trigrams = build_trigrams(words)
 
     literature = "It is"
