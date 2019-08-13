@@ -1,17 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-""" Lesson 4, Exercise 3
+""" Lesson 5, Exercise 2
 
 @author: Matt Casari
 
 Link: https://uwpce-pythoncert.github.io/PythonCertDevel/exercises/mailroom-part2.html
 
 Description:
-    The Program: Part 2
-    Update the program from Lesson 3 (Part 1) by using dicts where appropriate.
-
-    Also, add file writing.
+    The Program: Part 3
+    - Add Exceptions to inputs (and file handling)
+    - Use comprehensions where appropriate
 
 """
 import pathlib
