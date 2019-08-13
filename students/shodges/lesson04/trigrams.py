@@ -46,7 +46,6 @@ def literature_complete(literature):
     return False
 
 if __name__ == '__main__':
-    global in_quote
     if not len(argv) == 2:
         print("Syntax: {} [filename]".format(argv[0]))
         quit()
