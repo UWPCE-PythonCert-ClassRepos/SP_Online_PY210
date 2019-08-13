@@ -20,12 +20,33 @@ def gutenberg_clean(guten_text):
     return guten_text[0]
 
 def add_next_word(trigrams, wip):
+    global in_quote
     next = trigrams[tuple(wip.split()[-2:])]
+    next = random.choice(next)
     if next[0] == '"':
         in_quote = True
-    return ' '.join((wip, random.choice(next)))
+    if next[-1] == '"':
+        in_quote = False
+    return ' '.join((wip, next))
+
+def literature_complete(literature):
+    global in_quote
+    if len(literature.split()) < 200:
+        return False # Keep going if we haven't hit the minimum word length
+    if in_quote == True:
+        return False # Always keep going if we have an ongoing quote
+    if literature[-1] == '"':
+        # Since we end with a quote, we need to find out whether we end with the proper punctuation inside that in_quote
+        if literature[-2] == '.' or literature[-2] == '!' or literature[-2] == '?':
+            return True
+        else:
+            return False
+    if literature[-1] == '.' or literature[-1] == '!' or literature[-1] == '?':
+        return True
+    return False
 
 if __name__ == '__main__':
+    global in_quote
     if not len(argv) == 2:
         print("Syntax: {} [filename]".format(argv[0]))
         quit()
@@ -41,13 +62,10 @@ if __name__ == '__main__':
     literature = "It is"
     in_quote = False # sentinel value to help us finish a quote
 
-    for i in range(0,210):
+    while literature_complete(literature) == False:
         try:
             literature = add_next_word(trigrams, literature)
         except KeyError:
-            literature += '.'
+            literature += '...'
             break
-        else:
-            if in_quote == True:
-                while True:
     print(literature)
