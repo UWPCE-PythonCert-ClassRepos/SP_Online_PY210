@@ -1,6 +1,7 @@
 # Author: Brian Minsk
 
 from circle import Circle
+from math import pi
 
 def test_create_circle():
     """ Test basic circle initiation.
@@ -45,6 +46,19 @@ def test_diameter_setter():
     try:
         my_circle.diameter = "8"
     except ValueError:
+        pass
+    else:
+        assert False
+
+def test_area():
+    my_circle = Circle(5)
+
+    assert my_circle.area == (pi * 5 ** 2)
+
+    # Area should not be able to be set
+    try:
+        my_circle.area = 10
+    except AttributeError:
         pass
     else:
         assert False
