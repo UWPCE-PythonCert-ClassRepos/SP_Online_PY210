@@ -15,8 +15,26 @@ Description:
 
 """
 import pathlib
+import sys
 
 DONORS = {}
+
+THANK_YOU_TEMPLATE = ( 
+                    """\nDear {name},\n"""
+                    """Thank you for your recent donation of ${amount:.2f}. """
+                    """Your donation will help us purchase a taxidermied seagull.\n"""
+                    """Please consider donating again at your earliest convenience.\n\n"""
+                    """Sincerely,\n"""
+                    """The Human Fund\n"""
+                    )
+EMAIL_TEMPLATE = (
+                    "Dear {name},\n\n"
+                    "Thank you for your last donation of ${last:.2f}.\n"
+                    "You have contributed a total of ${sum:.2f} over {number} donation(s).\n"
+                    "Your generosity is appreciated.\n"
+                    "\nSincerely,\n"
+                    "-The Team\n\n"
+                )
 
 PROMPT_TEXT = (
     "\nSelect an option:\n"
@@ -36,10 +54,12 @@ def prompt_user():
         3: create_files,
         4: quit_program,
     }
-
-    result = input(PROMPT_TEXT)
-    result = int(result)
-    switch_func_dict.get(result)()
+    try:
+        result = input(PROMPT_TEXT)
+        result = int(result)
+        switch_func_dict.get(result)()
+    except (ValueError, TypeError):
+        print("\nInvalid Entry")
 
 
 def initialize_donors():
@@ -82,7 +102,7 @@ def quit_program():
     Exits out of program
     """
     print("Exiting Program")
-    quit()
+    sys.exit()
 
 
 def create_files():
@@ -98,44 +118,38 @@ def create_files():
     for donor in DONORS:
         filename = donor.replace(" ", "_") + ".txt"
         filename = path / filename
+        try:
+            with open(filename, "w+") as temp:
+                donor_dict = {'name': donor, 
+                            'last':DONORS[donor][-1],
+                            'sum':sum(DONORS[donor]),
+                            'number':len(DONORS[donor])}
+                
 
-        with open(filename, "w+") as temp:
-            name = donor
-            donation_last = DONORS[donor][-1]
-            donation_sum = sum(DONORS[donor])
-            donation_number = len(DONORS[donor])
-            EMAIL_TEMPLATE = (
-                f"Dear {name},\n\n"
-                f"Thank you for your last donation of ${donation_last:.2f}.\n"
-                f"You have contributed a total of ${donation_sum:.2f} over {donation_number} donation(s).\n"
-                f"Your generosity is appreciated.\n"
-                f"\nSincerely,\n"
-                f"-The Team\n\n"
-            )
-
-            temp.write(EMAIL_TEMPLATE)
-            temp.close()
+                temp.write(EMAIL_TEMPLATE.format(**donor_dict))
+                temp.close()
+        except OSError:
+            print("File failure")
 
 
 def generate_report():
     """ Generates a formatted report of donor names, total donation, # of donations and average donation """
-    values = DONORS
+    names = DONORS
     print("\n")
     column_donor_length = 0
-    for value in values:
-        column_donor_length = max(len(values), column_donor_length) + 5
+    for name in names:
+        column_donor_length = max(len(names), column_donor_length) + 5
 
     f_str = " {" + f":<{column_donor_length}" + "} | {} | {} | {}"
     title_str = f_str.format("Donor Name", "Total Given", "Num Gifts", "Average Gift")
     print(title_str)
     print("-" * len(title_str))
 
-    values = sorted(DONORS, key=sort_donors_by_total, reverse=True)
-
-    for value in values:
+    names = sorted(DONORS, key=sort_donors_by_total, reverse=True)
+    for name in names:
         f_str = " {" + f":<{column_donor_length}" + "}  ${:11.2f}   {:9}  ${:12.2f}"
-        (d_sum, d_num, d_ave) = calculate_stats(DONORS[value])
-        v_str = f_str.format(value, d_sum, d_num, d_ave)
+        (d_sum, d_num, d_ave) = calculate_stats(DONORS[name])
+        v_str = f_str.format(name, d_sum, d_num, d_ave)
 
         print(v_str)
 
@@ -147,7 +161,7 @@ def print_donor_list(values):
         print(value)
 
 
-def thank_you_email(name, amount):
+def thank_you_email(donor_dict):
     """
     Create the email from a template.
     
@@ -158,47 +172,43 @@ def thank_you_email(name, amount):
         email: Contents of email
     """
 
-    txt = (
-        f"""\nDear {name},\n"""
-        f"""Thank you for your recent donation of ${amount:.2f}. """
-        f"""Your donation will help us purchase a taxidermied seagull.\n"""
-        f"""Please consider donating again at your earliest convenience.\n\n"""
-        f"""Sincerely,\n"""
-        f"""The Human Fund\n"""
-    )
-
-    return txt
+    return THANK_YOU_TEMPLATE.format(**donor_dict)
 
 
 def add_donor():
     """ Adds new donor or new donation to existing donor """
     valid_donor = False
     while not valid_donor:
-        donor = input("Enter Full Name (or list): ")
-
-        for idx, value in enumerate(DONORS):
-            if value[0] == donor:
-                valid_donor = True
-                break
+        try:
+            donor = input("Enter Full Name (or list): ")
+        except ValueError:
+            print("Invalid entry")
         else:
-            if donor == "list":
-                print_donor_list(DONORS)
-                continue
+            for idx, value in enumerate(DONORS):
+                if value[0] == donor:
+                    valid_donor = True
+                    break
             else:
-                DONORS[donor] = []
+                if donor == "list":
+                    print_donor_list(DONORS)
+                    continue
+                else:
+                    DONORS.setdefault(donor,[])
 
-                idx += 1
-                valid_donor = True
-                break
-
-    amount = input("Enter donation amount ($): ")
-    amount = float(amount)
-
-    # Add amount to data
-    DONORS[donor].append(amount)
-
-    txt = thank_you_email(donor, amount)
-    print(txt)
+                    idx += 1
+                    valid_donor = True
+                    break
+    try:
+        amount = input("Enter donation amount ($): ")
+        amount = float(amount)
+    except ValueError:
+        print("\nInvalid amount entered")
+    else:
+        # Add amount to data
+        DONORS[donor].append(amount)
+        donor = {'name':donor, 'amount':amount}
+        txt = thank_you_email(donor)
+        print(txt)
 
 
 def main():
