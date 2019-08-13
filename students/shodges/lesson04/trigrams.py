@@ -19,6 +19,12 @@ def gutenberg_clean(guten_text):
     guten_text = guten_text.split('*** END OF THIS PROJECT GUTENBERG EBOOK') # Cut out the footer and T's & C's
     return guten_text[0]
 
+def add_next_word(trigrams, wip):
+    next = trigrams[tuple(wip.split()[-2:])]
+    if next[0] == '"':
+        in_quote = True
+    return ' '.join((wip, random.choice(next)))
+
 if __name__ == '__main__':
     if not len(argv) == 2:
         print("Syntax: {} [filename]".format(argv[0]))
@@ -33,12 +39,15 @@ if __name__ == '__main__':
     trigrams = build_trigrams(words)
 
     literature = "It is"
+    in_quote = False # sentinel value to help us finish a quote
 
     for i in range(0,210):
         try:
-            next = trigrams[tuple(literature.split()[-2:])]
-            literature = ' '.join((literature, random.choice(next)))
+            literature = add_next_word(trigrams, literature)
         except KeyError:
             literature += '.'
             break
+        else:
+            if in_quote == True:
+                while True:
     print(literature)
