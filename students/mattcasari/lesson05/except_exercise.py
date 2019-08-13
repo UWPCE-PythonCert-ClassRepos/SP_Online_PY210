@@ -12,7 +12,7 @@ from except_test import fun, more_fun, last_fun
 
 # Figure out what the exception is, catch it and while still
 # in that catch block, try again with the second item in the list
-first_try = ['spam', 'cheese', 'mr death']
+first_try = ["spam", "cheese", "mr death"]
 
 try:
     joke = fun(first_try[0])
@@ -23,7 +23,7 @@ except NameError:
 try:
     not_joke = fun(first_try[2])
 except SyntaxError:
-    print('Run Away!')
+    print("Run Away!")
 else:
     print(not_joke)
 
@@ -43,7 +43,7 @@ else:
 # there were any exceptions, call the function last_fun with no
 # parameters. (pun intended)
 
-langs = ['java', 'c', 'python']
+langs = ["java", "c", "python"]
 
 try:
     more_joke = more_fun(langs[0])

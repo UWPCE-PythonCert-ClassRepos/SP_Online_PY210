@@ -18,22 +18,22 @@ import sys
 
 DONORS = {}
 
-THANK_YOU_TEMPLATE = ( 
-                    """\nDear {name},\n"""
-                    """Thank you for your recent donation of ${amount:.2f}. """
-                    """Your donation will help us purchase a taxidermied seagull.\n"""
-                    """Please consider donating again at your earliest convenience.\n\n"""
-                    """Sincerely,\n"""
-                    """The Human Fund\n"""
-                    )
+THANK_YOU_TEMPLATE = (
+    """\nDear {name},\n"""
+    """Thank you for your recent donation of ${amount:.2f}. """
+    """Your donation will help us purchase a taxidermied seagull.\n"""
+    """Please consider donating again at your earliest convenience.\n\n"""
+    """Sincerely,\n"""
+    """The Human Fund\n"""
+)
 EMAIL_TEMPLATE = (
-                    "Dear {name},\n\n"
-                    "Thank you for your last donation of ${last:.2f}.\n"
-                    "You have contributed a total of ${sum:.2f} over {number} donation(s).\n"
-                    "Your generosity is appreciated.\n"
-                    "\nSincerely,\n"
-                    "-The Team\n\n"
-                )
+    "Dear {name},\n\n"
+    "Thank you for your last donation of ${last:.2f}.\n"
+    "You have contributed a total of ${sum:.2f} over {number} donation(s).\n"
+    "Your generosity is appreciated.\n"
+    "\nSincerely,\n"
+    "-The Team\n\n"
+)
 
 PROMPT_TEXT = (
     "\nSelect an option:\n"
@@ -119,11 +119,12 @@ def create_files():
         filename = path / filename
         try:
             with open(filename, "w+") as temp:
-                donor_dict = {'name': donor, 
-                            'last':DONORS[donor][-1],
-                            'sum':sum(DONORS[donor]),
-                            'number':len(DONORS[donor])}
-                
+                donor_dict = {
+                    "name": donor,
+                    "last": DONORS[donor][-1],
+                    "sum": sum(DONORS[donor]),
+                    "number": len(DONORS[donor]),
+                }
 
                 temp.write(EMAIL_TEMPLATE.format(**donor_dict))
                 temp.close()
@@ -192,7 +193,7 @@ def add_donor():
                     print_donor_list(DONORS)
                     continue
                 else:
-                    DONORS.setdefault(donor,[])
+                    DONORS.setdefault(donor, [])
 
                     idx += 1
                     valid_donor = True
@@ -205,7 +206,7 @@ def add_donor():
     else:
         # Add amount to data
         DONORS[donor].append(amount)
-        donor = {'name':donor, 'amount':amount}
+        donor = {"name": donor, "amount": amount}
         txt = thank_you_email(donor)
         print(txt)
 
