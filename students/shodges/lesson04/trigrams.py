@@ -22,6 +22,14 @@ def gutenberg_clean(guten_text):
 def add_next_word(trigrams, wip):
     global in_quote
     next = trigrams[tuple(wip.split()[-2:])]
+    next_unchanged = next[::]
+    for k, w in enumerate(next_unchanged):
+        if in_quote == True:
+            if w[0] == '"':
+                next.remove(w)
+        elif in_quote == False:
+            if w[-1] == '"':
+                next.remove(w)
     next = random.choice(next)
     if next[0] == '"':
         in_quote = True
@@ -72,7 +80,7 @@ if __name__ == '__main__':
     while literature_complete(literature) == False:
         try:
             literature = add_next_word(trigrams, literature)
-        except KeyError:
+        except IndexError:
             literature += '...'
             break
     print(literature)
