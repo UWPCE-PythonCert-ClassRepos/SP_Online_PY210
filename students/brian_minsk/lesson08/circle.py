@@ -3,7 +3,7 @@
 from math import pi
 
 class Circle(object):
-    def __init__(self, radius=1):
+    def __init__(self, radius=0):
         if not isinstance(radius, (int, float)):
             raise ValueError("Radius must be a number.")
         if radius < 0:
@@ -49,3 +49,18 @@ class Circle(object):
         """ Prevent area from being set.
         """
         raise AttributeError("Area cannot be set.")
+
+    @classmethod
+    def from_diameter(cls, diameter=0):
+        """ Alternate constructor using diameter.
+        """
+        if not isinstance(diameter, (int, float)):
+            raise ValueError("Diameter must be a number.")
+        if diameter < 0:
+            raise ValueError("Negative diameter is not possible.")
+        
+        self = cls()
+        self._radius = 0.5 * diameter
+        self._diameter = diameter
+        self._area = pi * ((0.5 * diameter) ** 2)
+        return self

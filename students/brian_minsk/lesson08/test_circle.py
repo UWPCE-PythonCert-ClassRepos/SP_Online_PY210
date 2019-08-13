@@ -62,3 +62,24 @@ def test_area():
         pass
     else:
         assert False
+
+def test_constructor_from_diameter():
+    my_circle = Circle.from_diameter(10)
+
+    assert my_circle.diameter == 10
+    assert my_circle.radius == 5
+    assert my_circle.area == (pi * 5 ** 2)
+
+    try:
+        your_circle = Circle.from_diameter(-0.5)
+    except ValueError:
+        pass
+    else:
+        assert False
+        
+    try:
+        another_circle = Circle.from_diameter("5")
+    except ValueError:
+        pass
+    else:
+        assert False
