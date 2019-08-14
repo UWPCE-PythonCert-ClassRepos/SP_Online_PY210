@@ -11,9 +11,7 @@ class Circle(object):
         if radius < 0:
             raise ValueError("Negative radius is not possible.")
         self._radius = radius
-        self._diameter = 2 * radius
-        self._area = pi * radius ** 2
-
+        
     @property
     def radius(self):
         return self._radius
@@ -26,11 +24,10 @@ class Circle(object):
         if radius < 0:
             raise ValueError("Negative radius is not possible.")
         self._radius = radius
-        self._diameter = 2 * radius
-        self._area = pi * radius ** 2
-
+        
     @property
     def diameter(self):
+        self._diameter = self._radius * 2
         return self._diameter
 
     @diameter.setter
@@ -42,10 +39,10 @@ class Circle(object):
             raise ValueError("Negative diameter is not possible.")
         self._radius = 0.5 * diameter
         self._diameter = diameter
-        self._area = pi * ((0.5 * diameter) ** 2)
-
+        
     @property
     def area(self):
+        self._area = pi * self._radius ** 2
         return self._area
 
     @area.setter
@@ -67,36 +64,45 @@ class Circle(object):
         self = cls()
         self._radius = 0.5 * diameter
         self._diameter = diameter
-        self._area = pi * ((0.5 * diameter) ** 2)
         return self
 
-    def __str__(self):
-        return "Circle with radius: {:f}".format(float(self.radius))
+    def class_name(self):
+        return type(self).__name__
+
+    def __str__(self):        
+        return "{} with radius: {:f}".format(self.class_name(),
+                                             float(self.radius))
 
     def __repr__(self):
-        return "Circle({})".format(self.radius)
+        return "{}({})".format(self.class_name(), self.radius)
 
-    def __add__(self, other):
-        # test that the 2nd argument is a Circle
-        if not isinstance(other, Circle):
-            raise TypeError("Only a Circle (or subclass) can be added to a Circle.")
+    @classmethod
+    def __add__(cls, other):
+        self = cls()
+        print(self)
+        print(other)
+        # test that the 2nd argument is a Circle (or subclass)
+        if not isinstance(other, cls):
+            error_str = "Only a {} can be added to a {}.".format(self.class_name(), self.class_name())
+            raise TypeError(error_str)
         else:
             new_radius = self.radius + other.radius
-            return Circle(new_radius)
+            return cls(new_radius)
 
     def __iadd__(self, other):
         # test that the 2nd argument is a Circle
         if not isinstance(other, Circle):
-            raise TypeError("Only a Circle (or subclass) can be added to a Circle.")
+            error_str = "Only a {} can be added to a {}.".format(self.class_name(), self.class_name())
+            raise TypeError(error_str)
         else:
             self.radius = self.radius + other.radius
             return self
 
-
     def __mul__(self, other):
         # test that the 2nd argument is an int or float
         if not isinstance(other, (int, float)):
-            raise TypeError("A Circle can only be multiplied by a number.")
+            error_str = "A {} can only be multiplied by a number.".format(self.class_name())
+            raise TypeError(error_str)
         else:
             new_radius = self.radius * other
             return Circle(new_radius)
@@ -107,29 +113,33 @@ class Circle(object):
     def __imul__(self, other):
         # test that the 2nd argument is an int or float
         if not isinstance(other, (int, float)):
-            raise TypeError("A Circle can only be multiplied by a number.")
+            error_str = "A {} can only be multiplied by a number.".format(self.class_name())
+            raise TypeError()
         else:
             self.radius = self.radius * other
             return self
 
     def __eq__(self, other):
         if not isinstance(other, Circle):
-            raise TypeError("A Circle can only be compared with another Circle.")
+            error_str = "A {} can only be compared with another {}.".format(self.class_name(), self.class_name())
+            raise TypeError(error_str)
         return self.radius == other.radius
 
     def __lt__(self, other):
         if not isinstance(other, Circle):
-            raise TypeError("A Circle can only be compared with another Circle.")
+            error_str = "A {} can only be compared with another {}.".format(self.class_name(), self.class_name())
+            raise TypeError(error_str)
         return self.radius < other.radius
 
 class Sphere(Circle):
-    def __init__(self, radius=0):
-        super().__init__(radius)
-        self._area = 4 * pi * radius ** 2
-        self._volume = 4 / 3 * pi * radius ** 3
+        @property
+        def area(self):
+            self._area = 4 * pi * self._radius ** 2
+            return self._area
 
         @property
         def volume(self):
+            self._volume = 4 / 3 * pi * self._radius ** 3
             return self._volume
     
         @volume.setter

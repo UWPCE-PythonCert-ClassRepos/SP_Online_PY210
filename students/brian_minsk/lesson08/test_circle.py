@@ -198,7 +198,7 @@ def test_sphere_repr():
 
     assert repr_s == "Sphere(4)"
 
-    d = eval(repr_d)
+    d = eval(repr_s)
 
     assert isinstance(d, Sphere)
     assert s.radius == 4
@@ -216,7 +216,7 @@ def test_sphere_volume():
     else:
         assert False
 
-def test_sphere_area:
+def test_sphere_area():
     s = Sphere(3)
 
     assert s.area == 4 * pi * (3 ** 2)
