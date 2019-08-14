@@ -134,3 +134,17 @@ def test_multiply():
 
     c3 = 3 * Circle(2) * 4
     assert c3.radius == 24
+
+def test_comparison():
+    c1 = Circle(1)
+    c2 = Circle(2)
+    c1a = Circle(1)
+
+    assert c1 < c2
+    assert c1 <= c2
+    assert c1 <= c1a
+    assert c1 == c1a
+    assert c1 >= c1a
+    assert c2 >= c1
+    assert c2 > c1
+    assert c2 != c1

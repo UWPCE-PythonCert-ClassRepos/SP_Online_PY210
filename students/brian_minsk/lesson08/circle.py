@@ -1,7 +1,9 @@
 # Author: Brian Minsk
 
 from math import pi
+from functools import total_ordering
 
+@total_ordering
 class Circle(object):
     def __init__(self, radius=0):
         if not isinstance(radius, (int, float)):
@@ -89,4 +91,14 @@ class Circle(object):
 
     # This handles the case when the number is first, e.g. 3 * Circle(2)
     __rmul__ = __mul__
+
+    def __eq__(self, other):
+        if not isinstance(other, Circle):
+            raise TypeError("A Circle can only be compared with another Circle.")
+        return self.radius == other.radius
+
+    def __lt__(self, other):
+        if not isinstance(other, Circle):
+            raise TypeError("A Circle can only be compared with another Circle.")
+        return self.radius < other.radius
     
