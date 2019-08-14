@@ -81,6 +81,15 @@ class Circle(object):
             new_radius = self.radius + other.radius
             return Circle(new_radius)
 
+    def __iadd__(self, other):
+        # test that the 2nd argument is a Circle
+        if not isinstance(other, Circle):
+            raise TypeError("Only a Circle (or subclass) can be added to a Circle.")
+        else:
+            self.radius = self.radius + other.radius
+            return self
+
+
     def __mul__(self, other):
         # test that the 2nd argument is an int or float
         if not isinstance(other, (int, float)):
@@ -91,6 +100,14 @@ class Circle(object):
 
     # This handles the case when the number is first, e.g. 3 * Circle(2)
     __rmul__ = __mul__
+
+    def __imul__(self, other):
+        # test that the 2nd argument is an int or float
+        if not isinstance(other, (int, float)):
+            raise TypeError("A Circle can only be multiplied by a number.")
+        else:
+            self.radius = self.radius * other
+            return self
 
     def __eq__(self, other):
         if not isinstance(other, Circle):

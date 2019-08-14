@@ -155,3 +155,33 @@ def test_sort():
     circles.sort()
     assert circles == [Circle(0), Circle(1), Circle(2), Circle(3), Circle(4),
                        Circle(5), Circle(6), Circle(7), Circle(8), Circle(9)]
+
+def test_iadd():
+    c1 = Circle(1)
+    c2 = Circle(2)
+
+    c1 += Circle(2)
+
+    assert c1 == Circle(3)
+
+    # test that the 2nd argument must be a Circle (or subclass)
+    try:
+        c1 += 2
+    except TypeError:
+        pass
+    else:
+        assert False
+
+def test_imul():
+    c = Circle(2)
+    c *= 3
+
+    assert c == Circle(6)
+
+    # test that the 2nd argument must be a number
+    try:
+        c2 = Circle(2) * Circle(3)
+    except TypeError:
+        pass
+    else:
+        assert False
