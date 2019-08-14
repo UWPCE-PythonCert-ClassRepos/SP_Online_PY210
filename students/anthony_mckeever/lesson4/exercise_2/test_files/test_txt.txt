@@ -1,0 +1,19 @@
+Acronyms:
+    ASC: Andromedan Spacecraft
+    ATC: Andromedan Timecraft
+
+    Name:                |   Model:                                       |   Operating System:
+Spacecrafts:             |                                                |
+    ASC Kayomi Matsuka   |   78 Glyde XL 2016 Personal Edition            |   kayomiOS
+-------------------------+------------------------------------------------+----------------------------------------------------------
+Timeline A Timecrafts:   |                                                |                                                           
+    ATC Serendipity      |   89 Glyde Xp 2018 Temporal Edition            |   Operating System: GlydeOS for Temporal Systems
+    ATC Coincidence      |   89 Glyde Xp 2018 Temporal Edition            |   Operating System: GlydeOS for Temporal Systems
+    ATC Providence       |   89 Glyde Xp 2018 Temporal Edition            |   Operating System: GlydeOS for Temporal Systems
+    ATC Causality        |   Prototype 89 Glyde Xp 2018 Temporal Edition  |   Operating System: GlydeOS for Temporal Systems Preview
+-------------------------+------------------------------------------------+----------------------------------------------------------
+Timeline B Timecrafts:   |                                                |                                                          
+    ATC Kima Metoyo      |   256 Glyde Gx 2350 Temporal Edition           |   Operating System: GlydeOS Temporal Edition
+    ATC Astra Matsume    |   256 Glyde Gx 2350 Temporal Edition           |   Operating System: GlydeOS Temporal Edition
+    ATC Delilah Matsuka  |   256 Glyde Gx 2350 Temporal Edition           |   Operating System: GlydeOS Temporal Edition
+    ATC Starchelle       |   Prototype 256 Glyde Gx 2350 Temporal Edition |   Operating System: GlydeOS Temporal Edition Preview
