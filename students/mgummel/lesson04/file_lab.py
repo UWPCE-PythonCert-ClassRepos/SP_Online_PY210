@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import pathlib
-from pprint import pprint
 
 def main():
     pth = pathlib.Path('./')
@@ -16,7 +15,6 @@ def languages(text_file):
             data = line[line.index(':') + 1 :].lstrip()
             data = data.replace('\n', '')
             a_list = data.split(',')
-            #print(a_list)
 
             for lang in a_list:
                 if ' ' in lang:
@@ -26,7 +24,6 @@ def languages(text_file):
                         lang_dict[lang] = 1
                     else:
                         lang_dict[lang] += 1
-        pprint(lang_dict)
     return lang_dict
     
             #for lang in a_list:
