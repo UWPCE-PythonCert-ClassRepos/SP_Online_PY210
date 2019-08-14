@@ -20,6 +20,7 @@ class Circle(object):
 
     @radius.setter
     def radius(self, radius):
+        print("In radius setter")
         if not isinstance(radius, (int, float)):
             raise ValueError("Radius must be a number.")
         if radius < 0:
@@ -34,6 +35,7 @@ class Circle(object):
 
     @diameter.setter
     def diameter(self, diameter):
+        print("in diameter setter")
         if not isinstance(diameter, (int, float)):
             raise ValueError("Diameter must be a number.")
         if diameter < 0:
@@ -48,6 +50,7 @@ class Circle(object):
 
     @area.setter
     def area(self, area):
+        print("in area setter")
         """ Prevent area from being set.
         """
         raise AttributeError("Area cannot be set.")
@@ -118,4 +121,20 @@ class Circle(object):
         if not isinstance(other, Circle):
             raise TypeError("A Circle can only be compared with another Circle.")
         return self.radius < other.radius
+
+class Sphere(Circle):
+    def __init__(self, radius=0):
+        super().__init__(radius)
+        self._area = 4 * pi * radius ** 2
+        self._volume = 4 / 3 * pi * radius ** 3
+
+        @property
+        def volume(self):
+            return self._volume
+    
+        @volume.setter
+        def volume(self, volume):
+            """ Prevent volume from being set.
+            """
+            raise AttributeError("Volume cannot be set.")
     

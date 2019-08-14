@@ -1,6 +1,6 @@
 # Author: Brian Minsk
 
-from circle import Circle
+from circle import Circle, Sphere
 from math import pi
 
 def test_create_circle():
@@ -182,6 +182,49 @@ def test_imul():
     try:
         c2 = Circle(2) * Circle(3)
     except TypeError:
+        pass
+    else:
+        assert False
+
+def test_sphere_str():
+    s = Sphere(4)
+
+    assert str(s) == "Sphere with radius: 4.000000"
+
+def test_sphere_repr():
+    s = Sphere(4)
+
+    repr_s = repr(s)
+
+    assert repr_s == "Sphere(4)"
+
+    d = eval(repr_d)
+
+    assert isinstance(d, Sphere)
+    assert s.radius == 4
+
+def test_sphere_volume():
+    s = Sphere(3)
+
+    assert s.volume == 4 / 3 * pi * (3 ** 3)
+
+    # Volume should not be able to be set
+    try:
+        s.volume = 10
+    except AttributeError:
+        pass
+    else:
+        assert False
+
+def test_sphere_area:
+    s = Sphere(3)
+
+    assert s.area == 4 * pi * (3 ** 2)
+
+    # Suface area should not be able to be set
+    try:
+        s.area = 10
+    except AttributeError:
         pass
     else:
         assert False
