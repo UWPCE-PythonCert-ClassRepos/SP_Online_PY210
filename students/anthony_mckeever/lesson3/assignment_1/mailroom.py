@@ -4,6 +4,7 @@ Code Poet: Anthony McKeever
 Start Date: 07/30/2019
 End Date: 08/01/2019
 """
+import sys
 
 menu_opts = ["main", "return", "stop"]
 quit_opts = ["exit", "end", "quit"]
@@ -17,28 +18,16 @@ donors_list = [("Cresenta Starchelle", [99.99, 6000.00, 10345.23, 29.99]),
                ("Kayomi Matsuka", [0.01]),
                ("Katie Starchelle", [600.00])]
 
-stay_on = True
-
 
 def main():
     """
     The main loop of the script.  Prompts user with a main menu.
     """
     print("\nStudio Starchelle Donor Appreciation System\n")
-    while stay_on:
+    while True:
         print_menu()
         user_choice = input("What do you want to do? > ")
         handle_main_choice(user_choice.lower())
-
-
-def set_stay_on(val):
-    """
-    Set the value of the stay_on global variable.
-
-    :val:   The Boolean value to set the stay_on variable to.
-    """
-    global stay_on
-    stay_on = val
 
 
 def print_menu():
@@ -69,7 +58,7 @@ def handle_main_choice(user_choice):
     elif user_choice == "send a thank you":
         send_thanks()
     elif user_choice in quit_opts:
-        set_stay_on(False)
+        sys.exit()
     else:
         print("\nUnknown command.\n"
               "Type \"help\" to get all options.\n")
@@ -134,8 +123,7 @@ def thank_handle_choice(user_choice):
         return False
 
     elif user_choice.lower() in quit_opts:
-        set_stay_on(False)
-        return False
+        sys.exit()
 
     elif user_choice.lower() in help_opts:
         print_help(from_main=False)
@@ -151,8 +139,7 @@ def thank_handle_choice(user_choice):
             if donation in menu_opts:
                 return False
             elif donation in quit_opts:
-                set_stay_on(False)
-                return False
+                sys.exit()
 
             donation_float = float(donation)
             if donation_float <= 0.0:
