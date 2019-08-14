@@ -97,6 +97,40 @@ def test_repr():
     assert repr_c == "Circle(4)"
 
     d = eval(repr_c)
-    
+
     assert isinstance(d, Circle)
     assert d.radius == 4
+
+def test_add():
+    c = Circle(4) + Circle(2)
+    assert c.radius == 6
+
+    c1 = Circle(1) + Circle(2) + Circle(5)
+    assert c1.radius == 8
+
+    # test that the 2nd argument must be a Circle (or subclass)
+    try:
+        c2 = Circle(4) + 2
+    except TypeError:
+        pass
+    else:
+        assert False
+
+def test_multiply():
+    c = Circle(2) * 3
+    assert c.radius == 6
+
+    # reverse order test
+    c1 = 5 * Circle(3)
+    assert c1.radius == 15
+
+    # test that the 2nd argument must be a number
+    try:
+        c2 = Circle(2) * Circle(3)
+    except TypeError:
+        pass
+    else:
+        assert False
+
+    c3 = 3 * Circle(2) * 4
+    assert c3.radius == 24

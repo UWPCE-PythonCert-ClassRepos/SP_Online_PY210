@@ -70,3 +70,23 @@ class Circle(object):
 
     def __repr__(self):
         return "Circle({})".format(self.radius)
+
+    def __add__(self, other):
+        # test that the 2nd argument is a Circle
+        if not isinstance(other, Circle):
+            raise TypeError("Only a Circle (or subclass) can be added to a Circle.")
+        else:
+            new_radius = self.radius + other.radius
+            return Circle(new_radius)
+
+    def __mul__(self, other):
+        # test that the 2nd argument is an int or float
+        if not isinstance(other, (int, float)):
+            raise TypeError("A Circle can only be multiplied by a number.")
+        else:
+            new_radius = self.radius * other
+            return Circle(new_radius)
+
+    # This handles the case when the number is first, e.g. 3 * Circle(2)
+    __rmul__ = __mul__
+    
