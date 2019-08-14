@@ -83,3 +83,20 @@ def test_constructor_from_diameter():
         pass
     else:
         assert False
+
+def test_str():
+    c = Circle(4)
+
+    assert str(c) == "Circle with radius: 4.000000"
+
+def test_repr():
+    c = Circle(4)
+
+    repr_c = repr(c)
+
+    assert repr_c == "Circle(4)"
+
+    d = eval(repr_c)
+    
+    assert isinstance(d, Circle)
+    assert d.radius == 4

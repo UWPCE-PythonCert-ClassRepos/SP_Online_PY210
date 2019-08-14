@@ -58,9 +58,15 @@ class Circle(object):
             raise ValueError("Diameter must be a number.")
         if diameter < 0:
             raise ValueError("Negative diameter is not possible.")
-        
+
         self = cls()
         self._radius = 0.5 * diameter
         self._diameter = diameter
         self._area = pi * ((0.5 * diameter) ** 2)
         return self
+
+    def __str__(self):
+        return "Circle with radius: {:f}".format(float(self.radius))
+
+    def __repr__(self):
+        return "Circle({})".format(self.radius)
