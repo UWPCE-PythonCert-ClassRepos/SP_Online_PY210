@@ -17,7 +17,7 @@ def gutenberg_clean(guten_text):
     guten_text = guten_text.split('*** START OF ') # Get rid of the first part of the header
     print(len(guten_text))
     guten_text = guten_text[1][(guten_text[1].find('***')+3):] # Prior to the next '***' there may be arbitrary text
-    guten_text = guten_text.split('*** END OF THIS PROJECT GUTENBERG EBOOK') # Cut out the footer and T's & C's
+    guten_text = guten_text.split('*** END OF ') # Cut out the footer and T's & C's
 
     transtab = str.maketrans('“”', '""')
     return guten_text[0].translate(transtab)
