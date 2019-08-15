@@ -19,7 +19,6 @@ class Circle(object):
 
     @radius.setter
     def radius(self, radius):
-        print("In radius setter")
         if not isinstance(radius, (int, float)):
             raise ValueError("Radius must be a number.")
         if radius < 0:
@@ -33,7 +32,6 @@ class Circle(object):
 
     @diameter.setter
     def diameter(self, diameter):
-        print("in diameter setter")
         if not isinstance(diameter, (int, float)):
             raise ValueError("Diameter must be a number.")
         if diameter < 0:
@@ -48,7 +46,6 @@ class Circle(object):
 
     @area.setter
     def area(self, area):
-        print("in area setter")
         """ Prevent area from being set.
         """
         raise AttributeError("Area cannot be set.")
