@@ -70,10 +70,7 @@ def save_all_letters():
         print('Error creating {}'.format(letter_dir.absolute()))
 
     for donor in donors.keys():
-        total = 0
-        for amount in donors[donor]:
-            total += amount
-        letter_values = {'name': donor, 'amount': donors[donor][-1], 'total': total}
+        letter_values = {'name': donor, 'amount': donors[donor][-1], 'total': sum(donors[donor])}
         letter = letter_dir / (donor.replace(' ', '_') + '.txt')
         with letter.open("w") as fileio:
             fileio.write(letter_template.format(**letter_values))
