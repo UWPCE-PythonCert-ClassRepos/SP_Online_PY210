@@ -78,6 +78,10 @@ class Circle(object):
         return "{}({})".format(self.class_name(), self.radius)
 
     def __add__(self, other):
+        """ Note that a Sphere (or any subclass of Circle) can be added to a
+        circle and vice versa. Might not make sense but I'm not sure so I'll
+        just leave it.
+        """
         # test that the 2nd argument is a Circle
         if not isinstance(other, Circle):
             error_str = "Only a {} can be added to a {}.".format(self.class_name(), self.class_name())
@@ -87,6 +91,10 @@ class Circle(object):
             return self.__class__(new_radius)
 
     def __iadd__(self, other):
+        """ Note that a Sphere (or any subclass of Circle) can be added to a
+        circle and vice versa. Might not make sense but I'm not sure so I'll
+        just leave it.
+        """
         # test that the 2nd argument is a Circle
         if not isinstance(other, Circle):
             error_str = "Only a {} can be added to a {}.".format(self.class_name(), self.class_name())
@@ -145,4 +153,3 @@ class Sphere(Circle):
         """ Prevent volume from being set.
         """
         raise AttributeError("Volume cannot be set.")
-    
