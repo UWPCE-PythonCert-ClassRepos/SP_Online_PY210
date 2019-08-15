@@ -73,8 +73,13 @@ if __name__ == '__main__':
         print("Unable to read {}".format(argv[1]))
         quit()
     trigrams = build_trigrams(words)
-
-    literature = "It is"
+    sorted_trigrams = sorted(trigrams.items(), key = lambda x: len(x[1]), reverse = True)
+    for item in sorted_trigrams: # So we'll start with the two words with the most succeeding words...
+        if item[0][0].isupper() and item[1][-1].isalpha(): # ... provided the pair starts with a capital letter, and doesn't end with punctuation
+            literature = ' '.join(item[0])
+            break
+    else:
+        literature = ' '.join(sorted_trigrams[0][0]) # ... else we'll just pick the most plentiful entry.  Beats not starting at all...
     in_quote = False # sentinel value to help us finish a quote
 
     while literature_complete(literature) == False:
