@@ -51,9 +51,7 @@ def generate_report():
     print('{:24} | {:10} | {:10} | {:12}'.format('Donor Name', 'Total Given', 'Num Gifts', 'Average Gift'))
     print('-'*68)
     donor_report = [] # not a ton of value in converting this to a list.  it made things a bit more complicated...
-    for donor in donors.keys():
-        total = sum(donors[donor])
-        donor_report.append([donor, len(donors[donor]), total])
+    [donor_report.append([x, len(donors[x]), sum(donors[x])]) for x in donors]
     donor_report.sort(key = lambda x: x[2], reverse = True) # ...for instance here, where sorting the dict with a lambda function in sorted() was still possible, but then I'd have to cast the resultant list back to a dict
     for item in donor_report:
         report_output = {'name': item[0], 'total': item[2], 'gifts': item[1], 'average': (item[2] / item[1])}
@@ -73,7 +71,8 @@ def save_all_letters():
 
     for donor in donors.keys():
         total = 0
-        for amount in donors[donor]: total += amount
+        for amount in donors[donor]:
+            total += amount
         letter_values = {'name': donor, 'amount': donors[donor][-1], 'total': total}
         letter = letter_dir / (donor.replace(' ', '_') + '.txt')
         with letter.open("w") as fileio:
