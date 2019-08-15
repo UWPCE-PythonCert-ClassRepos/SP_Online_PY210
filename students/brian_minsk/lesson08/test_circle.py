@@ -3,6 +3,7 @@
 from circle import Circle, Sphere
 from math import pi
 
+
 def test_create_circle():
     """ Test basic circle initiation.
     """
@@ -17,13 +18,14 @@ def test_create_circle():
         pass
     else:
         assert False
-        
+
     try:
         another_circle = Circle("5")
     except ValueError:
         pass
     else:
         assert False
+
 
 def test_diameter_setter():
     """ Test setting the diameter property. Radius will also get set to half
@@ -42,13 +44,14 @@ def test_diameter_setter():
         pass
     else:
         assert False
-        
+
     try:
         my_circle.diameter = "8"
     except ValueError:
         pass
     else:
         assert False
+
 
 def test_area():
     my_circle = Circle(5)
@@ -63,6 +66,7 @@ def test_area():
     else:
         assert False
 
+
 def test_constructor_from_diameter():
     my_circle = Circle.from_diameter(10)
 
@@ -76,7 +80,7 @@ def test_constructor_from_diameter():
         pass
     else:
         assert False
-        
+
     try:
         another_circle = Circle.from_diameter("5")
     except ValueError:
@@ -84,10 +88,12 @@ def test_constructor_from_diameter():
     else:
         assert False
 
+
 def test_str():
     c = Circle(4)
 
     assert str(c) == "Circle with radius: 4.000000"
+
 
 def test_repr():
     c = Circle(4)
@@ -100,6 +106,7 @@ def test_repr():
 
     assert isinstance(d, Circle)
     assert d.radius == 4
+
 
 def test_add():
     c = Circle(4) + Circle(2)
@@ -115,6 +122,7 @@ def test_add():
         pass
     else:
         assert False
+
 
 def test_multiply():
     c = Circle(2) * 3
@@ -135,6 +143,7 @@ def test_multiply():
     c3 = 3 * Circle(2) * 4
     assert c3.radius == 24
 
+
 def test_comparison():
     c1 = Circle(1)
     c2 = Circle(2)
@@ -149,6 +158,7 @@ def test_comparison():
     assert c2 > c1
     assert c2 != c1
 
+
 def test_sort():
     circles = [Circle(6), Circle(7), Circle(8), Circle(4), Circle(0),
                Circle(2), Circle(3), Circle(5), Circle(9), Circle(1)]
@@ -156,10 +166,9 @@ def test_sort():
     assert circles == [Circle(0), Circle(1), Circle(2), Circle(3), Circle(4),
                        Circle(5), Circle(6), Circle(7), Circle(8), Circle(9)]
 
+
 def test_iadd():
     c1 = Circle(1)
-    c2 = Circle(2)
-
     c1 += Circle(2)
 
     assert c1 == Circle(3)
@@ -171,6 +180,7 @@ def test_iadd():
         pass
     else:
         assert False
+
 
 def test_imul():
     c = Circle(2)
@@ -186,12 +196,14 @@ def test_imul():
     else:
         assert False
 
+
 def test_sphere_creation():
     s = Sphere(2)
 
     assert s.radius == 2
 
     assert s.__class__ == Sphere
+
 
 def test_sphere_from_diameter():
     s = Sphere.from_diameter(5)
@@ -200,10 +212,12 @@ def test_sphere_from_diameter():
 
     assert s.__class__ == Sphere
 
+
 def test_sphere_str():
     s = Sphere(4)
 
     assert str(s) == "Sphere with radius: 4.000000"
+
 
 def test_sphere_repr():
     s = Sphere(4)
@@ -216,6 +230,7 @@ def test_sphere_repr():
 
     assert isinstance(d, Sphere)
     assert s.radius == 4
+
 
 def test_sphere_volume():
     s = Sphere(3)
@@ -230,6 +245,7 @@ def test_sphere_volume():
     else:
         assert False
 
+
 def test_sphere_area():
     s = Sphere(3)
 
@@ -243,12 +259,12 @@ def test_sphere_area():
     else:
         assert False
 
+
 def test_sphere_add():
     s = Sphere(4) + Sphere(2)
     assert s.radius == 6
 
     assert s.__class__ == Sphere
-
 
 
 def test_sphere_multiply():
@@ -260,6 +276,7 @@ def test_sphere_multiply():
     assert s1.radius == 15
 
     assert s.__class__ == Sphere
+
 
 def test_sphere_comparison():
     s1 = Sphere(1)
@@ -275,17 +292,17 @@ def test_sphere_comparison():
     assert s2 > s1
     assert s2 != s1
 
+
 def test_sphere_sort():
     spheres = [Sphere(6), Sphere(7), Sphere(8), Sphere(4), Sphere(0),
-                Sphere(2), Sphere(3), Sphere(5), Sphere(9), Sphere(1)]
+               Sphere(2), Sphere(3), Sphere(5), Sphere(9), Sphere(1)]
     spheres.sort()
     assert spheres == [Sphere(0), Sphere(1), Sphere(2), Sphere(3), Sphere(4),
-                        Sphere(5), Sphere(6), Sphere(7), Sphere(8), Sphere(9)]
+                       Sphere(5), Sphere(6), Sphere(7), Sphere(8), Sphere(9)]
+
 
 def test_sphere_iadd():
     s1 = Sphere(1)
-    s2 = Sphere(2)
-
     s1 += Sphere(2)
 
     assert s1 == Sphere(3)
@@ -296,5 +313,3 @@ def test__sphere_imul():
     s *= 3
 
     assert s == Sphere(6)
-
-    

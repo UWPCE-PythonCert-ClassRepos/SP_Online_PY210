@@ -70,13 +70,13 @@ class Circle(object):
     def class_name(self):
         return type(self).__name__
 
-    def __str__(self):        
+    def __str__(self):
         return "{} with radius: {:f}".format(self.class_name(),
                                              float(self.radius))
 
     def __repr__(self):
         return "{}({})".format(self.class_name(), self.radius)
-    
+
     def __add__(self, other):
         # test that the 2nd argument is a Circle
         if not isinstance(other, Circle):
@@ -145,4 +145,4 @@ class Sphere(Circle):
         """ Prevent volume from being set.
         """
         raise AttributeError("Volume cannot be set.")
-
+    
