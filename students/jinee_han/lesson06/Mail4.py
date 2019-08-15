@@ -1,12 +1,12 @@
 # --------------------------------
-# 07/14/19 Jinee Han
-# Python Programming Lesson 4
-# Mailroom Part 2
+# 08/14/2019 Jinee Han
+# Python Programming Lesson 6
+# Mailroom Part 4
 # ---------------------------------
 
 '''
 update
-Implement comprehensions and exception handling where possible
+Refactor mailroom to make it testable
 '''
 
 import sys, datetime
