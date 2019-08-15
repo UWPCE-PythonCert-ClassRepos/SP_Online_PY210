@@ -17,7 +17,9 @@ def gutenberg_clean(guten_text):
     guten_text = guten_text.split('*** START OF THIS PROJECT GUTENBERG EBOOK') # Get rid of the first part of the header
     guten_text = guten_text[1][(guten_text[1].find('***')+3):] # Prior to the next '***' there may be arbitrary text
     guten_text = guten_text.split('*** END OF THIS PROJECT GUTENBERG EBOOK') # Cut out the footer and T's & C's
-    return guten_text[0]
+
+    transtab = str.maketrans('“”', '""')
+    return guten_text[0].translate(transtab)
 
 def add_next_word(trigrams, wip):
     global in_quote
