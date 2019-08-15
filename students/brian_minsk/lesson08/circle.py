@@ -3,6 +3,7 @@
 from math import pi
 from functools import total_ordering
 
+
 @total_ordering
 class Circle(object):
     def __init__(self, radius=0):
@@ -11,7 +12,7 @@ class Circle(object):
         if radius < 0:
             raise ValueError("Negative radius is not possible.")
         self._radius = radius
-        
+
     @property
     def radius(self):
         return self._radius
@@ -24,7 +25,7 @@ class Circle(object):
         if radius < 0:
             raise ValueError("Negative radius is not possible.")
         self._radius = radius
-        
+
     @property
     def diameter(self):
         self._diameter = self._radius * 2
@@ -39,7 +40,7 @@ class Circle(object):
             raise ValueError("Negative diameter is not possible.")
         self._radius = 0.5 * diameter
         self._diameter = diameter
-        
+
     @property
     def area(self):
         self._area = pi * self._radius ** 2
@@ -76,18 +77,14 @@ class Circle(object):
     def __repr__(self):
         return "{}({})".format(self.class_name(), self.radius)
 
-    @classmethod
-    def __add__(cls, other):
-        self = cls()
-        print(self)
-        print(other)
-        # test that the 2nd argument is a Circle (or subclass)
-        if not isinstance(other, cls):
+    def __add__(self, other):
+        # test that the 2nd argument is a Circle
+        if not isinstance(other, Circle):
             error_str = "Only a {} can be added to a {}.".format(self.class_name(), self.class_name())
             raise TypeError(error_str)
         else:
             new_radius = self.radius + other.radius
-            return cls(new_radius)
+            return self.__class__(new_radius)
 
     def __iadd__(self, other):
         # test that the 2nd argument is a Circle
@@ -105,7 +102,7 @@ class Circle(object):
             raise TypeError(error_str)
         else:
             new_radius = self.radius * other
-            return Circle(new_radius)
+            return self.__class__(new_radius)
 
     # This handles the case when the number is first, e.g. 3 * Circle(2)
     __rmul__ = __mul__
@@ -114,7 +111,7 @@ class Circle(object):
         # test that the 2nd argument is an int or float
         if not isinstance(other, (int, float)):
             error_str = "A {} can only be multiplied by a number.".format(self.class_name())
-            raise TypeError()
+            raise TypeError(error_str)
         else:
             self.radius = self.radius * other
             return self
@@ -131,20 +128,21 @@ class Circle(object):
             raise TypeError(error_str)
         return self.radius < other.radius
 
-class Sphere(Circle):
-        @property
-        def area(self):
-            self._area = 4 * pi * self._radius ** 2
-            return self._area
 
-        @property
-        def volume(self):
-            self._volume = 4 / 3 * pi * self._radius ** 3
-            return self._volume
-    
-        @volume.setter
-        def volume(self, volume):
-            """ Prevent volume from being set.
-            """
-            raise AttributeError("Volume cannot be set.")
-    
+class Sphere(Circle):
+    @property
+    def area(self):
+        self._area = 4 * pi * self._radius ** 2
+        return self._area
+
+    @property
+    def volume(self):
+        self._volume = 4 / 3 * pi * self._radius ** 3
+        return self._volume
+
+    @volume.setter
+    def volume(self, volume):
+        """ Prevent volume from being set.
+        """
+        raise AttributeError("Volume cannot be set.")
+

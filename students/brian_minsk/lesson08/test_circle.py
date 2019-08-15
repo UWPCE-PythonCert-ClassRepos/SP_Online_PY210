@@ -186,6 +186,20 @@ def test_imul():
     else:
         assert False
 
+def test_sphere_creation():
+    s = Sphere(2)
+
+    assert s.radius == 2
+
+    assert s.__class__ == Sphere
+
+def test_sphere_from_diameter():
+    s = Sphere.from_diameter(5)
+
+    assert s.radius == 2.5
+
+    assert s.__class__ == Sphere
+
 def test_sphere_str():
     s = Sphere(4)
 
@@ -228,3 +242,59 @@ def test_sphere_area():
         pass
     else:
         assert False
+
+def test_sphere_add():
+    s = Sphere(4) + Sphere(2)
+    assert s.radius == 6
+
+    assert s.__class__ == Sphere
+
+
+
+def test_sphere_multiply():
+    s = Sphere(2) * 3
+    assert s.radius == 6
+
+    # reverse order test
+    s1 = 5 * Sphere(3)
+    assert s1.radius == 15
+
+    assert s.__class__ == Sphere
+
+def test_sphere_comparison():
+    s1 = Sphere(1)
+    s2 = Sphere(2)
+    s1a = Sphere(1)
+
+    assert s1 < s2
+    assert s1 <= s2
+    assert s1 <= s1a
+    assert s1 == s1a
+    assert s1 >= s1a
+    assert s2 >= s1
+    assert s2 > s1
+    assert s2 != s1
+
+def test_sphere_sort():
+    spheres = [Sphere(6), Sphere(7), Sphere(8), Sphere(4), Sphere(0),
+                Sphere(2), Sphere(3), Sphere(5), Sphere(9), Sphere(1)]
+    spheres.sort()
+    assert spheres == [Sphere(0), Sphere(1), Sphere(2), Sphere(3), Sphere(4),
+                        Sphere(5), Sphere(6), Sphere(7), Sphere(8), Sphere(9)]
+
+def test_sphere_iadd():
+    s1 = Sphere(1)
+    s2 = Sphere(2)
+
+    s1 += Sphere(2)
+
+    assert s1 == Sphere(3)
+
+
+def test__sphere_imul():
+    s = Sphere(2)
+    s *= 3
+
+    assert s == Sphere(6)
+
+    
