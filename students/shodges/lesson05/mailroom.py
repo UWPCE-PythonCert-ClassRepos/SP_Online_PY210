@@ -60,21 +60,27 @@ def generate_report():
 
 def save_all_letters():
     letter_dir = Path(input('Please specify a directory to save letters in: '))
-    if not letter_dir.is_dir():
-        print('{} is an invalid directory; using {}'.format(letter_dir, tempfile.gettempdir()))
-        letter_dir = Path(tempfile.gettempdir())
     letter_dir = letter_dir / ('{:%Y%m%d-%H%M}'.format(datetime.now()))
     try:
         letter_dir.mkdir(exist_ok=True)
-    except:
-        print('Error creating {}'.format(letter_dir.absolute()))
+    except NotADirectoryError:
+        print('{} is not a directory; using {}'.format(letter_dir, tempfile.gettempdir()))
+        letter_dir = Path(tempfile.gettempdir())
+    except FileNotFoundError:
+        print('{} was not found; using {}'.format(letter_dir, tempfile.gettempdir()))
+        letter_dir = Path(tempfile.gettempdir())
 
     for donor in donors.keys():
         letter_values = {'name': donor, 'amount': donors[donor][-1], 'total': sum(donors[donor])}
         letter = letter_dir / (donor.replace(' ', '_') + '.txt')
-        with letter.open("w") as fileio:
-            fileio.write(letter_template.format(**letter_values))
-    print('Saved letters in {}'.format(letter_dir.absolute()))
+        try:
+            with letter.open("w") as fileio:
+                fileio.write(letter_template.format(**letter_values))
+        except (NotADirectoryError, FileNotFoundError):
+            print('Error creating {}\n'.format(letter))
+            break
+    else:
+        print('Saved letters in {}\n'.format(letter_dir.absolute()))
 
 if __name__ == '__main__':
     menu_dispatch = {1: send_thank_you, 2: generate_report, 3:save_all_letters, 4: quit}
