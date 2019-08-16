@@ -34,7 +34,8 @@ def send_thank_you():
             try:
                 donors[donor].append(float(amount))
             except ValueError:
-                break
+                print('Invalid donation amount {}\n'.format(amount))
+                break # this isn't necessary to get to the main menu but if we don't call it, it will raise a ValueError in the main try/except block
             total = sum(donors[donor])
             letter_values = {'name': donor, 'amount': float(amount), 'total': total}
             print(("""
