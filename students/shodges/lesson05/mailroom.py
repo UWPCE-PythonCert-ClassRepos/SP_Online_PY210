@@ -54,9 +54,7 @@ def send_thank_you():
 def generate_report():
     print('{:24} | {:10} | {:10} | {:12}'.format('Donor Name', 'Total Given', 'Num Gifts', 'Average Gift'))
     print('-'*68)
-    donor_report = [] # not a ton of value in converting this to a list.  it made things a bit more complicated...
-    [donor_report.append([x, len(donors[x]), sum(donors[x])]) for x in donors]
-    donor_report.sort(key = lambda x: x[2], reverse = True) # ...for instance here, where sorting the dict with a lambda function in sorted() was still possible, but then I'd have to cast the resultant list back to a dict
+    donor_report = sorted([[x, len(donors[x]), sum(donors[x])] for x in donors], key = lambda x: x[2], reverse = True)
     for item in donor_report:
         try:
             report_output = {'name': item[0], 'total': item[2], 'gifts': item[1], 'average': (item[2] / item[1])}
