@@ -76,6 +76,9 @@ def save_all_letters():
     except FileNotFoundError:
         print('{} was not found; using {}'.format(letter_dir, tempfile.gettempdir()))
         letter_dir = Path(tempfile.gettempdir())
+    except PermissionError:
+        print('Unable to create folder {}, using {}'.format(letter_dir, tempfile.gettempdir()))
+        letter_dir = Path(tempfile.gettempdir())
 
     for donor in donors.keys():
         try:
@@ -86,9 +89,9 @@ def save_all_letters():
         try:
             with letter.open("w") as fileio:
                 fileio.write(letter_template.format(**letter_values))
-        except (NotADirectoryError, FileNotFoundError):
-            print('Error creating {}\n'.format(letter))
-            break
+        except (NotADirectoryError, FileNotFoundError, PermissionError):
+            print('Error creating {}'.format(letter))
+            continue
     else:
         print('Saved letters in {}\n'.format(letter_dir.absolute()))
 
