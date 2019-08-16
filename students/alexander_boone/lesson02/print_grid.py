@@ -1,10 +1,12 @@
+
+ # Simple grid with defined size per assignment instructions
 def step_one_grid():
+    """step_one_grid prints a grid of a defined size per assignment instructions"""
     x = 4
     dash = x * '-'
     space = x * ' '
 
-# Print out grid
-
+    # Print out grid
     print('+', dash, '+', dash, '+')
 
     for i in range(4):
@@ -17,8 +19,9 @@ def step_one_grid():
     
     print('+', dash, '+', dash, '+')
 
+# Level 2 grid with size based on one input argument: n
 def print_grid(n):
-    """ print_grid prints a grid based on input argument size n"""
+    """ print_grid prints a grid based on one input argument: n"""
     
     # Number of dashes or spaces as function of size n
     x = (n-1)//2
@@ -39,6 +42,7 @@ def print_grid(n):
     
     print('+', dash, '+', dash, '+')
 
+# Level 3 grid with size based on two input arguments: col and units
 def print_grid2(col, units):
     """ print_grid2 prints a grid based on input parameters col and units"""
     dash = units * '-'
