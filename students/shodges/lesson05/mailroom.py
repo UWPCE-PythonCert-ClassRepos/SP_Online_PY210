@@ -88,6 +88,7 @@ Options:
   4 Quit
 """)
         option = input('Please select an option (1, 2, 3, 4): ')
-        if option.isnumeric():
-            if int(option) in menu_dispatch.keys():
-                menu_dispatch.get(int(option))()
+        try:
+            menu_dispatch.get(int(option))()
+        except (TypeError, ValueError):
+            print('Invalid option {}\n'.format(option))
