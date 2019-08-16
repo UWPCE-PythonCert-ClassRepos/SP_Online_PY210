@@ -75,7 +75,10 @@ def save_all_letters():
         letter_dir = Path(tempfile.gettempdir())
 
     for donor in donors.keys():
-        letter_values = {'name': donor, 'amount': donors[donor][-1], 'total': sum(donors[donor])}
+        try:
+            letter_values = {'name': donor, 'amount': donors[donor][-1], 'total': sum(donors[donor])}
+        except IndexError: # this occurs if an invalid donation amount is entered in send_thank_you for a new donor and the donor entry isn't removed
+            continue
         letter = letter_dir / (donor.replace(' ', '_') + '.txt')
         try:
             with letter.open("w") as fileio:
