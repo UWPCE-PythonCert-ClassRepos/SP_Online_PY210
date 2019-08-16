@@ -55,8 +55,11 @@ def generate_report():
     [donor_report.append([x, len(donors[x]), sum(donors[x])]) for x in donors]
     donor_report.sort(key = lambda x: x[2], reverse = True) # ...for instance here, where sorting the dict with a lambda function in sorted() was still possible, but then I'd have to cast the resultant list back to a dict
     for item in donor_report:
-        report_output = {'name': item[0], 'total': item[2], 'gifts': item[1], 'average': (item[2] / item[1])}
-        print('{name:24}  ${total:10.2f}   {gifts:10d}   ${average:12.2f}'.format(**report_output))
+        try:
+            report_output = {'name': item[0], 'total': item[2], 'gifts': item[1], 'average': (item[2] / item[1])}
+            print('{name:24}  ${total:10.2f}   {gifts:10d}   ${average:12.2f}'.format(**report_output))
+        except ZeroDivisionError: # this occurs if an invalid donation amount is entered in send_thank_you for a new donor and the donor entry isn't removed
+            continue
     print('')
 
 def save_all_letters():
