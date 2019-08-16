@@ -45,22 +45,6 @@ PROMPT_TEXT = (
 )
 
 
-def prompt_user():
-    """ Prompts the user for menu option """
-    switch_func_dict = {
-        1: add_donor,
-        2: generate_report,
-        3: create_files,
-        4: quit_program,
-    }
-    try:
-        result = input(PROMPT_TEXT)
-        result = int(result)
-        switch_func_dict.get(result)()
-    except (ValueError, TypeError):
-        print("\nInvalid Entry")
-
-
 def initialize_donors():
     """
     Populate the donor list with the initial donors
@@ -81,19 +65,34 @@ def calculate_stats(donations):
         donations: list of all donations
 
     Returns:
-        donor_sum: Sum of all donations
-        donor_num: Number of donations
-        donor_average: Average of all donations    
+        result: dict of sum, length and average   
     """
-    donor_sum = sum(donations)
-    donor_num = len(donations)
-    donor_average = donor_sum / donor_num
-    return (donor_sum, donor_num, donor_average)
+    results = {'sum':sum(donations),
+                'len':len(donations),
+                'average':sum(donations)/len(donations)}
+    
+    return results
 
 
-def sort_donors_by_total(name):
-    """ Function used to sort donors by total contributions """
-    return sum(DONORS[name])
+def prompt_user():
+    """ Prompts the user for menu option """
+    switch_func_dict = {
+        1: add_donor,
+        2: generate_report,
+        3: create_files,
+        4: quit_program,
+    }
+    try:
+        result = input(PROMPT_TEXT)
+        result = int(result)
+        switch_func_dict.get(result)()
+    except (ValueError, TypeError):
+        print("\nInvalid Entry")
+
+
+
+
+
 
 
 def quit_program():
@@ -131,28 +130,40 @@ def create_files():
         except OSError:
             print("File failure")
 
+def sort_donors_by_total(donors):
+    print(type(donors))
+    """ Function used to sort donors by total contributions """
+    return sum(donors)
 
-def generate_report():
+def generate_report(donors):
     """ Generates a formatted report of donor names, total donation, # of donations and average donation """
-    names = DONORS
-    print("\n")
-    column_donor_length = 0
-    for name in names:
-        column_donor_length = max(len(names), column_donor_length) + 5
+    names = donors.keys()
+    print("donors=", donors)
+    print("names=", names)
+    result = []
 
+
+    column_donor_length = max([len(name)+5 for name in names]) 
+    
     f_str = " {" + f":<{column_donor_length}" + "} | {} | {} | {}"
     title_str = f_str.format("Donor Name", "Total Given", "Num Gifts", "Average Gift")
-    print(title_str)
-    print("-" * len(title_str))
+    result.append(title_str)
+    result.append("-" * len(title_str))
 
-    names = sorted(DONORS, key=sort_donors_by_total, reverse=True)
+    
     for name in names:
-        f_str = " {" + f":<{column_donor_length}" + "}  ${:11.2f}   {:9}  ${:12.2f}"
-        (d_sum, d_num, d_ave) = calculate_stats(DONORS[name])
-        v_str = f_str.format(name, d_sum, d_num, d_ave)
+    names = sorted(donors.values(), key=sort_donors_by_total, reverse=True)
+    # names = sorted(sum(donors.iterkeys()))
+    print(names)
 
-        print(v_str)
+    # for name in names:
+    #     f_str = " {" + f":<{column_donor_length}" + "}  ${:11.2f}   {:9}  ${:12.2f}"
+    #     (d_sum, d_num, d_ave) = calculate_stats(DONORS[name])
+    #     v_str = f_str.format(name, d_sum, d_num, d_ave)
+    #     result.append(v_str)
+    #     # print(v_str)
 
+    # return result
 
 def print_donor_list(values):
     """ Prints the list of donors passed to function"""
