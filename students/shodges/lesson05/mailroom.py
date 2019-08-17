@@ -28,11 +28,11 @@ def send_thank_you():
             for item in donors.keys():
                 print(item)
         else:
-            if not donor in donors.keys():
-                donors[donor] = []
             amount = input('Please enter a donation amount: ')
             try:
                 donors[donor].append(float(amount))
+            except KeyError:
+                donors[donor] = [float(amount)]
             except ValueError:
                 print('Invalid donation amount {}\n'.format(amount))
                 if len(donors[donor]) == 0: # we caught the exceptions for this case but we'll remove the entry too
