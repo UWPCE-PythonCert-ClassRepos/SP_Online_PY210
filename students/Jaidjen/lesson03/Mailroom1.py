@@ -1,7 +1,7 @@
-import sys 
+import sys
 
 
-donors  =[('James Smith',[2000.25, 500, 27.50]),
+donors  =[('James Smith',[21000.25, 500, 27.50]),
         ('Dorothy Parker',[3175, 475.45, 92.30]),
         ('Dohgyu Hwang',[10670, 350.19,175]),
         ('Sally Yu', [100, 925]),
@@ -17,28 +17,33 @@ prompt = "\n".join(("Functions:",
 
 def add_donors():
     print("If you want a list of donors please type 'list' ")
-    new_donors = input("Please enter the full name of the donor or select list?  ")
-    for i in range(len(donors)):
-        while True:
-            if new_donors == "list":
-                print("{:<20s}".format(donors[i][0]))
-                break
+    while True:
+        response = input("Please enter the full name of the donor or select list? ")
+        if response == "list":
+            list_donors()
+            break
+        else:
+            amount = int(input("Please enter the amount of donation: "))
+            for donor in donors:
+                if donor[0] == response:
+                    donor.append((response, [amount]))
+                    break
             else:
-                donation_amt = int(input("Please enter the donation amount: "))
-                for donor in donors:
-                    if donor[0] == new_donors:
-                        donors.append()
-                        break
-                    else:
-                        donors.append(new_donors)
-                        donors.append(donation_amt)
-                        print('Dear', new_donors, ',')
-                        print('Thank you', new_donors, 'for donating', '{:.2f}'.format(int(donation_amt)))
-                        print('We appreciate your generosity.')
-                        print()
-                        print('Sincerely, Donation Team')
-                        print()
-                        main()
+                donors.append((response, [amount]))
+                print('Dear', response, ',')
+                print('Thank you', response, 'for donating', '{:.2f}'.format(int(amount)))
+                print('We appreciate your generosity.')
+                print()
+                print('Sincerely, Donation Team')
+                print()
+                break
+
+
+
+def list_donors():
+    for i in range(len(donors)):
+        print("{:<20s}".format(donors[i][0]))
+
 
 def view_donors(donors):
     print("{:20s}{:20s}{:20s}{:20s}".format("DONOR ", "| TOTAL GIVEN ", "| NUMBER OF GIFTS ", "| AVERAGE GIFTS "))
