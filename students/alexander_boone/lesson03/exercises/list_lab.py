@@ -40,4 +40,22 @@ l.remove(fruit_delete)
 print(l)
 
 # --------------------------------------------------- SERIES 3 -----------------------------------------------------
+possible_answers = ["yes", "Yes", "no", "No"]
+removed_fruit = []
+for fruit_item in l:
+    
+    like_fruit = ""
 
+    # loop until yes or no is input by user
+    while like_fruit not in possible_answers:
+        like_fruit = input(f"Do you like {fruit_item}? (Yes/No) ")
+    
+    # if no, add fruit_item to removed_fruit list
+    if like_fruit == "no" or like_fruit == "No":
+        removed_fruit.append(fruit_item)
+
+# constructs new list by removing removed_fruit list items from l
+l = [x for x in l if x not in removed_fruit]
+print(l)
+
+# --------------------------------------------------- SERIES 4 -----------------------------------------------------
