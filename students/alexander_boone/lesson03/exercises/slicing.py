@@ -8,10 +8,15 @@ def remove_every_other(seq):
     """Remove every other item in a sequence."""
     return seq[::2]
 
-# 
+# define remove_end_fours
 def remove_end_fours(seq):
     """Remove the first and last four items of the sequence and return every other item of remaining sequence"""
     return seq[4:-4:2]
+
+# define reverse_seq
+def reverse_seq(seq):
+    """Reverse the elements in a sequence."""
+    return seq[::-1]
 
 # test all functions
 if __name__ == "__main__":
@@ -36,6 +41,11 @@ if __name__ == "__main__":
     assert remove_end_fours(a_long_string) == "mr tpcoe owiigLe"
     assert remove_end_fours(a_long_list) == ["code",  "code", "matter", "got", "on", "mind"]
     print('remove_end_fours: Success!')
+
+    # reverse_seq
+    assert reverse_seq(a_string) == "nohtyP ytnoM"
+    assert reverse_seq(a_list) == ["y", "t", "n", "o", "M"]
+    print('reverse_seq: Success!')
 
     
 
