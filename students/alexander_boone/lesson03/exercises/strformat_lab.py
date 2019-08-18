@@ -39,3 +39,11 @@ def formatter(tup):
 t_4 = (4, 30, 2017, 2, 27)
 
 print(f"{t_4[3]:02d} {t_4[4]:02d} {t_4[2]:d} {t_4[0]:02d} {t_4[1]:02d}")
+
+# --------------------------------------------------- TASK 5 -----------------------------------------------------
+
+l_5 = ['oranges', 1.3, 'lemons', 1.1]
+
+print(f"The weight of an {l_5[0][:-1]} is {l_5[1]} and the weight of a {l_5[2][:-1]} is {l_5[3]}")
+ # prints string in uppercase with a weight that is 20% greater
+print(f"The weight of an {l_5[0][:-1].upper()} is {l_5[1] * 1.2} and the weight of a {l_5[2][:-1].upper()} is {l_5[3] * 1.2}")
