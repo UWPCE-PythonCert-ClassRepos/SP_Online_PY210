@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 
+# Note: Unsure if list from beginning or end of series 1 should be used for later series. 
+#       I reused the list from the end of series 1 in later series.
 
 # --------------------------------------------------- SERIES 1 -----------------------------------------------------
+print("------------------ SERIES 1 ------------------")
 l = ["Apples", "Pears", "Oranges", "Peaches"]
 print(l)
 
@@ -25,9 +28,11 @@ for fruit in l:
     if fruit[0] == "P" or fruit[0] == "p":
         print(fruit)
 
+series1_list = list(l)
 # --------------------------------------------------- SERIES 2 -----------------------------------------------------
-
+print("------------------ SERIES 2 ------------------")
 # display list
+l = list(series1_list)
 print(l)
 
 # remove last element from list
@@ -40,6 +45,9 @@ l.remove(fruit_delete)
 print(l)
 
 # --------------------------------------------------- SERIES 3 -----------------------------------------------------
+print("------------------ SERIES 3 ------------------")
+l = list(series1_list)
+print(l)
 possible_answers = ["yes", "Yes", "no", "No"]
 removed_fruit = []
 for fruit_item in l:
@@ -59,3 +67,14 @@ l = [x for x in l if x not in removed_fruit]
 print(l)
 
 # --------------------------------------------------- SERIES 4 -----------------------------------------------------
+print("------------------ SERIES 4 ------------------")
+l = list(series1_list)
+
+# reverse string in each item of list
+for item in l:
+    l[l.index(item)] = item[::-1]
+
+# remove last item from series1_list, print it, and print the original series1_list
+series1_list.pop()
+print(series1_list)
+print(l)
