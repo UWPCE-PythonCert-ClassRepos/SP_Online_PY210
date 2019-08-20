@@ -29,16 +29,22 @@ class DonorCollection():
         self.donors = {d.name: d for d in args}
 
     def new_donation(self, name, donation):
+        '''checks if donor in collection and either adds new donation
+        or creates a new donor and adds donation'''
         if self.donors.get(name):
             self.donors[name].new_donation(donation)
         else:
-            self.donors[name] = Donor(name, donation)
-        print("\nDear {},\nThank you for your generous donation of ${:.2f}!\n".format(name, donation))
+            self.donors[name] = Donor(name, [donation])
+        print("\nDear {},\nThank you for your generous donation of ${:.2f}!\n".format(name,
+                                                                                      donation))
 
     def get_report(self):
+        '''creates a list of donors and their donation summaries so it can be
+        formated for printing'''
         report = []
         for donor_obj in self.donors.values():
-            new_entry = (donor_obj.name, donor_obj.sum_donations(), donor_obj.number_of_donations(), donor_obj.avg_donation())
+            new_entry = (donor_obj.name, donor_obj.sum_donations(), donor_obj.number_of_donations(),
+                         donor_obj.avg_donation())
             report.append(new_entry)
         report.sort(key=second_sort, reverse=True)
         return report

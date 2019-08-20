@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
+
 from donor_models import *
 import sys
+
 
 prompt = '\n'.join(('Welcome to the mailroom',
          'Please choose from the following options:',
@@ -8,6 +10,7 @@ prompt = '\n'.join(('Welcome to the mailroom',
          '2 - Create a Report',
          '3 - Quit',
          '> '))
+
 
 #Initialize donor database
 eddie = Donor('Eddie Vedder',[10000.00, 20000.00, 4500.00])
@@ -18,47 +21,57 @@ daveG = Donor('Dave Grohl', [50.00])
 
 donor_db = DonorCollection(eddie, chris, kurt, daveM, daveG)
 
+
 #send a thank you tasks
 def initial_input():
+    '''Prompt user to query a name or ask for a list of the donors'''
     ty_prompt = input('Please enter a full name or type list to see all the current donors: ')
     return ty_prompt
 
 
 def donation_prompt():
+    '''Prompt user to enter a donation amount'''
     donation = input('Please enter a donation amount: ')
     try:
         donation = float(donation)
     except ValueError:
         print('Please enter an integer for the donation amount.')
     else:
-        return donation
+        try:
+            assert donation > 0
+        except AssertionError:
+            print('Donation should be greater than zero!')
+        else:
+            return donation
 
 
 def thank_you():
     thank_you_logic(initial_input())
 
 
+def donor_list():
+    '''simple list print function'''
+    print(donor_db.donors.keys())
+
+
 def thank_you_logic(name):
     if name.lower() == 'list':
-        print(donor_db.donors.keys())
+        donor_list()
     else:
         donation_amt = donation_prompt()
         donor_db.new_donation(name, donation_amt)
 
 
 #Create a report tasks
-
 def create_report():
-#    print(donor_db.donors)
-    '''formats create_table into the create_report format'''
+    '''formats get_report into the create_report format'''
     header = ('Donor Name', 'Total Given', 'Num Gifts', 'Average Gift')
     table_header = "{:<20}| {} | {} | {}".format(*header) + '\n' + "-" * 60
     line_format = ("{:<20}" + " $" + "{:>12.2f}" + "{:>11}" + "  $" + "{:>12.2f}")
     print(table_header)
     table = donor_db.get_report()
-    print(table)
-#    for entry in table:
-#        print(line_format.format(*entry))
+    for entry in table:
+        print(line_format.format(*entry))
 
 
 #make a function to exit the program
