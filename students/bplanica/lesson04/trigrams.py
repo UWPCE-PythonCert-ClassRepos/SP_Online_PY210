@@ -6,13 +6,14 @@ import random
 # Dev: Breeanna Planica
 # ChangeLog: (who, when, what)
 #   BPA, 8/18/2019, Created and tested script
+#   BPA, 8/20/2019, added confirmaiton of ebook type
 # ------------------------------ #
 
 # ----- Data ----- #
 # ---------------- #
 lst_words = [] # list to store words from txt file
 lst_story = [] # list to store word sequences using trigrams
-file_name = "./sherlock.txt" # text file to read/process
+#file_name = "./sherlock.txt" # text file to read/process
 
 # ----- Processing ----- #
 # ---------------------- #
@@ -21,8 +22,28 @@ def read_file(obj_file_name):
     try:
         obj_file = open(obj_file_name, "r") # open file as read only
     except:
-        print("This program requires 'sherlock.txt' file.")
+        print("Text file not found in working folder.")
         raise SystemExit
+    
+    for row in obj_file: # for each line in the text file...
+        row = row.replace(",", "") # remove commas
+        row = row.replace("(", "") # remove parenthesis
+        row = row.replace(")", "") # remove parenthesis
+        row = row.replace("--", " ") # remove double hyphens
+        words = row.split() # split words by spaces
+        for item in words:
+            lst_words.append(item) # append each word to store all words from txt file
+    return lst_words
+
+
+def read_file_ebook(obj_file_name):
+    """ reads text file and gathers all words within the story """
+    try:
+        obj_file = open(obj_file_name, "r") # open file as read only
+    except:
+        print("Text file not found in working folder.")
+        raise SystemExit
+    
     switch = False # detemines start of the story in Project Gutenberg texts
     for row in obj_file: # for each line in the text file...
         row = row.replace(",", "") # remove commas
@@ -73,7 +94,14 @@ def build_story(dictionary):
 # ----- Presentation ----- #
 # ------------------------ #
 if __name__ == "__main__":
-    lst_words = read_file(file_name) # gather the list of words
+    response = input("What is the file name you would like to process? (file name and extension only): ").strip()
+    file_name = "./" + response
+    response = input("Is this a full Project Gutenburg eBook? (Y/N): ").strip()
+    print()
+    if response.upper() == "Y":
+        lst_words = read_file_ebook(file_name) # gather the list of words
+    else:
+        lst_words = read_file(file_name) # gather the list of words
     trigrams = build_trigrams(lst_words) # build the dictionary
     #for key, value in trigrams.items():
     #    print(f"{key}, {value}")
