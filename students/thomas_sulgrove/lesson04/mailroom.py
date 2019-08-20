@@ -25,7 +25,12 @@ thank_you_prompt = "Please enter the full name of the donor or type 'list' for l
 
 write_location_prompt = "Please enter the directory name to save to, or type 'no' for temp directory. \n"
 
-main_prompt = "Please choose from the following options:"
+main_prompt = "\n".join(("Please choose from the following options:",
+          "1 - Create a report",
+          "2 - Send thank you letter to one donor",
+          "3 - Send thank you letter to all donors",
+          "4 - Exit \n"
+          ))
 
 #email
 thank_you_email = "\n".join(("Dear {donor},",
@@ -52,9 +57,6 @@ def exit_program():
     #You lose!
     print("Good day!")
     sys.exit()
-
-def prompt(prompt, keys):
-   return "\n".join((prompt,"\n".join(list(keys)))) + "\n"
     
 def send_thank_you_one():
     #import db
@@ -65,8 +67,8 @@ def send_thank_you_one():
         donor_name = input(thank_you_prompt)
         #print out names
         if donor_name == 'list':
-            for key, value in donor_db.items():
-                print(key)
+            for name in donor_db.items():
+                print(name)
             #skip loop to reprompt
             continue
         #ask for the donation amount
@@ -95,15 +97,9 @@ def send_thank_you_all():
         else:
             file_name = response + key + '.txt'
         
-        
-        with open(file_name, 'w') as file:
+        with open(file_name, 'w') as thank_you:
             thanks_dict = {"donor": key, "donation": value[-1], "total": sum(value)}
-            file.write(thank_you_email.format(**thanks_dict))
-            
-#            file_object = open(file_name + '.txt', 'w')
-#            thanks_dict = {"donor": key, "donation": value[-1], "total": sum(value)}
-#            print(thank_you_email.format(**thanks_dict))
-#            file_object.write(thank_you_email.format(**thanks_dict))
+            thank_you.write(thank_you_email.format(**thanks_dict))
     
 def sort_key(db):
     #sum up donations for sortation
@@ -111,10 +107,10 @@ def sort_key(db):
 
 ##Switchs
 main_menu = {
-        "1 - Create a report" : create_a_report,
-        "2 - Send thank you letter to one donor" : send_thank_you_one,
-        "3 - Send thank you letter to all donors" : send_thank_you_all,
-        "4 - Exit" : exit_program
+        1 : create_a_report,
+        2 : send_thank_you_one,
+        3 : send_thank_you_all,
+        4 : exit_program
         }
 
 ##### Main 
@@ -122,9 +118,12 @@ def main():
     #keep doing this until further notice
     while True:
         #print out main menu for user choice
-        response = int(input(prompt(main_prompt, main_menu.keys()))) - 1
-        #trigger function based on input
-        main_menu[list(main_menu.keys())[response]]()
+        try:
+            response = int(input(main_prompt))
+        except:
+            print("please input valid number")
+            pass
+        main_menu.get(response)()
 
 if __name__ == '__main__':
     main()
