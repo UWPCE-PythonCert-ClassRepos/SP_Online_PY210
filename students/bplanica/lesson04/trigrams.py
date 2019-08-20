@@ -103,7 +103,7 @@ if __name__ == "__main__":
     else:
         lst_words = read_file(file_name) # gather the list of words
     trigrams = build_trigrams(lst_words) # build the dictionary
-    #for key, value in trigrams.items():
-    #    print(f"{key}, {value}")
+    for key, value in trigrams.items():
+        print(f"{key}, {value}")
     lst_story = build_story(trigrams) # build the story
     print(" ".join(lst_story)) # print the list/story with spaces in between words
