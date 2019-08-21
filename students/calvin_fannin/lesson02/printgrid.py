@@ -57,8 +57,8 @@ def draw_grid3(rows_col=1,grid_size=1):
 
 
 draw_grid()
-draw_grid2(-2.4423)
-draw_grid3(3.4432,-2)
+draw_grid2(3)
+draw_grid3(3.4432,3)
 
 
 
