@@ -7,7 +7,7 @@ def create_type_error():
     print(a+b)
 
 def create_syntax_error():
-    #print("Hello World"")
+    print("Hello World"")
 
 def create_attr_error():
     a=3

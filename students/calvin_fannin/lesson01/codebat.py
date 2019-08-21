@@ -37,10 +37,6 @@ def parrot_trouble(talking,hour):
 def makes10(a,b):
     return(a==10 or b==10 or (a +b)==10)
 
-def missing_char(str, n):
-    if len(str):
-
-
 
 
 print(sleep_in(False,False))
