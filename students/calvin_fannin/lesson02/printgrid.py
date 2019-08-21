@@ -29,10 +29,12 @@ def draw_grid2(grid_size):
     blank = ' '
     pipe = '|'
     grid_size = round(abs(grid_size))
-
+    #reate string for fill and line based on grind size
     line = plus + minus * (4 * grid_size ) + blank
     fill = pipe + blank + blank * (8 * grid_size)
+    #print top line
     print (line + line + plus )
+    #print box expanded by grid size
     print ((fill * 2 + pipe + "\n") * 4 * grid_size, end="")
     print (line + line + plus)
     print ((fill * 2 + pipe + "\n") *4 * grid_size, end="")
@@ -47,9 +49,11 @@ def draw_grid3(rows_col=1,grid_size=1):
 
     rows_col = round(abs(rows_col))
     grid_size = round(abs(grid_size))
-
+    #Create string for line
     line = plus + minus * (4 * grid_size ) + blank
+    #create string for filler for box
     fill = pipe + blank + blank * (8 * grid_size)
+    #Loop and create columns and rows specified in rows_col
     for row in range(rows_col):
         print ((line * rows_col) + plus )
         print ((fill * rows_col + pipe + "\n") * 4 * grid_size, end="")
