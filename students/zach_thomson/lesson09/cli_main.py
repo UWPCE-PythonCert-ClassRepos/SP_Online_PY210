@@ -29,6 +29,16 @@ def initial_input():
     return ty_prompt
 
 
+def add_donor_prompt(name):
+    add_prompt = input('Do you want to add {} to the donor list? (Yes/No)'.format(name))
+    if add_prompt.lower() == 'yes':
+        return True
+    elif add_prompt.lower() == 'no':
+        return False
+    else:
+        return add_donor_prompt(name)
+
+
 def donation_prompt():
     '''Prompt user to enter a donation amount'''
     donation = input('Please enter a donation amount: ')
@@ -50,7 +60,6 @@ def thank_you():
 
 
 def donor_list():
-    '''simple list print function'''
     print(donor_db.donors.keys())
 
 
@@ -58,8 +67,16 @@ def thank_you_logic(name):
     if name.lower() == 'list':
         donor_list()
     else:
-        donation_amt = donation_prompt()
-        donor_db.new_donation(name, donation_amt)
+        if name not in donor_db.donors.keys():
+            add = add_donor_prompt(name)
+            if add == True:
+                donation_amt = donation_prompt()
+                donor_db.new_donation(name, donation_amt)
+            else:
+                print('Donor not added!')
+        else:
+            donation_amt = donation_prompt()
+            donor_db.new_donation(name, donation_amt)
 
 
 #Create a report tasks
