@@ -10,7 +10,10 @@ donors = {'William Henry Harrison' : [806.25, 423.10],
           'Chester A. Arthur' : [10236.91]}
 
 def format_letter(donor, extra_whitespace = False):
-    letter_values = {'name': donor, 'amount': donors[donor][-1], 'total': sum(donors[donor])}
+    try:
+        letter_values = {'name': donor, 'amount': donors[donor][-1], 'total': sum(donors[donor])}
+    except IndexError:
+        return False
     letter_template = """Dear {name},
 On behalf of all of us at Save the Marmots, thank you for your recent gift of ${amount:.2f}.  When it comes to ensuring marmots have loving homes, every dollar goes a long way.
 
@@ -83,14 +86,10 @@ def save_all_letters():
         letter_dir = Path(tempfile.gettempdir())
 
     for donor in donors.keys():
-        try:
-            letter_values = {'name': donor, 'amount': donors[donor][-1], 'total': sum(donors[donor])}
-        except IndexError: # this occurs if an invalid donation amount is entered in send_thank_you for a new donor and the donor entry isn't removed
-            continue
         letter = letter_dir / (donor.replace(' ', '_') + '.txt')
         try:
             with letter.open("w") as fileio:
-                fileio.write(letter_template.format(**letter_values))
+                fileio.write(format_letter(donor))
         except (NotADirectoryError, FileNotFoundError, PermissionError):
             print('Error creating {}'.format(letter))
             continue
