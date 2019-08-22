@@ -4,7 +4,7 @@
 Programming In Python - Lesson 6 Assignment 1: Mailroom Part 4
 Code Poet: Anthony McKeever
 Start Date: 08/22/2019
-End Date: 08/15/2019
+End Date: 
 
 Copied from Lesson 5 Assignment 1 (..\\..\\lesson5\\assigment_1)
 """
