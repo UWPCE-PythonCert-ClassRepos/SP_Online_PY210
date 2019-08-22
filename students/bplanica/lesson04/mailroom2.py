@@ -7,15 +7,16 @@
 #   BPA, 8/11/2019, Created and tested script (Mailroom Part 1)
 #   BPA, 8/18/2019, Updated to add dictionaries and dispatch menu
 #                   Adding function to print emails to text files
+#   BPA, 8/20/2019, Updated dictionary for main donor list to be solely a dictionary
 # ------------------------------ #
 
 # ----- DATA ----- #
 # ---------------- #
-donors = [{"Donor": "Bill Gates", "Donation": [326892.24, 326892.24]},
-{"Donor": "Mark Zuckerberg", "Donation": [5465.39, 5465.39, 5465.39]},
-{"Donor": "Jeff Bezo", "Donation": [877.33]},
-{"Donor": "Paul Allen", "Donation": [236.14, 236.14, 236.14]},
-{"Donor": "M Bezo", "Donation": [110463.25]}] # holds original data set to start with
+donors = {"bill gates": ("Bill Gates", [326892.24, 326892.24]),
+"mark zuckerberg": ("Mark Zuckerberg", [5465.39, 5465.39, 5465.39]),
+"jeff bezo": ("Jeff Bezo", [877.33]),
+"paul allen": ("Paul Allen", [236.14, 236.14, 236.14]),
+"m bezo": ("M Bezo", [110463.25])} # holds original data set to start with
 
 dict_menu = {} # holds menu options (dispatch)
 str_menu = ("""--------------------
@@ -58,9 +59,9 @@ def all_thank_you():
     response = input("Do you want to set a specific directory? (Y/N): ")
     if response.upper() == "Y":
         location = input("Where you you like the letters saved?: ") + "\\"
-    for row in donors: # for each dictionary entry in the donor list
-        name = row["Donor"] # take the donor name
-        donation = row["Donation"][-1] # and the last donation amoutn made
+    for kay, value in donors.items(): # for each dictionary entry in the donor list
+        name = value[0] # take the donor name
+        donation = value[1][-1] # and the last donation amoutn made
         if location == "": # if there is no specified location, don't pass it though
             all_print_email(name, donation) # print the thank you email
         else: # if there is a specified location, pass it though
@@ -69,38 +70,28 @@ def all_thank_you():
 
 def update_list(name, donation):
     """ udpdates list with name and/or donation amount """
-    match = False # set flag
-    for row in donors: # for each dictionary entry in the donor list
-        if row["Donor"].upper() == name.upper():  # search each row for the full name to see if it exists
-            row["Donation"].append(donation) # if so, add the donation amount
-            match = True # mark flag as found
-    if match == False: # if not found...
-        dict_row = {"Donor": name, "Donation": [donation]} # assign values to preset keys
-        donors.append(dict_row)  # Append existing list with set of dictionary items
+    donors.setdefault(name.lower(), (name, [])) # create a key from the name if not found alreay in existance
+    donors[name.lower()][1].append(donation) # append the donation to the list within the second item in the tuple value
 
 
 def ordinal_freq(name):
     """ converts the number of times donated to an ordinal number """
-    for row in donors:
-        if name == row["Donor"]: # if the name is found...
-            fq = (len(row) - 1) # take the count of list entries, minus the name to get the count of donations
-            if fq == 1 or (fq % 10 == 1 and fq != 11):
-                fq = (f"{fq}st") # format with 'st'
-            elif fq == 2 or (fq % 10 == 2 and fq != 12):
-                fq = (f"{fq}nd") # format with 'nd'
-            elif fq == 3 or (fq % 10 == 3 and fq != 13):
-                fq = (f"{fq}rd") # format with 'rd'
-            else:
-                fq = (f"{fq}th") # format with 'th'
-            return fq
+    fq = len(donors[name.lower()][1]) # get the count of the list for donations
+    if fq == 1 or (fq % 10 == 1 and fq != 11):
+        fq = (f"{fq}st") # format with 'st'
+    elif fq == 2 or (fq % 10 == 2 and fq != 12):
+        fq = (f"{fq}nd") # format with 'nd'
+    elif fq == 3 or (fq % 10 == 3 and fq != 13):
+        fq = (f"{fq}rd") # format with 'rd'
+    else:
+        fq = (f"{fq}th") # format with 'th'
+    return fq
 
 
 def total_given(name):
     """ calculates the total amount donated by a donor """
     total_sum = 0
-    for row in donors:
-        if name == row["Donor"]: # if the name is found...
-            total_sum = sum(row["Donation"]) # sum all entries in the donation list
+    total_sum = sum(donors[name.lower()][1]) # sum all entries in the donation list
     return total_sum
 
 
@@ -151,15 +142,16 @@ def create_report():
     print(header)
     print(header2)
 
-    sub_List = [] # define/empty list
-    for row in donors: # for each donor...
-        name = row["Donor"] # get the name
+    sub_list = [] # define/empty list
+    for key, value in donors.items(): # for each donor...
+        name = value[0] # get the name
         total = round(total_given(name), 2) # get the total donation amount
-        count = len(row["Donation"]) # find the number of donations
+        count = len(value[1]) # find the number of donations
         avg = round(total/count,2) # take the average
-        sub_List.append((name, total, count, avg)) # create a new list with summation information
+        sub_list.append((name, total, count, avg)) # create a new list with summation information
+
     from operator import itemgetter
-    for row in sorted(sub_List, key=itemgetter(1), reverse=True): # sort and print in a fixed length format
+    for row in sorted(sub_list, key=itemgetter(1), reverse=True): # sort and print in a fixed length format
         print("{:<30}|{:>15}|{:>10}|{:>15}".format(row[0], row[1], row[2], row[3]))
     print()
 
