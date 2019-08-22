@@ -9,7 +9,9 @@ donors = {'William Henry Harrison' : [806.25, 423.10],
           'Millard Fillmore' : [476.21, 2376.21],
           'Chester A. Arthur' : [10236.91]}
 
-letter_template = """Dear {name},
+def format_letter(donor, extra_whitespace = False):
+    letter_values = {'name': donor, 'amount': donors[donor][-1], 'total': sum(donors[donor])}
+    letter_template = """Dear {name},
 On behalf of all of us at Save the Marmots, thank you for your recent gift of ${amount:.2f}.  When it comes to ensuring marmots have loving homes, every dollar goes a long way.
 
 Your very generous gifts of ${total:.2f} will help us provide food and shelter for all of the rescued marmots, and ensure our staff have the resources to train them for placement.
@@ -18,6 +20,17 @@ Warmest regards,
 
 Sean Hodges
 """
+    if extra_whitespace == True: # I still like the extra whitespace in the user interactive mode :)
+        return ("""
+
+
+
+{}
+
+
+""".format(letter_template)).format(**letter_values)
+    else:
+        return letter_template.format(**letter_values)
 
 def send_thank_you():
     while True:
@@ -39,16 +52,7 @@ def send_thank_you():
                     del(donors[donor])
                 print(donors)
                 break # this isn't necessary to get to the main menu but if we don't call it, it will raise a ValueError in the main try/except block
-            total = sum(donors[donor])
-            letter_values = {'name': donor, 'amount': float(amount), 'total': total}
-            print(("""
-
-
-
-{}
-
-
-""".format(letter_template)).format(**letter_values)) # I'm doing this because I like the extra whitespace when the letter is in-line, otherwise it gets smooshed with the prompts
+            print(format_letter(donor, True))
             break
 
 def generate_report():
