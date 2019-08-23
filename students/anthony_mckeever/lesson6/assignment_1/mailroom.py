@@ -38,7 +38,7 @@ def safe_input(msg):
         return output
 
 
-def menu_system(opts_dict, menu_text, prompt_text, include_main=False, include_donors=False, invalid_opt=None):
+def menu_system(opts_dict, menu_text, prompt_text, include_main=False, invalid_opt=None):
     """
     The menu system that handles most user multiple choice inputs.
 
@@ -46,8 +46,6 @@ def menu_system(opts_dict, menu_text, prompt_text, include_main=False, include_d
     :menu_text:         The flavor text of the menu.
     :prompt_text:       What to prompt the user when accepting input.
     :include_main:      Whether or not to include options for returning to the main menu (Default = False)
-    :include_donors:    Whether or not to include the donors with the options. (Default = False)
-                        Note: Donors will not print when menu options are printed.
     :invalid_opt:       Override the action if the user provides an invalid selection. (Default = None)
                         Note: Using None will prompt user to reattemt their choice until a correct choice is made.
     """
@@ -69,10 +67,7 @@ def menu_system(opts_dict, menu_text, prompt_text, include_main=False, include_d
             selection = show_opts[choice_key]
 
             if selection[1]:
-                if selection[1] == accept_donation:
-                    selection[1](choice_key)
-                else:
-                    selection[1]()
+                selection[1]()
             
             if selection[1] != print_donors:
                 break
@@ -118,7 +113,7 @@ def send_thanks():
     Initializes the menu system to prompt the acceptance of a donation and creation of a thank you letter.
     """
     menu_system(list_dict, "\n\nLets send thanks!", "\nWho do you want to thank? > ", include_main=True,
-                include_donors=True, invalid_opt=accept_donation)
+                invalid_opt=accept_donation)
 
 
 def accept_donation(donor_name):
