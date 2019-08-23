@@ -29,3 +29,7 @@ def test_6():
 def test_7():
     # Add an invalid donation to an existing key
     assert mailroom.add_donor_record('James K. Polk', 'not_a_float') is False
+
+def test_8():
+    # Abraham Lincoln should be a valid key now thanks to test 5, so we should get a valid letter
+    assert mailroom.format_letter('Abraham Lincoln')[0:4] == "Dear"
