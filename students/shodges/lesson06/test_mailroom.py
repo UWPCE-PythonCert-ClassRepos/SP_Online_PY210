@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import mailroom, os
+from pathlib import Path
 
 def test_1():
     # Validate that the letter is returned
@@ -52,7 +53,7 @@ def test_10():
 
 def test_11():
     # Test saving letter for a valid donor
-    global letter_dir
+    global letter_dir, letter
     letter = mailroom.save_letter(letter_dir, 'Abraham Lincoln')
     assert os.path.exists(letter)
 
@@ -60,3 +61,9 @@ def test_12():
     # Test saving letter for an invalid donor
     global letter_dir
     assert mailroom.save_letter(letter_dir, 'Theodore Roosevelt') == False
+
+def test_13():
+    # Check content of letter created in test_11
+    global letter
+    with letter.open("r") as fileio:
+        assert fileio.read() == mailroom.format_letter('Abraham Lincoln')
