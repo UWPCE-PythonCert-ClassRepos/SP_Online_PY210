@@ -22,8 +22,6 @@ class Element(object):
                 this_content.render(out_file)
             except AttributeError:
                 out_file.write(this_content)
-            else:
-                out_file.write('\n')
         out_file.write("</{}>\n".format(self.tag))
 
 class SimpleElement(Element):
