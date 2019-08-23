@@ -26,6 +26,16 @@ class Element(object):
                 out_file.write('\n')
         out_file.write("</{}>\n".format(self.tag))
 
+class SimpleElement(Element):
+    def render(self, out_file):
+        out_file.write("<{}>".format(self.tag))
+        for this_content in self.contents:
+            try:
+                this_content.render(out_file)
+            except AttributeError:
+                out_file.write(this_content)
+        out_file.write("</{}>\n".format(self.tag))
+
 class Html(Element):
     tag = 'html'
 
