@@ -59,5 +59,4 @@ def test_11():
 def test_12():
     # Test saving letter for an invalid donor
     global letter_dir
-    letter = mailroom.save_letter(letter_dir, 'Theodore Roosevelt')
-    assert not os.path.exists(letter)
+    assert mailroom.save_letter(letter_dir, 'Theodore Roosevelt') == False
