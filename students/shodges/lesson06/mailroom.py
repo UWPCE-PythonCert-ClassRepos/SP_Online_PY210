@@ -19,6 +19,15 @@ Warmest regards,
 Sean Hodges
 """
 
+letter_whitespace = """
+
+
+
+{}
+
+
+"""
+
 def format_letter(donor, extra_whitespace = False):
     try:
         letter_values = {'name': donor, 'amount': donors[donor][-1], 'total': sum(donors[donor])}
@@ -26,14 +35,7 @@ def format_letter(donor, extra_whitespace = False):
         return False
 
     if extra_whitespace == True: # I still like the extra whitespace in the user interactive mode :)
-        return ("""
-
-
-
-{}
-
-
-""".format(letter_template)).format(**letter_values)
+        return (letter_whitespace.format(letter_template)).format(**letter_values)
     else:
         return letter_template.format(**letter_values)
 
