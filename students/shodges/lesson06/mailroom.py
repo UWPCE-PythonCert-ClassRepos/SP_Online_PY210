@@ -105,19 +105,26 @@ def create_letter_dir(dirpath):
     else:
         return letter_dir
 
+def save_letter(dirpath, donor):
+    letter = dirpath / (donor.replace(' ', '_') + '.txt')
+    try:
+        with letter.open("w") as fileio:
+            fileio.write(format_letter(donor))
+    except (FileNotFoundError, PermissionError):
+        return False
+    else:
+        return letter
+
 def save_all_letters():
     letter_dir = create_letter_dir(input('Please specify a directory to save letters in: '))
 
-    for donor in donors.keys():
-        letter = letter_dir / (donor.replace(' ', '_') + '.txt')
-        try:
-            with letter.open("w") as fileio:
-                fileio.write(format_letter(donor))
-        except (NotADirectoryError, FileNotFoundError, PermissionError):
-            print('Error creating {}'.format(letter))
-            continue
+    if letter_dir == False:
+        print('Error creating letter directory.')
     else:
-        print('Saved letters in {}\n'.format(letter_dir.absolute()))
+        for donor in donors.keys():
+            letter = save_letter(letter_dir, donor)
+            if letter != False:
+                print('{} created successfully'.format(letter.absolute()))
 
 if __name__ == '__main__':
     menu_dispatch = {1: send_thank_you, 2: print_report, 3:save_all_letters, 4: quit}
