@@ -196,12 +196,13 @@ def test_head():
 
 def test_title():
     e = Title("The title of the page!")
-    e.append("  Possibly a sub-title")
+    with pytest.raises(NotImplementedError):
+        e.append("  Possibly a sub-title")
 
     file_contents = render_result(e).strip()
 
     assert "The title of the page!" in file_contents
-    assert "  Possibly a sub-title" in file_contents
+    assert "  Possibly a sub-title" not in file_contents
 
     assert file_contents.startswith("<title>")
     assert file_contents.endswith("</title>")
