@@ -44,3 +44,9 @@ class Body(Element):
 
 class P(Element):
     tag = 'p'
+
+class Head(Element):
+    tag = 'head'
+
+class Title(SimpleElement):
+    tag = 'title'
