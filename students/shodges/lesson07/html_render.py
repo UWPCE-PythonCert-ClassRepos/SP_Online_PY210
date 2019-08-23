@@ -16,7 +16,7 @@ class Element(object):
         self.contents.append(new_content)
 
     def render(self, out_file):
-        out_file.write("<{}>".format(tag))
+        out_file.write("<{}>".format(self.tag))
         for this_content in self.contents:
             out_file.write("{}\n".format(this_content))
-        out_file.write("</{}>".format(tag))
+        out_file.write("</{}>".format(self.tag))
