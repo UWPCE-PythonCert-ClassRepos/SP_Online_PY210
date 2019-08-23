@@ -4,7 +4,9 @@ import mailroom
 
 def test_1():
     # Validate that the letter is returned
-    assert mailroom.format_letter('James K. Polk')[0:4] == "Dear"
+    result = mailroom.format_letter('James K. Polk')
+    for segment in mailroom.letter_template.split('{'):
+        assert segment.split('}')[-1] in result
 
 def test_2():
     # Validate presence of extra whitespace
@@ -32,4 +34,6 @@ def test_7():
 
 def test_8():
     # Abraham Lincoln should be a valid key now thanks to test 5, so we should get a valid letter
-    assert mailroom.format_letter('Abraham Lincoln')[0:4] == "Dear"
+    result = mailroom.format_letter('Abraham Lincoln')
+    for segment in mailroom.letter_template.split('{'):
+        assert segment.split('}')[-1] in result
