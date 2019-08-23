@@ -12,7 +12,7 @@ donors = {'William Henry Harrison' : [806.25, 423.10],
 def format_letter(donor, extra_whitespace = False):
     try:
         letter_values = {'name': donor, 'amount': donors[donor][-1], 'total': sum(donors[donor])}
-    except IndexError:
+    except KeyError:
         return False
     letter_template = """Dear {name},
 On behalf of all of us at Save the Marmots, thank you for your recent gift of ${amount:.2f}.  When it comes to ensuring marmots have loving homes, every dollar goes a long way.
