@@ -35,6 +35,20 @@ Sean Hodges
     else:
         return letter_template.format(**letter_values)
 
+def add_donor_record(donor, amount):
+    try:
+        donors[donor].append(float(amount))
+    except KeyError:
+        donors[donor] = [float(amount)]
+    except ValueError:
+        return False
+
+    if len(donors[donor]) == 0:
+        del(donors[donor])
+        return False
+    else:
+        return True
+
 def send_thank_you():
     while True:
         donor = input('Please enter a donor name: ')
@@ -45,18 +59,12 @@ def send_thank_you():
                 print(item)
         else:
             amount = input('Please enter a donation amount: ')
-            try:
-                donors[donor].append(float(amount))
-            except KeyError:
-                donors[donor] = [float(amount)]
-            except ValueError:
+            if add_donor_record(donor, amount) == False:
                 print('Invalid donation amount {}\n'.format(amount))
-                if len(donors[donor]) == 0: # we caught the exceptions for this case but we'll remove the entry too
-                    del(donors[donor])
-                print(donors)
                 break # this isn't necessary to get to the main menu but if we don't call it, it will raise a ValueError in the main try/except block
-            print(format_letter(donor, True))
-            break
+            else:
+                print(format_letter(donor, True))
+                break
 
 def generate_report():
     print('{:24} | {:10} | {:10} | {:12}'.format('Donor Name', 'Total Given', 'Num Gifts', 'Average Gift'))
