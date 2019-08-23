@@ -39,3 +39,7 @@ def test_8():
     result = mailroom.format_letter('Abraham Lincoln')
     for segment in mailroom.letter_template.split('{'):
         assert segment.split('}')[-1] in result
+
+def test_9():
+    # The report output list should have n + h elements, where n = donors and h = header rows (2)
+    assert len(mailroom.generate_report()) == len(mailroom.donors) + 2
