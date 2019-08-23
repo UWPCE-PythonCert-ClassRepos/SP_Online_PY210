@@ -1,0 +1,11 @@
+# Git Ignore for Anthony McKeever's directory.
+# Pycashe and PyTest
+
+# Caching
+__pycache__/
+*/.pytest_cache
+
+# Code Coverage
+htmlcov/
+.coverage
+.coveragerc
