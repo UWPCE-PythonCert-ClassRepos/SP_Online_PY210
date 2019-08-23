@@ -88,20 +88,25 @@ def print_report():
     print('\n'.join(generate_report()))
     print()
 
-def save_all_letters():
-    letter_dir = Path(input('Please specify a directory to save letters in: '))
-    letter_dir = letter_dir / ('{:%Y%m%d-%H%M}'.format(datetime.now()))
+def create_letter_dir(dirpath):
+    letter_dir = Path(dirpath) / ('{:%Y%m%d-%H%M}'.format(datetime.now()))
     try:
         letter_dir.mkdir(exist_ok=True)
-    except NotADirectoryError:
-        print('{} is not a directory; using {}'.format(letter_dir, tempfile.gettempdir()))
-        letter_dir = Path(tempfile.gettempdir())
-    except FileNotFoundError:
-        print('{} was not found; using {}'.format(letter_dir, tempfile.gettempdir()))
-        letter_dir = Path(tempfile.gettempdir())
-    except PermissionError:
-        print('Unable to create folder {}, using {}'.format(letter_dir, tempfile.gettempdir()))
-        letter_dir = Path(tempfile.gettempdir())
+    except (NotADirectoryError, FileNotFoundError, PermissionError):
+        pass
+    else:
+        return letter_dir
+
+    letter_dir = Path(tempfile.gettempdir()) / ('{:%Y%m%d-%H%M}'.format(datetime.now()))
+    try:
+        letter_dir.mkdir(exist_ok=True)
+    except (NotADirectoryError, FileNotFoundError, PermissionError):
+        return False
+    else:
+        return letter_dir
+
+def save_all_letters():
+    letter_dir = create_letter_dir(input('Please specify a directory to save letters in: '))
 
     for donor in donors.keys():
         letter = letter_dir / (donor.replace(' ', '_') + '.txt')
