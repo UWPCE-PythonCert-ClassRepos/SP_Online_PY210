@@ -182,7 +182,47 @@ def test_sub_element():
 # Step 3
 ########
 
-# Add your tests here!
+def test_head():
+    e = Head("Here be more tags")
+    e.append("A header with filler")
+
+    file_contents = render_result(e).strip()
+
+    assert "Here be more tags" in file_contents
+    assert "A header with filler" in file_contents
+
+    assert file_contents.startswith("<head>")
+    assert file_contents.endswith("</head>")
+
+def test_title()
+    e = Title("The title of the page!")
+    e.append("  Possibly a sub-title")
+
+    file_contents = render_result(e).strip()
+
+    assert "The title of the page!" in file_contents
+    assert "  Possibly a sub-title" in file_contents
+
+    assert file_contents.startswith("<title>")
+    assert file_contents.endswith("</title>")
+
+    assert file_contents.find("\n") == -1 # the trailing newline will get stripped out so we shouldn't see any additional newlines
+
+def test_head_title()
+    head = Head()
+
+    head.append("The quick brown fox")
+    head.append(Title("Test Page"))
+    head.append("jumped over something or other")
+
+    file_contents = render_result(head)
+
+    assert "<head>" in file_contents
+    assert "</head>" in file_contents
+    assert "The quick brown fox" in file_contents
+    assert "jumped over something or other" in file_contents
+
+    assert "<title>Test Page</title>" in file_contents
 
 # #####################
 # # indentation testing
