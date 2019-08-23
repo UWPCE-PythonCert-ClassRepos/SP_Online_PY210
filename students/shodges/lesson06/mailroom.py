@@ -64,10 +64,9 @@ def send_thank_you():
             amount = input('Please enter a donation amount: ')
             if add_donor_record(donor, amount) == False:
                 print('Invalid donation amount {}\n'.format(amount))
-                break # this isn't necessary to get to the main menu but if we don't call it, it will raise a ValueError in the main try/except block
             else:
                 print(format_letter(donor, True))
-                break
+            break
 
 def generate_report():
     print('{:24} | {:10} | {:10} | {:12}'.format('Donor Name', 'Total Given', 'Num Gifts', 'Average Gift'))
