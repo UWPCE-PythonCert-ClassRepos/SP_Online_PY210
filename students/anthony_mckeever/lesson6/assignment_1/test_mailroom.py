@@ -17,7 +17,6 @@ from importlib import reload
 from unittest import TestCase
 from unittest import mock
 from unittest.mock import patch
-from unittest.mock import MagicMock
 
 
 def intercept_stdout():
@@ -30,6 +29,7 @@ def intercept_stdout():
 
 def invalid_option_raise_error(user_choice):
     raise Exception(user_choice)
+
 
 expected_email = str("Studio Starchelle - A Fizzworks Studios Company\n"
                      "123 Starshine Ln.\n"
@@ -76,6 +76,7 @@ expected_donors = str("List of Donors:"
                       "\n\tKayomi Matsuka"
                       "\n\tKatie Starchelle")
 
+
 class MainTests(TestCase):
     def test_reach_menu_and_exit(self):
         with patch('builtins.input') as handle_input:
@@ -94,6 +95,7 @@ class MainTests(TestCase):
             
             with self.assertRaises(SystemExit):
                 mailroom.main()
+
 
 class InputTests(TestCase):
     def test_safe_input(self):
@@ -173,6 +175,7 @@ class MenuSystemTests(TestCase):
             assert interceptor.getvalue().strip().count("Invalid choice.  Please select from available options.") == 1
 
         sys.stdout = hold_stdout
+
 
     def test_menu_print_donors_logic(self):
         interceptor, hold_stdout = intercept_stdout()
@@ -381,4 +384,3 @@ class TestSendToAll(TestCase):
             with patch("builtins.open", open_mock, create=True):
                 mailroom.send_to_all()
                 open_mock.assert_not_called()
-                
