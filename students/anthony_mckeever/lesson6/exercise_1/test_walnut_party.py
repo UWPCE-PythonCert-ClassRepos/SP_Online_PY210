@@ -1,6 +1,13 @@
 #!/usr/bin/env python
 
 """
+Programming In Python - Lesson 6 Exercise 1: Unit Tests
+Code Poet: Anthony McKeever
+Start Date: 08/19/2019
+End Date: 08/19/2019
+"""
+
+"""
 test code for the walnut party example
 
 Adapted from the "coding bat" site: https://codingbat.com/python
