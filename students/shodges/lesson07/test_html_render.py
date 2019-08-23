@@ -239,7 +239,8 @@ def test_attributes():
     body = Body()
     body.append(P("Paragraph without any extra attributes"))
     body.append(P("Paragraph 2 should definitely have extra attributes", style="text-align:center;"))
-    body.append(P("Paragraph 3 should have multiple extra attributes", {'style': 'text-align:left', 'class': 'normalP'}))
+    multiple_attribs = {'style': 'text-align:left', 'class': 'normalP'}
+    body.append(P("Paragraph 3 should have multiple extra attributes", **multiple_attribs))
     html.append(body)
 
     file_contents = render_result(html)
