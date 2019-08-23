@@ -246,7 +246,7 @@ def test_attributes():
     file_contents = render_result(html)
 
     assert "<html>\n" in file_contents
-    assert "</html\n" in file_contents
+    assert "</html>\n" in file_contents
     assert "<head>\n" in file_contents
     assert "</head>\n" in file_contents
     assert "<title>Test 4 tests</title>\n" in file_contents
