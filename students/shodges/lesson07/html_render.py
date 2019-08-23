@@ -9,8 +9,9 @@ A class-based system for rendering html.
 class Element(object):
     tag = 'html'
 
-    def __init__(self, content=''):
+    def __init__(self, content='', **kwargs):
         self.contents = [content]
+        self.elem_attributes = kwargs
 
     def append(self, new_content):
         self.contents.append(new_content)
