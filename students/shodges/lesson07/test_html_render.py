@@ -78,6 +78,8 @@ def test_render_element():
     # making sure the opening and closing tags are right.
     assert file_contents.startswith("<html>")
     assert file_contents.endswith("</html>")
+    assert file_contents.count("<html>") == 1
+    assert file_contents.count("</html>") == 1
 
 # # Uncomment this one after you get the one above to pass
 # # Does it pass right away?
