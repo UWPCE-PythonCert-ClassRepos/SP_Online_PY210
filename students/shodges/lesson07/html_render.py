@@ -27,7 +27,7 @@ class Element(object):
 
     def print_open_tag(self, out_file, newline=True):
         out_file.write("<{}".format(self.tag))
-        for k, v in enumerate(self.elem_attributes):
+        for k, v in self.elem_attributes.items():
             out_file.write(" {}=\"{}\"".format(k, v))
         out_file.write(">")
         if newline == True:
