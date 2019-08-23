@@ -3,10 +3,29 @@
 import mailroom
 
 def test_1():
+    # Validate that the letter is returned
     assert mailroom.format_letter('James K. Polk')[0:4] == "Dear"
 
 def test_2():
-    assert mailroom.format_letter('Martin van Buren', True)[0:4] == '\n\n\n\n' # if extra_whitespace is True, there should be extra linefeeds
+    # Validate presence of extra whitespace
+    assert mailroom.format_letter('Martin van Buren', True)[0:4] == '\n\n\n\n'
 
 def test_3():
+    # Invalid donor should result in False retval
     assert mailroom.format_letter('Abraham Lincoln') is False
+
+def test_4():
+    # Add a key and a valid donation
+    assert mailroom.add_donor_record('Abraham Lincoln', '8008.88') is True
+
+def test_5():
+    # Add a key and an invalid donation
+    assert mailroom.add_donor_record('Abraham Lincoln', 'not_a_float') is False
+
+def test_6():
+    # Add a valid donation to an existing key
+    assert mailroom.add_donor_record('James K. Polk', '7007.77') is True
+
+def test_7():
+    # Add an invalid donation to an existing key
+    assert mailroom.add_donor_record('James K. Polk', 'not_a_float') is False
