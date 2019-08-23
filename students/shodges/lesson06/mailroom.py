@@ -28,6 +28,8 @@ letter_whitespace = """
 
 """
 
+###### BEGIN BLOCK OF BUSINESS FUNCTIONS (NOW WITH MORE UNIT TESTS!) ######
+
 def format_letter(donor, extra_whitespace = False):
     try:
         letter_values = {'name': donor, 'amount': donors[donor][-1], 'total': sum(donors[donor])}
@@ -56,22 +58,6 @@ def add_donor_record(donor, amount):
     else:
         return True
 
-def send_thank_you():
-    while True:
-        donor = input('Please enter a donor name: ')
-        if donor == 'quit':
-            break
-        elif donor == 'list':
-            for item in donors.keys():
-                print(item)
-        else:
-            amount = input('Please enter a donation amount: ')
-            if add_donor_record(donor, amount) == False:
-                print('Invalid donation amount {}\n'.format(amount))
-            else:
-                print(format_letter(donor, True))
-            break
-
 def generate_report():
     report_lines = ['{:24} | {:10} | {:10} | {:12}'.format('Donor Name', 'Total Given', 'Num Gifts', 'Average Gift')]
     report_lines.append('-'*68)
@@ -83,10 +69,6 @@ def generate_report():
         except ZeroDivisionError: # this occurs if an invalid donation amount is entered in send_thank_you for a new donor and the donor entry isn't removed
             continue
     return report_lines
-
-def print_report():
-    print('\n'.join(generate_report()))
-    print()
 
 def create_letter_dir(dirpath):
     letter_dir = Path(dirpath) / ('{:%Y%m%d-%H%M}'.format(datetime.now()))
@@ -121,6 +103,27 @@ def save_letter(dirpath, donor):
             return False
     else:
         return letter
+
+###### BEGIN BLOCK OF USER INTERACTION FUNCTIONS ######
+def send_thank_you():
+    while True:
+        donor = input('Please enter a donor name: ')
+        if donor == 'quit':
+            break
+        elif donor == 'list':
+            for item in donors.keys():
+                print(item)
+        else:
+            amount = input('Please enter a donation amount: ')
+            if add_donor_record(donor, amount) == False:
+                print('Invalid donation amount {}\n'.format(amount))
+            else:
+                print(format_letter(donor, True))
+            break
+
+def print_report():
+    print('\n'.join(generate_report()))
+    print()
 
 def save_all_letters():
     letter_dir = create_letter_dir(input('Please specify a directory to save letters in: '))
