@@ -9,12 +9,7 @@ donors = {'William Henry Harrison' : [806.25, 423.10],
           'Millard Fillmore' : [476.21, 2376.21],
           'Chester A. Arthur' : [10236.91]}
 
-def format_letter(donor, extra_whitespace = False):
-    try:
-        letter_values = {'name': donor, 'amount': donors[donor][-1], 'total': sum(donors[donor])}
-    except KeyError:
-        return False
-    letter_template = """Dear {name},
+letter_template = """Dear {name},
 On behalf of all of us at Save the Marmots, thank you for your recent gift of ${amount:.2f}.  When it comes to ensuring marmots have loving homes, every dollar goes a long way.
 
 Your very generous gifts of ${total:.2f} will help us provide food and shelter for all of the rescued marmots, and ensure our staff have the resources to train them for placement.
@@ -23,6 +18,13 @@ Warmest regards,
 
 Sean Hodges
 """
+
+def format_letter(donor, extra_whitespace = False):
+    try:
+        letter_values = {'name': donor, 'amount': donors[donor][-1], 'total': sum(donors[donor])}
+    except KeyError:
+        return False
+
     if extra_whitespace == True: # I still like the extra whitespace in the user interactive mode :)
         return ("""
 
