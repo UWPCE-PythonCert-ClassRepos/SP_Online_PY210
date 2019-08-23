@@ -52,5 +52,5 @@ def test_10():
 def test_11():
     # Test saving letter for a valid donor
     letter_dir = mailroom.create_letter_dir('.')
-    letter = save_letter(letter_dir, 'Abraham Lincoln')
+    letter = mailroom.save_letter(letter_dir, 'Abraham Lincoln')
     assert os.path.exists(letter)
