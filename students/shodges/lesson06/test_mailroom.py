@@ -45,5 +45,12 @@ def test_9():
     assert len(mailroom.generate_report()) == len(mailroom.donors) + 2
 
 def test_10():
+    # Test letter directory creation
     letter_dir = mailroom.create_letter_dir('.')
     assert os.path.exists(letter_dir)
+
+def test_11():
+    # Test saving letter for a valid donor
+    letter_dir = mailroom.create_letter_dir('.')
+    letter = save_letter(letter_dir, 'Abraham Lincoln')
+    assert os.path.exists(letter)
