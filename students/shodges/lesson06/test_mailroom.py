@@ -10,7 +10,9 @@ def test_1():
 
 def test_2():
     # Validate presence of extra whitespace
-    assert mailroom.format_letter('Martin van Buren', True)[0:4] == '\n\n\n\n'
+    result = mailroom.format_letter('Martin van Buren', True)
+    for segment in mailroom.letter_whitespace.format(mailroom.letter_template).split('{}'):
+        assert segment.split('}')[-1] in result
 
 def test_3():
     # Invalid donor should result in False retval
