@@ -17,7 +17,7 @@ class Element(object):
         self.contents.append(new_content)
 
     def render(self, out_file):
-        out_file.write("<{}>\n".format(self.tag))
+        self.print_open_tag(out_file)
         for this_content in self.contents:
             try:
                 this_content.render(out_file)
@@ -25,9 +25,16 @@ class Element(object):
                 out_file.write(this_content)
         out_file.write("</{}>\n".format(self.tag))
 
+    def print_open_tag(self, out_file):
+        print(type(self))
+        out_file.write("<{}".format(self.tag))
+        for k, v in enumerate(self.elem_attributes):
+            out_file.write(" {}=\"{}\"".format(k, v))
+        out_file.write(">")
+
 class SimpleElement(Element):
     def render(self, out_file):
-        out_file.write("<{}>".format(self.tag))
+        self.print_open_tag(out_file)
         out_file.write(self.contents[0])
         out_file.write("</{}>\n".format(self.tag))
 
