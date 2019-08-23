@@ -25,16 +25,17 @@ class Element(object):
                 out_file.write(this_content)
         out_file.write("</{}>\n".format(self.tag))
 
-    def print_open_tag(self, out_file):
-        print(type(self))
+    def print_open_tag(self, out_file, newline=True):
         out_file.write("<{}".format(self.tag))
         for k, v in enumerate(self.elem_attributes):
             out_file.write(" {}=\"{}\"".format(k, v))
         out_file.write(">")
+        if newline == True:
+            out_file.write("\n")
 
 class SimpleElement(Element):
     def render(self, out_file):
-        self.print_open_tag(out_file)
+        self.print_open_tag(out_file, False)
         out_file.write(self.contents[0])
         out_file.write("</{}>\n".format(self.tag))
 
