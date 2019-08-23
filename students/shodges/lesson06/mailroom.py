@@ -110,7 +110,7 @@ def save_letter(dirpath, donor):
     try:
         with letter.open("w") as fileio:
             fileio.write(format_letter(donor))
-    except (FileNotFoundError, PermissionError):
+    except (FileNotFoundError, PermissionError, TypeError):
         return False
     else:
         return letter
