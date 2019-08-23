@@ -39,12 +39,15 @@ def add_donor_record(donor, amount):
     try:
         donors[donor].append(float(amount))
     except KeyError:
-        donors[donor] = [float(amount)]
+        pass
     except ValueError:
         return False
+    else:
+        return True
 
-    if len(donors[donor]) == 0:
-        del(donors[donor])
+    try:
+        donors[donor] = [float(amount)]
+    except ValueError:
         return False
     else:
         return True
