@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import mailroom
+import mailroom, os
 
 def test_1():
     # Validate that the letter is returned
@@ -43,3 +43,7 @@ def test_8():
 def test_9():
     # The report output list should have n + h elements, where n = donors and h = header rows (2)
     assert len(mailroom.generate_report()) == len(mailroom.donors) + 2
+
+def test_10():
+    letter_dir = mailroom.create_letter_dir('.')
+    assert os.path.exists(letter_dir)
