@@ -29,12 +29,11 @@ class Element(object):
 class SimpleElement(Element):
     def render(self, out_file):
         out_file.write("<{}>".format(self.tag))
-        for this_content in self.contents:
-            try:
-                this_content.render(out_file)
-            except AttributeError:
-                out_file.write(this_content)
+        out_file.write(self.contents[0])
         out_file.write("</{}>\n".format(self.tag))
+
+    def append(self, content):
+        raise NotImplementedError
 
 class Html(Element):
     tag = 'html'
