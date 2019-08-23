@@ -225,6 +225,38 @@ def test_head_title():
 
     assert "<title>Test Page</title>" in file_contents
 
+########
+# Step 4
+########
+
+def test_attributes():
+    html = Html()
+
+    head = Head()
+    head.append(Title("Test 4 tests"))
+    html.append(head)
+
+    body = Body()
+    body.append(P("Paragraph without any extra attributes"))
+    body.append(P("Paragraph 2 should definitely have extra attributes", style="text-align:center;"))
+    body.append(P("Paragraph 3 should have multiple extra attributes"), {'style': 'text-align:left', 'class': 'normalP'})
+    html.append(body)
+
+    file_contents = render_result(html)
+
+    assert "<html>\n" in file_contents
+    assert "</html\n" in file_contents
+    assert "<head>\n" in file_contents
+    assert "</head>\n" in file_contents
+    assert "<title>Test 4 tests</title>\n" in file_contents
+    assert "<body>\n" in file_contents
+    assert "</body>\n" in file_contents
+    assert "<p>\n" in file_contents
+    assert "<p style=\"text-align:center;\">" in file_contents
+    assert "<p style=\"text-align:left\" class=\"normalP\">" in file_contents
+    assert file_contents.count("</p>\n") == 3
+
+
 # #####################
 # # indentation testing
 # #  Uncomment for Step 9 -- adding indentation
