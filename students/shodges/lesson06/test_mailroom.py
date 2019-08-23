@@ -15,12 +15,12 @@ def test_3():
     assert mailroom.format_letter('Abraham Lincoln') is False
 
 def test_4():
-    # Add a key and a valid donation
-    assert mailroom.add_donor_record('Abraham Lincoln', '8008.88') is True
-
-def test_5():
     # Add a key and an invalid donation
     assert mailroom.add_donor_record('Abraham Lincoln', 'not_a_float') is False
+
+def test_5():
+    # Add a key and a valid donation
+    assert mailroom.add_donor_record('Abraham Lincoln', '8008.88') is True
 
 def test_6():
     # Add a valid donation to an existing key
