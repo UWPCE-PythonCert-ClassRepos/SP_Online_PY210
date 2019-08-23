@@ -73,16 +73,19 @@ def send_thank_you():
             break
 
 def generate_report():
-    print('{:24} | {:10} | {:10} | {:12}'.format('Donor Name', 'Total Given', 'Num Gifts', 'Average Gift'))
-    print('-'*68)
+    report_lines = ['{:24} | {:10} | {:10} | {:12}'.format('Donor Name', 'Total Given', 'Num Gifts', 'Average Gift')]
+    report_lines.append('-'*68)
     donor_report = sorted([[x, len(donors[x]), sum(donors[x])] for x in donors], key = lambda x: x[2], reverse = True)
     for item in donor_report:
         try:
             report_output = {'name': item[0], 'total': item[2], 'gifts': item[1], 'average': (item[2] / item[1])}
-            print('{name:24}  ${total:10.2f}   {gifts:10d}   ${average:12.2f}'.format(**report_output))
+            report_lines.append('{name:24}  ${total:10.2f}   {gifts:10d}   ${average:12.2f}'.format(**report_output))
         except ZeroDivisionError: # this occurs if an invalid donation amount is entered in send_thank_you for a new donor and the donor entry isn't removed
             continue
-    print('')
+
+def print_report():
+    print('\n'.join(generate_report()))
+    print()
 
 def save_all_letters():
     letter_dir = Path(input('Please specify a directory to save letters in: '))
@@ -111,7 +114,7 @@ def save_all_letters():
         print('Saved letters in {}\n'.format(letter_dir.absolute()))
 
 if __name__ == '__main__':
-    menu_dispatch = {1: send_thank_you, 2: generate_report, 3:save_all_letters, 4: quit}
+    menu_dispatch = {1: send_thank_you, 2: print_report, 3:save_all_letters, 4: quit}
     while True:
         print("""Mailroom -- Main Menu
 
