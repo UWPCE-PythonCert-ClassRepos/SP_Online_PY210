@@ -1,6 +1,7 @@
 import sys
 import os
 
+
 class Donor(object):
 
     """
@@ -40,7 +41,7 @@ class Donor(object):
 
     @property
     def sum_donations(self):
-        return sum(self.donations)
+        return round(sum(self.donations), 2)
 
     @property
     def number_donations(self):
@@ -60,7 +61,7 @@ class Donor(object):
             pass
 
     def thank(self):
-        '''Prints a summary thank you letter to a donor'''
+        '''Returns a summary thank you letter to a donor'''
         return(f"Dearest {self.name},\n"
           "We are writing to formally thank you for your generous"
           f" donation of ${self.most_recent_donation}.\n"
@@ -80,6 +81,7 @@ class Donor_Collection(object):
     """
     def __init__(self):
         self.donors = []
+        # initial seeding of donor list to play around with
         self.donors.append(Donor("William Gates, III", [653772.32, 12.17]))
         self.donors.append(Donor("Jeff Bezos", [877.33, 3, 555, 132, 77, 1]))
         self.donors.append(Donor("Paul Allen", [663.23, 43.87, 1.32]))
@@ -90,6 +92,18 @@ class Donor_Collection(object):
     def __repr__(self):
         return "Donor_Collection()"
 
+    @property
+    def number_of_donors(self):
+        return len(self.donors)
+
+    @property
+    def top_donor(self):
+        return self.sort_donors_by_total_donation_amount()[0].name
+
+    @property
+    def most_active(self):
+        return self.sort_donors_by_donation_count()[0].name
+
     def add_donor(self, donor, donation=0):
         # expects a Donor object to be passed, but if not, will create one
         if isinstance(donor, Donor):
@@ -99,22 +113,25 @@ class Donor_Collection(object):
 
     def sort_donors_by_last_name(self):
         return sorted(self.donors,
-                      key=lambda donor: donor.name.split()[1], reverse=True)
+                      key=lambda donor: donor.name.split()[1], reverse=False)
 
     def sort_donors_by_first_name(self):
         return sorted(self.donors,
-                      key=lambda donor: donor.name.split()[0], reverse=True)
+                      key=lambda donor: donor.name.split()[0], reverse=False)
 
     def sort_donors_by_donation_count(self):
         return sorted(self.donors,
                       key=lambda donor: donor.number_donations, reverse=True)
 
-    def sort_donors_by_total_donations(self):
+    def sort_donors_by_total_donation_amount(self):
         return sorted(self.donors,
                       key=lambda donor: donor.sum_donations, reverse=True)
 
-    def thank_everyone(self):
+    def sort_donors_by_average_donation_amount(self):
+        return sorted(self.donors,
+                      key=lambda donor: donor.average_donation, reverse=True)
 
+    def thank_everyone(self):
         for i in self.donors:
             with open(f'{i.name}.txt', 'w') as f:
                 f.write(f"Dearest {i.name},\n"
@@ -127,14 +144,30 @@ class Donor_Collection(object):
                         "Kindest regards\n"
                         "Baron Von Munchausen")
 
-    @property
-    def number_of_donors(self):
-        return len(self.donors)
+    def generate_report(self, report_basis="total"):
+        """
+        Generate a full donor report based on an optional flag.
+        Report types are: name, total donations, number of donations,
+        average donation size
+        """
+        if report_basis.lower() == "total":
+            donor_list = self.sort_donors_by_total_donation_amount()
+        elif report_basis.lower() == "last name":
+            donor_list = self.sort_donors_by_last_name()
+        elif report_basis.lower() == "first name":
+            donor_list = self.sort_donors_by_first_name()
+        elif report_basis.lower() == "count":
+            donor_list = self.sort_donors_by_donation_count()
+        elif report_basis.lower() == "average":
+            donor_list = self.sort_donors_by_average_donation_amount()
 
-    @property
-    def top_donor(self):
-        return self.sort_donors_by_total_donations()[0].name
-
-    @property
-    def most_active(self):
-        return self.sort_donors_by_donation_count()[0].name
+        report_header = "|"+("{:^20}|" * 4).format(
+                        "Donor Name", "Total Given",
+                        "Num Gifts", "Average Gift"
+                        ) + "\n" + ("-" * 21*4) + "-"
+        # str_grid_formatting = ("-" * 21*4)
+        print(report_header)
+        # print(str_grid_formatting)
+        for i in donor_list:
+            print("{:20} ${:>19} {:>20} ${:>20}".format(
+                  i.name, i.sum_donations, i.number_donations, i.average_donation))
