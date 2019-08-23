@@ -9,7 +9,7 @@ A class-based system for rendering html.
 class Element(object):
     tag = 'html'
 
-    def __init__(self, content=None):
+    def __init__(self, content=''):
         self.contents = [content]
 
     def append(self, new_content):
@@ -18,11 +18,16 @@ class Element(object):
     def render(self, out_file):
         out_file.write("<{}>\n".format(self.tag))
         for this_content in self.contents:
-            out_file.write("{}\n".format(this_content))
+            try:
+                this_content.render(out_file)
+            except AttributeError:
+                out_file.write(this_content)
+            else:
+                out_file.write('\n')
         out_file.write("</{}>\n".format(self.tag))
 
 class Html(Element):
-    pass
+    tag = 'html'
 
 class Body(Element):
     tag = 'body'
