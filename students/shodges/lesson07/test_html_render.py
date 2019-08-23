@@ -194,7 +194,7 @@ def test_head():
     assert file_contents.startswith("<head>")
     assert file_contents.endswith("</head>")
 
-def test_title()
+def test_title():
     e = Title("The title of the page!")
     e.append("  Possibly a sub-title")
 
@@ -208,7 +208,7 @@ def test_title()
 
     assert file_contents.find("\n") == -1 # the trailing newline will get stripped out so we shouldn't see any additional newlines
 
-def test_head_title()
+def test_head_title():
     head = Head()
 
     head.append("The quick brown fox")
