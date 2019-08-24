@@ -5,7 +5,6 @@ import pytest
 from donor_models import *
 
 
-
 def test_Donor():
     """Test expected Donor class behavior"""
     d1 = Donor()

@@ -16,8 +16,7 @@ class Donor(object):
 
     def __init__(self, name="Anonymous", initial_donation=0):
         """New donor instance may be created with a name and/or a donation amount.
-        The donation may be a single value, or a list of donations (as you would
-        if you were backfilling an entry
+        The donation may be a single value, or a list of donations
         """
         self.name = name
         if type(initial_donation) is list:
@@ -63,12 +62,14 @@ class Donor(object):
     def thank(self):
         '''Returns a summary thank you letter to a donor'''
         return(f"Dearest {self.name},\n"
-          "We are writing to formally thank you for your generous"
-          f" donation of ${self.most_recent_donation}.\n"
-          f"To date, you have donated ${self.sum_donations} "
-          "to our honorable mission.\n"
-          "You are truly a valuable patron, and we thank you "
-          "for your service (and money)")
+               "We are writing to formally thank you for your generous"
+               f" donation of ${self.most_recent_donation}.\n"
+               f"To date, you have donated ${self.sum_donations} "
+               "to our honorable mission.\n"
+               "You are truly a valuable patron, and we thank you "
+               "for your service (and money).\n"
+               "Kindest regards,\n"
+               "Baron Von Munchausen")
 
 
 class Donor_Collection(object):
@@ -93,6 +94,10 @@ class Donor_Collection(object):
         return "Donor_Collection()"
 
     @property
+    def donor_names(self):
+        return [i.name for i in self.donors]
+
+    @property
     def number_of_donors(self):
         return len(self.donors)
 
@@ -111,9 +116,16 @@ class Donor_Collection(object):
         else:
             self.donors.append(Donor(donor, donation))
 
+    def existing_donor(self, donor_name=""):
+        return donor_name in self.donor_names
+
     def sort_donors_by_last_name(self):
-        return sorted(self.donors,
-                      key=lambda donor: donor.name.split()[1], reverse=False)
+        try:
+            return sorted(self.donors,
+                          key=lambda donor: donor.name.split()[1], reverse=False)
+        except IndexError:
+            return sorted(self.donors,
+                          key=lambda donor: donor.name, reverse=False)
 
     def sort_donors_by_first_name(self):
         return sorted(self.donors,
@@ -134,21 +146,13 @@ class Donor_Collection(object):
     def thank_everyone(self):
         for i in self.donors:
             with open(f'{i.name}.txt', 'w') as f:
-                f.write(f"Dearest {i.name},\n"
-                        "We are writing to formally thank you for your most recent"
-                        f" donation of ${i.most_recent_donation}.\n"
-                        f"To date, you have donated ${i.sum_donations} "
-                        "to our honorable mission.\n"
-                        "You are truly a valuable patron, and we thank you "
-                        "for your service (and money).\n"
-                        "Kindest regards\n"
-                        "Baron Von Munchausen")
+                f.write(i.thank())
 
     def generate_report(self, report_basis="total"):
         """
         Generate a full donor report based on an optional flag.
-        Report types are: name, total donations, number of donations,
-        average donation size
+        Report basis options: 'total', 'last name', first name',
+        'count', 'average'
         """
         if report_basis.lower() == "total":
             donor_list = self.sort_donors_by_total_donation_amount()
@@ -161,13 +165,14 @@ class Donor_Collection(object):
         elif report_basis.lower() == "average":
             donor_list = self.sort_donors_by_average_donation_amount()
 
-        report_header = "|"+("{:^20}|" * 4).format(
+        report_header = "\n|"+("{:^20}|" * 4).format(
                         "Donor Name", "Total Given",
                         "Num Gifts", "Average Gift"
-                        ) + "\n" + ("-" * 21*4) + "-"
-        # str_grid_formatting = ("-" * 21*4)
-        print(report_header)
-        # print(str_grid_formatting)
+                        ) + "\n" + ("-" * 21*4) + "-\n"
+        report = []
+        report.append(report_header)
         for i in donor_list:
-            print("{:20} ${:>19} {:>20} ${:>20}".format(
-                  i.name, i.sum_donations, i.number_donations, i.average_donation))
+            report.append("{:20} ${:>19,} {:^20d} ${:>20,}\n".format(
+                  i.name, i.sum_donations,
+                  i.number_donations, i.average_donation))
+        return "".join(report)
