@@ -29,6 +29,8 @@ class Element(object):
         out_file.write("<{}".format(self.tag))
         for k, v in self.elem_attributes.items():
             out_file.write(" {}=\"{}\"".format(k, v))
+        if isinstance(self, SelfClosingElement):
+            out_file.write(" /")
         out_file.write(">")
         if newline == True:
             out_file.write("\n")
@@ -37,10 +39,19 @@ class SimpleElement(Element):
     def render(self, out_file):
         self.print_open_tag(out_file, False)
         out_file.write(self.contents[0])
-        out_file.write("</{}>\n".format(self.tag))
+        if not isinstance(self, SelfClosingElement):
+            out_file.write("</{}>\n".format(self.tag))
 
     def append(self, content):
         raise NotImplementedError
+
+class SelfClosingElement(SimpleElement):
+    def __init__(self, **kwargs):
+        self.elem_attributes = kwargs
+
+    def render(self, out_file):
+        self.print_open_tag(out_file, False)
+        #out_file.write(self.contents[0])
 
 class Html(Element):
     tag = 'html'
@@ -56,3 +67,9 @@ class Head(Element):
 
 class Title(SimpleElement):
     tag = 'title'
+
+class Hr(SelfClosingElement):
+    tag = 'hr'
+
+class Br(SelfClosingElement):
+    tag = 'br'
