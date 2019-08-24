@@ -257,6 +257,35 @@ def test_attributes():
     assert "<p style=\"text-align:left\" class=\"normalP\">" in file_contents
     assert file_contents.count("</p>\n") == 3
 
+########
+# Step 5
+########
+
+def test_hr():
+    e = Hr("width=\"400\"")
+    with pytest.raises(NotImplementedError):
+        e.append("this should fail")
+
+    file_contents = render_result(e).strip()
+
+    assert("width=\"400\"") in file_contents
+    assert("this should fail") not in file_contents
+
+    assert file_contents.startswith("<hr")
+    assert not file_contents.startswith("<hr>")
+    assert file_contents.endswith("/>")
+    assert not file_contents.endswith("</hr>")
+
+def test_br():
+    e = Br()
+    with pytest.raises(NotImplementedError):
+        e.append("this should fail")
+
+    file_contents = render_result(e).strip()
+
+    assert("this should fail") not in file_contents
+
+    assert file_contents == "<br />"
 
 # #####################
 # # indentation testing
