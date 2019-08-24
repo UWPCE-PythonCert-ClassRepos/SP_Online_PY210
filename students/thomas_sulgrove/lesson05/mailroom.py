@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+#lesson5
+#https://uwpce-pythoncert.github.io/PythonCertDevel/exercises/mailroom-part3.html
 
 import sys
 import os.path
@@ -32,7 +34,7 @@ main_prompt = "\n".join(("Please choose from the following options:",
           "4 - Exit \n"
           ))
 
-#email
+#Email
 thank_you_email = "\n".join(("Dear {donor},",
             "",
             "Thanks you for your generous donation of {donation:.2f}.  Your total donations of {total:.2f} are greatly appriciated.",
@@ -41,7 +43,7 @@ thank_you_email = "\n".join(("Dear {donor},",
             "The Weyland-Yutani Corporation"
           ))
 
-#####Functions (alphabetical)
+#####Functions(alphabetical)
 def create_a_report():
     #Print the report
     print("\n")
@@ -71,6 +73,7 @@ def send_thank_you_one():
                 print(name)
             #skip loop to reprompt
             continue
+        
         #ask for the donation amount
         donor_amount = input(donation_prompt)
         #set as a numeric value
@@ -88,10 +91,17 @@ def send_thank_you_one():
 
 def send_thank_you_all():
     #Send out last donation and total donations
-    response = input(write_location_prompt)
-    
-    for key, value in donor_db.items():
+    while True:
+        try:
+            response = str(input(write_location_prompt))
+        except ValueError:
+            print('please enter a valid string')
+            continue
+        else:
+            if response == 'no' or os.path.isfile(response):
+                break
         
+    for key, value in donor_db.items():
         if response == 'no':
             file_name = key + '.txt'
         else:
@@ -120,7 +130,7 @@ def main():
         #print out main menu for user choice
         try:
             response = int(input(main_prompt))
-        except:
+        except ValueError:
             print("please input valid number")
             pass
         main_menu.get(response)()
