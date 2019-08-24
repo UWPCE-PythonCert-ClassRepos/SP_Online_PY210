@@ -267,6 +267,7 @@ def test_hr():
         e.append("this should fail")
 
     file_contents = render_result(e).strip()
+    print(file_contents)
 
     assert("width=\"400\"") in file_contents
     assert("this should fail") not in file_contents
@@ -282,6 +283,7 @@ def test_br():
         e.append("this should fail")
 
     file_contents = render_result(e).strip()
+    print(file_contents)
 
     assert("this should fail") not in file_contents
 
