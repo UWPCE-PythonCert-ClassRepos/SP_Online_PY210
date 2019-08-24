@@ -5,21 +5,9 @@ Class responsible for donor data encapsulation.
 """
 class Donor(object):
     def __init__(self, name, donations=[0]):
-        # Name must be a string
-        if isinstance(name, str):
-            self._name = name
-        else:
-            raise TypeError("name must be a string!")
-        # All donations must be non-negative number (integer or float)
-        for donation in donations:
-            try:
-                if donation < 0:
-                    raise ValueError("donation can't be negative")
-            except TypeError:
-                print("donation must be a non-negative number")
-        # Convert all donations to floats
-        self._donations = [float(donation) for donation in donations]
-           
+        self.name = name
+        self.donations = donations
+
     @property
     def name(self):
         return self._name
@@ -43,6 +31,7 @@ class Donor(object):
             try:
                 if donation < 0:
                     raise ValueError("donation can't be negative")
+            # Python throws TypeError if donation is not a number (can' compare against zero)
             except TypeError:
                 print("donation must be a non-negative number")
         # Convert all donations to floats
@@ -75,15 +64,10 @@ class Donor(object):
 """
 Class responsible for donor collection data encapsulation.
 """
-class DonorCollection(Donor):
+class DonorCollection(object):
+
     def __init__(self, donors=[]):
-        for donor in donors:
-            if isinstance(donor, Donor):
-                super(Donor, donor).__init__()
-                # Donor.__init__(donor, donor.name, donor.donations)
-            else:
-                raise TypeError("each donor must be a Donor class")
-        self._donors = donors
+        self.donors = donors
 
     @property
     def donors(self):
@@ -91,55 +75,61 @@ class DonorCollection(Donor):
 
     @donors.setter
     def donors(self, value):
-        for donor in value:
-            if isinstance(donor, Donor):
-                super(Donor, donor).__init__()
-            else:
-                raise TypeError("each donor must be a Donor class")
-        self._donors = value
-        
-    def __str__(self):
-        return '; '.join([donor.__str__() for donor in self.donors])
+        self._donors = []
+        for id in value:
+            self._donors.append(id)
 
-    def search_donor(self, name):
+    def __str__(self):
+        return '{}: {}'.format('DonorCollection', self.donors)
+
+    def search_donor(self, name, donor_dict):
         """Return the donor's index in the list"""
         for index, donor in enumerate(self.donors):
-            if donor.name == name:
-                return index
+            try:
+                if donor_dict[donor].name == name:
+                    return index
+            except KeyError:
+                return -1
         return -1
 
-    def add_donor(self, name, amount=0.0):
-        """Add new donor or update existing donor with given name and amount"""
+    def add_donor(self, name, donor_dict, amount=0.0):
+        """Return new donor object or index of existing donor with given name and amount"""
         # Search donor
-        index = self.search_donor(name)
+        index = self.search_donor(name, donor_dict)
         if index == -1:
-            # Add new donor to the list
-            self.donors += [Donor(name, [amount])]
+            # Create a new donor object
+            obj = Donor(name, [amount])
+            # Add new donor id to the list
+            self.donors.append(id(obj))
+            # Return new donor obj
+            return obj
         else:
             # Add donate amount to existing donor
-            self.donors[index].add_donation(amount)
+            donor_dict[self.donors[index]].add_donation(amount)
+            # Return index
+            return index
 
-    def sort_by_donations(self, reverse=False):
+    def sort_by_donations(self, donor_dict, reverse=False):
         """Sort donors by total amount of donations"""
         if reverse:
-            sorted_donors = sorted(self.donors, key=Donor.sort_key, reverse=True)
+            sorted_donors = sorted(donor_dict.values(), key=Donor.sort_key, reverse=True)
         else:
-            sorted_donors = sorted(self.donors, key=Donor.sort_key)
-        self.donors = sorted_donors
-    
-    def create_report(self):
+            sorted_donors = sorted(donor_dict.values(), key=Donor.sort_key)
+        self.donors = [id(donor) for donor in sorted_donors]
+
+    def create_report(self, donor_dict):
         """Return a list of donors, sorted by total historical donation amount"""
         # Sort donors in descending order by total amount of their donations
-        self.sort_by_donations(reverse=True)
+        self.sort_by_donations(donor_dict, reverse=True)
         # Initialize report content
         content = []
         # Loop thru each donor
         for donor in self.donors:
             # Get total donated amount, number of gifts, and average gift amount
-            total_given = donor.sum_donations
-            num_gifts = len(donor.donations)
+            total_given = donor_dict[donor].sum_donations
+            num_gifts = len(donor_dict[donor].donations)
             ave_gift = total_given / num_gifts
             # Add to report content
-            content.append([donor.name, total_given, num_gifts, ave_gift])
+            content.append([donor_dict[donor].name, total_given, num_gifts, ave_gift])
 
         return content
