@@ -2,10 +2,8 @@
 import random
 from pprint import pprint
 
-
-words = "I wish I may I wish I might".split()
 HEADER = "*** START OF THIS PROJECT GUTENBERG EBOOK"
-
+FOOTER = "End of the Project Gutenberg EBook"
 
 def build_trigrams(words):
     """
@@ -28,12 +26,38 @@ def build_trigrams(words):
 
 def read_in_data(file_to_parse):
     word = list()
+    line =""
     with open(file_to_parse, mode='r', encoding='utf-8') as a_file:
-        for line in a_file:
+        while HEADER not in line:
+            line = a_file.readline()
+
+        while FOOTER not in line:
+            line = a_file.readline()
             line = line.replace("\n", "")
             word += line.split(" ")
     return word
-        
+
+def clean_words(rogue_word_list):
+    """
+    Parses through the list of words and "cleans" all punctuation
+
+    returns the same list void of many common punctiations.
+    """
+
+    translate_map = {ord('\n'): None, ord("\""): None, ord(';'): None,
+            ord(','): None, ord('!'): None, ord('?'): None, ord('.'): None}       
+    index = len(rogue_word_list) - 1
+
+    while index >= 0:
+        rogue_word_list[index] = rogue_word_list[index].translate(translate_map)
+        rogue_word_list[index] = rogue_word_list[index].replace('.', '')
+        rogue_word_list[index] = rogue_word_list[index].rstrip("\'")
+        rogue_word_list[index] = rogue_word_list[index].rstrip(":")
+        rogue_word_list[index] = rogue_word_list[index].lstrip("\'")
+
+        index -= 1
+    
+    return rogue_word_list
 
 def build_text(word_pairs):
     word_list = list()
@@ -55,8 +79,8 @@ def build_text(word_pairs):
     return " ".join(word_list)
 
 if __name__ == "__main__":
-    text = read_in_data('sherlock.txt')
-    word_pairs = build_trigrams(text)
-    #print(trigrams)
+    in_data = read_in_data('sherlock.txt')
+    clean_text = clean_words(in_data)
+    word_pairs = build_trigrams(clean_text)
     new_text = build_text(word_pairs)
     print(new_text)
