@@ -26,37 +26,37 @@ def main():
     """ Contains dict of donors and displays Menu. """
     # Dictionary holding donor names, donation dates and amounts
     all_donations = {'Stichting INGKA Foundation': 
-                        {'2014-04-14': 40338000, 
-                         '2013-07-12': 31837000, 
-                         '2017-08-18': 15966000, 
-                         '2014-06-27': 19474000},
+                        {40338000: '2014-04-14',
+                         31837000: '2013-07-12',
+                         15966000: '2017-08-18',
+                         19474000: '2014-06-27'},
                     'Buffet Foundation': 
-                        {'2014-08-16': 27940000,
-                         '2015-04-13': 18603000,
-                         '2013-11-21': 15381000,
-                         '2015-12-10': 15115000,
-                         '2015-08-15': 14534000},
+                        {27940000: '2014-08-16',
+                         18603000: '2015-04-13',
+                         15381000: '2013-11-21',
+                         15115000: '2015-12-10',
+                         14534000: '2015-08-15'},
                     'Bezos Family Foundation': 
-                        {'2019-02-11': 18938000,
-                         '2015-02-06': 19554000}, 
+                        {18938000: '2019-02-11',
+                         19554000: '2015-02-06'},
                     'Bill and Melinda Gates Foundation':
-                        {'2016-08-16': 14354375,
-                         '2018-04-26': 48405000,
-                         '2014-02-17': 26340000,
-                         '2017-05-19': 23049002,
-                         '2016-03-18': 22737329,
-                         '2018-08-23': 21455000,
-                         '2016-09-20': 20670300},
+                        {14354375: '2016-08-16', 
+                         48405000: '2018-04-26',
+                         26340000: '2014-02-17',
+                         23049002: '2017-05-19',
+                         22737329: '2016-03-18',
+                         21455000: '2018-08-23',
+                         20670300: '2016-09-20'},
                     'Walton Family Foundation':
-                        {'2016-08-23': 18947775,
-                         '2016-03-11': 17914000,
-                         '2015-09-18': 17789000,
-                         '2015-04-17': 17440000,
-                         '2011-06-21': 18254000,
-                         '2014-08-16': 16066000,
-                         '2017-03-14': 14841309,
-                         '2017-05-15': 14391572,
-                         '2016-08-20': 14093386}}
+                        {18947775: '2016-08-23',
+                         17914000: '2016-03-11',
+                         17789000: '2015-09-18',
+                         17440000: '2015-04-17',
+                         18254000: '2011-06-21',
+                         16066000: '2014-08-16',
+                         14841309: '2017-03-14',
+                         14391572: '2017-05-15',
+                         14093386: '2016-08-20'}}
 
     # Main Menu choice
     usr_input = None
@@ -210,12 +210,38 @@ def donor_sub_menu(all_donations): # updated donation list
             print("Invalid entry--try again!")
             print()
 
-    # Assign date to a name
+    # Holds date transferred from user input
+    date_str = None
+
+    while True:
+        # User sets date
+        # Error handling
+        invalid_char = ["`", "~", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "_", \
+                        "+", "|", "=", "{", "}", "[", "]", "<", ">", "?", ",", ".", "/", ] 
+        
+        input_msg = "Please enter the donation date in 'YYYY-MM-DD' format: "
+        # Capture user choice 
+        date_input = str(input(input_msg))
+        # Error handling
+        if date_input.isalpha(): 
+            print("Invalid entry--try again!")
+            print()
+        elif date_input in invalid_char:
+            print("Invalid entry--try again!")
+            print()            
+        else:
+            date_str = date_input
+            break
+
+    """
+    # Retaining for later use            
+    # Assign today's date to a name
     dt_today = (date.today())
     # Necessary to convert to a string
     # Note that 'by design', only one new donation for a new donor can be added per day
-    # ...because I've used dates as subkeys
+    # ...when using dates as subkeys
     date_str = str(dt_today)    
+    """
     
     # Include donor name already entered
     if a_donor != None:
@@ -231,9 +257,9 @@ def donor_sub_menu(all_donations): # updated donation list
             if new_amt > 0 and new_amt < 1000000000: # n < billion
                 # append to dict
                 if a_donor in all_donations:
-                    all_donations[a_donor][date_str] = new_amt
+                    all_donations[a_donor][new_amt] = date_str
                 else: # New key - append new donor
-                    all_donations[a_donor] = {date_str: new_amt}
+                    all_donations[a_donor] = {new_amt: date_str}
                 break
             else:
                 print()
@@ -267,7 +293,7 @@ def list_donor_donations(all_donations, a_donor):
     print(66 * '-') # Print footer
     
     # Print donation dates and amounts (subkeys)
-    for gift_dt, gift_amt in sorted(all_donations[a_donor].items()):
+    for gift_amt, gift_dt in sorted(all_donations[a_donor].items(), key = lambda item: item[1], reverse = True):
         print('{:<13} {:<36} ${:>14,.2f}'.format(gift_dt, a_donor, gift_amt))
             
     return
@@ -352,7 +378,7 @@ def print_letters(all_donations):
             # List all relevant donations in the letter generated
             # If prn_donor_avg has been run (Menu Opt.2,), additional subkeys will be printed
             # Formatting fix tba
-            for gift_dt, gift_amt in sorted(all_donations[a_donor].items()):
+            for gift_amt, gift_dt in sorted(all_donations[a_donor].items(), key = lambda item: item[1], reverse = True):
                 donor_letter.write('{:<13} {:<36} ${:>14,.2f}'.format(gift_dt, a_donor, gift_amt))
                 donor_letter.write('\n')
 
@@ -396,7 +422,8 @@ def prn_donor_avg(all_donations):
         # Sum counter values and assign to a name
         donation_ct = sum(donation_dict.values())
         # Sum values in subkeys and assign to a name
-        donation_ttl = sum(all_donations[a_donor].values())        
+        # donation_ttl = sum(all_donations[a_donor].values())
+        donation_ttl = sum(all_donations[a_donor].keys())
         # Calculate average and assign to a name
         donation_avg = (donation_ttl / donation_ct)        
         
@@ -414,7 +441,7 @@ def prn_donor_avg(all_donations):
         avg_donations[a_donor]['AVG Donation'] = donation_avg
 
     # Sort dict by 'Total Donations' descending
-    lets_sort = sorted(avg_donations.items(), key = lambda x: x[1]['Total Donations'], reverse = True) 
+    lets_sort = sorted(avg_donations.items(), key = lambda item: item[1]['Total Donations'], reverse = True) 
     
     # Change it back to a dict
     avg_donations_sorted = dict(lets_sort)

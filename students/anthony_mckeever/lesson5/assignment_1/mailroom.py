@@ -5,6 +5,7 @@ Programming In Python - Lesson 5 Assignment 1: Mailroom Part 3
 Code Poet: Anthony McKeever
 Start Date: 08/13/2019
 End Date: 08/15/2019
+Updated Date: 08/17/2019
 """
 import os
 import sys
@@ -57,15 +58,11 @@ def menu_system(opts_dict, menu_text, prompt_text, include_main=False, include_d
     show_opts.update(quit_dict)
 
     print(menu_text)
-    print_options(show_opts)
-    
-    # Don't include the list of donors in the help text so the user has to request them.
-    if include_donors:
-        show_opts.update(donor_dict)
+    selection_dict = print_options(show_opts)
 
     while True:
         user_choice = safe_input(prompt_text)
-        choice_key = key_from_lower(user_choice, show_opts.keys())
+        choice_key = selection_dict.get(user_choice)
 
         if choice_key is not None:
             selection = show_opts[choice_key]
@@ -89,38 +86,21 @@ def menu_system(opts_dict, menu_text, prompt_text, include_main=False, include_d
 
 def print_options(show_opts):
     """
-    Print the options from a menu.
+    Print the options from a menu and return a dictionary tying an integer as a key to menu selection.
 
     :show_opts:     The complete dictionary of the current menu's options.
     """
-    skip = set([])
+    select_dict = {}
+    select_number = 1
+
     for key, value in show_opts.items():
-        if key not in skip:
-            opts_string, skippable = get_opts_string(key, show_opts)
-            print("\t" + opts_string + value[0])
-            skip.update(skippable)
-            
+        select_dict.update({str(select_number): key})
+        description = value[0] if value[0] is not None else ""
+        print("\t{} - {}{}".format(select_number, key, description))
+        
+        select_number += 1
 
-def key_from_lower(user_choice, keys):
-    """
-    Return the user's lower case input to a properly cased dictionary key.
-
-    :user_choice:   The choice the user made at a menu.
-    :keys:          The keys from the dictionary the user is choosing from.
-    """
-    lower_keys = {k.lower(): k for k in keys}
-    return lower_keys[user_choice] if user_choice in lower_keys.keys() else None
-
-
-def get_opts_string(key, dictionary):
-    """
-    Return a string for multiple keys where the value the key represents is duplicated in the dictionary and the keys
-    that were combined in a list.
-    
-    :key:   The key in the dictionary to find duplicate values of.
-    """
-    keys = [k for k, v in dictionary.items() if v == dictionary[key]]
-    return ", ".join(keys), keys
+    return select_dict
 
 
 def print_donors():
@@ -146,13 +126,13 @@ def accept_donation(donor_name):
 
     :donor_name:    The donor who donated.
     """
-    donor = get_donor(donor_name)
-
+    donor_name, donor = get_donor(donor_name)
+    
     donation_float = 0.0
     while donation_float <= 0.0:
-        donation = safe_input("How much did they donate? > ")
+        donation = safe_input(f"How much did {donor_name} donate? (Cancel to return to main menu) > ")
 
-        if main_or_exit(donation):
+        if donation.lower() == "cancel":
             return
         
         try:
@@ -163,7 +143,7 @@ def accept_donation(donor_name):
             if donation_float <= 0.0:
                 print("Invalid amount.  Try again.")
 
-    donor[0].append(donation_float)
+    donor.append(donation_float)
     email = get_email(donor_name, donation_float)
 
     print("\n\n----- PLEASE SEND THIS EMAIL TO THE DONOR -----\n\n")
@@ -171,7 +151,7 @@ def accept_donation(donor_name):
     print("\n\n----- PLEASE SEND THIS EMAIL TO THE DONOR -----\n\n")
 
 
-def send__to_all():
+def send_to_all():
     """
     Write text files with thank you letters for every donor.
     """
@@ -179,21 +159,21 @@ def send__to_all():
     print("\n\nLets thank everybody!")
     print("\nThis will prepare a letter to send to everyone has donated to Studio Starchelle in the past.")
     print("All letters will be saved as text (.txt) files in the default directory a different directory is specified.")
+
     print(f"\nDefault Directory: {default_dir}")
     
     user_dir = get_user_output_path()
     
-    if main_or_exit(user_dir):
+    if user_dir is not None and user_dir.lower() == "cancel":
         return
     
     write_dir = user_dir if user_dir is not None else default_dir
 
     for k, v in donor_dict.items():
         file_path = os.path.join(write_dir, f"{k}.txt")
-        email = get_email(k, v[0][-1])
-        write_file = open(file_path, "w")
-        write_file.write(email)
-        write_file.close()
+        email = get_email(k, v[-1])
+        with open(file_path, "w") as write_file:
+            write_file.write(email)
     
     print(f"Donor letters have been written to: {write_dir}")
 
@@ -203,12 +183,9 @@ def get_user_output_path():
     Return the user's desired path for emails or None if the user leaves the choice blank.
     Will prompt to create a directory if it does not exist.
     """
-    user_dir = safe_input("\nPlease enter a directory (Empty for Default) > ")
+    user_dir = safe_input("\nPlease enter a directory (Empty for Default, \"Cancel\" to return to main menu) > ")
 
-    if main_or_exit(user_dir):
-        return
-
-    if user_dir != "":
+    if user_dir != "" and user_dir != "cancel":
         if not os.path.exists(user_dir):
             while True:
                 choice = safe_input(f"The directory \"{user_dir}\" does not exist.  Do you want to create it? ([Y]es / [N]o) > ")
@@ -220,26 +197,10 @@ def get_user_output_path():
                     user_dir = None
                     break
                 print("Invalid choice.  Please enter \"Yes\" or \"No\"")
-    else:
+    elif user_dir != "cancel":
         return None
 
     return user_dir
-
-
-def main_or_exit(selection):
-    """
-    Return if the user wants to return to the main menu or exit the app.
-
-    Return Values:
-        True = Return to main menu
-        False = Continue with current operation
-    """
-    if selection in main_dict.keys():
-        return True
-    elif selection in quit_dict.keys():
-        quit_dict[selection][1]()
-
-    return False
 
 
 def get_email(name, donation):
@@ -275,10 +236,10 @@ def get_donor(user_choice):
     """
     for donor in donor_dict.keys():
         if user_choice.lower() == donor.lower():
-            return donor_dict[donor]
+            return donor, donor_dict[donor]
     
-    donor_dict.update({user_choice: ([], accept_donation)})
-    return donor_dict[user_choice]
+    donor_dict.update({user_choice: []})
+    return user_choice, donor_dict[user_choice]
 
 
 def create_report():
@@ -328,7 +289,7 @@ def get_donor_summary():
     """
     Return a summary of all donors including their name, total donation sum, count of donations, and average donation.
     """
-    return [(k, f"${sum(v[0]):.02f}", len(v[0]),  f"${sum(v[0]) / len(v[0]):.02f}") for k, v in donor_dict.items()]
+    return [(k, f"${sum(v):.02f}", len(v),  f"${sum(v) / len(v):.02f}") for k, v in donor_dict.items()]
 
 
 def format_line(item, lengths, is_donor=True):
@@ -360,36 +321,32 @@ def length_key(item):
     return len(str(item))
 
 
-main_menu_dict = {"Send A Thank You":    ("\tGet prepopulated email template to thank a donor.", send_thanks),
+# Menu dictionaries (main_menu_dict, list_dict, main_dict, quit_dict) are dynamically used during various input screens.
+# Due to this, each key will be assigned an integer value at runtime by 
+main_menu_dict = {"Send A Thank You":    ("\t\tGet prepopulated email template to thank a donor.", send_thanks),
                   "Create a Report":     ("\t\tView a list of all donors and their cumulative donations.", create_report),
-                  "Send Letters to All": ("\tGenerate a letter for every donor.", send__to_all)
+                  "Send Letters to All": ("\t\tGenerate a letter for every donor.", send_to_all)
                   }
 
 
-main_dict = {"main":   ("\tReturn to the main menu.  Can be used at any input prompt.", None),
-             "return": ("\tReturn to the main menu.  Can be used at any input prompt.", None),
-             "stop":   ("\tReturn to the main menu.  Can be used at any input prompt.", None)
-             }
+# Keep list out of main menu dictionary as its only used in accept_donation
+list_dict = {"List Donors": ("\t\t\tPrint a list of available donors.", print_donors)}
 
 
-quit_dict = {"exit": ("\t\tQuit the script.  Can be used at any input prompt.", sys.exit),
-             "end":  ("\t\tQuit the script.  Can be used at any input prompt.", sys.exit),
-             "quit": ("\t\tQuit the script.  Can be used at any input prompt.", sys.exit),
-             }
+# Keep Return to main outside the other dictionaries to allow logic to force it second to the bottom non-main menu prompts.
+main_dict = {"Return to Main Menu":   (None, None)}
 
-            
-list_dict = {"list": ("\t\tPrint a list of available donors.", print_donors),
-             "l":    ("\t\tPrint a list of available donors.", print_donors),
-             "ls":   ("\t\tPrint a list of available donors.", print_donors)
-             }
 
-            
-donor_dict = {"Cresenta Starchelle": ([99.99, 6000.00, 10345.23, 29.99], get_donor),
-              "Delilah Matsuka":     ([199.99, 299.99, 2100.00],         get_donor),
-              "Astra Matsume":       ([599.99],                          get_donor),
-              "Kima Metoyo":         ([3600.00, 1200.00],                get_donor),
-              "Kayomi Matsuka":      ([0.01],                            get_donor),
-              "Katie Starchelle":    ([600.00],                          get_donor)
+# Keep Exit the Script outside the other dictionaries to allow logic to force it to the bottom of any menu prompt.
+quit_dict = {"Exit the Script":     (None, sys.exit)}
+
+
+donor_dict = {"Cresenta Starchelle": [99.99, 6000.00, 10345.23, 29.99],
+              "Delilah Matsuka":     [199.99, 299.99, 2100.00],       
+              "Astra Matsume":       [599.99],                        
+              "Kima Metoyo":         [3600.00, 1200.00],              
+              "Kayomi Matsuka":      [0.01],                          
+              "Katie Starchelle":    [600.00],                        
               }
 
 
