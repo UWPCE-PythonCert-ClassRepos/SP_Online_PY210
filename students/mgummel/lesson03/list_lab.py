@@ -49,10 +49,12 @@ def main():
         index -= 1        
     print(series2_fruits)
 
-    # Ask the user for input displaying a line like “Do you like apples?” for each fruit in the list (making the fruit all lowercase).
-    # For each “no”, delete that fruit from the list.
-    # For any answer that is not “yes” or “no”, prompt the user to answer with one of those two values (a while loop is good here)
-    # Display the list.
+    """ Ask the user for input displaying a line like “Do you like apples?” 
+        for each fruit in the list (making the fruit all lowercase).
+        For each “no”, delete that fruit from the list.
+        For any answer that is not “yes” or “no”, prompt the user to answer 
+        with one of those two values (a while loop is good here)
+        Display the list."""
 
     #Series 3 
     temp = []
