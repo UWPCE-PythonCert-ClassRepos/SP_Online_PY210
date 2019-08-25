@@ -99,7 +99,7 @@ def store_new_donation(donor_name, donation):
         dc.add_donor(new_donor)
 
 
-def create_report():
+def print_report():
     print(dc.generate_report())
 
 
@@ -123,7 +123,7 @@ def launch_user_interface():
                         "2 - Create a Report",
                         "3 - Send letters to all donors",
                         "4 - Quit\n\n",))
-    arg_dict = {"1": single_thank_you, "2": create_report,
+    arg_dict = {"1": single_thank_you, "2": print_report,
                 "3": generate_all_thanks, "4": exit_program}
     while True:
         response = input(prompt)
