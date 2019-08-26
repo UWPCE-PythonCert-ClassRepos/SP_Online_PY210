@@ -69,3 +69,10 @@ class Hr(SelfClosingElement):
 
 class Br(SelfClosingElement):
     tag = 'br'
+
+class A(SimpleElement):
+    tag = 'a'
+
+    def __init__(self, link, content):
+        SimpleElement.__init__(self, content)
+        self.elem_attributes = {'href': link}
