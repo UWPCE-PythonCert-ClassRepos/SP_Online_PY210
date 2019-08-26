@@ -262,7 +262,7 @@ def test_attributes():
 ########
 
 def test_hr():
-    e = Hr("width=\"400\"")
+    e = Hr(width=400)
     with pytest.raises(NotImplementedError):
         e.append("this should fail")
 
