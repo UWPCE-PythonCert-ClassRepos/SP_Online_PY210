@@ -45,9 +45,10 @@ def create_report(donor_collection):
 def send_thank_you(donor_collection):
     """ Prompt the user to type a name or type 'list'.
     - If the user types 'list' show a list of the donor names and re-prompt.
-    - Check if the donor name the user typed is already in the db.
-    - If the user types a name not in the list, add that name to the donor
-        db and use it.
+    - Check if the donor name the user typed is already in the DonorCollection
+        instance.
+    - If the user types a name not in the list, add that name to the
+        DonorCollection instance and use it.
     - If the user types a name in the list, use it.
     - Get the donation amount for the donor.
 
@@ -72,10 +73,10 @@ def send_thank_you(donor_collection):
 
 
 def show_donor_list(donor_collection):
-    """ Print a list of donor names from a DonorCollection object.
+    """ Print a list of donor names from a DonorCollection instance.
 
     Keyword arguments:
-    donor_collection - a DonorCollection object
+    donor_collection - a DonorCollection instance
     """
     donor_list = donor_collection.get_donor_names()
     print("\n".join(donor_list))
@@ -83,13 +84,13 @@ def show_donor_list(donor_collection):
 
 def process_donor_name_input(donor_collection, donor_name):
     """ If there is a donor with donor_name already in the db return it.
-    If not already in the db:
+    If not already in the DonorCollection instance:
     - check for a valid name.
     - If the name is not valid inform the user and return None.
     - If the name is valid add a donor with donor_name and return the donor.
 
     Keyword arguments:
-    donor_collection - DonorCollection object
+    donor_collection - DonorCollection instance
     donor_name - string representing a donor name
     """
     donor = donor_collection.is_existing_donor(donor_name)
@@ -109,7 +110,7 @@ def add_donation(donor):
     matching donor in the donor db. Return the donation amount.
 
     Keyword arguments:
-    donor - item in the donor_db.
+    donor - item in the DonorCollection instance.
     """
     donation_amount = get_donation_amount_from_user()
 
@@ -134,7 +135,7 @@ def get_donation_amount_from_user():
             return float(donation_amount)
 
 
-def quit_app():
+def quit_app(*args):
     return "quit"
 
 
@@ -146,7 +147,7 @@ def main():
     dc = populate_objects()
 
     switch_main_dict = {"1": send_thank_you, "2": create_report,
-                        "3": quit_app}
+                        "3": quit_app, "q": quit_app}
 
     while True:
         response = input(main_prompt)
@@ -154,7 +155,7 @@ def main():
         try:
             response_result = switch_main_dict.get(response)(dc)
         except TypeError:
-            print("Please type '1', '2', or '3'to select one of the "
+            print("Please type '1', '2', or '3' to select one of the "
                   "available options.")
         if response_result == "quit":
             break

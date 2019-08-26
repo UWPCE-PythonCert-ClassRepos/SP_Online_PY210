@@ -98,7 +98,7 @@ class DonorCollection():
         Jeff Bezos                 $     877.33           1  $      877.33
         Paul Allen                 $     708.42           3  $      236.14
         """
-        sorted_donors = sorted(self._donors, key=sort_key, reverse=True)
+        sorted_donors = sorted(self._donors, key=Donor.sort_key, reverse=True)
         try:
             report_rows = [donor.create_report_row() for donor in sorted_donors]
         except AssertionError:
@@ -123,7 +123,6 @@ class DonorCollection():
         return [donor.full_name for donor in self._donors]
 
 
-        
 class Donor():
     def __init__(self, full_name="", donations=None):
         if full_name != "":
