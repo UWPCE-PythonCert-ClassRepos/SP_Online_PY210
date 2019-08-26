@@ -299,7 +299,7 @@ def test_br():
 
 def test_a():
     e = A("http://www.seattletimes.com", "Seattle Times")
-    with pytest.raises(NotImplementedError)
+    with pytest.raises(NotImplementedError):
         e.append("this should fail")
 
     file_contents = render_result(e).strip()
