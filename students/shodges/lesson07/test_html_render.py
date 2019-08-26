@@ -356,6 +356,20 @@ def test_heading():
     assert "<h2 style=\"text-decoration:none;\">The subtitle</h2>" in file_contents
     assert "</p> in file_contents"
 
+########
+# Step 8
+########
+
+def test_doctype():
+    e = Html()
+
+    file_contents = render_result(e).strip()
+    print(file_contents)
+
+    assert "<html>" in file_contents
+    assert file_contents.startswith("<!DOCTYPE html>")
+    assert file_contents.endswith("</html>")
+
 # #####################
 # # indentation testing
 # #  Uncomment for Step 9 -- adding indentation
