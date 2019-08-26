@@ -11,7 +11,7 @@ class DonorCollection():
     """
     def __init__(self, *args, **kwargs):
         self._donors = set()
-    
+
     @property
     def donors(self):
         return self._donors
@@ -43,7 +43,7 @@ class DonorCollection():
         for donor in self._donors:
             if (donor.full_name.lower() == name.lower()):
                 return donor
-        
+
         return False
 
     def add_donor(self, donor, donations=None):
@@ -51,7 +51,7 @@ class DonorCollection():
 
         Keyword arguments:
         donor - A donor object or string representing a donor name.
-        donations - A number representing a single donation, a iterable of 
+        donations - A number representing a single donation, a iterable of
             numbers with multiple donations, or an iterable of Donations.
         """
         # first check if the donor is already in the collection
@@ -68,7 +68,7 @@ class DonorCollection():
             except ValueError:
                 raise ValueError
                 return None
-        
+
         # The following exceptions are not actually created by add_donations
         # yet but they should be written ... some day ... ;)
         try:
@@ -88,8 +88,8 @@ class DonorCollection():
         """ Print a list of donors, sorted by total historical donation amount.
         Include Donor Name, total donated, number of donations, and average
         donation amount as values in each row. The end result should be tabular
-        (values in each column should align with those above and below) and look
-        something like this:
+        (values in each column should align with those above and below) and
+        look something like this:
 
         Donor Name                | Total Given | Num Gifts | Average Gift
         ------------------------------------------------------------------
@@ -106,13 +106,13 @@ class DonorCollection():
             return
 
         # create header
-        first_row = "{:<26}| {:<11}| {:<10}| {:<12}\n".format("Donor Name", 
-                                                            "Total Given",
-                                                            "Num Gifts", 
-                                                            "Average Gift")
+        first_row = "{:<26}| {:<11}| {:<10}| {:<12}\n".format("Donor Name",
+                                                              "Total Given",
+                                                              "Num Gifts",
+                                                              "Average Gift")
         # create header line
         header_line = ("-" * 65) + "\n"
-        
+
         report_rows_string = "\n".join(report_rows)
 
         return first_row + header_line + report_rows_string
@@ -127,7 +127,7 @@ class Donor():
     def __init__(self, full_name="", donations=None):
         if full_name != "":
             try:
-                self.test_name(full_name)            
+                self.test_name(full_name)
             except ValueError:
                 raise ValueError("Name should be of the form 'Firstname Lastname'. Donor not created.")
             else:
@@ -191,14 +191,14 @@ class Donor():
             total_donation = self._donations.sum()
         except ValueError:
             raise ValueError("Non numeric values in donations.")
-        
+
         num_donations = len(self._donations.donations)
 
         try:
             average_donation = self._donations.average()
         except ValueError:
             raise ValueError("Non numeric values in donations.")
-        
+
         return "{:<26} ${:>11.2f} {:>10d}  ${:>12.2f}".format(self._full_name,
                                                               total_donation,
                                                               num_donations,
@@ -209,13 +209,13 @@ class Donor():
         donation is the amount to use.
         """
         try:
-            donation_amount = self._donations.donations[-1].get_formatted_donation_amount(with_sign = True)
+            donation_amount = self._donations.donations[-1].get_formatted_donation_amount(with_sign=True)
         except IndexError:
             raise IndexError("No donations.")
             return None
         except NotImplementedError:
             raise NotImplementedError
-            return None        
+            return None
 
         message_line1 = "\nDear {},\n".format(self._full_name)
         message_rest = "     Thank you very much for your generous donation of {}.\n     WINNING!\n".format(donation_amount)
@@ -246,18 +246,18 @@ class Donor():
             return False
 
         return True
-        
+
+
 class DonationCollection():
     """ DonationCollection is a simple list subclass and, while a simple list
     might be sufficient for this project, this class could conceivably be
     extended for more functionality.
     """
+    # Note: "donations" is a bad name since it is also a property name for the
+    # DonationCollection of a Donor. I just wasn't being inventive enough
+    # with the name and I don't want to change in multiple places right now.
     def __init__(self, donations=[]):
-        self.donations = []  # Note: "donations" is a bad name since it is also
-                             # a property name for the DonationCollection of a
-                             # Donor. I just wasn't being inventive enough
-                             # with the name and I don't want to change in 
-                             # multiple places right now.
+        self.donations = []
         self.add_donation(donations)
 
     def add_donation(self, donation):
@@ -296,7 +296,6 @@ class DonationCollection():
             if isinstance(donation.monetary_amount, (int, float, Decimal)):
                 sum += donation.monetary_amount
         return sum
-        
 
 
 class Donation():
@@ -321,7 +320,7 @@ class Donation():
     @monetary_amount.setter
     def monetary_amount(self, amount):
         self._monetary_amount = Decimal(amount)
-    
+
     @property
     def currency(self):
         return self._currency
@@ -347,4 +346,3 @@ class Donation():
                 return "{}".format(amount)
         else:
             raise NotImplementedError("Not yet impletemented for non-monetary, non-USD donations.")
-    

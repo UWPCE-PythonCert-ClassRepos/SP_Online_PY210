@@ -36,8 +36,6 @@ def populate_objects():
 
 
 def create_report(donor_collection):
-    """ Print the report from DonorCollection.
-    """
     try:
         print(donor_collection.report())
     except AssertionError as error:
@@ -47,10 +45,9 @@ def create_report(donor_collection):
 def send_thank_you(donor_collection):
     """ Prompt the user to type a name or type 'list'.
     - If the user types 'list' show a list of the donor names and re-prompt.
-    - Check if the donor name the user typed is already in the DonorCollection
-        instance.
-    - If the user types a name not in the list, add that name to the
-        DonorCollection instance and use it.
+    - Check if the donor name the user typed is already in the db.
+    - If the user types a name not in the list, add that name to the donor
+        db and use it.
     - If the user types a name in the list, use it.
     - Get the donation amount for the donor.
 
@@ -68,17 +65,17 @@ def send_thank_you(donor_collection):
             donor = process_donor_name_input(donor_collection, response)
             if not donor:
                 continue
-            
+
             donation_amount = add_donation(donor)
             print(donor.thank_you_message())
-            break    
+            break
 
 
 def show_donor_list(donor_collection):
-    """ Print a list of donor names from a DonorCollection instance.
+    """ Print a list of donor names from a DonorCollection object.
 
     Keyword arguments:
-    donor_collection - a DonorCollection instance
+    donor_collection - a DonorCollection object
     """
     donor_list = donor_collection.get_donor_names()
     print("\n".join(donor_list))
@@ -86,13 +83,13 @@ def show_donor_list(donor_collection):
 
 def process_donor_name_input(donor_collection, donor_name):
     """ If there is a donor with donor_name already in the db return it.
-    If not already in the DonorCollection instance:
+    If not already in the db:
     - check for a valid name.
     - If the name is not valid inform the user and return None.
     - If the name is valid add a donor with donor_name and return the donor.
 
     Keyword arguments:
-    donor_collection - DonorCollection instance
+    donor_collection - DonorCollection object
     donor_name - string representing a donor name
     """
     donor = donor_collection.is_existing_donor(donor_name)
@@ -112,7 +109,7 @@ def add_donation(donor):
     matching donor in the donor db. Return the donation amount.
 
     Keyword arguments:
-    donor - item in the DonorCollection instance.
+    donor - item in the donor_db.
     """
     donation_amount = get_donation_amount_from_user()
 
@@ -137,7 +134,7 @@ def get_donation_amount_from_user():
             return float(donation_amount)
 
 
-def quit_app(*args):
+def quit_app(dc=None):
     return "quit"
 
 

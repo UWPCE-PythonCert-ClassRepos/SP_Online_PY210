@@ -101,10 +101,10 @@ def test_donorcollection_get_donor_names():
         assert returned_name in example_names
 
 
-def test_donor_init():    
+def test_donor_init():
     donor1 = Donor("Action Sparxxx", 100)
     donor2 = Donor("Hoagy Ace", [20, 150, 30])
-    
+
     assert donor1.full_name == "Action Sparxxx"
     assert donor2.full_name == "Hoagy Ace"
 
@@ -184,7 +184,7 @@ def test_donor_donations_getter_setter():
 
 def test_donor_create_report_row():
     donor = Donor("Hoagy Ace", [20, 150, 30, 500, 700])
-    
+
     assert donor.create_report_row() == "Hoagy Ace                  $    1400.00          5  $      280.00"
 
 
@@ -228,7 +228,7 @@ def test_donor_sort():
 
 def test_donor_test_name():
     donor = Donor()
-    
+
     assert donor.test_name("Robyn Banks")
     assert donor.test_name("robyn banks")
     with pytest.raises(ValueError):
@@ -275,7 +275,6 @@ def test_donation_init():
     donation = Donation(monetary_amount=50)
     assert isinstance(donation, Donation)
     assert donation.monetary_amount == Decimal(50)
-
 
 
 def test_donation_monetary_amount_getter_setter():
