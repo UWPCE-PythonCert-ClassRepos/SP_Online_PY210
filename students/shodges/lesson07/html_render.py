@@ -23,7 +23,8 @@ class Element(object):
                 this_content.render(out_file)
             except AttributeError:
                 out_file.write(this_content)
-        out_file.write("\n</{}>\n".format(self.tag))
+                out_file.write("\n")
+        out_file.write("</{}>\n".format(self.tag))
 
     def print_open_tag(self, out_file, newline=True):
         out_file.write("<{}".format(self.tag))
