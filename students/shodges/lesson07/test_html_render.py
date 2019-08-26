@@ -318,7 +318,7 @@ def test_ul_li():
 
     ul = Ul(id="somelist", style="text-decoration:bold;")
     ul.append(Li("Bullet one"))
-    ul.append(Li("Bullet two"))
+    ul.append(Li("Bullet two", style="text-color:red;"))
 
     p.append(ul)
 
@@ -332,11 +332,12 @@ def test_ul_li():
 Bullet one
 </li>
 """ in file_contents
+    assert "<li style=\"text-color:red;\">" in file_contents
     assert "Bullet two" in file_contents
-    assert file_contents.count("<li>") == 2
     assert file_contents.count("</li>") == 2
     assert "</ul>" in file_contents
     assert "</p>" in file_contents
+
 
 # #####################
 # # indentation testing
