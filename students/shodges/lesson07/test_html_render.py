@@ -81,6 +81,7 @@ def test_render_element():
     assert file_contents.count("<html>") == 1
     assert file_contents.count("</html>") == 1
 
+
 # # Uncomment this one after you get the one above to pass
 # # Does it pass right away?
 def test_render_element2():
@@ -194,6 +195,7 @@ def test_head():
     assert file_contents.startswith("<head>")
     assert file_contents.endswith("</head>")
 
+
 def test_title():
     e = Title("The title of the page!")
     with pytest.raises(NotImplementedError):
@@ -208,6 +210,7 @@ def test_title():
     assert file_contents.endswith("</title>")
 
     assert file_contents.find("\n") == -1 # the trailing newline will get stripped out so we shouldn't see any additional newlines
+
 
 def test_head_title():
     head = Head()
@@ -277,6 +280,7 @@ def test_hr():
     assert file_contents.endswith("/>")
     assert not file_contents.endswith("</hr>")
 
+
 def test_br():
     e = Br()
     with pytest.raises(NotImplementedError):
@@ -288,6 +292,23 @@ def test_br():
     assert("this should fail") not in file_contents
 
     assert file_contents == "<br />"
+
+########
+# Step 5
+########
+
+def test_a():
+    e = A("http://www.seattletimes.com", "Seattle Times")
+    with pytest.raises(NotImplementedError)
+        e.append("this should fail")
+
+    file_contents = render_result(e).strip()
+    print(file_contents)
+
+    assert "this should fail" not in file_contents
+
+    assert file_contents == "<a href=\"http://www.seattletimes.com\">Seattle Times</a>"
+
 
 # #####################
 # # indentation testing
