@@ -16,7 +16,7 @@ def send_thankyou():
         elif response == "list":
             print(dc.display_donors())
         else:
-            if dc.get_donor(response) is False:
+            if dc.get_donor(response) is None:
                 dc.add_donor(response)
             currentdonor = dc.get_donor(response)
             while True:
