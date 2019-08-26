@@ -294,7 +294,7 @@ def test_br():
     assert file_contents == "<br />"
 
 ########
-# Step 5
+# Step 6
 ########
 
 def test_a():
@@ -309,6 +309,34 @@ def test_a():
 
     assert file_contents == "<a href=\"http://www.seattletimes.com\">Seattle Times</a>"
 
+########
+# Step 7
+########
+
+def test_ul_li():
+    p = P("Paragraph")
+
+    ul = Ul(id="somelist", style="text-decoration:bold;")
+    ul.append(Li("Bullet one"))
+    ul.append(Li("Bullet two"))
+
+    p.append(ul)
+
+    file_contents = render_result(p).strip()
+    print(file_contents)
+
+    assert "<p>" in file_contents
+    assert "Paragraph" in file_contents
+    assert "<ul id=\"somelist\" style=\"text-decoration:bold;\">" in file_contents
+    assert """<li>
+Bullet one
+</li>
+""" in file_contents
+    assert "Bullet two" in file_contents
+    assert file_contents.count("<li>") == 2
+    assert file_contents.count("</li>") == 2
+    assert "</ul>" in file_contents
+    assert "</p>" in file_contents
 
 # #####################
 # # indentation testing
