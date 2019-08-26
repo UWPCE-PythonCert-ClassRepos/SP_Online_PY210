@@ -49,10 +49,6 @@ class SelfClosingElement(SimpleElement):
     def __init__(self, **kwargs):
         self.elem_attributes = kwargs
 
-    #def render(self, out_file):
-        #self.print_open_tag(out_file, False)
-        #out_file.write(self.contents[0])
-
 class Html(Element):
     tag = 'html'
 
