@@ -82,3 +82,12 @@ class Ul(Element):
 
 class Li(Element):
     tag = 'li'
+
+class H(SimpleElement):
+    tag = 'h'
+
+    def __init__(self, level, content='', **kwargs):
+        if not str(level).isdigit():
+            raise TypeError
+        self.tag = '{}{}'.format(self.tag, level)
+        SimpleElement.__init__(self, content, **kwargs)
