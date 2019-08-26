@@ -64,7 +64,7 @@ class DonorCollection():
             if a.name == name:
                 return a
         else:
-            return False
+            return None
 
     def display_donors(self):
         '''Display donors and donations as a string.'''
@@ -84,12 +84,12 @@ class DonorCollection():
         for a in self.collection:
             try:
                 reportlines.append([a.name, a.total_donations,
-                len(a.donations), a.total_donations/len(a.donations)])
+                                   len(a.donations), a.total_donations/len(a.donations)])
             except ZeroDivisionError:
                 reportlines.append([a.name, 0, 0, 0])
         sortedlines = sorted(reportlines, key=itemgetter(1), reverse = True)
         for r in sortedlines:
-          final_report += f"{r[0]:15} {r[1]:>20.2f} {r[2]:>10} {r[3]:>20.2f}\n"
+            final_report += f"{r[0]:15} {r[1]:>20.2f} {r[2]:>10} {r[3]:>20.2f}\n"
         return final_report
 
     def batch_letters(self):

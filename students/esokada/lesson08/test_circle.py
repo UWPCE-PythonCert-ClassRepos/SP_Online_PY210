@@ -1,4 +1,4 @@
-from circle import *
+from circle import Circle
 
 import math
 
