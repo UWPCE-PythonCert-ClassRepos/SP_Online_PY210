@@ -9,7 +9,7 @@ A class-based system for rendering html.
 class Element(object):
     tag = 'html'
 
-    def __init__(self, content='', **kwargs):
+    def __init__(self, content=None, **kwargs):
         self.contents = [content]
         self.elem_attributes = kwargs
 
@@ -22,8 +22,11 @@ class Element(object):
             try:
                 this_content.render(out_file)
             except AttributeError:
-                out_file.write(this_content)
-                out_file.write("\n")
+                try: # REVISIT THIS
+                    out_file.write(this_content)
+                    out_file.write("\n")
+                except TypeError:
+                    pass
         out_file.write("</{}>\n".format(self.tag))
 
     def print_open_tag(self, out_file, newline=True):
