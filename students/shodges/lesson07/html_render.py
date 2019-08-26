@@ -76,3 +76,9 @@ class A(SimpleElement):
     def __init__(self, link, content):
         SimpleElement.__init__(self, content)
         self.elem_attributes = {'href': link}
+
+class Ul(Element):
+    tag = 'ul'
+
+class Li(Element):
+    tag = 'li'
