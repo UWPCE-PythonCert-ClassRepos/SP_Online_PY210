@@ -338,6 +338,23 @@ Bullet one
     assert "</ul>" in file_contents
     assert "</p>" in file_contents
 
+def test_heading():
+    p = P("Paragraph")
+
+    h1 = H(1, "The main title")
+    p.append(h1)
+
+    h2 = H(2, "The subtitle", style="text-decoration:none;")
+    p.append(h2)
+
+    file_contents = render_result(p).strip()
+    print(file_contents)
+
+    assert "<p>" in file_contents
+    assert "Paragraph" in file_contents
+    assert "<h1>The main title</h1>" in file_contents
+    assert "<h2 style=\"text-decoration:none;\">The subtitle</h2>" in file_contents
+    assert "</p> in file_contents"
 
 # #####################
 # # indentation testing
