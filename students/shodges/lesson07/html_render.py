@@ -49,7 +49,7 @@ class SimpleElement(Element):
     def append(self, content):
         raise NotImplementedError
 
-class SelfClosingElement(Element):
+class SelfClosingElement(SimpleElement):
     def __init__(self, **kwargs):
         self.elem_attributes = kwargs
 
