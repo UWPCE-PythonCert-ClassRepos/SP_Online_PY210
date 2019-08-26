@@ -39,10 +39,20 @@ Each course lesson will contain its own folder.  The folders will use the naming
         |   |   `-- test_files  <A collection of files for testing the various file labs with>
         |   `-- exercise_3      <Content for Lesson 4 Exercise 3 - Trigrams>
         |       `-- test_files  <A collection of files for testing the trigrams with>
+<<<<<<< HEAD
         `-- lesson5             <Content for Lesson 5>
             |-- assignment_1    <Content for Lesson 5 Assigment 1 - Mail Room (Part 3)>
             `-- exercise_1      <Content for Lesson 5 Exercise 1 - Exceptions Exercise (may contain spam, spam, spam, eggs and spam)>
 >>>>>>> 84562b76c4f396dafd641a612bd59a4741a6aab7
+=======
+        |-- lesson5             <Content for Lesson 5>
+        |   |-- assignment_1    <Content for Lesson 5 Assigment 1 - Mail Room (Part 3)>
+        |   `-- exercise_1      <Content for Lesson 5 Exercise 1 - Exceptions Exercise (may contain spam, spam, spam, eggs and spam)>
+        `-- lesson6             <Content for Lesson 6>
+            |-- assignment_1    <Content for Lesson 6 Asignment 1 - Mail Room (Part 4) - Unit Testing>
+            |-- exercise_1      <Content for Lesson 6 Exercise 1 - Walnut Party Unit Testing Lab>
+            `-- exercise_2      <Content for Lesson 6 Exercise 2 - Args & Kwargs Lab>
+>>>>>>> ea90541355aeedaaa7b636532b443b82199954df
 ```
 
 ## Branching

@@ -5,16 +5,17 @@ Module responsible for main program flow (CLI - Command Line Interface).
 """
 
 import sys
-from donor_models import *
 
-def send_thankyou(donor_db):
+from donor_models import Donor, DonorCollection
+
+def send_thankyou(donor_db, donor_dict):
     """Compose an email thanking the donor for their generous donation."""
     # Ask for donor's full name
     name = input("Enter donor's full name (or 'list' to list all donor' names): ")
     # Continue asking for donor's full name
     while name == "list":
         # Display list of donor names
-        print_donor(donor_db)
+        print_donor(donor_db, donor_dict)
         # Ask for donor's full name
         name = input("Enter donor's full name (or 'list' to list all donor' names): ")
     # Prompt for a donation amount
@@ -26,13 +27,16 @@ def send_thankyou(donor_db):
         print("amount must be a number")
         exit_program()
     # Add new amount to the donation history of the selected donor
-    donor_db.add_donor(name, amount)
+    obj = donor_db.add_donor(name, donor_dict, amount=amount)
+    # Add new donor to donor_dict
+    if isinstance(obj, Donor):
+        donor_dict[id(obj)] = obj
     # Compose thank you email to the donor
-    index = donor_db.search_donor(name)
-    prompt = donor_db.donors[index].send_thankyou()
+    index = donor_db.search_donor(name, donor_dict)
+    prompt = donor_dict[donor_db.donors[index]].send_thankyou()
     print(prompt)
 
-def create_report(donor_db):
+def create_report(donor_db, donor_dict):
     """
     Print a list of donors, sorted by total historical donation amount.
 
@@ -46,7 +50,7 @@ def create_report(donor_db):
 
     """
     # Sort the donor's list by total historical donation amount
-    donor_db.sort_by_donations(reverse=True)
+    donor_db.sort_by_donations(donor_dict, reverse=True)
     # Print header
     fheader = "\n{:<26}|{:^13}|{:^11}|{:>13}"
     print(fheader.format("Donor Name", "Total Given", "Num Gifts", "Average Gift"))
@@ -54,7 +58,7 @@ def create_report(donor_db):
     # Get body format
     fbody = "{:<27}${:>11.2f}{:>12}  ${:>12.2f}"
     # Get report content of all donors
-    contents = donor_db.create_report()
+    contents = donor_db.create_report(donor_dict)
     for content in contents:
         # Print report
         print(fbody.format(*content))
@@ -63,23 +67,28 @@ def exit_program():
     print("Bye!")
     sys.exit()  # exit the interactive script
   
-def print_donor(donor_db):
+def print_donor(donor_db, donor_dict):
     """
     Print all donor names.
     """
     for donor in donor_db.donors:
-        print(donor.name)
+        print(donor_dict[donor].name)
 
 def main():
 
     # Initialize list of donors with their names and the amounts they have donated
-    donor_db = DonorCollection([
+    donor_objs = [
                     Donor("William Gates, III", [653772.32, 12.17]),
                     Donor("Jeff Bezos", [877.33]),
                     Donor("Paul Allen", [663.23, 43.87, 1.32]),
                     Donor("Mark Zuckerberg", [1663.23, 4300.87, 10432.0]),
                     Donor("Bill Nordstrom", [2013.25, 23456.78]),
-                ])
+                ]
+    donor_dict = {}
+    for obj in donor_objs:
+        donor_dict[id(obj)] = obj
+
+    donor_db = DonorCollection(list(donor_dict.keys()))
 
     prompt = "\n".join(("\nWelcome to the mail room!",
             "Please choose from below options:",
@@ -92,9 +101,9 @@ def main():
         response = input(prompt)  # continuously collect user selection
         # now redirect to feature functions based on the user selection
         if response == "1":
-            send_thankyou(donor_db)
+            send_thankyou(donor_db, donor_dict)
         elif response == "2":
-            create_report(donor_db)
+            create_report(donor_db, donor_dict)
         elif response == "3":
             exit_program()
         else:
