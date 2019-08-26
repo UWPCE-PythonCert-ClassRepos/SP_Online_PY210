@@ -42,7 +42,9 @@ class Element(object):
 class SimpleElement(Element):
     def render(self, out_file):
         self.print_open_tag(out_file, False)
-        if not isinstance(self, SelfClosingElement):
+        if isinstance(self, SelfClosingElement):
+            out_file.write("\n")
+        else:
             out_file.write(self.contents[0])
             out_file.write("</{}>\n".format(self.tag))
 
