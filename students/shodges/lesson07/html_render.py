@@ -100,5 +100,5 @@ class H(SimpleElement):
         self.tag = '{}{}'.format(self.tag, level)
         SimpleElement.__init__(self, content, **kwargs)
 
-class Meta(SimpleElement):
+class Meta(SelfClosingElement):
     tag = 'meta'
