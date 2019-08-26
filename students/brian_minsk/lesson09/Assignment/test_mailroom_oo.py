@@ -91,7 +91,7 @@ def test_donorcollection_add_donor_exceptions():
         assert False
 
 
-def test_donor_collection_get_donor_names():
+def test_donorcollection_get_donor_names():
     dc = DonorCollection()
     for donor_name in example_names:
         dc.add_donor(donor_name)
@@ -303,7 +303,3 @@ def test_donation_get_formatted_donation_amount():
         pass
     else:
         assert False
-
-
-
-

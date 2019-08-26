@@ -36,6 +36,8 @@ def populate_objects():
 
 
 def create_report(donor_collection):
+    """ Print the report from DonorCollection.
+    """
     try:
         print(donor_collection.report())
     except AssertionError as error:

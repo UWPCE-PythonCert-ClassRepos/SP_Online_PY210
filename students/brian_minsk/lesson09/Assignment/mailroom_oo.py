@@ -118,7 +118,7 @@ class DonorCollection():
         return first_row + header_line + report_rows_string
 
     def get_donor_names(self):
-        """ Return a tuple of all the donor names.
+        """ Return a list of all the donor names.
         """
         return [donor.full_name for donor in self._donors]
 
@@ -275,12 +275,12 @@ class DonationCollection():
                     self.donations.append(item)
 
     def add_donations(self, donations):
-        """ Just another function name to add donations.
+        """ Just another function name to call add_donations.
         """
         self.add_donation(donations)
 
     def average(self):
-        """ Return the average of the dontions.
+        """ Return the average of the donations.
         """
         if len(self.donations) == 0:
             return 0
@@ -288,6 +288,8 @@ class DonationCollection():
         return self.sum() / len(self.donations)
 
     def sum(self):
+        """ Return the sum of the donations.
+        """
         sum = 0
         for donation in self.donations:
             # only add the amounts that are actually numbers
@@ -329,6 +331,13 @@ class Donation():
         self._currency = currency
 
     def get_formatted_donation_amount(self, with_sign=False):
+        """ Return a donation amount formatted as US currency, with or without
+        the dollar sign.
+
+        Keyword arguments:
+        with_sign - boolean to indicate whether or not a currency sign should
+            be included in the output.
+        """
         if self._currency == "USD":
             cents = Decimal('.01')
             amount = self._monetary_amount.quantize(cents, ROUND_HALF_UP)
