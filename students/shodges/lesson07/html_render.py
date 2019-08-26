@@ -99,3 +99,6 @@ class H(SimpleElement):
             raise TypeError
         self.tag = '{}{}'.format(self.tag, level)
         SimpleElement.__init__(self, content, **kwargs)
+
+class Meta(SimpleElement):
+    tag = 'meta'
