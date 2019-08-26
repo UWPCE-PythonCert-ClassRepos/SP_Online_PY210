@@ -38,8 +38,8 @@ class Element(object):
 class SimpleElement(Element):
     def render(self, out_file):
         self.print_open_tag(out_file, False)
-        out_file.write(self.contents[0])
         if not isinstance(self, SelfClosingElement):
+            out_file.write(self.contents[0])
             out_file.write("</{}>\n".format(self.tag))
 
     def append(self, content):
@@ -49,8 +49,8 @@ class SelfClosingElement(SimpleElement):
     def __init__(self, **kwargs):
         self.elem_attributes = kwargs
 
-    def render(self, out_file):
-        self.print_open_tag(out_file, False)
+    #def render(self, out_file):
+        #self.print_open_tag(out_file, False)
         #out_file.write(self.contents[0])
 
 class Html(Element):
