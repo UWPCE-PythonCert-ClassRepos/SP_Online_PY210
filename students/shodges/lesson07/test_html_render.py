@@ -587,3 +587,22 @@ def test_element_indent1():
     assert lines[1].startswith(Element.indent + "thi")
     assert lines[2] == "</html>"
     assert file_contents.endswith("</html>")
+
+
+########################################################################
+# Add'l tests (for tags added out of band of the assignment walkthrough)
+########################################################################
+
+def test_img():
+    """
+    Test the functionality of the Img class
+
+    Expected output is:
+    <img src="../imgs/test.jpg" alt="Alt text" />
+    """
+    e = Img("../imgs/test.jpg" alt="Alt text")
+
+    file_contents = render_result(e).strip()
+
+    assert "<img src=\"../imgs/test.jpg\" alt=\"Alt text\" />" in file_contents
+    assert "</img"> not in file_contents
