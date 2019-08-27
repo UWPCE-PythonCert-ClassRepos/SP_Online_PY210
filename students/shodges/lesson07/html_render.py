@@ -104,7 +104,7 @@ class A(SimpleElement):
 
     def __init__(self, link, content, **kwargs):
         SimpleElement.__init__(self, content, **kwargs)
-        self.elem_attributes = {'href': link}
+        self.elem_attributes['href'] = link
 
 
 class Ul(Element):
