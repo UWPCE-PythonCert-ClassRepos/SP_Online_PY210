@@ -127,3 +127,11 @@ class H(SimpleElement):
 
 class Meta(SelfClosingElement):
     tag = 'meta'
+
+
+class Img(SelfClosingElement):
+    tag = 'img'
+
+    def __init__(self, link, **kwargs):
+        SimpleElement.__init__(self, '', **kwargs)
+        self.elem_attributes['src'] = link
