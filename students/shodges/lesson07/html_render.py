@@ -8,7 +8,7 @@ A class-based system for rendering html.
 # This is the framework for the base class
 class Element(object):
     tag = 'html'
-    indent = ''
+    indent = '  '
 
     def __init__(self, content=None, **kwargs):
         self.contents = [content]
@@ -22,10 +22,10 @@ class Element(object):
         self.print_open_tag(out_file)
         for this_content in self.contents:
             try:
-                this_content.render(out_file, current_indent + ' ')
+                this_content.render(out_file, current_indent + this_content.indent)
             except AttributeError:
                 try: # REVISIT THIS
-                    out_file.write(current_indent + ' ' + this_content)
+                    out_file.write(current_indent + self.indent + this_content)
                     out_file.write("\n")
                 except TypeError:
                     pass
@@ -60,6 +60,7 @@ class SelfClosingElement(SimpleElement):
 
 class Html(Element):
     tag = 'html'
+    indent = ''
 
     def render(self, out_file, current_indent=''):
         out_file.write(current_indent + "<!DOCTYPE html>\n")
