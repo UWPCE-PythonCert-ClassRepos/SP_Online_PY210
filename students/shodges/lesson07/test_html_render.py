@@ -597,7 +597,7 @@ def test_img():
     """
     Test the functionality of the Img class
 
-    Expected output is:
+    Expected output is (although attributes can be in an arbitrary order):
     <img src="../imgs/test.jpg" alt="Alt text" />
     """
     e = Img("../imgs/test.jpg", alt="Alt text")
@@ -609,3 +609,19 @@ def test_img():
     assert "alt=\"Alt text\"" in file_contents
     assert file_contents.endswith(" />")
     assert "</img>" not in file_contents
+
+def test_a_with_attribs():
+    """
+    Test the expanded functionality of the A class
+
+    Expected output is (although attributes can be in an arbitrary order):
+    <a href="http://www.seattletimes.com" style="text-decoration:bold;">The Seattle Times</a>
+    """
+    e = A("http://www.seattletimes.com", "The Seattle Times", style="text-decoration:bold;")
+
+    file_contents = render_results(e).strip()
+
+    assert "<a " in file_contents
+    assert "href=\"http://www.seattletimes.com\"" in file_contents
+    assert "style=\"text-decoration:bold;\"" in file_contents
+    assert file_contents.endswith(">The Seattle Times</a>")
