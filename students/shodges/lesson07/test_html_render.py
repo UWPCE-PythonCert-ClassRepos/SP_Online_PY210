@@ -604,5 +604,8 @@ def test_img():
 
     file_contents = render_result(e).strip()
 
-    assert "<img src=\"../imgs/test.jpg\" alt=\"Alt text\" />" in file_contents
+    assert "<img " in file_contents
+    assert "src=\"../imgs/test.jpg\"" in file_contents
+    assert "alt=\"Alt text\"" in file_contents
+    assert file.contents.endswith(" />")
     assert "</img"> not in file_contents
