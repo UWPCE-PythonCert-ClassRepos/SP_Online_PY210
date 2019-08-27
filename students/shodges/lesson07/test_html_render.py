@@ -117,6 +117,15 @@ def test_render_element2():
 
 # # tests for the new tags
 def test_html():
+    """
+    Test the functionality of the Html class
+
+    Expected output is:
+    <html>
+    this is some text
+    and this is some more text
+    </html>
+    """
     e = Html("this is some text")
     e.append("and this is some more text")
 
@@ -129,6 +138,15 @@ def test_html():
 
 
 def test_body():
+    """
+    Test the functionality of the Body class
+
+    Expected output is:
+    <body>
+    this is some text
+    and this is some more text
+    </body>
+    """
     e = Body("this is some text")
     e.append("and this is some more text")
 
@@ -142,6 +160,15 @@ def test_body():
 
 
 def test_p():
+    """
+    Test the functionality of the P class
+
+    Expected output is:
+    <p>
+    this is some text
+    and this is some more text
+    </p>
+    """
     e = P("this is some text")
     e.append("and this is some more text")
 
@@ -156,7 +183,16 @@ def test_p():
 
 def test_sub_element():
     """
-    tests that you can add another element and still render properly
+    Test the functionality of appending an element to another element.
+
+    Expected output is:
+    <html>
+    some plain text.
+    <p>
+    A simple paragraph of text
+    </p>
+    Some more plain text.
+    </html>
     """
     page = Html()
     page.append("some plain text.")
@@ -182,6 +218,15 @@ def test_sub_element():
 ########
 
 def test_head():
+    """
+    Test the functionality of the Head class
+
+    Expected output is:
+    <body>
+    Here be more tags
+    A header with filler
+    </body>
+    """
     e = Head("Here be more tags")
     e.append("A header with filler")
 
@@ -195,6 +240,12 @@ def test_head():
 
 
 def test_title():
+    """
+    Test the functionality of the Title class
+
+    Expected output is:
+    <title>The title of the page!</title>
+    """
     e = Title("The title of the page!")
     with pytest.raises(NotImplementedError):
         e.append("  Possibly a sub-title")
@@ -211,6 +262,16 @@ def test_title():
 
 
 def test_head_title():
+    """
+    Test the functionality of the Head class, with a nested Title class
+
+    Expected output is:
+    <head>
+    The quick brown fox
+    <title>Test Page</title>
+    jumped over something or other
+    </head>
+    """
     head = Head()
 
     head.append("The quick brown fox")
@@ -232,6 +293,27 @@ def test_head_title():
 ########
 
 def test_attributes():
+    """
+    Test the functionality of the classes' ability to add attributes to html tags.
+
+    Expected output is:
+    <html>
+    <head>
+    <title>Test 4 tests</title>
+    </head>
+    <body>
+    <p>
+    Paragraph without any extra attributes
+    </p>
+    <p style="text-align:center;">
+    Paragraph 2 should definitely have extra attributes
+    </p>
+    <p style="text-align:left" class="normalP">
+    Paragraph 3 should have multiple extra attributes
+    </p>
+    </body>
+    </html>
+    """
     html = Html()
 
     head = Head()
@@ -265,6 +347,12 @@ def test_attributes():
 ########
 
 def test_hr():
+    """
+    Test the functionality of the Hr class
+
+    Expected output is:
+    <hr width="400" />
+    """
     e = Hr(width=400)
     with pytest.raises(NotImplementedError):
         e.append("this should fail")
@@ -282,6 +370,12 @@ def test_hr():
 
 
 def test_br():
+    """
+    Test the functionality of the Br class
+
+    Expected output is:
+    <br />
+    """
     e = Br()
     with pytest.raises(NotImplementedError):
         e.append("this should fail")
@@ -299,6 +393,12 @@ def test_br():
 ########
 
 def test_a():
+    """
+    Test the functionality of the A class
+
+    Expected output is:
+    <a href="http://www.seattletimes.com">Seattle Times</a>
+    """
     e = A("http://www.seattletimes.com", "Seattle Times")
     with pytest.raises(NotImplementedError):
         e.append("this should fail")
@@ -316,6 +416,22 @@ def test_a():
 ########
 
 def test_ul_li():
+    """
+    Test the functionality of the Ul and Li classes
+
+    Expected output is:
+    <p>
+    Paragraph
+    <ul id="somelist" style="text-decoration:bold;">
+    <li>
+    Bullet one
+    </li>
+    <li style="text-color:red;">
+    Bullet two
+    </li>
+    </ul>
+    </p>
+    """
     p = P("Paragraph")
 
     ul = Ul(id="somelist", style="text-decoration:bold;")
@@ -340,6 +456,16 @@ def test_ul_li():
 
 
 def test_heading():
+    """
+    Test the functionality of the H class
+
+    Expected output is:
+    <p>
+    Paragraph
+    <h1>The main title</h1>
+    <h2 style="text-decoration:none;">The subtitle</h2>
+    </p>
+    """
     p = P("Paragraph")
 
     h1 = H(1, "The main title")
@@ -363,6 +489,14 @@ def test_heading():
 ########
 
 def test_doctype():
+    """
+    Test the addition of the doctype to the Html class
+
+    Expected output is:
+    <html>
+    <!DOCTYPE html>
+    </html>
+    """
     e = Html()
 
     file_contents = render_result(e).strip()
