@@ -619,7 +619,7 @@ def test_a_with_attribs():
     """
     e = A("http://www.seattletimes.com", "The Seattle Times", style="text-decoration:bold;")
 
-    file_contents = render_results(e).strip()
+    file_contents = render_result(e).strip()
 
     assert "<a " in file_contents
     assert "href=\"http://www.seattletimes.com\"" in file_contents
