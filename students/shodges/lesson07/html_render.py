@@ -8,7 +8,7 @@ A class-based system for rendering html.
 # This is the framework for the base class
 class Element(object):
     tag = 'html'
-    indent = 0
+    indent = ''
 
     def __init__(self, content=None, **kwargs):
         self.contents = [content]
@@ -17,19 +17,19 @@ class Element(object):
     def append(self, new_content):
         self.contents.append(new_content)
 
-    def render(self, out_file, current_indent=0):
-        out_file.write(' ' * current_indent)
+    def render(self, out_file, current_indent=''):
+        out_file.write(current_indent)
         self.print_open_tag(out_file)
         for this_content in self.contents:
             try:
-                this_content.render(out_file, current_indent+1)
+                this_content.render(out_file, current_indent + ' ')
             except AttributeError:
                 try: # REVISIT THIS
-                    out_file.write((' ' * (current_indent + 1)) + this_content)
+                    out_file.write(current_indent + ' ' + this_content)
                     out_file.write("\n")
                 except TypeError:
                     pass
-        out_file.write("{}</{}>\n".format(' ' * current_indent, self.tag))
+        out_file.write("{}</{}>\n".format(current_indent, self.tag))
 
     def print_open_tag(self, out_file, newline=True):
         out_file.write("<{}".format(self.tag))
@@ -42,8 +42,8 @@ class Element(object):
             out_file.write("\n")
 
 class SimpleElement(Element):
-    def render(self, out_file, current_indent=0):
-        out_file.write(' ' * current_indent)
+    def render(self, out_file, current_indent=''):
+        out_file.write(current_indent)
         self.print_open_tag(out_file, False)
         if isinstance(self, SelfClosingElement):
             out_file.write("\n")
@@ -61,8 +61,8 @@ class SelfClosingElement(SimpleElement):
 class Html(Element):
     tag = 'html'
 
-    def render(self, out_file, current_indent=0):
-        out_file.write("<!DOCTYPE html>\n")
+    def render(self, out_file, current_indent=''):
+        out_file.write(current_indent + "<!DOCTYPE html>\n")
         Element.render(self, out_file)
 
 class Body(Element):
