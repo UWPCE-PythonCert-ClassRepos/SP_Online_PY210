@@ -42,7 +42,7 @@ class Element(object):
             out_file.write("\n")
 
 class SimpleElement(Element):
-    def render(self, out_file, current_indent):
+    def render(self, out_file, current_indent=0):
         out_file.write(' ' * current_indent)
         self.print_open_tag(out_file, False)
         if isinstance(self, SelfClosingElement):
@@ -61,7 +61,7 @@ class SelfClosingElement(SimpleElement):
 class Html(Element):
     tag = 'html'
 
-    def render(self, out_file):
+    def render(self, out_file, current_indent=0):
         out_file.write("<!DOCTYPE html>\n")
         Element.render(self, out_file)
 
