@@ -607,5 +607,5 @@ def test_img():
     assert "<img " in file_contents
     assert "src=\"../imgs/test.jpg\"" in file_contents
     assert "alt=\"Alt text\"" in file_contents
-    assert file.contents.endswith(" />")
+    assert file_contents.endswith(" />")
     assert "</img>" not in file_contents
