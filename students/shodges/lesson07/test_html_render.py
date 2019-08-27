@@ -600,7 +600,7 @@ def test_img():
     Expected output is:
     <img src="../imgs/test.jpg" alt="Alt text" />
     """
-    e = Img("../imgs/test.jpg" alt="Alt text")
+    e = Img("../imgs/test.jpg", alt="Alt text")
 
     file_contents = render_result(e).strip()
 
