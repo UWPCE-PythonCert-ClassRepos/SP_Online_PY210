@@ -328,10 +328,8 @@ def test_ul_li():
     assert "<p>" in file_contents
     assert "Paragraph" in file_contents
     assert "<ul id=\"somelist\" style=\"text-decoration:bold;\">" in file_contents
-    assert """<li>
-Bullet one
-</li>
-""" in file_contents
+    assert "<li>" in file_contents
+    assert "Bullet one" in file_contents
     assert "<li style=\"text-color:red;\">" in file_contents
     assert "Bullet two" in file_contents
     assert file_contents.count("</li>") == 2
