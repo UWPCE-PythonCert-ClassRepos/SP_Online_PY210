@@ -30,6 +30,7 @@ def render_result(element, ind=""):
         element.render(outfile)
     return outfile.getvalue()
 
+
 ########
 # Step 1
 ########
@@ -110,7 +111,6 @@ def test_render_element2():
     assert file_contents.endswith("</html>")
 
 
-
 # # ########
 # # # Step 2
 # # ########
@@ -177,8 +177,6 @@ def test_sub_element():
     assert "</p>" in file_contents
 
 
-
-
 ########
 # Step 3
 ########
@@ -228,6 +226,7 @@ def test_head_title():
 
     assert "<title>Test Page</title>" in file_contents
 
+
 ########
 # Step 4
 ########
@@ -259,6 +258,7 @@ def test_attributes():
     assert "<p style=\"text-align:center;\">" in file_contents
     assert "<p style=\"text-align:left\" class=\"normalP\">" in file_contents
     assert file_contents.count("</p>\n") == 3
+
 
 ########
 # Step 5
@@ -293,6 +293,7 @@ def test_br():
 
     assert file_contents == "<br />"
 
+
 ########
 # Step 6
 ########
@@ -308,6 +309,7 @@ def test_a():
     assert "this should fail" not in file_contents
 
     assert file_contents == "<a href=\"http://www.seattletimes.com\">Seattle Times</a>"
+
 
 ########
 # Step 7
@@ -336,6 +338,7 @@ def test_ul_li():
     assert "</ul>" in file_contents
     assert "</p>" in file_contents
 
+
 def test_heading():
     p = P("Paragraph")
 
@@ -354,6 +357,7 @@ def test_heading():
     assert "<h2 style=\"text-decoration:none;\">The subtitle</h2>" in file_contents
     assert "</p> in file_contents"
 
+
 ########
 # Step 8
 ########
@@ -367,6 +371,7 @@ def test_doctype():
     assert "<html>" in file_contents
     assert file_contents.startswith("<!DOCTYPE html>")
     assert file_contents.endswith("</html>")
+
 
 # #####################
 # # indentation testing
