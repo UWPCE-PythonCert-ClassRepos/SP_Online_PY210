@@ -23,7 +23,10 @@ class Circle(object):
 
 
     def __add__(self, other):
-        return self.__class__(self._radius + other._radius)
+        try:
+            return self.__class__(self._radius + other._radius)
+        except AttributeError:
+            return self.__class__(self._radius + other)
 
 
     def __mul__(self, other):
