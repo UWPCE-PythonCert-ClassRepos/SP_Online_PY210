@@ -26,7 +26,7 @@ class Element(object):
             try:
                 this_content.render(out_file, current_indent + this_content.indent)
             except AttributeError:
-                try: # REVISIT THIS
+                try:
                     out_file.write(current_indent + self.indent + this_content)
                     out_file.write("\n")
                 except TypeError:
@@ -34,14 +34,14 @@ class Element(object):
         out_file.write("{}</{}>\n".format(current_indent, self.tag))
 
 
-    def print_open_tag(self, out_file, newline=True):
+    def print_open_tag(self, out_file, newline=True, selfclose=False):
         out_file.write("<{}".format(self.tag))
         for k, v in self.elem_attributes.items():
             out_file.write(" {}=\"{}\"".format(k, v))
-        if isinstance(self, SelfClosingElement):
+        if selfclose is True:
             out_file.write(" /")
         out_file.write(">")
-        if newline == True:
+        if newline is True:
             out_file.write("\n")
 
 
@@ -49,11 +49,8 @@ class SimpleElement(Element):
     def render(self, out_file, current_indent=''):
         out_file.write(current_indent)
         self.print_open_tag(out_file, False)
-        if isinstance(self, SelfClosingElement):
-            out_file.write("\n")
-        else:
-            out_file.write((self.contents[0]))
-            out_file.write("</{}>\n".format(self.tag))
+        out_file.write((self.contents[0]))
+        out_file.write("</{}>\n".format(self.tag))
 
 
     def append(self, content):
@@ -63,6 +60,12 @@ class SimpleElement(Element):
 class SelfClosingElement(SimpleElement):
     def __init__(self, **kwargs):
         self.elem_attributes = kwargs
+
+
+    def render(self, out_file, current_indent=''):
+        out_file.write(current_indent)
+        self.print_open_tag(out_file, False, True)
+        out_file.write("\n")
 
 
 class Html(Element):
