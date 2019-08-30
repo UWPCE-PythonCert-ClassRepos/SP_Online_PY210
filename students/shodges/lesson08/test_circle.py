@@ -137,15 +137,17 @@ def test_str_repr():
     assert repr(c) == 'Circle(10.0)'
 
 
-def test_add_mult():
+def test_arithmetic():
     """
-    Test the ability to add and multiply circle objects.
+    Test the ability to add, subtract, multiply and divide circle objects.
 
     Expected output:
     (c1 + c2).radius == 15.5
     (c1 + 5).radius == 15
+    (c1 - 2.3).radius == 7.7
     (c1 * c2).radius == 55
     (c1 * 3).radius == 30
+    (c1 / 4).radius == 2.5
     (4 * c1).radius == 40
     """
     c1 = Circle(10)
@@ -153,6 +155,8 @@ def test_add_mult():
 
     assert (c1 + c2).radius == 15.5
     assert (c1 + 5).radius == 15
+    assert (c1 - 2.3).radius == 7.7
     assert (c1 * c2).radius == 55
     assert (c1 * 3).radius == 30
+    assert (c1 / 4).radius == 2.5
     assert (4 * c1).radius == 40
