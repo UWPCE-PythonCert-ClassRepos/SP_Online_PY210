@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import pytest
+import pytest, math
 from circle import *
 
 def test_create_circle():
@@ -64,7 +64,7 @@ def test_update_diameter():
     assert c.diameter == 4.5
 
 
-def radius():
+def test_update_radius():
     """
     Test that the radius can be manipulated, and the diameter is updated in tandem.
 
@@ -85,3 +85,16 @@ def radius():
 
     assert c.radius == 1.8
     assert c.diameter == 3.6
+
+
+def test_area():
+    """
+    Test that the area is calculated and cannot be set.
+
+    Expected output:
+    c.area == ((5)^2) * pi
+    """
+
+    c = Circle(5)
+
+    assert c.area = math.pow(5, 2) * math.pi
