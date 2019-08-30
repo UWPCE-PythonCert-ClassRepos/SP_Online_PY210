@@ -62,3 +62,26 @@ def test_update_diameter():
 
     assert c.radius == 2.25
     assert c.diameter == 4.5
+
+
+def radius():
+    """
+    Test that the radius can be manipulated, and the diameter is updated in tandem.
+
+    Expected output:
+    c.radius (initial) == 4.25
+    c.diameter (initial) == 8.5
+
+    c.radius (updated) == 1.8
+    c.diameter(updated) = 3.6
+    """
+
+    c = Circle(4.25)
+
+    assert c.radius == 4.25
+    assert c.diameter == 8.5
+
+    c.radius = 1.8
+
+    assert c.radius == 1.8
+    assert c.diameter == 3.6
