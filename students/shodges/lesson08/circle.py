@@ -43,6 +43,10 @@ class Circle(object):
             return self.__class__(self._radius * other)
 
 
+    def __rmul__(self, other):=
+        return self.__mul__(other)
+
+
     def __truediv__(self, other):
         try:
             return self.__class__(self._radius / other._radius)
