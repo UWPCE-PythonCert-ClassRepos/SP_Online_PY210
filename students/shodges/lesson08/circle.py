@@ -18,6 +18,9 @@ class Circle(object):
         return 'Circle with radius {:.5f}'.format(self._radius)
 
 
+    def __repr__(self):
+        return '{}({})'.format(self.__class__.__name__, self._radius)
+
     @property
     def radius(self):
         return self._radius
