@@ -135,3 +135,20 @@ def test_str_repr():
 
     assert str(c) == 'Circle with radius 10.00000'
     assert repr(c) == 'Circle(10.0)'
+
+
+def test_add_mult():
+    """
+    Test the ability to add and multiply circle objects.
+
+    Expected output:
+    c1 + c2 == Circle(15.5)
+    c1 * 3 == Circle(30)
+    4 * c1 == Circle(40)
+    """
+    c1 = Circle(10)
+    c2 = Circle(5.5)
+
+    assert (c1 + c2) == Circle(15.5)
+    assert (c1 * 3) == Circle(30)
+    assert (3 * c1) == Circle(30)
