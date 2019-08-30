@@ -20,3 +20,21 @@ class Circle(object):
     @property
     def diameter(self):
         return self._diameter
+
+
+    @radius.setter
+    def radius(self, value):
+        try:
+            self._radius = float(value)
+            self._diameter = float(value) * 2
+        except ValueError:
+            raise TypeError("radius expects a float")
+
+
+    @diameter.setter
+    def diameter(self, value):
+        try:
+            self._radius = float(value) / 2
+            self._diameter = float(value)
+        except ValueError:
+            raise TypeError("radius expects a float")
