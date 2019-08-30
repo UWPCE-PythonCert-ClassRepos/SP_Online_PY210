@@ -46,8 +46,6 @@ class Element(object):
 
 
 class SimpleElement(Element):
-    #SimpleElement is my implementation of Step 3's OneLineTag
-    #Sorry for the confusion, I can rename it if it would help
     def render(self, out_file, current_indent=''):
         out_file.write(current_indent)
         self.print_open_tag(out_file, False)
