@@ -134,4 +134,4 @@ def test_str_repr():
     c = Circle(10)
 
     assert str(c) == 'Circle with radius 10.00000'
-    assert repr(c) == 'Circle(10)'
+    assert repr(c) == 'Circle(10.0)'
