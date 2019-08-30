@@ -97,7 +97,7 @@ def test_area():
 
     c = Circle(5)
 
-    assert c.area = math.pow(5, 2) * math.pi
+    assert c.area == math.pow(5, 2) * math.pi
 
-    with pytest.raiuses(AttributeError):
+    with pytest.raises(AttributeError):
         c.area = 42
