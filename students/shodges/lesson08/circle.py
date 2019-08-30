@@ -29,6 +29,11 @@ class Circle(object):
         return math.pow(self._radius, 2) * math.pi
 
 
+    @classmethod
+    def from_diameter(cls, value):
+        return cls(value / 2)
+
+
     @radius.setter
     def radius(self, value):
         try:
