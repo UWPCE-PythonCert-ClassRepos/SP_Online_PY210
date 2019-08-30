@@ -41,6 +41,7 @@ def format_letter(donor, extra_whitespace = False):
     else:
         return letter_template.format(**letter_values)
 
+
 def add_donor_record(donor, amount):
     try:
         donors[donor].append(float(amount))
@@ -58,6 +59,7 @@ def add_donor_record(donor, amount):
     else:
         return True
 
+
 def generate_report():
     report_lines = ['{:24} | {:10} | {:10} | {:12}'.format('Donor Name', 'Total Given', 'Num Gifts', 'Average Gift')]
     report_lines.append('-'*68)
@@ -69,6 +71,7 @@ def generate_report():
         except ZeroDivisionError: # this occurs if an invalid donation amount is entered in send_thank_you for a new donor and the donor entry isn't removed
             continue
     return report_lines
+
 
 def create_letter_dir(dirpath):
     letter_dir = Path(dirpath) / ('{:%Y%m%d-%H%M}'.format(datetime.now()))
@@ -87,6 +90,7 @@ def create_letter_dir(dirpath):
     else:
         return letter_dir
 
+
 def save_letter(dirpath, donor):
     letter = dirpath / (donor.replace(' ', '_') + '.txt')
     try:
@@ -103,6 +107,7 @@ def save_letter(dirpath, donor):
             return False
     else:
         return letter
+
 
 ###### BEGIN BLOCK OF USER INTERACTION FUNCTIONS ######
 def send_thank_you():
@@ -121,6 +126,7 @@ def send_thank_you():
                 print(format_letter(donor, True))
             break
 
+
 def print_report():
     print('\n'.join(generate_report()))
     print()
@@ -135,6 +141,7 @@ def save_all_letters():
             letter = save_letter(letter_dir, donor)
             if letter != False:
                 print('{} created successfully'.format(letter.absolute()))
+
 
 if __name__ == '__main__':
     menu_dispatch = {1: send_thank_you, 2: print_report, 3:save_all_letters, 4: quit}
