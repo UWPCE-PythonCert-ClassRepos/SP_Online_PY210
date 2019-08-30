@@ -7,7 +7,10 @@ def test_create_circle():
     """
     Test creation of a circle and output of its radius.
 
-    Expected output is 8
+    Expected output is:
+    c1 -- raises TypeError
+    c2 == 8
+    c3 == 3.14
     """
     # Validate getting a TypeError if we don't pass a numeric radius
     with pytest.raises(TypeError):
@@ -21,3 +24,17 @@ def test_create_circle():
     #... or a float
     c3 = Circle(3.14)
     assert c3.radius == 3.14
+
+def test_diameter():
+    """
+    Test that the diameter property is set.
+
+    Expected output:
+    c.radius == 4
+    c.diameter == 8
+    """
+
+    c = Circle(4)
+
+    assert c.radius == 4
+    assert c.diameter == 8
