@@ -41,7 +41,7 @@ class Circle(object):
 
 
     def __rsub__(self, other):
-        return self.__sub__(other)
+        return self.__class__(other - self._radius)
 
 
     def __mul__(self, other):
@@ -63,7 +63,7 @@ class Circle(object):
 
 
     def __rtruediv__(self, other):
-        return self.__truediv__(other)
+        return self.__class__(other / self._radius)
 
 
     @property
