@@ -29,11 +29,19 @@ class Circle(object):
             return self.__class__(self._radius + other)
 
 
+    def __radd__(self, other):
+        return self.__add__(other)
+
+
     def __sub__(self, other):
         try:
             return self.__class__(self._radius - other._radius)
         except AttributeError:
             return self.__class__(self._radius - other)
+
+
+    def __rsub__(self, other):
+        return self.__sub__(other)
 
 
     def __mul__(self, other):
@@ -43,7 +51,7 @@ class Circle(object):
             return self.__class__(self._radius * other)
 
 
-    def __rmul__(self, other):=
+    def __rmul__(self, other):
         return self.__mul__(other)
 
 
@@ -52,6 +60,10 @@ class Circle(object):
             return self.__class__(self._radius / other._radius)
         except AttributeError:
             return self.__class__(self._radius / other)
+
+
+    def __rtruediv__(self, other):
+        return self.__truediv__(other)
 
 
     @property
