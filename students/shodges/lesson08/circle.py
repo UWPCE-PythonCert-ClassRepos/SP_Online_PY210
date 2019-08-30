@@ -21,6 +21,10 @@ class Circle(object):
     def __repr__(self):
         return '{}({})'.format(self.__class__.__name__, self._radius)
 
+
+    def __add__(self, other):
+        return self.__class__(self._radius + other._radius)
+
     @property
     def radius(self):
         return self._radius
