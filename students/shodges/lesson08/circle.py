@@ -43,6 +43,13 @@ class Circle(object):
             return self.__class__(self._radius * other)
 
 
+    def __truediv__(self, other):
+        try:
+            return self.__class__(self._radius / other._radius)
+        except AttributeError:
+            return self.__class__(self._radius / other)
+
+
     @property
     def radius(self):
         return self._radius
