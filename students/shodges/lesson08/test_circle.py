@@ -120,3 +120,18 @@ def test_define_with_diameter():
 
     with pytest.raises(TypeError):
         c2 = Circle.from_diameter('test')
+
+
+def test_str_repr():
+    """
+    Test the __str__ and __repr__ methods.
+
+    Expected output:
+    str(c) == String with radius 10.00000
+    repr(c) == Circle(10)
+    """
+
+    c = Circle(4)
+
+    assert str(c) == 'String with radius 10.00000'
+    assert repr(c) == 'Circle(10)'
