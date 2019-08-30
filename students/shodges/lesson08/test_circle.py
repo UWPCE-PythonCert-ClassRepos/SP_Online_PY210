@@ -25,6 +25,7 @@ def test_create_circle():
     c3 = Circle(3.14)
     assert c3.radius == 3.14
 
+
 def test_diameter():
     """
     Test that the diameter property is set.
@@ -38,3 +39,26 @@ def test_diameter():
 
     assert c.radius == 4
     assert c.diameter == 8
+
+
+def test_update_diameter():
+    """
+    Test that the diameter can be manipulated, and the radius is updated in tandem.
+
+    Expected output:
+    c.radius (initial) == 3.5
+    c.diameter (initial) == 7
+
+    c.radius (updated) == 2.25
+    c.diameter(updated) = 4.5
+    """
+
+    c = Circle(3.5)
+
+    assert c.radius == 3.5
+    assert c.diameter == 7
+
+    c.diameter = 4.5
+
+    assert c.radius == 2.25
+    assert c.diameter == 4.5
