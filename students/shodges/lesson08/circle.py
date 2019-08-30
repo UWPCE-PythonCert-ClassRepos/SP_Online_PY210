@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import math
+
 class Circle(object):
     _radius = None
     _diameter = None
@@ -20,6 +22,11 @@ class Circle(object):
     @property
     def diameter(self):
         return self._diameter
+
+
+    @property
+    def area(self):
+        return math.pow(self._radius, 2) * math.pi
 
 
     @radius.setter
