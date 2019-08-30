@@ -143,6 +143,8 @@ def test_add_mult():
 
     Expected output:
     (c1 + c2).radius == 15.5
+    (c1 + 5).radius == 15
+    (c1 * c2).radius == 55
     (c1 * 3).radius == 30
     (4 * c1).radius == 40
     """
@@ -150,5 +152,7 @@ def test_add_mult():
     c2 = Circle(5.5)
 
     assert (c1 + c2).radius == 15.5
+    assert (c1 + 5).radius == 15
+    assert (c1 * c2).radius == 55
     assert (c1 * 3).radius == 30
     assert (4 * c1).radius == 40
