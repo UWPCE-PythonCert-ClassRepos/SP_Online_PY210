@@ -148,7 +148,10 @@ def test_arithmetic():
     (c1 * c2).radius == 55
     (c1 * 3).radius == 30
     (c1 / 4).radius == 2.5
+    (8 + c2).radius == 13.5
+    (9 - c2).radius == 3.5
     (4 * c1).radius == 40
+    (80 / c1).radius == 8
     """
     c1 = Circle(10)
     c2 = Circle(5.5)
@@ -159,4 +162,7 @@ def test_arithmetic():
     assert (c1 * c2).radius == 55
     assert (c1 * 3).radius == 30
     assert (c1 / 4).radius == 2.5
+    assert (8 + c2).radius == 13.5
+    assert (9 - c2).radius == 3.5
     assert (4 * c1).radius == 40
+    assert (80 / c1).radius == 8
