@@ -9,6 +9,15 @@ def test_create_circle():
 
     Expected output is 8
     """
-    c = Circle(8)
+    # Validate getting a TypeError if we don't pass a numeric radius
+    with pytest.raises(TypeError):
+        c1 = Circle('boo')
 
-    assert c.radius == 8
+    # We should be able to set the radius to an integer...
+    c2 = Circle(8)
+
+    assert c2.radius == 8
+
+    #... or a float
+    c3 = Circle(3.14)
+    assert c3.radius == 3.14
