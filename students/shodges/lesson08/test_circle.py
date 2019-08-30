@@ -108,11 +108,15 @@ def test_define_with_diameter():
     Test that the class can be instantiated using the from_diameter() classmethod.
 
     Expected output:
-    c.diameter == 15
-    c.radius == 7.5
+    c1.diameter == 15.5
+    c1.radius == 7.75
+    c2 -- raises TypeError
     """
 
-    c = Circle.from_diameter(15)
+    c1 = Circle.from_diameter(15.5)
 
-    assert c.diameter == 15
-    assert c.radius == 7.5
+    assert c1.diameter == 15.5
+    assert c1.radius == 7.75
+
+    with pytest.raises(TypeError):
+        c2 = Circle.from_diameter('test')
