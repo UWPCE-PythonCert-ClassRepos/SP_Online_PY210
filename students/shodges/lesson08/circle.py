@@ -14,6 +14,10 @@ class Circle(object):
             raise TypeError("radius expects a float")
 
 
+    def __str__(self):
+        return 'Circle with radius {:.5f}'.format(self._radius)
+
+
     @property
     def radius(self):
         return self._radius
