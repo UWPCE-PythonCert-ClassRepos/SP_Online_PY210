@@ -101,3 +101,18 @@ def test_area():
 
     with pytest.raises(AttributeError):
         c.area = 42
+
+
+def test_define_with_diameter():
+    """
+    Test that the class can be instantiated using the from_diameter() classmethod.
+
+    Expected output:
+    c.diameter == 15
+    c.radius == 7.5
+    """
+
+    c = Circle.from_diameter(15)
+
+    assert c.diameter == 15
+    assert c.radius == 7.5
