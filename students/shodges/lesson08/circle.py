@@ -66,6 +66,10 @@ class Circle(object):
         return self.__class__(other / self._radius)
 
 
+    def __lt__(self, other):
+        return self._radius < other._radius
+
+
     @property
     def radius(self):
         return self._radius
