@@ -218,7 +218,6 @@ def test_reflective_augmented():
 
     Expected output:
     2 + c1 == Circle(10)
-<<<<<<< HEAD
     4 - c2 == Circle(1)
     9 * c2 == Circle(27)
     12 / c2 == Circle(4)
@@ -231,26 +230,12 @@ def test_reflective_augmented():
     c2 *= 9, c2 == Circle(63)
     c1 /= c3, c1 == Circle(21)
     c2 /= 3, c2 == Circle(21)
-=======
-    c2 += 4 == Circle(7)
-    c1 += c2 == Circle(11)
-    4 - c2 == Circle(1)
-    c1 -= c2 == Circle(5)
-    c1 -= 2 == Circle(6)
-    9 * c2 == Circle(27)
-    c1 *= c2 == Circle(24)
-    c2 *= 9 == Circle(27)
-    12 / c2 == Circle(4)
-    c1 /= c3 == Circle(4)
-    c2 /= 3 == Circle(1)
->>>>>>> 5ecfe67c74087bd7106b2a7c44738e9371d42c71
     """
     c1 = Circle(8)
     c2 = Circle(3)
     c3 = Circle(2)
 
     assert 2 + c1 == Circle(10)
-<<<<<<< HEAD
     assert 4 - c2 == Circle(1)
     assert 9 * c2 == Circle(27)
     assert 12 / c2 == Circle(4)
@@ -296,16 +281,3 @@ def test_sphere():
     s2 = Sphere.from_diameter(10)
 
     assert s2.radius == 5
-=======
-    assert c2 += 4 == Circle(7)
-    assert c1 += c2 == Circle(11)
-    assert 4 - c2 == Circle(1)
-    assert c1 -= c2 == Circle(5)
-    assert c1 -= 2 == Circle(6)
-    assert 9 * c2 == Circle(27)
-    assert c1 *= c2 == Circle(24)
-    assert c2 *= 9 == Circle(27)
-    assert 12 / c2 == Circle(4)
-    assert c1 /= c3 == Circle(4)
-    assert c2 /= 3 == Circle(1)
->>>>>>> 5ecfe67c74087bd7106b2a7c44738e9371d42c71
