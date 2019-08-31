@@ -256,3 +256,28 @@ def test_reflective_augmented():
     assert c1 == Circle(21)
     c2 /= 3
     assert c2 == Circle(21)
+
+
+def test_sphere():
+    """
+    Test functionality of the Sphere subclass
+
+    Expected output:
+    s1.diameter == 24
+    s1.area == 4*pi*(12^2)
+    s1.volume == (4/3)*pi*(12^3)
+    str(s1) == Sphere with radius 12.00000
+    repr(s1) == Sphere(12)
+    s2.radius == 5
+    """
+    s1 = Sphere(12)
+
+    assert s1.diameter == 24
+    assert s1.area == 4 * math.pi * math.pow(12,2)
+    assert s1.volume == (4/3) * math.pi * math.pow(12,3)
+    assert str(s1) == 'Sphere with radius 12.00000'
+    assert repr(s1) == 'Sphere(12.0)'
+
+    s2 = Sphere.from_diameter(10)
+
+    assert s2.radius == 5
