@@ -273,8 +273,11 @@ def test_sphere():
     s1 = Sphere(12)
 
     assert s1.diameter == 24
-    assert s1.area == 4 * math.pi * math.pow(12,2)
-    assert s1.volume == (4/3) * math.pi * math.pow(12,3)
+    assert s1.area == 4 * math.pi * math.pow(s1.radius,2)
+    # This was in a different order than the function which resulted in a different value
+    # in the 12th decimal place, failing this test.  Guessing Cpython is casting to a float
+    # at different points resulting in different precision?
+    assert s1.volume == (4/3) * math.pow(s1.radius, 3) * math.pi
     assert str(s1) == 'Sphere with radius 12.00000'
     assert repr(s1) == 'Sphere(12.0)'
 
