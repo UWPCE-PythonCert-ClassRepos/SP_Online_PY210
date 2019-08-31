@@ -166,3 +166,32 @@ def test_arithmetic():
     assert (9 - c2).radius == 3.5
     assert (4 * c1).radius == 40
     assert (80 / c1).radius == 8
+
+
+def test_comparison():
+    """
+    Test the ability to compare circle objects.
+
+    Expected output:
+    c1 < c2
+    c2 > c4
+    c1 >= c3
+    c1 >= c4
+    c4 <= c3
+    c3 >= c1
+    c1 == c3
+    c1 != c4
+    """
+    c1 = Circle(10)
+    c2 = Circle(12.5)
+    c3 = Circle(10)
+    c4 = Circle(3)
+
+    assert c1 < c2
+    assert c2 > c4
+    assert c1 >= c3
+    assert c1 >= c4
+    assert c4 <= c3
+    assert c3 >= c1
+    assert c1 == c3
+    assert c1 != c4
