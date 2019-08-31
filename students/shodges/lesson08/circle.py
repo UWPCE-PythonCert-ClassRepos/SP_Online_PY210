@@ -126,3 +126,18 @@ class Circle(object):
             self._diameter = float(value)
         except ValueError:
             raise TypeError("radius expects a float")
+
+
+class Sphere(Circle):
+    def __str__(self):
+        return 'Sphere with radius {:.5f}'.format(self._radius)
+
+
+    @property
+    def area(self):
+        return 4 * Circle.area(self)
+
+
+    @property
+    def volume(self):
+        return (4/3) * math.pow(self._radius, 3) * math.pi
