@@ -12,3 +12,7 @@ __pycache__/
 htmlcov/
 .coverage
 .coveragerc
+
+# Output files
+*output*.html
+sample.html
