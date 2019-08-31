@@ -195,3 +195,18 @@ def test_comparison():
     assert c3 >= c1
     assert c1 == c3
     assert c1 != c4
+
+
+def test_ordering():
+    """
+    Test ordering Circle objects.
+
+    Expected output:
+    [Circle(1.0), Circle(1.5), Circle(3.0), Circle(4.5), Circle(5.0), Circle(5.25), Circle(8.0)]
+    """
+    circles = [Circle(8), Circle(4.5), Circle(3), Circle(5), Circle(1), Circle(5.25), Circle(1.5)]
+
+    circles.sort()
+
+    print(circles)
+    assert circles == [Circle(1.0), Circle(1.5), Circle(3.0), Circle(4.5), Circle(5.0), Circle(5.25), Circle(8.0)]
