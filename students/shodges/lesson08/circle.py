@@ -135,7 +135,7 @@ class Sphere(Circle):
 
     @property
     def area(self):
-        return 4 * Circle.area(self)
+        return 4 * math.pow(self._radius, 2) * math.pi
 
 
     @property
