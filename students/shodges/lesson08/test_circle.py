@@ -210,3 +210,49 @@ def test_ordering():
 
     print(circles)
     assert circles == [Circle(1.0), Circle(1.5), Circle(3.0), Circle(4.5), Circle(5.0), Circle(5.25), Circle(8.0)]
+
+
+def test_reflective_augmented():
+    """
+    Test reflected and augmented arithmetic functions.
+
+    Expected output:
+    2 + c1 == Circle(10)
+    4 - c2 == Circle(1)
+    9 * c2 == Circle(27)
+    12 / c2 == Circle(4)
+
+    c2 += 4, c2 == Circle(7)
+    c1 += c2, c1 == Circle(15)
+    c1 -= c2, c1 == Circle(8)
+    c1 -= 2, c1 == Circle(6)
+    c1 *= c2, c1 == Circle(42)
+    c2 *= 9, c2 == Circle(63)
+    c1 /= c3, c1 == Circle(21)
+    c2 /= 3, c2 == Circle(21)
+    """
+    c1 = Circle(8)
+    c2 = Circle(3)
+    c3 = Circle(2)
+
+    assert 2 + c1 == Circle(10)
+    assert 4 - c2 == Circle(1)
+    assert 9 * c2 == Circle(27)
+    assert 12 / c2 == Circle(4)
+
+    c2 += 4
+    assert c2 == Circle(7)
+    c1 += c2
+    assert c1 == Circle(15)
+    c1 -= c2
+    assert c1 == Circle(8)
+    c1 -= 2
+    assert c1 == Circle(6)
+    c1 *= c2
+    assert c1 == Circle(42)
+    c2 *= 9
+    assert c2 == Circle(63)
+    c1 /= c3
+    assert c1 == Circle(21)
+    c2 /= 3
+    assert c2 == Circle(21)
