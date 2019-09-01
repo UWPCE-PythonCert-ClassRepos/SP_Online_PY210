@@ -16,7 +16,7 @@ Description:
 import pathlib
 import sys
 
-DONORS = {}
+donors = {}
 
 THANK_YOU_TEMPLATE = (
     """\nDear {name},\n"""
@@ -65,12 +65,12 @@ def initialize_donors():
     """
     Populate the donor list with the initial donors
     """
-    DONORS["Neil Armstrong"] = [15000.00, 15000.00]
-    DONORS["Buzz Aldrin"] = [23021.10, 25020.30, 28999.29]
-    DONORS["Sally Ride"] = [42917.42, 38281.28]
-    DONORS["Al Shepard"] = [2387.00, 2321.42, 3700.00]
-    DONORS["Alan Bean"] = [28477.13, 727.1]
-    DONORS["Chris Hadfield"] = [17325.42, 13823.83, 0.99]
+    donors["Neil Armstrong"] = [15000.00, 15000.00]
+    donors["Buzz Aldrin"] = [23021.10, 25020.30, 28999.29]
+    donors["Sally Ride"] = [42917.42, 38281.28]
+    donors["Al Shepard"] = [2387.00, 2321.42, 3700.00]
+    donors["Alan Bean"] = [28477.13, 727.1]
+    donors["Chris Hadfield"] = [17325.42, 13823.83, 0.99]
 
 
 def calculate_stats(donations):
@@ -93,7 +93,7 @@ def calculate_stats(donations):
 
 def sort_donors_by_total(name):
     """ Function used to sort donors by total contributions """
-    return sum(DONORS[name])
+    return sum(donors[name])
 
 
 def quit_program():
@@ -114,16 +114,16 @@ def create_files():
     if not path.exists():
         path.mkdir()
 
-    for donor in DONORS:
+    for donor in donors:
         filename = donor.replace(" ", "_") + ".txt"
         filename = path / filename
         try:
             with open(filename, "w+") as temp:
                 donor_dict = {
                     "name": donor,
-                    "last": DONORS[donor][-1],
-                    "sum": sum(DONORS[donor]),
-                    "number": len(DONORS[donor]),
+                    "last": donors[donor][-1],
+                    "sum": sum(donors[donor]),
+                    "number": len(donors[donor]),
                 }
 
                 temp.write(EMAIL_TEMPLATE.format(**donor_dict))
@@ -134,7 +134,7 @@ def create_files():
 
 def generate_report():
     """ Generates a formatted report of donor names, total donation, # of donations and average donation """
-    names = DONORS
+    names = donors
     print("\n")
     column_donor_length = 0
     for name in names:
@@ -145,10 +145,10 @@ def generate_report():
     print(title_str)
     print("-" * len(title_str))
 
-    names = sorted(DONORS, key=sort_donors_by_total, reverse=True)
+    names = sorted(donors, key=sort_donors_by_total, reverse=True)
     for name in names:
         f_str = " {" + f":<{column_donor_length}" + "}  ${:11.2f}   {:9}  ${:12.2f}"
-        (d_sum, d_num, d_ave) = calculate_stats(DONORS[name])
+        (d_sum, d_num, d_ave) = calculate_stats(donors[name])
         v_str = f_str.format(name, d_sum, d_num, d_ave)
 
         print(v_str)
@@ -184,31 +184,28 @@ def add_donor():
         except ValueError:
             print("Invalid entry")
         else:
-            for idx, value in enumerate(DONORS):
-                if value[0] == donor:
-                    valid_donor = True
-                    break
+            if donors.get(donor):
+                valid_donor = True
             else:
                 if donor == "list":
-                    print_donor_list(DONORS)
+                    print_donor_list(donors)
                     continue
                 else:
-                    DONORS.setdefault(donor, [])
-
-                    idx += 1
                     valid_donor = True
                     break
     try:
         amount = input("Enter donation amount ($): ")
         amount = float(amount)
-    except ValueError:
-        print("\nInvalid amount entered")
-    else:
-        # Add amount to data
-        DONORS[donor].append(amount)
+
+        donors.setdefault(donor, [])
+        donors[donor].append(amount)
         donor = {"name": donor, "amount": amount}
         txt = thank_you_email(donor)
         print(txt)
+    except ValueError:
+        print("\nInvalid amount entered")
+
+        
 
 
 def main():
