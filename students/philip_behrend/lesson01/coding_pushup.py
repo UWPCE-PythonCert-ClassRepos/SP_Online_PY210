@@ -4,3 +4,9 @@ def array123(nums):
       return True
   return False
 
+def count_hi(str):
+    return(str.count('hi'))
+
+str_doub("Hi There")
+
+str = 'Hi There hi hi '
