@@ -3,9 +3,6 @@
 import math
 
 class Circle(object):
-    _radius = None
-    _diameter = None
-
     def __init__(self, radius):
         try:
             self._radius = float(radius)
