@@ -1,12 +1,16 @@
 #!/usr/bin/env python
 
 # global variables
-donors = ['Arnold Schwarzenegger', 'Lebron James', 'Elon Musk', 'Walter White', 'Gordon Ramsay']
+
+# prepare initial data structure for donor data
+donors = [{'first_name': 'Arnold', 'last_name': 'Schwarzenegger'}, {'first_name': 'Lebron', 'last_name': 'James'}, {'first_name': 'Elon', 'last_name': 'Musk'}, {'first_name': 'Walter', 'last_name': 'White'}, {'first_name': 'Gordon', 'last_name': 'Ramsay'}]
 donations = [100000, 1000000, 2000000, 500000, 1280000]
 donation_count = [1, 1, 1, 1, 1]
 donor_data = list()
 for i in range(len(donors)):
     donor_data.append((donors[i], [donations[i], donation_count[i]]))
+
+# Note: donor_data is a LIST of TUPLES with each tuple containing (dict of first/last name, [donation total, donation count])
 
 # functions
 
@@ -19,17 +23,26 @@ def thank_you():
     name = 'list'
     while name == 'list':
         name = input("Type 'list' to see a list of names or enter a name: ")
+        d = donor_data
+
+        # run if user inputs 'list'
         if name == 'list':
             list_names = list()
             for item in donor_data:
-                list_names.append(item[0])
+                list_names.append(item[0]['first_name'] + ' ' + item[0]['last_name'])
             print(list_names)
-        elif not any(name in t for t in donor_data):
-            donor_data.append((name, [0, 0]))
-            index = donor_data.index((name, [0, 0]))
+        # run if name that user inputs is not already in the donor list
+        elif not any({'first_name': name.split(' ')[0], 'last_name':name.split(' ')[1]} in t for t in donor_data):
+            firstName = name.split(' ')[0]
+            lastName = name.split(' ')[1]
+            donor_data.append(({'first_name': firstName,'last_name':lastName}, [0, 0]))
+            index = len(donor_data) - 1
+        # run if name that user inputs is already in the donor list
         else:
+            firstName = name.split(' ')[0]
+            lastName = name.split(' ')[1]
             for i in range(len(donor_data)):
-                if donor_data[i][0] == name:
+                if donor_data[i][0]['first_name'] == firstName and donor_data[i][0]['last_name'] == lastName:
                     index = i
                     break
 
@@ -59,8 +72,10 @@ def create_report():
 
     # print donor data
     for i in range(len(donor_data_sorted)):
+        firstName = donor_data_sorted[i][0]['first_name']
+        lastName = donor_data_sorted[i][0]['last_name']
         donation_avg = donor_data_sorted[i][1][0]/donor_data_sorted[i][1][1]
-        print('{:<25}{:^5}${:>14,.2f}{:^5}{:>10}{:^5}${:>14,.2f}'.format(donor_data_sorted[i][0], ' ', donor_data_sorted[i][1][0], ' ', donor_data_sorted[i][1][1], ' ', donation_avg))
+        print('{:<25}{:^5}${:>14,.2f}{:^5}{:>10}{:^5}${:>14,.2f}'.format(firstName + ' ' + lastName, ' ', donor_data_sorted[i][1][0], ' ', donor_data_sorted[i][1][1], ' ', donation_avg))
 
     # remain on page until user decides to return to main menu
     q = 'Z'
