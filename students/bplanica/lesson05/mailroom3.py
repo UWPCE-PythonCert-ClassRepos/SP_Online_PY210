@@ -9,6 +9,7 @@
 #                   Adding function to print emails to text files
 #   BPA, 8/20/2019, Updated dictionary for main donor list to be solely a dictionary
 #   BPA, 8/31/2019, Added error/exception handling
+#   BPA, 9/3/2019, Added option to view list before adding new donor
 # ------------------------------ #
 
 # ----- DATA ----- #
@@ -48,11 +49,23 @@ def main():
             print("Type the menu number associated with the action you would like to perform.")
 
 
-def one_thank_you():
-    """ option to add a new entry to the list and print a thank you email"""
-    name = input("Type 'exit' to return the main menu. Who would you like to send a Thank You to?: ").title().strip() # gather name
+def one_ty_name(name = ""):
+    """ option to add a new entry/donation amount to the list and print a thank you email"""
+    if name == "":
+        print("\nType 'exit' to return the main menu or 'list' to see a current list of donors.")
+        name = input("Who would you like to send a Thank You to?: ").title().strip() # gather name
     if name.upper() == "EXIT":
         return # return to main menu
+    elif name.upper() == "LIST":
+        new_list = [key for key in donors.keys()] # create a list from the keys
+        print("\nCurrent donors are:", ", ".join(new_list).title()) # print list to user
+        one_ty_name() # recursion - go to the beginning
+    else:
+        one_ty_donation(name) # get the donation amount
+
+
+def one_ty_donation(name):
+    """option to add a new entry/donation amount to the list and print a thank you email"""
     try:
         donation = input(f"Type 'exit' to return the main menu. What was the donation amount for {name:s}?: ").strip() # gather donation
         print()
@@ -60,8 +73,9 @@ def one_thank_you():
             return # return to main menu
         else:
             donation = float(donation)
-    except:
+    except ValueError:
         print("Please enter a valid donation amount. \n")
+        one_ty_donation(name) # recursion - go to the beginning
     else:
         update_list(name, donation) # update the list with the name and/or donation amount
         print_email(name, donation) # print the thank you email
@@ -185,6 +199,6 @@ def create_report():
 # ----- PRESENTATION ----- #
 # ------------------------ #
 if __name__ == '__main__':
-    dict_menu = {1: one_thank_you, 2: create_report,
+    dict_menu = {1: one_ty_name, 2: create_report,
         3: all_thank_you} # holds menu options (dispatch)
     main() # run main
