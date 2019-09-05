@@ -6,9 +6,11 @@ class Donor(object):
         self.ledger = ledger
 
 
+    @property
     def count(self):
         return len(self.ledger)
 
 
+    @property
     def donations(self):
         return sum(self.ledger)
