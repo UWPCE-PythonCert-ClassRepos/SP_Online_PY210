@@ -18,3 +18,15 @@ def test_donor_structure():
 
     with pytest.raises(AttributeError):
         teddy.donations = 1000000.00
+
+
+def test_process_donation():
+    honest_abe = Donor('Abraham Lincoln')
+
+    assert honest_abe.count == 0
+    assert honest_abe.donations = 0.0
+
+    honest_abe.process(307.65)
+
+    assert honest_abe.count == 1
+    assert honest_abe.donations == 307.65
