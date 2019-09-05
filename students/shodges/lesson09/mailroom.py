@@ -16,3 +16,7 @@ class Donor(object):
     @property
     def donations(self):
         return sum(self.ledger)
+
+
+    def process(self, donation):
+        self.ledger.append(float(donation))
