@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+import pytest
+from mailroom import *
+
 def donor_structure():
     honest_abe = Donor('Abraham Lincoln', [87.00, 18.65])
     teddy = Donor('Theodore Roosevelt')
