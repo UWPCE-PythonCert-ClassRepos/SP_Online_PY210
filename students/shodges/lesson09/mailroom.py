@@ -7,8 +7,8 @@ class Donor(object):
 
 
     def count(self):
-        return len(ledger)
+        return len(self.ledger)
 
 
     def donations(self):
-        return sum(ledger)
+        return sum(self.ledger)
