@@ -24,7 +24,7 @@ def test_process_donation():
     honest_abe = Donor('Abraham Lincoln')
 
     assert honest_abe.count == 0
-    assert honest_abe.donations = 0.0
+    assert honest_abe.donations == 0.0
 
     honest_abe.process(307.65)
 
