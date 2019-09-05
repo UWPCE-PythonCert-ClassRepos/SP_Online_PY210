@@ -12,3 +12,9 @@ def test_donor_structure():
 
     assert teddy.count == 0
     assert teddy.donations == 0
+
+    with pytest.raises(AttributeError):
+        teddy.count = 1
+
+    with pytest.raises(AttributeError):
+        teddy.donations = 1000000.00
