@@ -41,3 +41,17 @@ def sum_series(start,n):
             lucas.append(lucas[i]+lucas[i+1])
         return lucas[-1]    
     
+def first_last_swap(seq):
+    temp = list(seq)
+    temp[0] = seq[-1]
+    temp[-1] = seq[0] 
+    return ''.join(temp)
+
+first_last_swap('Hi there')
+
+def remove_eo(seq):
+    temp = list(seq)
+    for i, val in enumerate(seq):
+        if i % 2 == 1:
+            temp[i] = ''
+    return ''.join(temp)
