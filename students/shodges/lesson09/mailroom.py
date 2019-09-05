@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 
 class Donor(object):
-    def __init__(self, donor_name, ledger=[]):
+    def __init__(self, donor_name, *args):
         self.name = donor_name
-        self.ledger = ledger
+        self.ledger = []
+        for i in args:
+            self.ledger.append(float(i))
 
 
     @property
