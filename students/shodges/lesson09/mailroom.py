@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-class Donor(Object):
+class Donor(object):
     def __init__(self, donor_name, ledger=[]):
         self.name = donor_name
         self.ledger = ledger
