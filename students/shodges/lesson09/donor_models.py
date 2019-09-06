@@ -21,6 +21,7 @@ class Donor(object):
 
     def process(self, donation):
         self.ledger.append(float(donation))
+        return True
 
 
 class DonorCollection(object):
