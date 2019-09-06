@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import pytest
-from donors import *
+from donor_models import *
 
 def test_donor_structure():
     honest_abe = Donor('Abraham Lincoln', 87.00, 18.65)
@@ -40,7 +40,7 @@ def test_donor_collection():
 
         # Since this DB will persist, we want to start with a blank slate, but the del_donor
         # method will raise a KeyError if we try to delete a donor that doesn't exist.  That's
-        # ok -- we'll just continue through it.
+        # ok -- we'll just pass through it.
         try:
             simplecharity.del_donor('Test McTesterson')
         except KeyError:
