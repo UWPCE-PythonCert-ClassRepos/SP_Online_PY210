@@ -1,8 +1,7 @@
 #! /usr/bin/env python3
 
-import sys, os
+import pathlib, sys
 from operator import itemgetter
-import pathlib
 
 donor_db = {
     "William Gates, III": [653772.32, 12.17],
@@ -18,6 +17,19 @@ prompt = "\n".join(("Please choose a number corresponding to the options below:"
                     "3 - Send letters to all donors.",
                     "4 - Quit.",
                     ">>> "))
+
+
+def validate(user_input):
+    try:
+        valid_response = input(user_input)
+    except KeyboardInterrupt:
+        quit_program()
+    except EOFError:
+        quit_program()
+    else:
+        if valid_response.lower() == "quit":
+            quit_program()
+    return valid_response
 
 
 def quit_program():
@@ -37,20 +49,16 @@ def send_thank_you():
     they have donated, the number of donations, and their 
     corresponding average gift amount in a neat formatted manner.
     """
-
     donor = "List"
-    names = []
-    while donor == "List":
-        donor = input(
-            "Please type a donor's full name or type 'list' to view donors. \n >>> ").title()
+    names = list()
 
-        if donor == "Quit":
-            quit_program()
-        # Prints a list of donors for the user to view  
-         
-        elif donor == "List":
-            for key in donor_db.keys():
-                names.append(key)
+    while donor == "List":
+        donor = validate(
+            "Please type a donor's full name or type 'list' to view donors. \n >>> ").title()
+        
+        # Prints a list of donors for the user to view   
+        if donor == "List":
+            names = [key for key in donor_db.keys()]
             print("\n".join(["{}"] * len(donor_db)).format(*names))
 
         # If the user isn't a past donor, the donor gets added
@@ -72,16 +80,25 @@ def single_thank_you(sponsor):
     :param sponsor: string used to find tuple in database 
     :type sponsor: string
     """
+    donation = 0
 
-    donation = float(input("What's the new donation amount? \n >>> "))
-    if donation <= 0:
-        print("Not a valid donation amount!")
-        quit_program()
+    while donation == 0:
+        donation = validate("What's the new donation amount? \n >>> ")
+        try:
+            donation = float(donation)
+        except ValueError:
+            print ("Not a valid donation amount!")
+            donation = 0
+        else:
+            if donation <= 0:
+                print("Not a valid donation amount!")
+                quit_program()
 
     # Append donation amount to the donor's donation list
+
     for donor_key in donor_db.keys():
         if sponsor == donor_key:
-            donor_db[donor_key].append(donation)
+           donor_db[donor_key].append(donation)
     email = build_template(sponsor, donor_db[sponsor])
     return email
 
@@ -131,14 +148,8 @@ def create_report():
     """
 
     create_header()
-    sorted_list = []
-    computed_list = []
 
-    for k in donor_db.keys():
-        total_donation, avg_donation, num_of_donations = compute_donation(
-            donor_db[k])
-        computed_list.append(
-            (k, total_donation, num_of_donations, avg_donation))
+    computed_list = [(k, sum(donor_db[k]), len(donor_db[k]), avg(donor_db[k])) for k in donor_db.keys()]
     sorted_list = sorted(computed_list, key=itemgetter(1), reverse=True)
 
     for sorted_item in sorted_list:
@@ -158,41 +169,27 @@ def create_header():
     print("\n" + header)
     print("-" * len(header))
 
+def avg(donation_list):
+    agg = 0
+    for single_donation in donation_list:
+        agg += single_donation
+    return agg / len(donation_list)
 
-def compute_donation(list_of_donations):
-    """
-    Accepts a list and calculates the total amount given,
-    the number of donations, and the average amount of each
-    donor's donation.
-
-    :param donations: list of donations per donor
-    :type donations: list
-    """
-
+def sum(sum_list):
     total_amount = 0
-    donation_num = 0
-
-    # Increment both number of donations and the total donation amount
-    for amount in list_of_donations:
-        donation_num += 1
-        total_amount += amount
-
-    total_amount = round(total_amount, 2)
-    avg_amount = round(total_amount / donation_num, 2)
-
-    return total_amount, avg_amount, donation_num
-
+    for donation in sum_list:
+        total_amount += donation
+    return total_amount
+    
 
 def write_letter():
     translate_dict = {ord(" "): "_", ord(","): None}
     directory = pathlib.Path("")
 
     while True:
-            location = input("\n".join(("Please type the directory you want files to be generated.",
+            location = validate("\n".join(("Please type the directory you want files to be generated.",
                                         "(Hit \'Enter\' to default to the current working directory)",
                                         ">>> ")))
-            if location == "quit":
-                quit_program()
             directory = pathlib.Path(location)
             if directory.exists():
                 break
@@ -219,7 +216,7 @@ def main():
     print("Welcome to the Mailroom App!")
 
     while True:
-        response = input(prompt)
+        response = validate(prompt)
         if response in menu:
             menu[response]()
             print("\n")

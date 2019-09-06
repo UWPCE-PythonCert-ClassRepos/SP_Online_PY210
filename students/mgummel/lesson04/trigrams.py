@@ -24,6 +24,7 @@ def build_trigrams(words):
             trigrams[pair].append(follower)
     return trigrams
 
+
 def read_in_data(file_to_parse):
     """
     Opens a file and parses through the entire document
