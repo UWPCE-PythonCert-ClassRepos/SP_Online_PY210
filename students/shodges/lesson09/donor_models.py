@@ -33,7 +33,11 @@ class DonorCollection(object):
 
 
     def add_donor(self, donor_name):
-        self.db[donor_name] = Donor(donor_name)
+        if donor_name not in self.db.keys():
+            self.db[donor_name] = Donor(donor_name)
+            return True
+        else:
+            raise ValueError("Donor already exists")
 
 
     def del_donor(self, donor_name):
