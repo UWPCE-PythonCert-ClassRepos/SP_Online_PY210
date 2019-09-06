@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-import pathlib, sys
+import pathlib
 from operator import itemgetter
 
 donor_db = {
