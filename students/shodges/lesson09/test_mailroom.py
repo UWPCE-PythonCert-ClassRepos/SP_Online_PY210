@@ -30,3 +30,22 @@ def test_process_donation():
 
     assert honest_abe.count == 1
     assert honest_abe.donations == 307.65
+
+
+def test_donor_collection():
+    """
+    Test DonorCollection class and persistence (since it's using shelve as a db)
+    """
+    samplecharity = DonorCollection('unit_tests')
+
+    # Since this DB will persist, we want to start with a blank slate, but the del_donor
+    # method will raise a KeyError if we try to delete a donor that doesn't exist.  That's
+    # ok -- we'll just continue through it.
+    try:
+        simplecharity.del_donor('Test McTesterson')
+    except KeyError:
+        continue
+
+    # Validate that the donor doesn't exist
+    with pytest.raises(KeyError):
+        simplecharity.donor('Test McTesterson')
