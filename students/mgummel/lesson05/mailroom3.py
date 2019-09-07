@@ -1,6 +1,7 @@
 #! /usr/bin/env python3
 
-import pathlib, sys
+import pathlib
+import sys
 from operator import itemgetter
 
 donor_db = {
@@ -55,8 +56,8 @@ def send_thank_you():
     while donor == "List":
         donor = validate(
             "Please type a donor's full name or type 'list' to view donors. \n >>> ").title()
-        
-        # Prints a list of donors for the user to view   
+
+        # Prints a list of donors for the user to view
         if donor == "List":
             names = [key for key in donor_db.keys()]
             print("\n".join(["{}"] * len(donor_db)).format(*names))
@@ -82,17 +83,16 @@ def single_thank_you(sponsor):
     """
     donation = 0
 
-    while donation == 0:
+    while donation <= 0:
         donation = validate("What's the new donation amount? \n >>> ")
         try:
             donation = float(donation)
         except ValueError:
-            print ("Not a valid donation amount!")
+            print("Not a valid donation amount!")
             donation = 0
         else:
             if donation <= 0:
                 print("Not a valid donation amount!")
-                quit_program()
 
     # Append donation amount to the donor's donation list
 
@@ -124,7 +124,7 @@ Thank you for your very kind donation of ${donation:.2f}.\n
 It will be put to very good use.\n
                 Sincerely,
                    -The Team\n\n'''
-    
+
     # Add a sentence to the template if the donor has previously donated money
     if len(all_donations) > 1:
         for i in range(len(all_donations) - 1):
@@ -135,7 +135,8 @@ has helped our organization tremendously.\n'''
         line_end = email_template.index("\n") + 1
 
         # Insert new sentence regarding past donations
-        email_template = email_template[:line_end] + donation_string + email_template[line_end:]
+        email_template = email_template[:line_end] + \
+            donation_string + email_template[line_end:]
 
     return email_template.format(**template_dict)
 
@@ -148,8 +149,8 @@ def create_report():
     """
 
     create_header()
-
-    computed_list = [(k, sum(donor_db[k]), len(donor_db[k]), avg(donor_db[k])) for k in donor_db.keys()]
+    computed_list = [(k, sum(donor_db[k]), len(donor_db[k]),
+                      avg(donor_db[k])) for k in donor_db.keys()]
     sorted_list = sorted(computed_list, key=itemgetter(1), reverse=True)
 
     for sorted_item in sorted_list:
@@ -169,47 +170,70 @@ def create_header():
     print("\n" + header)
     print("-" * len(header))
 
+
 def avg(donation_list):
+    """
+    Calculates the average donation amount per donor.
+
+    :param sum_list: list of donations per donor
+    :type sum_list: list
+    """
+
     agg = 0
     for single_donation in donation_list:
         agg += single_donation
     return agg / len(donation_list)
 
+
 def sum(sum_list):
+    """
+    Calculates the total amount of donations per donor.
+
+    :param sum_list: list of donations per donor
+    :type sum_list: list
+    """
+
     total_amount = 0
     for donation in sum_list:
         total_amount += donation
     return total_amount
-    
 
-def write_letter():
+
+def write_letters():
+    """
+    Accepts user input for a directory to write templatized
+    email documents for each donor.
+    """
+
     translate_dict = {ord(" "): "_", ord(","): None}
     directory = pathlib.Path("")
 
     while True:
-            location = validate("\n".join(("Please type the directory you want files to be generated.",
-                                        "(Hit \'Enter\' to default to the current working directory)",
-                                        ">>> ")))
-            directory = pathlib.Path(location)
-            if directory.exists():
-                break
-            else:
-                print("That's not a valid directory. Please try again.")
+        location = validate("\n".join(("Please type the directory you want files to be generated.",
+                                       "(Hit \'Enter\' to default to the current working directory)",
+                                       ">>> ")))
+        directory = pathlib.Path(location)
+        filepth_dict = {key_item: directory /
+                        key_item.translate(translate_dict) for key_item in donor_db.keys()}
+        for key, value in filepth_dict.items():
+            # Verify that the directory exists for each file before writing to disk
+            try:
+                with open(f'{value}.txt', 'w', encoding='utf-8') as email:
+                    email_template = build_template(key, donor_db[key])
+                    email.write(email_template)
+            except FileNotFoundError:
+                print("That's not a valid directory. Please type a valid location.\n")
                 directory = pathlib.Path("")
+                break
+        else:
+            break
 
-    for key_item in donor_db.keys():
-        filepath = directory / key_item.translate(translate_dict)
-
-        with open(f'{filepath}.txt', 'w', encoding='utf-8') as email:
-            email_template = build_template(key_item, donor_db[key_item])
-            email.write(email_template)
-           
 
 def main():
     menu = {
         "1": send_thank_you,
         "2": create_report,
-        "3": write_letter,
+        "3": write_letters,
         "4": quit_program
     }
 
