@@ -1,16 +1,18 @@
 #!/usr/bin/env python3
 
 """
-a simple script can run and test your html rendering classes.
-
-Uncomment the steps as you add to your rendering.
-
+Programming In Python - Lesson 7 Assignment 1: HTML Renderer
+Code Poet: Anthony McKeever
+Start Date: 08/27/2019
+End Date: 08/31/2019
 """
 
 from io import StringIO
 
 # importing the html_rendering code with a short name for easy typing.
+# import html_render_old as hr
 import html_render as hr
+
 
 
 # writing the file out:
@@ -49,7 +51,7 @@ render_page(page, "test_html_output1.html")
 #  Uncomment them as you move along with the assignment.
 
 # ## Step 2
-# ##########
+##########
 
 page = hr.Html()
 

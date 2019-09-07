@@ -107,6 +107,9 @@ render_page(page, "test_html_output4.html")
 # # Step 5
 # #########
 
+print("\n")
+print ("Step 5\n")
+
 page = hr.Html()
 
 head = hr.Head()
@@ -128,6 +131,9 @@ render_page(page, "test_html_output5.html")
 
 # # Step 6
 # #########
+
+print("\n")
+print ("Step 6\n")
 
 page = hr.Html()
 
@@ -154,6 +160,11 @@ render_page(page, "test_html_output6.html")
 
 # # Step 7
 # #########
+
+
+print("\n")
+print ("Step 7\n")
+
 
 page = hr.Html()
 
@@ -190,14 +201,19 @@ page.append(body)
 
 render_page(page, "test_html_output7.html")
 
+print("\n")
+
 # # Step 8 and 9
 # ##############
+
+print("\n")
+print ("Step 8 and 9\n")
 
 page = hr.Html()
 
 
 head = hr.Head()
-head.append( hr.Meta(charset="UTF-8") )
+head.append(hr.Meta(charset="UTF-8") )
 head.append(hr.Title("PythonClass = Revision 1087:"))
 
 page.append(head)
