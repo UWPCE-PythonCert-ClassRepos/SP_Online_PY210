@@ -67,3 +67,7 @@ def test_donor_collection():
     simplecharity = DonorCollection('unit_tests')
     assert simplecharity.donor('Test McTesterson').count == 1
     assert simplecharity.donor('Test McTesterson').donations == 101.01
+
+    assert simplecharity.del_donor('Test McTesterson') is True
+
+    simplecharity.db_close()
