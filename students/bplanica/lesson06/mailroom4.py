@@ -14,12 +14,7 @@
 
 # ----- DATA ----- #
 # ---------------- #
-donors = {"bill gates": ("Bill Gates", [326892.24, 326892.24]),
-"mark zuckerberg": ("Mark Zuckerberg", [5465.39, 5465.39, 5465.39]),
-"jeff bezo": ("Jeff Bezo", [877.33]),
-"paul allen": ("Paul Allen", [236.14, 236.14, 236.14]),
-"m bezo": ("M Bezo", [110463.25])} # holds original data set to start with
-
+donors = {}
 dict_menu = {} # holds menu options (dispatch)
 str_menu = ("""\n--------------------
 Choose an action:
@@ -32,6 +27,19 @@ Choose an action:
 
 # ----- PROCESSING ----- #
 # ---------------------- #
+def load_data():
+    update_list("Bill Gates", 326892.24)
+    update_list("Bill Gates", 326892.24)
+    update_list("Mark Zuckerberg", 5465.39)
+    update_list("Mark Zuckerberg", 5465.39)
+    update_list("Mark Zuckerberg", 5465.39)
+    update_list("Jeff Bezo", 877.33)
+    update_list("Paul Allen", 236.14)
+    update_list("Paul Allen", 236.14)
+    update_list("Paul Allen", 236.14)
+    update_list("M Bezo", 110463.25)
+
+
 def main():
     """ main function """
     while True: # display a menu of choices to the user
@@ -60,7 +68,7 @@ def send_thank_you(name = ""):
     else:
         donation = get_donation(name) # get the donation amount
         update_list(name, donation) # update the list with the name and/or donation amount
-        print_thank_you(name, donation) # print the thank you email
+        print(print_thank_you(name, donation)) # print the thank you email
 
 
 def get_name():
@@ -99,7 +107,7 @@ def print_thank_you(name, donation):
     """ prints a thank you email to be sent to the donor """
     frequency = ordinal_freq(len(donors[name.lower()][1])) # find the ordinal frequency
     total = total_given(donors[name.lower()][1]) # find the sum for the total amount given
-    print(f"""
+    return (f"""
 Dear {name},
 
     We are reaching out to thank you for your {frequency} donation. We appreciate your 
@@ -214,4 +222,5 @@ def display_report(report_items):
 # ------------------------ #
 if __name__ == '__main__':
     dict_menu = {1: send_thank_you, 2: reporting_main, 3: send_all_letters} # holds menu options (dispatch)
+    load_data()
     main() # run main

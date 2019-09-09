@@ -10,6 +10,8 @@
 import pytest
 from mailroom4 import *
 
+donors = {}
+
 def test_send_thank_you():
     assert send_thank_you("Exit") is None
 
@@ -18,8 +20,13 @@ def get_donation():
     assert get_donation("Exit") is None
 
 
+def test_update_list():
+    donors = {"bree planica": ("Bree Planica", [200.5567])}
+    assert update_list("Bree Planica", 200.5567) == donors
+
+
 def test_current_donors():
-    expected = "\nCurrent donors are: Bill Gates, Mark Zuckerberg, Jeff Bezo, Paul Allen, M Bezo"
+    expected = "\nCurrent donors are: Bree Planica"
     assert current_donors() == expected
 
 
@@ -38,16 +45,22 @@ def test_total_given():
 
 
 def test_create_report():
-    expected = [('Bill Gates', 653784.48, 2, 326892.24), 
-('Mark Zuckerberg', 16396.17, 3, 5465.39), ('Jeff Bezo', 877.33, 1, 877.33), 
-('Paul Allen', 708.42, 3, 236.14), ('M Bezo', 110463.25, 1, 110463.25)]
+    expected = [('Bree Planica', 200.56, 1, 200.56)]
     assert create_report() == expected
 
+def test_print_thank_you():
+    expected = (f"""
+Dear Bree Planica,
 
-def test_update_list():
-    expected = {"bill gates": ("Bill Gates", [326892.24, 326892.24]),
-"mark zuckerberg": ("Mark Zuckerberg", [5465.39, 5465.39, 5465.39]),
-"jeff bezo": ("Jeff Bezo", [877.33]),
-"paul allen": ("Paul Allen", [236.14, 236.14, 236.14]),
-"m bezo": ("M Bezo", [110463.25]), "bree planica": ("Bree Planica", [200.5567])}
-    assert update_list("Bree Planica", 200.5567) == expected
+    We are reaching out to thank you for your 1st donation. We appreciate your 
+    continued support. You have donated a total of 200.56 USD. Your recent docation 
+    of 200.56 USD will go towards clean food and water for your local citizens 
+    in need.
+    
+    We look forward to seeing you at our upcoming fundraiser event. 
+
+Sincerely, 
+
+The Fundraiser Team
+        """)
+    assert print_thank_you("Bree Planica", 200.5567) == expected
