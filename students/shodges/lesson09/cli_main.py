@@ -2,6 +2,8 @@
 
 from donor_models import *
 
+marmots_ledger = DonorCollection('marmots')
+
 def send_thank_you():
     while True:
         donor = input('Please enter a donor name: ')
@@ -20,7 +22,16 @@ def send_thank_you():
 
 
 def print_report():
-    print('\n'.join(generate_report()))
+    print('{:24} | {:10} | {:10} | {:12}'.format('Donor Name', 'Total Given', 'Num Gifts', 'Average Gift'))
+    print('-'*68)
+    donor_report = sorted([[x, len(donors[x]), sum(donors[x])] for x in
+        marmots_ledger.generate_report()], key = lambda x: x[2], reverse = True)
+    for item in donor_report:
+        try:
+            report_output = {'name': item[0], 'total': item[2], 'gifts': item[1], 'average': (item[2] / item[1])}
+            report_lines.append('{name:24}  ${total:10.2f}   {gifts:10d}   ${average:12.2f}'.format(**report_output))
+        except ZeroDivisionError: # this occurs if an invalid donation amount is entered in send_thank_you for a new donor and the donor entry isn't removed
+            continue
     print()
 
 
