@@ -71,3 +71,44 @@ def test_donor_collection():
     assert simplecharity.del_donor('Test McTesterson') is True
 
     simplecharity.db_close()
+
+
+def test_report_generation():
+    """
+    Test generate_report() method of DonorCollection class.  It's expected this will return
+    a dict with each of the donors' names, total gifts, average gifts, and count of gifts.
+    """
+    simplecharity = DonorCollection('unit_tests')
+
+    assert simplecharity.add_donor('George Washington') is True
+    assert simplecharity.add_donor('John Adams') is True
+    assert simplecharity.add_donor('Thomas Jefferson') is True
+
+    assert simplecharity.donor('George Washington').process(1.00) is True
+    assert simplecharity.donor('George Washington').process(102.37) is True
+
+    assert simplecharity.donor('John Adams').process(87.00) is True
+
+    assert simplecharity.donor('Thomas Jefferson').process(32.50) is True
+
+    report = simplecharity.generate_report()
+
+    assert len(report) == 3
+
+    assert report['George Washington']['total'] == 103.37
+    assert report['George Washington']['count'] == 2
+    assert report['George Washington']['average'] == 51.69
+
+    assert report['John Adams']['total'] == 87.00
+    assert report['John Adams']['count'] == 1
+    assert report['John Adams']['average'] == 87.00
+
+    assert report['Thomas Jefferson']['total'] == 32.50
+    assert report['George Washington']['count'] == 1
+    assert report['George Washington']['average'] == 32.50
+
+    assert simplecharity.del_donor('George Washington') is True
+    assert simplecharity.del_donor('John Adams') is True
+    assert simplecharity.del_donor('Thomas Jefferson') is True
+
+    simplecharity.db_close()
