@@ -40,8 +40,11 @@ Each course lesson will contain its own folder.  The folders will use the naming
         |   |-- assignment_1    <Content for Lesson 6 Asignment 1 - Mail Room (Part 4) - Unit Testing>
         |   |-- exercise_1      <Content for Lesson 6 Exercise 1 - Walnut Party Unit Testing Lab>
         |   `-- exercise_2      <Content for Lesson 6 Exercise 2 - Args & Kwargs Lab>
-        `-- lesson7             <Content for Lesson 7>
-            `-- assignment_1    <Content for Lesson 7 Assignment 1 - HTML Renderer>
+        |-- lesson7             <Content for Lesson 7>
+        |   `-- assignment_1    <Content for Lesson 7 Assignment 1 - HTML Renderer>
+        `-- lesson8             <Content for Lesson 8>
+            |-- assignment_1    <Content for Lesson 8 Assignment 1 - Circles and Spheres>
+            `-- exercise_1      <Content for Lesson 8 Exercise 1 - Sparse Array >
 ```
 
 ## Branching
