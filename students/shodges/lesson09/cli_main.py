@@ -9,15 +9,19 @@ def send_thank_you():
         donor = input('Please enter a donor name: ')
         if donor == 'quit':
             break
-        elif donor == 'list':
-            for item in donors.keys():
-                print(item)
+        #elif donor == 'list':
+            #for item in donors.keys():
+                #print(item)
         else:
+            try:
+                marmots_ledger.add_donor(donor)
+            except ValueError:
+                pass
             amount = input('Please enter a donation amount: ')
-            if add_donor_record(donor, amount) == False:
-                print('Invalid donation amount {}\n'.format(amount))
-            else:
-                print(format_letter(donor, True))
+            marmots_ledger.donor(donor).process(amount)
+                #print('Invalid donation amount {}\n'.format(amount))
+            #else:
+            #print(format_letter(donor, True))
             break
 
 
