@@ -36,8 +36,14 @@ class DonorCollection(object):
     def generate_report(self):
         tmp_report = {}
         for donor in self.db:
+<<<<<<< HEAD
             donor_info = {'total': self.db[donor].donations, 'count': self.db[donor].count,
                           'average': self.db[donor].donations / self.db[donor].count}
+=======
+            total = self.db[donor].donations
+            count = self.db[donor].count
+            donor_info = {'total': total, 'count': count, 'average': total / count}
+>>>>>>> d6f5cb7fbf0b69f98bde5f4ff0ada71d8377a862
             tmp_report[donor] = donor_info
         return tmp_report
 
