@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import shelve
+from collections import OrderedDict
 
 class Donor(object):
     def __init__(self, donor_name, *args):
@@ -39,7 +40,7 @@ class DonorCollection(object):
             donor_info = {'total': self.db[donor].donations, 'count': self.db[donor].count,
                           'average': self.db[donor].donations / self.db[donor].count}
             tmp_report[donor] = donor_info
-        return tmp_report
+        return OrderedDict(sorted(tmp_report.items(), key=lambda x: x[1]['total'], reverse=True))
 
 
     def add_donor(self, donor_name):
