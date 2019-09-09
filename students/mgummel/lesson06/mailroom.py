@@ -56,12 +56,14 @@ def send_thank_you():
 
     while donor == "List":
         # Prints a list of donors for the user to view
-        donor = generate_list(donor_db)        
+        print(generate_list(donor_db))
+        donor = validate(
+            "Type donor's name or 'list' to print names again\n>>>").title()
 
-    # 
     donor_db.setdefault(donor, list())
     new_donation = get_donation_amt()
-    single_email = add_donation(donor, new_donation)
+    email_names = add_donation(donor, new_donation)
+    single_email = build_template(email_names)
 
     # Print out template that will be emailed to donor.
     print(single_email)
@@ -69,11 +71,8 @@ def send_thank_you():
 
 def generate_list(db_dict):
     names = [key for key in db_dict.keys()]
-    print("\n".join(["{}"] * len(donor_db)).format(*names))
-    name_selection = validate(
-        "Type donor's name or 'list' to print names again\n>>>").title()
+    name_selection = "\n".join(["{}"] * len(donor_db)).format(*names)
     return name_selection
-
 
 
 def get_donation_amt():
@@ -94,7 +93,7 @@ def get_donation_amt():
         else:
             if donation <= 0:
                 print("Not a valid donation amount!")
-    
+
     return donation
 
 
@@ -109,15 +108,14 @@ def add_donation(sponsor, donation_amt):
     :param donation_amt: New donation amount to be added
     :type donation_amt: float
     """
-    
+
     for donor_key in donor_db.keys():
         if sponsor == donor_key:
            donor_db[donor_key].append(donation_amt)
-    email = build_template(sponsor, donor_db[sponsor])
-    return email
+    return (sponsor, donor_db[sponsor])
 
 
-def build_template(d_key, all_donations):
+def build_template(donor_info):
     """
     Builds the email template that will be used to send out to 
     donors. 
@@ -125,28 +123,28 @@ def build_template(d_key, all_donations):
     :param d_key: donor key in the donor database for each donor
     :type d_key: string
 
-    :param all_donations: all donations a donor has made
-    :type all_donations: list
     """
 
     past_donations = 0
-    template_dict = {'donor': d_key, 'donation': all_donations[-1]}
+    donor_values = donor_info[1]
+    template_dict = {'donor': donor_info[0], 'donation': donor_info[1][-1]}
 
     # Build the email template
-    email_template = '''Dear {donor},\n
-Thank you for your very kind donation of ${donation:.2f}.\n
-It will be put to very good use.\n
-                Sincerely,
-                   -The Team\n\n'''
+    email_template = '\n'.join(('\n\nDear {donor},\n',
+                                'Thank you for your very kind donation of ${donation:.2f}.\n',
+                                'It will be put to very good use.\n',
+                                '           Sincerely,',
+                                '             -The Team\n'))
 
     # Add a sentence to the template if the donor has previously donated money
-    if len(all_donations) > 1:
-        for i in range(len(all_donations) - 1):
-            past_donations += all_donations[i]
+    if len(donor_values) > 1:
+        for i in range(len(donor_values) - 1):
+            past_donations += donor_values[i]
 
-        donation_string = f'''\nYour past donation amount of ${past_donations:.2f} \n
-has helped our organization tremendously.\n'''
-        line_end = email_template.index("\n") + 1
+        donation_string = '\n'.join((f'\nYour past donation amount of ${past_donations:.2f}\n',
+                                     'has helped our organization tremendously.\n'))
+
+        line_end = email_template.index(",") + 2
 
         # Insert new sentence regarding past donations
         email_template = email_template[:line_end] + \
@@ -185,10 +183,10 @@ def compute_sorted(db):
     :type db: dictionary
     """
 
-    computed_list = [(k, sum(db[k]), len(db[k]), avg(db[k])) for k in db.keys()]
+    computed_list = [(k, sum(db[k]), len(db[k]), avg(db[k]))
+                     for k in db.keys()]
     sorted_list = sorted(computed_list, key=itemgetter(1), reverse=True)
     return sorted_list
-
 
 
 def avg(donation_list):
@@ -202,7 +200,7 @@ def avg(donation_list):
     agg = 0.0
     for single_donation in donation_list:
         agg += single_donation
-    return round (agg / len(donation_list), 2)
+    return round(agg / len(donation_list), 2)
 
 
 def sum(sum_list):
