@@ -97,15 +97,15 @@ def test_report_generation():
 
     assert report['George Washington']['total'] == 103.37
     assert report['George Washington']['count'] == 2
-    assert report['George Washington']['average'] == 51.69
+    assert report['George Washington']['average'] == 51.685
 
     assert report['John Adams']['total'] == 87.00
     assert report['John Adams']['count'] == 1
     assert report['John Adams']['average'] == 87.00
 
     assert report['Thomas Jefferson']['total'] == 32.50
-    assert report['George Washington']['count'] == 1
-    assert report['George Washington']['average'] == 32.50
+    assert report['Thomas Jefferson']['count'] == 1
+    assert report['Thomas Jefferson']['average'] == 32.50
 
     assert simplecharity.del_donor('George Washington') is True
     assert simplecharity.del_donor('John Adams') is True
