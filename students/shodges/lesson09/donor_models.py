@@ -33,6 +33,16 @@ class DonorCollection(object):
         return self.db[donor_name]
 
 
+    def generate_report(self):
+        tmp_report = {}
+        for donor in self.db:
+            total = self.db[donor].donations
+            count = self.db[donor].count
+            donor_info = {'total': total, 'count': count, 'average': total / count}
+            tmp_report[donor] = donor_info
+        return tmp_report
+
+
     def add_donor(self, donor_name):
         if donor_name not in self.db.keys():
             self.db[donor_name] = Donor(donor_name)
