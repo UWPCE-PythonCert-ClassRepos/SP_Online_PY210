@@ -25,7 +25,7 @@ class Donor(object):
 
 
 class DonorCollection(object):
-    def __init__(self, dbfile='donors.db'):
+    def __init__(self, dbfile='donors'):
         self.db = shelve.open(dbfile, writeback=True)
 
 
