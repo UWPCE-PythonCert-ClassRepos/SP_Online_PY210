@@ -53,9 +53,42 @@ def save_all_letters():
                 print('{} created successfully'.format(letter.absolute()))
 
 
+def donor_management():
+    while True:
+        donor = input('Enter the name of the donor to manage: ')
+        if donor == 'quit':
+            break
+        else:
+            try:
+                print()
+                print('Donor record for: {}'.format(marmots_ledger.donor(donor).name))
+                print('Number of Donations: {}'.format(marmots_ledger.donor(donor).count))
+                print('Total Donations: ${:.2f}'.format(marmots_ledger.donor(donor).donations))
+                print()
+                print("""Actions:
+
+1 Delete Donor Record
+2 Return to Main Menu
+""")
+                option = input('Please select an option (1, 2): ')
+                donor_management_dispatch = {1: marmots_ledger.del_donor, 2: ''}
+                try:
+                    donor_management_dispatch.get(int(option))(donor)
+                except (TypeError, ValueError):
+                    print('Invalid option {}\n'.format(option))
+                    break
+                else:
+                    print('Deleted donor {}'.format(donor))
+                    break
+            except KeyError:
+                print('Invalid donor {}'.format(donor))
+                return
+
+
 if __name__ == '__main__':
     atexit.register(marmots_ledger.db_close)
-    menu_dispatch = {1: send_thank_you, 2: print_report, 3:save_all_letters, 4: quit}
+    menu_dispatch = {1: send_thank_you, 2: print_report, 3:save_all_letters,
+                     4: donor_management, 5: quit}
     while True:
         print("""Mailroom -- Main Menu
 
@@ -63,9 +96,10 @@ Options:
   1 Send a Thank You
   2 Generate a Report
   3 Send letters to all donors
-  4 Quit
+  4 Donor Management
+  5 Quit
 """)
-        option = input('Please select an option (1, 2, 3, 4): ')
+        option = input('Please select an option (1, 2, 3, 4, 5): ')
         try:
             menu_dispatch.get(int(option))()
         except (TypeError, ValueError):
