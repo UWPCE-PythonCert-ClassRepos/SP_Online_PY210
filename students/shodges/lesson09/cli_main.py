@@ -53,12 +53,8 @@ def save_all_letters():
                 print('{} created successfully'.format(letter.absolute()))
 
 
-def clean_exit():
-    marmots_ledger.db_close()
-
-
 if __name__ == '__main__':
-    atexit.register(clean_exit)
+    atexit.register(marmots_ledger.db_close)
     menu_dispatch = {1: send_thank_you, 2: print_report, 3:save_all_letters, 4: quit}
     while True:
         print("""Mailroom -- Main Menu
