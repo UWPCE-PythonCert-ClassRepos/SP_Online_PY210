@@ -18,11 +18,9 @@ def send_thank_you():
                 marmots_ledger.add_donor(donor)
             except ValueError:
                 pass
-            amount = input('Please enter a donation amount: ')
             try:
-                marmots_ledger.donor(donor).process(amount)
+                donor_management_process(donor, False)
             except ValueError:
-                print('Invalid donation amount {}\n'.format(amount))
                 if marmots_ledger.donor(donor).count < 1:
                     # Clean up the donor record if this invalid donation was the first record
                     marmots_ledger.del_donor(donor)
@@ -75,6 +73,8 @@ Enter anything else to return to main menu.
             try:
                 donor_management_dispatch.get(int(option))(donor)
             except (TypeError, ValueError):
+                # This will catch all manner of bad things, but we always want to pass
+                # e.g., non-called out options, donor_management_process bad input, etc.
                 pass
         except KeyError:
             print('Invalid donor {}'.format(donor))
@@ -92,6 +92,8 @@ def donor_management_process(donor):
         print('Recorded donation of {}\n'.format(amount))
     except ValueError:
         print('Invalid donation amount {}\n'.format(amount))
+        # re-raise the exception so that send_thank_you can clean up if necessary
+        raise
 
 if __name__ == '__main__':
     atexit.register(marmots_ledger.db_close)
