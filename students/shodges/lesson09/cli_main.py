@@ -27,8 +27,8 @@ def send_thank_you():
                     # Clean up the donor record if this invalid donation was the first record
                     marmots_ledger.del_donor(donor)
                 break
-            #else:
-            print(marmots_ledger.donor(donor).format_letter(True))
+            else:
+                print(marmots_ledger.donor(donor).format_letter(True))
             break
 
 
