@@ -112,3 +112,25 @@ def test_report_generation():
     assert simplecharity.del_donor('Thomas Jefferson') is True
 
     simplecharity.db_close()
+
+
+def test_letter_generation():
+    """
+    Test format_letter() method of Donor class.  It's expected that this will return a
+    formatted letter with the donor's most recent donation and total donations.
+    """
+    simplecharity = DonorCollection('unit_tests')
+
+    assert simplecharity.add_donor('Benjamin Franklin') is True
+    assert simplecharity.donor('Benjamin Franklin').process(13.50) is True
+    assert simplecharity.donor('Benjamin Franklin').process(26.495) is True
+
+    letter = simplecharity.donor('Benjamin Franklin').format_letter()
+
+    assert "Dear Benjamin Franklin," in letter
+    assert "thank you for your recent gift of $26.50" in letter
+    assert "Your very generous gifts of $40.00" in letter
+
+    assert simplecharity.del_donor('Benjamin Franklin') is True
+
+    simplecharity.db_close()

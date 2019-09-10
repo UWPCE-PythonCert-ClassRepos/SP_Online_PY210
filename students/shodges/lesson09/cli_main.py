@@ -22,7 +22,7 @@ def send_thank_you():
             marmots_ledger.donor(donor).process(amount)
                 #print('Invalid donation amount {}\n'.format(amount))
             #else:
-            #print(format_letter(donor, True))
+            print(marmots_ledger.donor(donor).format_letter(True))
             break
 
 

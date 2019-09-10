@@ -25,6 +25,33 @@ class Donor(object):
         return True
 
 
+    def format_letter(self, extra_whitespace = False):
+        letter_template = """Dear {name},
+On behalf of all of us at Save the Marmots, thank you for your recent gift of ${amount:.2f}.  When it comes to ensuring marmots have loving homes, every dollar goes a long way.
+
+Your very generous gifts of ${total:.2f} will help us provide food and shelter for all of the rescued marmots, and ensure our staff have the resources to train them for placement.
+
+Warmest regards,
+
+Sean Hodges
+"""
+
+        letter_whitespace = """
+
+
+
+{}
+
+
+"""
+        letter_values = {'name': self.name, 'amount': self.ledger[-1], 'total': self.donations}
+
+        if extra_whitespace == True: # I still like the extra whitespace in the user interactive mode :)
+            return (letter_whitespace.format(letter_template)).format(**letter_values)
+        else:
+            return letter_template.format(**letter_values)
+
+
 class DonorCollection(object):
     def __init__(self, dbfile='donors'):
         self.db = shelve.open(dbfile, writeback=True)
