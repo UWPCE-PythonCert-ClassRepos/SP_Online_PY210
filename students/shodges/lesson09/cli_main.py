@@ -19,8 +19,14 @@ def send_thank_you():
             except ValueError:
                 pass
             amount = input('Please enter a donation amount: ')
-            marmots_ledger.donor(donor).process(amount)
-                #print('Invalid donation amount {}\n'.format(amount))
+            try:
+                marmots_ledger.donor(donor).process(amount)
+            except ValueError:
+                print('Invalid donation amount {}\n'.format(amount))
+                if marmots_ledger.donor(donor).count < 1:
+                    # Clean up the donor record if this invalid donation was the first record
+                    marmots_ledger.del_donor(donor)
+                break
             #else:
             print(marmots_ledger.donor(donor).format_letter(True))
             break
