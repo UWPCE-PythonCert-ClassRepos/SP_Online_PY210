@@ -54,36 +54,30 @@ def save_all_letters():
 
 
 def donor_management():
-    while True:
-        donor = input('Enter the name of the donor to manage: ')
-        if donor == 'quit':
-            break
-        else:
-            try:
-                print()
-                print('Donor record for: {}'.format(marmots_ledger.donor(donor).name))
-                print('Number of Donations: {}'.format(marmots_ledger.donor(donor).count))
-                print('Total Donations: ${:.2f}'.format(marmots_ledger.donor(donor).donations))
-                print()
-                print("""Actions:
+    donor = input('Enter the name of the donor to manage: ')
+    if donor != 'quit':
+        try:
+            print()
+            print('Donor record for: {}'.format(marmots_ledger.donor(donor).name))
+            print('Number of Donations: {}'.format(marmots_ledger.donor(donor).count))
+            print('Total Donations: ${:.2f}'.format(marmots_ledger.donor(donor).donations))
+            print()
+            print("""Actions:
 
 1 Delete Donor Record
 2 Process Donation
 
 Enter anything else to return to main menu.
 """)
-                option = input('Please enter an option: ')
-                donor_management_dispatch = {1: donor_management_del,
-                                             2: donor_management_process}
-                try:
-                    donor_management_dispatch.get(int(option))(donor)
-                except (TypeError, ValueError):
-                    break
-                else:
-                    break
-            except KeyError:
-                print('Invalid donor {}'.format(donor))
-                return
+            option = input('Please enter an option: ')
+            donor_management_dispatch = {1: donor_management_del,
+                                         2: donor_management_process}
+            try:
+                donor_management_dispatch.get(int(option))(donor)
+            except (TypeError, ValueError):
+                pass
+        except KeyError:
+            print('Invalid donor {}'.format(donor))
 
 
 def donor_management_del(donor):
