@@ -23,7 +23,6 @@ def thank_you():
     name = 'list'
     while name == 'list':
         name = input("Type 'list' to see a list of names or enter a name: ")
-        d = donor_data
 
         # run if user inputs 'list'
         if name == 'list':
@@ -51,8 +50,8 @@ def thank_you():
     donor_data[index][1][0] += donation
     donor_data[index][1][1] += 1
     
-    # write email
-    email = f"\nDear {name},\n\nThank you for your generous donation. We are very grateful.\n\nBest,\n\nLocal Charity\n"
+    # write email (using formatted dict values)
+    email = "\nDear {first_name} {last_name},\n\nThank you for your generous donation. We are very grateful.\n\nBest,\n\nLocal Charity\n".format(**donor_data[index][0])
     print(email)
 
 def create_report():
@@ -82,22 +81,26 @@ def create_report():
     while q != 'Q' and q != 'q':
         q = input("\nEnter Q to Quit and return to the main menu: ")
     
+def letters_to_all():
+    '''Write a letter to every donor and save each one to a file on the disk.'''
+    
+
 
 # main code
 if __name__ == '__main__':
 
     exit_message = "Closing the mailroom for the day..."
-    response_dict = {1:thank_you, 2:create_report, 3:exit}
+    response_dict = {1:thank_you, 2:create_report, 3:letters_to_all, 4:exit}
     response = 0
     while response != 3:
         response = 0
         # display main menu with options    
-        options = ["1. Send a Thank You", "2. Create a Report", "3. Quit"]
-        print(f"----- Main Menu -----\n{options[0]}\n{options[1]}\n{options[2]}")
+        options = ["1. Send a Thank You to a single donor", "2. Create a Report", "3. Send letters to all donors", "4. Quit"]
+        print(f"----- Main Menu -----\n{options[0]}\n{options[1]}\n{options[2]}\n{options[3]}")
         
         # get and run user response
-        while int(response) not in [1, 2, 3]:
+        while int(response) not in [1, 2, 3, 4]:
             response = int(input("Enter a number: "))
-        if response == 3:
+        if response == 4:
             print(exit_message)
         response_dict.get(response)()
