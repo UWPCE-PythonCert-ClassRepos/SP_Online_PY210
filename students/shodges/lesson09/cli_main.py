@@ -68,22 +68,36 @@ def donor_management():
                 print("""Actions:
 
 1 Delete Donor Record
-2 Return to Main Menu
+2 Process Donation
+
+Enter anything else to return to main menu.
 """)
-                option = input('Please select an option (1, 2): ')
-                donor_management_dispatch = {1: marmots_ledger.del_donor, 2: ''}
+                option = input('Please enter an option: ')
+                donor_management_dispatch = {1: donor_management_del,
+                                             2: donor_management_process}
                 try:
                     donor_management_dispatch.get(int(option))(donor)
                 except (TypeError, ValueError):
-                    print('Invalid option {}\n'.format(option))
                     break
                 else:
-                    print('Deleted donor {}'.format(donor))
                     break
             except KeyError:
                 print('Invalid donor {}'.format(donor))
                 return
 
+
+def donor_management_del(donor):
+    marmots_ledger.del_donor(donor)
+    print('Deleted donor {}\n'.format(donor))
+
+
+def donor_management_process(donor):
+    amount = input('Please enter a donation amount: ')
+    try:
+        marmots_ledger.donor(donor).process(amount)
+        print('Recorded donation of {}\n'.format(amount))
+    except ValueError:
+        print('Invalid donation amount {}\n'.format(amount))
 
 if __name__ == '__main__':
     atexit.register(marmots_ledger.db_close)
