@@ -56,23 +56,24 @@ def send_thank_you():
 
     while donor == "List":
         # Prints a list of donors for the user to view
-        print(generate_list(donor_db))
+        print(generate_list())
         donor = validate(
             "Type donor's name or 'list' to print names again\n>>>").title()
 
-    donor_db.setdefault(donor, list())
+    #Refactor the following statement to allow for any database to configured.
+    add_donor(donor)
     new_donation = get_donation_amt()
-    email_names = add_donation(donor, new_donation)
-    single_email = build_template(email_names)
-
-    # Print out template that will be emailed to donor.
-    print(single_email)
+    donor_mod = add_donation(donor, new_donation)
+    print(build_template(donor_mod))
 
 
-def generate_list(db_dict):
+def generate_list(db_dict=donor_db):
     names = [key for key in db_dict.keys()]
-    name_selection = "\n".join(["{}"] * len(donor_db)).format(*names)
+    name_selection = "\n".join(["{}"] * len(db_dict)).format(*names)
     return name_selection
+
+def add_donor(new_donor, db_dict=donor_db):
+    db_dict.setdefault(new_donor, list())
 
 
 def get_donation_amt():
@@ -97,7 +98,7 @@ def get_donation_amt():
     return donation
 
 
-def add_donation(sponsor, donation_amt):
+def add_donation(sponsor, donation_amt, database=donor_db):
     """
     Finds the donor in the database, adds the donation amount
     to the database. Returns an email string built with the
@@ -109,10 +110,10 @@ def add_donation(sponsor, donation_amt):
     :type donation_amt: float
     """
 
-    for donor_key in donor_db.keys():
+    for donor_key in database.keys():
         if sponsor == donor_key:
-           donor_db[donor_key].append(donation_amt)
-    return (sponsor, donor_db[sponsor])
+           database[sponsor].append(donation_amt)
+    return (sponsor, database[sponsor])
 
 
 def build_template(donor_info):
@@ -160,21 +161,23 @@ def create_report():
     of donations, and their corresponding average gift amount.
     """
 
-    # Compute rows to display in report table
-    report_rows = compute_sorted(donor_db)
-
     # Print out report header
     header = "{:<26}|{:^15}|{:^13}|{:>14}".format(
         "Donor Name", "Total Given", "Num Gifts", "Average Gift")
     print("\n" + header)
     print("-" * len(header))
 
+    
+    # Compute rows to display in report table
+    report = compute_sorted()
+
     # Print the rows to the report table
-    for sorted_item in report_rows:
-        print("{:<27}${:>12.2f}{:>14}   ${:>13.2f}".format(*sorted_item))
+    formatting = "{:<27}${:>12.2f}{:>14}   ${:>13.2f}"
+    for row in report:
+        print("".join(formatting.format(*row)))
 
 
-def compute_sorted(db):
+def compute_sorted(db=donor_db):
     """
     Uses the Donor database to generate the rows of data
     that will be printed as a report.
@@ -217,34 +220,39 @@ def sum(sum_list):
     return total_amount
 
 
+
+
 def write_letters():
     """
     Accepts user input for a directory to write templatized
     email documents for each donor.
     """
 
-    translate_dict = {ord(" "): "_", ord(","): None}
-    directory = pathlib.Path("")
-
-    while True:
-        location = validate("\n".join(("Please type the directory you want files to be generated.",
+    location = validate("\n".join(("Please type the directory you want files to be generated.",
                                        "(Hit \'Enter\' to default to the current working directory)",
                                        ">>> ")))
+    directory = pathlib.Path(location)
+    while not directory.exists():
+        location = validate("\n".join(("That's not a valid directory. Please type a valid path.\n",
+                                       ">>> ")))
         directory = pathlib.Path(location)
-        filepth_dict = {key_item: directory /
-                        key_item.translate(translate_dict) for key_item in donor_db.keys()}
-        for key, value in filepth_dict.items():
-            # Verify that the directory exists for each file before writing to disk
-            try:
-                with open(f'{value}.txt', 'w', encoding='utf-8') as email:
-                    email_template = build_template(key, donor_db[key])
-                    email.write(email_template)
-            except FileNotFoundError:
-                print("That's not a valid directory. Please type a valid location.\n")
-                directory = pathlib.Path("")
-                break
-        else:
-            break
+    write_files(directory)
+
+def get_donor(name_in_db, db=donor_db):
+    db_item = (name_in_db, db[name_in_db])
+    return db_item
+
+
+def write_files(file_dir, db=donor_db):
+    translator = {ord(" "): "_", ord(","): None}
+    filepth_dict = {key: file_dir /
+                        key.translate(translator) for key in db.keys()}
+    # Write each file to the chosen directory                    
+    for k, v in filepth_dict.items():
+        with open(f'{v}.txt', 'w', encoding='utf-8') as email:
+            email_values = get_donor(k)
+            email_template = build_template(email_values)
+            email.write(email_template)
 
 
 def main():
@@ -255,7 +263,7 @@ def main():
         "4": quit_program
     }
 
-    print("Welcome to the Mailroom App!")
+    print("\nWelcome to the Mailroom App!")
 
     while True:
         response = validate(prompt)
