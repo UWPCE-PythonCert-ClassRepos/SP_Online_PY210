@@ -2,6 +2,7 @@
 
 import pytest
 from donor_models import *
+from pathlib import Path
 
 def test_donor_structure():
     honest_abe = Donor('Abraham Lincoln', 87.00, 18.65)
@@ -138,5 +139,34 @@ def test_letter_generation():
     assert "Your very generous gifts of $40.00" in letter
 
     assert simplecharity.del_donor('Benjamin Franklin') is True
+
+    simplecharity.db_close()
+
+
+def test_letter_saving():
+    """
+    Test save_letters() method of DonorCollection class, which will iteratively call
+    each Donor's save_letter() method.  Validate the presence of each file.  Content test
+    coverage is provided by test_letter_generation as content is provided by the same shared
+    function.
+    """
+    simplecharity = DonorCollection('unit_tests')
+
+    assert simplecharity.add_donor('Winston Churchill') is True
+    assert simplecharity.add_donor('Franklin D. Roosevelt') is True
+
+    assert simplecharity.donor('Winston Churchill').process(87.50) is True
+    assert simplecharity.donor('Franklin D. Roosevelt').process(20.00) is True
+
+    letters = simplecharity.save_letters('.')
+
+    for i in range(0, len(letters[1])):
+        assert Path(letters[1][i]).exists() is True
+        Path(letters[1][i]).unlink()
+
+    Path(letters[0]).rmdir()
+
+    assert simplecharity.del_donor('Winston Churchill') is True
+    assert simplecharity.del_donor('Franklin D. Roosevelt') is True
 
     simplecharity.db_close()

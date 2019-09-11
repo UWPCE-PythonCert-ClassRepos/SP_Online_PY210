@@ -40,15 +40,16 @@ def print_report():
 
 
 def save_all_letters():
-    letter_dir = create_letter_dir(input('Please specify a directory to save letters in: '))
+    letter_dir = marmots_ledger.save_letters(
+            input('Please specify a directory to save letters in: '))
 
-    if letter_dir == False:
+    if letter_dir[0] == False:
         print('Error creating letter directory.')
     else:
-        for donor in donors.keys():
-            letter = save_letter(letter_dir, donor)
-            if letter != False:
-                print('{} created successfully'.format(letter.absolute()))
+        print(letter_dir[0])
+        for i, file in enumerate(letter_dir[1]):
+            print('{}-- {}'.format(('`' if i == len(letter_dir[1]) - 1 else '|'),
+                file))
 
 
 def donor_management():
@@ -114,3 +115,4 @@ Options:
             menu_dispatch.get(int(option))()
         except (TypeError, ValueError):
             print('Invalid option {}\n'.format(option))
+            raise

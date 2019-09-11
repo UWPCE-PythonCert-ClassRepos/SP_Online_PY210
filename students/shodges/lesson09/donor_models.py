@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 import shelve
 from collections import OrderedDict
+from pathlib import Path
+from datetime import datetime
 
 class Donor(object):
     def __init__(self, donor_name, *args):
@@ -52,6 +54,25 @@ Sean Hodges
             return letter_template.format(**letter_values)
 
 
+    def save_letter(self, dirpath):
+        print(type(dirpath))
+        letter = dirpath / (self.name.replace(' ', '_') + '.txt')
+        try:
+            with letter.open("w") as fileio:
+                fileio.write(self.format_letter())
+        except (FileNotFoundError, PermissionError):
+            return False
+        except TypeError:
+            try:
+                letter.unlink()
+            except (PermissionError, OSError, FileNotFoundError):
+                pass
+            finally:
+                return False
+        else:
+            return letter
+
+
 class DonorCollection(object):
     def __init__(self, dbfile='donors'):
         self.db = shelve.open(dbfile, writeback=True)
@@ -75,6 +96,19 @@ class DonorCollection(object):
                           'average': self.db[donor].donations / self.db[donor].count}
             tmp_report[donor] = donor_info
         return OrderedDict(sorted(tmp_report.items(), key=lambda x: x[1]['total'], reverse=True))
+
+
+    def save_letters(self, dirpath):
+        results = []
+        letter_dir = Path(dirpath) / ('{:%Y%m%d-%H%M}'.format(datetime.now()))
+        try:
+            letter_dir.mkdir(exist_ok=True)
+        except (NotADirectoryError, FileNotFoundError, PermissionError):
+            return (False, None)
+        else:
+            for donor in self.db.keys():
+                results.append(self.donor(donor).save_letter(letter_dir))
+        return (letter_dir, results)
 
 
     def add_donor(self, donor_name):
