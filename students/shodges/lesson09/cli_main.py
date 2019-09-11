@@ -10,9 +10,9 @@ def send_thank_you():
         donor = input('Please enter a donor name: ')
         if donor == 'quit':
             break
-        #elif donor == 'list':
-            #for item in donors.keys():
-                #print(item)
+        elif donor == 'list':
+            for item in marmots_ledger.donors:
+                print(item)
         else:
             try:
                 marmots_ledger.add_donor(donor)
