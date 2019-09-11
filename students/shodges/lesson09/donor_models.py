@@ -61,6 +61,13 @@ class DonorCollection(object):
         return self.db[donor_name]
 
 
+    @property
+    def donors(self):
+        donorlist = []
+        for k in self.db.keys():
+            donorlist.append(k)
+        return donorlist
+
     def generate_report(self):
         tmp_report = {}
         for donor in self.db:

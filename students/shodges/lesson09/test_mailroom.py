@@ -107,6 +107,12 @@ def test_report_generation():
     assert report['Thomas Jefferson']['count'] == 1
     assert report['Thomas Jefferson']['average'] == 32.50
 
+    donorlist = simplecharity.donors
+
+    assert 'George Washington' in donorlist
+    assert 'John Adams' in donorlist
+    assert 'Thomas Jefferson' in donorlist
+
     assert simplecharity.del_donor('George Washington') is True
     assert simplecharity.del_donor('John Adams') is True
     assert simplecharity.del_donor('Thomas Jefferson') is True
