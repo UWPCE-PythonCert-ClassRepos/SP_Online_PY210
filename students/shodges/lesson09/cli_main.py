@@ -46,7 +46,6 @@ def save_all_letters():
     if letter_dir[0] == False:
         print('Error creating letter directory.')
     else:
-        print(letter_dir[0])
         for i, file in enumerate(letter_dir[1]):
             print('{}-- {}'.format(('`' if i == len(letter_dir[1]) - 1 else '|'),
                 file))
