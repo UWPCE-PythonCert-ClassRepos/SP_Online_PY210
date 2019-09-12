@@ -92,8 +92,12 @@ class DonorCollection(object):
     def generate_report(self):
         tmp_report = {}
         for donor in self.db:
-            donor_info = {'total': self.db[donor].donations, 'count': self.db[donor].count,
-                          'average': self.db[donor].donations / self.db[donor].count}
+            donor_info = {'total': self.db[donor].donations, 'count': self.db[donor].count}
+            try:
+                donor_info['average'] = self.db[donor].donations / self.db[donor].count
+            except ZeroDivisionError:
+                donor_info['average'] = 0
+                pass
             tmp_report[donor] = donor_info
         return OrderedDict(sorted(tmp_report.items(), key=lambda x: x[1]['total'], reverse=True))
 
