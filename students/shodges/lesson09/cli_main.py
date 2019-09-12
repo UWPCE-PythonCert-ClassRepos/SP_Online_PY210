@@ -39,15 +39,20 @@ def print_report():
 
 
 def save_all_letters():
-    letter_dir = marmots_ledger.save_letters(
+    results = marmots_ledger.save_letters(
             input('Please specify a directory to save letters in: '))
 
-    if letter_dir[0] == False:
+    if results[0] == False:
         print('Error creating letter directory.')
     else:
-        for i, file in enumerate(letter_dir[1]):
-            print('{}-- {}'.format(('`' if i == len(letter_dir[1]) - 1 else '|'),
-                file))
+        print(results[0])
+        for i, file in enumerate(results[1]):
+            print('{}-- {}'.format(('`' if i == len(results[1]) - 1 else '|'), file.name))
+        if len(results[2]) > 0:
+            print()
+            print('Failed to save letters for:')
+            for file in results[2]:
+                print(' * {}'.format(file))
 
 
 def donor_management():

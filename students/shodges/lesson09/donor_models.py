@@ -103,7 +103,8 @@ class DonorCollection(object):
 
 
     def save_letters(self, dirpath):
-        results = []
+        success = []
+        failure = []
         letter_dir = Path(dirpath) / ('{:%Y%m%d-%H%M}'.format(datetime.now()))
         try:
             letter_dir.mkdir(exist_ok=True)
@@ -111,8 +112,13 @@ class DonorCollection(object):
             return (False, None)
         else:
             for donor in self.db.keys():
-                results.append(self.donor(donor).save_letter(letter_dir))
-        return (letter_dir, results)
+                try:
+                    result = self.donor(donor).save_letter(letter_dir)
+                except IndexError:
+                    failure.append(donor)
+                else:
+                    success.append(result)
+        return [letter_dir, success, failure]
 
 
     def add_donor(self, donor_name):
