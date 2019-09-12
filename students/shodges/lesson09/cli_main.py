@@ -52,11 +52,16 @@ def save_all_letters():
 
 
 def donor_management():
-    donor = ''
     while True:
-        donor = (input('Enter the name of the donor to manage: ') if donor == '' else donor)
+        try:
+            donor = new_donor
+        except NameError:
+            donor = input('Enter the name of the donor to manage: ')
         if donor == 'quit':
             break
+        elif donor == 'list':
+            for item in marmots_ledger.donors:
+                print(item)
         else:
             try:
                 print()
@@ -88,6 +93,7 @@ Enter anything else to return to main menu.
                         return
                     elif create == 'y':
                         marmots_ledger.add_donor(donor)
+                        new_donor = donor # so that the user bypasses the prompt
                         break
 
 
