@@ -18,11 +18,11 @@ def send_thank_you():
             if donor is None:
                 break
             try:
-                donor_management_process(donor, False)
+                donor_management_process(donor.name)
             except ValueError:
                 break
             else:
-                print(marmots_ledger.donor(donor).format_letter(True))
+                print(marmots_ledger.donor(donor.name).format_letter(True))
             break
 
 
