@@ -20,9 +20,6 @@ def send_thank_you():
             try:
                 donor_management_process(donor, False)
             except ValueError:
-                if marmots_ledger.donor(donor).count < 1:
-                    # Clean up the donor record if this invalid donation was the first record
-                    marmots_ledger.del_donor(donor)
                 break
             else:
                 print(marmots_ledger.donor(donor).format_letter(True))
