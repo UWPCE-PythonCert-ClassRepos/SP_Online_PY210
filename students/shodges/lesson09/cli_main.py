@@ -108,7 +108,7 @@ def donor_management_fetch(donorname):
         return marmots_ledger.donor(donorname)
     except KeyError:
         while True:
-            create = input('Donor {} does not exist.  Create it? (y/n) '.format(donor))
+            create = input('Donor {} does not exist.  Create it? (y/n) '.format(donorname))
             if create == 'n':
                 return None
             elif create == 'y':
