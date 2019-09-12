@@ -55,7 +55,6 @@ Sean Hodges
 
 
     def save_letter(self, dirpath):
-        print(type(dirpath))
         letter = dirpath / (self.name.replace(' ', '_') + '.txt')
         try:
             with letter.open("w") as fileio:
