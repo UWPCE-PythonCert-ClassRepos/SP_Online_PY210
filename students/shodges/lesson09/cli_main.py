@@ -52,32 +52,43 @@ def save_all_letters():
 
 
 def donor_management():
-    donor = input('Enter the name of the donor to manage: ')
-    if donor != 'quit':
-        try:
-            print()
-            print('Donor record for: {}'.format(marmots_ledger.donor(donor).name))
-            print('Number of Donations: {}'.format(marmots_ledger.donor(donor).count))
-            print('Total Donations: ${:.2f}'.format(marmots_ledger.donor(donor).donations))
-            print()
-            print("""Actions:
+    donor = ''
+    while True:
+        donor = (input('Enter the name of the donor to manage: ') if donor == '' else donor)
+        if donor == 'quit':
+            break
+        else:
+            try:
+                print()
+                print('Donor record for: {}'.format(marmots_ledger.donor(donor).name))
+                print('Number of Donations: {}'.format(marmots_ledger.donor(donor).count))
+                print('Total Donations: ${:.2f}'.format(marmots_ledger.donor(donor).donations))
+                print()
+                print("""Actions:
 
 1 Delete Donor Record
 2 Process Donation
 
 Enter anything else to return to main menu.
 """)
-            option = input('Please enter an option: ')
-            donor_management_dispatch = {1: donor_management_del,
-                                         2: donor_management_process}
-            try:
-                donor_management_dispatch.get(int(option))(donor)
-            except (TypeError, ValueError):
-                # This will catch all manner of bad things, but we always want to pass
-                # e.g., non-called out options, donor_management_process bad input, etc.
-                pass
-        except KeyError:
-            print('Invalid donor {}'.format(donor))
+                option = input('Please enter an option: ')
+                donor_management_dispatch = {1: donor_management_del,
+                                             2: donor_management_process}
+                try:
+                    donor_management_dispatch.get(int(option))(donor)
+                except (TypeError, ValueError):
+                    # This will catch all manner of bad things, but we always want to pass
+                    # e.g., non-called out options, donor_management_process bad input, etc.
+                    pass
+                break
+            except KeyError:
+                while True:
+                    create = input('Donor {} does not exist.  Create it? (y/n) '.format(donor))
+                    if create == 'n':
+                        return
+                    elif create == 'y':
+                        marmots_ledger.add_donor(donor)
+                        break
 
 
 def donor_management_del(donor):
