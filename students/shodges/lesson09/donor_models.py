@@ -88,6 +88,7 @@ class DonorCollection(object):
             donorlist.append(k)
         return donorlist
 
+
     def generate_report(self):
         tmp_report = {}
         for donor in self.db:
