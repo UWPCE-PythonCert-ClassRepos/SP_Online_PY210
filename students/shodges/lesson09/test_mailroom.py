@@ -164,6 +164,8 @@ def test_letter_saving():
         assert Path(letters[1][i]).exists() is True
         Path(letters[1][i]).unlink()
 
+    assert len(letters[2]) == 0
+
     Path(letters[0]).rmdir()
 
     assert simplecharity.del_donor('Winston Churchill') is True
