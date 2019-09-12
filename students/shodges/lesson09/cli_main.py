@@ -17,12 +17,19 @@ def send_thank_you():
             donor = donor_management_fetch(donorname)
             if donor is None:
                 break
+            while True:
+                newdonation = input('Process new donation? (y/n) ')
+                if newdonation == 'y':
+                    try:
+                        donor_management_process(donor.name)
+                    except ValueError:
+                        break
+                elif newdonation == 'n':
+                    break
             try:
-                donor_management_process(donor.name)
-            except ValueError:
-                break
-            else:
                 print(marmots_ledger.donor(donor.name).format_letter(True))
+            except IndexError:
+                print('{} has no donation history.\n'.format(donor.name))
             break
 
 
