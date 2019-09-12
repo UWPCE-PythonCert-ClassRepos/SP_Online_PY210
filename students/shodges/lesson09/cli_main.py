@@ -114,4 +114,3 @@ Options:
             menu_dispatch.get(int(option))()
         except (TypeError, ValueError):
             print('Invalid option {}\n'.format(option))
-            raise
