@@ -20,10 +20,8 @@ def send_thank_you():
             while True:
                 newdonation = input('Process new donation? (y/n) ')
                 if newdonation == 'y':
-                    try:
-                        donor_management_process(donor.name)
-                    except ValueError:
-                        break
+                    donor_management_process(donor.name)
+                    break
                 elif newdonation == 'n':
                     break
             try:
