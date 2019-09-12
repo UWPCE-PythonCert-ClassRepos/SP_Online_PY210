@@ -7,17 +7,16 @@ marmots_ledger = DonorCollection('marmots')
 
 def send_thank_you():
     while True:
-        donor = input('Please enter a donor name: ')
-        if donor == 'quit':
+        donorname = input('Please enter a donor name: ')
+        if donorname == 'quit':
             break
-        elif donor == 'list':
+        elif donorname == 'list':
             for item in marmots_ledger.donors:
                 print(item)
         else:
-            try:
-                marmots_ledger.add_donor(donor)
-            except ValueError:
-                pass
+            donor = donor_management_fetch(donorname)
+            if donor is None:
+                break
             try:
                 donor_management_process(donor, False)
             except ValueError:
@@ -53,21 +52,21 @@ def save_all_letters():
 
 def donor_management():
     while True:
-        try:
-            donor = new_donor
-        except NameError:
-            donor = input('Enter the name of the donor to manage: ')
-        if donor == 'quit':
+        donorname = input('Enter the name of the donor to manage: ')
+        if donorname == 'quit':
             break
-        elif donor == 'list':
+        elif donorname == 'list':
             for item in marmots_ledger.donors:
                 print(item)
         else:
-            try:
+            donor = donor_management_fetch(donorname)
+            if donor is None:
+                break
+            else:
                 print()
-                print('Donor record for: {}'.format(marmots_ledger.donor(donor).name))
-                print('Number of Donations: {}'.format(marmots_ledger.donor(donor).count))
-                print('Total Donations: ${:.2f}'.format(marmots_ledger.donor(donor).donations))
+                print('Donor record for: {}'.format(donor.name))
+                print('Number of Donations: {}'.format(donor.count))
+                print('Total Donations: ${:.2f}'.format(donor.donations))
                 print()
                 print("""Actions:
 
@@ -80,21 +79,12 @@ Enter anything else to return to main menu.
                 donor_management_dispatch = {1: donor_management_del,
                                              2: donor_management_process}
                 try:
-                    donor_management_dispatch.get(int(option))(donor)
+                    donor_management_dispatch.get(int(option))(donor.name)
                 except (TypeError, ValueError):
                     # This will catch all manner of bad things, but we always want to pass
                     # e.g., non-called out options, donor_management_process bad input, etc.
                     pass
                 break
-            except KeyError:
-                while True:
-                    create = input('Donor {} does not exist.  Create it? (y/n) '.format(donor))
-                    if create == 'n':
-                        return
-                    elif create == 'y':
-                        marmots_ledger.add_donor(donor)
-                        new_donor = donor # so that the user bypasses the prompt
-                        break
 
 
 def donor_management_del(donor):
@@ -111,6 +101,19 @@ def donor_management_process(donor):
         print('Invalid donation amount {}\n'.format(amount))
         # re-raise the exception so that send_thank_you can clean up if necessary
         raise
+
+
+def donor_management_fetch(donorname):
+    try:
+        return marmots_ledger.donor(donorname)
+    except KeyError:
+        while True:
+            create = input('Donor {} does not exist.  Create it? (y/n) '.format(donor))
+            if create == 'n':
+                return None
+            elif create == 'y':
+                marmots_ledger.add_donor(donorname)
+                return marmots_ledger.donor(donorname)
 
 if __name__ == '__main__':
     atexit.register(marmots_ledger.db_close)
