@@ -49,11 +49,12 @@ def create_report(donor_ls):
         i.append(sum(i[1]))
         i.append(np.mean(i[1]))
         i.append(len(i[1]))
+    sorted_donor = sorted(donor_ls,key = itemgetter(1),reverse=True)
     headers = ('Donor Name', 'Total Given', 'Num Gifts', 'Average Gift')
     
     print('{:<16}| {:^14}|{:^14}| {:^14}'.format(*headers))
     print('-'*65)
-    for i in donor_ls:
+    for i in sorted_donor:
         print('{:<18} ${:>12,.2f} {:>14}   ${:>12,.2f}'.format(i[0],i[2],i[4],i[3]))
    
 
@@ -64,7 +65,7 @@ if __name__ == "__main__":
         response = 0   
         while response not in [1,2,3]:
             response = int(input("1. Send a thank-you\n2. Create a report\n3. Quit\n"))
-                  
+        
         if response == 1:
             send_thanks(donor_ls)
         elif response == 2: 
