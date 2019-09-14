@@ -119,8 +119,8 @@ def build_template(donor_info):
     Builds the email template that will be used to send out to 
     donors. 
 
-    :param d_key: donor key in the donor database for each donor
-    :type d_key: string
+    :param donor_info: donor key in the donor database for each donor
+    :type donor_info: tuple
 
     """
 

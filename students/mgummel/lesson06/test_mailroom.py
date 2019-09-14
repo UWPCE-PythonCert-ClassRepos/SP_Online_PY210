@@ -83,3 +83,41 @@ def test_add_donor2():
     assert add_donor("Gerard Way", test_db2) == None
 
 
+def test_build_template1():
+    email_template = '\n'.join(('\n\nDear Dax Shephard,\n',
+                                'Thank you for your very kind donation of $123.32.\n',
+                                'It will be put to very good use.\n',
+                                '           Sincerely,',
+                                '             -The Team\n'))
+    assert build_template(("Dax Shephard", test_db1["Dax Shephard"])) == email_template
+
+
+def test_build_template2():
+    email_template = '\n'.join(('\n\nDear Marc Benioff,\n',
+                                'Your past donation amount of $45023.15\n',
+                                'has helped our organization tremendously.\n',
+                                'Thank you for your very kind donation of $442.30.\n',
+                                'It will be put to very good use.\n',
+                                '           Sincerely,',
+                                '             -The Team\n'))
+    assert build_template(("Marc Benioff", test_db1["Marc Benioff"])) == email_template
+
+
+def test_build_template3():
+    email_template = '\n'.join(('\n\nDear Gerard Way,\n',
+                                'Thank you for your very kind donation of $76.45.\n',
+                                'It will be put to very good use.\n',
+                                '           Sincerely,',
+                                '             -The Team\n'))
+    assert build_template(("Gerard Way", test_db2["Gerard Way"])) == email_template
+
+
+def test_build_template4():
+    email_template = '\n'.join(('\n\nDear Eddie Vedder,\n',
+                                'Your past donation amount of $475.82\n',
+                                'has helped our organization tremendously.\n',
+                                'Thank you for your very kind donation of $723.40.\n',
+                                'It will be put to very good use.\n',
+                                '           Sincerely,',
+                                '             -The Team\n'))
+    assert build_template(("Eddie Vedder", test_db2["Eddie Vedder"])) == email_template
