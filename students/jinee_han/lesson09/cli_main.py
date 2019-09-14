@@ -49,8 +49,8 @@ def send_thank_you_note():
     while donation_amount is None:
         try:
             donation_amount = float(input("Please enter the donation amount: "))
-            if (donation_amount < 0):
-                print ("Please enter an amount larger than zero.")
+            if (donation_amount <= 0):
+                print ("Please enter a donation amount larger than zero.")
                 donation_amount = None
                 pass
         except ValueError:
