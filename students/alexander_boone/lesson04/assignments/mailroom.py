@@ -2,8 +2,6 @@
 import os
 import sys
 
-# global variables
-
 # prepare initial data structure for donor data
 donors = [{'first_name': 'Arnold', 'last_name': 'Schwarzenegger',
            'donation_total': 100000, 'donation_count': 1},
@@ -15,10 +13,6 @@ donors = [{'first_name': 'Arnold', 'last_name': 'Schwarzenegger',
            'donation_total': 500000, 'donation_count': 1},
           {'first_name': 'Gordon', 'last_name': 'Ramsay',
            'donation_total': 1280000, 'donation_count': 1}]
-
-# Note: donor_data is a LIST of TUPLES with each tuple
-# containing (dict of first/last name, [donation total,
-# donation count])
 
 # functions
 
@@ -83,7 +77,7 @@ def create_report():
     print('\n', report_headers)
     print(table_divider)
 
-    # sort donor data by donations
+    # sort donor data by donation_total
     def sort_key(donors_data):
         return donors_data['donation_total']
 
