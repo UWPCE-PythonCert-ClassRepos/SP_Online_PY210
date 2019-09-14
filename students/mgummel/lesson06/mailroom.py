@@ -109,10 +109,8 @@ def add_donation(sponsor, donation_amt, database=donor_db):
     :param donation_amt: New donation amount to be added
     :type donation_amt: float
     """
-
-    for donor_key in database.keys():
-        if sponsor == donor_key:
-           database[sponsor].append(donation_amt)
+    
+    database[sponsor].append(donation_amt)
     return (sponsor, database[sponsor])
 
 

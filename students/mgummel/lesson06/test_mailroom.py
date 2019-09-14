@@ -62,3 +62,24 @@ def test_get_donor1():
 def test_get_donor2():
     db_tuple = ("Eric Johnson", [23432.23, 43289.32])
     assert get_donor("Eric Johnson", test_db1) == db_tuple
+
+
+def test_add_donation1():
+    transaction = add_donation("Eric Johnson", 32.45, test_db1)
+    assert transaction == ("Eric Johnson", [23432.23, 43289.32, 32.45])
+
+
+def test_add_donation2():
+    transaction = add_donation("Gerard Way", 32.45, test_db2)
+    assert transaction == ("Gerard Way", [76.45, 32.45])
+
+
+def test_add_donor():
+    add_donor("Rob Thomas", test_db2)
+    assert test_db2["Rob Thomas"] == []
+
+
+def test_add_donor2():
+    assert add_donor("Gerard Way", test_db2) == None
+
+
