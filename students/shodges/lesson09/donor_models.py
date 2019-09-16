@@ -5,6 +5,16 @@ from pathlib import Path
 from datetime import datetime
 
 class Donor(object):
+    """
+    Base individual donor class.
+
+    donor_name is the only required argument; all additional arguments will be converted to
+    floats and added as initial donations.
+
+    Each instance has two variables:
+      * name -- the donor's name
+      * ledger -- a list with all donations as floats
+    """
     def __init__(self, donor_name, *args):
         self.name = donor_name
         self.ledger = []
@@ -14,20 +24,35 @@ class Donor(object):
 
     @property
     def count(self):
+        """
+        Returns the number of donations in the donor's ledger.
+        """
         return len(self.ledger)
 
 
     @property
     def donations(self):
+        """
+        Returns the total of all donations in the donor's ledger.
+        """
         return sum(self.ledger)
 
 
     def process(self, donation):
+        """
+        Appends donation to the donor's ledger.  Returns True if successful.  No exceptions
+        raised are caught and are required to be caught by the implementing code.
+        """
         self.ledger.append(float(donation))
         return True
 
 
     def format_letter(self, extra_whitespace = False):
+        """
+        Returns a formatted thank you letter with the donor's name, most recent donation, and
+        donation total filled in.  If optional argument extra_whitespace is True, extra
+        newlines are appended on top and bottom to allow for visual differentiation.
+        """
         letter_template = """Dear {name},
 On behalf of all of us at Save the Marmots, thank you for your recent gift of ${amount:.2f}.  When it comes to ensuring marmots have loving homes, every dollar goes a long way.
 
@@ -48,13 +73,21 @@ Sean Hodges
 """
         letter_values = {'name': self.name, 'amount': self.ledger[-1], 'total': self.donations}
 
-        if extra_whitespace == True: # I still like the extra whitespace in the user interactive mode :)
+        if extra_whitespace == True:
             return (letter_whitespace.format(letter_template)).format(**letter_values)
         else:
             return letter_template.format(**letter_values)
 
 
     def save_letter(self, dirpath):
+        """
+        Saves a letter in dirpath (as a pathlib.posixpath).  Letter name will be donor.txt
+        (with spaces replaced by underscores).
+
+        Returns the pathlib.posixpath of the saved letter if successful; else returns False.
+
+        All exceptions are caught here.
+        """
         letter = dirpath / (self.name.replace(' ', '_') + '.txt')
         try:
             with letter.open("w") as fileio:
@@ -73,16 +106,29 @@ Sean Hodges
 
 
 class DonorCollection(object):
+    """
+    Class allowing for grouping of multiple Donor classes for a given charity.  All Donors
+    are stored in a shelve database which is opened at init; DonorCollection.db_close() must
+    be called to properly close the database -- changes are made to the database stored in
+    memory, and closing the database sycns back the changes to the file.
+    """
     def __init__(self, dbfile='donors'):
         self.db = shelve.open(dbfile, writeback=True)
 
 
     def donor(self, donor_name):
+        """
+        Returns the Donor object of donor_name (or passes through the raised KeyError if not
+        found).
+        """
         return self.db[donor_name]
 
 
     @property
     def donors(self):
+        """
+        Returns a list of all donors in the database.
+        """
         donorlist = []
         for k in self.db.keys():
             donorlist.append(k)
@@ -90,6 +136,15 @@ class DonorCollection(object):
 
 
     def generate_report(self):
+        """
+        Returns an OrderedDict sorted by total donations in descending order.
+
+        Format:
+        [DonorName: {'total': TotalDonations, 'count': NumberOfDonations,
+                     'average': AverageDonation}]
+
+        Implementing code is not expected to handle any exceptions.
+        """
         tmp_report = {}
         for donor in self.db:
             donor_info = {'total': self.db[donor].donations, 'count': self.db[donor].count}
@@ -103,13 +158,31 @@ class DonorCollection(object):
 
 
     def save_letters(self, dirpath):
+        """
+        Saves all letters in the DonorCollection in a directory created in the specified
+        dirpath of format YYYYMMDD-HHMM.  Calls each Donor's save_letter method.
+
+        Implementing code is not expected to handle exceptions.
+
+        Returns a list with 3 elements:
+        * 0
+          - Success: pathlib.posixpath of created directory
+          - Failure: False
+        * 1
+          - Success: list of pathlib.posixpath of all saved letters (return values from
+                     Donor's save_letter() method)
+          - Failure: None
+        * 2
+          - Success: list of donor names whose Donor save_letter() method returned False
+          - Failure: None
+        """
         success = []
         failure = []
         letter_dir = Path(dirpath) / ('{:%Y%m%d-%H%M}'.format(datetime.now()))
         try:
             letter_dir.mkdir(exist_ok=True)
         except (NotADirectoryError, FileNotFoundError, PermissionError):
-            return (False, None)
+            return (False, None, None)
         else:
             for donor in self.db.keys():
                 try:
@@ -122,6 +195,10 @@ class DonorCollection(object):
 
 
     def add_donor(self, donor_name):
+        """
+        Instantiates a new Donor class for donor_name.  Returns True if successfully added;
+        raises a ValueError if the donor exists.
+        """
         if donor_name not in self.db.keys():
             self.db[donor_name] = Donor(donor_name)
             return True
@@ -130,6 +207,10 @@ class DonorCollection(object):
 
 
     def del_donor(self, donor_name):
+        """
+        Deletes donor_name from the database.  Returns True if successfully deleted; re-
+        raises the KeyError if the donor was not found.
+        """
         try:
             self.db.pop(donor_name)
         except KeyError:
@@ -139,4 +220,7 @@ class DonorCollection(object):
 
 
     def db_close(self):
+        """
+        Closes the shelf.  This also syncs back all changes.
+        """
         self.db.close()

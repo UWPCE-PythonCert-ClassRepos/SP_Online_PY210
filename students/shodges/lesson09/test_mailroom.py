@@ -5,6 +5,11 @@ from donor_models import *
 from pathlib import Path
 
 def test_donor_structure():
+    """
+    Test basic Donor creation.  Validate that the Donor object is instantiated, including
+    with optional pre-staged donations.  Validate that count and donations properties are
+    immutable.
+    """
     honest_abe = Donor('Abraham Lincoln', 87.00, 18.65)
     teddy = Donor('Theodore Roosevelt')
 
@@ -22,6 +27,10 @@ def test_donor_structure():
 
 
 def test_process_donation():
+    """
+    Process a donation and validate that the count and donations properties properly reflect
+    the changes.
+    """
     honest_abe = Donor('Abraham Lincoln')
 
     assert honest_abe.count == 0

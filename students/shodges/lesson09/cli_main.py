@@ -6,6 +6,14 @@ import atexit
 marmots_ledger = DonorCollection('marmots')
 
 def send_thank_you():
+    """
+    User interface allowing the user to:
+    * Enter a donor
+      - Special values: list to list all donors, quit to return to main menu
+    * If the donor does not exist, the user is given the option to create it
+    * If the donor exists or is created, the user is given the option to add a donation
+    * If a previous donation exists for the donor, the formatted letter is printed
+    """
     while True:
         donorname = input('Please enter a donor name: ')
         if donorname == 'quit':
@@ -32,6 +40,10 @@ def send_thank_you():
 
 
 def print_report():
+    """
+    Print a report of all donors' names, donation totals, count of donations, and average
+    gift.
+    """
     print('{:24} | {:10} | {:10} | {:12}'.format('Donor Name', 'Total Given', 'Num Gifts', 'Average Gift'))
     print('-'*68)
     tmp_report = marmots_ledger.generate_report()
@@ -41,6 +53,10 @@ def print_report():
 
 
 def save_all_letters():
+    """
+    Save thank you letters for all donors who have a donation on file in the user's specified
+    directory.
+    """
     results = marmots_ledger.save_letters(
             input('Please specify a directory to save letters in: '))
 
@@ -58,6 +74,14 @@ def save_all_letters():
 
 
 def donor_management():
+    """
+    User interface allowing the user to:
+    * Enter a donor
+      - Special values: list to list all donors, quit to return to main menu
+    * View the user's donations quantity and totals
+    * Allow the user to delete donor record or process a donation
+    """
+
     while True:
         donorname = input('Enter the name of the donor to manage: ')
         if donorname == 'quit':
@@ -95,22 +119,35 @@ Enter anything else to return to main menu.
 
 
 def donor_management_del(donor):
+    """
+    Delete the specified user from the DonorCollection class and print confirmation.
+    """
     marmots_ledger.del_donor(donor)
     print('Deleted donor {}\n'.format(donor))
 
 
 def donor_management_process(donor):
+    """
+    Prompt the user for a donation amount and attempt to process.
+
+    Re-raise an exception if the donation is invalid; calling methods are expected to catch
+    this.  This is passed through as the implementing method may have cleanup to perform.
+    """
     amount = input('Please enter a donation amount: ')
     try:
         marmots_ledger.donor(donor).process(amount)
         print('Recorded donation of {}\n'.format(amount))
     except ValueError:
         print('Invalid donation amount {}\n'.format(amount))
-        # re-raise the exception so that send_thank_you can clean up if necessary
+        # re-raise the exception so that calling methods can clean up if necessary
         raise
 
 
 def donor_management_fetch(donorname):
+    """
+    Return donorname's Donor object.  If donorname is not in the database, prompt the user to
+    create it; if successfully created, return the object.  Else return None.
+    """
     try:
         return marmots_ledger.donor(donorname)
     except KeyError:
