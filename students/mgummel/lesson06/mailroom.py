@@ -21,6 +21,13 @@ prompt = "\n".join(("Please choose a number corresponding to the options below:"
 
 
 def validate(user_input):
+    """
+    Validates user input and ensures the program can 
+    exit gracefully when the user wants to quit.
+
+    :param user_input: user input from the CLI
+    :type user_input: string, float, int
+    """
     try:
         valid_response = input(user_input)
     except KeyboardInterrupt:
@@ -60,20 +67,20 @@ def send_thank_you():
         donor = validate(
             "Type donor's name or 'list' to print names again\n>>>").title()
 
-    #Refactor the following statement to allow for any database to configured.
-    add_donor(donor)
     new_donation = get_donation_amt()
     donor_mod = add_donation(donor, new_donation)
     print(build_template(donor_mod))
 
 
 def generate_list(db_dict=donor_db):
+    """
+    Returns a list of names based on the keys
+    in the donor database>
+    """
+
     names = [key for key in db_dict.keys()]
     name_selection = "\n".join(["{}"] * len(db_dict)).format(*names)
     return name_selection
-
-def add_donor(new_donor, db_dict=donor_db):
-    db_dict.setdefault(new_donor, list())
 
 
 def get_donation_amt():
@@ -98,22 +105,20 @@ def get_donation_amt():
     return donation
 
 
-def add_donation(sponsor, donation_amt, database=donor_db):
+def add_donation(sponsor, donation_amt, db=donor_db):
     """
-    Finds the donor in the database, adds the donation amount
-    to the database. Returns an email string built with the
-    turns the donation amount 
+    Adds the donor to the database if they don't exist,
+    adds the donation amount to the database. Returns a
+    tuple with donor name and a list of all donations.
     
-    :param sponsor: string used to find tuple in database 
+    :param sponsor: donor or new donor
     :type sponsor: string
     :param donation_amt: New donation amount to be added
     :type donation_amt: float
     """
-
-    for donor_key in database.keys():
-        if sponsor == donor_key:
-           database[sponsor].append(donation_amt)
-    return (sponsor, database[sponsor])
+    db.setdefault(sponsor, list())
+    db[sponsor].append(donation_amt)
+    return (sponsor, db[sponsor])
 
 
 def build_template(donor_info):
@@ -121,7 +126,7 @@ def build_template(donor_info):
     Builds the email template that will be used to send out to 
     donors. 
 
-    :param donor_info: donor key in the donor database for each donor
+    :param donor_info: donor key in the donor database as well as donation amounts
     :type donor_info: tuple
 
     """
@@ -180,7 +185,7 @@ def create_report():
 def compute_sorted(db=donor_db):
     """
     Uses the Donor database to generate the rows of data
-    that will be printed as a report.
+    that will be printed as a sorted list.
     
     :param db: Database of donors and donations
     :type db: dictionary
@@ -220,9 +225,7 @@ def sum(sum_list):
     return total_amount
 
 
-
-
-def write_letters():
+def send_letters():
     """
     Accepts user input for a directory to write templatized
     email documents for each donor.
@@ -238,19 +241,33 @@ def write_letters():
         directory = pathlib.Path(location)
     write_files(directory)
 
-def get_donor(name_in_db, db=donor_db):
-    db_item = (name_in_db, db[name_in_db])
+
+def get_donor(name_in_db, database=donor_db):
+    """
+    Retrieves the key and value pair from the donor 
+    database and compiles a tuple.
+
+    :param name_in_db: key in the donor database
+    :type name_in_db: string
+    """
+
+    db_item = (name_in_db, database[name_in_db])
     return db_item
 
 
 def write_files(file_dir, db=donor_db):
+    """
+    Accepts a file path and writes a file to the file
+    path. This file will thank the donor by name and include
+    past and current donations.
+    """
     translator = {ord(" "): "_", ord(","): None}
-    filepth_dict = {key: file_dir /
-                        key.translate(translator) for key in db.keys()}
+        
     # Write each file to the chosen directory                    
-    for k, v in filepth_dict.items():
-        with open(f'{v}.txt', 'w', encoding='utf-8') as email:
-            email_values = get_donor(k)
+    for k, v in db.items():
+        donor_name = k.translate(translator)
+        with open(f'{file_dir}/{donor_name}.txt', 'w', encoding='utf-8') as email:
+            email_values = get_donor(k, db)
             email_template = build_template(email_values)
             email.write(email_template)
 
@@ -259,12 +276,14 @@ def main():
     menu = {
         "1": send_thank_you,
         "2": create_report,
-        "3": write_letters,
+        "3": send_letters,
         "4": quit_program
     }
 
     print("\nWelcome to the Mailroom App!")
 
+    # Check to make sure the response is valid and calls
+    # the appropriate function
     while True:
         response = validate(prompt)
         if response in menu:

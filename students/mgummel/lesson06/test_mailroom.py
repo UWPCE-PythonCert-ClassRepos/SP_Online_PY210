@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from mailroom import *
+import os
 
 test_db1  = {
     "William Gates, III": [653772.32, 12.17],
@@ -24,10 +25,6 @@ def test_sum():
 
 def test_avg():
     assert avg([23.57, 43.42, 45.38]) == 37.46
-
-
-"""def add_donor(new_donor, db_dict=donor_db):
-    db_dict.setdefault(new_donor, list())"""
 
 
 def test_generate_list1():
@@ -62,6 +59,16 @@ def test_get_donor1():
 def test_get_donor2():
     db_tuple = ("Eric Johnson", [23432.23, 43289.32])
     assert get_donor("Eric Johnson", test_db1) == db_tuple
+
+
+def test_add_donation1():
+    transaction = add_donation("Eric Johnson", 32.45, test_db1)
+    assert transaction == ("Eric Johnson", [23432.23, 43289.32, 32.45])
+
+
+def test_add_donation2():
+    transaction = add_donation("Rob Thomas", 23.23, test_db2)
+    assert transaction == ("Rob Thomas", [23.23])
 
 
 def test_build_template1():
@@ -102,3 +109,64 @@ def test_build_template4():
                                 '           Sincerely,',
                                 '             -The Team\n'))
     assert build_template(("Eddie Vedder", test_db2["Eddie Vedder"])) == email_template
+
+
+def test_file_creation1():
+   cwd_path = os.path.abspath(".")
+   write_files(cwd_path, db=test_db2)
+   assert os.path.exists(f'{cwd_path}/Gerard_Way.txt')
+   assert os.path.exists(f'{cwd_path}/Eddie_Vedder.txt')
+
+def test_file_creation2():
+   cwd_path = os.path.abspath(".")
+   write_files(cwd_path, db=test_db1)
+   assert os.path.exists(f'{cwd_path}/Paul_Allen.txt')
+   assert os.path.exists(f'{cwd_path}/Eric_Johnson.txt')
+
+
+def test_file_content1():
+    with open('./Paul_Allen.txt', 'r', encoding='utf-8') as donor_email_file:
+        email_file = donor_email_file.read()
+    email_template = '\n'.join(('\n\nDear Paul Allen,\n',
+                                'Your past donation amount of $707.10\n',
+                                'has helped our organization tremendously.\n',
+                                'Thank you for your very kind donation of $1.32.\n',
+                                'It will be put to very good use.\n',
+                                '           Sincerely,',
+                                '             -The Team\n'))
+    assert email_file == email_template
+
+
+def test_file_content2():
+    with open('./Jeff_Bezos.txt', 'r', encoding='utf-8') as donor_email_file:
+        email_file = donor_email_file.read()
+    email_template = '\n'.join(('\n\nDear Jeff Bezos,\n',
+                                'Thank you for your very kind donation of $877.33.\n',
+                                'It will be put to very good use.\n',
+                                '           Sincerely,',
+                                '             -The Team\n'))
+    assert email_file == email_template
+
+
+def test_file_content1():
+    with open('./William_Gates_III.txt', 'r', encoding='utf-8') as donor_email_file:
+        email_file = donor_email_file.read()
+    email_template = '\n'.join(('\n\nDear William Gates, III,\n',
+                                'Your past donation amount of $653772.32\n',
+                                'has helped our organization tremendously.\n',
+                                'Thank you for your very kind donation of $12.17.\n',
+                                'It will be put to very good use.\n',
+                                '           Sincerely,',
+                                '             -The Team\n'))
+    assert email_file == email_template
+
+
+def test_file_content3():
+    with open('./Gerard_Way.txt', 'r', encoding='utf-8') as donor_email_file:
+        email_file = donor_email_file.read()
+    email_template = '\n'.join(('\n\nDear Gerard Way,\n',
+                                'Thank you for your very kind donation of $76.45.\n',
+                                'It will be put to very good use.\n',
+                                '           Sincerely,',
+                                '             -The Team\n'))
+    assert email_file == email_template
