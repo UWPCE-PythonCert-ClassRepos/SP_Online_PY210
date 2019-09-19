@@ -77,7 +77,21 @@ print(makes10(9,9))
 print(makes10(1,9))
 print('-'*25)
 
+#near_hundred
+def near_hundred(n):
+    if 90 <= n <= 110:
+        return True
+    elif 190 <= n <= 210:
+        return True
+    else:
+        return False
 
+print(near_hundred(93))
+print(near_hundred(90))
+print(near_hundred(89))
+print('-'*25)
+
+    
 
 
 
