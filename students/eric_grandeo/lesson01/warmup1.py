@@ -91,6 +91,31 @@ print(near_hundred(90))
 print(near_hundred(89))
 print('-'*25)
 
+#pos_neg
+def pos_neg(a, b, negative):
+    '''
+    if negative is True:
+        if a < 0 and b < 0:
+            return True
+        else:
+            return False    
+    if negative is False:
+        if a > 0 or b > 0:
+            return True
+        else:
+            return False    
+    '''
+    if negative:
+        return(a<0 and b<0)
+    else:
+        return((a < 0 and b>0) or (a >0 and b<0))
+
+print(pos_neg(1, -1, False))
+print(pos_neg(-1, 1, False))
+print(pos_neg(-4, -5, True))
+print('-'*25)
+
+
     
 
 
