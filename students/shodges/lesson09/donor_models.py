@@ -41,7 +41,6 @@ class Donor(object):
         raised are caught and are required to be caught by the implementing code.
         """
         self.ledger.append(float(donation))
-        return True
 
     def format_letter(self, extra_whitespace = False):
         """
