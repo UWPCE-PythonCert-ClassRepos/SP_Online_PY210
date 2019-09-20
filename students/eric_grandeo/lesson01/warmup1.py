@@ -115,6 +115,57 @@ print(pos_neg(-1, 1, False))
 print(pos_neg(-4, -5, True))
 print('-'*25)
 
+#not_string
+def not_string(str):
+    if str[:3] == "not":
+        return str
+    
+    return "not " + str
+
+print(not_string('candy'))
+print(not_string('x'))
+print(not_string('not bad'))
+print('-' * 25)
+
+#missing char
+def missing_char(str, n):
+    new_str = str.replace(str[n],"")
+    return new_str
+
+print(missing_char('kitten',1))
+print(missing_char('kitten',0))
+print(missing_char('kitten',4))
+print('-'*25)    
+
+#front_back
+def front_back(str):
+    if len(str) == 1:
+        return str
+    front = str[0]
+    back = str[-1]
+    new_string = back + str[1:-1] + front
+
+    return new_string
+
+print(front_back('code'))
+print(front_back('a'))
+print(front_back('ab'))
+print('-'*25)
+
+#front3
+def front3(str):
+    if len(str) < 3:
+        return str
+    new_str = str[:3] * 3
+    return new_str
+
+print(front3('Java'))
+print(front3('Chocolate'))
+print(front3('abc'))
+
+
+
+
 
     
 
