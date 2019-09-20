@@ -121,10 +121,7 @@ class DonorCollection(object):
         """
         Returns a list of all donors in the database.
         """
-        donorlist = []
-        for k in self.db.keys():
-            donorlist.append(k)
-        return donorlist
+        return [k for k in self.db.keys()]
 
     def generate_report(self):
         """
