@@ -21,14 +21,12 @@ class Donor(object):
         for i in args:
             self.ledger.append(float(i))
 
-
     @property
     def count(self):
         """
         Returns the number of donations in the donor's ledger.
         """
         return len(self.ledger)
-
 
     @property
     def donations(self):
@@ -37,7 +35,6 @@ class Donor(object):
         """
         return sum(self.ledger)
 
-
     def process(self, donation):
         """
         Appends donation to the donor's ledger.  Returns True if successful.  No exceptions
@@ -45,7 +42,6 @@ class Donor(object):
         """
         self.ledger.append(float(donation))
         return True
-
 
     def format_letter(self, extra_whitespace = False):
         """
@@ -77,7 +73,6 @@ Sean Hodges
             return (letter_whitespace.format(letter_template)).format(**letter_values)
         else:
             return letter_template.format(**letter_values)
-
 
     def save_letter(self, dirpath):
         """
@@ -115,14 +110,12 @@ class DonorCollection(object):
     def __init__(self, dbfile='donors'):
         self.db = shelve.open(dbfile, writeback=True)
 
-
     def donor(self, donor_name):
         """
         Returns the Donor object of donor_name (or passes through the raised KeyError if not
         found).
         """
         return self.db[donor_name]
-
 
     @property
     def donors(self):
@@ -133,7 +126,6 @@ class DonorCollection(object):
         for k in self.db.keys():
             donorlist.append(k)
         return donorlist
-
 
     def generate_report(self):
         """
@@ -155,7 +147,6 @@ class DonorCollection(object):
                 pass
             tmp_report[donor] = donor_info
         return OrderedDict(sorted(tmp_report.items(), key=lambda x: x[1]['total'], reverse=True))
-
 
     def save_letters(self, dirpath):
         """
@@ -193,7 +184,6 @@ class DonorCollection(object):
                     success.append(result)
         return [letter_dir, success, failure]
 
-
     def add_donor(self, donor_name):
         """
         Instantiates a new Donor class for donor_name.  Returns True if successfully added;
@@ -204,7 +194,6 @@ class DonorCollection(object):
             return True
         else:
             raise ValueError("Donor already exists")
-
 
     def del_donor(self, donor_name):
         """
@@ -217,7 +206,6 @@ class DonorCollection(object):
             raise
         else:
             return True
-
 
     def db_close(self):
         """
