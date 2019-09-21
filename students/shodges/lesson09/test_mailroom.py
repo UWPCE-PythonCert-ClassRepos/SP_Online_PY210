@@ -65,7 +65,7 @@ def test_donor_collection():
 
     # Validate that we can process a donation and that its values will persist a DB close/
     # reopen
-    assert simplecharity.donor('Test McTesterson').process(101.01) is True
+    simplecharity.donor('Test McTesterson').process(101.01)
     assert simplecharity.donor('Test McTesterson').count == 1
     assert simplecharity.donor('Test McTesterson').donations == 101.01
 
@@ -94,12 +94,12 @@ def test_report_generation():
     assert simplecharity.add_donor('John Adams') is True
     assert simplecharity.add_donor('Thomas Jefferson') is True
 
-    assert simplecharity.donor('George Washington').process(1.00) is True
-    assert simplecharity.donor('George Washington').process(102.37) is True
+    simplecharity.donor('George Washington').process(1.00)
+    simplecharity.donor('George Washington').process(102.37)
 
-    assert simplecharity.donor('John Adams').process(87.00) is True
+    simplecharity.donor('John Adams').process(87.00)
 
-    assert simplecharity.donor('Thomas Jefferson').process(32.50) is True
+    simplecharity.donor('Thomas Jefferson').process(32.50)
 
     report = simplecharity.generate_report()
 
@@ -138,8 +138,8 @@ def test_letter_generation():
     simplecharity = DonorCollection('unit_tests')
 
     assert simplecharity.add_donor('Benjamin Franklin') is True
-    assert simplecharity.donor('Benjamin Franklin').process(13.50) is True
-    assert simplecharity.donor('Benjamin Franklin').process(26.495) is True
+    simplecharity.donor('Benjamin Franklin').process(13.50)
+    simplecharity.donor('Benjamin Franklin').process(26.495)
 
     letter = simplecharity.donor('Benjamin Franklin').format_letter()
 
@@ -164,8 +164,8 @@ def test_letter_saving():
     assert simplecharity.add_donor('Winston Churchill') is True
     assert simplecharity.add_donor('Franklin D. Roosevelt') is True
 
-    assert simplecharity.donor('Winston Churchill').process(87.50) is True
-    assert simplecharity.donor('Franklin D. Roosevelt').process(20.00) is True
+    simplecharity.donor('Winston Churchill').process(87.50)
+    simplecharity.donor('Franklin D. Roosevelt').process(20.00)
 
     letters = simplecharity.save_letters('.')
 
