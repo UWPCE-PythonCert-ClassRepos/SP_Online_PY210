@@ -28,7 +28,7 @@ def read_in_data(filename):
     '''
 
     lines = list()
-    translate_chars = str.maketrans('-,.?!";', '       ')
+    translate_chars = str.maketrans(',.?!;()', '       ')
     header = ('*** START OF THIS PROJECT GUTENBERG EBOOK')
 
     try:
@@ -50,7 +50,9 @@ def read_in_data(filename):
             break
         else:
             line = line.translate(translate_chars)
-            lines.append(line)
+            line = line.replace('"', '')
+            line = line.replace('--', ' ')
+            lines.append(line.lower())
     return lines
 
 
@@ -69,8 +71,12 @@ def make_words(lines):
 
     '''
     words = list()
+    keep_capitalized = ['I', 'I\'m', 'I\'ll', 'I\'ve', 'I\'d']
     for line in lines:
         words.extend(line.split())
+    for indx, word in enumerate(words):
+        if word.capitalize() in keep_capitalized:
+            words[indx] = word.capitalize()
     return words
 
 
@@ -129,8 +135,10 @@ def build_text(trigrams, n=100, sent_length=10):
         print("Trigrams dictionary is empty.")
         print("Revise the header or use with a Project Gutenberg book file.")
         sys.exit()
+
     new_word_list = list(key)
     new_word_list[0] = new_word_list[0].capitalize()
+
     try:
         for i in range(n-2):
             next_follower = (trigrams[key][random.randint(0,
