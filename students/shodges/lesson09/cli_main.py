@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from donor_models import *
+from donor_models import DonorCollection
 import atexit
 
 marmots_ledger = DonorCollection('marmots')
