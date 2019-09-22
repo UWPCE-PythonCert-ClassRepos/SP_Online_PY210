@@ -5,9 +5,6 @@ import random
 import string
 
 
-#words = "I wish I may I wish I might".split()
-
-
 def build_trigrams(words):
     """
     build up the trigrams dict from the list of words
@@ -23,8 +20,8 @@ def build_trigrams(words):
         trigrams.setdefault(pair,[]).append(follower)
     return trigrams
 
-def in_data():
-    in_file = "/Users/calvinf/Documents/python_work/SP_Online_PY210/students/calvin_fannin/lesson04/sherlock.txt"
+def in_data(in_file):
+    #open file and return words
     mywords = " "
     with open(in_file, "r") as in_doc:
         for line in in_doc.readlines():
@@ -42,7 +39,7 @@ def generate_new_text(dict_of_trigrams):
     # append to the list
     new_text = (list(start_pair))
     # lookup random next word using the pair
-    new_value = dict_of_trigrams[start_pair][0] # conext_valueme back to this
+    new_value = random.choice(dict_of_trigrams[start_pair])
     new_text.append(new_value)
     for x in range(300):
         next_pair = tuple(new_text[-2:])
@@ -64,8 +61,9 @@ if __name__ == "__main__":
     except IndexError:
         print("You must pass in a filename")
         sys.exit(1)
+    # check to see if file exists
     if os.path.isfile(filename):
-        words = in_data()
+        words = in_data(filename)
         trigrams = build_trigrams(words)
         new_story = generate_new_text(trigrams)
         print(new_story)
