@@ -46,5 +46,6 @@ def print_grid2(a,b):
 
 print_grid2(3,4) 
 print_grid2(5,3)
+#print_grid2(5,1)
 
 
