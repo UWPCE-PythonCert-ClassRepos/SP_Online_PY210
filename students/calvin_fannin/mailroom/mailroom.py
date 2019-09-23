@@ -109,7 +109,7 @@ def send_thankyou():
             #add donation to select user
             add_donation(get_name_index(name),response_amount)
             #compose the email and print to terminal
-            create_email(name, response_amount)
+            print(create_email(name, response_amount))
         else:
             # add user to list
             #add_donor(name)
@@ -150,8 +150,12 @@ def main():
     #dictionary to be used for switching of main menu
     main_menu = {1:send_thankyou, 2:create_report, 3:write_letters_all_donors, 4:quit_program}
     while True:
-        response = int(input(prompt))
-        main_menu.get(response,invalid_option)()
+        try:
+            response = int(input(prompt))
+        except ValueError:
+            print('Please enter a  int number')
+        else:
+            main_menu.get(response,invalid_option)()
 
 if __name__ == "__main__":
     main()
