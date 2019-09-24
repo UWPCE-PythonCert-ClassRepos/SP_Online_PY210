@@ -99,4 +99,17 @@ assert array123([1, 1, 2, 4, 1]) == False
 assert array123([1, 1, 2, 1, 2, 3]) == True
 print("array123 tests passed")
 
-#
+#string match
+def string_match(a, b):
+    str_len = len(a)-1
+    count = 0
+    for i in range(str_len):
+        if a[i:i+2] == b[i:i+2]:
+            count += 1
+    return count
+
+
+assert string_match('xxcaazz', 'xxbaaz') == 3
+assert string_match('abc', 'abc') == 2
+assert string_match('abc', 'axc') == 0
+print("string_match tests passed")
