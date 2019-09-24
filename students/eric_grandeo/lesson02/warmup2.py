@@ -61,4 +61,21 @@ print(last2('axxxaaxx'))
 print('-' * 25)
 
 #array_count9
+def array_count9(nums):
+    return nums.count(9)
+
+assert array_count9([1, 2, 9]) == 1
+assert array_count9([1, 9, 9]) == 2
+assert array_count9([1, 9, 9, 3, 9]) == 3
+print("array_count9 tests passed")
+
+#array_front9
+def array_front9(nums):
+    return 9 in nums[:4]
+
+assert array_front9([1, 2, 9, 3, 4]) == True
+assert array_front9([1, 2, 3, 4, 9]) == False
+assert array_front9([1, 2, 3, 4, 5]) == False
+assert array_front9([1,2,3]) == False
+print("array_front9 tests passed")
 
