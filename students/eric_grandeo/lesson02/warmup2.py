@@ -79,3 +79,25 @@ assert array_front9([1, 2, 3, 4, 5]) == False
 assert array_front9([1,2,3]) == False
 print("array_front9 tests passed")
 
+#array123
+def array123(nums):
+    test = [1,2,3]
+    length = len(nums[:-2])
+    for i in range(length):
+         check = [nums[i], nums[i+1], nums[i+2]]
+         #print(check)
+         if check == test:
+            return True
+         else:
+             continue   
+    return False
+        
+
+#print(array123([1, 1, 2, 1, 2, 3]))
+
+
+assert array123([1, 1, 2, 3, 1]) == True
+assert array123([1, 1, 2, 4, 1]) == False
+assert array123([1, 1, 2, 1, 2, 3]) == True
+print("array123 tests passed")
+
