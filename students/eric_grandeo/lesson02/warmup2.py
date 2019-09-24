@@ -87,9 +87,7 @@ def array123(nums):
          check = [nums[i], nums[i+1], nums[i+2]]
          #print(check)
          if check == test:
-            return True
-         else:
-             continue   
+            return True  
     return False
         
 
@@ -101,3 +99,4 @@ assert array123([1, 1, 2, 4, 1]) == False
 assert array123([1, 1, 2, 1, 2, 3]) == True
 print("array123 tests passed")
 
+#
