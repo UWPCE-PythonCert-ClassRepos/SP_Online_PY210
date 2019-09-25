@@ -19,7 +19,7 @@ def thank_you():
     # input donor name
     name = 'list'
     while name == 'list':
-        name = safe_input("Type 'list' to see a list of names or enter a name: ")
+        name = safe_input("Type 'list' for a list of names or enter a name: ")
 
         # run if user inputs 'list'
         if name == 'list':
@@ -117,9 +117,10 @@ def quit_program():
     print(exit_message)
     sys.exit()
 
+
 def safe_input(prompt):
     '''Handle EOFError and KeyboardInterrupt exceptions.'''
-    
+
     try:
         response = input(prompt)
     except KeyboardInterrupt:
@@ -130,6 +131,7 @@ def safe_input(prompt):
         sys.exit()
     else:
         return response
+
 
 # main code
 if __name__ == '__main__':
