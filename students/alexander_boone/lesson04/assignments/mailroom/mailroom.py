@@ -46,9 +46,9 @@ def thank_you():
 
 
 def create_report():
-    '''Create a report of donor data, including total donated, number of
+    """Create a report of donor data, including total donated, number of
     donations, and average donation amount.
-    '''
+    """
 
     h = ['Donor Name', '|', 'Total Given', '|', 'Num Gifts',
          '|', 'Average Gift']
@@ -84,8 +84,9 @@ def create_report():
 
 
 def letters_to_all():
-    '''Write a letter to every donor and save each one to a
-    file on the disk.'''
+    """Write a letter to every donor and save each one to a
+    file on the disk.
+    """
 
     script_dir = os.path.dirname(__file__)
 
@@ -105,7 +106,7 @@ def letters_to_all():
 
 
 def quit_program():
-    '''Print exit message and quit the program'''
+    """Print exit message and quit the program"""
 
     exit_message = "Closing the mailroom for the day..."
     print(exit_message)
@@ -118,7 +119,7 @@ if __name__ == '__main__':
     response_dict = {1: thank_you, 2: create_report, 3: letters_to_all,
                      4: quit_program}
     response = 0
-    while response != 4:
+    while True:
         response = 0
 
         # display main menu with options
@@ -131,4 +132,6 @@ if __name__ == '__main__':
         # ask for and run user response
         while int(response) not in response_dict:
             response = int(input("Enter a number: "))
+            if response not in response_dict:
+                print('Invalid Response. Enter 1, 2, 3, or 4.')
         response_dict.get(response)()
