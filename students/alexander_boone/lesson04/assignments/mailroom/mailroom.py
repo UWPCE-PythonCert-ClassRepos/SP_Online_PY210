@@ -19,7 +19,7 @@ def thank_you():
     # input donor name
     name = 'list'
     while name == 'list':
-        name = safe_input("Type 'list' for a list of names or enter a name: ")
+        name = input("Type 'list' to see a list of names or enter a name: ")
 
         # run if user inputs 'list'
         if name == 'list':
@@ -33,13 +33,7 @@ def thank_you():
             donors[name] = [0, 0]
 
     # enter donation amount
-    try:
-        donation = float(safe_input("Enter a donation amount in USD: "))
-    except ValueError:
-        print("Input must be a number. Removing donor from list.")
-        del donors[name]
-        print("Returning to main menu...")
-        return None
+    donation = float(input("Enter a donation amount: "))
     donors[name][0] += donation
     donors[name][1] += 1
 
@@ -52,9 +46,9 @@ def thank_you():
 
 
 def create_report():
-    '''Create a report of donor data, including total donated, number of
+    """Create a report of donor data, including total donated, number of
     donations, and average donation amount.
-    '''
+    """
 
     h = ['Donor Name', '|', 'Total Given', '|', 'Num Gifts',
          '|', 'Average Gift']
@@ -86,12 +80,13 @@ def create_report():
     # remain on page until user decides to return to main menu
     q = ''
     while q != 'Q' and q != 'q':
-        q = safe_input("\nEnter Q to Quit and return to the main menu: ")
+        q = input("\nEnter Q to Quit and return to the main menu: ")
 
 
 def letters_to_all():
-    '''Write a letter to every donor and save each one to a
-    file on the disk.'''
+    """Write a letter to every donor and save each one to a
+    file on the disk.
+    """
 
     script_dir = os.path.dirname(__file__)
 
@@ -111,26 +106,11 @@ def letters_to_all():
 
 
 def quit_program():
-    '''Print exit message and quit the program'''
+    """Print exit message and quit the program"""
 
     exit_message = "Closing the mailroom for the day..."
     print(exit_message)
     sys.exit()
-
-
-def safe_input(prompt):
-    '''Handle EOFError and KeyboardInterrupt exceptions.'''
-
-    try:
-        response = input(prompt)
-    except KeyboardInterrupt:
-        print('CTRL-C pressed. Exiting the mailroom...')
-        sys.exit()
-    except EOFError:
-        print('CTRL-Z pressed. Exiting the mailroom...')
-        sys.exit()
-    else:
-        return response
 
 
 # main code
@@ -151,11 +131,7 @@ if __name__ == '__main__':
 
         # ask for and run user response
         while int(response) not in response_dict:
-            try:
-                response = int(safe_input("Enter a number: "))
-            except ValueError:
-                print('Input must be a number. Enter 1, 2, 3, or 4.')
-            else:
-                if response not in response_dict:
-                    print('Invalid Response. Enter 1, 2, 3, or 4.')
+            response = int(input("Enter a number: "))
+            if response not in response_dict:
+                print('Invalid Response. Enter 1, 2, 3, or 4.')
         response_dict.get(response)()
