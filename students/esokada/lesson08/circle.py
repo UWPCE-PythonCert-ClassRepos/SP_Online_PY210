@@ -11,7 +11,6 @@ class Circle(object):
 
     @classmethod
     def from_diameter(cls, diameter):
-        radius = diameter / 2
         return cls(diameter / 2)
 
     @property
