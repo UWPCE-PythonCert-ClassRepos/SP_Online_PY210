@@ -14,9 +14,23 @@ donors = {'Arnold Schwarzenegger': [100000, 1],
 def thank_you():
     """Send a thank you email to the specified donor."""
 
-    print("Who would you like to send a thank you to?")
+    name = get_donor_name()
 
-    # input donor name
+    # add new name
+    if name not in donors.keys():
+        add_donor(name)
+
+    # enter donation amount
+    if add_donation(name) is None:
+        return None
+    
+    print_thankyou(name)
+
+
+def get_donor_name():
+    """Return donor name to update based on user input."""
+    
+    print("Who would you like to send a thank you to?")
     name = 'list'
     while name == 'list':
         name = safe_input("Type 'list' for a list of names or enter a name: ")
@@ -27,12 +41,16 @@ def thank_you():
             for item in donors.keys():
                 list_names.append(item)
             print(list_names)
+    return name
 
-        # run if name that user inputs is not already in the donor list
-        elif name not in donors.keys():
-            donors[name] = [0, 0]
+def add_donor(name):
+    """Adds new donor to the data structure."""
+    donors[name] = [0, 0]
 
-    # enter donation amount
+
+def add_donation(name):
+    """Adds new donation to the donor's dict entry."""
+
     try:
         donation = float(safe_input("Enter a donation amount in USD: "))
     except ValueError:
@@ -42,8 +60,12 @@ def thank_you():
         return None
     donors[name][0] += donation
     donors[name][1] += 1
+    return True
 
-    # write email (using formatted dict values)
+
+def print_thankyou(name):
+    """Print thank you email to specified donor."""
+    
     email = ('\nDear {0},\n\nThank you for '
              + 'your generous donations, totaling ${1:,.2f}.'
              + ' We are very grateful.\n\nBest, \n\nLocal Charity\n'
