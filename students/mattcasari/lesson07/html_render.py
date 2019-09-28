@@ -3,12 +3,11 @@
 """
 A class-based system for rendering html.
 """
-
-
 # This is the framework for the base class
 class Element(object):
     tag = "html"
     indent = "  "
+
     def __init__(self, content=None, **kwargs):
         # self.contents = []
         if content:
@@ -17,7 +16,8 @@ class Element(object):
             self.contents = []
         self.attributes = {}
         self.attributes.update(kwargs)
-    def _open_tag(self, ind=''):
+
+    def _open_tag(self, ind=""):
         open_tag = [f"{ind}<{self.tag}"]
         print(self.attributes)
         for key, value in self.attributes.items():
@@ -27,7 +27,7 @@ class Element(object):
 
         return open_tag
 
-    def _close_tag(self, ind=''):
+    def _close_tag(self, ind=""):
         close_tag = [f"{ind}</{self.tag}>"]
         return "".join(close_tag)
 
@@ -35,42 +35,48 @@ class Element(object):
         self.contents.append(new_content)
 
     def render(self, out_file, ind=""):
-        out_file.write( self._open_tag(ind) + '\n')
+        out_file.write(self._open_tag(ind) + "\n")
         for content in self.contents:
             try:
-                content.render( out_file, ind + self.indent)
+                content.render(out_file, ind + self.indent)
             except AttributeError:
                 out_file.write(self.indent + ind + content)
-                out_file.write('\n')
-        out_file.write(self._close_tag(ind) + '\n')
+                out_file.write("\n")
+        out_file.write(self._close_tag(ind) + "\n")
+
 
 class Html(Element):
     tag = "html"
 
-    def render(self, out_file, ind=''):
-        out_file.write('<!DOCTYPE html>\n')
-        super().render(out_file, ind='')
+    def render(self, out_file, ind=""):
+        out_file.write("<!DOCTYPE html>\n")
+        super().render(out_file, ind="")
+
 
 class Body(Element):
     tag = "body"
 
+
 class P(Element):
     tag = "p"
+
 
 class Head(Element):
     tag = "head"
 
+
 class OneLineTag(Element):
     def append(self, content):
         raise NotImplementedError
-    
-    def render(self, out_file, ind=''):
+
+    def render(self, out_file, ind=""):
         out_file.write(self._open_tag(ind))
         out_file.write(self.contents[0])
         out_file.write(self._close_tag(ind))
- 
+
+
 class Title(OneLineTag):
-    tag = 'title'
+    tag = "title"
 
 
 class SelfClosingTag(Element):
@@ -81,34 +87,41 @@ class SelfClosingTag(Element):
 
     def append(self, *args):
         raise TypeError("You cannot add content to a SelfClosingTag")
-    def render(self, out_file, ind=''):
-        tag = self._open_tag()[:-1] + ' />\n'
+
+    def render(self, out_file, ind=""):
+        tag = self._open_tag()[:-1] + " />\n"
         out_file.write(ind + tag)
 
 
 class Hr(SelfClosingTag):
     tag = "hr"
 
+
 class Br(SelfClosingTag):
     tag = "br"
 
+
 class A(OneLineTag):
-    tag = 'a'
+    tag = "a"
 
     def __init__(self, link, content, **kwargs):
-        kwargs['href'] = link
+        kwargs["href"] = link
         super().__init__(content, **kwargs)
 
+
 class Ul(Element):
-    tag = 'ul'
+    tag = "ul"
+
 
 class Li(Element):
-    tag = 'li'
+    tag = "li"
+
 
 class H(OneLineTag):
     def __init__(self, level, content=None, **kwargs):
-        self.tag = f'h{level}'
+        self.tag = f"h{level}"
         super().__init__(content, **kwargs)
 
+
 class Meta(SelfClosingTag):
-    tag = 'meta'
+    tag = "meta"
