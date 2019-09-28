@@ -1,15 +1,22 @@
 #!/usr/bin/env python3
+""" Lesson 7, Excercise 1
+
+@author: Matt Casari
+
+Link: https://uwpce-pythoncert.github.io/PythonCertDevel/exercises/html_renderer.html
+
+Description:
+    A class-based system for rendering html.
+   
 
 """
-A class-based system for rendering html.
-"""
+
 # This is the framework for the base class
 class Element(object):
     tag = "html"
     indent = "  "
 
     def __init__(self, content=None, **kwargs):
-        # self.contents = []
         if content:
             self.contents = [content]
         else:
