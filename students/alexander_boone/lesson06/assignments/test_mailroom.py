@@ -22,7 +22,19 @@ def test_1():
 
 
 def test_2():
-    pass
+    """Test create_report function for accurate rerport data creation."""
+
+    report_data = mail.create_report()
+    assert any(item == ('Arnold Schwarzenegger', 100000, 1, 100000/1)
+               for item in report_data)
+    assert any(item == ('Lebron James', 1000000, 1, 1000000/1)
+               for item in report_data)
+    assert any(item == ('Elon Musk', 2000000, 1, 2000000/1)
+               for item in report_data)
+    assert any(item == ('Walter White', 500000, 1, 500000/1)
+               for item in report_data)
+    assert any(item == ('Gordon Ramsay', 1280000, 1, 1280000/1)
+               for item in report_data)
 
 
 def test_3():

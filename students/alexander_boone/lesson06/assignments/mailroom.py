@@ -56,6 +56,25 @@ def create_report():
     donations, and average donation amount.
     '''
 
+    # sort donor data by donation_total
+    def sort_key(donors_data):
+        return donors_data[1][0]
+
+    donors_sorted = sorted(donors.items(), key=sort_key, reverse=True)
+
+    # return sorted donor data to be used for table printing
+    print_data = list()
+    for donor in donors_sorted:
+        donation_avg = (donor[1][0] /
+                        donor[1][1])
+        print_data.append((donor[0], donor[1][0],
+                          donor[1][1], donation_avg))
+    return print_data
+
+
+def display_report():
+    """Display donor report created in create_report()."""
+
     h = ['Donor Name', '|', 'Total Given', '|', 'Num Gifts',
          '|', 'Average Gift']
 
@@ -65,24 +84,15 @@ def create_report():
     print('\n', report_headers)
     print(table_divider)
 
-    # sort donor data by donation_total
-    def sort_key(donors_data):
-        return donors_data[1][0]
-
-    donors_sorted = sorted(donors.items(), key=sort_key, reverse=True)
-
-    # print donor data row-by-row
-    for donor in donors_sorted:
-        donation_avg = (donor[1][0] /
-                        donor[1][1])
+    # print each row of donor data
+    for row in create_report():
         print(('{:<25}{:^5}${:>14,.2f}{:^5}{:>10}{:^5}${:>14,.2f}'
-               ).format(donor[0], ' ',
-                        donor[1][0], ' ',
-                        donor[1][1], ' ',
-                        donation_avg
+               ).format(row[0], ' ',
+                        row[1], ' ',
+                        row[2], ' ',
+                        row[3]
                         )
               )
-
     # remain on page until user decides to return to main menu
     q = ''
     while q != 'Q' and q != 'q':
@@ -136,7 +146,7 @@ def safe_input(prompt):
 # main code
 if __name__ == '__main__':
 
-    response_dict = {1: thank_you, 2: create_report, 3: letters_to_all,
+    response_dict = {1: thank_you, 2: display_report, 3: letters_to_all,
                      4: quit_program}
     response = 0
     while True:
