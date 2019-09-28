@@ -10,7 +10,7 @@ Solves CodingBat Logic-2, make_chocolate problem.
 
 def make_chocolate(small, big, goal):
     """Compute number of small bars required to meet the set goal, given the
-    number of small and large bars available.
+   number of small and large bars available.
 
     Parameters
     ----------
@@ -38,4 +38,3 @@ def make_chocolate(small, big, goal):
         return -1
     else:
         return remaining
-    
