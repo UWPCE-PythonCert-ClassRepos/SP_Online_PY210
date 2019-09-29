@@ -123,11 +123,14 @@ def send_thankyou():
 def write_letters_all_donors():
     #write emails to file in temp directory.
     temp_dir = tempfile.gettempdir()
+    file_locations = []
     for donor_id in donations:
         dest = os.path.join(temp_dir, donations[donor_id]['name'].replace(" ", "_") + time.strftime("%Y%m%d-%H%M%S") + ".txt")
+        file_locations.append(dest)
         with open(dest, 'w') as outfile:
             outfile.write(create_email(donations[donor_id]['name'], sum(donations[donor_id]['amount'])))
-    print("Files have been written to the following directory: " + temp_dir)
+            print("File has been written to : " + dest)
+    return file_locations
 
 
 def create_report():
