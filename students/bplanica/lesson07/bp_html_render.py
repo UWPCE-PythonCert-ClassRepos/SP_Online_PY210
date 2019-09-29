@@ -5,6 +5,7 @@
 
 class Element(object):
     tag = "html" # abstract tag
+    indent = "    "
 
     def __init__(self, content=None, **kwargs):
         if content is None:
@@ -13,8 +14,8 @@ class Element(object):
         #print("content is: ", self.content)
         self.kwargs = kwargs
 
-    def _open_tag(self):
-        open_tag = [f"<{self.tag}"]
+    def _open_tag(self, cur_ind=""):
+        open_tag = [f"{cur_ind}<{self.tag}"]
         if self.kwargs == {}:
             pass
         else:
@@ -27,22 +28,24 @@ class Element(object):
     def append(self, new_content):
         self.content.append(new_content)
 
-    def render(self, out_file):
+    def render(self, out_file, cur_ind=""):
+        out_file.write(cur_ind)
         out_file.write(self._open_tag())
         out_file.write("\n")
         for content in self.content:
             try:
-                content.render(out_file)
+                content.render(out_file, (cur_ind + self.indent))
             except AttributeError:
+                out_file.write(cur_ind + self.indent)
                 out_file.write(content)
             out_file.write("\n")
-        out_file.write((f"</{self.tag}>"))
+        out_file.write((f"{cur_ind}</{self.tag}>"))
 
 class Html(Element):
     tag = "html"
 
-    def render(self, out_file):
-        out_file.write("<!DOCTYPE html>\n")
+    def render(self, out_file, cur_ind=""):
+        out_file.write(f"<!DOCTYPE html>\n")
         Element.render(self, out_file)
 
 class Body(Element):
@@ -65,14 +68,15 @@ class Li(Element):
 
 class OneLineTag(Element):
 
-    def render(self, out_file):
-        out_file.write(self._open_tag())
+    def render(self, out_file, cur_ind=""):
+        out_file.write(self._open_tag(cur_ind))
         for content in self.content:
             try:
-                content.render(out_file)
+                content.render(out_file, cur_ind)
             except AttributeError:
+                out_file.write(cur_ind)
                 out_file.write(content)
-        out_file.write(f"</{self.tag}>")
+        out_file.write(f"{cur_ind}</{self.tag}>")
 
     def append(self, new_content):
         raise NotImplementedError
@@ -103,8 +107,8 @@ class SelfClosingTag(Element):
             raise TypeError("SelfClosingTag can not contain any content")
         super().__init__(content=content, **kwargs)
     
-    def render(self, outfile):
-        tag = self._open_tag()[:-1] + " />"
+    def render(self, outfile, cur_ind=""):
+        tag = cur_ind + self._open_tag()[:-1] + " />"
         outfile.write(tag)
 
     def append(self, *args):
