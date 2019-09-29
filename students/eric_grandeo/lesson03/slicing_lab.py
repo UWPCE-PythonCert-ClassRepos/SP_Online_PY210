@@ -45,4 +45,17 @@ assert reverse_elements(a_tuple) == (32, 5, 12, 13, 54, 2)
 assert reverse_elements(a_string) == 'gnirts a si siht'
 print("reverse_elements tests passed")
 
+#with the last third, then first third, then the middle third in the new order
+
+def new_order(seq):
+    third = int(len(seq)/3)
+    #return seq[-third:] + seq[:third] + seq[third:third*2]
+    return seq[-third:] + seq[:-third]
+
+assert new_order(a_tuple_2) == (11,12,13,14,15,1,2,3,4,5,6,7,8,9,10)
+assert new_order(a_string_2) == 'ng for a testThis is a really long stri'
+
+print("new_order tests passed")
+
+
 
