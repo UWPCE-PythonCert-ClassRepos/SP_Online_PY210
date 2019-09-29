@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-#lesson5
-#https://uwpce-pythoncert.github.io/PythonCertDevel/exercises/mailroom-part3.html
+#lesson6
+#https://uwpce-pythoncert.github.io/PythonCertDevel/exercises/mailroom-part4.html
 
 import sys
 import os.path
-from statistics import mean\
+from statistics import mean
+
 
 ##### Global Variables
 
@@ -16,10 +17,18 @@ donor_db = {
             "Mark Zuckerberg": [1663.23, 4300.87, 10432.0],
             }
 
-report_dict = {"Header": "{0: <28}|{1: ^13}|{2: ^11}|{3: ^15}",
-               "Filler": "-" * 68,
-               "Rows":"{0: <28} ${1: >11.2f}   {2: >9}  ${3: >12.2f}",
-               }
+report_format = {
+            "Header": "{Col 1: <28}|{Col 2: ^13}|{Col 3: ^11}|{Col 4: ^13}",
+            "Filler": "-" * 68,
+            "Rows":"{0: <28} ${1: >11.2f}   {2: >9}  ${3: >12.2f}"
+            }
+
+report_headers = {
+            "Col 1": "Donor Name",
+            "Col 2": "Total Given",
+            "Col 3": "Num Gifts",
+            "Col 4": "Average Gift"
+            }
 
 #prompts (alphabetical)
 donation_prompt = "Please enter the amount of the donation. \n"
@@ -38,20 +47,29 @@ main_prompt = "\n".join(("Please choose from the following options:",
 #Email
 thank_you_email = "\n".join(("Dear {donor},",
             "",
-            "Thanks you for your generous donation of {donation:.2f}.  Your total donations of {total:.2f} are greatly appriciated.",
+            "Thank you for your generous donation of {donation:.2f}.  Your total donations of {total:.2f} are greatly appriciated.",
             "",
             "Sincerly,",
             "The Weyland-Yutani Corporation"
           ))
 
 #####Functions(alphabetical)
-def create_a_report():
-    #Print the report
-    print("\n")
-    print(report_dict["Header"].format('Donor Name', 'Total Given', 'Num Gifts', 'Average Gift'))
-    print(report_dict["Filler"])
+def create_a_report(report_format, report_headers, donor_db):
+    report = []
+    report.append(report_format["Header"].format(**report_headers))
+    report.append(report_format["Filler"])
     for key, value in sorted (donor_db.items(), key = sort_key, reverse=True):
-        print(report_dict["Rows"].format(key, round(sum(value),2), round(len(value),2), round(mean(value),2)))
+        report.append(report_format["Rows"].format(key, round(sum(value),2), round(len(value),2), round(mean(value),2)))
+    #build a list that has the report in it
+    return(report)
+    
+def display_report():
+    print("\n")
+    for row in create_a_report(report_format, report_headers, donor_db):
+        print(row)  
+        
+def display_thank_you():
+    print(send_thank_you_one())
 
 def exit_program():
     #It's all there, black and white, clear as crystal! 
@@ -87,10 +105,10 @@ def send_thank_you_one():
                 
         #print out the thank you email
         thanks_dict = {"donor": donor_name, "donation": donor_amount, "total": sum(donor_db[donor_name])}
-        print(thank_you_email.format(**thanks_dict))
+        return(thank_you_email.format(**thanks_dict))
         break
 
-def send_thank_you_all():
+def send_thank_you_all(db = donor_db):
     #Send out last donation and total donations
     while True:
         try:
@@ -102,7 +120,7 @@ def send_thank_you_all():
             if response == 'no' or os.path.isfile(response):
                 break
         
-    for key, value in donor_db.items():
+    for key, value in db.items():
         if response == 'no':
             file_name = key + '.txt'
         else:
@@ -118,8 +136,8 @@ def sort_key(db):
 
 ##Switchs
 main_menu = {
-        1 : create_a_report,
-        2 : send_thank_you_one,
+        1 : display_report,
+        2 : display_thank_you,
         3 : send_thank_you_all,
         4 : exit_program
         }
@@ -132,9 +150,41 @@ def main():
         try:
             response = int(input(main_prompt))
         except ValueError:
-            print("please input valid number")
+            print("Please input valid number.")
             pass
-        main_menu.get(response)()
+
+        try:    
+            #main_menu.get(response)() prob more clear than the comprehension.  save for future
+            {v() for (k,v) in main_menu.items() if k == response}
+        except TypeError:
+            print("Please select a number from the list.")
+            pass   
 
 if __name__ == '__main__':
     main()
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
