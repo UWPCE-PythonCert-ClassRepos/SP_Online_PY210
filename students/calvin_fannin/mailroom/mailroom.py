@@ -129,7 +129,7 @@ def write_letters_all_donors():
         file_locations.append(dest)
         with open(dest, 'w') as outfile:
             outfile.write(create_email(donations[donor_id]['name'], sum(donations[donor_id]['amount'])))
-            print("File has been written to : " + dest)
+            #print("File has been written to : " + dest)
     return file_locations
 
 
@@ -145,8 +145,9 @@ def create_report():
 def quit_program():
     sys.exit()
 
+
 def invalid_option():
-    print("Invalid Option Please Try again!")
+    print ("Invalid Option Please Try again!")
 
 
 def main():
@@ -159,6 +160,7 @@ def main():
             print('Please enter a  int number')
         else:
             main_menu.get(response,invalid_option)()
+
 
 if __name__ == "__main__":
     main()

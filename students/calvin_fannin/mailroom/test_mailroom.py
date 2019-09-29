@@ -1,7 +1,6 @@
 import pytest
 import mailroom as mr
 import os
-import re
 
 
 def test_search_fullname():
@@ -9,10 +8,17 @@ def test_search_fullname():
     donorname = "Jeff Kingbird"
     assert mr.search_fullname(donorname) == True
 
+
+def test_get_next_key():
+    expected = 7
+    assert mr.get_next_key() == expected
+
+
 def test_search_fullname_not_found():
     """ Search for fullname NOT in dataset """
     donorname = "JeffY Kingbird"
     assert mr.search_fullname(donorname) == False
+
 
 def test_get_name_index():
     """ Test getting the index of given name """
@@ -41,6 +47,7 @@ def test_add_donation_new_donor():
     mr.add_donation_new_donor(newdonor,amount)
     assert mr.donations[newIndexdonor] == expected
 
+
 def test_add_donation_existing():
     """ Test adding a donation to existing donor """
     amount = 745.0
@@ -49,16 +56,36 @@ def test_add_donation_existing():
     mr.add_donation(indexdonor,amount)
     assert mr.donations[indexdonor] == expected
 
-def test_letters_text():
-    pass
 
 def test_files_exist():
+    """ Test that file was created """
     for afile in mr.write_letters_all_donors():
         assert os.path.isfile(afile)
 
+
 def test_if_file_isempty():
+    """ Test file has some contents """
     for afile in mr.write_letters_all_donors():
         assert os.stat(afile).st_size > 0
+
+
+def test_create_email():
+    """ Test output of Create email"""
+    expected = "\n".join (("Hi Calvin Fannin",
+         "",
+         "Thank you for your generous donations of 145.55.",
+         "",
+         "Respectfully,",
+         "Hydro Flask"))
+    assert mr.create_email('Calvin Fannin', 145.55) == expected
+
+def test_exit():
+    """ Test that it exits the system """
+    with pytest.raises(SystemExit):
+        mr.quit_program()
+
+
+
 
 
 
