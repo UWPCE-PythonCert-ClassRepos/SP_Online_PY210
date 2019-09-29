@@ -6,13 +6,12 @@ Make lots of try/except blocks for fun and profit.
 
 Make sure to catch specifically the error you find, rather than all errors.
 """
-import os
-os.chdir(r'C:\Users\Gemini\UW_PYTHON\SP_Online_PY210\students\philip_behrend\lesson05')
 from except_test import fun, more_fun, last_fun
 
 
 # Figure out what the exception is, catch it and while still
 # in that catch block, try again with the second item in the list
+# This has the desired outcome using a for loop and continue
 first_try = ['spam', 'cheese', 'mr death']
 
 for i in first_try:
@@ -49,11 +48,12 @@ except SyntaxError:
 langs = ['java', 'c', 'python']
 try: 
     more_joke = more_fun(langs[1])
-    more_fun(langs[2])
 except SyntaxError:
     pass
 except IndexError:
     pass
+else:
+    more_fun(langs[2])
 finally:
     last_fun()
             
