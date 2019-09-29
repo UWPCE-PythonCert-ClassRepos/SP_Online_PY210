@@ -36,3 +36,13 @@ assert first4_last4_every_other(a_tuple_2) == (5, 7, 9, 11)
 assert first4_last4_every_other(a_string_2) == ' saral ogsrn o  '
 print("first4_last4 tests passed")
 
+#with the elements reversed (just with slicing).
+
+def reverse_elements(seq):
+    return seq[::-1]
+
+assert reverse_elements(a_tuple) == (32, 5, 12, 13, 54, 2)
+assert reverse_elements(a_string) == 'gnirts a si siht'
+print("reverse_elements tests passed")
+
+
