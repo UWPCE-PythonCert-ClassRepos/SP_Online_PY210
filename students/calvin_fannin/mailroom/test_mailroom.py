@@ -84,18 +84,3 @@ def test_exit():
     with pytest.raises(SystemExit):
         mr.quit_program()
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
