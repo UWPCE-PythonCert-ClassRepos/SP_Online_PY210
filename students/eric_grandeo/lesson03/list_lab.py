@@ -35,7 +35,10 @@ for i in fruits:
 
 print("Fruits that begin with 'P': {}".format(letter_p))
 
+fruits_series_one = fruits[:]
+
 #Series 2
+print("Series 2{}".format('-' * 25))
 print("Here is the fruits list: {}".format(fruits))
 
 #Remove the last fruit from the list.
@@ -47,7 +50,31 @@ del_fruit = input("Please enter a fruit you would like to delete > ")
 fruits.remove(del_fruit)
 print("Removed the fruit per your request: {}".format(fruits))
 
-#
+#Series 3
+print("Series 3{}".format('-' * 25))
+print("Here is the fruits list from Series 1: {}".format(fruits_series_one))
+
+#Ask the user for input displaying a line like “Do you like apples?”
+#for each fruit in the list (making the fruit all lowercase).
+new_fruits = []
+
+for x in fruits_series_one:
+    keep_going = True
+    while keep_going:
+        user_like = input("Do you like {} ? ".format(x.lower()))
+        if user_like.lower() == "yes":
+            new_fruits.append(x)
+            keep_going = False
+        elif user_like.lower() == "no":
+            keep_going = False
+        else:
+            print("Please answer yes or no")
+
+
+print("Here is the udpated list based on your answers: {}".format(new_fruits))
+
+#Series 4
+
 
 
 
