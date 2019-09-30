@@ -33,9 +33,17 @@ for i in fruits:
     if i[0] == "P":
         letter_p.append(i)
 
-print("Fruits that begin with 'P':.{}".format(letter_p))
+print("Fruits that begin with 'P': {}".format(letter_p))
 
 #Series 2
+print("Here is the fruits list: {}".format(fruits))
+
+#Remove the last fruit from the list.
+fruits.pop(-1)
+print("Removed the last fruit: {}".format(fruits))
+
+
+
 
 
 
