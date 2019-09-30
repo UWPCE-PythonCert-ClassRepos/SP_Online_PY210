@@ -3,8 +3,12 @@
 import mailroom as mail
 import os
 
-donors_list = mail.donors.keys()
-donors_tuple = tuple(donors_list)
+# ----- TEST FUNCTIONS -----
+
+
+def get_updated_donors_list():
+    '''Generate updated donors variables for testing purposes.'''
+    return mail.donors.keys()
 
 
 def get_text(filepath):
@@ -17,12 +21,32 @@ def get_text(filepath):
 # ----- TEST CODE -----
 
 
-def test_1():
-    pass
+def test_add_donor():
+    """Test the add_donor function."""
+
+    mail.add_donor('Alexander Boone')
+    donors_list = get_updated_donors_list()
+    assert any(donor == 'Alexander Boone' for donor in donors_list)
 
 
-def test_2():
-    """Test create_report function for accurate rerport data creation."""
+def test_update_donor():
+    """Test the update_donor function."""
+
+    name = 'Alexander Boone'
+    donation = 1000
+    assert mail.update_donor(name, donation) == {'Alexander Boone': [1000, 1]}
+
+
+def test_print_list():
+    """Test the print_list function."""
+
+    assert (mail.print_list() == ['Arnold Schwarzenegger', 'Lebron James',
+                                  'Elon Musk', 'Walter White',
+                                  'Gordon Ramsay', 'Alexander Boone'])
+
+
+def test_create_report():
+    """Test the create_report function for accurate rerport data creation."""
 
     report_data = mail.create_report()
     assert any(item == ('Arnold Schwarzenegger', 100000, 1, 100000/1)
@@ -35,23 +59,27 @@ def test_2():
                for item in report_data)
     assert any(item == ('Gordon Ramsay', 1280000, 1, 1280000/1)
                for item in report_data)
+    assert any(item == ('Alexander Boone', 1000, 1, 1000/1)
+               for item in report_data)
 
 
-def test_3():
-    """Test letters_to_all function to ensure all letters are in the dir."""
+def test_letters_to_all_1():
+    """Test the letters_to_all function to ensure all files are in the dir."""
 
     mail.letters_to_all()
     for root, dirs, files_list in os.walk('./letters'):
-        assert any(file == 'Lebron_James.txt' for file in files_list)
         assert any(file == 'Arnold_Schwarzenegger.txt' for file in files_list)
+        assert any(file == 'Lebron_James.txt' for file in files_list)
         assert any(file == 'Elon_Musk.txt' for file in files_list)
         assert any(file == 'Walter_White.txt' for file in files_list)
         assert any(file == 'Gordon_Ramsay.txt' for file in files_list)
+        assert any(file == 'Alexander_Boone.txt' for file in files_list)
 
 
-def test_4():
-    '''Test letters_to_all function for correct letter body.'''
+def test_letters_to_all_2():
+    """Test the letters_to_all function for correct letter body."""
 
+    donors_list = get_updated_donors_list()
     mail.letters_to_all()
     script_dir = os.path.dirname(__file__)
 
