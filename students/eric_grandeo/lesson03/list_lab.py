@@ -64,6 +64,7 @@ for x in fruits_series_one:
         user_like = input("Do you like {} ? ".format(x.lower()))
         if user_like.lower() == "yes":
             new_fruits.append(x)
+            #I didnt delete from original list; deleting in place caused errors
             keep_going = False
         elif user_like.lower() == "no":
             keep_going = False
@@ -74,6 +75,24 @@ for x in fruits_series_one:
 print("Here is the udpated list based on your answers: {}".format(new_fruits))
 
 #Series 4
+print("Series 4{}".format('-' * 25))
+print("Here is the fruits list from Series 1: {}".format(fruits_series_one))
+
+#Make a new list with the contents of the original,
+#but with all the letters in each item reversed.
+
+
+#Delete the last item of the original list.
+# Display the original list and the copy.
+
+fruits = ["Apples", "Pears", "Oranges", "Peaches"]
+fruits1 = []
+for y in fruits:
+    fruits1.append(y[::-1])
+
+del fruits[-1:]
+print(fruits)
+print(fruits1)
 
 
 
