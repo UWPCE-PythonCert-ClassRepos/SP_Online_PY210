@@ -51,15 +51,16 @@ def send_thanks():
             main()
         else:
             for person in donor_db:
-                if user_input == person["name"]:
+                if user_input.lower() == person["name"].lower():
                     this_donor = person
-                    person["donations"].append(int(this_donation))
+                    person["donations"].append(float(this_donation))
                     break
 
             if this_donor == "":
-                donor_db.append({"name": user_input, "donations": [int(this_donation)]})
+                donor_db.append({"name": user_input, "donations": [float(this_donation)]})
+                this_donor = donor_db[-1]
 
-            this_letter = {'donor_name': user_input,
+            this_letter = {'donor_name': this_donor["name"],
                            'last_donation': this_donation,
                            'total_donations': len(this_donor["donations"])}
 
