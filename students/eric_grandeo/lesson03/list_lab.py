@@ -42,7 +42,12 @@ print("Here is the fruits list: {}".format(fruits))
 fruits.pop(-1)
 print("Removed the last fruit: {}".format(fruits))
 
+#Ask the user for a fruit to delete, find it and delete it.
+del_fruit = input("Please enter a fruit you would like to delete > ")
+fruits.remove(del_fruit)
+print("Removed the fruit per your request: {}".format(fruits))
 
+#
 
 
 
