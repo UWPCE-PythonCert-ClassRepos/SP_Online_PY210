@@ -17,18 +17,21 @@ def build_trigrams(words):
     for i in range(len(words)-2):
         pair = tuple(words[i:i + 2])
         follower = words[i+2]
-        trigrams.setdefault(pair,[]).append(follower)
+        trigrams.setdefault(pair, []).append(follower)
     return trigrams
 
+
 def in_data(in_file):
-    #open file and return words
+    # open file and return words
     mywords = " "
     with open(in_file, "r") as in_doc:
         for line in in_doc.readlines():
             for word in line.split():
                 mywords += " " + word
                 # remove special chars
-                mywords = mywords.translate({ord(i):None for i in '-.:!@#$%^&*()_+-=,./<>?"'})
+                mywords = mywords.translate({ord(i): None
+                                            for i in
+                                            '-.:!@#$%^&*()_+-=,./<>?"'})
     return mywords.lower().split()
 
 
@@ -53,7 +56,6 @@ def generate_new_text(dict_of_trigrams):
     return " ".join(new_text)
 
 
-
 if __name__ == "__main__":
     # get the filename from the command line
     try:
@@ -70,13 +72,3 @@ if __name__ == "__main__":
     else:
         print("You must pass in a valid filename")
         sys.exit(1)
-
-
-
-
-
-
-
-
-
-
