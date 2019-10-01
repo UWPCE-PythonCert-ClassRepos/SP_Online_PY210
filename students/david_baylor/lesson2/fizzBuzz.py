@@ -3,7 +3,7 @@ fizzBuzz.py
 by David Baylor
 uses python 3
 
-loops through numbers 1 to 100 and for multipuls of 3 it prints fizz, for multipuls of 5 it prints buzz nad for multipuls of 3 and
+loops through numbers 1 to 100 and for multipuls of 3 it prints fizz, for multipuls of 5 it prints buzz and for multipuls of 3 and
 5 it prints FizzBuzz.
 """
 
