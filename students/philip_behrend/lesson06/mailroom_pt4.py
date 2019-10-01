@@ -7,58 +7,57 @@ Created on Mon Sep  9 22:18:06 2019
 import numpy as np
 from operator import itemgetter
 
-class Donors:
-    def __init__(self,donor,amt_list):
-        self.donor = donor
-        self.amt_list = amt_list
-        
-    def __lt__(self,other):
-        return self.amt_list < other.amt_list
-
-# Used class to get practice with concept
 donor_dict = {'Marge':[50,40],'Harold':[100,1000,10000],'Henry':[2],'Myrtle':[5,0.5,.05],'Mitchell':[3,6,9]}    
     
-donor_list = Donors(['Marge','Harold','Henry','Myrtle','Mitchell'],
-                    [[50,40],[100,1000,10000],
-                     [2],[5,0.5,.05],[3,6,9]])
+def get_name(donor_dict):
+    donors = donor_dict.keys()
+    name = input("Type full name: ")
+    if name == "list":
+        print(list(donors))
+        return(name)
+    else:
+        return(name)
 
-# Avoided separate functions within else statements since there are nuanced differences
+def donor_logic(donor_dict,name): 
+    donors = donor_dict.keys()
+    if name in donors:
+        donation_response = donation()
+    else:
+        donor_dict[name] = []
+        donation_response = donation()
+        donor_dict[name].append(donation_response)
+    return donor_dict
+
+def thank_you(name):
+    return("Esteemed {}, thank you for your generous donation".format(name))
+
+def donation(): 
+    valid = False
+    while not valid:
+        try:
+            donation_response = round(float(input("Type donation amount: ")),2)
+            valid = True
+        except ValueError:
+            print("Not a valid response. Please input a number.")
+    return donation_response
+
 def send_thanks(donor_dict):
-    name_response = input("Type full name: ")
-
-    while True:
-        donors = donor_dict.keys()
-        if name_response == "list":
-            print(list(donors))
-        elif name_response in donors:
-            valid = False
-            while not valid:
-                try:
-                    donation_response = round(float(input("Type donation amount: ")),2)
-                    valid = True
-                except ValueError:
-                    print("Not a valid response. Please input a number.")
-            donor_dict[name_response].append(donation_response)      
-            break
-        else:
-            donor_dict[name_response] = []
-            valid = False
-            while not valid:
-                try:
-                    donation_response = round(float(input("Type donation amount: ")),2)
-                    valid = True
-                except ValueError:
-                    print("Not a valid response. Please input a number.")
-            donor_dict[name_response].append(donation_response)
-            break
-    print("Esteemed {}, thank you for your generous donation".format(name_response))
+    name_response = 'list'
+    while name_response == 'list':
+        name_response = get_name(donor_dict)
+    donor_logic(donor_dict,name_response)
+    print(thank_you(name_response))
 
 
-def create_report(donor_dict):
+def create_metrics(donor_dict):
     metrics = dict.fromkeys(donor_dict.keys(),[])
     for i in metrics:
         temp = [sum(donor_dict[i]),np.mean(donor_dict[i]),len(donor_dict[i])]
         metrics[i] = temp
+    return metrics         
+    
+def create_report(donor_dict):
+    metrics = create_metrics(donor_dict)
     sorted_donor = sorted(metrics.items(), key=lambda x: x[1],reverse=True)
     headers = ('Donor Name', 'Total Given', 'Num Gifts', 'Average Gift')
     
