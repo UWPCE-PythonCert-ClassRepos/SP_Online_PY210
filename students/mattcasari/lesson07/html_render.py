@@ -79,7 +79,7 @@ class OneLineTag(Element):
     def render(self, out_file, ind=""):
         out_file.write(self._open_tag(ind))
         out_file.write(self.contents[0])
-        out_file.write(self._close_tag(ind))
+        out_file.write(self._close_tag(ind) + '\n')
 
 
 class Title(OneLineTag):
