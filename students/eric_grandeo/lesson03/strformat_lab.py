@@ -35,6 +35,16 @@ def task_four(tup):
 print(task_four((4, 30, 2017, 2, 27)))
 #'02 27 2017 04 30'
 
+#Task Five
+
+test_list = ['oranges', 1.3, 'lemons', 1.1]
+
+#The weight of an orange is 1.3 and the weight of a lemon is 1.1
+print(f'''The weight of an {(test_list[0][:-1]).upper()} is {(test_list[1]) *1.2} and the weight of a {(test_list[2][:-1]).upper()} is {(test_list[3])*1.2}''')
+
+
+#Task 6
+
 
 
 
