@@ -27,4 +27,14 @@ print(formatter((2,3,5)))
 print(formatter((2,3,5,7,9)))
 
 
+#Task Four
+def task_four(tup):
+    new_string = "{:0>2d}, {}, {}, {:0>2d}, {}"
+    return new_string.format(tup[3], tup[4], tup[2], tup[0], tup[1])
+
+print(task_four((4, 30, 2017, 2, 27)))
+#'02 27 2017 04 30'
+
+
+
 
