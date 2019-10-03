@@ -51,5 +51,10 @@ def align_test(item):
 
 align_test((('Eric', 45, '$100'), ('Vivie', 4, "$1,000"), ('Jack', 1,'$10,000'),('Christina', 42, '$10')))
 
+#bonus: given a tuple with 10 consecutive numbers, can you work how to quickly print the tuple in columns 
+#that are 5 charaters wide? It can be done on one short line!
+
+tup_ex = (1,2,3,4,5,6,7,8,9,10)
+print(''.join([f"{i:^5}" for i in tup_ex]))
 
 
