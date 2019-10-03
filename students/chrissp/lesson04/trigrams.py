@@ -1,6 +1,14 @@
 #!/usr/bin/env python3
+import sys
+import os
 import random
 import string
+
+prompt = "\n".join(("Welcome to the story maker!",
+                    "Please input a source file name.",
+                    ">>> "))
+prompt_words = "\n".join(("How many words would you like your story to be?",
+                          ">>> "))
 
 
 def load_text(filename):
@@ -67,6 +75,7 @@ def build_text(trigram_dict, word_limit):
 
     # Loop until word limit is reached
     while len(word_list) < word_limit:
+        quote_open = False
         this_key = (word_list[-2], word_list[-1])
         if this_key in trigram_dict:
             third_word = trigram_dict.get(this_key)[random.randint(0, len(trigram_dict.get(this_key)) - 1)]
@@ -74,10 +83,19 @@ def build_text(trigram_dict, word_limit):
             if "." or "?" or "!" in word_list[-1]:
                 third_word.capitalize()
 
+            if third_word[0] == "\"":
+                quote_open = True
+
+            if third_word[-1] == "\"" and not quote_open:
+                third_word = third_word[:-1]
+            else:
+                quote_open = False
+
             word_list.append(third_word)
         else:
-            word_list.append("END")
-            break
+            third_word = trigram_dict.get(this_key)[random.randint(0, len(trigram_dict.get(this_key)) - 1)]
+            word_list.append(third_word)
+
     if "." not in word_list[-1]:
         word_list[-1] = word_list[-1] + "."
 
@@ -92,10 +110,31 @@ def final_text(word_list):
     print(" ".join(word_list))
 
 
-if __name__ == "__main__":
-    file_data = load_text("sherlock.txt")
-    words = make_words(file_data)
-    trigrams = build_trigrams(words)
-    new_text = build_text(trigrams, 25)
-    final_text(new_text)
+def quit_program():
+    print("See you next time!")
+    sys.exit()
 
+
+def main():
+    # get the filename from the command line
+    while True:
+        filename = input(prompt)
+        if filename.lower() == "exit" or filename.lower() == "quit":
+            print("Aaaannnddd, scene!")
+            quit_program()
+
+        if filename.lower() == "list":
+            print(os.listdir())
+            main()
+
+        word_count = float(input(prompt_words))
+
+        file_data = load_text(filename)
+        words = make_words(file_data)
+        trigrams = build_trigrams(words)
+        new_text = build_text(trigrams, word_count)
+        final_text(new_text)
+
+
+if __name__ == "__main__":
+    main()
