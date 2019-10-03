@@ -44,7 +44,12 @@ print(f'''The weight of an {(test_list[0][:-1]).upper()} is {(test_list[1]) *1.2
 
 
 #Task 6
+def align_test(item):
+    print("{:^15} {:^10} {:^15}".format("Name", "Age", "Cost"))
+    for x in item:
+        print("{:^15} {:^10} {:^15}".format(*x))
 
+align_test((('Eric', 45, '$100'), ('Vivie', 4, "$1,000"), ('Jack', 1,'$10,000'),('Christina', 42, '$10')))
 
 
 
