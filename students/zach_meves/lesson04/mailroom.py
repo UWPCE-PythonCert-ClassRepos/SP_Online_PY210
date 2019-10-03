@@ -176,6 +176,15 @@ def create_report():
     return report
 
 
+def all_thanks():
+    """Write letters to all donors as individual files."""
+
+    for name in _donors:
+        fname = f"{name.replace(' ', '_')}_thanks.txt"
+        with open(fname, 'w') as f:
+            f.write(_compose_thank_you(name))
+
+
 def _report_action():
     """For internal use only. Prints report surrounded by new lines.
 
@@ -195,6 +204,7 @@ if __name__ == '__main__':
 
     _thankyou_responses = ('1', 'thank you', 'thankyou', 'send a thank you')
     _report_responses = ('2', 'report', 'create a report')
+    _all_thank_responses = ('3', 'letters', 'send letters to all donors')
 
     # Build up dispatch dictionary
     actions = {}
@@ -202,6 +212,8 @@ if __name__ == '__main__':
         actions[r] = send_thank_you
     for r in _report_responses:
         actions[r] = _report_action
+    for r in _all_thank_responses:
+        actions[r] = all_thanks
     for r in _quit_responses:
         actions[r] = exit
 
@@ -212,10 +224,12 @@ if __name__ == '__main__':
         response = _get_input("Select from the following options:\n"
                               " 1 - Send a Thank You\n"
                               " 2 - Create a Report\n"
+                              " 3 - Send Letters to All Donors\n"
                               " q - Quit\n"
                               "> ",
-                              _thankyou_responses + _report_responses + _quit_responses, allow_new=False,
-                              reprompt_options=('1', '2', 'q'))
+                              _thankyou_responses + _report_responses + _all_thank_responses +
+                              _quit_responses, allow_new=False,
+                              reprompt_options=('1', '2', '3', 'q'))
 
         # Perform action based on response
         try:
