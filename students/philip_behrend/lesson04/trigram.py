@@ -24,6 +24,7 @@ def read_data(filename):
     contents = [i.lower() for i in contents]
     return contents
 
+
 def make_trigram(words):
     """
     Build up trigram dict from the list of words

@@ -25,19 +25,30 @@ donor_list = Donors(['Marge','Harold','Henry','Myrtle','Mitchell'],
 # Avoided separate functions within else statements since there are nuanced differences
 def send_thanks(donor_dict):
     name_response = input("Type full name: ")
+
     while True:
         donors = donor_dict.keys()
         if name_response == "list":
             print(list(donors))
         elif name_response in donors:
-            donation_response = round(float(input("Type donation amount: ")),2)
-            assert donation_response >= 0
+            valid = False
+            while not valid:
+                try:
+                    donation_response = round(float(input("Type donation amount: ")),2)
+                    valid = True
+                except ValueError:
+                    print("Not a valid response. Please input a number.")
             donor_dict[name_response].append(donation_response)      
             break
         else:
             donor_dict[name_response] = []
-            donation_response = round(float(input("Type donation amount: ")),2)
-            assert donation_response >= 0
+            valid = False
+            while not valid:
+                try:
+                    donation_response = round(float(input("Type donation amount: ")),2)
+                    valid = True
+                except ValueError:
+                    print("Not a valid response. Please input a number.")
             donor_dict[name_response].append(donation_response)
             break
     print("Esteemed {}, thank you for your generous donation".format(name_response))
@@ -77,25 +88,5 @@ if __name__ == "__main__":
         arg_dict = {1: send_thanks, 2: create_report, 3: send_all_letters, 4: quit_program}
         response = arg_dict.get(response)(donor_dict)
     
-'''    
-        if response == 1:
-            send_thanks(donor_ls)
-        elif response == 2: 
-            create_report(donor_ls)
-        elif response ==3:
-            send_all_letters(donor_ls)
-        else:
-            break
-'''       
-
-
-
-
-
-
-
-
-
-
 
 
