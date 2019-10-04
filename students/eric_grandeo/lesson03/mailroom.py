@@ -13,3 +13,20 @@ prompt = "\n".join(("Welcome to the mailroom!",
           "3 - Quit",
           ">>> "))
 
+def thank_you():
+    pass
+
+
+def create_report():
+    pass
+
+
+
+def main():
+    pass
+
+
+
+if __name__ == "__main__":
+    main()
+
