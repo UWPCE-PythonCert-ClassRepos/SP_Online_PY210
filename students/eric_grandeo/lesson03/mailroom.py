@@ -14,7 +14,15 @@ prompt = "\n".join(("Welcome to the mailroom!",
           ">>> "))
 
 def thank_you():
-    pass
+    donor_list = []
+    thanks = input("Please enter full name, or type'list' to see all names: ").title()
+    if thanks == 'List':
+        for i in donors:
+            donor_list.append(i[0])
+        print(donor_list)
+        thanks = input("Please enter full name, or type'list' to see all names: ").title()
+
+
 
 
 def create_report():
@@ -23,7 +31,11 @@ def create_report():
 
 
 def main():
-    pass
+    response = input(prompt)
+    if response == '1':
+        thank_you()
+
+
 
 
 
