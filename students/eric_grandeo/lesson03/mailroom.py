@@ -14,13 +14,15 @@ prompt = "\n".join(("Welcome to the mailroom!",
           ">>> "))
 
 def thank_you():
-    donor_list = []
-    thanks = input("Please enter full name, or type'list' to see all names: ").title()
+    thanks = input("Please enter full name, or type 'list' to see all names: ").title()
     if thanks == 'List':
-        for i in donors:
-            donor_list.append(i[0])
+        donor_list = [i[0] for i in donors]
         print(donor_list)
-        thanks = input("Please enter full name, or type'list' to see all names: ").title()
+        thanks = input("Please enter full name, or type 'list' to see all names: ").title()
+    if thanks not in donors:
+        donors.append((thanks,))
+        print(donors)
+
 
 
 
