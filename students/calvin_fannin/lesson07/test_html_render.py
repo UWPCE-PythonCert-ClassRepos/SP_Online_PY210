@@ -189,6 +189,7 @@ def test_sub_element():
 # Add your tests here!
 def test_head():
     e = Head()
+    e.append("title")
     file_contents = render_result(e).strip()
     assert("<head>") in file_contents
     assert("</head>") in file_contents
@@ -197,8 +198,41 @@ def test_head():
 def test_title():
     e = title("Some type of title ")
     file_contents = render_result(e).strip()
-    assert("<title>") in file_contents
-    assert("/<title>") in file_contents
+    assert("Some type of title ") in file_contents
+    assert file_contents.startswith("<title>")
+    assert file_contents.endswith("</title>")
+
+########
+# Step 4
+########
+
+def test_render_style():
+    e = P("A paragraph of text", style="text-align: center", id="intro")
+    file_contents = render_result(e).strip()
+    assert file_contents.startswith("<p")
+    assert file_contents.endswith("</p>")
+    assert 'style=text-align: center' in file_contents
+    print(file_contents)
+
+########
+# Step 5
+########
+
+def test_hr_tag():
+    e = Hr(width="400")
+    file_contents = render_result(e).strip()
+    assert file_contents.startswith("<hr")
+    assert file_contents.endswith("/>")
+    assert '<hr width=400 />' in file_contents
+
+def test_br_tag():
+    e = Br("dddd")
+    file_contents = render_result(e).strip()
+    assert file_contents.startswith("<br")
+    assert file_contents.endswith("/>")
+
+
+
 
 # #####################
 # # indentation testing
