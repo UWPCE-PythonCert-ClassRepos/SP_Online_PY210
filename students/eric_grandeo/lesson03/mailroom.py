@@ -20,7 +20,9 @@ def thank_you():
         print(donor_list)
         thanks = input("Please enter full name, or type 'list' to see all names: ").title()
     if thanks not in donors:
-        donors.append((thanks,))
+        donation = float(input("Please enter in a donation: "))
+        donors.append((thanks, [donation]))
+    
         print(donors)
 
 
