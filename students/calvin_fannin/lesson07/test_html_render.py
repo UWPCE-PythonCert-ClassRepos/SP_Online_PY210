@@ -226,13 +226,54 @@ def test_hr_tag():
     assert '<hr width=400 />' in file_contents
 
 def test_br_tag():
-    e = Br("dddd")
+    e = Br()
     file_contents = render_result(e).strip()
     assert file_contents.startswith("<br")
     assert file_contents.endswith("/>")
 
+def test_br_content_in_tag():
+    with pytest.raises(TypeError):
+        e = Br("something something")
 
 
+
+########
+# Step 5
+########
+
+def test_A():
+    e = A("http://google.com", "link to google")
+    file_contents = render_result(e).strip()
+    assert file_contents.startswith("<a href")
+    assert file_contents.endswith("</a>")
+
+
+########
+# Step 7
+########
+
+
+def test_Ul():
+    e = Ul(id="TheList", style="line-height:200%")
+    file_contents = render_result(e).strip()
+    assert file_contents.startswith("<ul")
+    assert file_contents.endswith("</ul>")
+
+
+def test_Li():
+    e = Li()
+    e.append("item in list")
+    file_contents = render_result(e).strip()
+    assert file_contents.startswith("<li")
+    assert file_contents.endswith("</li>")
+
+
+def test_Meta():
+    e = Meta(charset="UTF-8")
+    file_contents = render_result(e).strip()
+    assert file_contents.startswith("<meta")
+    assert file_contents.endswith("/>")
+    assert 'charset=UTF-8' in file_contents
 
 # #####################
 # # indentation testing
