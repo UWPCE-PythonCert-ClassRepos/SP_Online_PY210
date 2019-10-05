@@ -14,13 +14,12 @@ from except_test import fun, more_fun, last_fun
 # This has the desired outcome using a for loop and continue
 first_try = ['spam', 'cheese', 'mr death']
 
-for i in first_try:
-    try:
-        joke = fun(i)
-        if joke is not None:
-            print(joke)
-    except NameError:
-        continue
+try:
+    joke = fun(first_try[0])
+    if joke is not None:
+        print(joke)
+except NameError:
+    joke = fun(first_try[1])
         
 
 # Here is a try/except block. Add an else that prints not_joke
@@ -28,6 +27,8 @@ try:
     not_joke = fun(first_try[2])
 except SyntaxError:
     print('Run Away!')
+else: 
+    print(not_joke)
 
 # What did that do? You can think of else in this context, as well as in
 # loops as meaning: "else if nothing went wrong"
