@@ -16,44 +16,34 @@ prompt = "\n".join(("Welcome to the mailroom!",
 
 def donor_list():
     donor_names = [i[0] for i in donors]
-    print(donor_names)
-    thank_you()
+    return donor_names
+    
 
 def add_donation(name):
     donation = float(input("Please enter in a donation: "))
     for i in donors:
         if name in i:
             place = donors.index(i)
-    donors[place][1].append(donation)
+            return donors[place][1].append(donation)
 
 
 def thank_you():
-    thanks = input("Please enter full name, or type 'list' to see all names: ").title()
     complete = False
     
     while not complete:
+        thanks = input("Please enter full name, or type 'list' to see all names: ").title()
         if thanks == 'List':
-            donor_list()
+            print(donor_list())
             continue
-        else:
-            if thanks not in [x[0] for x in donors]:
-                donors.append((thanks,list()))
+        if thanks not in [x[0] for x in donors]:
+            donors.append((thanks,list()))
+        
         add_donation(thanks)
         complete = True
 
-    print(donors)
-    '''    
-    #donation = float(input("Please enter in a donation: "))
-    #donors.append(thanks[1])
+    print("out of the loop", donors)
     
-    print(donors)
-    '''
-        
-        
-
-
-
-
+    
 
 def create_report():
     pass
