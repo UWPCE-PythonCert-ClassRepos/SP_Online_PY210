@@ -19,8 +19,8 @@ def donor_list():
     return donor_names
     
 
-def add_donation(name):
-    donation = float(input("Please enter in a donation: "))
+def add_donation(name, donation):
+    #donation = float(input("Please enter in a donation: "))
     for i in donors:
         if name in i:
             place = donors.index(i)
@@ -42,14 +42,20 @@ def thank_you():
     complete = False
     
     while not complete:
-        thanks = input("Please enter full name, or type 'list' to see all names: ").title()
+        thanks = input("Please enter full name, type 'list' to see all names, or enter 'q' to quit: ").title()
+        if thanks == 'Q':
+            break
         if thanks == 'List':
             print(donor_list())
             continue
         if thanks not in [x[0] for x in donors]:
             donors.append((thanks,list()))
         
-        add_donation(thanks)
+        donation = float(input("Please enter in a donation, 'q' to quit: "))
+        if donation == 'q':
+            break
+        else:
+            add_donation(thanks,donation)
         complete = True
 
     #print("out of the loop", donors)
@@ -82,7 +88,8 @@ def main():
             thank_you()
         if response == '2':
             create_report()
-
+        if response == '3':
+            break
 
 
 
