@@ -4,9 +4,7 @@
 exercise 2.4: fibonacci series
 joli umetsu
 python210
-
 """
-
 
 def fibonacci(n):
     """ compute the nth Fibonacci number """
@@ -23,10 +21,10 @@ def fibonacci(n):
 
 def lucas(n):
     """ compute the nth Lucas number """
-    # define zeroth default value in Lucas sequence (L0 = 1)
+    # define zeroth default value in Lucas sequence (L0 = 2)
     if n == 0:
         return 2
-    # define first default value in Lucas sequence (L1 = 2)
+    # define first default value in Lucas sequence (L1 = 1)
     elif n == 1:
         return 1
     # Ln = L(n-1) + L(n-2)
@@ -47,12 +45,15 @@ def sum_series(n, n0=0, n1=1):
     And sum_series(n, 2, 1) should be equivalent to lucas(n).
 
     sum_series(n, 3, 2) should generate antoehr series with no specific name
-
-    The defaults are set to 0, 1, so if you don't pass in any values, you'll
-    get the fibonacci sercies
     """
-    pass
-"""
+    if n == 0:
+        return n0
+    elif n == 1:
+        return n1
+    else:
+        return sum_series(n-1,n0,n1) + sum_series(n-2,n0,n1)
+    
+    
 if __name__ == "__main__":
     # run some tests
     assert fibonacci(0) == 0
@@ -66,7 +67,6 @@ if __name__ == "__main__":
 
     assert lucas(0) == 2
     assert lucas(1) == 1
-
     assert lucas(4) == 7
 
     # test that sum_series matches fibonacci
@@ -85,4 +85,3 @@ if __name__ == "__main__":
     assert sum_series(5, 3, 2) == 19
 
     print("tests passed")
-"""
