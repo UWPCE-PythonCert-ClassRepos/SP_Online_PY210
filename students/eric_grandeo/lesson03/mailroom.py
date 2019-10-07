@@ -29,12 +29,14 @@ def add_donation(name):
 
 def thankyou_email(name, donation):
     #donation = [(donor, donations) for name, donations in donors if donor==name][0][1][:1]
-    print("""Dear {},
-            Thank you very much for the generous donation of {}.
-            It is very much appreciated. 
-            Respectfully,
+    print("""
+    Dear {},
+    Thank you very much for the generous donation of ${:,.2f}
+    It is very much appreciated. 
+    Respectfully,
         
-            Eric""".format(name, donation))
+    Eric G.
+    """.format(name, donation))
 
 
 def thank_you():
