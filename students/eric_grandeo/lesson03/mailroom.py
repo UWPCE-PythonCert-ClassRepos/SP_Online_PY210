@@ -28,7 +28,6 @@ def add_donation(name):
             return donors[place][1].append(donation)
 
 def thankyou_email(name, donation):
-    #donation = [(donor, donations) for name, donations in donors if donor==name][0][1][:1]
     print("""
     Dear {},
     Thank you very much for the generous donation of ${:,.2f}
@@ -53,20 +52,36 @@ def thank_you():
         add_donation(thanks)
         complete = True
 
-    print("out of the loop", donors)
+    #print("out of the loop", donors)
     
     
+def sort_key(items):
+    return items[1]
 
 def create_report():
-    pass
+    new_list = []
+    for i in range(len(donors)):
+        sum_don = sum(donors[i][1])
+        len_don = len(donors[i][1])
+        average = sum_don/len_don
+        new_list.append([donors[i][0], sum_don, len_don, average])
+    sorted_list = sorted(new_list, key=sort_key, reverse=True)
+    print()
+    print("{:<25s}|{:>15s} |{:>10s} | {:>12s}".format("Donor Name", "Total Given", "Num Gifts", "Average Gift"))
+    print()
+    for x in sorted_list:
+        print("{:<25s}|${:>14.2f} |{:>10.0f} |${:>12.2f}".format(*x))
+    print()
 
 
 
 def main():
-    response = input(prompt)
-    if response == '1':
-        thank_you()
-
+    while True:
+        response = input(prompt)
+        if response == '1':
+            thank_you()
+        if response == '2':
+            create_report()
 
 
 
