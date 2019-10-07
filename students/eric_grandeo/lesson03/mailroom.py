@@ -24,7 +24,17 @@ def add_donation(name):
     for i in donors:
         if name in i:
             place = donors.index(i)
+            thankyou_email(name, donation)
             return donors[place][1].append(donation)
+
+def thankyou_email(name, donation):
+    #donation = [(donor, donations) for name, donations in donors if donor==name][0][1][:1]
+    print("""Dear {},
+            Thank you very much for the generous donation of {}.
+            It is very much appreciated. 
+            Respectfully,
+        
+            Eric""".format(name, donation))
 
 
 def thank_you():
