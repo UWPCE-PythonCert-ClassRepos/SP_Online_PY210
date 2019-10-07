@@ -20,7 +20,6 @@ def donor_list():
     
 
 def add_donation(name, donation):
-    #donation = float(input("Please enter in a donation: "))
     for i in donors:
         if name in i:
             place = donors.index(i)
@@ -51,11 +50,11 @@ def thank_you():
         if thanks not in [x[0] for x in donors]:
             donors.append((thanks,list()))
         
-        donation = float(input("Please enter in a donation, 'q' to quit: "))
+        donation = input("Please enter in a donation, or 'q' to quit: ")
         if donation == 'q':
             break
         else:
-            add_donation(thanks,donation)
+            add_donation(thanks,float(donation))
         complete = True
 
     #print("out of the loop", donors)
