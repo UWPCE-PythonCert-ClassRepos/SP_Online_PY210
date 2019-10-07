@@ -73,7 +73,7 @@ def create_report():
     sorted_list = sorted(new_list, key=sort_key, reverse=True)
     print()
     print("{:<25s}|{:>15s} |{:>10s} | {:>12s}".format("Donor Name", "Total Given", "Num Gifts", "Average Gift"))
-    print()
+    print(68 * '-')
     for x in sorted_list:
         print("{:<25s}|${:>14.2f} |{:>10.0f} |${:>12.2f}".format(*x))
     print()
@@ -94,4 +94,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
