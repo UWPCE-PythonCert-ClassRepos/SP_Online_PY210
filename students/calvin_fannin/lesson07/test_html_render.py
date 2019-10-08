@@ -186,8 +186,10 @@ def test_sub_element():
 # Step 3
 ########
 
-# Add your tests here!
 def test_head():
+    """
+    tests that head works and you can append text
+    """
     e = Head()
     e.append("title")
     file_contents = render_result(e).strip()
@@ -196,6 +198,9 @@ def test_head():
 
 
 def test_title():
+    """
+    tests that title works with passed in text
+    """
     e = title("Some type of title ")
     file_contents = render_result(e).strip()
     assert("Some type of title ") in file_contents
@@ -207,6 +212,9 @@ def test_title():
 ########
 
 def test_render_style():
+    """
+    tests that Style works and you can add multiple
+    """
     e = P("A paragraph of text", style="text-align: center", id="intro")
     file_contents = render_result(e).strip()
     assert file_contents.startswith("<p")
@@ -219,6 +227,9 @@ def test_render_style():
 ########
 
 def test_hr_tag():
+    """
+    tests that HR works
+    """
     e = Hr(width="400")
     file_contents = render_result(e).strip()
     assert file_contents.startswith("<hr")
@@ -226,12 +237,18 @@ def test_hr_tag():
     assert '<hr width=400 />' in file_contents
 
 def test_br_tag():
+    """
+    tests that br works
+    """
     e = Br()
     file_contents = render_result(e).strip()
     assert file_contents.startswith("<br")
     assert file_contents.endswith("/>")
 
 def test_br_content_in_tag():
+    """
+    tests that br works and you can add content
+    """
     with pytest.raises(TypeError):
         e = Br("something something")
 
@@ -242,6 +259,9 @@ def test_br_content_in_tag():
 ########
 
 def test_A():
+    """
+    tests that A works
+    """
     e = A("http://google.com", "link to google")
     file_contents = render_result(e).strip()
     assert file_contents.startswith("<a href")
@@ -254,6 +274,9 @@ def test_A():
 
 
 def test_Ul():
+    """
+    tests that UL works
+    """
     e = Ul(id="TheList", style="line-height:200%")
     file_contents = render_result(e).strip()
     assert file_contents.startswith("<ul")
@@ -261,6 +284,9 @@ def test_Ul():
 
 
 def test_Li():
+    """
+    tests that Li works
+    """
     e = Li()
     e.append("item in list")
     file_contents = render_result(e).strip()
@@ -269,61 +295,64 @@ def test_Li():
 
 
 def test_Meta():
+    """
+    tests that Meta works
+    """
     e = Meta(charset="UTF-8")
     file_contents = render_result(e).strip()
     assert file_contents.startswith("<meta")
     assert file_contents.endswith("/>")
     assert 'charset=UTF-8' in file_contents
 
-# #####################
-# # indentation testing
-# #  Uncomment for Step 9 -- adding indentation
-# #####################
+#####################
+# indentation testing
+#  Uncomment for Step 9 -- adding indentation
+#####################
 
 
-# def test_indent():
-#     """
-#     Tests that the indentation gets passed through to the renderer
-#     """
-#     html = Html("some content")
-#     file_contents = render_result(html, ind="   ").rstrip()  #remove the end newline
+def test_indent():
+    """
+    Tests that the indentation gets passed through to the renderer
+    """
+    html = Html("some content")
+    file_contents = render_result(html, ind="   ").rstrip()  #remove the end newline
 
-#     print(file_contents)
-#     lines = file_contents.split("\n")
-#     assert lines[0].startswith("   <")
-#     print(repr(lines[-1]))
-#     assert lines[-1].startswith("   <")
-
-
-# def test_indent_contents():
-#     """
-#     The contents in a element should be indented more than the tag
-#     by the amount in the indent class attribute
-#     """
-#     html = Element("some content")
-#     file_contents = render_result(html, ind="")
-
-#     print(file_contents)
-#     lines = file_contents.split("\n")
-#     assert lines[1].startswith(Element.indent)
+    print(file_contents)
+    lines = file_contents.split("\n")
+    assert lines[1].startswith("   <")
+    print(repr(lines[-1]))
+    assert lines[-1].startswith("   <")
 
 
-# def test_multiple_indent():
-#     """
-#     make sure multiple levels get indented fully
-#     """
-#     body = Body()
-#     body.append(P("some text"))
-#     html = Html(body)
+def test_indent_contents():
+    """
+    The contents in a element should be indented more than the tag
+    by the amount in the indent class attribute
+    """
+    html = Element("some content")
+    file_contents = render_result(html, ind="")
 
-#     file_contents = render_result(html)
+    print(file_contents)
+    lines = file_contents.split("\n")
+    assert lines[1].startswith(Element.indent)
 
-#     print(file_contents)
-#     lines = file_contents.split("\n")
-#     for i in range(3):  # this needed to be adapted to the <DOCTYPE> tag
-#         assert lines[i + 1].startswith(i * Element.indent + "<")
 
-#     assert lines[4].startswith(3 * Element.indent + "some")
+def test_multiple_indent():
+    """
+    make sure multiple levels get indented fully
+    """
+    body = Body()
+    body.append(P("some text"))
+    html = Html(body)
+
+    file_contents = render_result(html)
+
+    print(file_contents)
+    lines = file_contents.split("\n")
+    for i in range(3):  # this needed to be adapted to the <DOCTYPE> tag
+        assert lines[i + 1].startswith(i * Element.indent + "<")
+
+    assert lines[4].startswith(3 * Element.indent + "some")
 
 
 # def test_element_indent1():
@@ -334,7 +363,7 @@ def test_Meta():
 
 #     <html>
 #         this is some text
-#     <\html>
+#     <tml>
 
 #     More complex indentation should be tested later.
 #     """
@@ -355,3 +384,5 @@ def test_Meta():
 #     assert lines[1].startswith(Element.indent + "thi")
 #     assert lines[2] == "</html>"
 #     assert file_contents.endswith("</html>")
+#     print(file_contents)
+
