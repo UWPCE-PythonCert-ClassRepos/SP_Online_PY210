@@ -89,7 +89,13 @@ def read_file(file: str) -> str:
 
 
 if __name__ == '__main__':
-    """Main program."""
+    """Main program.
+    
+    Usage:
+        > python trigrams.py filename [word_limit]
+        
+        * filename : name of text file to read
+        * word_limit : optional, maximum number of words to print"""
 
     args = sys.argv
     if len(args) < 2:
