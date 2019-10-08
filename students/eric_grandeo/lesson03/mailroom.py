@@ -15,11 +15,22 @@ prompt = "\n".join(("Welcome to the mailroom!",
 
 
 def donor_list():
+    """Returns a list of the donor names from donors"""
     donor_names = [i[0] for i in donors]
     return donor_names
     
 
 def add_donation(name, donation):
+    """
+    Appends the donation to the donation list in the donor tuple
+    
+    Parameters:
+    name(str): name of the donor
+    donation(int): value of the donation
+    
+    Returns:
+    list with new donation added
+    """
     for i in donors:
         if name in i:
             place = donors.index(i)
@@ -27,6 +38,8 @@ def add_donation(name, donation):
             return donors[place][1].append(donation)
 
 def thankyou_email(name, donation):
+    """Prints the letter with the user inputted name and donation """
+
     print("""
     Dear {},
     Thank you very much for the generous donation of ${:,.2f}
@@ -38,6 +51,12 @@ def thankyou_email(name, donation):
 
 
 def thank_you():
+    """
+    Asks user for a name, list of donors, or to quit.
+    If a name, prompts user for a donation and prints 
+    the tahnk you email
+    
+    """
     complete = False
     
     while not complete:
@@ -56,14 +75,20 @@ def thank_you():
         else:
             add_donation(thanks,float(donation))
         complete = True
-
-    #print("out of the loop", donors)
     
     
 def sort_key(items):
+    """Sort key for the sorted list in create report"""
     return items[1]
 
 def create_report():
+    """
+    Creates a formatted and aligned report of each donor,
+    total given, number of gifts, and average gift, sorted
+    by total given (large to small)
+
+    """
+
     new_list = []
     for i in range(len(donors)):
         sum_don = sum(donors[i][1])
@@ -81,6 +106,7 @@ def create_report():
 
 
 def main():
+    """Controls flow of program; prompts user for selection and breaks if quit"""
     while True:
         response = input(prompt)
         if response == '1':
@@ -89,7 +115,6 @@ def main():
             create_report()
         if response == '3':
             break
-
 
 
 if __name__ == "__main__":
