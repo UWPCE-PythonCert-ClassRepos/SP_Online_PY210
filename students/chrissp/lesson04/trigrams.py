@@ -111,7 +111,7 @@ def final_text(word_list):
 
 
 def quit_program():
-    print("See you next time!")
+    print("You're welcome!", "See you next time!")
     sys.exit()
 
 
@@ -134,6 +134,7 @@ def main():
         trigrams = build_trigrams(words)
         new_text = build_text(trigrams, word_count)
         final_text(new_text)
+        quit_program()
 
 
 if __name__ == "__main__":
