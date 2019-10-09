@@ -52,27 +52,25 @@ print("Removed the fruit per your request: {}".format(fruits))
 
 #Series 3
 print("Series 3{}".format('-' * 25))
-print("Here is the fruits list from Series 1: {}".format(fruits_series_one))
+print("Here is the list of fruits: {}".format(fruits))
 
 #Ask the user for input displaying a line like “Do you like apples?”
 #for each fruit in the list (making the fruit all lowercase).
-new_fruits = []
 
-for x in fruits_series_one:
+
+for x in fruits[:]:
     keep_going = True
     while keep_going:
         user_like = input("Do you like {} ? ".format(x.lower()))
         if user_like.lower() == "yes":
-            new_fruits.append(x)
-            #I didnt delete from original list; deleting in place caused errors
             keep_going = False
         elif user_like.lower() == "no":
+            fruits.remove(x)
             keep_going = False
         else:
-            print("Please answer yes or no")
+             print("Please answer yes or no")    
 
-
-print("Here is the udpated list based on your answers: {}".format(new_fruits))
+print("Here is the udpated list based on your answers: {}".format(fruits))
 
 #Series 4
 print("Series 4{}".format('-' * 25))
