@@ -111,9 +111,9 @@ def main():
         response = input(prompt)
         if response == '1':
             thank_you()
-        if response == '2':
+        elif response == '2':
             create_report()
-        if response == '3':
+        elif response == '3':
             break
 
 
