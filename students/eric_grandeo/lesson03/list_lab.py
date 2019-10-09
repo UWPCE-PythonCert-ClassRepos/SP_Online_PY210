@@ -61,13 +61,13 @@ print("Here is the list of fruits: {}".format(fruits))
 for x in fruits[:]:
     while True:
         user_like = input("Do you like {} ? ".format(x.lower()))
-        if user_like.lower() == "yes":
-            break
-        elif user_like.lower() == "no":
-            fruits.remove(x)
-            break
+        if user_like not in ("yes", "no"):
+            print("Please answer yes or no")
         else:
-            print("Please answer yes or no")    
+            if user_like.lower() == "no":
+                fruits.remove(x)
+            break
+        
 
 print("Here is the udpated list based on your answers: {}".format(fruits))
 
