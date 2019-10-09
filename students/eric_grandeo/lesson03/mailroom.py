@@ -22,7 +22,7 @@ def donor_list():
     return donor_names
     
 
-def add_donation(name, donation):
+def add_donation(name):
     """
     Appends the donation to the donation list in the donor tuple
     
@@ -33,11 +33,21 @@ def add_donation(name, donation):
     Returns:
     list with new donation added
     """
+    '''
     for i in donors:
         if name in i:
             place = donors.index(i)
             thankyou_email(name, donation)
             return donors[place][1].append(donation)
+    '''
+    donation = input("Please enter in a donation, or 'q' to quit: ")
+    if name not in donor_list:
+        donors.append(name,[donation])
+    else:
+        #add donation to existing donor
+
+
+
 
 def thankyou_email(name, donation):
     """Prints the letter with the user inputted name and donation """
@@ -56,9 +66,10 @@ def thank_you():
     """
     Asks user for a name, list of donors, or to quit.
     If a name, prompts user for a donation and prints 
-    the tahnk you email
+    the thank you email
     
     """
+    '''
     complete = False
     
     while not complete:
@@ -77,8 +88,26 @@ def thank_you():
         else:
             add_donation(thanks,float(donation))
         complete = True
-    
-    
+    '''
+    while True:
+        thanks = input("Please enter full name, type 'list' to see all names, or enter 'q' to quit: ").title()
+        if thanks == 'Q':
+            break
+        elif thanks == 'List':
+            print(donor_list())
+        else:
+            add_donation(thanks)
+            break
+
+            
+
+
+           
+
+
+
+
+
 def sort_key(items):
     """Sort key for the sorted list in create report"""
     return items[1]
