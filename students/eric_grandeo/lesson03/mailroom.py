@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import sys
+
 donors = [("Bill Gates", [653772.32, 12.17]),
           ("Jeff Bezos", [877.33]),
           ("Paul Allen", [663.23, 43.87, 1.32]),
@@ -103,7 +105,9 @@ def create_report():
         print("{:<25s}|${:>14.2f} |{:>10.0f} |${:>12.2f}".format(*x))
     print()
 
-
+def exit_program():
+    print("Good Bye")
+    sys.exit()
 
 def main():
     """Controls flow of program; prompts user for selection and breaks if quit"""
@@ -114,7 +118,7 @@ def main():
         elif response == '2':
             create_report()
         elif response == '3':
-            break
+            exit_program()
 
 
 if __name__ == "__main__":
