@@ -78,11 +78,14 @@ def thank_you():
         elif thanks == 'List':
             print(donor_list())
         else:
-            donation = int(input("Please enter in a donation, or 'q' to quit: "))
-            add_donation(thanks, donation)
-            thankyou_email(thanks, donation)
-            #print(donors)
-            break
+            donation = input("Please enter in a donation, or 'q' to quit: ")
+            if donation == "q":
+                break
+            else:
+                add_donation(thanks, int(donation))
+                thankyou_email(thanks, int(donation))
+                #print(donors)
+                break
 
   
 
