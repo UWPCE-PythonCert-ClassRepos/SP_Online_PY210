@@ -22,31 +22,32 @@ def donor_list():
     return donor_names
     
 
-def add_donation(name):
+def add_donation(name, donation):
     """
-    Appends the donation to the donation list in the donor tuple
+    Appends the donation to the donation list, or adds a new donor and donation
     
     Parameters:
     name(str): name of the donor
     donation(int): value of the donation
     
-    Returns:
-    list with new donation added
     """
-    '''
+    
+    #this is a placeholder for the index of an existing donor
+    ind = -1
+    
+    #find the index of a donor, if user selects an existing donor
     for i in donors:
         if name in i:
-            place = donors.index(i)
-            thankyou_email(name, donation)
-            return donors[place][1].append(donation)
-    '''
-    donation = input("Please enter in a donation, or 'q' to quit: ")
-    if name not in donor_list:
-        donors.append(name,[donation])
+            ind = donors.index(i)
+            
+    #if donor exists (index>=0), append to the donation list in the tuple. If new, add a new donor and donation        
+    if ind >= 0:
+        donors[ind][1].append(donation)
     else:
-        #add donation to existing donor
-
-
+        donors.append((name,[donation]))
+            
+          
+            
 
 
 def thankyou_email(name, donation):
@@ -69,26 +70,7 @@ def thank_you():
     the thank you email
     
     """
-    '''
-    complete = False
     
-    while not complete:
-        thanks = input("Please enter full name, type 'list' to see all names, or enter 'q' to quit: ").title()
-        if thanks == 'Q':
-            break
-        if thanks == 'List':
-            print(donor_list())
-            continue
-        if thanks not in [x[0] for x in donors]:
-            donors.append((thanks,list()))
-        
-        donation = input("Please enter in a donation, or 'q' to quit: ")
-        if donation == 'q':
-            break
-        else:
-            add_donation(thanks,float(donation))
-        complete = True
-    '''
     while True:
         thanks = input("Please enter full name, type 'list' to see all names, or enter 'q' to quit: ").title()
         if thanks == 'Q':
@@ -96,17 +78,13 @@ def thank_you():
         elif thanks == 'List':
             print(donor_list())
         else:
-            add_donation(thanks)
+            donation = int(input("Please enter in a donation, or 'q' to quit: "))
+            add_donation(thanks, donation)
+            thankyou_email(thanks, donation)
+            #print(donors)
             break
 
-            
-
-
-           
-
-
-
-
+  
 
 def sort_key(items):
     """Sort key for the sorted list in create report"""
