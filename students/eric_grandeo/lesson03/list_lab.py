@@ -57,17 +57,17 @@ print("Here is the list of fruits: {}".format(fruits))
 #Ask the user for input displaying a line like “Do you like apples?”
 #for each fruit in the list (making the fruit all lowercase).
 
-
+#updated per instructors recommendations
 for x in fruits[:]:
     while True:
         user_like = input("Do you like {} ? ".format(x.lower()))
         if user_like not in ("yes", "no"):
             print("Please answer yes or no")
         else:
-            if user_like.lower() == "no":
-                fruits.remove(x)
             break
         
+    if user_like.lower() == "no":
+        fruits.remove(x)    
 
 print("Here is the udpated list based on your answers: {}".format(fruits))
 
