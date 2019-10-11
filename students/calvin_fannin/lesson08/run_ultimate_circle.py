@@ -49,9 +49,34 @@ print(csum * 3)
 print(3 * csum)
 
 
+#do some comparing
+print("------------------------step 8")
+c = uc.Circle(10)
+c2 = uc.Circle(7)
+c3 = uc.Circle(9)
+c4 = uc.Circle(71)
+c5 = uc.Circle(23)
+
+print(c > c2)
+print(c == c2)
+
+clist = [c,c2,c3,c4,c5]
+
+print(clist)
+clist.sort()
+print(clist)
+
+sphere = uc.Sphere(4)
+print(sphere.volume)
+
+sphere = uc.Sphere.from_diameter(8)
+print(sphere.volume)
+print(sphere)
 
 
+print(sphere.area)
 
+print(c * 3 == 3 * c)
 
 
 

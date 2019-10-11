@@ -35,6 +35,7 @@ def test_area():
         c.area = 34
     assert round(c.area, 2)== 153.94
 
+
 def test_from_diameter():
     c = Circle.from_diameter(30)
 
@@ -44,11 +45,13 @@ def test_print_string():
     d = eval(repr(c))
     assert 'Circle(7)' == d
 
+
 def test_add_circle():
     c = Circle(7)
     c2 = Circle(7)
     csum = c + c2
     assert csum.radius == 14
+
 
 def test_mulitply_circle():
     c = Circle(7)
@@ -57,6 +60,12 @@ def test_mulitply_circle():
     c2value = 2 * c2
     assert c2value.radius == 14
     assert cvalue.radius == 49
+
+
+def test_create_sphere():
+    sp = Sphere(4)
+    assert sp.volume == 268.082573106329
+    assert sp.area == 201.06192982974676
 
 
 
