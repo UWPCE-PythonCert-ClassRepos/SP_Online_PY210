@@ -24,12 +24,12 @@ class Circle(object):
 
     @property
     def area(self):
-    """calculates the area of a circle"""
+        """calculates the area of a circle"""
         return round(pi * (self._radius ** 2), 4)
 
     @classmethod
     def from_diameter(cls, diameter):
-    """creates a circle object from diameter"""
+        """creates a circle object from diameter"""
         return cls(diameter / 2)
 
     def __str__(self):
@@ -39,50 +39,50 @@ class Circle(object):
         return (f"Circle({self._radius})")
 
     def __add__(self, other):
-    """adds two circles together - by radius"""
+        """adds two circles together - by radius"""
         return (f"Circle({self._radius + other._radius})")
 
     def __mul__(self, other):
-    """multiplies two circles together - by radius"""
+        """multiplies two circles together - by radius"""
         return (f"Circle({self._radius * other})")
 
     def __rmul__(self, other):
-    """reverse - multiplies two circles together - by radius"""
+        """reverse - multiplies two circles together - by radius"""
         return (f"Circle({self._radius * other})")
 
     def __lt__(self, other):
-    """compares two circles together (less than) - by radius"""
+        """compares two circles together (less than) - by radius"""
         return (self._radius < other._radius)
 
     def __gt__(self, other):
-    """compares two circles together (greater than) - by radius"""
+        """compares two circles together (greater than) - by radius"""
         return (self._radius > other._radius)
 
     def __eq__(self, other):
-    """compares two circles together (equal to) - by radius"""
+        """compares two circles together (equal to) - by radius"""
         return (self._radius == other._radius)
 
     def __truediv__(self, other):
-    """divides a circle's radius by an integer"""
+        """divides a circle's radius by an integer"""
         return (f"Circle({self._radius / other})")
 
     def __rtruediv__(self, other):
-    """reverse - cannot divide an integer by a circle"""
+        """reverse - cannot divide an integer by a circle"""
         return ("You cannot divide an integer by a Circle.")
 
 
 class Sphere(Circle):
-"""sphere object, subclass of circle object"""
+    """sphere object, subclass of circle object"""
 
     @property
     def volume(self):
-    """calculates the volume of a sphere"""
+        """calculates the volume of a sphere"""
         area = round((4/3) * pi * (self._radius ** 3), 4)
         return area
 
     @property
     def area(self):
-    """calculates the surface area of a sphere"""
+        """calculates the surface area of a sphere"""
         area = round(4 * pi * (self._radius ** 2), 4)
         return area
 
