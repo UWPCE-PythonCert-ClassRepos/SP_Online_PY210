@@ -14,6 +14,7 @@ from except_test import fun, more_fun, last_fun
 # This has the desired outcome using a for loop and continue
 first_try = ['spam', 'cheese', 'mr death']
 
+# Revision: Removed for loop
 try:
     joke = fun(first_try[0])
     if joke is not None:
