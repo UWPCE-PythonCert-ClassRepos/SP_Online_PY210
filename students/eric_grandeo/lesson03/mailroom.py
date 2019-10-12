@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import sys
+
 donors = [("Bill Gates", [653772.32, 12.17]),
           ("Jeff Bezos", [877.33]),
           ("Paul Allen", [663.23, 43.87, 1.32]),
@@ -22,20 +24,31 @@ def donor_list():
 
 def add_donation(name, donation):
     """
-    Appends the donation to the donation list in the donor tuple
+    Appends the donation to the donation list, or adds a new donor and donation
     
     Parameters:
     name(str): name of the donor
     donation(int): value of the donation
     
-    Returns:
-    list with new donation added
     """
+    
+    #this is a placeholder for the index of an existing donor
+    ind = -1
+    
+    #find the index of a donor, if user selects an existing donor
     for i in donors:
         if name in i:
-            place = donors.index(i)
-            thankyou_email(name, donation)
-            return donors[place][1].append(donation)
+            ind = donors.index(i)
+            
+    #if donor exists (index>=0), append to the donation list in the tuple. If new, add a new donor and donation        
+    if ind >= 0:
+        donors[ind][1].append(donation)
+    else:
+        donors.append((name,[donation]))
+            
+          
+            
+
 
 def thankyou_email(name, donation):
     """Prints the letter with the user inputted name and donation """
@@ -54,29 +67,28 @@ def thank_you():
     """
     Asks user for a name, list of donors, or to quit.
     If a name, prompts user for a donation and prints 
-    the tahnk you email
+    the thank you email
     
     """
-    complete = False
     
-    while not complete:
+    while True:
         thanks = input("Please enter full name, type 'list' to see all names, or enter 'q' to quit: ").title()
         if thanks == 'Q':
             break
-        if thanks == 'List':
+        elif thanks == 'List':
             print(donor_list())
-            continue
-        if thanks not in [x[0] for x in donors]:
-            donors.append((thanks,list()))
-        
-        donation = input("Please enter in a donation, or 'q' to quit: ")
-        if donation == 'q':
-            break
         else:
-            add_donation(thanks,float(donation))
-        complete = True
-    
-    
+            donation = input("Please enter in a donation, or 'q' to quit: ")
+            if donation == "q":
+                break
+            else:
+                add_donation(thanks, int(donation))
+                thankyou_email(thanks, int(donation))
+                #print(donors)
+                break
+
+  
+
 def sort_key(items):
     """Sort key for the sorted list in create report"""
     return items[1]
@@ -103,7 +115,9 @@ def create_report():
         print("{:<25s}|${:>14.2f} |{:>10.0f} |${:>12.2f}".format(*x))
     print()
 
-
+def exit_program():
+    print("Good Bye")
+    sys.exit()
 
 def main():
     """Controls flow of program; prompts user for selection and breaks if quit"""
@@ -111,10 +125,10 @@ def main():
         response = input(prompt)
         if response == '1':
             thank_you()
-        if response == '2':
+        elif response == '2':
             create_report()
-        if response == '3':
-            break
+        elif response == '3':
+            exit_program()
 
 
 if __name__ == "__main__":
