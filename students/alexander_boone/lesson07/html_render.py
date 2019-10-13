@@ -9,6 +9,7 @@ A class-based system for rendering html.
 class Element(object):
 
     tag = "html"
+    indent = "    "
 
     def __init__(self, content=None, **kwargs):
         self.attributes = dict()
@@ -22,7 +23,8 @@ class Element(object):
     def append(self, new_content):
         self.contents.append(new_content)
 
-    def render(self, out_file):
+    def render(self, out_file, cur_ind=""):
+        out_file.write(cur_ind)
         out_file.write("<{}".format(self.tag))
         if len(self.attributes.items()) > 0:
             for key, value in self.attributes.items():
@@ -30,15 +32,18 @@ class Element(object):
         out_file.write(">\n")
         for content in self.contents:
             try:
-                content.render(out_file)
+                content.render(out_file, cur_ind + self.indent)
             except AttributeError:
+                out_file.write(cur_ind + self.indent)
                 out_file.write(content)
                 out_file.write("\n")
+        out_file.write(cur_ind)
         out_file.write("</{}>\n".format(self.tag))
 
 
 class OneLineTag(Element):
-    def render(self, out_file):
+    def render(self, out_file, cur_ind=""):
+        out_file.write(cur_ind)
         out_file.write("<{}".format(self.tag))
         for key, value in self.attributes.items():
                 out_file.write(" {}=\"{}\"".format(key, value))
@@ -49,6 +54,11 @@ class OneLineTag(Element):
         raise NotImplementedError
 
 class Html(Element):
+    def render(self, out_file, cur_ind=""):
+        out_file.write(cur_ind)
+        out_file.write("<!DOCTYPE html>\n")
+        super().render(out_file, cur_ind)
+
     pass
 
 class Body(Element):
@@ -86,7 +96,8 @@ class SelfClosingTag(Element):
         raise TypeError("You can not add content to a SelfClosingTag")
 
 
-    def render(self, out_file):
+    def render(self, out_file, cur_ind=""):
+        out_file.write(cur_ind)
         out_file.write(self._open_tag())
         if len(self.attributes.items()) > 0:
             for key, value in self.attributes.items():
@@ -101,9 +112,34 @@ class Hr(SelfClosingTag):
 class Br(SelfClosingTag):
     tag = "br"
 
+class Meta(SelfClosingTag):
+    tag = "meta"
+
 class A(OneLineTag):
     tag = "a"
     def __init__(self, link, content):
         self.attributes = dict()
         self.attributes['href'] = link
         self.contents = [content]
+
+
+class H(OneLineTag):
+    
+    def __init__(self, level, content, **kwargs):
+        self.tag = "h" + str(level)
+        super().__init__(content, **kwargs)
+
+class Li(Element):
+    tag = "li"
+
+
+class Ul(Element):
+    tag = "ul"
+    def __init__(self, **kwargs):
+        self.attributes = dict()
+        self.contents = []
+        for key, value in kwargs.items():
+            self.attributes[key] = value
+
+    def append(self, content):
+        self.contents.append(content)
