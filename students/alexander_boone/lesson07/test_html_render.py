@@ -7,7 +7,8 @@ This is just a start -- you will need more tests!
 import io
 import pytest
 
-# import * is often bad form, but makes it easier to test everything in a module.
+# import * is often bad form, but makes it easier
+# to test everything in a module.
 from html_render import *
 
 
@@ -33,6 +34,7 @@ def render_result(element, ind=""):
 ########
 # Step 1
 ########
+
 
 def test_init():
     """
@@ -81,6 +83,8 @@ def test_render_element():
 
 # # Uncomment this one after you get the one above to pass
 # # Does it pass right away?
+
+
 def test_render_element2():
     """
     Tests whether the Element can render two pieces of text
@@ -107,12 +111,13 @@ def test_render_element2():
     assert file_contents.endswith("</html>")
 
 
-
 # # ########
 # # # Step 2
 # # ########
 
 # tests for the new tags
+
+
 def test_html():
     e = Html("this is some text")
     e.append("and this is some more text")
@@ -161,7 +166,7 @@ def test_sub_element():
     page.append("Some more plain text.")
 
     file_contents = render_result(page)
-    print(file_contents) # so we can see it if the test fails
+    print(file_contents)  # so we can see it if the test fails
 
     # note: The previous tests should make sure that the tags are getting
     #       properly rendered, so we don't need to test that here.
@@ -191,6 +196,7 @@ def test_head():
     assert file_contents.startswith("<head>")
     assert file_contents.endswith("</head>")
 
+
 def test_title():
     e = Title("This is a Title")
 
@@ -201,6 +207,7 @@ def test_title():
     assert file_contents.startswith("<title>")
     assert file_contents.endswith("</title>")
     assert "\n" not in file_contents
+
 
 def test_one_line_tag_append():
     """
@@ -213,6 +220,7 @@ def test_one_line_tag_append():
 ########
 # Step 4
 ########
+
 
 def test_attributes():
     e = P("A paragraph of text", style="text-align: center", id="intro")
@@ -280,19 +288,21 @@ def test_append_content_in_br():
 # Step 6
 ########
 
+
 def test_anchor():
-    a = A("http://reddit.com", "link to waste time")
+    a = A("http://reddit.com", "time waster")
     file_contents = render_result(a)
-    assert file_contents == '<a href="http://reddit.com">link to waste time</a>\n'
+    assert file_contents == '<a href="http://reddit.com">time waster</a>\n'
 
 ########
 # Step 7
 ########
 
+
 def test_h():
-    h = H('2', 'This is a level 2 header.', id="level_2_header")
+    h = H('2', 'A l2 header.', id="level_2_header")
     file_contents = render_result(h)
-    assert file_contents == '<h2 id="level_2_header">This is a level 2 header.</h2>\n'
+    assert file_contents == '<h2 id="level_2_header">A l2 header.</h2>\n'
 
 
 def test_Ul():
@@ -309,10 +319,12 @@ def test_Ul():
 # Step 8
 ########
 
+
 def test_doctype_html():
     html = Html()
     file_contents = render_result(html)
     assert file_contents.startswith("<!DOCTYPE html>") is True
+
 
 def test_Meta():
     m = Meta(charset="UTF-8")
@@ -330,7 +342,7 @@ def test_indent():
     Tests that the indentation gets passed through to the renderer
     """
     html = Html("some content")
-    file_contents = render_result(html, ind="   ").rstrip()  #remove the end newline
+    file_contents = render_result(html, ind="   ").rstrip()
 
     print(file_contents)
     lines = file_contents.split("\n")
