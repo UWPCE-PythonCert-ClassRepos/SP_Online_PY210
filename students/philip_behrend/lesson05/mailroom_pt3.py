@@ -21,6 +21,16 @@ donor_dict = {'Marge':[50,40],'Harold':[100,1000,10000],'Henry':[2],'Myrtle':[5,
 donor_list = Donors(['Marge','Harold','Henry','Myrtle','Mitchell'],
                     [[50,40],[100,1000,10000],
                      [2],[5,0.5,.05],[3,6,9]])
+    
+def get_donation():
+    valid = False
+    try:
+        donation_response = round(float(input("Type donation amount: ")),2)
+        valid = True
+    except ValueError:
+        print("Not a valid response. Please input a number.")
+    return donation_response, valid
+    
 
 # Avoided separate functions within else statements since there are nuanced differences
 def send_thanks(donor_dict):
@@ -33,22 +43,14 @@ def send_thanks(donor_dict):
         elif name_response in donors:
             valid = False
             while not valid:
-                try:
-                    donation_response = round(float(input("Type donation amount: ")),2)
-                    valid = True
-                except ValueError:
-                    print("Not a valid response. Please input a number.")
+                donation_response = get_donation()
             donor_dict[name_response].append(donation_response)      
             break
         else:
             donor_dict[name_response] = []
             valid = False
             while not valid:
-                try:
-                    donation_response = round(float(input("Type donation amount: ")),2)
-                    valid = True
-                except ValueError:
-                    print("Not a valid response. Please input a number.")
+                donation_response = get_donation()
             donor_dict[name_response].append(donation_response)
             break
     print("Esteemed {}, thank you for your generous donation".format(name_response))

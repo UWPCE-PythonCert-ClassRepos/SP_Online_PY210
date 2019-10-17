@@ -6,29 +6,28 @@ Make lots of try/except blocks for fun and profit.
 
 Make sure to catch specifically the error you find, rather than all errors.
 """
+
 from except_test import fun, more_fun, last_fun
 
 
 # Figure out what the exception is, catch it and while still
 # in that catch block, try again with the second item in the list
-# This has the desired outcome using a for loop and continue
 first_try = ['spam', 'cheese', 'mr death']
 
-# Revision: Removed for loop
 try:
     joke = fun(first_try[0])
-    if joke is not None:
-        print(joke)
 except NameError:
-    joke = fun(first_try[1])
-        
+    try:
+        joke = fun(first_try[1])
+    except IndexError:
+        pass
 
 # Here is a try/except block. Add an else that prints not_joke
 try:
     not_joke = fun(first_try[2])
 except SyntaxError:
     print('Run Away!')
-else: 
+else:
     print(not_joke)
 
 # What did that do? You can think of else in this context, as well as in
@@ -48,24 +47,13 @@ else:
 # parameters. (pun intended)
 
 langs = ['java', 'c', 'python']
-try: 
-    more_joke = more_fun(langs[1])
-except SyntaxError:
-    pass
+
+try:
+    more_joke = more_fun(langs[0])
 except IndexError:
-    pass
+    more_joke = more_fun(langs[1])
 else:
-    more_fun(langs[2])
+    more_fun(langs[-1])
 finally:
     last_fun()
-            
-    
-    
-    
-    
-comprehension = { c for c in 'aabbbcccc'}
-    
-    
-    
-    
-    
+
