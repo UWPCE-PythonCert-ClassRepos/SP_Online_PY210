@@ -1,3 +1,3 @@
-These are the excersizes for Lesson 1
+These are the exercises for Lesson 1
 Take care!
 Niels
