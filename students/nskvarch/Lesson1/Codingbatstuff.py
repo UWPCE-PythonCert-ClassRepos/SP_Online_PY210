@@ -1,3 +1,4 @@
+#Codingbatstuff.py Created by Niels Skvarch to contain some of the solutions from the puzzles on the codingbat website
 #dif21
 def diff21(n):
   if n > 21:
