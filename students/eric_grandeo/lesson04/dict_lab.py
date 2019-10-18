@@ -26,5 +26,19 @@ print("cake" in dict_1)
 #is mango in dict
 print("Mango" in dict_1.values())
 
+print("-" * 100)
+
+#Dictionaries 2
+dict_1 = {"name": "Chris", "city": "Seattle", "cake": "Chocolate"}
+
+def count_letters(dictionary, letter):
+    dict_2 = {}
+    for x,y in dictionary.items():
+        dict_2[x] = y.lower().count(letter)
+    return dict_2
+
+print(count_letters(dict_1, "t"))
+
+
 
 
