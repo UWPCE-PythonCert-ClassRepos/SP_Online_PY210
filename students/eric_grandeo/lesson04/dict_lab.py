@@ -39,6 +39,15 @@ def count_letters(dictionary, letter):
 
 print(count_letters(dict_1, "t"))
 
+#Sets
+#Create sets s2, s3 and s4 that contain numbers from zero through twenty, 
+#divisible by 2, 3 and 4 (figure out a way to compute those – don’t just type them in).
+print("-" * 100)
+s2 = set([x for x in range(21) if x%2==0])
+s3 = set([x for x in range(21) if x%3==0])
+s4 = set([x for x in range(21) if x%4==0])
 
-
+print(s2)
+print(s3)
+print(s4)
 
