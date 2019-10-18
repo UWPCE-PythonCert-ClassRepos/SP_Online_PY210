@@ -42,6 +42,8 @@ print(count_letters(dict_1, "t"))
 #Sets
 #Create sets s2, s3 and s4 that contain numbers from zero through twenty, 
 #divisible by 2, 3 and 4 (figure out a way to compute those – don’t just type them in).
+#display the sets
+
 print("-" * 100)
 s2 = set([x for x in range(21) if x%2==0])
 s3 = set([x for x in range(21) if x%3==0])
@@ -50,4 +52,28 @@ s4 = set([x for x in range(21) if x%4==0])
 print(s2)
 print(s3)
 print(s4)
+
+#is s3 a subset of s2? (False)
+print(s2.issubset(s3))
+
+#if s4 is a subset of s2 (True)
+print(s4.issubset(s2))
+
+#Sets2
+
+#Create a set with the letters in ‘Python’ and add ‘i’ to the set
+py_set = set(list('Python'))
+print(py_set)
+
+py_set.update(['i'])
+print(py_set)
+
+#Create a frozenset with the letters in ‘marathon’
+fs = frozenset(list('marathon'))
+print(fs)
+
+#Display the union and intersection of the two sets
+print('')
+print(py_set.union(fs))
+print(py_set.intersection(fs))
 
