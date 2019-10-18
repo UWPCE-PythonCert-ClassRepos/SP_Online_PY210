@@ -20,6 +20,11 @@ print(dict_1.keys())
 #display the dict values
 print(dict_1.values())
 
+#is cake in dict
+print("cake" in dict_1)
+
+#is mango in dict
+print("Mango" in dict_1.values())
 
 
 
