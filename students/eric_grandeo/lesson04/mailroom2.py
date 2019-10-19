@@ -20,7 +20,10 @@ main_dispatch = {"1" : thank_you,
 
 #switch between users selections
 def menu_selection(prompt, dispatch_dict):
-    pass
+    while True:
+        response = input(prompt)
+        if dispatch_dict[response]() == "exit menu":
+            break
 
 
 def thank_you():
@@ -30,10 +33,7 @@ def create_report():
     pass
 
 def quit_program():
-    pass
-
-
-
+    return "exit menu"
 
 
 #may need to change this to menu selection
