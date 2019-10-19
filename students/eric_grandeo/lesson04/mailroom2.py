@@ -14,9 +14,6 @@ main_prompt = "\n".join(("Welcome to the mailroom!",
           "3 - Quit",
           ">>> "))
 
-main_dispatch = {"1" : thank_you,
-                "2" : create_report,
-                "3" : quit_program,}
 
 #switch between users selections
 def menu_selection(prompt, dispatch_dict):
@@ -34,6 +31,14 @@ def create_report():
 
 def quit_program():
     return "exit menu"
+
+
+main_dispatch = {"1" : thank_you,
+                "2" : create_report,
+                "3" : quit_program,}
+
+
+
 
 
 #may need to change this to menu selection
