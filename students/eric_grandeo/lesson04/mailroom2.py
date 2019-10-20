@@ -4,7 +4,7 @@
 #switch between users selections
 def menu_selection(prompt, dispatch_dict):
     while True:
-        response = input(prompt)
+        response = input(prompt).title()
         if dispatch_dict[response]() == "exit menu":
             break
 
@@ -46,8 +46,10 @@ sub_prompt = "\n".join(("Please enter one of the following",
             "Enter 'q' to quit",
             ">>> "))
 
-sub_dispatch = {"list" : display_donors,
-                "q" : quit_program}
+sub_dispatch = {"List" : display_donors,
+                "Q" : quit_program}
+
+
 
 #may need to change this to menu selection
 if __name__ == "__main__":
