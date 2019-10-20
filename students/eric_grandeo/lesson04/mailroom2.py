@@ -18,6 +18,8 @@ def create_report():
 def quit_program():
     return "exit menu"
 
+def display_donors():
+    return donors.keys()
 
 
 #donors as a dict
@@ -44,6 +46,8 @@ sub_prompt = "\n".join(("Please enter one of the following",
             "Enter 'q' to quit",
             ">>> "))
 
+sub_dispatch = {"List" : display_donors,
+                "Q" : quit_program}
 
 #may need to change this to menu selection
 if __name__ == "__main__":
