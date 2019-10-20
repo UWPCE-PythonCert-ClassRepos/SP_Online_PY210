@@ -38,7 +38,11 @@ main_dispatch = {"1" : thank_you,
                 "2" : create_report,
                 "3" : quit_program,}
 
-sub_prompt = 
+sub_prompt = "\n".join(("Please enter one of the following",
+            "A full name",
+            "Type list to see all name",
+            "Enter 'q' to quit",
+            ">>> "))
 
 
 #may need to change this to menu selection
