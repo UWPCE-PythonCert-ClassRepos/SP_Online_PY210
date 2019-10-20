@@ -10,7 +10,7 @@ def menu_selection(prompt, dispatch_dict):
 
 
 def thank_you():
-    pass
+    menu_selection(sub_prompt, sub_dispatch)
 
 def create_report():
     pass
@@ -19,7 +19,7 @@ def quit_program():
     return "exit menu"
 
 def display_donors():
-    return donors.keys()
+    print(donors.keys())
 
 
 #donors as a dict
@@ -46,8 +46,8 @@ sub_prompt = "\n".join(("Please enter one of the following",
             "Enter 'q' to quit",
             ">>> "))
 
-sub_dispatch = {"List" : display_donors,
-                "Q" : quit_program}
+sub_dispatch = {"list" : display_donors,
+                "q" : quit_program}
 
 #may need to change this to menu selection
 if __name__ == "__main__":
