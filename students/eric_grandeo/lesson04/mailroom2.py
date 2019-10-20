@@ -7,8 +7,8 @@ def menu_selection(prompt, dispatch_dict):
         response = input(prompt).title()
         if dispatch_dict[response]() == "exit menu":
             break
-
-
+            
+#modify this to take a name as input, hopefully this works
 def thank_you():
     menu_selection(sub_prompt, sub_dispatch)
 
