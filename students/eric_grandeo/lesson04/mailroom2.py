@@ -4,17 +4,26 @@
 #switch between users selections
 def menu_selection(prompt, dispatch_dict):
     while True:
-        response = input(prompt).title()
+        response = input(prompt)
         if dispatch_dict[response]() == "exit menu":
             break
-            
-#modify this to take a name as input, hopefully this works
+
+#this is for the thank you menu            
+def sub_menu_selection(prompt, dispatch_dict):
+    while True:
+        response = input(sub_prompt).title()
+
+        if response in dispatch_dict:
+            dispatch_dict[response]()        
+
+#modify this to take a name as input, hopefully this works, or create a submenu function
 def thank_you():
-    menu_selection(sub_prompt, sub_dispatch)
+    sub_menu_selection(sub_prompt, sub_dispatch)
 
 def create_report():
     pass
 
+#change this to sys exit program
 def quit_program():
     return "exit menu"
 
