@@ -12,11 +12,11 @@ import sys  # imports go at the top of the file
 
 #initial donations ammount and givers names.
 donor_list = {
-    "Jan Balard": (600.00,250.00),
-    "Joe McHennry": (1500.00,1500.00),
-    "Jeff Hansen": (450.00,150.00),
-    "Scott Newman": (100.00,5000.00),
-    "Rabi Das": (500.00,950.00)
+    "Jan Balard": [600.00,250.00],
+    "Joe McHennry": [1500.00,1500.00],
+    "Jeff Hansen": [450.00,150.00],
+    "Scott Newman": [100.00,5000.00],
+    "Rabi Das": [500.00,950.00]
     }
 # main menue prompt
 def main_menu():
@@ -45,15 +45,11 @@ def add_name():
         add_name()
     else:
         amount = get_amount()
-        for doner, value in donor_list.items():
-            if doner.lower() == fullname.lower():
-                amountlist = list(value)
-                amountlist.append(amount)
-                value = amountlist
-                break # to make sure it will not check ans add the name manytimes
+        if donor_list.get(fullname):
+            donor_list[fullname].append(amount)
         else:
             donor_list.update({fullname:(amount)}) # add new name and donations
-        thank_you_email(fullname,amount)
+    thank_you_email(fullname,amount)
 
 
 
@@ -61,6 +57,7 @@ def add_name():
 def thank_you_email(fullname, amount):
     print ("\n\nDear {}:\n Thank you for your donation of ${:2d}, we appriciate your support to our service. \n MailRoom Team\n".format(fullname,amount))
     main()
+
 
 #create a report that calculate Donor Name, Total Given, Number of donatons, and the avarage amount of thier donations
 def create_report():
@@ -75,36 +72,35 @@ def exit_program():
     print("Bye!")
     sys.exit()  # exit the interactive script
 
-#send letterto all givers
+#send letter to all givers, file name is snake style
 def letter_to_all():
         for k,v in donor_list.items():
-            amount = v[len(v) - 1]
+            amount = k[len(v) - 1]
             fileName = k.replace(' ', '_').replace(',', '') + ".txt"
+            fileName = fileName.lower()
             filetext = "Dear {},\n\tThank you for your very kind donation of ${}\n\tIt will be put to very good use.\n\t\t\tSincerely,\n\t\t\t- The Team".format(k,amount)
             with open(fileName,'w+') as output:
                 output.write(filetext)
                 print("\nLetters {} have been printed and are saved in the current directory".format(fileName))
 
 
+
+
 def main():
-   
+    #dict with the user options and the functions
+    options = {
+        '1': add_name,
+        '2': create_report,
+        '3': letter_to_all,
+        '4': exit_program
+    }
     while True:
-        response = main_menu()  # continuously collect user selection
-        
-        ## now redirect to feature functions based on the user selection
-        if response == "1":
-            add_name()
-        elif response == "2":
-            create_report()
-        elif response == "3":
-            letter_to_all()
-        elif response == "4":
-            exit_program()
+        response = main_menu()
+        menu_function = options.get(response)
+        if response in options:
+            menu_function()
         else:
-   	        print('That is not a valid answer!')
-
-
-
+            print("\n'{}'  is not a valid answer, please select option from 1-4 !. \n >> ".format(response))
 
 if __name__ == "__main__":
    main()
