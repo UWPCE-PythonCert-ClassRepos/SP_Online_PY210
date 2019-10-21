@@ -12,6 +12,8 @@
 #   BPA, 9/3/2019, Added option to view list before adding new donor
 # ------------------------------ #
 
+import sys
+
 # ----- DATA ----- #
 # ---------------- #
 donors = {}
@@ -45,7 +47,6 @@ def main():
     while True: # display a menu of choices to the user
         try:
             response = int(input(str_menu)) # refers to preset menu declared under Data
-            if response == 4: raise SystemExit
             dict_menu.get(response)()
         except TypeError:
             print("\nPlease choose an action from the above list.")
@@ -55,20 +56,22 @@ def main():
             print("Type the menu number associated with the action you would like to perform.")
 
 
-def send_thank_you(name = ""):
+def send_thank_you():
     """ option to add a new entry/donation amount to the list and print a thank you email"""
-    if name == "": 
+    while True:
         name = get_name()
-    if name.upper() == "EXIT":
-        return # return to main menu
-    elif name.upper() == "LIST":
-        current = current_donors() # Display current donors
-        print(current)
-        send_thank_you() # recursion - go to the beginning
-    else:
-        donation = get_donation(name) # get the donation amount
-        update_list(name, donation) # update the list with the name and/or donation amount
-        print(print_thank_you(name, donation)) # print the thank you email
+        if name.upper() == "EXIT":
+            return # return to main menu
+        elif name.upper() == "LIST":
+            current = current_donors() # Display current donors
+            print(current)
+            send_thank_you() # recursion - go to the beginning
+            break
+        else:
+            donation = get_donation(name) # get the donation amount
+            update_list(name, donation) # update the list with the name and/or donation amount
+            print(print_thank_you(name, donation)) # print the thank you email
+            break
 
 
 def get_name():
@@ -138,7 +141,6 @@ def ordinal_freq(fq):
 
 def total_given(sub_list):
     """ calculates the total amount donated by a donor """
-    total_sum = 0
     total_sum = sum(sub_list) # sum all entries in the donation list
     return total_sum
 
@@ -218,9 +220,13 @@ def display_report(report_items):
         print("{:<30}|{:>15}|{:>10}|{:>15}".format(row[0], row[1], row[2], row[3]))
 
 
+def quit_program():
+    sys.exit()
+
+
 # ----- PRESENTATION ----- #
 # ------------------------ #
 if __name__ == '__main__':
-    dict_menu = {1: send_thank_you, 2: reporting_main, 3: send_all_letters} # holds menu options (dispatch)
+    dict_menu = {1: send_thank_you, 2: reporting_main, 3: send_all_letters, 4: quit_program} # holds menu options (dispatch)
     load_data()
     main() # run main

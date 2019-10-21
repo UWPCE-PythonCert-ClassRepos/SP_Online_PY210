@@ -15,6 +15,16 @@ prompt = "\n".join(("Welcome to the mailroom!",
                     ">>> "))
 
 
+def sort_donations(donor_entry):
+    """
+    Sort Function to return donor donation total for sorting donor list (by donations)
+
+    :param donor_entry: Donor database entry to return donation total for sorting
+    :return: Returns donor donation total for sorting
+    """
+    return sum(donor_entry[1])
+
+
 def send_thanks():
     """
     Send Thanks function that takes a user input for name and donation.
@@ -53,11 +63,14 @@ def create_report():
     """
     Print Report function of current donor database.
     """
+    # Sort the donor database by donations (donation total)
+    sorted_donors = sorted(donor_db, key=sort_donations, reverse=True)
+
     # Print table header
     print('Donor Name                |  Total Given  | Num Gifts |  Average Gift ')
     print('----------------------------------------------------------------------')
 
-    for donor in donor_db:
+    for donor in sorted_donors:
         donor_name = donor[0]
         num_gifts = len(donor[1])
 
