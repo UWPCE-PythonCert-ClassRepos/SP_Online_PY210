@@ -18,26 +18,44 @@ def sub_menu_selection(prompt, dispatch_dict):
             break
         else:
             donation = input("Please enter in a donation, or 'q' to quit: ")
-            add_donation(response, donation)
+            if donation == "q":
+                break
+            else:
+                add_donation(response, donation)
+                break
 
 def add_donation(name, donation):
     if name in donors:
         donors[name].append(int(donation))
     else:
         donors[name] = [int(donation)]
-    print(donors)
+    #print(donors)
 
 
-#modify this to take a name as input, hopefully this works, or create a submenu function
 def thank_you():
     sub_menu_selection(sub_prompt, sub_dispatch)
 
 def create_report():
-    pass
+    #new_list = []
+    new_dict = {}
+    for k,v in donors.items():
+        sum_don = sum(donors.get(k))
+        len_don = len(donors.get(k))
+        avg_don = sum_don/len_don
+        #new_list.append([k, sum_don, len_don, avg_don])
+        new_dict[k] = [sum_don, len_don, avg_don]
+    print(new_dict)
+    print()
+    print("{:<25s}|{:>15s} |{:>10s} | {:>12s}".format("Donor Name", "Total Given", "Num Gifts", "Average Gift"))
+    print(68 * '-')
+
+    #left off here, need to print this new_dict
+    for k,v in new_dict:
+        print("{:<25s}|${:>14.2f} |{:>10.0f} |${:>12.2f}".format(**new_dict))
+
 
 def quit_submenu():
     return "exit menu"
-
 
 def quit_program():
     sys.exit()
