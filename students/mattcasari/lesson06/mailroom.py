@@ -57,6 +57,20 @@ def initialize_donors():
     donors["Chris Hadfield"] = [17325.42, 13823.83, 0.99]
 
 
+def update_donation_dict(name, amount):
+    """
+    Updates the donors dictionary with new amount
+    
+    Args:
+        name: Full donor name
+        amount: Donation amount ($)
+
+    Returns:
+        None
+    """
+    donors.setdefault(name, []).append(amount)
+
+
 def calculate_stats(donations):
     """
     Calculates the sum, average and number of donations for a donor 
@@ -90,78 +104,122 @@ def thank_you_email(donor_dict):
     return THANK_YOU_TEMPLATE.format(**donor_dict)
 
 
-def update_donation_dict(name, amount):
-    """
-    Updates the donors dictionary with new amount
-    
-    Args:
-        name: Full donor name
-        amount: Donation amount ($)
-
-    Returns:
-        None
-    """
-    donors.setdefault(name, []).append(amount)
-
-
-def sort_donors_by_total(donors):
-    print(type(donors))
+def sort_donors_by_total(name):
     """ Function used to sort donors by total contributions """
-    # return sum(donors)
+    return sum(donors[name])
+
 
 def create_report_header(max_name_length):
+    """
+    Create the report header fields
+
+    Args:
+        max_name_length: Length of largest name in data
+    Returns:
+        result: Report header string
+
+    """
     result = []
     f_str = " {" + f":<{max_name_length}" + "} | {} | {} | {}"
     title_str = f_str.format("Donor Name", "Total Given", "Num Gifts", "Average Gift")
     result.append(title_str)
     result.append("-" * len(title_str))
+    result = "\n".join(result)
 
     return result
 
+
 def create_report_body(name_length, donors):
+    """ 
+    Creates the body of the report
+
+    Args:
+        name_length: Number of names
+        donors: dictionary of donors
+    Return:
+        result: Report body of all donors and associated data
+    """
     result = []
-    f_str = " {name" + f":<{name_length}" + "}  ${sum:11.2f}   {len:9}  ${average:12.2f}"
-    for donor in donors.keys():
-        stats = calculate_stats(donors[donor])
-        stats['name']=donor
+    f_str = (
+        " {name" + f":<{name_length}" + "}  ${sum:11.2f}   {len:9}  ${average:12.2f}"
+    )
+
+    names = sorted(donors, key=sort_donors_by_total, reverse=True)
+
+    for name in names:
+        stats = calculate_stats(donors[name])
+        stats["name"] = name
         v_str = f_str.format(**stats)
         result.append(v_str)
 
+    result = "\n".join(result)
     return result
 
-def generate_report(donors):
-    names = donors.keys()
-    column_donor_length = max([len(name) for name in names])+5
 
-    header = "\n".join(create_report_header(column_donor_length))
-
-    body = "\n".join(create_report_body(column_donor_length, donors))
-
-def generate_report2(donors):
-    """ Generates a formatted report of donor names, total donation, # of donations and average donation """
-    names = donors.keys()
-    print("donors=", donors)
-    print("names=", names)
-    result = []
-
-    column_donor_length = max([len(name) + 5 for name in names])
-    report_header = create_report_header(column_donor_length)
-    report_body = create_report_body()
+def generate_report(donors=donors):
+    """
+    Generate a full report of donors
     
+    Args:
+        donors: Dictionary of donors and donation amounts
+    Returns:
+        report: Full report of donors and donations totals
+    """
+    names = donors.keys()
+    column_donor_length = max([len(name) for name in names]) + 5
 
-    # for name in names:
-    names = sorted(donors.values(), key=sort_donors_by_total, reverse=True)
-    # names = sorted(sum(donors.iterkeys()))
-    print(names)
+    report = create_report_header(column_donor_length)
+    report += "\n"
+    report += create_report_body(column_donor_length, donors)
+    print(report)
+    return report
 
-    # for name in names:
-    #     f_str = " {" + f":<{column_donor_length}" + "}  ${:11.2f}   {:9}  ${:12.2f}"
-    #     (d_sum, d_num, d_ave) = calculate_stats(donors[name])
-    #     v_str = f_str.format(name, d_sum, d_num, d_ave)
-    #     result.append(v_str)
-    #     # print(v_str)
 
-    # return result
+def create_directory(directory):
+    """
+    Create a directory to save letters to.
+    Args:
+        directory: Path to create
+    Returns:
+        directory: Path created
+    """
+    path = pathlib.Path("./")
+    path = path / directory
+    try:
+        if not path.exists():
+            path.mkdir()
+    except OSError:
+        print("Error creating directory")
+
+    return path
+
+
+def save_letters(donors, path):
+    """
+    Generate and save letters to donors
+
+    Args: 
+        donors: Dictionary of donors and donations
+        path: Directory to save letters to
+    """
+    path = pathlib.Path("./") / path
+    for donor in donors:
+        filename = donor.replace(" ", "_") + ".txt"
+        filename = path / filename
+
+        try:
+            with open(filename, "w+") as temp:
+                donor_dict = {
+                    "name": donor,
+                    "last": donors[donor][-1],
+                    "sum": sum(donors[donor]),
+                    "number": len(donors[donor]),
+                }
+
+                temp.write(EMAIL_TEMPLATE.format(**donor_dict))
+                temp.close()
+        except OSError:
+            print("File failure")
 
 
 """
@@ -174,9 +232,9 @@ def add_donor():
     """ Adds new donor or new donation to existing donor """
     valid_donor = False
     while not valid_donor:
+        donor = input("Enter Full Name (or list): ")
+        amount = input("Enter donation amount ($): ")
         try:
-            donor = input("Enter Full Name (or list): ")
-            amount = input("Enter donation amount ($): ")
             amount = float(amount)
             if donor == "list":
                 print_donor_list(donors)
@@ -186,11 +244,13 @@ def add_donor():
             print("Invalid entry")
     try:
         update_donation_dict(donor, amount)
-        donor = {"name": donor, "amount": amount}
-        txt = thank_you_email(donor)
-        print(txt)
+
     except ValueError:
         print("\nInvalid amount entered")
+        return
+    donor = {"name": donor, "amount": amount}
+    txt = thank_you_email(donor)
+    print(txt)
 
 
 def prompt_user():
@@ -198,15 +258,16 @@ def prompt_user():
     switch_func_dict = {
         1: add_donor,
         2: generate_report,
-        3: create_files,
+        3: send_letters,
         4: quit_program,
     }
     try:
         result = input(PROMPT_TEXT)
         result = int(result)
         switch_func_dict.get(result)()
-    except (ValueError, TypeError):
+    except (ValueError, TypeError) as e:
         print("\nInvalid Entry")
+        print(e)
 
 
 def quit_program():
@@ -224,41 +285,13 @@ def print_donor_list(values):
         print(value)
 
 
-def create_directory():
-    try:
-        directory = input("Enter save directory name: ")
-        path = pathlib.Path("./")
-        path = path / directory
-        if not path.exists():
-            path.mkdir()
-    except OSError:
-        print("Error creating directory")
-
-    return directory
-
-
-def create_files():
+def send_letters():
     """
     Create file(s) in user specified directory for each donor.
     """
-    path = input("Enter save directory name: ")
-
-    for donor in donors:
-        filename = donor.replace(" ", "_") + ".txt"
-        filename = path / filename
-        try:
-            with open(filename, "w+") as temp:
-                donor_dict = {
-                    "name": donor,
-                    "last": donors[donor][-1],
-                    "sum": sum(donors[donor]),
-                    "number": len(donors[donor]),
-                }
-
-                temp.write(EMAIL_TEMPLATE.format(**donor_dict))
-                temp.close()
-        except OSError:
-            print("File failure")
+    directory = input("Enter save directory name: ")
+    path = create_directory(directory)
+    save_letters(donors, path)
 
 
 def main():
