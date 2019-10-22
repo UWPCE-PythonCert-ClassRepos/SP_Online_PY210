@@ -42,24 +42,22 @@ def sort_key(items):
 
 #make this a formatted dict
 def create_report():
-    #new_list = []
-    new_dict = OrderedDict()
+    new_dict = {}
     print("{:<25s}|{:>15s} |{:>10s} | {:>12s}".format("Donor Name", "Total Given", "Num Gifts", "Average Gift"))
     print(68 * '-')
     for k,v in donors.items():
         sum_don = sum(donors.get(k))
         len_don = len(donors.get(k))
         avg_don = sum_don/len_don
-        #new_list.append([k, sum_don, len_don, avg_don])
         new_dict[k] = [sum_don, len_don, avg_don]
-    print(new_dict)
 
-    '''
-    sorted_list = sorted(new_list, key=sort_key, reverse=True)
-    for x in sorted_list:
-        print("{:<25s}|${:>14.2f} |{:>10.0f} |${:>12.2f}".format(*x))
+    sorted_donors2 = OrderedDict(sorted(new_dict.items(), key=lambda t: t[1], reverse=True))
+
+    for k,v in sorted_donors2.items():
+        print("{:<25s}|${:>14.2f} |{:>10.0f} |${:>12.2f}".format(k, v[0], v[1], v[2]))
+        #print(k,v)
     print()
-    '''
+
 
 
 def quit_submenu():
