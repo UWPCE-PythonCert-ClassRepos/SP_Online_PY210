@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import sys
+from collections import OrderedDict
 
 #switch between users selections
 #change exit menu
@@ -35,9 +36,16 @@ def add_donation(name, donation):
 def thank_you():
     sub_menu_selection(sub_prompt, sub_dispatch)
 
+def sort_key(items):
+    """Sort key for the sorted list in create report"""
+    return items[1]
+
+#make this a formatted dict
 def create_report():
     #new_list = []
-    new_dict = {}
+    new_dict = OrderedDict()
+    print("{:<25s}|{:>15s} |{:>10s} | {:>12s}".format("Donor Name", "Total Given", "Num Gifts", "Average Gift"))
+    print(68 * '-')
     for k,v in donors.items():
         sum_don = sum(donors.get(k))
         len_don = len(donors.get(k))
@@ -45,13 +53,13 @@ def create_report():
         #new_list.append([k, sum_don, len_don, avg_don])
         new_dict[k] = [sum_don, len_don, avg_don]
     print(new_dict)
-    print()
-    print("{:<25s}|{:>15s} |{:>10s} | {:>12s}".format("Donor Name", "Total Given", "Num Gifts", "Average Gift"))
-    print(68 * '-')
 
-    #left off here, need to print this new_dict
-    for k,v in new_dict:
-        print("{:<25s}|${:>14.2f} |{:>10.0f} |${:>12.2f}".format(**new_dict))
+    '''
+    sorted_list = sorted(new_list, key=sort_key, reverse=True)
+    for x in sorted_list:
+        print("{:<25s}|${:>14.2f} |{:>10.0f} |${:>12.2f}".format(*x))
+    print()
+    '''
 
 
 def quit_submenu():
