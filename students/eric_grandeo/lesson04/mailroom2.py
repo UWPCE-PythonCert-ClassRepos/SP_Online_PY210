@@ -10,7 +10,7 @@ def menu_selection(prompt, dispatch_dict):
         response = input(prompt)
         dispatch_dict[response]()
 
-#this is for the thank you menu
+#this is for the thank you menu - change exit menu to break?
 def sub_menu_selection(prompt, dispatch_dict):
     while True:
         response = input(sub_prompt).title()
@@ -23,6 +23,7 @@ def sub_menu_selection(prompt, dispatch_dict):
                 break
             else:
                 add_donation(response, donation)
+                thankyou_email(response, donation)
                 break
 
 def add_donation(name, donation):
@@ -32,6 +33,20 @@ def add_donation(name, donation):
         donors[name] = [int(donation)]
     #print(donors)
 
+def thankyou_email(name, donation):
+    """Prints the letter with the user inputted name and donation """
+    email_dict = {}
+    email_dict["name"] = name
+    email_dict["donation"] = int(donation)
+
+    print("""
+    Dear {name},
+    Thank you very much for the generous donation of ${donation:,.2f}
+    It is very much appreciated.
+    Respectfully,
+
+    Eric G.
+    """.format(**email_dict))
 
 def thank_you():
     sub_menu_selection(sub_prompt, sub_dispatch)
@@ -55,9 +70,7 @@ def create_report():
 
     for k,v in sorted_donors2.items():
         print("{:<25s}|${:>14.2f} |{:>10.0f} |${:>12.2f}".format(k, v[0], v[1], v[2]))
-        #print(k,v)
     print()
-
 
 
 def quit_submenu():
@@ -99,7 +112,5 @@ sub_dispatch = {"List" : display_donors,
                 "Q" : quit_submenu}
 
 
-
-#may need to change this to menu selection
 if __name__ == "__main__":
     menu_selection(main_prompt, main_dispatch)
