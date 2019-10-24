@@ -72,6 +72,12 @@ def create_report():
         print("{:<25s}|${:>14.2f} |{:>10.0f} |${:>12.2f}".format(k, v[0], v[1], v[2]))
     print()
 
+def send_letters():
+    for donor,donation in donors.items():
+        #print(donor,donation)
+        with open(donor.replace(" ", "_") + '.txt', 'w+') as f:
+           f.write("This is a test for {}".format(donor))
+       
 
 def quit_submenu():
     return "exit menu"
@@ -94,13 +100,15 @@ main_prompt = "\n".join(("Welcome to the mailroom!",
           "Please choose from below options:",
           "1 - Send a thank you",
           "2 - Create a report",
-          "3 - Quit",
+          "3 - Send letters to all donors",
+          "4 - Quit",
           ">>> "))
 
 #change quit program to just break the loop
 main_dispatch = {"1" : thank_you,
                 "2" : create_report,
-                "3" : quit_program,}
+                "3" : send_letters,
+                "4": quit_program}
 
 sub_prompt = "\n".join(("Please enter one of the following",
             "A full name",
