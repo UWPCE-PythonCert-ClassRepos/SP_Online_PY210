@@ -80,11 +80,13 @@ def send_letters():
         with open(donor.replace(" ", "_") + '.txt', 'w+') as f:
            #f.write("This is a test for {} for a donation of ${:,.2f} ".format(donor, sum(donation)))
            f.write("""Dear {},
-           Thank you very much for the generous donation of ${:,.2f}
-           It is very much appreciated.
-           Respectfully,
 
-           Eric G.""".format(donor, sum(donation)))
+           Thank you very much for the generous total donation of ${:,.2f}
+
+           It is very much appreciated.
+
+                Respectfully,
+                Eric G.""".format(donor, sum(donation)))
 
 
 def quit_submenu():
