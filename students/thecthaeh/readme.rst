@@ -1,1 +1,1 @@
-python code for uwpce-pythoncert class, written by Marie Curie
+python code for uwpce-pythoncert class, written by thecthaeh
