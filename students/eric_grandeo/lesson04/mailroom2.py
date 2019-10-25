@@ -2,16 +2,16 @@
 
 import sys
 from collections import OrderedDict
-import tempfile
+import os
 
-#switch between users selections
-#change exit menu
+
+#switch between users selections, using a dict
 def menu_selection(prompt, dispatch_dict):
     while True:
         response = input(prompt)
         dispatch_dict[response]()
 
-#this is for the thank you menu - change exit menu to break?
+#this function is for the submenu
 def sub_menu_selection(prompt, dispatch_dict):
     while True:
         response = input(sub_prompt).title()
@@ -27,13 +27,15 @@ def sub_menu_selection(prompt, dispatch_dict):
                 thankyou_email(response, donation)
                 break
 
+#updates donor dictionary if new or existing donor
 def add_donation(name, donation):
     if name in donors:
         donors[name].append(int(donation))
     else:
         donors[name] = [int(donation)]
-    #print(donors)
 
+
+#prints a thank you email using a dict, instead of a list
 def thankyou_email(name, donation):
     """Prints the letter with the user inputted name and donation """
     email_dict = {}
@@ -49,14 +51,16 @@ def thankyou_email(name, donation):
     Eric G.
     """.format(**email_dict))
 
+#calls the sub menu function when thank you is selected from main menu
 def thank_you():
     sub_menu_selection(sub_prompt, sub_dispatch)
 
+#sorts dict in create report
 def sort_key(items):
     """Sort key for the sorted list in create report"""
     return items[1]
 
-#make this a formatted dict
+#Creates reports by creating a new dict from the donors dict
 def create_report():
     new_dict = {}
     print("{:<25s}|{:>15s} |{:>10s} | {:>12s}".format("Donor Name", "Total Given", "Num Gifts", "Average Gift"))
@@ -70,9 +74,10 @@ def create_report():
     sorted_donors2 = OrderedDict(sorted(new_dict.items(), key=lambda t: t[1], reverse=True))
 
     for k,v in sorted_donors2.items():
-        print("{:<25s}|${:>14.2f} |{:>10.0f} |${:>12.2f}".format(k, v[0], v[1], v[2]))
+        print("{:<25s}|${:>14,.2f} |{:>10.0f} |${:>12,.2f}".format(k, v[0], v[1], v[2]))
     print()
 
+#creates a letter in the current directory that thanks donor for sum of donations
 def send_letters():
     for donor,donation in donors.items():
         #print(donor,sum(donation))
@@ -87,19 +92,21 @@ def send_letters():
 
                 Respectfully,
                 Eric G.""".format(donor, sum(donation)))
-
+    print("Letter were created and are in the {} directory.".format(os.getcwd()))
+    print("")
 
 def quit_submenu():
     return "exit menu"
 
 def quit_program():
+    print("Good Bye")
     sys.exit()
 
 def display_donors():
     print(donors.keys())
 
 
-#donors as a dict
+#donors now as a dict
 donors = {"Bill Gates": [653772.32, 12.17],
           "Jeff Bezos": [877.33],
           "Paul Allen": [663.23, 43.87, 1.32],
