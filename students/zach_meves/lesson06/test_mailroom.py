@@ -58,7 +58,7 @@ class TestMailroom(unittest.TestCase):
                 os.remove(f"{name}_thanks.txt")
             except FileNotFoundError:
                 pass
-            
+
         mailroom._donors = self._cached_donors
         self._cached_donors = None
 
@@ -161,3 +161,8 @@ class TestMailroom(unittest.TestCase):
             # mailroom._compose_thank_you is tested separately, can be assumed correct
             correct = mailroom._compose_thank_you(name)
             self.assertEqual(correct, thanks)
+
+
+if __name__ == "__main__":
+    os.chdir(os.path.abspath(os.path.dirname(__file__)))
+    unittest.main()
