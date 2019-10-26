@@ -5,9 +5,9 @@ mailroom.py
 
 Zach Meves
 Python 210
-Lesson 04 Assignment
+Lesson 06 Assignment
 
-Mailroom Project Part 3 (Adding Exceptions and Comprehensions)
+Mailroom Project Part 4 (Adding Tests)
 """
 
 # Initialize donors
@@ -95,6 +95,9 @@ def _request_donation():
 def _compose_thank_you(name):
     """Compose a thank you note to a donor with the given name.
 
+    For use by :py:func:`add_donation`, which is in turn used by
+    :py:func:`send_thank_you`.
+
     Parameters
     ----------
     name : str
@@ -112,7 +115,8 @@ def _compose_thank_you(name):
         return _thank_string.format(name=name, last_donation=last_donation, total_donation=total_donation)
 
     except KeyError:
-        print(f"No donor with name {name} is present in data")
+        raise NameError(f"No donor with name {name} is present in data")
+        # print(f"No donor with name {name} is present in data")
 
 
 def _print_donors():
@@ -123,6 +127,26 @@ def _print_donors():
 def _get_donor_names():
     """Returns list of donor names."""
     return list(_donors.keys())
+
+
+def add_donation(name: str, amount: float) -> str:
+    """Get a donation amount for a donor name and modify the stored donation data.
+    Also return the donation letter for use by :py:func:`send_thank_you`.
+
+    Parameters
+    ----------
+    name : str
+        Name of donor to get donation for
+    amount : float
+        Donation amount
+
+    Returns
+    -------
+    str
+        Donor thank you letter based on this most recent donation."""
+
+    _donors.setdefault(name, []).append(amount)
+    return _compose_thank_you(name)
 
 
 def send_thank_you():
@@ -147,11 +171,11 @@ def send_thank_you():
         return
 
     # Find requested donor
-    _donors.setdefault(name, []).append(amt)
+    thank_you_note = add_donation(name, amt)
 
     # Print thank you note
     print('\n')
-    print(_compose_thank_you(name))
+    print(thank_you_note)
     print('\n')
 
 
