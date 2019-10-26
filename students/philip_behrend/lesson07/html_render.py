@@ -32,7 +32,7 @@ class Element(object):
                 out_file.write(item)
                 out_file.write("\n")
             out_file.write(cur_ind)
-            out_file.write("</{}>\n".format(self.tag))
+        out_file.write("</{}>\n".format(self.tag))
 
 class Html(Element):
     tag = 'html'
@@ -61,8 +61,6 @@ class P(Element):
     tag = 'p'
 
 class Head(Element):
-    tag = 'head'
-
     def render(self, out_file, cur_ind = ""):
         out_file.write("<{}>\n".format(self.tag))
         Meta(charset="UTF-8").render(out_file)
@@ -96,8 +94,6 @@ class SelfClosingTag(Element):
 
     def __init__(self, content=None, **kwargs):
         self.content = content
-        if self.content is not None:
-            raise TypeError
         self.kwargs = kwargs
 
 
