@@ -20,7 +20,6 @@ main_prompt = "\n".join(("Please choose from the following options:",
           "2 - Send a thank you",
           "3 - Exit \n"
           ))
-return_prompt = "Type 'return' to return to main menu. \n"
 
 thank_you_prompt = "Please enter the full name of the donor or type 'list' for list of names. \n"
 
@@ -35,26 +34,18 @@ thank_you_email = "\n".join(("Dear {}",
 
 #####Functions (alphabetical)
 def create_a_report():
-    #import db
-    global donor_db
-    #keep doing all this until further notice
-    while True:
-        #the title row of the report
-        header_string = "{0: <28}|{1: ^13}|{2: ^11}|{3: ^15}"
-        #boarder thing
-        spacing_string = "---------------------------------------------------------------------"
-        #format string for all the donors
-        donator_string = "{0: <28} ${1: >11.2f}   {2: >9}  ${3: >12.2f}"
-        
-        #Print all the things!
-        print(header_string.format('Donor Name', 'Total Given', 'Num Gifts', 'Average Gift'))
-        print(spacing_string)
-        for donor in sorted(donor_db, key = sort_key, reverse=True): #sorts based on function suming up donations
-            print(donator_string.format(donor[0], round(sum(donor[1]),2), round(len(donor[1]),2), round(mean(donor[1]),2)))
-        response = input(return_prompt)
-        #return to main menu
-        if response == "return":
-             break
+    #the title row of the report
+    header_string = "{0: <28}|{1: ^13}|{2: ^11}|{3: ^15}"
+    #boarder thing
+    spacing_string = "---------------------------------------------------------------------"
+    #format string for all the donors
+    donator_string = "{0: <28} ${1: >11.2f}   {2: >9}  ${3: >12.2f}"
+    
+    #Print all the things!
+    print(header_string.format('Donor Name', 'Total Given', 'Num Gifts', 'Average Gift'))
+    print(spacing_string)
+    for donor in sorted(donor_db, key = sort_key, reverse=True): #sorts based on function suming up donations
+        print(donator_string.format(donor[0], round(sum(donor[1]),2), round(len(donor[1]),2), round(mean(donor[1]),2)))
 
 def exit_program():
     #It's all there, black and white, clear as crystal! 
@@ -66,7 +57,7 @@ def exit_program():
     
 def send_thank_you():
     #import db
-    global donor_db
+    #global donor_db
     #keep doing this until further notice
     while True:
         #ask for name or to print list of names
@@ -75,29 +66,28 @@ def send_thank_you():
         if response == 'list':
             for donor in donor_db:
                 print(donor[0])
-            continue
         #User has name chosen, need to check it they exist in the db
         else:  
-            #loop through names
+            #Set response to input name
+            entry = (response, [])
+            #check if entry exists
             for donor in donor_db:
-                #if found then break the loop and use the previous donations
-                if response == donor[0]:
+                if entry[0] == donor[0]:
+                    #if found then break the loop and use the previous donations
                     entry = donor
-                    break
-                #if not found create new entry with no donations
-                entry = (response, [])
-        #ask for the donation amount
-        response = input(donation_prompt)
-        #set as a numeric value
-        response = float(response)
-        #append donation into the donation list
-        entry[1].append(response)
-        #append if the list just has one entry (is new)
-        if len(entry[1]) == 1:
-            donor_db.append(entry)
-        #print out the thank you email
-        print(thank_you_email.format(entry[0], response, sum(entry[1])))
-        break
+                    break      
+            #ask for the donation amount
+            response = input(donation_prompt)
+            #set as a numeric value
+            response = float(response)
+            #append donation into the donation list
+            entry[1].append(response)
+            #append if the list just has one entry (is new)
+            if len(entry[1]) == 1:
+                donor_db.append(entry)
+            #print out the thank you email
+            print(thank_you_email.format(entry[0], response, sum(entry[1])))
+            break
 
 def sort_key(db):
     #suming up donations for sortation
@@ -112,15 +102,12 @@ def main():
         #print out report and return to main prompt
         if response == "1":
             create_a_report()
-            continue
         #inserts new donators and print thank you letter
         elif response == "2":
             send_thank_you()
-            continue
         #exit
         elif response == "3":
             exit_program()
-
 
 if __name__ == '__main__':
     main()

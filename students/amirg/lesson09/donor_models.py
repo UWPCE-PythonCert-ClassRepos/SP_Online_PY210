@@ -30,7 +30,7 @@ class Donor(object):
                 self.donations = self.donations + (donation,)
             else:
                 raise ValueError('Donation must be a positive number')
-        except:
+        except ValueError:
             raise ValueError('Donation must be a positive number')
 
     #Returns the last donor a donor made
@@ -38,7 +38,7 @@ class Donor(object):
     def last_donation(self):
         try:
             return self.donations[-1]
-        except:
+        except IndexError:
             raise IndexError('There are no donations')
 
     #Thank you note for one donor
@@ -50,7 +50,6 @@ class Donor(object):
     def write_donor(self):
         with open('{}.txt'.format(self.donor), 'w+') as f:
             f.write(self.donor_text)
-        f.close()
 
     #Defines less than for purposes of sorting function
     def __lt__(self, other):
@@ -83,10 +82,10 @@ class DonorCollection(object):
                 if i.donor == name:
                     temp = i
                     break
-                if i == self.donors[-1]:
+                elif i == self.donors[-1]:
                     raise IndexError('Donor is not in list')
             return temp
-        except:
+        except IndexError:
             raise IndexError('Donor is not in list')
 
     #Returns string for report of all donors
@@ -106,7 +105,8 @@ class DonorCollection(object):
 
     #Writes thank you notes to all donors
     def write_donors(self):
-        [i.write_donor() for i in self.donors]
+        for i in self.donors:
+            i.write_donor()
 
         
 

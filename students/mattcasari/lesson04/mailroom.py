@@ -16,7 +16,7 @@ Description:
 """
 import pathlib
 
-DONORS = {}
+donors = {}
 
 PROMPT_TEXT = (
     "\nSelect an option:\n"
@@ -46,12 +46,12 @@ def initialize_donors():
     """
     Populate the donor list with the initial donors
     """
-    DONORS["Neil Armstrong"] = [15000.00, 15000.00]
-    DONORS["Buzz Aldrin"] = [23021.10, 25020.30, 28999.29]
-    DONORS["Sally Ride"] = [42917.42, 38281.28]
-    DONORS["Al Shepard"] = [2387.00, 2321.42, 3700.00]
-    DONORS["Alan Bean"] = [28477.13, 727.1]
-    DONORS["Chris Hadfield"] = [17325.42, 13823.83, 0.99]
+    donors["Neil Armstrong"] = [15000.00, 15000.00]
+    donors["Buzz Aldrin"] = [23021.10, 25020.30, 28999.29]
+    donors["Sally Ride"] = [42917.42, 38281.28]
+    donors["Al Shepard"] = [2387.00, 2321.42, 3700.00]
+    donors["Alan Bean"] = [28477.13, 727.1]
+    donors["Chris Hadfield"] = [17325.42, 13823.83, 0.99]
 
 
 def calculate_stats(donations):
@@ -74,7 +74,7 @@ def calculate_stats(donations):
 
 def sort_donors_by_total(name):
     """ Function used to sort donors by total contributions """
-    return sum(DONORS[name])
+    return sum(donors[name])
 
 
 def quit_program():
@@ -95,15 +95,15 @@ def create_files():
     if not path.exists():
         path.mkdir()
 
-    for donor in DONORS:
+    for donor in donors:
         filename = donor.replace(" ", "_") + ".txt"
         filename = path / filename
 
         with open(filename, "w+") as temp:
             name = donor
-            donation_last = DONORS[donor][-1]
-            donation_sum = sum(DONORS[donor])
-            donation_number = len(DONORS[donor])
+            donation_last = donors[donor][-1]
+            donation_sum = sum(donors[donor])
+            donation_number = len(donors[donor])
             EMAIL_TEMPLATE = (
                 f"Dear {name},\n\n"
                 f"Thank you for your last donation of ${donation_last:.2f}.\n"
@@ -119,7 +119,7 @@ def create_files():
 
 def generate_report():
     """ Generates a formatted report of donor names, total donation, # of donations and average donation """
-    values = DONORS
+    values = donors
     print("\n")
     column_donor_length = 0
     for value in values:
@@ -130,11 +130,11 @@ def generate_report():
     print(title_str)
     print("-" * len(title_str))
 
-    values = sorted(DONORS, key=sort_donors_by_total, reverse=True)
+    values = sorted(donors, key=sort_donors_by_total, reverse=True)
 
     for value in values:
         f_str = " {" + f":<{column_donor_length}" + "}  ${:11.2f}   {:9}  ${:12.2f}"
-        (d_sum, d_num, d_ave) = calculate_stats(DONORS[value])
+        (d_sum, d_num, d_ave) = calculate_stats(donors[value])
         v_str = f_str.format(value, d_sum, d_num, d_ave)
 
         print(v_str)
@@ -176,18 +176,15 @@ def add_donor():
     while not valid_donor:
         donor = input("Enter Full Name (or list): ")
 
-        for idx, value in enumerate(DONORS):
-            if value[0] == donor:
-                valid_donor = True
-                break
+        if donors.get(donor):
+            valid_donor = True
+            break
         else:
             if donor == "list":
-                print_donor_list(DONORS)
+                print_donor_list(donors)
                 continue
             else:
-                DONORS[donor] = []
-
-                idx += 1
+                donors[donor] = []
                 valid_donor = True
                 break
 
@@ -195,7 +192,7 @@ def add_donor():
     amount = float(amount)
 
     # Add amount to data
-    DONORS[donor].append(amount)
+    donors[donor].append(amount)
 
     txt = thank_you_email(donor, amount)
     print(txt)
