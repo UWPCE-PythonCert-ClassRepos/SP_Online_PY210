@@ -174,14 +174,60 @@ def test_sub_element():
     assert "</p>" in file_contents
 
 
-
-
 ########
 # Step 3
 ########
 
 # Add your tests here!
 
+
+def test_one_line():
+    h = Head()
+    h.append(Title("OneLineTitle"))
+
+    file_contents = render_result(h)
+
+    assert "OneLineTitle" in file_contents
+    start = file_contents.index("<title")
+    end = file_contents.index("</title>")
+    assert start < end
+
+    # No newlines between start and end
+    try:
+        i = file_contents[start:end].index("\n")
+        assert False
+    except ValueError:
+        assert True
+
+    assert file_contents.index("<head") < file_contents.index("</head>")
+    assert file_contents.index("<head") < file_contents.index("<title")
+    assert file_contents.index("</title>") < file_contents.index("</head>")
+
+
+def test_one_line_attributes():
+    t = Title("OneLine Title", id='hello', number=45)
+    file_contents = render_result(t)
+
+    assert "OneLine Title" in file_contents
+    assert file_contents.index("<title") < file_contents.index("</title>")
+    assert 'id="hello"' in file_contents
+    assert 'number="45' in file_contents
+    assert '"hello" number' in file_contents
+    assert file_contents.index("<title") < file_contents.index("id=") < file_contents.index("</title>")
+
+
+def test_self_closing():
+    br = Br()
+    hr = Hr(id="hrule")
+
+    raise NotImplementedError
+    # todo
+
+
+def test_self_closing_in_context():
+    """Test self closing tags within other elements"""
+    raise NotImplementedError
+    # todo
 
 
 # #####################
