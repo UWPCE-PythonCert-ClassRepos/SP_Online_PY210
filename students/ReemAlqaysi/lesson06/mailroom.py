@@ -31,32 +31,57 @@ def main_menu():
 
 
 #get the donation amounts
-def get_amount():
-    amount = input("please enter donation amounts : ")
-    amount = int(amount)
+def get_amount(fullname):
+    try:    
+    # Prompt for the amount
+        amount = input("please enter donation amounts : \n >>")
+        amount = int(amount)
+        #break
+        add_amount(fullname,amount)
+    except ValueError:
+        print("please enter an Integer Number...")
     return amount
 
-#get the name and check if it exist, add the ammount, otherwise add the name and the amount to the donors list
-def add_name():
-    fullname = input("please enter full name : ")
-    if fullname == 'list':
-        for key in donor_list:
-            print(key)
-        add_name()
-    else:
-        amount = get_amount()
-        if donor_list.get(fullname):
-            donor_list[fullname].append(amount)
+
+def add_amount(fullname,amount):
+    donor_list[fullname].append(amount)
+
+def prompt_name():
+
+    try:
+        fullname = input("please enter full name : ")
+        if fullname == 'list':
+            for key in donor_list:
+                print(key)
+            prompt_name()
+        elif fullname == "": # if no name entered
+            raise TypeError
         else:
-            donor_list.update({fullname:(amount)}) # add new name and donations
-    thank_you_email(fullname,amount)
+            add_name(fullname)
+    except TypeError:
+            print("\nenter a name please\n>>>")
+    return fullname
 
+#get the name and check if it exist, add the ammount, otherwise add the name and the amount to the donors list
+def add_name(fullname):
 
+    for donor in donor_list:
+        if fullname == donor:
+            break
+    else:
+        donor_list[fullname] = []
+        print (donor_list)
+
+def thank_you_text(fullname,amount):
+    print ("\n\nDear {}:\n Thank you for your donation of ${:2d}, we appriciate your support to our service. \n MailRoom Team\n".format(fullname,amount))
 
 #thank you Email formating
-def thank_you_email(fullname, amount):
-    print ("\n\nDear {}:\n Thank you for your donation of ${:2d}, we appriciate your support to our service. \n MailRoom Team\n".format(fullname,amount))
+def thank_you_email():
+    fullname = prompt_name()
+    amount = get_amount(fullname)
+    thank_you_text(fullname, amount)
     main()
+
 
 
 #create a report that calculate Donor Name, Total Given, Number of donatons, and the avarage amount of thier donations
@@ -65,7 +90,8 @@ def create_report():
     print ('-'*90)
 
     for donor, value in sorted(donor_list.items(), key=itemgetter(1)):
-        print ("{:<20} {:>2} {:>12} {:>17}{:>17}{:>12}".format(*(donor, '$', round(sum(value),2), len(value), '$',round(sum(value)/len(value),1))))
+        if len(value) != 0:
+            print ("{:<20} {:>2} {:>12} {:>17}{:>17}{:>12}".format(*(donor, '$', round(sum(value),2), len(value), '$',round(sum(value)/len(value),1))))
 
 
 def exit_program():
@@ -76,12 +102,12 @@ def exit_program():
 def letter_to_all():
         for k,v in donor_list.items():
             amount = k[len(v) - 1]
-            fileName = k.replace(' ', '_').replace(',', '') + ".txt"
-            fileName = fileName.lower()
+            filename = k.replace(' ', '_').replace(',', '') + ".txt"
+            filename = filename.lower()
             filetext = "Dear {},\n\tThank you for your very kind donation of ${}\n\tIt will be put to very good use.\n\t\t\tSincerely,\n\t\t\t- The Team".format(k,amount)
-            with open(fileName,'w+') as output:
+            with open(filename,'w+') as output:
                 output.write(filetext)
-                print("\nLetters {} have been printed and are saved in the current directory".format(fileName))
+                print("\nLetters {} have been printed and are saved in the current directory".format(filename))
 
 
 
@@ -89,18 +115,21 @@ def letter_to_all():
 def main():
     #dict with the user options and the functions
     options = {
-        '1': add_name,
+        '1': thank_you_email,
         '2': create_report,
         '3': letter_to_all,
         '4': exit_program
     }
     while True:
-        response = main_menu()
-        menu_function = options.get(response)
-        if response in options:
-            menu_function()
-        else:
+        
+        #if response in options:
+        try:
+            response = main_menu()
+            options[response]()
+            #menu_function()
+        except KeyError:
             print("\n'{}'  is not a valid answer, please select option from 1-4 !. \n >> ".format(response))
+
 
 if __name__ == "__main__":
    main()

@@ -32,24 +32,36 @@ def main_menu():
 
 #get the donation amounts
 def get_amount():
-    amount = input("please enter donation amounts : ")
-    amount = int(amount)
+    while True:
+        # Prompt for the amount
+        amount = input("please enter donation amounts : \n >>")
+        try:
+            amount = int(amount)
+            break
+        except ValueError:
+            print("please enter an Integer Number...")
     return amount
+
 
 #get the name and check if it exist, add the ammount, otherwise add the name and the amount to the donors list
 def add_name():
-    fullname = input("please enter full name : ")
-    if fullname == 'list':
-        for key in donor_list:
-            print(key)
-        add_name()
-    else:
-        amount = get_amount()
-        if donor_list.get(fullname):
-            donor_list[fullname].append(amount)
+    try:
+        fullname = input("please enter full name : ")
+        if fullname == 'list':
+            for key in donor_list:
+                print(key)
+            add_name()
+        elif fullname == "": # if no name entered
+            raise TypeError
         else:
-            donor_list.update({fullname:(amount)}) # add new name and donations
-    thank_you_email(fullname,amount)
+            amount = get_amount()
+            if donor_list.get(fullname):
+                donor_list[fullname].append(amount)
+            else:
+                donor_list.update({fullname:(amount)}) # add new name and donations
+        thank_you_email(fullname,amount)
+    except TypeError:
+            print("\nenter a name please\n>>>")
 
 
 
@@ -76,12 +88,12 @@ def exit_program():
 def letter_to_all():
         for k,v in donor_list.items():
             amount = k[len(v) - 1]
-            fileName = k.replace(' ', '_').replace(',', '') + ".txt"
-            fileName = fileName.lower()
+            filename = k.replace(' ', '_').replace(',', '') + ".txt"
+            filename = filename.lower()
             filetext = "Dear {},\n\tThank you for your very kind donation of ${}\n\tIt will be put to very good use.\n\t\t\tSincerely,\n\t\t\t- The Team".format(k,amount)
-            with open(fileName,'w+') as output:
+            with open(filename,'w+') as output:
                 output.write(filetext)
-                print("\nLetters {} have been printed and are saved in the current directory".format(fileName))
+                print("\nLetters {} have been printed and are saved in the current directory".format(filename))
 
 
 
@@ -95,12 +107,15 @@ def main():
         '4': exit_program
     }
     while True:
-        response = main_menu()
-        menu_function = options.get(response)
-        if response in options:
-            menu_function()
-        else:
+        
+        #if response in options:
+        try:
+            response = main_menu()
+            options[response]()
+            #menu_function()
+        except KeyError:
             print("\n'{}'  is not a valid answer, please select option from 1-4 !. \n >> ".format(response))
+
 
 if __name__ == "__main__":
    main()
