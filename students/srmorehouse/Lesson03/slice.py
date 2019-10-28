@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 
 """
+Steve Morehouse
+Lesson 03
+"""
+
+"""
 swap the first and last chars of a sequence
 """
 
