@@ -60,7 +60,7 @@ output:
 No negative number error checking
 """
 
-
+ 
 def sum_series(n, firstVal=0, secondVal=1):
     if n == 0:
         retVal = firstVal
