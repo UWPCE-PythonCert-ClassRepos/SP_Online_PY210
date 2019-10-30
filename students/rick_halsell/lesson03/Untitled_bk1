@@ -1,0 +1,236 @@
+#!/usr/bin/env python3
+import os
+import time
+import sys
+import contextlib
+# Mailroom (Part 1)
+
+# a data structure that holds a list of your donors and a history of the amounts they have donated
+# five donors, with between 1 and 3 donations each
+donors_dictionary = {'Jonny Gill': [3.00, 15.00, 25.00], 'Bobby Brown': [11.00, 45.01], 'Michael Bivins': [345.00], 'Ricky Bell': [232.00, 35.00, 123.00], 'Ronnie DeVoe': [456.00, 789.00]}
+
+# menu options
+# 1. Send a Thank You”,   or 3. “quit”.
+
+def listdonorsfullfunc():
+    #print('You selected \"Create a Report\"')
+    print()
+    print('***** Printing Donors and Donations *****')
+    for key, value in donors_dictionary.items():
+        print(key, '->', value)
+        time.sleep(0.5)
+    print()
+    mainmenufunc()
+    return
+
+# Prints exact keys and values
+def exactselection(selection):
+    print(selection, (donors_dictionary[selection]))
+    #print(f"Donor Name Found: {selection} Donations Contributed: -> {cleaneddonations}")
+    print()
+    donation = int(input('Enter new donation amount: '))
+    # Adding additional donation to dictionary/donor
+    donors_dictionary[selection].append(donation)
+    #print(founddonordonations)
+    print(selection, (donors_dictionary[selection]))
+    return
+
+# Prints all keys and values
+#def allselected(selection):
+    #for selection, value in donors_dictionary.items():
+    #    print(selection, '->', value)
+    #    time.sleep(0.5)
+
+def listdonorsfunc():
+    #print('You selected \"Create a Report\"')
+    print()
+    print('***** Printing Donors *****')
+    for key in donors_dictionary.keys():
+        print(key)
+        time.sleep(0.5)
+    print('***************************')
+    print()
+    #for key in list(donors_dictionary.items()):
+    #    print(key[1])
+    #    time.sleep(0.5)
+    #executeAgainfunc()
+    thankyoufunc()
+    #fullnamefunc()
+    return
+
+# Function to Show a Donor that is in the database and add new donation amount
+def donorindictfunc(selection):
+    founddonordonations = donors_dictionary.get(selection)
+    try:
+        cleaneddonations = " ".join(founddonordonations)
+    except TypeError:
+        pass
+    # prints out
+    exactselection(selection)
+    selection = selection.replace(" ", "")
+    thankyounotefunc(selection)
+    thankyoufunc()
+    return
+
+def donornotindictfunc(selection):
+    print()
+    print(f"Donor Name \'{selection}\' Not Found -- Adding to List of Donors")
+    donors_dictionary[selection] = selection
+    donation = int(input('Enter donation amount: '))
+    donors_dictionary[selection] = donation
+    #donation = float(input('Enter donation amount: '))
+    #print('Please Enter a Valid Number.')
+    while True:
+        print('Would you like to enter another donation? (Y/N)')
+        RunAgain = input().lower()
+        #if in (RunAgain in ('))
+        if not (RunAgain in ('Yes', 'Y')):
+            thankyoufunc()
+        else:
+            try:
+                donation = int(input('Enter donation amount: '))
+            except ValueError:
+                    print('Please Enter a Valid Number.')
+                    print(type(donation))
+                    donors_dictionary[selection].append(donation)
+    return
+
+def fullnamefunc():
+    selection = ""
+    selection = input('Enter Your Selection: ')
+    selection = selection
+    #donorfound = donors_dictionary.get(selection)
+    if selection == 'list':
+        listdonorsfunc()
+    elif len(selection) == 0:
+        mainmenufunc()
+    elif selection in donors_dictionary.keys():
+        donorindictfunc(selection)
+        #fullnamefunc()
+        #listdonorsfunc()
+    elif selection not in donors_dictionary.keys():
+        #donors_dictionary[selection] = selection
+        donornotindictfunc(selection)
+        #listdonorsfunc()
+    else:
+        #fullnamefunc()
+        mainmenufunc()
+    return
+
+def thankyoufunc():
+    global selection
+    #print('You selected \"Send a Thank You\"')
+    print ("""
+    ****** Thank You Note Options *****
+
+    1. Type 'List' to see a full list of donors
+    2. Type in a donor's full name
+    3. Press Enter Key to return to the Main Menu
+
+    ***********************************
+    """)
+    fullnamefunc()
+    return
+
+def thankyounotefunc(selection):
+    print (f"""
+    To: {selection}@email.com
+    From: mailer-auto@donations.com
+    Subject: Recent Donation
+
+    Dear {selection},
+
+    Thank you for your generous donation.
+
+    Sincerely,
+
+    The Donation Collection Staff
+
+    ***********************************
+    """)
+    time.sleep(8)
+    return
+
+def exitfunc():
+    print('Exiting Program!')
+    time.sleep(1)
+    sys.exit()
+    return
+
+#Run script again
+def executeAgainfunc():
+    while True:
+        RunAgain = input('Would you like to execute this script again? (Y/N): ').lower()
+        if not (RunAgain in ('yes', 'y')):
+            exitfunc()
+        if (RunAgain in ('yes', 'y')):
+            mainmenufunc()
+    return
+
+def reportfunc():
+    left_aligned = "Donor Name"
+    center = "Total Given"
+    mid_right_aligned = "Num Gifts"
+    right_aligned = "Average Gift"
+
+    # formatting and printing report header
+    print(f"{left_aligned:<15} | {center:^10} | {mid_right_aligned:>10} | {right_aligned:>13}")
+    print('-'*60)
+    #print('{:5}{:5}{:10}{:8}{:8}{:8}{:8}'.format('Donor Name', '|', 'Total Given', '|', 'Num Gifts', '|', 'Average Gift'))
+    for selection, value in donors_dictionary.items():
+        totaldonationsgiven = len(value)
+        donationtotal = sum(value)
+        donationtotal = float(donationtotal)
+        avgdonation =  round(donationtotal / totaldonationsgiven, 2) # round answer to the second decimal place
+        avgdonation = (f"{avgdonation:.2f}")
+        donationtotal = (f"{donationtotal:.2f}") # add decimal point of 2 spaces
+        #f"A rounded representation of Pi {pi:.2f}"
+        #print(selection, '$', donationtotal, totaldonations, '$', avgdonation)
+        print(f"{selection:<15}{donationtotal:^24}{totaldonationsgiven:>3}{avgdonation:>18}")
+        time.sleep(0.5)
+    mainmenufunc()
+    return
+
+def mainmenufunc():
+    print ("""
+    ***** Main Menu ******
+
+    1. Generate Thank You Note
+    2. Create a Report
+    3. List Donor Names
+    4. List Donor Names and Donation Amounts
+    5. Restart Program
+    6. Exit Program
+
+    *********************
+    """)
+    answer = input('Enter A Number: ')
+    print()
+    print(f"You selected: {answer}")
+    print()
+    while True:
+        if answer == '1':
+            thankyoufunc()
+            break
+        elif answer == '2':
+            reportfunc()
+            break
+        elif answer == '3':
+            listdonorsfunc()
+            break
+        elif answer == '4':
+            listdonorsfullfunc()
+            break
+        elif answer == '5':
+            executeAgainfunc()
+            break
+        elif answer == '6':
+            exitfunc()
+            break
+        else:
+            mainmenufunc()
+
+
+
+if __name__ == "__main__":
+    mainmenufunc()
