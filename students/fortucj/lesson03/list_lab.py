@@ -41,10 +41,45 @@ def Series1():
     length_P = len(P_list)
     print(("Items beginning with 'P' are " + ", ".join(["{}"] * length_P)).format(*P_list))
 
-    return P_list #additional return command for following series
+    return fruits #additional return command for following series
 
 
 
-#def Series2():
+def Series2():
+    """
+    This is Series2
+
+    Using the list created in series 1 above:
+
+Display the list.
+Remove the last fruit from the list.
+Display the list.
+Ask the user for a fruit to delete, find it and delete it.
+(Bonus: Multiply the list times two. Keep asking until a match is found. Once found, delete all occurrences.)
+    """
+
+    ask = input("Do you want the default list? ('yes' or 'no')") #option to take default list or execute Series1
+    if ask == 'yes':
+        fruits2 = ['Apples', 'Pears', 'Oranges', 'Peaches']
+    elif ask == 'no':
+        fruits2 = Series1()
+
+    print(fruits2) #first bullet
+
+    fruits2.pop() #second bullet
+    print(fruits2)
+
+    fruits2 = 2 * fruits2 #third bullet
+    print('here is the double list: {}'.format(fruits2))
+
+
+    del_fruit = '' #4th & 5th bullet
+    while del_fruit not in fruits2:
+        del_fruit = input("Please provide a fruit to delete")
+    while del_fruit in fruits2:
+        fruits2.remove(del_fruit)
+
+    print(fruits2) #display results
+
 
 
