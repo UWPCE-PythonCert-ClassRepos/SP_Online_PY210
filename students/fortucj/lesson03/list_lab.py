@@ -38,9 +38,13 @@ def Series1():
     for item in fruits:
         if item[0] == 'P':
             P_list += [item]
-    print(P_list)
+    length_P = len(P_list)
+    print(("Items beginning with 'P' are " + ", ".join(["{}"] * length_P)).format(*P_list))
+
+    return P_list #additional return command for following series
 
 
 
+#def Series2():
 
 
