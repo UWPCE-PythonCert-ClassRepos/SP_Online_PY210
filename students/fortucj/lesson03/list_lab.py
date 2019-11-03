@@ -40,7 +40,7 @@ def Series1():
     print(fruits)
 
     new_fruit3 = input("Please provide another fruit: ").title() #7th bullet
-    fruits.insert(0,new_fruit3)
+    fruits.insert(0, new_fruit3)
     print(fruits)
 
     P_list = [] #last bullet
@@ -160,4 +160,4 @@ Delete the last item of the original list. Display the original list and the cop
         item_copy = "".join(item_copy)
         fruits4_copy[i] = item_copy
     fruits4_copy.pop()
-    print('original=',fruits4,'\n','copy=',fruits4_copy)
+    print('original=', fruits4, '\n', 'copy=', fruits4_copy)
