@@ -6,22 +6,32 @@ import string
 # words = "I wish I may I wish I might".split()
 
 def read_in_data(filename):
-    f = open(filename, 'r')
-    return f 
+    with open(filename, 'r') as f:
+        text = f.readlines()
+    # remove lines before/after actual book (body) text
+    for i, ln in enumerate(text):
+        if ln.startswith("*** START OF THIS PROJECT"):
+            start = i + 1
+        elif ln.startswith("*** END OF THIS PROJECT"):
+            end = i
+        else: pass
+        
+    return text[start:end]
+
 
 def make_words(in_data):
-    """ tested on sherlock_small """
     words = []
     in_tab = string.punctuation
-    mult = len(in_tab)
-    out_tab = mult*" "
+    out_tab = (len(in_tab))*" "
     tran_tab = str.maketrans(in_tab, out_tab)
-    for line in in_data.readlines():
+    
+    for line in in_data:
         line = line.rstrip() # remove trailing whitespace in line
         line = line.translate(tran_tab) # remove all punctuation 
         line_words = line.split() # create list of words in the line
         for word in line_words:
             words.append(word.lower())
+            
     return words
 
 
@@ -40,15 +50,12 @@ def build_trigram(words):
     return trigrams
     
 def build_text(word_pairs):
-    """
-    - builds new 'fake' text using the trigrams dict
-    returns: print of new text/sentence; has not been modified to process words from book -- returns one really long sentence :)
-    """
     # choose random starting word pair
     start = random.choice(list(word_pairs.keys()))
     begin = " ".join(start)
     body_words = []
-    while True:
+    
+    while len(body_words) < 20:
         if start not in word_pairs.keys():
             break
         else:
