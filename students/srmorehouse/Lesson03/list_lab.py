@@ -53,6 +53,9 @@ print('\nSeries 3')
 print(fruit)
 fruit3 = fruit[:]
 
+# this is the list of fruit to be deleted AFTER
+fruit_to_del = []
+
 for f in fruit3:
 
     print('The current fruit list:')
@@ -65,10 +68,17 @@ for f in fruit3:
         while response.lower() not in ['yes', 'no']:
             response = input('try again, enter \'yes\' or \'no\'\n')
 
-    # there is a bug here which skips over the next item
     if response.lower() == 'no':
         print(f + ' removed.')
-        fruit3.remove(f)
+        # add this to the list of fruit to be deleted
+        fruit_to_del.append (f)
+
+# if you delete fruit while you are transversing the list you skip so do it here
+for del_fruit in fruit_to_del:
+    fruit3.remove(del_fruit)
+
+print('The remaining fruit list:')
+print(fruit3)
 
 print('\nSeries 4')
 print('Original list')
