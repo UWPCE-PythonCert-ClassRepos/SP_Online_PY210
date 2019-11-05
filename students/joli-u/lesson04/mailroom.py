@@ -156,7 +156,6 @@ def main():
             switch_dict.get(response)()
         else:
             print("Invalid option. Please try again!")
-            response = input(user_prompt)
     
     
 if __name__ == "__main__":
