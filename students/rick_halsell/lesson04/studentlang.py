@@ -25,12 +25,12 @@ for line in remainingstudentdatalist:
     data = line.split(",  ")
     joindata = (', '.join(data))
     #print(type(joindata)) # string
-    dick = joindata.split(': ') # now a list
-    print(dick)
+    doing = joindata.split(': ') # now a list
+    print(doing)
     secondlist = []
-    for i in dick:
+    for i in doing:
         print("second", i)
-        secondlist = (dick[0].split(', '))
+        secondlist = (doing[0].split(', '))
         secondlist.append(i.split(','))
 
         #print(type(testing0))
@@ -44,11 +44,11 @@ for line in remainingstudentdatalist:
     print(secondlist[2])
     value2 = secondlist[2]
     # regular for loop
-    #for d in dick:
-        #print("non lc", dick)
+    #for d in doing:
+        #print("non lc", doing)
     # list comprehension attempt
-    [print("list comp test", d) for d in dick]
-    [print("list comp test", dick) for d in dick]
+    [print("list comp test", d) for d in doing]
+    [print("list comp test", doing) for d in doing]
 
 
 
