@@ -22,7 +22,7 @@ print('\nDisplaying Dictionary Keys:')
 for key in dict.keys():
     print(key)
 
-# Display the dictionary keys.
+# Display the dictionary values.
 print('\nDisplaying Dictionary Values:')
 for value in dict.values():
     print(value)
