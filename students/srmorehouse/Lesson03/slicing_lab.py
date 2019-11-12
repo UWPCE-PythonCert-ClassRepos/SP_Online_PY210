@@ -62,8 +62,10 @@ if __name__ == "__main__":
 
     assert reverse_sequence(a_string) == "gnirts a si siht"
     assert reverse_sequence(a_tuple) == (32, 5, 12, 13, 54, 2)
+    assert reverse_sequence(long_string) == 'msinairatnemhsilbatsesiditna'
 
     assert thirds(a_string) == "tringthis is a s"
     assert thirds(a_tuple) == (5, 32, 2, 54, 13, 12)
+    assert thirds(long_string) == 'tarianismantidisestablishmen'
 
     print ("tests pass")
