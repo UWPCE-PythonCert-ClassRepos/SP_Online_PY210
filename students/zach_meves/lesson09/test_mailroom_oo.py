@@ -161,29 +161,50 @@ class TestDonorCollection(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.donors.add_donor('NaME2', 2)
 
+    def test_add_donation(self):
+        """Tests :py:func:`DonorCollection.add_donation`"""
+
+        self.donors.add_donation("name1", 2)
+        assert self.donors["name1"].last_donation() == 2
+
+        with self.assertRaises(TypeError):
+            self.donors.add_donation("name1", None)
+        with self.assertRaises(ValueError):
+            self.donors.add_donation("name1", -2)
+
+        # New donor as well
+        self.donors.add_donation("name4", 1)
+        assert self.donors["name4"].last_donation() == 1
+        assert self.donors["name4"].total_donations() == 1
+
+        with self.assertRaises(TypeError):
+            self.donors.add_donation("name5", 'abc')
+        with self.assertRaises(ValueError):
+            self.donors.add_donation("name5", 0)
+
     def test_get_donor(self):
         """Tests [] accessing of donors."""
         assert self.donors["name1"] == self.donor1
         assert self.donors["name2"] == self.donor2
 
-        with self.assertRaises(ValueError):
+        with self.assertRaises(KeyError):
             x = self.donors["name4"]
 
     def test_get_report(self):
         """Tests :py:func:`DonorCollection.get_report`"""
 
-        rep = REPORT_HEADER + REPORT_ENTRY.format(name="name1", sm=0, l=0, avg=0)
+        rep = REPORT_HEADER + REPORT_ENTRY.format(name="name3", sm=120, l=2, avg=60)
         rep += REPORT_ENTRY.format(name="name2", sm=10, l=1, avg=10) + \
-               REPORT_ENTRY.format(name="name3", sm=120, l=2, avg=60)
+               REPORT_ENTRY.format(name="name1", sm=0, l=0, avg=0)
 
         assert self.donors.get_report() == rep
 
         # Add a new donor with less donation amount
         self.donors.add_donor("name4", 5)
-        rep = REPORT_HEADER + REPORT_ENTRY.format(name="name1", sm=0, l=0, avg=0)
-        rep += REPORT_ENTRY.format(name="name4", sm=5, l=1, avg=5) + \
-               REPORT_ENTRY.format(name="name2", sm=10, l=1, avg=10) + \
-               REPORT_ENTRY.format(name="name3", sm=120, l=2, avg=60)
+        rep = REPORT_HEADER + REPORT_ENTRY.format(name="name3", sm=120, l=2, avg=60)
+        rep += REPORT_ENTRY.format(name="name2", sm=10, l=1, avg=10) + \
+               REPORT_ENTRY.format(name="name4", sm=5, l=1, avg=5) + \
+               REPORT_ENTRY.format(name="name1", sm=0, l=0, avg=0)
 
         assert self.donors.get_report() == rep
 

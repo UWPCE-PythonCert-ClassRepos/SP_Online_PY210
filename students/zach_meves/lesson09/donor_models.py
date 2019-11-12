@@ -83,7 +83,7 @@ class Donor:
             if donation > 0:
                 self._donations.append(float(donation))
             else:
-                raise ValueError("Donations must be positive numbers")
+                raise ValueError("Donations must be positive numbers.")
 
     def last_donation(self) -> Union[float, None]:
         """Return the last donation this donor made.
@@ -207,23 +207,33 @@ class DonorCollection:
         name : str
             Name of donor
         donation : float
-            Donation amount"""
+            Donation amount
+
+        Raises
+        ------
+        ValueError
+            If provided donation is not a positive number"""
 
         try:
             self[name].add_donation(donation)
-        except ValueError:
+        except KeyError:
             self.add_donor(name, donation)
 
     def __getitem__(self, name) -> Donor:
         """Return a Donor with the given name, accessed with [] operator.
 
-        Name matching is case-insensitive"""
+        Name matching is case-insensitive.
+
+        Raises
+        ------
+        KeyError
+            If requested donor name is not contained"""
 
         name = name.strip()
         try:
             return self._donors[self._get_donor_names_lower().index(name.lower())]
         except ValueError:
-            raise ValueError(f"No Donor with name {name} exists.")
+            raise KeyError(f"No Donor with name {name} exists.")
 
     def get_report(self) -> str:
         """Generate a report of all donors and donations, sorted by total donation amount.
@@ -234,7 +244,7 @@ class DonorCollection:
             Report of donors and donations"""
 
         strs = [REPORT_HEADER]
-        donors = sorted(self.donors)
+        donors = reversed(sorted(self.donors))
         for donor in donors:
             strs.append(REPORT_ENTRY.format(name=donor.name, sm=donor.total_donations(),
                                             l=donor.number_of_donations(),

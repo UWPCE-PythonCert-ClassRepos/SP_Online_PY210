@@ -3,6 +3,7 @@ Main command line interface for the Mailroom OO program.
 """
 
 from donor_models import Donor, DonorCollection
+import os
 
 # For assignment purposes only, have an initial donor list so user doesn't have
 # to manually add several donors
@@ -81,12 +82,16 @@ def _request_donation() -> float:
             return _request_donation()
 
 
-def send_thank_you(donors: DonorCollection):
+def send_thank_you(donors: DonorCollection) -> None:
     """Send a thank you note to a Donor.
+
+    Parameters
+    ----------
+    donors : DonorCollection
+        DonorCollection to operate on
     """
 
     # Prompt user for a name
-    name = ''
     while True:
         name = _get_input("Enter a full name (or 'list' to list the donors):\n> ",
                           tuple(donors.get_donor_names()) + ('list',) + _quit_responses,
@@ -105,15 +110,44 @@ def send_thank_you(donors: DonorCollection):
         return
 
     # Add donation to donor
-    donors.add_donation(name, amt)
+    try:
+        donors.add_donation(name, amt)
+    except (ValueError, TypeError):
+        print("Donations must be positive numbers\n")
+    else:
+        # Print thank you note
+        print(f"\n{donors[name].get_thankyou()}\n")
 
 
-def report_action(donors: DonorCollection):
-    pass
+def report_action(donors: DonorCollection) -> None:
+    """Create and print a report of donations.
+
+    Parameters
+    ----------
+    donors : DonorCollection
+        DonorCollection to operate on
+    """
+
+    print('\n')
+    print(donors.get_report())
+    print('\n')
 
 
-def all_thanks(donors: DonorCollection):
-    pass
+def all_thanks(donors: DonorCollection) -> None:
+    """Write letters to all donors in this directory.
+
+    Parameters
+    ----------
+    donors : DonorCollection
+        DonorCollection to operate on
+    """
+
+    donors.write_thank_yous(directory='.')
+    print('All letters written to current directory.\n')
+
+
+def _exit_(*args, **kwargs):
+    exit(0)
 
 
 if __name__ == "__main__":
@@ -130,7 +164,7 @@ if __name__ == "__main__":
     for r in _all_thank_responses:
         actions[r] = all_thanks
     for r in _quit_responses:
-        actions[r] = exit
+        actions[r] = _exit_
 
     # Print intro
     print("\nWelcome to the Mailroom Program!\n")
