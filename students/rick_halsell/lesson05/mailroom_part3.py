@@ -23,7 +23,6 @@ def list_donors_full_func():
         return
 
 
-
 def exact_selection_func(selection):
         """
         Return the selected donor's keys and values from donor dictionary.
@@ -80,13 +79,13 @@ def donor_not_in_dict_func(selection):
         Return new donor addition to donor dictionary.
         """
         if selection not in donors_dictionary.keys():
-            print(f"\nDonor Name \'{selection}\' Not Found -- \
-                  Adding to List of Donors")
+            print(f"\nDonor \'{selection}\' Not Found - Adding to Donors")
             #  Adding new donor to the dictionary
             donors_dictionary[selection] = selection
             donation = float(input('\nEnter donation amount: '))
             #  Adding donation for new user
             donors_dictionary[selection] = [donation]
+            print(f"\nThank you {selection} for your donation of ${donation}.")
             database_func()
         else:
             database_func()
@@ -122,14 +121,20 @@ def thank_you_note_func(): #  Need teacher help with aligning text when written 
                                             {mid_left_aligned_body:^20} \
                                             {mid_right_aligned:>10} \
                                             {right_aligned_ending:>10}")
-
-        #  Gives user feedback on file creation and file location
-        number_of_donors = (len(donors_dictionary.items()))
-        print(f"\n{number_of_donors} - Thank You Letters Generated...")
-        print(f"Thank You Letters Location: {os.getcwd()}")
+        letter_confirmation_func()
         database_func()
         return
 
+
+def letter_confirmation_func():
+        """
+        Return a confirmation message and file path.
+        """
+        #  Gives user feedback on file creation and file location
+        number_of_donors = (len(donors_dictionary.items()))
+        print(f"\n{number_of_donors} - Thank You Letters Generated...")
+        print(f"\nSaved Location: {os.getcwd()}")
+        return
 
 def full_name_func_default():
         """
@@ -186,16 +191,8 @@ def exit_func():
 
 def report_func():
         """
-        Return a comprehensive report of donors and donations.
+        Return a comprehensive report of donors and donation data.
         """
-        #  Assigns variables for easy formatting
-        left_aligned = "Donor Name"
-        center = "Total Given"
-        mid_right_aligned = "Num Gifts"
-        right_aligned = "Average Gift"
-        #  Formatting and printing report header
-        print(f"{left_aligned:<15} | {center:^10} | {mid_right_aligned:>10} \
-                 | {right_aligned:>13}")
         print('-'*58)
         #  List to hold all donor data extracted from dictionary
         comprehensive_donors_list = []
@@ -220,23 +217,13 @@ def report_func():
                 #  Nesting sub list into comprehensive donors list
             comprehensive_donors_list.append(specific_donor_list)
 
-        donor_list_index = 0 #  Initializing donor_list_index at 0
-        #  Determining the number of items in list minus 1 to start at 0
-        donor_list_index = len(comprehensive_donors_list) - 1
-        #  Using lamda to sort list by list index position [3]
-        #  position [3] is the total donation amount
-        for thing in sorted(comprehensive_donors_list,
+        #  Formats and prints out data from donor's list
+        template = "{0:<15} | {1:^10} | {2:>10} | {3:>13}"
+        print(template.format("Donor Name", "Total Given", "Num Gifts",  "Average Gift"))
+        print('_'*58)
+        for args in sorted(comprehensive_donors_list,
                             reverse=True, key=lambda x: float(x[3])):
-            #  Extracts donor name from [donor_list_index][0]
-            selection = comprehensive_donors_list[donor_list_index][0]
-            #  Extracts donor total from [donor_list_index][1]
-            donation_total = comprehensive_donors_list[donor_list_index][1]
-            #  Extracts donor total from [donor_list_index][2]
-            total_donations_given = comprehensive_donors_list[donor_list_index][2]
-            #  Extracts average donation from [donor_list_index][3]
-            avg_donation = comprehensive_donors_list[donor_list_index][3]
-            donor_list_index -= 1 #  Moves to next donor index
-            print(*thing, sep=" ") #  Printing out values (Need Formatting Help Here).
+                            print(template.format(*args))
         print('-'*58)
         entry_function()
         return
