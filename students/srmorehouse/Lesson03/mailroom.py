@@ -122,9 +122,9 @@ def sort_key(item):
 Return a formatted string that will fit in the donor summary table.
 """
 def format_line(item, lengths):
-    total = f"${item[1]:.02f}"
-    avg = f"${item[3]:.02f}"
-    return f"| {item[0]:<{lengths[0]}} | {total:>{lengths[1]}} | {item[2]:>{lengths[2]}} | {avg:>{lengths[3]}} |"
+    total = f"{item[1]:.02f}"
+    avg = f"{item[3]:.02f}"
+    return f"{item[0]:<{lengths[0]}}  ${total:>{lengths[1]}}   {item[2]:>{lengths[2]}}  $t add{avg:>{lengths[3]}}"
 
 
 def create_report ():
@@ -135,15 +135,14 @@ def create_report ():
     lengths = get_max_lengths(donor_summary, header)
 
     sep_strings = [("-" * (lengths[0] + pad)), ("-" * (lengths[1] + pad)), ("-" * (lengths[2] + pad)), ("-" * (lengths[3] + pad))]
-    sep_line = "|" + "+".join(sep_strings) + "|"
+    sep_line = "+".join(sep_strings)
 
     for item in sorted(donor_summary, key=sort_key):
         table.append(format_line(item, lengths))
-        table.append(sep_line)
 
-    table.insert(0, "\n|" + "-" * (len(sep_line) - pad) + "|")
-    table.insert(1, f"| {header[0]:<{lengths[0]}} | {header[1]:>{lengths[1]}} | {header[2]:>{lengths[2]}} | {header[3]:>{lengths[3]}} |")
-    table.insert(2, sep_line)
+    # Header
+    table.insert(0, f"\n{header[0]:<{lengths[0]}} | {header[1]:>{lengths[1]}} | {header[2]:>{lengths[2]}}  | {header[3]:>{lengths[3]}} ")
+    table.insert(1, "-" * (len(sep_line) ) )
 
     print("\n".join(table) + "\n")
 
