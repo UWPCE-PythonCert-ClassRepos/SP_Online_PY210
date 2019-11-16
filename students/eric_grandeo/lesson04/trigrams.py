@@ -7,7 +7,7 @@ words = "I wish I may I wish I might".split()
 
 test_words = '''One night--it was on the twentieth of March, 1888--I was
 returning from a journey to a patient (for I had now returned to
-civil practice), when my way led me through Baker Street. As I
+civil practice), when my way led me through Baker's Street. As I
 passed the well-remembered door, which must always be associated
 in my mind with my wooing, and with the dark incidents of the
 Study in Scarlet, I was seized with a keen desire to see Holmes
@@ -22,10 +22,19 @@ drug-created dreams and was hot upon the scent of some new
 problem. I rang the bell and was shown up to the chamber which
 had formerly been in part my own.'''
 
+with open('sherlock.txt', 'r') as f:
+        read_data = f.read()
+        #print(read_data)
+
+
+
 def strip_punc(words):
+    #excluding apostrophes from the punctuation removal
+    updated_punc = '!"#$%&\()*+,-./:;<=>?@[\\]^_`{|}~'
     new_words = words.replace('-', ' ')
-    new_words_2 = new_words.translate(str.maketrans('', '', string.punctuation)).replace('\n',' ')
-    return new_words_2
+    #new_words = new_words.translate(str.maketrans('', '', string.punctuation)).replace('\n',' ')
+    new_words = new_words.translate(str.maketrans('', '', updated_punc)).replace('\n',' ')
+    return new_words
 
 
 def build_trigrams(words):
@@ -82,7 +91,7 @@ def build_text(trigram_dict, words):
         else:
             new_text.extend(new_word)
 
-    return " ".join(new_text)
+    return " ".join(new_text).capitalize()
 
 '''
 To generate new text from this analysis, choose an arbitrary word pair
@@ -95,7 +104,7 @@ on this pair. This generates another pair to add to the list, and so on.
 
 
 if __name__ == "__main__":
-    strip_text = strip_punc(test_words)
+    strip_text = strip_punc(read_data)
     trigrams = build_trigrams(strip_text.split())
     #print(trigrams)
     rand_start = rand_choice(trigrams)
