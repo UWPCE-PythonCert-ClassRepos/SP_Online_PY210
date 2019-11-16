@@ -21,8 +21,7 @@ drug-created dreams and was hot upon the scent of some new
 problem. I rang the bell and was shown up to the chamber which
 had formerly been in part my own.'''.split()
 
-print(words)
-#print(test_words)
+
 
 def build_trigrams(words):
     """
@@ -40,21 +39,46 @@ def build_trigrams(words):
         follower = words[word+2]
         #print(pair,follower)
 
-        '''
-        if pair in trigrams:
-            trigrams[pair].append(follower)
-        else:
-            trigrams[pair] = [follower]
-        '''
         trigrams.setdefault(pair,[]).append(follower)
 
     return trigrams
 
-#working on the below...need to figure out how to pull random dict key
-def build_text(trigram_dict):
-    print(random.choice(trigram_dict.keys()))
-    new_text = ''
-    return new_text
+def rand_choice(trigram_dict):
+    return random.choice(list(trigram_dict.keys()))
+
+
+#function to create the new text
+def build_text(trigram_dict, words):
+    #create empty list
+    new_text = []
+    #randomly select key
+    rand_start = rand_choice(trigram_dict)
+    print(rand_start)
+    #add randomly selected key to new list
+    for i in rand_start:
+        new_text.append(i)
+
+
+
+    while len(new_text) < 200:
+    #while len(new_text) <= words:
+        new_word = trigram_dict.get(tuple(new_text[len(new_text)-2:]),[])
+
+        #if not in trigram dict, then select a new random key
+        if new_word == []:
+            rand_start = rand_choice(trigram_dict)
+            for i in rand_start:
+                new_text.append(i)
+                continue
+        #if the new_word has more than one value, randomly choose one          
+        elif len(new_word)>1:
+            select_word = random.choice(new_word)
+            new_text.append(select_word)
+        else:
+            new_text.extend(new_word)
+
+
+    return " ".join(new_text)
 
 '''
 To generate new text from this analysis, choose an arbitrary word pair
@@ -67,7 +91,9 @@ on this pair. This generates another pair to add to the list, and so on.
 
 
 if __name__ == "__main__":
-    trigrams = build_trigrams(words)
-    new_text = build_text(trigrams)
-    print(trigrams)
+    trigrams = build_trigrams(test_words)
+    #print(trigrams)
+    rand_start = rand_choice(trigrams)
+    new_text = build_text(trigrams, 200)
+    #print()
     print(new_text)
