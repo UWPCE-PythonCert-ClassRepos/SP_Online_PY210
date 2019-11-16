@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import random
+import string
 
 words = "I wish I may I wish I might".split()
 
@@ -19,8 +20,12 @@ knew his every mood and habit, his attitude and manner told their
 own story. He was at work again. He had risen out of his
 drug-created dreams and was hot upon the scent of some new
 problem. I rang the bell and was shown up to the chamber which
-had formerly been in part my own.'''.split()
+had formerly been in part my own.'''
 
+def strip_punc(words):
+    new_words = words.replace('-', ' ')
+    new_words_2 = new_words.translate(str.maketrans('', '', string.punctuation)).replace('\n',' ')
+    return new_words_2
 
 
 def build_trigrams(words):
@@ -70,13 +75,12 @@ def build_text(trigram_dict, words):
             for i in rand_start:
                 new_text.append(i)
                 continue
-        #if the new_word has more than one value, randomly choose one          
+        #if the new_word has more than one value, randomly choose one
         elif len(new_word)>1:
             select_word = random.choice(new_word)
             new_text.append(select_word)
         else:
             new_text.extend(new_word)
-
 
     return " ".join(new_text)
 
@@ -91,7 +95,8 @@ on this pair. This generates another pair to add to the list, and so on.
 
 
 if __name__ == "__main__":
-    trigrams = build_trigrams(test_words)
+    strip_text = strip_punc(test_words)
+    trigrams = build_trigrams(strip_text.split())
     #print(trigrams)
     rand_start = rand_choice(trigrams)
     new_text = build_text(trigrams, 200)
