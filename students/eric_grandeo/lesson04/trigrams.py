@@ -67,14 +67,14 @@ def build_text(trigram_dict, words):
     new_text = []
     #randomly select key
     rand_start = rand_choice(trigram_dict)
-    print(rand_start)
+    #print(rand_start)
     #add randomly selected key to new list
     for i in rand_start:
         new_text.append(i)
 
 
 
-    while len(new_text) < 200:
+    while len(new_text) < words:
     #while len(new_text) <= words:
         new_word = trigram_dict.get(tuple(new_text[len(new_text)-2:]),[])
 
@@ -109,5 +109,4 @@ if __name__ == "__main__":
     #print(trigrams)
     rand_start = rand_choice(trigrams)
     new_text = build_text(trigrams, 200)
-    #print()
     print(new_text)
