@@ -3,38 +3,36 @@
 import random
 import string
 
-words = "I wish I may I wish I might".split()
 
-test_words = '''One night--it was on the twentieth of March, 1888--I was
-returning from a journey to a patient (for I had now returned to
-civil practice), when my way led me through Baker's Street. As I
-passed the well-remembered door, which must always be associated
-in my mind with my wooing, and with the dark incidents of the
-Study in Scarlet, I was seized with a keen desire to see Holmes
-again, and to know how he was employing his extraordinary powers.
-His rooms were brilliantly lit, and, even as I looked up, I saw
-his tall, spare figure pass twice in a dark silhouette against
-the blind. He was pacing the room swiftly, eagerly, with his head
-sunk upon his chest and his hands clasped behind him. To me, who
-knew his every mood and habit, his attitude and manner told their
-own story. He was at work again. He had risen out of his
-drug-created dreams and was hot upon the scent of some new
-problem. I rang the bell and was shown up to the chamber which
-had formerly been in part my own.'''
+test_list = []
 
-with open('sherlock.txt', 'r') as f:
-        read_data = f.read()
-        #print(read_data)
+with open('/home/ejgrandeo/uwpython/SP_Online_PY210/students/eric_grandeo/lesson04/sherlock.txt', 'r') as f:
+    count = 0
+    story = False
 
+    for line in f:
+        #print(line)
 
+        #make start and end sentences a variable
+        if "*** START OF THIS PROJECT GUTENBERG EBOOK THE ADVENTURES OF SHERLOCK HOLMES ***" in line:
+            story = True
+        elif "*** END OF THIS PROJECT GUTENBERG EBOOK THE ADVENTURES OF SHERLOCK HOLMES ***" in line:
+            story = False
+
+        if story is True:
+            test_list.extend(line.split())
+
+new_text = " ".join(test_list)
 
 def strip_punc(words):
     #excluding apostrophes from the punctuation removal
     updated_punc = '!"#$%&\()*+,-./:;<=>?@[\\]^_`{|}~'
     new_words = words.replace('-', ' ')
-    #new_words = new_words.translate(str.maketrans('', '', string.punctuation)).replace('\n',' ')
     new_words = new_words.translate(str.maketrans('', '', updated_punc)).replace('\n',' ')
     return new_words
+
+
+
 
 
 def build_trigrams(words):
@@ -72,10 +70,8 @@ def build_text(trigram_dict, words):
     for i in rand_start:
         new_text.append(i)
 
-
-
+    #create text based on number of max words
     while len(new_text) < words:
-    #while len(new_text) <= words:
         new_word = trigram_dict.get(tuple(new_text[len(new_text)-2:]),[])
 
         #if not in trigram dict, then select a new random key
@@ -84,6 +80,7 @@ def build_text(trigram_dict, words):
             for i in rand_start:
                 new_text.append(i)
                 continue
+
         #if the new_word has more than one value, randomly choose one
         elif len(new_word)>1:
             select_word = random.choice(new_word)
@@ -104,9 +101,9 @@ on this pair. This generates another pair to add to the list, and so on.
 
 
 if __name__ == "__main__":
-    strip_text = strip_punc(read_data)
+    strip_text = strip_punc(new_text)
     trigrams = build_trigrams(strip_text.split())
     #print(trigrams)
     rand_start = rand_choice(trigrams)
-    new_text = build_text(trigrams, 200)
+    new_text = build_text(trigrams, 1000)
     print(new_text)
