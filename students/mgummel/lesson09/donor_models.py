@@ -26,6 +26,15 @@ class Donor(object):
     def last_donation(self):
         return self._donations[-1]
 
+    @property
+    def filename(self):
+        translator = {ord(" "): "_", ord(","): None}
+        return self._full_name.translate(translator)
+
+
+    @property
+    def data(self):
+        return (self._full_name, self.total_donation, self.num_of_donations, self.avg_donation)
 
     def add_donation(self, donation_amt):
         """
@@ -38,8 +47,6 @@ class Donor(object):
         self._donations.append(donation_amt)
         self._total_donation += donation_amt
 
-    def report_data(self):
-        return (self._full_name, self.total_donation, self.num_of_donations, self.avg_donation)
 
     def __str__(self):
         email_template = '\n'.join((f'\n\nDear {self._full_name},\n',
@@ -60,7 +67,7 @@ class DonorCollection(object):
             self.donor_list.append(donor)
 
 
-    def generate_list(self):
+    def generate_list_of_names(self):
         names = [donor._full_name for donor in self.donor_list]
         name_selection = "\n".join(["{}"] * len(self.donor_list)).format(*names)
         return name_selection
@@ -77,6 +84,17 @@ class DonorCollection(object):
                 donor_object = donor
                 break
         return donor_object
+
+
+    def report_data(self):
+        report = [donor_obj.data for donor_obj in self.donor_list]
+        return report
+
+
+    def letters_to_send(self, dir_path):
+        for donor in self.donor_list:
+            with open(f'{dir_path}/{donor.filename}.txt', 'w', encoding='utf-8') as email:
+                email.write(donor.__str__())
 
 
 def main():

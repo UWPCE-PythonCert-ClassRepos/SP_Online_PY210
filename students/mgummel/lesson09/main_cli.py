@@ -1,6 +1,7 @@
 #! /usr/bin/env python3
 
 import sys
+import pathlib
 from donor_models import Donor, DonorCollection
 
 prompt = "\n".join(("Please choose a number corresponding to the options below:",
@@ -57,7 +58,7 @@ def send_thank_you():
 
     while donor == "List":
         # Prints a list of donors for the user to view
-        print(donor_collection.generate_list())
+        print(donor_collection.generate_list_of_names())
         donor = validate(
             "Type donor's name or 'list' to print names again\n>>>").title()
 
@@ -108,13 +109,28 @@ def create_report():
 
     # Print the rows to the report table
     formatting = "{:<27}${:>12.2f}{:>14}   ${:>13.2f}"
-    for donor_obj in donor_collection.donor_list:
-        row = donor_obj.report_data()
-        print("".join(formatting.format(*row)))
+    collection_data = donor_collection.report_data()
+    for donor_data in collection_data:
+        print("".join(formatting.format(*donor_data)))
 
 
 def send_letters():
-    pass
+    """
+    Accepts user input for a directory to write templatized
+    email documents for each donor.
+    """
+
+    location = validate("\n".join(("Please type the directory you want files to be generated.",
+                                       "(Hit \'Enter\' to default to the current working directory)",
+                                       ">>> ")))
+    directory = pathlib.Path(location)
+    while not directory.exists():
+        location = validate("\n".join(("That's not a valid directory. Please type a valid path.\n",
+                                       ">>> ")))
+        directory = pathlib.Path(location)
+
+    # Write each file to the chosen directory                    
+    donor_collection.letters_to_send(directory)
 
 def main():
     menu = {
