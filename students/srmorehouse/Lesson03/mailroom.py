@@ -124,7 +124,7 @@ Return a formatted string that will fit in the donor summary table.
 def format_line(item, lengths):
     total = f"{item[1]:.02f}"
     avg = f"{item[3]:.02f}"
-    return f"{item[0]:<{lengths[0]}}  ${total:>{lengths[1]}}   {item[2]:>{lengths[2]}}  $t add{avg:>{lengths[3]}}"
+    return f"{item[0]:<{lengths[0]}}  ${total:>{lengths[1]}}   {item[2]:>{lengths[2]}}  ${avg:>{lengths[3]}}"
 
 
 def create_report ():
