@@ -13,7 +13,7 @@ File paths for Clemente Fortuna's personal testing:
 import os
 
 
-def Processing():
+def processing():
     """
     Execution of path and file processing.
     """
@@ -56,7 +56,7 @@ def Processing():
     os.chdir(orig_dir)
 
 
-def Parsing():
+def parsing():
     orig_dir = os.getcwd()
     src_dir = input("Pleae enter source directory of text file: \n")
     dst_dir = input("Please enter destination directory of language file: \n")
