@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
 import os
 import sys
-import operator
 import time
-from operator import itemgetter
 
-#  Mailroom (Part 3) - cleaned up with PEP 8
+#  Mailroom (Part 4) - cleaned up with PEP 8
 donors_dictionary = {'Jonny Gill' : [3.00, 15.00, 25.12],
     'Bobby Brown' : [11.75, 45.01], 'Michael Bivins' : [345.99],
     'Ricky Bell' : [232.33, 35.03, 123.78], 'Ronnie DeVoe' : [456.00, 789.00]}
+
 
 def exact_selection_func(selection):
     """
@@ -33,7 +32,7 @@ def list_donors_func():
         time.sleep(0.2)
     print('*'*25)
     print()
-    #database_func()
+    main_menu_function()
     return key
 
 
@@ -54,7 +53,6 @@ def donor_in_dict_func():
             print(the_error)
         exact_selection_func(selection)
         selection = selection.replace(" ", "") # Cleaning up the output
-        database_func() #  Sends user to database menu
     else:
         #  Add new donor to donor dictionary
         donor_not_in_dict_func(selection)
@@ -74,17 +72,16 @@ def donor_not_in_dict_func(selection):
         except ValueError as the_error:
             print(f"Error: {the_error}")
             print("Donor not added to database: Please try again.")
-            database_func()
         #  Adding donation for new user
         donors_dictionary[selection] = [donation]
         print(f"\nThank you {selection} for your donation of ${donation}.")
-        database_func()
+        main_menu_function()
     else:
-        database_func()
+        main_menu_function()
     return
 
 
-def thank_you_note_func(): #  Need teacher help with aligning text when written to disk
+def thank_you_note_func(): #  Need help with aligning text when written to disk
     """
     Return individual thank you note and write it do the disk.
     """
@@ -114,7 +111,6 @@ def thank_you_note_func(): #  Need teacher help with aligning text when written 
                                         {mid_right_aligned:>10} \
                                         {right_aligned_ending:>10}")
     letter_confirmation_func()
-    database_func()
     return
 
 
@@ -126,50 +122,6 @@ def letter_confirmation_func():
     number_of_donors = (len(donors_dictionary.items()))
     print(f"\n{number_of_donors} - Thank You Letters Generated...")
     print(f"\nSaved Location: {os.getcwd()}")
-    return
-
-def menu_options_func_default():
-    """
-    Return user to main menu if switch case entry is not listed.
-    """
-    main_menu_function()
-    return
-
-
-def database_func():
-    """
-    Return Database menu options.
-    """
-    global selection
-    print ("""
-    *******************************************
-    *   Database Menu - Please Enter a Number *
-    *******************************************
-        0. Return to the Main Menu
-        1. To see a full list of donors
-        2. Search donor database
-        3. Send letters to all donors
-    *******************************************
-    """)
-    selection = input('Enter Your Selection: ')
-    try:
-        #  Variable int needed for dictionary .get.
-        selection = int(selection)
-    except ValueError as the_error:
-        print(f"{selection} is not a vaild selection.")
-        print("Please select a number from the menu.")
-        time.sleep(0.5)
-
-    #  Switch case function dictionary
-    menu_options_func = {
-            0 : main_menu_function,
-            1 : list_donors_func,
-            2 : donor_in_dict_func,
-            3 : thank_you_note_func
-    }
-
-    #  Switch case dictionary with exception handle default function
-    menu_options_func.get(selection, database_func)()
     main_menu_function()
     return
 
@@ -184,15 +136,15 @@ def exit_func():
     raise SystemExit(code)
     return
 
-#  List to hold all donor data extracted from dictionary
-comprehensive_donors_list = []
 
 def report_func():
     """
     Return donors and donation data.
     """
+    global comprehensive_donors_list
     print('-'*58)
-
+    #  List to hold all donor data extracted from dictionary
+    comprehensive_donors_list = []
     #  Extract specific donors from dictionary
     for selection, value in sorted (donors_dictionary.items()):
         specific_donor_list = []
@@ -210,12 +162,16 @@ def report_func():
 
         for item in donor_sub_list_values:
             specific_donor_list.append(item) #  Adding item to donor's list
+            #if item in specific_donor_list:
+            #    pass
+            #else:
+
             #  Nesting sub list into comprehensive donors list
         comprehensive_donors_list.append(specific_donor_list)
     print_report()
-    #main_menu_function()
-    print('Thank you for visiting the mailroom.')
+    main_menu_function()
     return
+
 
 def print_report():
     """
@@ -230,6 +186,7 @@ def print_report():
                         print(template.format(*args))
     print('-'*58)
     return
+
 
 def execute_again_func():
     """
@@ -257,6 +214,7 @@ def execute_again_func():
     switch_execute_again_dict.get(answer    , execute_again_func)()
     return
 
+
 def main_menu_function():
     """
     Return Main Menu
@@ -265,10 +223,12 @@ def main_menu_function():
     **************************************
     *  Main Menu - Please Enter a Number *
     **************************************
-            0. Database Menu
-            1. Create a Report
-            2. Restart Program
-            3. Exit Program
+            0. Create A Report
+            1. List All Donors
+            2. Search Database
+            3. Create Thank You Letter
+            4. Restart Program
+            5. Exit Program
     **************************************
     """)
     answer = input('Enter a number: ')
@@ -284,16 +244,18 @@ def main_menu_function():
     print(f"You Entered: {answer}")
     print()
     #  Switch case dict .get with error handle default
-    switch_main_menu_dict.get(answer, menu_options_func_default)()
+    switch_main_menu_dict.get(answer, main_menu_function)()
     return answer
     assert answer == 1
 
 #  Using switch case for main menu prompt
 switch_main_menu_dict={
-    0: database_func,
-    1: report_func,
-    2: execute_again_func,
-    3: exit_func
+    0: report_func,
+    1: list_donors_func,
+    2: donor_in_dict_func,
+    3: thank_you_note_func,
+    4: execute_again_func,
+    5: exit_func
 }
 
 #  Using switch case for run again prompt
@@ -301,6 +263,7 @@ switch_execute_again_dict={
     0: main_menu_function,
     1: exit_func
 }
+main_menu_function()
 
 
 if __name__ == "__main__":
