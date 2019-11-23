@@ -33,8 +33,6 @@ def strip_punc(words):
 
 
 
-
-
 def build_trigrams(words):
     """
     build up the trigrams dict from the list of words
@@ -58,14 +56,52 @@ def build_trigrams(words):
 def rand_choice(trigram_dict):
     return random.choice(list(trigram_dict.keys()))
 
+def rand_num_sent():
+    return random.randrange(5, 10)
+
+def num_words_sent():
+    return random.randrange(10, 20)
+
+def make_sent_para(text_list):
+    new_word_list = []
+    temp_list = []
+    words = num_words_sent()
+    for i in range(len(text_list)):
+        temp_list.append(text_list[i])
+        if i == words:
+            new_word_list.append(temp_list)
+            temp_list = []
+            words = num_words_sent() + i
+
+    #return new_word_list
+    another_list = []
+    another_temp_list = []
+
+    sentences = rand_num_sent()
+    for i in range(len(new_word_list)):
+        line = " ".join(new_word_list[i]).capitalize() + "."
+        another_temp_list.append(line)
+        if i == sentences:
+            another_list.append(another_temp_list)
+            another_temp_list = []
+            #another_list.append('\r\n\r\n')
+            sentences = rand_num_sent() + i
+    #return another_list
+
+    the_final_list = []
+    for j in another_list:
+        the_final_list.append(" ".join(j))
+
+    return "\r\n\r\n".join(the_final_list)
 
 #function to create the new text
 def build_text(trigram_dict, words):
     #create empty list
     new_text = []
+
     #randomly select key
     rand_start = rand_choice(trigram_dict)
-    #print(rand_start)
+
     #add randomly selected key to new list
     for i in rand_start:
         new_text.append(i)
@@ -88,7 +124,8 @@ def build_text(trigram_dict, words):
         else:
             new_text.extend(new_word)
 
-    return " ".join(new_text).capitalize()
+    return make_sent_para(new_text)
+    #return " ".join(new_text).capitalize()
 
 '''
 To generate new text from this analysis, choose an arbitrary word pair
