@@ -6,7 +6,7 @@ import string
 
 test_list = []
 
-with open('/home/ejgrandeo/uwpython/SP_Online_PY210/students/eric_grandeo/lesson04/sherlock.txt', 'r') as f:
+with open('sherlock.txt', 'r') as f:
     count = 0
     story = False
 
