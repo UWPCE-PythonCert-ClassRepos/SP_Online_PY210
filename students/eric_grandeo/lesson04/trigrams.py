@@ -54,18 +54,23 @@ def build_trigrams(words):
     return trigrams
 
 def rand_choice(trigram_dict):
+    #random selection from the trigram dict to start the generated text
     return random.choice(list(trigram_dict.keys()))
 
 def rand_num_sent():
+    #randomly choose the number of sentences in a paragraph
     return random.randrange(5, 10)
 
 def num_words_sent():
+    #randomly choose the number of words in a sentence
     return random.randrange(10, 20)
 
 def make_sent_para(text_list):
+    #using num_words_sent and rand_num_sent, create paragraphs from the generated text
     new_word_list = []
     temp_list = []
     words = num_words_sent()
+    #create a list of sentences with rand number of words in it
     for i in range(len(text_list)):
         temp_list.append(text_list[i])
         if i == words:
@@ -73,10 +78,10 @@ def make_sent_para(text_list):
             temp_list = []
             words = num_words_sent() + i
 
-    #return new_word_list
     another_list = []
     another_temp_list = []
 
+    #create a random list of paragraphs from the previous list
     sentences = rand_num_sent()
     for i in range(len(new_word_list)):
         line = " ".join(new_word_list[i]).capitalize() + "."
@@ -84,9 +89,7 @@ def make_sent_para(text_list):
         if i == sentences:
             another_list.append(another_temp_list)
             another_temp_list = []
-            #another_list.append('\r\n\r\n')
             sentences = rand_num_sent() + i
-    #return another_list
 
     the_final_list = []
     for j in another_list:
@@ -125,7 +128,6 @@ def build_text(trigram_dict, words):
             new_text.extend(new_word)
 
     return make_sent_para(new_text)
-    #return " ".join(new_text).capitalize()
 
 '''
 To generate new text from this analysis, choose an arbitrary word pair
@@ -140,7 +142,6 @@ on this pair. This generates another pair to add to the list, and so on.
 if __name__ == "__main__":
     strip_text = strip_punc(new_text)
     trigrams = build_trigrams(strip_text.split())
-    #print(trigrams)
     rand_start = rand_choice(trigrams)
-    new_text = build_text(trigrams, 1000)
+    new_text = build_text(trigrams, 2000)
     print(new_text)
