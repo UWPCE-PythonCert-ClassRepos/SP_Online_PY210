@@ -11,7 +11,7 @@ Dictionaries1() and Dictionaries2() use the starting dict.
 start_dict = dict(name='Chris', city='Seattle', cake='Chocolate')
 
 
-def Dictionaries1():  # pretty straightforward
+def dictionaries1():  # pretty straightforward
     print(start_dict)
     start_dict.pop('cake')
     print(start_dict)
@@ -23,7 +23,7 @@ def Dictionaries1():  # pretty straightforward
     print('Mango' in start_dict.values())
 
 
-def Dictionaries2():
+def dictionaries2():
     count_t = []  # establish an empty list for future population with count values
     for item in start_dict.values():
         count_t.append(item.lower().count('t'))  # number of 't' characters per string, case insensitive.
@@ -31,7 +31,7 @@ def Dictionaries2():
     print(dict2)
 
 
-def Set1():
+def set1():
     """
     Set1
 
@@ -63,7 +63,7 @@ def Set1():
     print(s4.issubset(s2))
 
 
-def Set2():  # pretty straightforward
+def set2():  # pretty straightforward
     P_set = set('Python')
     P_set.update('i')
     m_set = frozenset('marathon')
