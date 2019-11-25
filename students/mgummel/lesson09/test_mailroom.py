@@ -113,3 +113,4 @@ def test_add_donation():
     d2.add_donation(7894.76)
     assert (7894.76) in d2._donations
     assert (987654.23) in d1._donations
+
