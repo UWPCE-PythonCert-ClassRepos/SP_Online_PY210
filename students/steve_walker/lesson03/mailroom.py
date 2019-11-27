@@ -55,6 +55,8 @@ def create_report():
     for record in donor_records:
         donor_summary.append([record[0], sum(record[1],0), 
             len(record[1]), sum(record[1],0)/len(record[1])])
+    donor_summary.sort(key = lambda donor_summary: donor_summary[1], 
+        reverse = True)
     for i in donor_summary:
         print(" {0:<20} ${1:>11.2f}{2:>12}  ${3:>12.2f}".format(*i))
 
