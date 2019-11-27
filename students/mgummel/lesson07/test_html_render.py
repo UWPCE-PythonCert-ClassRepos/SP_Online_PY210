@@ -183,19 +183,163 @@ def test_sub_element():
 # Add your tests here!
 def test_head():
     e = Head("this is some head text")
-    e.append("and this is some more head text")
 
     file_contents = render_result(e).strip()
 
     assert("this is some head text") in file_contents
-    assert("and this is some more head text") in file_contents
 
     assert file_contents.startswith("<head>")
     assert file_contents.endswith("</head>")
 
+
+def test_title():
+    o = Title("this is some onelinetag text")
+
+    file_contents = render_result(o).strip()
+
+    assert("this is some onelinetag text") in file_contents
+    assert "\n" not in file_contents
+    assert file_contents.startswith("<title>")
+    assert file_contents.endswith("</title>")
+
+    with pytest.raises(NotImplementedError):
+        o.append("some more content")
+
+########
+# Step 4
+########
+
+def test_attributes():
+    e = P("A paragraph of text", style="text-align: center", id="intro")
+
+    file_contents = render_result(e).strip()
+    print(file_contents)  # so we can see it if the test fails
+
+    # note: The previous tests should make sure that the tags are getting
+    #       properly rendered, so we don't need to test that here.
+    #       so using only a "P" tag is fine
+    assert "A paragraph of text" in file_contents
+    # but make sure the embedded element's tags get rendered!
+    # first test the end tag is there -- same as always:
+    assert file_contents.endswith("</p>")
+
+    # but now the opening tag is far more complex
+    # but it starts the same:
+    assert file_contents.startswith("<p ") # make sure there's space after the p
+
+    # order of the tags is not important in html, so we need to
+    # make sure not to test for that
+    # but each attribute should be there:
+    assert 'style="text-align: center"' in file_contents
+    assert 'id="intro"' in file_contents
+
+    # # just to be sure -- there should be a closing bracket to the opening tag
+    assert file_contents[:-1].index(">") > file_contents.index('id="intro"')
+    assert file_contents[:file_contents.index(">")].count(" ") == 3
+
+########
+# Step 5
+########
+
+def test_hr():
+    """a simple horizontal rule with no attributes"""
+    hr = Hr()
+    file_contents = render_result(hr).strip()
+    print(file_contents)
+    assert file_contents == '<hr />'
+
+
+def test_hr_attr():
+    """a horizontal rule with an attribute"""
+    hr = Hr(width=400)
+    file_contents = render_result(hr).strip()
+    print(file_contents)
+    assert file_contents == '<hr width="400" />'
+
+
+def test_br():
+    br = Br()
+    file_contents = render_result(br).strip()
+    print(file_contents)
+    assert file_contents == "<br />"
+
+
+def test_content_in_br():
+    with pytest.raises(TypeError):
+        br = Br("some content")
+
+
+def test_append_content_in_br():
+    with pytest.raises(TypeError):
+        br = Br()
+        br.append("some content")
+
+########
+# Step 6
+########
+
+def test_anchor():
+    a = A("http://google.com", "link to google")
+    file_contents = render_result(a)
+    file_contents = render_result(a).strip()
+    print(file_contents)
+    assert file_contents.startswith('<a ')
+
+########
+# Step 7
+########
+def test_list():
+    """
+    Tests whether the Element can render two pieces of text
+    So it is also testing that the append method works correctly.
+
+    It is not testing whether indentation or line feeds are correct.
+    """
+    l = Li("this is some text")
+    l.append("and this is some more text")
+
+    # This uses the render_results utility above
+    file_contents = render_result(l).strip()
+
+    # making sure the content got in there.
+    assert("this is some text") in file_contents
+    assert("and this is some more text") in file_contents
+
+    # make sure it's in the right order
+    assert file_contents.index("this is") < file_contents.index("and this")
+
+    # making sure the opening and closing tags are right.
+    assert file_contents.startswith("<li>")
+    assert file_contents.endswith("</li>")
+
+
+def test_html():
+    """
+    Tests whether the Element can render two pieces of text
+    So it is also testing that the append method works correctly.
+
+    It is not testing whether indentation or line feeds are correct.
+    """
+    e = Html("this is some text")
+    e.append("and this is some more text")
+
+    # This uses the render_results utility above
+    file_contents = render_result(e).strip()
+
+    # making sure the content got in there.
+    assert("this is some text") in file_contents
+    assert("and this is some more text") in file_contents
+
+    # make sure it's in the right order
+    assert file_contents.index("this is") < file_contents.index("and this")
+
+    # making sure the opening and closing tags are right.
+    assert file_contents.startswith("<!DOCTYPE html>")
+    assert file_contents.endswith("</html>")
+
 # #####################
 # # indentation testing
-# #  Uncomment for Step 9 -- adding indentation
+# # Step 9 -- adding indentation
 # #####################
 
 

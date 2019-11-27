@@ -18,6 +18,11 @@ def test_donor_init():
     assert 423.10 in d2._donations
     assert 0.01 in d3._donations
 
+    with pytest.raises(TypeError):
+        e1 = Donor("Matt Gummel", "what what")
+        e2 = Donor("Ashton Kutcher", 232)
+        e3 = Donor("Sean William Scott", [2343.23])
+
 
 def test_average():
     donor1 = Donor("William Gates, III", 653772.32)
@@ -149,6 +154,11 @@ def test_dc_init():
     
     assert Paul_Allen in dc1.donor_list
     assert Jeff_Bezos in dc1.donor_list
+
+    with pytest.raises(TypeError):
+        e1 =DonorCollection(Paul_Allen, "Marc Benioff")
+        e2 = DonorCollection(Paul_Allen, Jeff_Bezos, 1324)
+        e3 = DonorCollection("Sean William Scott", [2343.23])
 
 
 def test_add_donor():

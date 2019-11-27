@@ -80,6 +80,9 @@ class Li(Element):
 
 
 class OneLineTag(Element):
+    def append(self, content):
+        raise NotImplementedError
+
     def render(self, out_file, curr_ind=""):
         out_file.write(curr_ind + self.indent)
         one_line = f'{self._open_tag()}{self.content[0]}{self._close_tag()}'.replace('\n', '')
@@ -107,16 +110,21 @@ class A(OneLineTag):
 
 
 class SelfClosingTag(Element):
+
     def __init__(self, content=None, **kwargs):
+
         if content is not None:
             raise TypeError("Can not contain any content")
         super().__init__(content=content, **kwargs)
 
+    def append(self, new_content):
+        raise TypeError("Can not contain any content")
+
     def render(self, out_file, curr_ind=""):
         out_file.write(curr_ind + self.indent)
-        closing_tag = f'<{self.tag} />'
+        closing_tag = f'<{self.tag} />\n'
         if self.attrs:
-            closing_tag = closing_tag.replace(' ', f'{self.attrs}')
+            closing_tag = closing_tag.replace(' ', f'{self.attrs} ')
         out_file.write(closing_tag)
 
 
@@ -124,7 +132,7 @@ class Hr(SelfClosingTag):
     tag = "hr"
 
 
-class br(SelfClosingTag):
+class Br(SelfClosingTag):
     tag = "br"
 
 
