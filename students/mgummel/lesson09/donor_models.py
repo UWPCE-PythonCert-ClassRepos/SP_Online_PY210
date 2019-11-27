@@ -61,7 +61,7 @@ class Donor(object):
         templates.
         """
         translator = {ord(" "): "_", ord(","): None}
-        return self._full_name.translate(translator)
+        return f'{self._full_name.translate(translator)}.txt'
 
     @property
     def data(self):
@@ -164,22 +164,12 @@ class DonorCollection(object):
         :type dir_path: str
         """
         for donor in self.donor_list:
-            with open(f'{dir_path}/{donor.filename}.txt', 'w', encoding='utf-8') as email:
+            with open(f'{dir_path}/{donor.filename}', 'w', encoding='utf-8') as email:
                 email.write(donor.__str__())
 
 
 def main():
-    d1 = Donor("Matt Gummel", 123.12)
-    print(d1._full_name)
-    print(d1.avg_donation)
-    print(d1.total_donation)
-    d1.add_donation(32.86)
-    print(d1.avg_donation)
-    print(d1.total_donation)
-    print(d1)
-    d2 = Donor("Elizabeth Gummel", 432.00)
-    dc1 = DonorCollection(d1, d2)
-    print(dc1.__repr__())
+    pass
 
 
 if __name__ == '__main__':
