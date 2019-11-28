@@ -96,7 +96,7 @@ Criteria = [[')', ']'], ['('] + Dub_brack, Dub_par + Dub_brack,
             [']'] + Dub_par, ['[', '"'] + Dub_par]
 
 
-# TEXT PROCESSING: ADDS A PERIOD OR EXCL MARK TO A WORD THAT ALREADY HAS A CLOSED QUOTE OR...
+# HELPER FUNCTION: ADDS A PERIOD OR EXCL MARK TO A WORD THAT ALREADY HAS A CLOSED QUOTE OR...
 # ...CLOSED PARENTHESIS
 def close_str(srch_list, srch_chr, ind_mod, rep_chr):
     selection = random.choice(srch_list)
@@ -110,7 +110,7 @@ def close_str(srch_list, srch_chr, ind_mod, rep_chr):
     return selection
 
 
-# TEXT PROCESSING: ADDS A CLOSED QUOTE OR CLOSED PARENTHESIS TO A WORD THAT ALREADY HAS...
+# HELPER FUNCTION: ADDS A CLOSED QUOTE OR CLOSED PARENTHESIS TO A WORD THAT ALREADY HAS...
 # ...A PERIOD
 def add_quo_paren(current_follow, srch_chr, ind_mod, rep_chr):
     if rep_chr not in current_follow:
@@ -119,6 +119,19 @@ def add_quo_paren(current_follow, srch_chr, ind_mod, rep_chr):
         acf_list.insert(sym_ind + ind_mod, rep_chr)
         current_follow = "".join(acf_list)
     return current_follow
+
+
+# HELPER FUNCTION: GETS FIRST AND LAST CHARACTERS OF NEW MATERIAL FOR TESTING WHICH DICT TO USE
+def get_test_objs(sentence, new_segment):
+    sentence += new_segment
+    test_str = new_segment
+    test_list = test_str.split( )
+    first_chrs = []
+    last_chrs = []
+    for word in test_list:
+        first_chrs.append(word[0])
+        last_chrs.append(word[-1])
+    return sentence, test_str, test_list, first_chrs, last_chrs
 
 
 # THIS READS THE SOURCE TEXT AND GENERATES A LIST OF WORDS
@@ -341,19 +354,10 @@ def do_trigrams(quo_close_list, paren_close_list, end_close_list, dub_quo_list):
 
         # THIS ADDS NEW MATERIAL TO THE STRING
         if case == 2:  # Special scenario where the entire trigram is added.
-            sentence += current_pair + " " + current_follow
-            # Identifies characters for testing which dicts to use.
-            test_str = current_pair + " " + current_follow
-            test_list = test_str.split( )
-            first_chrs = [test_list[0][0], test_list[1][0], test_list[2][0]]
-            last_chrs = [test_list[0][-1], test_list[1][-1], test_list[2][-1]]
+            new_segment = current_pair + " " + current_follow
         else:  # Default scenario for adding the third word in the trigram
-            sentence += " " + current_follow
-            # Identifies characters for testing which dicts to use.
-            test_str = current_follow
-            test_list = [test_str]
-            first_chrs = test_str[0]
-            last_chrs = test_str[-1]
+            new_segment = " " + current_follow
+        sentence, test_str, test_list, first_chrs, last_chrs = get_test_objs(sentence, new_segment)
 
         # THESE TOGGLE BETWEEN VARIOUS DICTS, IN ORDER TO DEAL WITH...
         # ...CHARACTERS REQUIRING CLOSURE
