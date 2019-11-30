@@ -136,21 +136,6 @@ class Sphere(Circle):
         """
         return self.__mul__(scalar)
 
-
-    #def __lt__(self, other):
-        """
-        Returns True if this instance object is smaller than another Circle
-        object. Returns False otherwise.
-        """
-    #    return (self.radius < other.radius)
-
-    
-    #def __eq__(self, other):
-        """
-        Returns True if the Circles objects have the same radius size. Returns
-        False if the radius' aren't the same.
-        """
-    #    return (self.radius == other.radius)
     def __str__(self):
         """
         Returns a string that displays the sphere's radius.

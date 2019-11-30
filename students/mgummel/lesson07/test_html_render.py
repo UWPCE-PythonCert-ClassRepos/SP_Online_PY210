@@ -79,8 +79,7 @@ def test_render_element():
     assert file_contents.startswith("<html>")
     assert file_contents.endswith("</html>")
 
-# Uncomment this one after you get the one above to pass
-# Does it pass right away?
+
 def test_render_element2():
     """
     Tests whether the Element can render two pieces of text
