@@ -4,6 +4,10 @@ import pytest, os
 
 
 def test_donor_init():
+    """
+    Verifies that all instance variables gets set when 
+    creating a new Donor object instance.
+    """
     d1 = Donor("Paul Allen", 2343.99)
     d2 = Donor("Jeff Bezos", 423.10)
     d3 = Donor("Kanye West", 0.01)
@@ -18,34 +22,48 @@ def test_donor_init():
     assert 423.10 in d2._donations
     assert 0.01 in d3._donations
 
+    # Verify that a Donor will throw errors if not 
+    # initialized properly
     with pytest.raises(TypeError):
         e1 = Donor("Matt Gummel", "what what")
         e2 = Donor("Ashton Kutcher", 232)
         e3 = Donor("Sean William Scott", [2343.23])
+        e4 = Donor (432.23, "Dude")
 
 
 def test_average():
+    """
+    Tests that avg_donation gets computed properly.
+    """
     donor1 = Donor("William Gates, III", 653772.32)
     donor2 = Donor("Paul Allen", 663.23)
+    # Verifies that the avg_donation get initialized
     assert donor1.avg_donation == 653772.32
     assert donor2.avg_donation == 663.23
 
+    # Adds a donation and checks for new average
     donor1.add_donation(10.00)
     assert donor1.avg_donation == 653782.32 / 2
     assert donor2.avg_donation == 663.23
 
+    # Adds more donations and checks for new average again
     donor1.add_donation(532.79)
     donor2.add_donation(368.45)
     assert donor1.avg_donation == 654315.11 / 3
     assert donor2.avg_donation == 1031.68 / 2
 
 def test_total_donation():
+    """
+    Verifies that the total_donation class property gets 
+    calculated properly.
+    """
     d1 = Donor("Mark Zuckerberg", 1663.23)
     d2 = Donor("Marc Benioff", 45023.15)
     
     assert d1.total_donation == 1663.23
     assert d2.total_donation == 45023.15
 
+    # Adds donations and verifies the new toals
     d1.add_donation(100.00)
     d2.add_donation(55.00)
     assert d1.total_donation == 1763.23
@@ -56,6 +74,11 @@ def test_total_donation():
     assert d2.total_donation == 45178.15
 
 def test_num_of_donations():
+    """
+    Verifies the class property of num_of_donation
+    gets set properly and continues to increment
+    as new donations are added.
+    """
     d1 = Donor("50 Cent", 2343.99)
     d2 = Donor("Meek Mills", 423.10)
     d3 = Donor("Kanye West", 0.01)
@@ -64,6 +87,9 @@ def test_num_of_donations():
     assert d2.num_of_donations == 1
     assert d3.num_of_donations == 1
 
+    # Adds more donations and verifies all 
+    # num_of donations properties incremented
+    # properly.
     d1.add_donation(43.99)
     d3.add_donation(432.10)
     assert d1.num_of_donations == 2
@@ -76,6 +102,10 @@ def test_num_of_donations():
     assert d3.num_of_donations == 3
 
 def test_last_donation():
+    """
+    Checks that the last_donation class property is 
+    returned correctly.
+    """
     d1 = Donor("50 Cent", 2343.99)
     d2 = Donor("Meek Mills", 423.10)
     d3 = Donor("Kanye West", 0.01)
@@ -84,6 +114,8 @@ def test_last_donation():
     assert d2.last_donation == 423.10
     assert d3.last_donation == 0.01
 
+    # Add donations and verify that the last_donation gets
+    # incremented as expected.
     d1.add_donation(43.99)
     d3.add_donation(432.10)
     assert d1.last_donation == 43.99
@@ -96,6 +128,10 @@ def test_last_donation():
     assert d3.last_donation == 42.99
 
 def test_str():
+    """
+    Verifies that the __str__() built-in returns the expected
+    email template to be sent to donors.
+    """
     d1 = Donor("Kris Smith", 23.43)
     assert ("Kris Smith") in d1.__str__()
     assert ("23.43") in d1.__str__()
@@ -107,6 +143,10 @@ def test_str():
     assert ("It will be put to very good use.") in d1.__str__()
 
 def test_add_donation():
+    """
+    Verifies that add_donation(amount) adds the appropriate amount 
+    to the _donations list.
+    """
     d1 = Donor("Kris Smith", 23.43)
     d2 = Donor("Kris Smith Jr.", 42.23)
 
@@ -122,13 +162,21 @@ def test_add_donation():
     assert (987654.23) in d1._donations
 
 def test_filename():
-   d1 = Donor("Kris Smith II", 23.43)
-   d2 = Donor("Matt Gummel, IV", 100000.00)
+    """
+    Verifies that the filenames get set properly when
+    wanting to send letters.
+    """
+    d1 = Donor("Kris Smith II", 23.43)
+    d2 = Donor("Matt Gummel, IV", 100000.00)
 
-   assert d1.filename == "Kris_Smith_II.txt"
-   assert d2.filename == "Matt_Gummel_IV.txt"
+    assert d1.filename == "Kris_Smith_II.txt"
+    assert d2.filename == "Matt_Gummel_IV.txt"
 
 def test_data():
+    """
+    Verifies that the data class property returns the a tuple with 
+    the proper fields: (Full name, Total donations, # of donations, average)
+    """
     d1 = Donor("50 Cent", 2343.99)
     d2 = Donor("Meek Mills", 423.10)
     d3 = Donor("Kanye West", 0.01)
@@ -148,6 +196,10 @@ def test_data():
 
 
 def test_dc_init():
+    """
+    Verifies that the DonorCollection class gets initialized properly
+    and that the objects exist in the instance variable list.
+    """
     Paul_Allen = Donor("Paul Allen", 2343.99)
     Jeff_Bezos = Donor("Jeff Bezos", 423.10)
     dc1 = DonorCollection(Paul_Allen, Jeff_Bezos)
@@ -155,6 +207,7 @@ def test_dc_init():
     assert Paul_Allen in dc1.donor_list
     assert Jeff_Bezos in dc1.donor_list
 
+    # Verfies that only Donor objects can initalize a DonorCollection object
     with pytest.raises(TypeError):
         e1 =DonorCollection(Paul_Allen, "Marc Benioff")
         e2 = DonorCollection(Paul_Allen, Jeff_Bezos, 1324)
@@ -162,6 +215,9 @@ def test_dc_init():
 
 
 def test_add_donor():
+    """
+    Verifies that the function to add a donor works properly.
+    """
     Carmelo_Anthony = Donor("Carmelo Anthony", 10.07)
     Michael_Jordan = Donor("Michael Jordan", 598.71)
     Kevin_Durrant = Donor("Kevin Durrant", 953.48)
@@ -181,6 +237,10 @@ def test_add_donor():
 
 
 def test_generate_names():
+    """
+    Checks that generating a list of names for a DonorCollection 
+    is calculated properly.
+    """
     Michael_Jordan = Donor("Michael Jordan", 598.71)
     Kevin_Durrant = Donor("Kevin Durrant", 953.48)
     Carmelo_Anthony = Donor("Carmelo Anthony", 10.07)
@@ -199,6 +259,10 @@ def test_generate_names():
 
 
 def test_find_donor():
+    """
+    Verifies that the find_donor() function returns the proper 
+    Donor in the DonorCollection
+    """
     Michael_Jordan = Donor("Michael Jordan", 598.71)
     Kevin_Durrant = Donor("Kevin Durrant", 953.48)
     Carmelo_Anthony = Donor("Carmelo Anthony", 10.07)
@@ -212,6 +276,10 @@ def test_find_donor():
 
 
 def test_report_data():
+    """
+    Verifies that the report data has the expected values
+    from the Donor class property data.
+    """
     Michael_Jordan = Donor("Michael Jordan", 598.71)
     Kevin_Durrant = Donor("Kevin Durrant", 953.48)
     Carmelo_Anthony = Donor("Carmelo Anthony", 10.07)
@@ -232,6 +300,10 @@ def test_report_data():
 
 
 def test_send_letters():
+    """
+    Verifies that all letters are created and that the content 
+    contains what is expected.
+    """
     Michael_Jordan = Donor("Michael Jordan", 598.71)
     Kevin_Durrant = Donor("Kevin Durrant", 953.48)
     Carmelo_Anthony = Donor("Carmelo Anthony", 10.07)
