@@ -5,7 +5,7 @@ import sys
 
 """
 Steve Morehouse
-Lesson 04
+Lesson 06
 """
 
 donor_db = {"William Gates, III": [653772.32, 12.17],
@@ -86,6 +86,7 @@ Donor Name               | Total Given | Num Gifts | Average Gift
 def get_donor_summary():
     donor_summary = []
     for donor in donor_db.items():
+        print (donor)
         name = donor[0]
         total_donations = sum(donor[1])
         count_donations = len(donor[1])
