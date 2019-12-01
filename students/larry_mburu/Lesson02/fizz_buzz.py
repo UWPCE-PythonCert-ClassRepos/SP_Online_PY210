@@ -1,14 +1,13 @@
 def fizz_buzz(): 
     for num in range(1, 16): 
-        if (num % 3 == 0 ) and (num % 5 == 0):
-            print(num)
+        if (num % 3 == 0) and (num % 5 == 0):
             print("FizzBuzz") 
-        if num % 3 == 0: 
-            print(num)
+        elif num % 3 == 0: 
             print("Fizz")
-        if num % 5 == 0: 
-            print(num)
+        elif num % 5 == 0: 
             print("Buzz")
+        else:
+            print(num)
 
 if __name__ == '__main__': 
     fizz_buzz()
