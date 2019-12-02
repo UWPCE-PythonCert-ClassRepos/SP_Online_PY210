@@ -5,7 +5,7 @@ import sys
 
 """
 Steve Morehouse
-Lesson 04
+Lesson 05
 """
 
 donor_db = {"William Gates, III": [653772.32, 12.17],
@@ -53,7 +53,7 @@ def send_a_thank_you ():
         # now redirect to feature functions based on the user selection
         if name == "list":
             list_donors()
-        elif not any(name in i for i in donor_db.values()):
+        elif not any(name in i for i in donor_db):
             donor_db.update({name: []})
             break
         else:

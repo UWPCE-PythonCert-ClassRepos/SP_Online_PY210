@@ -5,7 +5,7 @@ import sys
 
 """
 Steve Morehouse
-Lesson 04
+Lesson 06
 """
 
 donor_db = {"William Gates, III": [653772.32, 12.17],
