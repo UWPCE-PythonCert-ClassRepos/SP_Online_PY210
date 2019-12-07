@@ -31,6 +31,19 @@ for donor in initial_donations:
     update_record(donor)
 
 
+def add_donation():
+    """Add new donation."""
+
+    while True:
+        try:
+            donation_amount = float(input(
+                "Please enter the donation amount: "))
+            return donation_amount
+
+        except ValueError:
+            print("Please enter a number!\n")
+
+
 def write_letter(donor_name):
     """
     Write a thank you note to donor_name.
@@ -57,22 +70,27 @@ def thank_donor():
                 print(k)
 
         else:  # Find or make donor record, then add new donation
-            if donor_name in donor_records:
-                donation_amount = float(input(
-                    "Please enter the donation amount: "))
-                donor_records[donor_name]["donations"].append(donation_amount)
+            if donor_name.replace(" ", "").replace(".", "").replace(",", "").\
+               replace("'", "").isalpha():
 
-            else:  # If this is a new donor, collect and store donor info
-                donation_amount = float(input(
-                    f"Adding {donor_name} to the database.\n"
-                    "Please enter the donation amount: "))
-                donor_records[donor_name] = {
-                    "name": donor_name,
-                    "donations": [donation_amount]}
+                if donor_name in donor_records:
+                    donation_amount = add_donation()
+                    donor_records[donor_name]["donations"].\
+                        append(donation_amount)
 
-            print(write_letter(donor_name))
-            update_record(donor_name)
-            return donor_records
+                else:  # If this is a new donor, collect and store donor info
+                    print(f"Adding {donor_name} to the database.\n")
+                    donation_amount = add_donation()
+                    donor_records[donor_name] = {
+                        "name": donor_name,
+                        "donations": [donation_amount]}
+
+                print(write_letter(donor_name))
+                update_record(donor_name)
+                return donor_records
+
+            else:
+                print("Please type a name! Use alpha or basic punctuation.\n")
 
 
 def thank_all():
