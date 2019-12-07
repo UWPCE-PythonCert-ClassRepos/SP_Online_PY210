@@ -70,6 +70,7 @@ def thank_donor():
                 print(k)
 
         else:  # Find or make donor record, then add new donation
+            # Ensure the user has entered a name
             if donor_name.replace(" ", "").replace(".", "").replace(",", "").\
                replace("'", "").isalpha():
 
