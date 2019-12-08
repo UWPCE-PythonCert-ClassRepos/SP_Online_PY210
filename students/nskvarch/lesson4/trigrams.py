@@ -13,16 +13,10 @@ import os
 
 #define functions
 def read_in_data(filename):
-    """takes in the file of text and creates a list of words"""
+    """takes in the file of text and creates a list of words removing punctuation"""
     in_data = list()
     translate_chars = str.maketrans({"," : " ", "." : " ", "?" : " ", "!" : " ", ";" : " ", "(" : " ", ")" : " "})
-#    header = ("*** START OF THIS PROJECT GUTENBERG EBOOK")
-
     with open(filename, 'r') as f:
-#        for line in f:
-#            if line.find(header) != -1:
-#                break
-
         for line in f:
             if line.isspace():
                 continue
@@ -40,6 +34,7 @@ def read_in_data(filename):
 
 
 def make_words(in_data):
+    """go through the list of words and maintain capitals for the pronoun "I" """
     words = list()
     capitals = ['I', 'I\'m', 'I\'ll', 'I\'ve', 'I\'d']
     for line in in_data:
@@ -73,6 +68,7 @@ def build_trigram(words):
 
 
 def build_text(trigrams, seed):
+    """build a random text list from the trigrams dictionary"""
     new_text = seed[:]
     counter = 0
     while counter < 500:
@@ -90,15 +86,13 @@ def build_text(trigrams, seed):
 
 
 def write_text(new_text):
+    """join the text together in a string and return it to the main program"""
     text_string = ' '.join(new_text)
     return text_string
 
 
 if __name__ == "__main__":
-    #trigrams = build_trigrams(words)
-    #print(trigrams)
-
-# get the filename from the command line
+#using the main program given in the example
     try:
         filename = sys.argv[1]
     except IndexError:
