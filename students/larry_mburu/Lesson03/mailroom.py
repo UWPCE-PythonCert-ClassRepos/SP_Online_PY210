@@ -98,7 +98,6 @@ def create_report():
     it calculates the total, average and number of gifts a 
     donar has contributed
     """
-
     
     #boarder column headers and divider. 
     donor_name_header = "Donor Name"
@@ -160,7 +159,7 @@ def main():
         print("Invalid Option!")
         response = input("Choose one of the following options, [1..3]: ")
         response = int(response)
-        
+
     if response == 1: 
         prompt_for_donation_amount()
     if response == 2: 
