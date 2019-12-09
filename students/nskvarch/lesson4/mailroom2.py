@@ -44,24 +44,29 @@ def run_report(donor_db):
         data = donor_db[name]
         data_lines.append((name, str(max(data)), str(len(data)), str(sum(data) / len(data))))
 
-    to_print = [("Name", "Total Donated", "Times Donated", "Average Donation")] + sorted(data_lines, key=lambda x: x[0])
+    to_print = [("Name", "Total Donated", "Times Donated", "Average Donation")] + sorted(data_lines, key=lambda x: x[1])
     print_report(to_print)
 
 
 def thanks(donor_db):
     """create a thank you note customized to the name provided, 
     if the name was not in the donor database already, add the name and promt for a donation ammount"""
-    name = input("\nPlease enter the name of the person donating: ")
-    ammount = float(input("\nPlease enter the ammount donated:  "))
-    for donor_name in donor_db:
-        if name.lower() == donor_name.lower():
-            donor_db[donor_name].append(ammount)
-            print_thankyou(donor_db, donor_name)
-            return
+    while True:
+        response = input("\nPlease enter the name of the person donating or type 'List' for a list of donors: ")
 
-    donor_name = add_new_donor(name, ammount)
-    print_thankyou(donor_db, donor_name)
-    return donor_db
+        if response.lower() == "list":
+            run_report(donor_db)
+        else:
+            ammount = float(input("\nPlease enter the ammount donated:  "))
+            for donor_name in donor_db:
+                if response.lower() == donor_name.lower():
+                    donor_db[donor_name].append(ammount)
+                    print_thankyou(donor_db, donor_name)
+                    return
+
+            donor_name = add_new_donor(response, ammount)
+            print_thankyou(donor_db, donor_name)
+            return donor_db
 
 
 def print_thankyou(donor_db, donor_name):
