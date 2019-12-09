@@ -36,40 +36,41 @@ def print_report(data_lines):
             sizes[2]) + "    \t    " + line[3].rjust(sizes[3]))
 
 
-def run_report(donor_db):
+def run_report():
     """take in the donor database, create organize and sort a table in the form of a list and then hand the table off
     to the printer function """
     data_lines = []
     for name in donor_db:
         data = donor_db[name]
-        data_lines.append((name, str(max(data)), str(len(data)), str(sum(data) / len(data))))
+        data_lines.append((name, str(sum(data)), str(len(data)), str(sum(data) / len(data))))
 
-    to_print = [("Name", "Total Donated", "Times Donated", "Average Donation")] + sorted(data_lines, key=lambda x: x[1])
+    to_print = [("Name", "Total Donated", "Times Donated", "Average Donation")] +\
+               sorted(data_lines, key=lambda x: float(x[1]), reverse=True)
     print_report(to_print)
 
 
-def thanks(donor_db):
+def thanks():
     """create a thank you note customized to the name provided, 
     if the name was not in the donor database already, add the name and promt for a donation ammount"""
     while True:
         response = input("\nPlease enter the name of the person donating or type 'List' for a list of donors: ")
 
         if response.lower() == "list":
-            run_report(donor_db)
+            run_report()
         else:
             ammount = float(input("\nPlease enter the ammount donated:  "))
             for donor_name in donor_db:
                 if response.lower() == donor_name.lower():
                     donor_db[donor_name].append(ammount)
-                    print_thankyou(donor_db, donor_name)
-                    return
+                    print_thankyou(donor_name)
+                    return donor_db
 
             donor_name = add_new_donor(response, ammount)
-            print_thankyou(donor_db, donor_name)
+            print_thankyou(donor_name)
             return donor_db
 
 
-def print_thankyou(donor_db, donor_name):
+def print_thankyou(donor_name):
     """Takes in the name and donation ammount and organizes the valuses into a sample thank you letter and displays
     it on the screen """
     nl = "\n"
@@ -81,7 +82,7 @@ def print_thankyou(donor_db, donor_name):
           f"Your Charity of Choice")
 
 
-def create_thankyou_all(donor_db):
+def create_thankyou_all():
     """Takes in the name and donation ammount for all donors and creates a thank you text document 
     in the same folder the program is run from for each donor, unless a specific directory is specified"""
     nl = "\n"
@@ -120,7 +121,7 @@ def main():
         response = input(menu)
         switch_dict = {"1": thanks, "2": run_report, "3": create_thankyou_all}
         if response in switch_dict:
-            switch_dict[response](donor_db)
+            switch_dict[response]()
         elif response == "4":
             exit_program()
         else:

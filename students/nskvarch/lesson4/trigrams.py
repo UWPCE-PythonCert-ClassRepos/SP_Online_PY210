@@ -1,23 +1,20 @@
 #!usr/bin/env python3
-#Trigrams exercise created by Niels Skvarch
+# Trigrams exercise created by Niels Skvarch
 
-#import modules needed to run
+# import modules needed to run
 import random
 import sys
-import os
 
 
-#define global variables
-#words = "I wish I may I wish I might".split()
 
-
-#define functions
+# define functions
 def read_in_data(filename):
-    """takes in the file of text and creates a list of words removing punctuation"""
+    """take in the file of text and create a list of words removing punctuation"""
     in_data = list()
     translate_chars = str.maketrans({"," : " ", "." : " ", "?" : " ", "!" : " ", ";" : " ", "(" : " ", ")" : " "})
     with open(filename, 'r') as f:
         for line in f:
+
             if line.isspace():
                 continue
 
@@ -53,8 +50,9 @@ def build_trigram(words):
        values: list of followers
     """
     trigrams = {}
-    seed = words[0:2]
-
+    seeda = random.randint(0, len(words)-2)
+    seedb = seeda + 2
+    seed = words[seeda:seedb]
     for i in range(len(words)-2):
         wordpair = words[i:i+2]
         wordkey = tuple(wordpair)
@@ -63,7 +61,7 @@ def build_trigram(words):
             trigrams[wordkey] = [wordval]
         else:
             trigrams[wordkey].append(wordval)
-            
+
     return trigrams, seed
 
 
@@ -92,7 +90,7 @@ def write_text(new_text):
 
 
 if __name__ == "__main__":
-#using the main program given in the example
+    # Using the main program given in the example
     try:
         filename = sys.argv[1]
     except IndexError:
@@ -104,6 +102,5 @@ if __name__ == "__main__":
     trigrams, seed = build_trigram(words)
     new_text = build_text(trigrams, seed)
     text_string = write_text(new_text)
-    
 
     print(text_string)
