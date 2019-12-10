@@ -53,17 +53,17 @@ def send_a_thank_you ():
         # now redirect to feature functions based on the user selection
         if name == "list":
             list_donors()
-        elif not any(name in i for i in donor_db.values()):
+
+        elif donor_db.get(name) == None:
             donor_db.update({name: []})
             break
+
         else:
-            for i in range (len (donor_db)):
-                if donor_db[i][0] == name:
-                    break
+            break
 
     # enter donation amount
     donation = float(input("Enter a donation amount: "))
-    donor_db[name].append(donation)
+    donor_db[name].append (donation)
 
     # write email
     msg = f"\n{name},\n\nThank you for your donation of ${donation}.\n"
