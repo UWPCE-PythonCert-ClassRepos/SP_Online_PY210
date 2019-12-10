@@ -18,7 +18,11 @@ def send_thank_you():
 
     #how much is the gift
     donation = input("How much is the gift?\n")
-    donors[donor].append(float(donation))
+
+    if donor in donors.keys():
+        donors[donor].append(float(donation))
+    else:
+        donors[donor] = [float(donation)]
 
     #print thank you email
     print("Dear {},\n"
@@ -38,15 +42,8 @@ def select_donor():
             for d in donors:
                 print("{}".format(d))
         else:
-            exists = False
-            for donor in donors:
-                if donor == answer:
-                    exists = True
-            if exists:
-                return answer
-            else:
-                donors[answer] = []
-                return answer
+            break
+    return answer
 
 def send_letters():
     for d in donors:
