@@ -17,10 +17,10 @@ print(f"file_{fn} :  {float1}, {sci}, {float2}")
 # Three
 print("\nThree\n")
 def formatter(in_tuple):
-	# add the length to the front of the tuple
-	in_tuple = (len(in_tuple),) + in_tuple
-	form_string = "the {:d} numbers are: " + "{:d}, "*(len(in_tuple)-2) + "{:d}"
-	return(form_string.format(*in_tuple))
+    # add the length to the front of the tuple
+    in_tuple = (len(in_tuple),) + in_tuple
+    form_string = "the {:d} numbers are: " + "{:d}, "*(len(in_tuple)-2) + "{:d}"
+    return(form_string.format(*in_tuple))
 
 print(formatter((2, 3, 5, 7, 9)))
 
@@ -43,7 +43,7 @@ print(f"The weight of an {tuple[0][:-1].upper()} is {tuple[1]*1.2} and the weigh
 print("\nSix\n")
 tuple = ("Tom Thomas", 30, 325.23), ("Benny Jet", 42, 9000.24), ("Timmy", 7, 10.95)
 for item in tuple:
-	print("{:<20} {:>3} {:>10}".format(*item))
+    print("{:<20} {:>3} {:>10}".format(*item))
 
 newtuple = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
 print((("{:<5}") * len(newtuple)).format(*newtuple))

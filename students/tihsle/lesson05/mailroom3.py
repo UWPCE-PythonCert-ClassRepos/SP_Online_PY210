@@ -22,11 +22,14 @@ def send_thank_you():
         donation = input("How much is the gift?\n")
         try:
             if float(donation):
-                loop = False
+                break
         except ValueError:
             print("\nNot a good value!\n")
 
-    donors[donor].append(float(donation))
+    if donor in donors.keys():
+        donors[donor].append(float(donation))
+    else:
+        donors[donor] = [float(donation)]
 
     #print thank you email
     print("Dear {},\n"
@@ -46,15 +49,8 @@ def select_donor():
             for d in donors:
                 print("{}".format(d))
         else:
-            exists = False
-            for donor in donors:
-                if donor == answer:
-                    exists = True
-            if exists:
-                return answer
-            else:
-                donors[answer] = []
-                return answer
+            break
+    return answer
 
 def send_letters():
     for d in donors:
@@ -111,7 +107,11 @@ def main():
 
     while True:
         ans = input(menu)
-        selections.get(ans, "Only 1, 2, 3 or 4 is valid!")()
+        try:
+            selections.get(ans)()
+        except TypeError:
+            print("Only 1, 2, 3 or 4 is valid!")
+            pass
 
 if __name__ == "__main__":
     main()

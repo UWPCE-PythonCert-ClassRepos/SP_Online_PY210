@@ -1,4 +1,4 @@
-def GridPrinter1():
+def grid_printer1():
 
     # define printer characters
     plus = '+'
@@ -23,7 +23,7 @@ def GridPrinter1():
     print (row)
     print (edge)
 
-def GridPrinter2(nsize):
+def grid_printer2(nsize):
 
     # define printer characters
     plus = '+'
@@ -45,7 +45,7 @@ def GridPrinter2(nsize):
         print (row)
     print (edge)
 
-def GridPrinter3(ncell,nsize):
+def grid_printer3(ncell,nsize):
 
     # define printer characters
     plus = '+'
@@ -66,6 +66,6 @@ def GridPrinter3(ncell,nsize):
             print (row)
         print (edge)
 
-GridPrinter1()
-GridPrinter2(9)
-GridPrinter3(3,4)
+grid_printer1()
+grid_printer2(9)
+grid_printer3(3,4)

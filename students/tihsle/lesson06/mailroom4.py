@@ -16,21 +16,26 @@ def send_thank_you():
     #which donor
     donor = select_donor()
 
-    #how much is the gift
-    donation = input("How much is the gift?\n")
+    #exception handling for user input
+    loop = True
+    while loop:
+        donation = input("How much is the gift?\n")
+        try:
+            if float(donation):
+                break
+        except ValueError:
+            print("\nNot a good value!\n")
 
     if donor in donors.keys():
         donors[donor].append(float(donation))
     else:
-        donors[donor] = [float(donation)]
+        add_donor(donor, donation)
 
     #print thank you email
-    print("Dear {},\n"
-          "\nThank you for donating!  Your generous donation will be used to fulfill our mission.\n"
-          "We look forward to updating you on how your funds are used throughout the year.\n"
-          "\nBest Regards,\n"
-          "\nCharity1\n".format(donor))
+    print(get_thankyou_text(donor))
 
+def add_donor(donor, donation):
+    donors[donor] = [float(donation)]
 
 def select_donor():
     #select the donor for the thank you email
@@ -39,20 +44,29 @@ def select_donor():
         answer = input("Which donor to send Thank You to?\n"
                          "(Type 'list' to show list of donors)\n").title()
         if answer.lower() == "list":
-            for d in donors:
-                print("{}".format(d))
+            print(get_donor_list())
         else:
             break
     return answer
 
+def get_donor_list():
+    strList = ""
+    for d in donors:
+        strList = strList + "{}\n".format(d)
+    return strList
+
 def send_letters():
     for d in donors:
         with open(f'{d}.txt', 'w') as f:
-            f.write("Dear {},\n"
-              "\nThank you for donating!  Your generous donation will be used to fulfill our mission.\n"
-              "We look forward to updating you on how your funds are used throughout the year.\n"
-              "\nBest Regards,\n"
-              "\nCharity1\n".format(d))
+            f.write(get_thankyou_text(d))
+
+def get_thankyou_text(name):
+    strLetter = "\n".join(("Dear {},\n".format(name),
+      "\nThank you for donating!  Your generous donation will be used to fulfill our mission.\n",
+      "We look forward to updating you on how your funds are used throughout the year.\n",
+      "\nBest Regards,\n",
+      "\nCharity1\n"))
+    return strLetter
 
 def create_report():
     #print a list of donors, sorted by total donations
@@ -72,13 +86,15 @@ def create_report():
 
     #print donors and their gifts
     for d in sdonors:
-        dname = d
-        dtotal = sum(donors[d])
-        num_gifts = len(donors[d])
-        avg_gift = round(dtotal/num_gifts)
-        print("{:20} ${:>18.2f} {:>21} ${:>18.2f}".format(
-              dname, dtotal, num_gifts, avg_gift))
+        print(get_report_line(d))
 
+def get_report_line(d):
+    dname = d
+    dtotal = sum(donors[d])
+    num_gifts = len(donors[d])
+    avg_gift = round(dtotal/num_gifts)
+    strLine = "{:20} ${:>18.2f} {:>21} ${:>18.2f}".format(dname, dtotal, num_gifts, avg_gift)
+    return strLine
 
 def quit():
     #quit the program
@@ -100,7 +116,11 @@ def main():
 
     while True:
         ans = input(menu)
-        selections.get(ans, "Only 1, 2, 3 or 4 is valid!")()
+        try:
+            selections.get(ans)()
+        except TypeError:
+            print("Only 1, 2, 3 or 4 is valid!")
+            pass
 
 if __name__ == "__main__":
     main()
