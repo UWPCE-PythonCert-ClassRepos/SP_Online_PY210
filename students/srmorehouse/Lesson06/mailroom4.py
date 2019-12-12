@@ -25,12 +25,27 @@ prompt = "\n".join(("Welcome to the Mailroom!",
 
 """
 list all donors
+return: list of names
 """
-def list_donors ():
+def list_donors (donor_db):
     list = []
     for i in donor_db.keys():
         list.append(i)
     return list
+
+"""
+add a new donor
+return: none
+"""
+def add_donor (new_donor_name, donor_db):
+    donor_db.update({new_donor_name: []})
+
+"""
+add a donation amount to a new donor
+return: none
+"""
+def add_donation (donor_name, new_donation, donor_db):
+    donor_db[donor_name].append (new_donation)
 
 """
 If the user (you) selects “Send a Thank You” option, prompt for a Full Name.
@@ -52,11 +67,11 @@ def send_a_thank_you ():
         name = input("Type 'list' to see a list of names or enter a name: ")
         # now redirect to feature functions based on the user selection
         if name == "list":
-            donor_list = list_donors()
+            donor_list = list_donors(donor_db)
             [print(donor) for donor in donor_list]
 
         elif donor_db.get(name) == None:
-            donor_db.update({name: []})
+            add_donor (name)
             break
 
         else:
@@ -64,7 +79,7 @@ def send_a_thank_you ():
 
     # enter donation amount
     donation = float(input("Enter a donation amount: "))
-    donor_db[name].append (donation)
+    add_donation (name, donation)
 
     # write email
     msg = f"\n{name},\n\nThank you for your donation of ${donation}.\n"
