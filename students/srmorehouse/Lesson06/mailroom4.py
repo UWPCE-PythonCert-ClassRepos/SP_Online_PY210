@@ -28,9 +28,9 @@ list all donors
 """
 def list_donors ():
     list = []
-    for i in donor_db.values():
-        list.append(i[0])
-    [print(donor) for donor in donor_db]
+    for i in donor_db.keys():
+        list.append(i)
+    return list
 
 """
 If the user (you) selects “Send a Thank You” option, prompt for a Full Name.
@@ -52,18 +52,19 @@ def send_a_thank_you ():
         name = input("Type 'list' to see a list of names or enter a name: ")
         # now redirect to feature functions based on the user selection
         if name == "list":
-            list_donors()
-        elif not any(name in i for i in donor_db.values()):
+            donor_list = list_donors()
+            [print(donor) for donor in donor_list]
+
+        elif donor_db.get(name) == None:
             donor_db.update({name: []})
             break
+
         else:
-            for i in range (len (donor_db)):
-                if donor_db[i][0] == name:
-                    break
+            break
 
     # enter donation amount
     donation = float(input("Enter a donation amount: "))
-    donor_db[name].append(donation)
+    donor_db[name].append (donation)
 
     # write email
     msg = f"\n{name},\n\nThank you for your donation of ${donation}.\n"
