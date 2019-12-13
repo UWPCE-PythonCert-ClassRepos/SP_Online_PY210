@@ -19,8 +19,8 @@ list1.insert(0, "Watermelons")
 print(list1)
 
 for item in list1:
-	if item[0] == "P":
-		print(item)
+    if item[0] == "P":
+    print(item)
 
 
 #Series 2 lists
@@ -41,16 +41,16 @@ print("\nSeries 3\n")
 list3 = list1[:]
 
 for item in list3:
-	while True:
-		ans = input("\nDo you like " + item.lower() + "?\n")
-		if ans != "yes" and ans != "no":
-			print("\nyes or no please!\n")
-		elif ans == "no":
-			list3a = [i for i in list3 if i != item]
-			break
+    while True:
+    ans = input("\nDo you like " + item.lower() + "?\n")
+    if ans != "yes" and ans != "no":
+    print("\nyes or no please!\n")
+    elif ans == "no":
+    list3a = [i for i in list3 if i != item]
+    break
 
-		else:
-			break
+    else:
+    break
 
 print(list3a)
 
@@ -60,7 +60,7 @@ print("\nSeries 4\n")
 list4 = list1[:]
 
 for i, item in enumerate(list4):
-	list4[i]=item[::-1]
+    list4[i]=item[::-1]
 
 print(list1[:-1])
 print(list4)
