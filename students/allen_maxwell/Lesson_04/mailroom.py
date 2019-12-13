@@ -8,14 +8,6 @@
 
 import os
 
-# Creates a single donor dictionary
-donors = {
-    'William Gates, III': [653784.49, 2, 326892.24],
-    'Mark Zuckerberg': [16396.10, 3, 5465.37],
-    'Jeff Bezos': [877.33, 1, 877.33],
-    'Paul Allen': [708.42, 3, 236.14],
-    'Steve Jobs': [10000.00, 1, 10000.00]}
-
 def menu():
     '''
     Creates a user input menu selection.
@@ -38,13 +30,7 @@ def menu_func(selection):
     Processes menu input using dictionary values for switching.
      Input:  String: numeric value
      Output: None'''
-
-    menu_dict = {
-        1: print_report,
-        2: thank_you,
-        3: thank_all,
-        4: quit,}
-    
+   
     # Check if selection is a valid input
     if not selection.isnumeric() or int(selection) not in menu_dict:
         print('\nPlease enter a number 1 - 4')
@@ -99,12 +85,10 @@ def thank_you():
             for donor in sorted(donors):
                 print(donor)    
         else:
-            for donor in donors:        
-                # If the response name is on the list prompt for donation amount
-                if response.lower() == donor.lower() and not found:
-                    add_donation(donor)
-                    found = True
-                    break
+            # If the response name is on the list prompt for donation amount
+            if donors.get(response.title()) and not found:
+                add_donation(response.title())
+                found = True
 
             # If the response name is not on list add it and prompt for donation amount
             if not found:
@@ -194,8 +178,23 @@ def quit():
     print('\nGood Bye!\n\n')
     exit()
 
-if __name__ == "__main__":
+# Creates a single donor dictionary
+donors = {
+    'William Gates, III': [653784.49, 2, 326892.24],
+    'Mark Zuckerberg': [16396.10, 3, 5465.37],
+    'Jeff Bezos': [877.33, 1, 877.33],
+    'Paul Allen': [708.42, 3, 236.14],
+    'Steve Jobs': [10000.00, 1, 10000.00]}
 
+# Creates a global menu dictionary
+menu_dict = {
+    1: print_report,
+    2: thank_you,
+    3: thank_all,
+    4: quit,}
+
+if __name__ == "__main__":
+ 
     menu()
 
 

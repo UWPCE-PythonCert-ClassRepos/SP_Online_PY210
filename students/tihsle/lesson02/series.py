@@ -1,53 +1,53 @@
 def fibonacci(n):
-	#Fibonacci sequence
+    #Fibonacci sequence
 
-	#initialize variables
-	fib = []
-	nth = 0
+    #initialize variables
+    fib = []
+    nth = 0
 
-	for num in range(0,n+1):
-		if num == 0:
-			fib.append(0)
-		if num == 1:
-			fib.append(1)
-		if num > 1:
-			nth = fib[-2] + fib[-1]
-			fib.append(nth)
-	return(fib[n])
+    for num in range(0,n+1):
+        if num == 0:
+            fib.append(0)
+        elif num == 1:
+            fib.append(1)
+        elif num > 1:
+            nth = fib[-2] + fib[-1]
+            fib.append(nth)
+    return(fib[n])
 
 
 def lucas(n):
-	#Lucas Numbers
-	luc = []
-	nth = 0
+    #Lucas Numbers
+    luc = []
+    nth = 0
 
-	for num in range(0,n+1):
-		if num == 0:
-			luc.append(2)
-		if num == 1:
-			luc.append(1)
-		if num > 1:
-			nth = luc[-2] + luc[-1]
-			luc.append(nth)
-	return(luc[n])
+    for num in range(0,n+1):
+        if num == 0:
+            luc.append(2)
+        elif num == 1:
+            luc.append(1)
+        elif num > 1:
+            nth = luc[-2] + luc[-1]
+            luc.append(nth)
+    return(luc[n])
 
 
 
 
 def sum_series(n, a=0, b=1):
-	#related number sequence series
-	seq = []
-	nth = 0
+    #related number sequence series
+    seq = []
+    nth = 0
 
-	for num in range(0,n+1):
-		if num == 0:
-			seq.append(a)
-		if num == 1:
-			seq.append(b)
-		if num > 1:
-			nth = seq[-2] + seq[-1]
-			seq.append(nth)
-	return(seq[n])
+    for num in range(0,n+1):
+        if num == 0:
+            seq.append(a)
+        elif num == 1:
+            seq.append(b)
+        elif num > 1:
+            nth = seq[-2] + seq[-1]
+            seq.append(nth)
+    return(seq[n])
 
 
 # tests

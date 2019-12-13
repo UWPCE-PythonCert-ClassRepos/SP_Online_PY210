@@ -15,10 +15,6 @@ def send_thank_you():
 
     #which donor
     donor = select_donor()
-
-    #how much is the gift
-    get_donation(donor)
-
     #print thank you email
     print("Dear {},\n"
           "\nThank you for donating!  Your generous donation will be used to fulfill our mission.\n"
@@ -41,23 +37,15 @@ def select_donor():
             for donor, _ in donors:
                 if donor == answer:
                     exists = True
+                    break
             if exists:
                 return answer
             else:
-
                 new_donor = (answer, [])
+                donation = input("How much is the gift?\n")
+                new_donor[1].append(float(donation))
                 donors.append(new_donor)
                 return answer
-
-def get_donation(donor):
-    # add the donation to the donors
-    dnames = []
-    donation = input("How much is the gift?\n")
-    for d, _ in donors[:]:
-        dnames.append(d)
-    dindex = dnames.index(donor)
-    donors[dindex][1].append(float(donation))
-
 
 def create_report():
     #print a list of donors, sorted by total donations
