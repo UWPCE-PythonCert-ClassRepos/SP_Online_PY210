@@ -1,9 +1,9 @@
 #### Fizz Buss Exercise #### 
 
 # For numbers 1 to 100 print number or
-# - multiplies of 3 print 'Fizz'
-# - multiplies of 5 print 'Buzz'
-# - multiplies of 3 and 5 print 'FizzBuzz'
+# - multiples of 3 print 'Fizz'
+# - multiples of 5 print 'Buzz'
+# - multiples of 3 and 5 print 'FizzBuzz'
 
 def fizz_buzz():
     for i in range(1, 101):
