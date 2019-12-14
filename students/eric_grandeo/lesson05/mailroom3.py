@@ -8,7 +8,7 @@ import os
 #switch between users selections, using a dict
 def menu_selection(prompt, dispatch_dict):
     while True:
-        #keyerror
+        #handle KeyError
         try:
             response = input(prompt)
             dispatch_dict[response]()
@@ -18,20 +18,27 @@ def menu_selection(prompt, dispatch_dict):
 #this function is for the submenu
 def sub_menu_selection(prompt, dispatch_dict):
     while True:
-        #custom error not a full name, look for space
-        response = input(sub_prompt).title()
-        if response in dispatch_dict:
-            dispatch_dict[response]() == "exit menu"
-            break
+        #ValueError - check if there is a number
+        try:
+            response = input(sub_prompt).title()
+            if not response.isalpha():
+                raise ValueError
+        except:
+            print("Please enter a name, list, or q to quit \n")
+        
         else:
-            #ValueError
-            donation = input("Please enter in a donation, or 'q' to quit: ")
-            if donation == "q":
+            if response in dispatch_dict:
+                dispatch_dict[response]() == "exit menu"
                 break
             else:
-                add_donation(response, donation)
-                thankyou_email(response, donation)
-                break
+                #ValueError
+                donation = input("Please enter in a donation, or 'q' to quit: ")
+                if donation == "q":
+                    break
+                else:
+                    add_donation(response, donation)
+                    thankyou_email(response, donation)
+                    break
 
 #updates donor dictionary if new or existing donor
 def add_donation(name, donation):
