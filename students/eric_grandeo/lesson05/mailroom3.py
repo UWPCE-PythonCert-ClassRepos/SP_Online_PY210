@@ -8,17 +8,23 @@ import os
 #switch between users selections, using a dict
 def menu_selection(prompt, dispatch_dict):
     while True:
-        response = input(prompt)
-        dispatch_dict[response]()
+        #keyerror
+        try:
+            response = input(prompt)
+            dispatch_dict[response]()
+        except KeyError:
+            print("Please select 1 through 4. \n")
 
 #this function is for the submenu
 def sub_menu_selection(prompt, dispatch_dict):
     while True:
+        #custom error not a full name, look for space
         response = input(sub_prompt).title()
         if response in dispatch_dict:
             dispatch_dict[response]() == "exit menu"
             break
         else:
+            #ValueError
             donation = input("Please enter in a donation, or 'q' to quit: ")
             if donation == "q":
                 break
