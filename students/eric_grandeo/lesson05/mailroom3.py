@@ -23,7 +23,7 @@ def sub_menu_selection(prompt, dispatch_dict):
             response = input(sub_prompt).title()
             if not response.isalpha():
                 raise ValueError
-        except:
+        except ValueError:
             print("Please enter a name, list, or q to quit \n")
         
         else:
@@ -32,18 +32,26 @@ def sub_menu_selection(prompt, dispatch_dict):
                 break
             else:
                 #ValueError
-                donation = input("Please enter in a donation, or 'q' to quit: ")
-                if donation == "q":
-                    break
-                else:
-                    add_donation(response, donation)
-                    thankyou_email(response, donation)
-                    break
+                
+                try:
+                    donation = input("Please enter in a donation, or 'q' to quit: ")
+                    if donation == "q":
+                        break
+                    elif donation.isalpha():
+                        raise ValueError
+                    else:
+                        add_donation(response, donation)
+                        thankyou_email(response, donation)    
+                        break 
+                except ValueError:
+                    print("Please enter a number \n")        
+
+                
 
 #updates donor dictionary if new or existing donor
 def add_donation(name, donation):
     if name in donors:
-        donors[name].append(int(donation))
+        donors[name].append(int(donation))    
     else:
         donors[name] = [int(donation)]
 
