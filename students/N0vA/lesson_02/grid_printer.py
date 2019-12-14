@@ -51,7 +51,7 @@ def print_grid(n):
     print('+', top, '+', top, '+')
 
 # Run
-print_grid()
+print_grid(15)
 
 
 # Part 3 - Make function to print grid with columns and rows args
@@ -80,4 +80,4 @@ def print_grid_2(grid, units):
     print(top_row)
 
 # Run
-print_grid_2(3,4)
+print_grid_2(5,3)
