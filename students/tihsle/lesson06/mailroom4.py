@@ -50,10 +50,10 @@ def select_donor():
     return answer
 
 def get_donor_list():
-    strList = ""
+    list_string = ""
     for d in donors:
-        strList = strList + "{}\n".format(d)
-    return strList
+        list_string = list_string + "{}\n".format(d)
+    return list_string
 
 def send_letters():
     for d in donors:

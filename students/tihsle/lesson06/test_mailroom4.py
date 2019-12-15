@@ -15,9 +15,9 @@ def test_add_donor():
     assert float(donation) == mailroom.donors[donor][0]
 
 def test_get_donor_list():
-    strList = mailroom.get_donor_list()
+    list_string = mailroom.get_donor_list()
     for d in mailroom.donors:
-        assert d in strList
+        assert d in list_string
 
 #Create Report testing
 
