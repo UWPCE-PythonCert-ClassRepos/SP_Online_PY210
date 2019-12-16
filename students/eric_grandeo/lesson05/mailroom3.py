@@ -18,10 +18,9 @@ def menu_selection(prompt, dispatch_dict):
 #this function is for the submenu
 def sub_menu_selection(prompt, dispatch_dict):
     while True:
-        #ValueError - check if there is a number
         try:
             response = input(sub_prompt).title()
-            if not response.isalpha():
+            if not response.replace(" ", "").isalpha():
                 raise ValueError
         except ValueError:
             print("Please enter a name, list, or q to quit \n")
@@ -31,7 +30,8 @@ def sub_menu_selection(prompt, dispatch_dict):
                 dispatch_dict[response]() == "exit menu"
                 break
             else:
-                #ValueError
+                #problem here...wont recognze names with spaces. isalpha not correct may have
+                #to iterate through each character
                 
                 try:
                     donation = input("Please enter in a donation, or 'q' to quit: ")
