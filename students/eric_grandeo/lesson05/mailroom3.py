@@ -30,9 +30,6 @@ def sub_menu_selection(prompt, dispatch_dict):
                 dispatch_dict[response]() == "exit menu"
                 break
             else:
-                #problem here...wont recognze names with spaces. isalpha not correct may have
-                #to iterate through each character
-                
                 try:
                     donation = input("Please enter in a donation, or 'q' to quit: ")
                     if donation == "q":
@@ -59,9 +56,15 @@ def add_donation(name, donation):
 #prints a thank you email using a dict, instead of a list
 def thankyou_email(name, donation):
     """Prints the letter with the user inputted name and donation """
-    email_dict = {}
-    email_dict["name"] = name
-    email_dict["donation"] = int(donation)
+    
+    #email_dict = {}
+    #email_dict["name"] = name
+    #email_dict["donation"] = int(donation)
+
+    #used dict() to replace lines above
+    email_dict = dict(name=name, donation=int(donation))
+
+
 
     print("""
     Dear {name},
@@ -83,14 +86,22 @@ def sort_key(items):
 
 #Creates reports by creating a new dict from the donors dict
 def create_report():
-    new_dict = {}
+    #new_dict = dict()
     print("{:<25s}|{:>15s} |{:>10s} | {:>12s}".format("Donor Name", "Total Given", "Num Gifts", "Average Gift"))
     print(68 * '-')
+    
+    '''
     for k,v in donors.items():
         sum_don = sum(donors.get(k))
         len_don = len(donors.get(k))
         avg_don = sum_don/len_don
         new_dict[k] = [sum_don, len_don, avg_don]
+    '''
+
+    #replaced the above with the 3 lines below to create a new dict
+    names = [*donors]
+    vals = [[sum(x), len(x), sum(x)/len(x)] for x in list(donors.values())] 
+    new_dict = dict(zip(names,vals))
 
     sorted_donors2 = OrderedDict(sorted(new_dict.items(), key=lambda t: t[1], reverse=True))
 
