@@ -40,7 +40,7 @@ def print_report(data_lines):
     
 
 def run_report(donor_db):
-    """take in the list of doners, then sort and display the sorted data"""
+    """take in the list of doners, does some display formatting and then hands the list off to the printer function"""
     data_lines = [("Name", "Total Donated", "Times Donated", "Average Donation")]
     for donor in donor_db:
         data_lines.append((donor[0], str(max(donor[1])), str(len(donor[1])), str(max(donor[1]) / len(donor[1]))))
