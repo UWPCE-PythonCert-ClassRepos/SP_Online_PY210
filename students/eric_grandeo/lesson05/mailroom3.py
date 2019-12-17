@@ -20,6 +20,7 @@ def sub_menu_selection(prompt, dispatch_dict):
     while True:
         try:
             response = input(sub_prompt).title()
+            #removes spaces and checks if there is a number
             if not response.replace(" ", "").isalpha():
                 raise ValueError
         except ValueError:
@@ -112,10 +113,7 @@ def create_report():
 #creates a letter in the current directory that thanks donor for sum of donations
 def send_letters():
     for donor,donation in donors.items():
-        #print(donor,sum(donation))
-
         with open(donor.replace(" ", "_") + '.txt', 'w+') as f:
-           #f.write("This is a test for {} for a donation of ${:,.2f} ".format(donor, sum(donation)))
            f.write("""Dear {},
 
            Thank you very much for the generous total donation of ${:,.2f}
