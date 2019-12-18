@@ -30,3 +30,19 @@ def test_add_donor ():
 
 def test_add_donation ():
     assert 10 in donor_db['Test']
+
+def test_send_a_thank_you ():
+    expected = '\nTest,\n\nThank you for your donation of $1234.44.\n'
+    assert compose_thank_you('Test',1234.44) == expected
+
+def test_create_report ():
+    test_donor = {'Test': [1, 2, 3.45]}
+    expected = ('\nDonor Name | Total Given | Num Gifts  | Average Gift \n'
+                  '-----------------------------------------------------\n'
+                  'Test        $       6.45           3  $        2.15\n')
+    return_val = create_report(test_donor)
+    assert return_val == expected
+
+
+def test_send_letters ():
+    pass
