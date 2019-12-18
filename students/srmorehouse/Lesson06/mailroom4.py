@@ -27,12 +27,14 @@ def list_donors (donor_db):
         list.append(i)
     return list
 
+
 """
 add a new donor
 return: none
 """
 def add_donor (new_donor_name, donor_db):
     donor_db.update({new_donor_name: []})
+
 
 """
 add a donation amount to a new donor
@@ -42,9 +44,13 @@ def add_donation (donor_name, new_donation, donor_db):
     donor_db[donor_name].append (new_donation)
 
 
+"""
+the actual letter for an individual donation
+"""
 def compose_thank_you (donor_name, donor_donation):
     msg = f"\n{donor_name},\n\nThank you for your donation of ${donor_donation}.\n"
     return msg
+
 
 def send_a_thank_you (donor_db):
     while True:
@@ -80,9 +86,7 @@ def get_donor_summary(donor_db):
         donor_summary.append([name, total_donations, count_donations, average_donation])
     return donor_summary
 
-"""
-get_max_lengths
-"""
+
 def get_max_lengths(seq, header):
 
     name_len = len(header[0])
@@ -101,6 +105,7 @@ def get_max_lengths(seq, header):
         avg_len = len(avg) if len(avg) > avg_len else avg_len
 
     return [name_len, total_len, count_len, avg_len]
+
 
 def sort_key(item):
     return item[1]
