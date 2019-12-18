@@ -8,21 +8,21 @@ uses python 3
 Automates writing an email to thank people for their donations.
 """
 
+import sys
 
 def send_thank_you(data):
     name = input("Enter a full name or type 'list' to vew current list: ")
     if name.upper() == "LIST":
-        for i in range(len(data)):
-            print(data[i]["name"].capitalize())
+        for i in data:
+            print(i.capitalize())
         return data
     else:
-        for i in range(len(data)):
-            if name.upper() == data[i]["name"].upper(): 
+        for i in data:
+            if name.upper() == i.upper(): 
                 print("This personn has alredy donated add another donation under their name.")
                 donation = float(input(f"How much did {name.capitalize()} donate: $"))
-                data[i]["total"] += donation
-                data[i]["num gifts"] += 1
-                data[i]["average gift"] = data[i]["total"]/data[i]["num gifts"]
+                data[i][0] += donation
+                data[i][1] += 1
                 write_email(name, donation)
                 return data               
         donation = float(input(f"How much did {name.capitalize()} donate: $"))
@@ -30,19 +30,24 @@ def send_thank_you(data):
         write_email(name, donation)
         return data
 
+def sort_data(data):
+    return sorted(data.items() , reverse=True, key=lambda x: x[1][0])
+
 def create_report(data):
+    sorted_data = sort_data(data)
+    print(sorted_data)
     print("""
 Donor Name                | Total Given | Num Gifts | Average Gift
 --------------------------|-------------|-----------|-------------""")
-    for i in range(len(data)):
-        make_row(data[i]["name"].capitalize(), data[i]["total"], data[i]["num gifts"], data[i]["average gift"])
+    for i in sorted_data:
+        make_row(i[0], data[i[0]][0], data[i[0]][1], data[i[0]][0]/data[i[0]][1])
 
 def make_row(name, total, num_gift, ave_gift):
     print("{:26}|${:12}|{:11}|${:12}".format(name, total, num_gift, ave_gift))
 
 def send_all(data):
-    for i in range(len(data)):
-        write_all(data[i]["name"], data[i]["total"])
+    for i in data:
+        write_all(i, data[i][0])
 
 
 def write_email(name, donation):
@@ -65,14 +70,15 @@ Thank you for your generous donnation of ${donation}.
     print(f"Sent to {name}")
 
 def exit_program(data):
-    return "exit"
+    sys.exit()
 
 if __name__ == "__main__":
-    pass
-    data = [{"name":"Bill", "total":100, "num gifts":2, "average gift":50},
-    {"name":"John", "total":75, "num gifts":3, "average gift":25},
-    {"name":"Joe", "total":150, "num gifts":3, "average gift":50},
-    {"name":"Fred", "total":3.5, "num gifts":1, "average gift":3.5}]
+    data = {"Bill" : [100, 2], 
+    "John" : [75, 3], 
+    "Joe" : [150, 3], 
+    "Fred" : [3.5, 1]}
+
+    dispatch_dict = {"1":send_thank_you, "2":create_report, "3":send_all, "4":exit_program}
     while True:
         choice = input("""
 What would you like to do?
@@ -82,10 +88,7 @@ What would you like to do?
 3) Send a Thank You to all donors
 4) Quit
 """)
-        dispatch_dict = {"1":send_thank_you, "2":create_report, "3":send_all, "4":exit_program}
-        if choice in dispatch_dict:
-            if dispatch_dict[choice](data) == "exit":
-                break
         
-
+        if choice in dispatch_dict:
+            dispatch_dict[choice](data)
 
