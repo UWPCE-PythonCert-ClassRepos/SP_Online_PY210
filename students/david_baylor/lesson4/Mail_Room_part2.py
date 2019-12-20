@@ -9,6 +9,7 @@ Automates writing an email to thank people for their donations.
 """
 
 import sys
+from operator import itemgetter
 
 def send_thank_you(data):
     name = input("Enter a full name or type 'list' to vew current list: ")
@@ -31,11 +32,13 @@ def send_thank_you(data):
         return data
 
 def sort_data(data):
-    return sorted(data.items() , reverse=True, key=lambda x: x[1][0])
+    sort_data = []
+    for i in data:
+        sort_data.append([i, data[i][0], data[i][1]])
+    return sorted(sort_data, reverse=True, key = itemgetter(1))
 
 def create_report(data):
     sorted_data = sort_data(data)
-    print(sorted_data)
     print("""
 Donor Name                | Total Given | Num Gifts | Average Gift
 --------------------------|-------------|-----------|-------------""")
@@ -74,9 +77,9 @@ def exit_program(data):
 
 if __name__ == "__main__":
     data = {"Bill" : [100, 2], 
-    "John" : [75, 3], 
-    "Joe" : [150, 3], 
-    "Fred" : [3.5, 1]}
+            "John" : [75, 3], 
+            "Joe"  : [150, 3], 
+            "Fred" : [3.5, 1]}
 
     dispatch_dict = {"1":send_thank_you, "2":create_report, "3":send_all, "4":exit_program}
     while True:
