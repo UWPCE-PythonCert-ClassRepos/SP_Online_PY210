@@ -27,7 +27,7 @@ def tup_format(tup):
 print('Test function: tup_format')
 test_1 = (1, 2, 3, 4, 5)
 print(test_1)
-tup_format(test_1
+tup_format(test_1)
 
 # Task 4
 tup_4 = (4, 30, 2017, 2, 27)
@@ -44,8 +44,8 @@ print(f'The weight of an {list_5[0][:-1]} is {list_5[1]} and the weight of a {li
 print('Printing with weight 20 percent higher')
 print(f'The weight of an {list_5[0][:-1].upper()} is {list_5[1] * 1.2} and the weight of a {list_5[2][:-1].upper()} is {list_5[3] * 1.2}')
 
-# Task 6
-# Create a table with name, age, and cost
+# Task 6: Create a table with name, age, and cost
+
 def my_table():
     my_list = ['Nike Free Run 2.0', 8, 44.99], ['Pixel XL', 4, 350.00], ['Jeep Liberty', 12, 10000]
     format_strings = '{:25} {:} {:8.2f}'
