@@ -11,7 +11,7 @@ class Element(object):
     tag = "html"
 
     def __init__(self, content=None):
-        self.contents = [content]
+        self.contents = [content] if content is not None else []
 
     def append(self, new_content):
         self.contents.append(new_content)
@@ -20,6 +20,20 @@ class Element(object):
         # loop through the list of contents:
         for content in self.contents:
             out_file.write("<{}>\n".format(self.tag))
-            out_file.write(content)
+            try:
+                content.render(out_file)
+            except AttributeError:
+                out_file.write(content)
             out_file.write("\n")
             out_file.write("</{}>\n".format(self.tag))
+
+
+class Html(Element):
+    tag = 'html'
+
+class Body(Element):
+    tag = 'body'
+
+class P(Element):
+    tag = 'p'
+
