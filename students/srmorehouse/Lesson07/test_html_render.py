@@ -180,7 +180,53 @@ def test_sub_element():
 # Step 3
 ########
 
-# Add your tests here!
+def test_head():
+    e = Head("this is some text")
+    e.append("and this is some more text")
+
+    file_contents = render_result(e).strip()
+
+    assert("this is some text") in file_contents
+    assert("and this is some more text") in file_contents
+
+    assert file_contents.startswith("<head>")
+    assert file_contents.endswith("</head>")
+
+def test_title():
+    e = Title("This is a Title")
+   
+    file_contents = render_result(e).strip()
+
+    assert("This is a Title") in file_contents
+    print(file_contents)
+    assert file_contents.startswith("<title>")
+    assert file_contents.endswith("</title>")
+    assert "\n" not in file_contents
+
+def test_one_line_tag_append():
+    """
+    You should not be able to append content to the OneLineTag
+    """
+    e = OneLineTag("the initial content")
+    with pytest.raises(NotImplementedError):
+        e.append("some more content")
+
+    file_contents = render_result(e).strip()
+    print(file_contents)
+
+
+#def test_one_line_tag_indent():
+#    e = Title("TestTitle")
+#    file_contents = render_result(e, ind="   ").strip()
+#    print(file_contents)
+#    assert " " not in file_contents
+#
+#
+#def test_self_closing_tag_indent():
+#    hr = Hr()
+#    file_contents = render_result(hr, ind="   ")
+#    print(file_contents)
+#    assert file_contents.startswith('   <hr')
 
 # #####################
 # # indentation testing
