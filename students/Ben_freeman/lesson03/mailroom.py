@@ -17,7 +17,6 @@ def send_thanks():
                     return
         else:
             for donor in donor_list:
-                print(donor)
                 if donor[0]==query:
                     new_donate=float(input("How much would you like to donate: \n"))
                     donor.append(new_donate)
