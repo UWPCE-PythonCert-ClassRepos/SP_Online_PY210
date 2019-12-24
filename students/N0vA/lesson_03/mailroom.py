@@ -1,9 +1,14 @@
 #!/usr/bin/env python3
-import sys
 #### Mailroom Project Part 1 ####
 
+import sys
+
 # Create list of donors and their donation history
-database = [('Bill Gates', [2000000, 250000000]), ('Jeff Bezos', [2000000]), ('Elon Musk', [50000000, 10000000]), ('Howard Schultz', [1000000]), ('Paul Allen', [450000000])]
+database = [('Bill Gates', [2000000, 250000000]), 
+            ('Jeff Bezos', [2000000]),
+            ('Elon Musk', [50000000, 10000000]), 
+            ('Howard Schultz', [1000000]), 
+            ('Paul Allen', [450000000])]
 
 # Send a thank you
 def thank_you():
@@ -25,12 +30,15 @@ def thank_you():
             for name in donor_list:
                 if person.lower() == name[0].lower():
                     past_donor = True
+                    amount_donated = input('How much was their donation? ')
+                    amount_donated = int(amount_donated)
+                    name[1].append(amount_donated)
 
             # Adding a new donor
             if past_donor == False:
                 amount_donated = input('How much was their donation? ')
                 amount_donated = int(amount_donated)
-                new_record = (person, [amount_donated])
+                new_record = ((person, [amount_donated]))
                 donor_list = donor_list.append(new_record)
 
 
@@ -42,19 +50,14 @@ def thank_you():
                     'Local Charity Persident\n')
 
             email
+            return False
 
-            # Exit to main menu
-            exit = 'fill'
-            while exit != 'quit':
-                exit = input('Press any button to return to main menu... ')
-                main()
+# Define sort key
+def sort_key(donor):
+    return int(sum(donor[1]))
 
 # Create a report of donors
 def report():
-
-    # Define sort key
-    def sort_key(donor):
-        return sum(donor[1])
 
     # Sort Data
     report_data = database
@@ -73,34 +76,31 @@ def report():
     # Exit to main menu
     exit = 'none'
     while exit != 'quit':
-        exit = input('Press any button to return to main menu... ')
-        main()
-
-
+        exit = input('Type quit to return to the menu... ')
+       
 def main():
 
+    while True:
     # Opens up the mailroom
-    task = 0
-    task = input("\n".join(("What do you need to do?",
-          "Please choose from the options below:",
-          "1 - Send Thank You Card",
-          "2 - Print A Report",
-          "3 - Exit",
-          ">>> ")))
+        task = 0
+        task = input("\n".join(("What do you need to do?",
+              "Please choose from the options below:",
+              "1 - Send Thank You Card",
+              "2 - Print A Report",
+              "3 - Exit",
+              ">>> ")))
 
-    # Run functions for tasks based on user's response
-    if task == '1':
-        thank_you()
-    elif task == '2':
-        report()
-    elif task == '3':
-        print('Enjoy the rest of your day!')
-        sys.exit()
-    else:
-        print("Not a valid option!")
-        main()
-        
-
+        # Run functions for tasks based on user's response
+        if task == '1':
+            thank_you()
+        elif task == '2':
+            report()
+        elif task == '3':
+            print('Enjoy the rest of your day!')
+            sys.exit()
+        else:
+            print("Not a valid option!")
+            
 # Execute file when running
 if __name__ == '__main__':
     main()
