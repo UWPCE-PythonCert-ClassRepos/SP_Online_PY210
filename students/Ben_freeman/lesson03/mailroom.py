@@ -9,34 +9,34 @@ donor_list=[["Ahmed",123,456,789],
 #send thanks funct
 def send_thanks():
     while True:
-        query=input("Please enter a Full Name, enter 'list' to see a list of current donors or type quit to exit: ")
-        for i in range(0,len(donor_list)):
-            if query in donor_list[i][0]:
-                new_donate=float(input("How much would you like to donate: \n"))
-                donor_list[i].append(new_donate)
-                return print(f"\nThank you {query} for your donation of ${new_donate}, your donations make the work of the 'American society for taking donations' possible.\n\n"
-                    "Sincearly,\n\n"
-                    "A low paid intern\n")
+        query=input("\nPlease enter a Full Name, enter 'list' to see a list of current donors or type quit to exit: ")
+        if query=="list":
+            for donor in donor_list:
+                    print(donor[0])
+        elif query.lower()=="quit":
+                    return
+        else:
+            for donor in donor_list:
+                print(donor)
+                if donor[0]==query:
+                    new_donate=float(input("How much would you like to donate: \n"))
+                    donor.append(new_donate)
+                    print(f"\nThank you {query} for your donation of ${new_donate}, your donations make the work of the 'American society for taking donations' possible.\n\n"
+                        "Sincearly,\n\n"
+                        "A low paid intern\n")
+                    return
+            new_donate=float(input("\nHow much would you like to donate: \n"))
+            donor_list.append([str(query),new_donate])
+            return print(f"\nThank you {query} for your donation of ${new_donate}, your donations make the work of the 'American society for taking donations' possible.\n\n"
+                        "Sincearly,\n\n"
+                        "A low paid intern\n")        
                 
-            elif query=="list":
-                    print(donor_list[i][0])
-            elif query.lower()=="quit":
-                return
-            elif query not in donor_list[i][0]:
-                new_donate=float(input("\nHow much would you like to donate: \n"))
-                donor_list.append([str(query),new_donate])
-                return print(f"\nThank you {query} for your donation of ${new_donate}, your donations make the work of the 'American society for taking donations' possible.\n\n"
-                    "Sincearly,\n\n"
-                    "A low paid intern\n")
-            
-                
-
 
 #making a sorted list
 def sorting_function(dlist):
     sorted_list=[]
-    for i in range(0,len(dlist)):
-        sorted_list.append([dlist[i][0],sum(dlist[i][1:len(dlist[i])]),len(dlist[i][1:len(dlist[i])]),sum(dlist[i][1:len(dlist[i])])/len(dlist[i][1:len(dlist[i])])])
+    for item in dlist:
+        sorted_list.append([item[0],sum(item[1:len(item)]),len(item[1:len(item)]),sum(item[1:len(item)])/len(item[1:len(item)])])
     return sorted(sorted_list, key=lambda sorted_list:sorted_list[1], reverse=True)
 #creating a report
 def create_report(): 
