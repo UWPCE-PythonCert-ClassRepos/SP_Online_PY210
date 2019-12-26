@@ -23,5 +23,5 @@ def print_grid(n):
             print(verGrid)
     print(horGrid)
 
-a = input("What size grid would you like friend?  ")
-print(print_grid(int(a)),'cool grid buddy!'
+a = input("What sized grid friend?  ")
+print(print_grid(int(a)),str('wow thats a fancy grid!'))
