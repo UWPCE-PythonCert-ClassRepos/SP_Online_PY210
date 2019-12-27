@@ -16,45 +16,38 @@ donors = [("David Einhorn", [1800.18, 36036.36]), ("Mark Zuckerberg", [7272.72, 
 
 
 def main():
-    menu = ("Send a Thank You", "Create a Report", "quit")
+    menu = ("1 - Send a Thank You", "2 - Create a Report", "3 - quit")
     while True:
-        response = get_user_input(f"Please enter an option from the following menu: \n {menu} > ")
-        if response.lower() == "send a thank you":
+        response = int(get_user_input(f"Please enter an option from the following menu: \n {menu} > "))
+        if response == 1:
             send_thank_you()
-        elif response.lower() == "create a report":
+        elif response == 2:
             create_report()
-        elif response.lower() == "quit":
+        elif response == 3:
             break
         else:
             print(f"The option you entered '{response}' is invalid, please try again.")
-            continue
 
 
 def send_thank_you():
-    '''
+    """
     prompts user for a donor name; if name exists, prompts for donation, otherwise adds to donors
     list displays a list of donors
     generates
     :return: None
-    '''
-    full_name = get_user_input("Please enter the name of a donor: > ").title()
-    for donor in donors:
-        if full_name in donors:
-            donation = float(get_user_input("Please enter the donation amount: $").strip('$'))
-            add_donation(full_name, donation)
-            format_thank_you(full_name, donation)
-            break
-        elif full_name.lower() == "list":
-            print(f"List of donors: {', '.join(get_donors(donors))}")
-            break
+    """
+    donor_name = get_user_input("Please enter the name of a donor: > ")
+    if donor_name == 'list':
+        print(f"List of donors: {[', '.join(donor[0]) for donor in donors]}")
+    else:
+        donation = float(get_user_input("Please enter the donation amount: $").strip('$'))
+        for donor in donors:
+            if donor[0] == donor_name:
+                donor[1].append(donation)
         else:
             print(f"Sorry, the name you entered is not in our donor list.  Adding donor to list...")
-            donors.append((full_name, []))
-            donation = float(get_user_input("Please enter the donation amount: $").strip('$'))
-            add_donation(full_name, donation)
-            print(format_thank_you(full_name, donation))
-            break
-    return None
+            donors.append((donor_name, [donation]))
+        print(format_thank_you(donor_name, donation))
 
 
 def format_thank_you(full_name, donation):
@@ -85,46 +78,15 @@ def create_report():
     prints a formatted table of donors ranked in descending order by Total Given
     :return: None
     """
-    names, totals, num_gifts, avg_gift = get_donor_summary(donors)
+    donor_summary = []
+    for donor in donors:
+        donor_summary.append([donor[0], format(sum(donor[1]), '.2f'), len(donor[1]), format(statistics.mean(donor[1]), '.2f')])
+    donor_summary.sort(key=lambda x: float(x[1]), reverse=True)
+    print(donor_summary)
     print(f"Donor Name{'':<20} | Total Given{'':>0} | Num Gifts{'':>0} | Average Gift{'':>0}")
     print(f"-" * 72)
-    for name, total, num_gift, avg_gift in zip(names, totals, num_gifts, avg_gift):
+    for name, total, num_gift, avg_gift in donor_summary:
         print(f"{name:<32}${total:>11}{num_gift:>12}  ${avg_gift:>13}")
-    return None
-
-
-def get_donor_summary(donors=None):
-    """
-    :param donors: optional list of donors and donations
-    :return: lists of names, totals, number of gifts, avg gift sorted by highest total
-    """
-    sorted_donors = sorted(donors, key=lambda x: sum(x[1]), reverse=True)
-    names = tuple(map(lambda x: x[0], sorted_donors))
-    totals = tuple(map(lambda x: float(format(sum(x[1]), '.2f')), sorted_donors))
-    num_gifts = tuple(map(lambda x: len(x[1]), sorted_donors))
-    avg_gift = tuple(map(lambda x: float(format(statistics.mean((x[1])), '.2f')), sorted_donors))
-    return names, totals, num_gifts, avg_gift
-
-
-def add_donation(donor_name, donation):
-    """
-    :param donor_name: full name of donor
-    :param donation: amount of donation
-    :return: None
-    """
-    donor_index = [donors.index(donor) for donor in donors if donor[0] == donor_name]
-    donors[donor_index[0]][1].append(donation)
-    return None
-
-
-def get_donors(donors=None):
-    """
-    :param donors: optional list of donors
-    :return: tuple of donor names
-    """
-    if donors is None:
-        donors = []
-    return tuple(map(lambda x: x[0], donors))
 
 
 def get_user_input(prompt):
