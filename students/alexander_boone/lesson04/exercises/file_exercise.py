@@ -28,6 +28,7 @@ infile.close()
 
 no_names = list()
 languages = set()
+unique_lang = 
 with open('students.txt', 'r') as infile:
     lines = infile.readlines()
     for line in lines:
@@ -41,5 +42,7 @@ with open('students.txt', 'r') as infile:
 
 
 print(languages)
+x = (type(languages))
+print(x)
 
 
