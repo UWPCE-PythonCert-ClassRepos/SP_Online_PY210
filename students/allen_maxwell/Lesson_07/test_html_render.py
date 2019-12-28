@@ -1,8 +1,9 @@
-"""
-test code for html_render.py
+#!/usr/bin/env python3
 
-This is just a start -- you will need more tests!
-"""
+# Allen Maxwell
+# Python 210
+# 12/28/2019
+# test_html_render.py
 
 import io
 import pytest
