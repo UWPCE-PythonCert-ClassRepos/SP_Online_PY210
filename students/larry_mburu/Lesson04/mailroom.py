@@ -213,4 +213,3 @@ def main():
     
 if __name__ == '__main__':
     main()
-    send_thank_you_letter_to_all()
