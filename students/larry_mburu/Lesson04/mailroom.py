@@ -45,7 +45,7 @@ def letter_validator(file_tmp_dir):
                     print(line)
         break # just one file. Avoids reading all files.
 
-def send_thank_you_letter_to_all(validate=False): 
+def send_thank_you_letter_to_all(validate=True): 
     """
     Function, sends a thank you letter to all donor's in the donor DB list
 
@@ -73,7 +73,7 @@ def send_thank_you_letter_to_all(validate=False):
             with open(file_tmp_dir + os.sep + donor + '.txt', 'w') as fobj: 
                 fobj.write(email_template)
 
-        if validate == True: 
+        if validate is True: 
             letter_validator(file_tmp_dir)
 
 def send_thank_you_email(name, amount): 
@@ -83,9 +83,6 @@ def send_thank_you_email(name, amount):
     """
     print(f"Thank you {name} for your generous donation of $ {amount:.2f} dollars")
     print()
-
-    #return to the original prompt 
-    main()
 
 def prompt_for_donor_name(): 
     """
@@ -113,14 +110,11 @@ def add_donar_to_list():
     """
 
     donor = prompt_for_donor_name()
-    donor_list = []
 
-    #extract donor names from main donation DB list for in checks. 
-    for key in donations_per_individual: 
-        donor_list.append(key)
-    
-    # add unknown donor to the main donation DB list
-    if donor not in donor_list:
+    #check if donor is in DB.
+    donor_in_db = donations_per_individual.get(donor)
+    #If an unknown donor, "None", add donor to donation
+    if donor_in_db is None: 
         donations_per_individual[donor] = []
     
     return donor
@@ -136,8 +130,7 @@ def prompt_for_donation_amount():
     donation_amount = float(response) 
 
     #add donation to donor history, in donation DB list
-    if donor_name in donations_per_individual: 
-        donations_per_individual[donor_name].append(donation_amount)
+    donations_per_individual.get(donor_name).append(donation_amount)
 
     #send a thank you email
     send_thank_you_email(donor_name, donation_amount)
@@ -202,15 +195,6 @@ def main():
     """
     display_menu()
 
-    response = input("Choose one of the above options, [1..4]: ")
-    response = int(response)
-
-    # valid option numbers, per dipatch_dict
-    while response not in (1, 2, 3, 4): 
-        print("Invalid Option!")
-        response = input("Choose one of the following options, [1..4]: ")
-        response = int(response)
-
     # dispatch dictionary. Key to function mapping. 
     
     dispatch_dict = { 
@@ -220,14 +204,13 @@ def main():
         4 : quit_program
     }
 
-    if response == 1: 
-        dispatch_dict.get(response)()
-    if response == 2: 
-        dispatch_dict.get(response)()
-    if response == 3: 
-        dispatch_dict.get(response)(validate=True)
-    if response == 4: 
-        dispatch_dict.get(response)()
+    while True:
+        response = input("Choose a number from, [1..4]: ")
+        response = int(response)
+        if response not in dispatch_dict:
+            print('Invalid Option1')
+        dispatch_dict[response]()
     
 if __name__ == '__main__':
     main()
+    send_thank_you_letter_to_all()
