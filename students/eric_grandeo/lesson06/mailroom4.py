@@ -63,16 +63,18 @@ def thankyou_email(name, donation):
    
     email_dict = dict(name=name, donation=int(donation))
 
-
-
-    print("""
+    #need to return this
+    result = """
     Dear {name},
     Thank you very much for the generous donation of ${donation:,.2f}
     It is very much appreciated.
     Respectfully,
 
     Eric G.
-    """.format(**email_dict))
+    """.format(**email_dict)
+
+    print(result)
+    return result
 
 #calls the sub menu function when thank you is selected from main menu
 def thank_you():
