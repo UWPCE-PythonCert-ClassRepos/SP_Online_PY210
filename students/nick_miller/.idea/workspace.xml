@@ -2,12 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e250506b-0653-4564-a65a-965fa09b97e7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/working_dir/lesson02/codingbat-pushups/array123.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/working_dir/lesson02/codingbat-pushups/array_count9.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/working_dir/lesson02/codingbat-pushups/array_front9.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/working_dir/lesson02/codingbat-pushups/string_match.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/working_dir/lesson03/list_lab.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/working_dir/lesson03/slicing_lab.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/working_dir/lesson03/string_formatting.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/working_dir/lesson02/codingbat-pushups/last2.py" beforeDir="false" afterPath="$PROJECT_DIR$/working_dir/lesson02/codingbat-pushups/last2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/working_dir/lesson02/codingbat-pushups/string_match.py" beforeDir="false" afterPath="$PROJECT_DIR$/working_dir/lesson02/codingbat-pushups/string_match.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,6 +33,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -130,7 +130,14 @@
       <workItem from="1573828447631" duration="363000" />
       <workItem from="1575171557685" duration="1523000" />
       <workItem from="1575328875368" duration="759000" />
-      <workItem from="1575331360014" duration="3036000" />
+      <workItem from="1575331360014" duration="3099000" />
+      <workItem from="1575684748818" duration="187000" />
+      <workItem from="1575988799723" duration="596000" />
+      <workItem from="1576291397583" duration="605000" />
+      <workItem from="1576380266195" duration="164000" />
+      <workItem from="1576726760135" duration="127000" />
+      <workItem from="1577067975128" duration="255000" />
+      <workItem from="1577068267920" duration="99000" />
     </task>
     <servers />
   </component>
@@ -150,10 +157,14 @@
       </map>
     </option>
   </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
   <component name="WindowStateProjectService">
-    <state x="408" y="176" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1575336842592">
-      <screen x="0" y="23" width="1440" height="837" />
+    <state x="408" y="165" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1577068046335">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
+    <state x="408" y="165" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1440.900/1440.-710.1920.1080@0.0.1440.900" timestamp="1577068046335" />
     <state x="408" y="176" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.23.1440.837/1440.-687.1920.1057@0.23.1440.837" timestamp="1575336842592" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
