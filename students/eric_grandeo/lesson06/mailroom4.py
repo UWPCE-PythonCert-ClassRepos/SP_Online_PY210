@@ -60,11 +60,7 @@ def add_donation(name, donation):
 def thankyou_email(name, donation):
     """Prints the letter with the user inputted name and donation """
     
-    #email_dict = {}
-    #email_dict["name"] = name
-    #email_dict["donation"] = int(donation)
-
-    #used dict() to replace lines above
+   
     email_dict = dict(name=name, donation=int(donation))
 
 
@@ -89,7 +85,6 @@ def sort_key(items):
 
 #Creates reports by creating a new dict from the donors dict
 def create_report():
-    #new_dict = dict()
     print("{:<25s}|{:>15s} |{:>10s} | {:>12s}".format("Donor Name", "Total Given", "Num Gifts", "Average Gift"))
     print(68 * '-')
     
