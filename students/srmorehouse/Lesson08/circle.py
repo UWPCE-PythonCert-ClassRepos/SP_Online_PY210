@@ -17,13 +17,17 @@ class Circle (object):
 
     @property
     def diameter (self):
-        return self.radius * math.pi
+        return self.radius * 2
 
     @property
     def area (self):
-        return self.radius**2 * math.pi
+        return (self.radius**2) * math.pi
 
     @diameter.setter
     def diameter (self, diameter):
-        self.radius = diameter / math.pi
+        self.radius = diameter / 2
+
+    @classmethod
+    def using_diameter (cir, diameter):
+        return cir (diameter / 2)
 

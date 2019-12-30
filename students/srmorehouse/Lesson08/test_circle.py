@@ -4,9 +4,14 @@ import math
 import pytest
 from circle import Circle
 
-def test_set_assign():
+def test_constructor():
     c = Circle(1)
     assert c.radius == 1
+
+def test_alt_constructor():
+    c = Circle.using_diameter (2)
+    assert c.radius == 1
+    assert c.diameter == 2
 
 def test_unhappy_set_zero():
     with pytest.raises(ValueError) as e:
@@ -19,16 +24,14 @@ def test_unhappy_set_neg():
 def test_set_diameter():
     radius = 1
     c = Circle(radius)
-    c.diameter = radius * math.pi
-    assert c.diameter == radius * math.pi
+    c.diameter = radius * 2
+    assert c.diameter == radius * 2
 
 def test_get_area():
-    radius = 1
-    c = Circle(radius)
+    c = Circle(1)
     assert c.area == pytest.approx (3.14,0.1)
 
-    radius = 2
-    c = Circle(radius)
+    c = Circle(2)
     assert c.area == pytest.approx (12.56,0.1)
 
 def test_unhappy_set_area():
