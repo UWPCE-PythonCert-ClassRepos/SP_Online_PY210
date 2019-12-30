@@ -22,3 +22,17 @@ def test_set_diameter():
     c.diameter = radius * math.pi
     assert c.diameter == radius * math.pi
 
+def test_get_area():
+    radius = 1
+    c = Circle(radius)
+    assert c.area == pytest.approx (3.14,0.1)
+
+    radius = 2
+    c = Circle(radius)
+    assert c.area == pytest.approx (12.56,0.1)
+
+def test_unhappy_set_area():
+    c = Circle(1)
+    with pytest.raises(AttributeError) as e:
+        c.area = 1
+
