@@ -6,6 +6,12 @@ import sys
 from collections import OrderedDict
 import os
 
+donors = {"Bill Gates": [653772.32, 12.17],
+          "Jeff Bezos": [877.33],
+          "Paul Allen": [663.23, 43.87, 1.32],
+          "Mark Zuckerberg": [1663.23, 4300.87, 10432.0],
+          "Tim Cook": [1563.32, 8976.54]}
+
 
 #switch between users selections, using a dict
 def menu_selection(prompt, dispatch_dict):
@@ -13,7 +19,7 @@ def menu_selection(prompt, dispatch_dict):
         #handle KeyError
         try:
             response = input(prompt)
-            dispatch_dict[response]()
+            dispatch_dict[response](donors)
         except KeyError:
             print("Please select 1 through 4. \n")
 
@@ -30,7 +36,7 @@ def sub_menu_selection(prompt, dispatch_dict):
         
         else:
             if response in dispatch_dict:
-                dispatch_dict[response]() == "exit menu"
+                dispatch_dict[response](donors) == "exit menu"
                 break
             else:
                 try:
@@ -40,7 +46,7 @@ def sub_menu_selection(prompt, dispatch_dict):
                     elif donation.isalpha():
                         raise ValueError
                     else:
-                        add_donation(response, donation)
+                        add_donation(response, donation, donors)
                         thankyou_email(response, donation)    
                         break 
                 except ValueError:
@@ -49,7 +55,7 @@ def sub_menu_selection(prompt, dispatch_dict):
                 
 
 #updates donor dictionary if new or existing donor
-def add_donation(name, donation):
+def add_donation(name, donation, donors):
     if name in donors:
         donors[name].append(int(donation))    
     else:
@@ -77,7 +83,7 @@ def thankyou_email(name, donation):
     return result
 
 #calls the sub menu function when thank you is selected from main menu
-def thank_you():
+def thank_you(donors):
     sub_menu_selection(sub_prompt, sub_dispatch)
 
 #sorts dict in create report
@@ -86,7 +92,7 @@ def sort_key(items):
     return items[1]
 
 #Creates reports by creating a new dict from the donors dict
-def create_report():
+def create_report(donors):
     print("{:<25s}|{:>15s} |{:>10s} | {:>12s}".format("Donor Name", "Total Given", "Num Gifts", "Average Gift"))
     print(68 * '-')
     
@@ -103,7 +109,7 @@ def create_report():
     return sorted_donors2
 
 #creates a letter in the current directory that thanks donor for sum of donations
-def send_letters():
+def send_letters(donors):
     for donor,donation in donors.items():
         with open(donor.replace(" ", "_") + '.txt', 'w+') as f:
            f.write("""Dear {},
@@ -117,24 +123,18 @@ def send_letters():
     print("Letter were created and are in the {} directory.".format(os.getcwd()))
     print("")
 
-def quit_submenu():
+def quit_submenu(donors):
     return "exit menu"
 
-def quit_program():
+def quit_program(donors):
     print("Good Bye")
     sys.exit()
 
-def display_donors():
+def display_donors(donors):
     names = list((donors.keys()))
     print("Donor names: {}".format(", ".join(names)))
     return names
 
-#donors now as a dict
-donors = {"Bill Gates": [653772.32, 12.17],
-          "Jeff Bezos": [877.33],
-          "Paul Allen": [663.23, 43.87, 1.32],
-          "Mark Zuckerberg": [1663.23, 4300.87, 10432.0],
-          "Tim Cook": [1563.32, 8976.54]}
 
 main_prompt = "\n".join(("Welcome to the mailroom!",
           "Please choose from below options:",
