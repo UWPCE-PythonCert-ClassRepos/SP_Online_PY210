@@ -6,8 +6,6 @@ import os
 
 #Send thank you tests
 #test donor list
-donors = {"Paul Allen": [175, 200],
-          "Tim Cook": [200]}
 
 donors2 = {"Paul Allen": [175, 200],
           "Tim Cook": [200, 75],
@@ -16,6 +14,7 @@ donors2 = {"Paul Allen": [175, 200],
 
 #test adding a new donor and donation
 def test_add_donor():
+    donors = {"Paul Allen": [175, 200], "Tim Cook": [200]}
     mailroom4.add_donation("Tim Cook", 75, donors)    
     mailroom4.add_donation("Eric Grandeo", 50, donors)
     assert donors == donors2
@@ -51,24 +50,13 @@ def test_create_report():
     assert report == expected
 
 
-'''
-#Create a report tests
-
-#test report dict
-test_ordered_dict = OrderedDict([('Bill Gates', [653784.49, 2, 326892.24]),
-                                 ('Tim Cook', [85539.86, 3, 28513.29]),
-                                 ('Eric Grandeo', [50000.00, 1, 50000.00]),
-                                 ('Mark Zuckerberg', [16396.1, 3, 5465.37]),
-                                 ('Jeff Bezos', [877.33, 1, 877.33]),
-                                 ('Paul Allen', [708.42, 3, 236.14])])
-
-#test the report dict used to create the report
-def test_create_report():
-    expected_report = mailroom4.create_report()
-    assert expected_report == test_ordered_dict
-
-
 #Create send letter test
+
+#tests that files are created with proper name
 def test_send_letters():
-    pass
-'''
+    mailroom4.send_letters(donors2)
+    for name in [*donors2]:
+        name2 = name.replace(" ", "_")
+        assert os.path.isfile(name2 + ".txt") is True
+
+#test content of file
