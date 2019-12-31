@@ -60,3 +60,17 @@ def test_send_letters():
         assert os.path.isfile(name2 + ".txt") is True
 
 #test content of file
+
+def test_get_letter_text():
+    f = open("Eric_Grandeo.txt", "r")
+    contents = f.read()
+    expected = """Dear Eric Grandeo,
+
+           Thank you very much for the generous total donation of $50.00
+
+           It is very much appreciated.
+
+                Respectfully,
+                Eric G."""
+
+    assert expected == contents
