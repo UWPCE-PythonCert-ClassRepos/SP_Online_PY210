@@ -7,11 +7,6 @@ import mailroom4
 #logic code: generating thank you text, adding or updating donors, and listing donors.
 
 #adding or updating donors
-test_addDonation = {"Bill Gates": [653772.32, 12.17],
-          "Jeff Bezos": [877.33],
-          "Paul Allen": [663.23, 43.87, 1.32],
-          "Mark Zuckerberg": [1663.23, 4300.87, 10432.0],
-          "Tim Cook": [1563.32, 8976.54, 75000]}
 
 test_addDonors = {"Bill Gates": [653772.32, 12.17],
           "Jeff Bezos": [877.33],
@@ -20,13 +15,9 @@ test_addDonors = {"Bill Gates": [653772.32, 12.17],
           "Tim Cook": [1563.32, 8976.54, 75000],
           "Eric Grandeo": [50000.00]}
 
-#return donors?
-def test_add_donation():
-    mailroom4.add_donation("Tim Cook", 75000)
-    assert mailroom4.donors == test_addDonation
-
-
+#tests adding a new donor and donation
 def test_add_donor():
+    mailroom4.add_donation("Tim Cook", 75000)    
     mailroom4.add_donation("Eric Grandeo", 50000)
     assert mailroom4.donors == test_addDonors
 
@@ -45,4 +36,7 @@ def test_thankyou_email():
     assert expected == letter 
 
 #test listing donors here
-def test_
+def test_display_donors():
+    assert mailroom4.display_donors() == list(test_addDonors.keys())
+
+
