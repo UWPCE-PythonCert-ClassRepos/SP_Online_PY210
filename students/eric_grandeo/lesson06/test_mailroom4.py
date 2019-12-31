@@ -42,8 +42,8 @@ def test_display_donors():
 #Create a report tests
 
 #test report dict, tests for (donor, [totals, len, avg])
-def test_create_report():
-    report = mailroom4.create_report(donors2)
+def test_create_report_data():
+    report = mailroom4.create_report_data(donors2)
     expected = OrderedDict([('Paul Allen', [375, 2, 187.5]),
                             ('Tim Cook', [275, 2, 137.5]),
                             ('Eric Grandeo', [50, 1, 50.0])])

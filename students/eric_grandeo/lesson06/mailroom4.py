@@ -92,21 +92,32 @@ def sort_key(items):
     return items[1]
 
 #Creates reports by creating a new dict from the donors dict
-def create_report(donors):
-    print("{:<25s}|{:>15s} |{:>10s} | {:>12s}".format("Donor Name", "Total Given", "Num Gifts", "Average Gift"))
-    print(68 * '-')
-    
+
+#refactored function separating logic and presentation
+def create_report_data(donors):
     names = [*donors]
     vals = [[round(sum(x), 2), len(x), round(sum(x)/len(x), 2)] for x in list(donors.values())] 
     new_dict = dict(zip(names,vals))
-
     sorted_donors2 = OrderedDict(sorted(new_dict.items(), key=lambda t: t[1], reverse=True))
+    return sorted_donors2
 
-    for k,v in sorted_donors2.items():
+
+def create_report(donors):
+    report_data = create_report_data(donors)
+    print("{:<25s}|{:>15s} |{:>10s} | {:>12s}".format("Donor Name", "Total Given", "Num Gifts", "Average Gift"))
+    print(68 * '-')
+    
+    #names = [*donors]
+    #vals = [[round(sum(x), 2), len(x), round(sum(x)/len(x), 2)] for x in list(donors.values())] 
+    #new_dict = dict(zip(names,vals))
+
+    #sorted_donors2 = OrderedDict(sorted(new_dict.items(), key=lambda t: t[1], reverse=True))
+
+    for k,v in report_data.items():
         print("{:<25s}|${:>14,.2f} |{:>10.0f} |${:>12,.2f}".format(k, v[0], v[1], v[2]))
     print()
 
-    return sorted_donors2
+    #return sorted_donors2
 
 #creates a letter in the current directory that thanks donor for sum of donations
 def send_letters(donors):
