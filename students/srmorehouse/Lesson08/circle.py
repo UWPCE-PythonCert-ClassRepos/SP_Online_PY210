@@ -37,3 +37,10 @@ class Circle (object):
     def __repr__ (self):
         return f'Circle({self.radius})'
 
+    def __add__(self, other):
+        return Circle(self.radius + other.radius)
+
+    def __mul__(self, other):
+        return Circle(self.radius * other.radius)
+
+        

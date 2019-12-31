@@ -48,3 +48,18 @@ def test_repr():
     c = Circle(2)
     d = eval(repr(c))
     assert d.radius == 2
+
+def test_add():
+    c1 = Circle(1)
+    c2 = Circle(2)
+    c3 = c1 + c2
+    assert c3.radius == 3
+
+def test_multiply():
+    c1 = Circle(3)
+    c2 = Circle(4)
+    c3 = c1 * c2
+    assert c3.radius == 12
+    with pytest.raises(TypeError) as e:
+        c3 = 3 * c2
+
