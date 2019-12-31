@@ -90,17 +90,8 @@ def create_report():
     print("{:<25s}|{:>15s} |{:>10s} | {:>12s}".format("Donor Name", "Total Given", "Num Gifts", "Average Gift"))
     print(68 * '-')
     
-    '''
-    for k,v in donors.items():
-        sum_don = sum(donors.get(k))
-        len_don = len(donors.get(k))
-        avg_don = sum_don/len_don
-        new_dict[k] = [sum_don, len_don, avg_don]
-    '''
-
-    #replaced the above with the 3 lines below to create a new dict
     names = [*donors]
-    vals = [[sum(x), len(x), sum(x)/len(x)] for x in list(donors.values())] 
+    vals = [[round(sum(x), 2), len(x), round(sum(x)/len(x), 2)] for x in list(donors.values())] 
     new_dict = dict(zip(names,vals))
 
     sorted_donors2 = OrderedDict(sorted(new_dict.items(), key=lambda t: t[1], reverse=True))
@@ -108,6 +99,8 @@ def create_report():
     for k,v in sorted_donors2.items():
         print("{:<25s}|${:>14,.2f} |{:>10.0f} |${:>12,.2f}".format(k, v[0], v[1], v[2]))
     print()
+
+    return sorted_donors2
 
 #creates a letter in the current directory that thanks donor for sum of donations
 def send_letters():
