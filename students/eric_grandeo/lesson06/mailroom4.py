@@ -132,8 +132,9 @@ def quit_program():
     sys.exit()
 
 def display_donors():
-    print(donors.keys())
-
+    names = list((donors.keys()))
+    print("Donor names: {}".format(", ".join(names)))
+    return names
 
 #donors now as a dict
 donors = {"Bill Gates": [653772.32, 12.17],

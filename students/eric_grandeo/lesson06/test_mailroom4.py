@@ -20,6 +20,7 @@ test_addDonors = {"Bill Gates": [653772.32, 12.17],
           "Tim Cook": [1563.32, 8976.54, 75000],
           "Eric Grandeo": [50000.00]}
 
+#return donors?
 def test_add_donation():
     mailroom4.add_donation("Tim Cook", 75000)
     assert mailroom4.donors == test_addDonation
@@ -43,4 +44,5 @@ def test_thankyou_email():
     expected = mailroom4.thankyou_email("Tim Cook", 75000) 
     assert expected == letter 
 
-#test listing donors
+#test listing donors here
+def test_
