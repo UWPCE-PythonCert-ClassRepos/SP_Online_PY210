@@ -39,3 +39,12 @@ def test_unhappy_set_area():
     with pytest.raises(AttributeError) as e:
         c.area = 1
 
+def test_str():
+    c = Circle(1)
+    assert str(c).startswith('Circle with radius:')
+    assert '1.0' in str(c)
+
+def test_repr():
+    c = Circle(2)
+    d = eval(repr(c))
+    assert d.radius == 2

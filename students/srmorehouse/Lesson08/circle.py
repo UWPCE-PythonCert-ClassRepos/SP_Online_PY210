@@ -31,3 +31,9 @@ class Circle (object):
     def using_diameter (cir, diameter):
         return cir (diameter / 2)
 
+    def __str__ (self):
+        return f'Circle with radius: {self.radius}'
+
+    def __repr__ (self):
+        return f'Circle({self.radius})'
+
