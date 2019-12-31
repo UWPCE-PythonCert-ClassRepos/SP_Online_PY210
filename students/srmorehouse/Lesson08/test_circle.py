@@ -82,3 +82,8 @@ def test_neq():
     c2 = Circle(2)
     assert c1 != c2
 
+def test_sort():
+    l = [Circle(6), Circle(7), Circle(8), Circle(4), Circle(2), Circle(3), Circle(5), Circle(9), Circle(1)]
+    l.sort(key=Circle.sort_key)
+    assert l == [Circle(1), Circle(2), Circle(3), Circle(4), Circle(5), Circle(6), Circle(7), Circle(8), Circle(9)]
+

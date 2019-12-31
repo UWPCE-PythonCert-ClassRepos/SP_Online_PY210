@@ -52,4 +52,6 @@ class Circle (object):
     def __eq__(self, other):
         return True if self.radius == other.radius else False
 
-        
+    def sort_key(self):
+        return self.radius       
+ 
