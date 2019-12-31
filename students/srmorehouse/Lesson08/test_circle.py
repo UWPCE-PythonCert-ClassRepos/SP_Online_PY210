@@ -63,3 +63,22 @@ def test_multiply():
     with pytest.raises(TypeError) as e:
         c3 = 3 * c2
 
+def test_lt():
+    c1 = Circle(1)
+    c2 = Circle(2)
+    assert c1 < c2
+
+def test_gt():
+    c1 = Circle(1)
+    c2 = Circle(2)
+    assert c2 > c1
+
+def test_eq():
+    c1 = Circle(1)
+    assert c1 == Circle(1)
+
+def test_neq():
+    c1 = Circle(1)
+    c2 = Circle(2)
+    assert c1 != c2
+

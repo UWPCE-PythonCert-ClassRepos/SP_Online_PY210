@@ -43,4 +43,13 @@ class Circle (object):
     def __mul__(self, other):
         return Circle(self.radius * other.radius)
 
+    def __lt__(self, other):
+        return True if self.radius < other.radius else False
+
+    def __gt__(self, other):
+        return True if self.radius > other.radius else False
+
+    def __eq__(self, other):
+        return True if self.radius == other.radius else False
+
         
