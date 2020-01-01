@@ -1,12 +1,17 @@
 import sys  # need to do this if you want to use sys.exit()
+from operator import itemgetter
 
 
+# donors
 donators = [
 ("Gordian",[30.0,45.0]),
-("Tiberius",[60]),
-("Maximus",[65.00, 12.00]),
-("Tacitus",[33.00,22.00]),
-("Commodus",[43,11])]
+("Tiberius",[60.0]),
+("Maximus",[65.0, 12.0]),
+("Tacitus",[33.0,22.0,25.00]),
+("Commodus",[43.0,11.0])]
+
+# Names of donors
+extant_don=[i[0] for i in donators]
 
 # Opening menu
 prompt = "\n".join(("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$",
@@ -18,8 +23,22 @@ prompt = "\n".join(("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$",
           "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$",
           "Indicate your choice:  "))
 
-# Names of donors
-extant_don=[i[0] for i in donators]
+
+# opening menu option responses
+def main():
+    while True:
+        response = input(prompt)  # continuously collect user selection
+        # now redirect to feature functions based on the user selection
+        if response == "1":
+            Send_Note()
+        elif response == "2":
+            data_metrics()
+        elif response == "3":
+            exit_program()
+        elif response  =="4":
+            print(donators)
+        else:
+            print("Not a valid option!")
 
 # Option 1: Content of Thank you note
 def send_thanks(a,b):
@@ -57,7 +76,8 @@ def Send_Note():
                 new_don = input("That's an unknown donor, do you wish to add them y/n?")
                 if new_don=="y":
                     NEW_don_amount = input("Input new donor donation amount: ")
-                    donators.append((donor_inp, float(NEW_don_amount)))
+                    # unsure how to enforce entry of a float or integer
+                    donators.append((donor_inp, NEW_don_amount))
                     send_thanks(donor_inp,NEW_don_amount)
                 else:
                     return main()
@@ -66,29 +86,24 @@ def Send_Note():
 
 # Option 2: create report
 def data_metrics():
-    new_fruit = input("Name of the fruit to add?").title()
-    fruits.append(new_fruit)
+    report = []
+    for name, donations in donators:
+        total_Given = sum(donations)
+        number_Gifts = len(donations)
+        average_Gift = total_Given/number_Gifts
+        report.append((name, total_Given, number_Gifts, round(average_Gift,1)))
+    ranked_dons=sorted(report, key=itemgetter(1),reverse=True)
+    # https://stackoverflow.com/questions/46490541/how-print-list-of-tuples-side-by-side/46490575
+    # for x in ranked_dons:
+    #     print(*x:, sep='|')
+    print('Name'+'-'*30+'Sum'+'-'*28+'Count'+'-'*30+'Avg')
+    for a,b,c,d in ranked_dons:
+        print(f'{a:<33}{b:<33}{c:<33}{d:<33}')
 
 #Option 3: get out of this program
 def exit_program():
     print("Bye!")
-    sys.exit()  # THIS IS INCREDIBLY IMPORTANT
-
-
-def main():
-    while True:
-        response = input(prompt)  # continuously collect user selection
-        # now redirect to feature functions based on the user selection
-        if response == "1":
-            Send_Note()
-        elif response == "2":
-            data_metrics()
-        elif response == "3":
-            exit_program()
-        elif response  =="4":
-            print(donators)
-        else:
-            print("Not a valid option!")
+    sys.exit()  # THIS IS TO EXIT THE PROGRAM AND START OVER
 
 
 if __name__ == "__main__":
