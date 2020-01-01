@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import sys
-import tempfile
 import os
 from operator import itemgetter
 
@@ -25,61 +24,36 @@ def display_menu():
     print("[4] Quit!")
     print()
 
-def letter_validator(file_tmp_dir):
+def send_thank_you_letter_to_all(): 
     """
-    Function just prints the content of a single letter in file, for 
-    validation only, since the send_thank_you_letter_to_all() utilizes 
-    tempfile.TempDirectory(), which does not persist files in the file system
-
-    param: file_tmp_dir: temporary directory full path name. 
-
-    return: None
+    Function, sends a thank you letter to all donor's in the donor DB list,
+    by writing thank you letters to the local filesystem.
 
     """
+    print('[+] Generating thank you letters..')
 
-    for file in os.listdir(file_tmp_dir): 
-        print(f"[+] Listing contents of file: {file}")
-        with open(os.path.join(file_tmp_dir, file)) as fobj:
-            for line in fobj:
-                if line != '':
-                    print(line)
-        break # just one file. Avoids reading all files.
+    for donor in donations_per_individual:  
+        # -1, the latest donation in the donor "list"
+        email_template = f"""
+        Dear {donor}, 
+            Thank you for your kind donation of ${donations_per_individual[donor][-1]} 
 
-def send_thank_you_letter_to_all(validate=True): 
-    """
-    Function, sends a thank you letter to all donor's in the donor DB list
+            it will be put to very good use. 
 
-    param: validation: If set to True, prints the contents of single donor file, 
-    since tempfile.TempDirectory() does not persist files, in the file system. 
-    It's purely to validate that the letter / formatting was written to file
-    correctly.
+            Sincerely,
+                - The Cloud Squad 
+        """
+        #split and join,to prevent file names with spaces.
+        with open('_'.join(donor.split()) + '.txt', 'w') as fobj: 
+            fobj.write(email_template)
 
-    return: None 
-    """
-
-    with tempfile.TemporaryDirectory() as file_tmp_dir: 
-        for donor in donations_per_individual:  
-
-            # -1, the latest donation in the donor "list"
-            email_template = f"""
-            Dear {donor}, 
-                Thank you for your kind donation of ${donations_per_individual[donor][-1]} 
-
-                it will be put to very good use. 
-
-                Sincerely,
-                    - The Cloud Squad 
-            """
-            with open(file_tmp_dir + os.sep + donor + '.txt', 'w') as fobj: 
-                fobj.write(email_template)
-
-        if validate is True: 
-            letter_validator(file_tmp_dir)
+    print('[+] Letter generation complete.')
+    print('[+] Letters are in your current working directory')
 
 def send_thank_you_email(name, amount): 
     """
-    composes an email to a selected donor on 
-    the donor's list 
+    composes an email to a selected donor on the donor's list 
+
     """
     print(f"Thank you {name} for your generous donation of $ {amount:.2f} dollars")
     print()
@@ -88,15 +62,16 @@ def prompt_for_donor_name():
     """
     Function, asks user for a donar name. The user can opt to
     list all the donors in the donor DB list. 
+
     """
 
     donor_name = input("Enter donor's full name or 'list' to list donors: ") 
-    quit = True
-    while quit and donor_name == 'list':
+    
+    while donor_name == 'list':
         for donar in donations_per_individual: 
-            print(donar[0]) 
+            print(donar) 
         donor_name = input("Enter donar full name or 'list' to list donars: ")
-        quit = False
+
     return donor_name
 
 def add_donar_to_list():
@@ -177,8 +152,7 @@ def create_report():
         print(f"{name:{padding}} $ {total:10.2f} {num_gifts:14} $ {average:10.2f}")
 
     print()
-    # return to original prompt
-    main()
+ 
 def quit_program():
     """
     function quits the program, if the user selects
