@@ -54,14 +54,55 @@ def test_add():
     c2 = Circle(2)
     c3 = c1 + c2
     assert c3.radius == 3
+    assert c3 == c1 + c2
 
-def test_multiply():
+def test_iadd():
+    c1 = Circle(1)
+    c2 = Circle(2)
+    c2 += c1
+    assert c2.radius == 3
+
+def test_radd():
+    c1 = Circle(1)
+    c2 = Circle(2)
+    c3 = c1 + c2
+    assert c3 == 1 + c2
+
+def test_sub():
+    c1 = Circle(1)
+    c2 = Circle(2)
+    c3 = c2 - c1
+    assert c3.radius == 1
+
+def test_isub():
+    c1 = Circle(1)
+    c2 = Circle(2)
+    c2 -= c1
+    assert c2.radius == 1
+
+def test_msub():
+    c1 = Circle(1)
+    c2 = Circle(2)
+    c2 -= c1
+    assert c1 == 2 - c2
+
+def test_mul():
     c1 = Circle(3)
     c2 = Circle(4)
     c3 = c1 * c2
     assert c3.radius == 12
-    with pytest.raises(TypeError) as e:
-        c3 = 3 * c2
+    assert c3 == 3 * c2
+
+def test_imul():
+    c1 = Circle(3)
+    c1 *= 2
+    assert c1.radius == 6
+
+def test_rmul():
+    c1 = Circle(3)
+    c1 *= 2
+    c2 = Circle(18)
+    assert c2 == 3 * c1
 
 def test_lt():
     c1 = Circle(1)

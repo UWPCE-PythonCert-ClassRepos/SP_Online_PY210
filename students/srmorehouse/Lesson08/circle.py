@@ -38,10 +38,43 @@ class Circle (object):
         return f'Circle({self.radius})'
 
     def __add__(self, other):
-        return Circle(self.radius + other.radius)
+        if type (other) is int:
+            return Circle(self.radius + other)
+        else:
+            return Circle(self.radius + other.radius)
+
+    def __iadd__(self, other):
+        return self.__add__(other)
+
+    def __radd__(self, other):
+        return self.__add__(other)
+
+    def __sub__(self, other):
+        if type (other) is int:
+            return Circle(self.radius - other)
+        else:
+            return Circle(self.radius - other.radius)
+
+    def __isub__(self, other):
+        return self.__sub__(other)
+
+    def __rsub__(self, other):
+        if type (other) is int:
+            return Circle(other - self.radius)
+        else:
+            return Circle(other.radius - self.radius)
 
     def __mul__(self, other):
-        return Circle(self.radius * other.radius)
+        if type (other) is int:
+            return Circle(self.radius * other)
+        else:
+            return Circle(self.radius * other.radius)
+
+    def __imul__(self, other):
+        return self.__mul__(other)
+
+    def __rmul__(self, other):
+        return self.__mul__(other)
 
     def __lt__(self, other):
         return True if self.radius < other.radius else False
