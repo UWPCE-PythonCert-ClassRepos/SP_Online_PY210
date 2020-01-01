@@ -8,6 +8,7 @@ donators = [
 ("Tacitus",[33.00,22.00]),
 ("Commodus",[43,11])]
 
+# Opening menu
 prompt = "\n".join(("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$",
         "Welcome to the MAILROOM main menu",
           "Please choose from below options:",
@@ -17,10 +18,15 @@ prompt = "\n".join(("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$",
           "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$",
           "Indicate your choice:  "))
 
+# Names of donors
 extant_don=[i[0] for i in donators]
 
+# Option 1: Content of Thank you note
+def send_thanks(a,b):
+    print(f'Wow {a}, only ${b}?'
+    "\n"+'Give til it hurts you capitalist swine')
 
-
+#Option 1: logic of thank you note
 def Send_Note():
     done=False
     while not done:
@@ -31,41 +37,39 @@ def Send_Note():
         "\n"+"3 - Return to the MAILROOM main menu"
         "\n"+"Indicate your choice:  ")
         if respondy=="1":
-            print(names)
+            print(extant_don)
         if respondy=="2":
             donor_inp=input("Input donor: ")
             if donor_inp in extant_don :
                 # they've entered a donor we already know
                 don_amount = input("That's a known donor, input donation amount: ")
                 # return the index for the known donoor
+                # DO I HAVE TO LOOP THROUGH THE LIST? DO I HAVE TO SPECIFY IT'S THE FIRST 'ITEM' IN THE TUPLE?
                 don_indx = [item[0] for item in donators].index(donor_inp)
                 # indicate to python the column titles in the tuple at the specified index in the list
                 name, donations = donators[don_indx]
                 # apppend donation amount to donators
-                # I DON'T KNOW IF THIS IS WORKING BECAUSE THE CODE DOESN'T CHANGE ON MY END
+                # WHY DOESN'T THIS 'SAVE' INTO MY ACTUAL CODE? IT WORKS DURING THE 'SESSION' BUT DOESN'T SAVE
                 donations.append(float(don_amount))
+                send_thanks(donor_inp,don_amount)
             else:
                 # they've entered a donor we don't have a record of
                 new_don = input("That's an unknown donor, do you wish to add them y/n?")
                 if new_don=="y":
-                    asd00
-                    # request donation donation amount
-                    # append to donators
+                    NEW_don_amount = input("Input new donor donation amount: ")
+                    donators.append((donor_inp, float(NEW_don_amount)))
+                    send_thanks(donor_inp,NEW_don_amount)
                 else:
                     return main()
         elif respondy=="3":
             return main()
 
+# Option 2: create report
+def data_metrics():
+    new_fruit = input("Name of the fruit to add?").title()
+    fruits.append(new_fruit)
 
-
-
-
-
-
-# def add_fruit():
-#     new_fruit = input("Name of the fruit to add?").title()
-#     fruits.append(new_fruit)
-
+#Option 3: get out of this program
 def exit_program():
     print("Bye!")
     sys.exit()  # THIS IS INCREDIBLY IMPORTANT
@@ -78,7 +82,7 @@ def main():
         if response == "1":
             Send_Note()
         elif response == "2":
-            print_don()
+            data_metrics()
         elif response == "3":
             exit_program()
         elif response  =="4":
