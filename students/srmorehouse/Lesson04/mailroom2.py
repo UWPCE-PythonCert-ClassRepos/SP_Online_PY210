@@ -8,11 +8,11 @@ Steve Morehouse
 Lesson 04
 """
 
-donor_db = [("William Gates, III", [653772.32, 12.17]),
-            ("Jeff Bezos", [877.33]),
-            ("Paul Allen", [663.23, 43.87, 1.32]),
-            ("Mark Zuckerberg", [1663.23, 4300.87, 10432.0]),
-            ]
+donor_db = {"William Gates, III": [653772.32, 12.17],
+            "Jeff Bezos": [877.33],
+            "Paul Allen": [663.23, 43.87, 1.32],
+            "Mark Zuckerberg": [1663.23, 4300.87, 10432.0]
+            }
 
 prompt = "\n".join(("Welcome to the Mailroom!",
           "Please choose from below options:",
@@ -28,9 +28,9 @@ list all donors
 """
 def list_donors ():
     list = []
-    for i in donor_db:
+    for i in donor_db.values():
         list.append(i[0])
-    print (list)
+    [print(donor) for donor in donor_db]
 
 """
 If the user (you) selects “Send a Thank You” option, prompt for a Full Name.
@@ -53,19 +53,17 @@ def send_a_thank_you ():
         # now redirect to feature functions based on the user selection
         if name == "list":
             list_donors()
-        elif not any(name in i for i in donor_db):
-            donor_db.append((name, [0]))
-            insert_index = donor_db.index((name, [0]))
+
+        elif donor_db.get(name) == None:
+            donor_db.update({name: []})
             break
+
         else:
-            for i in range (len (donor_db)):
-                if donor_db[i][0] == name:
-                    insert_index = i
-                    break
+            break
 
     # enter donation amount
     donation = float(input("Enter a donation amount: "))
-    donor_db[insert_index][1][0] += donation
+    donor_db[name].append (donation)
 
     # write email
     msg = f"\n{name},\n\nThank you for your donation of ${donation}.\n"
@@ -87,7 +85,7 @@ Donor Name               | Total Given | Num Gifts | Average Gift
 
 def get_donor_summary():
     donor_summary = []
-    for donor in donor_db:
+    for donor in donor_db.items():
         name = donor[0]
         total_donations = sum(donor[1])
         count_donations = len(donor[1])
@@ -140,7 +138,7 @@ def create_report ():
     sep_strings = [("-" * (lengths[0] + pad)), ("-" * (lengths[1] + pad)), ("-" * (lengths[2] + pad)), ("-" * (lengths[3] + pad))]
     sep_line = "+".join(sep_strings)
 
-    for item in sorted(donor_summary, key=sort_key):
+    for item in sorted(donor_summary, key=sort_key, reverse=True):
         table.append(format_line(item, lengths))
 
     # Header
@@ -156,7 +154,7 @@ Compose the letter to the each donor and write to file
 def print_report ():
     cur_dir = os.getcwd()
 
-    for donor in donor_db:
+    for donor in donor_db.items():
 
         name = donor[0]
         total_donations = sum(donor[1])
