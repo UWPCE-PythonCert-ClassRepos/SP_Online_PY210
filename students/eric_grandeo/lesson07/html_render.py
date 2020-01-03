@@ -10,7 +10,13 @@ class Element(object):
     tag = "html"
 
     def __init__(self, content=None):
-        self.contents = [content]
+        self.contents = content
+        if self.contents is None:
+            self.contents = []
+        else:
+            self.contents = [content]
+
+        #print("Contents is: ", self.contents)
 
     def append(self, new_content):
         self.contents.append(new_content)
@@ -21,4 +27,3 @@ class Element(object):
             out_file.write(content)
             out_file.write("\n")
         out_file.write("</{}>\n".format(self.tag))
-        
