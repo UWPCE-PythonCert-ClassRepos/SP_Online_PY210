@@ -11,9 +11,6 @@ database = {'Bill Gates': [2000000, 250000000],
             'Howard Schultz': [1000000], 
             'Paul Allen': [450000000]}
 
-# List of donors
-donor_list = list(database.keys())
-
 
 # Send a thank you
 def thank_you():
@@ -23,7 +20,7 @@ def thank_you():
     while name == 'list':
         name = input("Alright.  Which donor would you like to send a thank you card?\nType 'list' to see a list of past donors >>>")   
         if name == 'list':
-            print(donor_list)
+            print(list(database.keys()))
     
     # Enter donation amount
     amount = input('How much was their donations? ')
