@@ -141,7 +141,7 @@ def test_body():
 
     assert("this is some text") in file_contents
     assert("and this is some more text") in file_contents
-
+    print(file_contents)
     assert file_contents.startswith("<body>")
     assert file_contents.endswith("</body>")
 
@@ -154,7 +154,7 @@ def test_p():
 
     assert("this is some text") in file_contents
     assert("and this is some more text") in file_contents
-
+    print(file_contents)
     assert file_contents.startswith("<p>")
     assert file_contents.endswith("</p>")
 
@@ -189,6 +189,41 @@ def test_sub_element():
 ########
 
 # Add your tests here!
+def test_head():
+    e = Head("this is some text")
+    e.append("and this is some more text")
+
+    file_contents = render_result(e).strip()
+
+    assert("this is some text") in file_contents
+    assert("and this is some more text") in file_contents
+    print(file_contents)
+    assert file_contents.startswith("<head>")
+    assert file_contents.endswith("</head>")
+
+def test_title():
+    e = Title("This is a title")
+    
+    file_contents = render_result(e).strip()
+
+    assert("This is a title") in file_contents
+    print(file_contents)
+    assert "\n" not in file_contents
+    assert file_contents.startswith("<title>")
+    assert file_contents.endswith("</title>")
+
+def test_one_line_tag_append():
+    """
+    tests that you can add another element and still render properly
+    """    
+    e = OneLineTag("the initial content")
+    with pytest.raises(NotImplementedError):
+        e.append("some more content")
+
+    file_contents = render_result(e).strip()
+    print(file_contents)
+
+
 
 # #####################
 # # indentation testing
