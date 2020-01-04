@@ -40,3 +40,19 @@ class Body(Element):
 class P(Element):
     tag = "p"
 
+class Head(Element):
+    tag = "head"
+
+class OneLineTag(Element):
+
+    def render(self, out_file):
+        out_file.write("<{}>".format(self.tag))        
+        for content in self.contents:
+            try:
+                content.render(out_file)
+            except AttributeError:
+                out_file.write(content)
+        out_file.write("</{}>".format(self.tag))
+
+class Title(OneLineTag):
+    tag = "title"
