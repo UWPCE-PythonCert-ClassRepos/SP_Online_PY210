@@ -237,7 +237,12 @@ def test_attributes():
     assert "A paragraph of text" in file_contents
     
     assert file_contents.endswith("</p>")
-    assert file_contents.startswith("<p")
+    assert file_contents.startswith("<p ")
+
+    assert 'style="text-align: center' in file_contents
+    assert 'id="intro"' in file_contents
+
+    #assert False
 
 # #####################
 # # indentation testing

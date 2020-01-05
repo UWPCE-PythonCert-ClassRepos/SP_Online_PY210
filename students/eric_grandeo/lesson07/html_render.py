@@ -10,6 +10,7 @@ class Element(object):
     tag = "html"
 
     def __init__(self, content=None, **kwargs):
+        self.attributes = kwargs
         self.contents = content
         if self.contents is None:
             self.contents = []
@@ -22,7 +23,14 @@ class Element(object):
         self.contents.append(new_content)
 
     def render(self, out_file):
-        out_file.write("<{}>\n".format(self.tag))        
+        #out_file.write("<{}>\n".format(self.tag))
+        open_tag = ["<{}".format(self.tag)]
+        
+        for key, value in self.attributes.items():
+            open_tag.append(' {}="{}"'.format(key, value))
+
+        open_tag.append(">\n")
+        out_file.write("".join(open_tag))        
         for content in self.contents:
             try:
                 content.render(out_file)
