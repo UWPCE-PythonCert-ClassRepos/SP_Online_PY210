@@ -129,20 +129,22 @@ def create_report():
     print(boarder * 62)
 
     # collection for donor statistical summaries for easy sorting
-    summary_of_donations = []
-
-    for donor in donations_per_individual:
-        donor_name = donor
-        total_given = sum(donations_per_individual[donor])
-        num_gifts = len(donations_per_individual[donor])
-        average_gift = total_given / num_gifts
-
-        summary_of_donations.append((donor_name, total_given, num_gifts, average_gift))
+    summary_of_donations = [ 
+        ( 
+            donor, 
+            sum(donations_per_individual[donor]), 
+            len(donations_per_individual[donor]), 
+            sum(donations_per_individual[donor]) / len(donations_per_individual[donor])
+        )
+        for donor in list(donations_per_individual)
+    ]
 
     # sort summary_of_donations by average, which is indexed at 3 i.e 
     # [("bill", 10, 2, 20.5)], save results in descending order.
     summary_of_donations_sorted = sorted(summary_of_donations, key=itemgetter(3), reverse=True)
 
+    #TODO: is list comprehension neccessary here?
+    """
     for summary in summary_of_donations_sorted: 
         name = summary[0]
         total = summary[1]
@@ -150,7 +152,14 @@ def create_report():
         average = summary[3]
         
         print(f"{name:{padding}} $ {total:10.2f} {num_gifts:14} $ {average:10.2f}")
+    """
+    summary = [ 
+        f"{name:{padding}} $ {total:10.2f} {num_gifts:14} $ {average:10.2f}" 
+        for name, total, num_gifts, average in summary_of_donations_sorted 
+        ]
 
+    for entry in summary: 
+        print(entry)
     print()
  
 def quit_program():
@@ -180,10 +189,15 @@ def main():
 
     while True:
         response = input("Choose a number from, [1..4]: ")
-        response = int(response)
-        if response not in dispatch_dict:
-            print('Invalid Option1')
-        dispatch_dict[response]()
+        try:
+            response = int(response)
+            dispatch_dict[response]()
+        except ValueError:
+            print("Input must be an integer, try again")
+            continue
+        except KeyError:
+            print("Option outside the range of [1..4], try again!")
+            continue
     
 if __name__ == '__main__':
     main()
