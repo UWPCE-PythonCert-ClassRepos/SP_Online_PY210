@@ -242,6 +242,7 @@ def test_attributes():
     assert 'style="text-align: center' in file_contents
     assert 'id="intro"' in file_contents
 
+    assert file_contents[:file_contents.index(">")].count(" ") == 3
     #assert False
 
 # #####################
