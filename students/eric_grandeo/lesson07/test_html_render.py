@@ -224,6 +224,20 @@ def test_one_line_tag_append():
     print(file_contents)
 
 
+########
+# Step 4
+########
+
+def test_attributes():
+    e = P("A paragraph of text", style="text-align: center", id="intro")
+
+    file_contents = render_result(e).strip()
+    print(file_contents)
+
+    assert "A paragraph of text" in file_contents
+    
+    assert file_contents.endswith("</p>")
+    assert file_contents.startswith("<p")
 
 # #####################
 # # indentation testing
