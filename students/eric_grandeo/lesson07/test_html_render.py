@@ -245,6 +245,26 @@ def test_attributes():
     assert file_contents[:file_contents.index(">")].count(" ") == 3
     #assert False
 
+########
+# Step 5
+########
+
+def test_hr():
+    hr = HR()
+    file_contents = render_result(hr)
+    print(file_contents)
+    assert file_contents == '<hr />\n'
+
+def test_hr_attr():
+    hr = HR(width=400)
+    file_contents = render_result(hr)
+    print(file_contents)
+    assert file_contents == '<hr width="400" />\n'
+
+
+
+
+
 # #####################
 # # indentation testing
 # #  Uncomment for Step 9 -- adding indentation

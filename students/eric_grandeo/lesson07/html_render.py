@@ -63,3 +63,23 @@ class OneLineTag(Element):
 
 class Title(OneLineTag):
     tag = "title"
+
+class SelfClosingTag(Element):
+    #create 2 new methods for open and close tag
+    def render(self, out_file):
+        out_file.write(self._open_tag())
+        out_file.write("\n")
+        for content in self.contents:
+            try:
+                content.render(out_file)
+            except AttributeError:
+                out_file.write(content)
+                out_file.write("\n")
+        out_file.write(self._close_tag())
+        out_file.write("\n")
+
+class HR(SelfClosingTag):
+    tag = "hr"
+
+class BR(SelfClosingTag):
+    tag = "br"
