@@ -2,16 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e250506b-0653-4564-a65a-965fa09b97e7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/working_dir/lesson02/fizzbuzz.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/working_dir/lesson02/grid_printer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/working_dir/lesson02/series.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/working_dir/lesson03/mailroom.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/working_dir/noodling/example.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/working_dir/noodling/grid_printer_advanced.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/working_dir/noodling/sketchpad.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/nickmiller.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/nickmiller.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/working_dir/lesson03/list_lab.py" beforeDir="false" afterPath="$PROJECT_DIR$/working_dir/lesson03/list_lab.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/working_dir/lesson02/series.py" beforeDir="false" afterPath="$PROJECT_DIR$/working_dir/lesson02/series.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,7 +45,7 @@
       <recent name="$PROJECT_DIR$/working_dir/lesson01" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.sketchpad">
+  <component name="RunManager" selected="Python.series">
     <configuration name="example" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="nick_miller" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -98,28 +90,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="list_lab" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="nick_miller" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/working_dir/lesson03" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/working_dir/lesson03/list_lab.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="mailroom" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="nick_miller" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -134,6 +104,28 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/working_dir/lesson03/mailroom.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="series" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="nick_miller" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/working_dir/lesson02" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/working_dir/lesson02/series.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -166,11 +158,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.series" />
         <item itemvalue="Python.sketchpad" />
         <item itemvalue="Python.example" />
         <item itemvalue="Python.mailroom" />
         <item itemvalue="Python.fizzbuzz" />
-        <item itemvalue="Python.list_lab" />
       </list>
     </recent_temporary>
   </component>
@@ -215,8 +207,16 @@
       <workItem from="1577067975128" duration="255000" />
       <workItem from="1577068267920" duration="2992000" />
       <workItem from="1577482060431" duration="17664000" />
-      <workItem from="1578279355715" duration="487000" />
+      <workItem from="1578279355715" duration="1952000" />
     </task>
+    <task id="LOCAL-00001" summary="local and remote branch conflict resolution">
+      <created>1578282701286</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1578282701286</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -237,6 +237,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="local and remote branch conflict resolution" />
+    <option name="LAST_COMMIT_MESSAGE" value="local and remote branch conflict resolution" />
   </component>
   <component name="WindowStateProjectService">
     <state x="408" y="165" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1577068046335">
@@ -244,25 +246,33 @@
     </state>
     <state x="408" y="165" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1440.900/1440.-710.1920.1080@0.0.1440.900" timestamp="1577068046335" />
     <state x="408" y="176" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.23.1440.837/1440.-687.1920.1057@0.23.1440.837" timestamp="1575336842592" />
-    <state width="1398" height="246" key="GridCell.Tab.0.bottom" timestamp="1578250700231">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state x="2011" y="-568" key="CommitChangelistDialog2" timestamp="1578282700945">
+      <screen x="1440" y="-710" width="1920" height="1080" />
+    </state>
+    <state x="2011" y="-568" key="CommitChangelistDialog2/0.0.1440.900/1440.-710.1920.1080@1440.-710.1920.1080" timestamp="1578282700945" />
+    <state width="1878" height="305" key="GridCell.Tab.0.bottom" timestamp="1578283742981">
+      <screen x="1440" y="-710" width="1920" height="1080" />
     </state>
     <state width="1398" height="246" key="GridCell.Tab.0.bottom/0.0.1440.900/1440.-710.1920.1080@0.0.1440.900" timestamp="1578250700231" />
+    <state width="1878" height="305" key="GridCell.Tab.0.bottom/0.0.1440.900/1440.-710.1920.1080@1440.-710.1920.1080" timestamp="1578283742981" />
     <state width="1398" height="246" key="GridCell.Tab.0.bottom/0.23.1440.837/1440.-687.1920.1057@0.23.1440.837" timestamp="1578250694657" />
-    <state width="1398" height="246" key="GridCell.Tab.0.center" timestamp="1578250700228">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state width="1878" height="305" key="GridCell.Tab.0.center" timestamp="1578283742978">
+      <screen x="1440" y="-710" width="1920" height="1080" />
     </state>
     <state width="1398" height="246" key="GridCell.Tab.0.center/0.0.1440.900/1440.-710.1920.1080@0.0.1440.900" timestamp="1578250700228" />
+    <state width="1878" height="305" key="GridCell.Tab.0.center/0.0.1440.900/1440.-710.1920.1080@1440.-710.1920.1080" timestamp="1578283742978" />
     <state width="1398" height="246" key="GridCell.Tab.0.center/0.23.1440.837/1440.-687.1920.1057@0.23.1440.837" timestamp="1578250694654" />
-    <state width="1398" height="246" key="GridCell.Tab.0.left" timestamp="1578250700227">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state width="1878" height="305" key="GridCell.Tab.0.left" timestamp="1578283742977">
+      <screen x="1440" y="-710" width="1920" height="1080" />
     </state>
     <state width="1398" height="246" key="GridCell.Tab.0.left/0.0.1440.900/1440.-710.1920.1080@0.0.1440.900" timestamp="1578250700227" />
+    <state width="1878" height="305" key="GridCell.Tab.0.left/0.0.1440.900/1440.-710.1920.1080@1440.-710.1920.1080" timestamp="1578283742977" />
     <state width="1398" height="246" key="GridCell.Tab.0.left/0.23.1440.837/1440.-687.1920.1057@0.23.1440.837" timestamp="1578250694635" />
-    <state width="1398" height="246" key="GridCell.Tab.0.right" timestamp="1578250700229">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state width="1878" height="305" key="GridCell.Tab.0.right" timestamp="1578283742979">
+      <screen x="1440" y="-710" width="1920" height="1080" />
     </state>
     <state width="1398" height="246" key="GridCell.Tab.0.right/0.0.1440.900/1440.-710.1920.1080@0.0.1440.900" timestamp="1578250700229" />
+    <state width="1878" height="305" key="GridCell.Tab.0.right/0.0.1440.900/1440.-710.1920.1080@1440.-710.1920.1080" timestamp="1578283742979" />
     <state width="1398" height="246" key="GridCell.Tab.0.right/0.23.1440.837/1440.-687.1920.1057@0.23.1440.837" timestamp="1578250694655" />
     <state x="480" y="72" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1577674043157">
       <screen x="0" y="0" width="1440" height="900" />
@@ -282,6 +292,7 @@
     <SUITE FILE_PATH="coverage/nick_miller$fizzbuzz.coverage" NAME="fizzbuzz Coverage Results" MODIFIED="1577677409612" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/working_dir/lesson02" />
     <SUITE FILE_PATH="coverage/nick_miller$break_me.coverage" NAME="break_me Coverage Results" MODIFIED="1573001009192" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/working_dir/lesson01" />
     <SUITE FILE_PATH="coverage/nick_miller$list_lab.coverage" NAME="list_lab Coverage Results" MODIFIED="1577674843772" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/working_dir/lesson03" />
+    <SUITE FILE_PATH="coverage/nick_miller$series.coverage" NAME="series Coverage Results" MODIFIED="1578283742960" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/working_dir/lesson02" />
     <SUITE FILE_PATH="coverage/nick_miller$example.coverage" NAME="example Coverage Results" MODIFIED="1578193253728" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/working_dir/noodling" />
     <SUITE FILE_PATH="coverage/nick_miller$sketchpad.coverage" NAME="sketchpad Coverage Results" MODIFIED="1578195129957" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/working_dir/lesson02" />
     <SUITE FILE_PATH="coverage/nick_miller$grid_printer.coverage" NAME="grid_printer Coverage Results" MODIFIED="1577674064470" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/working_dir/lesson02" />

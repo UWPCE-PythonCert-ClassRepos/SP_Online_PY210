@@ -7,10 +7,11 @@ def fibonacci(n):
     """ compute the nth Fibonacci number """
     if n <= 0:
         return 0
-    elif  n == 1:
+    elif n == 1:
         return 1
     else:
         return fibonacci(n - 2) + fibonacci(n - 1)
+
 
 # for lucas series: related series of integers that start with the values 2 and 1 rather than 0 and 1
 
@@ -26,22 +27,27 @@ def lucas(n):
 
 
 def sum_series(n, first=0, second=1):
+
     """
     compute the nth value of a summation series.
 
-    :param n0=0: value of zeroth element in the series
-    :param n1=1: value of first element in the series
+    :param n: user entered arg to be processed
+    :param first: value of zeroth element in the series
+        default is 0
+    :param second: value of first element in the series
+        default is 1
 
     This function should generalize the fibonacci() and the lucas(),
     so that this function works for any first two numbers for a sum series.
     Once generalized that way, sum_series(n, 0, 1) should be equivalent to fibonacci(n).
     And sum_series(n, 2, 1) should be equivalent to lucas(n).
 
-    sum_series(n, 3, 2) should generate antoehr series with no specific name
+    sum_series(n, 3, 2) should generate another series with no specific name
 
     The defaults are set to 0, 1, so if you don't pass in any values, you'll
-    get the fibonacci sercies
+    get the fibonacci series
     """
+
     if n <= 0:
         return first
     elif n == 1:
