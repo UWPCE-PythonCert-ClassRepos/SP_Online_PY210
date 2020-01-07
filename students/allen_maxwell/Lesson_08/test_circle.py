@@ -2,8 +2,10 @@
 
 # Allen Maxwell
 # Python 210
-# 1/3/2020
+# 1/4/2020
 # test_circle.py
+# ver 2
+
 
 import pytest
 from circle import *
@@ -225,6 +227,8 @@ def test_add():
     c1 = Circle(2)
     c2 = Circle(4)
     assert repr(c1 + c2) == 'Circle(6)'
+    assert repr(c2 + 4) == 'Circle(8)'
+    assert repr(c2 + -3) == 'Circle(1)'
 
     # Test c2 greater than c1
     try:
@@ -397,6 +401,8 @@ def test_imul():
     c2 = Circle(4)
     c1 *= 2
     assert repr(c1) == 'Circle(4)'
+    c1 *= c2
+    assert repr(c1) == 'Circle(16)'
 
     # Test value is greater than c1
     try:
@@ -423,6 +429,7 @@ def test_div():
     assert repr(c2 / 2) == 'Circle(2.0)'
     assert repr(c3 / 2) == 'Circle(2.5)'
     assert repr(c4 / 1.5) == 'Circle(4.0)'
+    assert repr(c4 / c1) == 'Circle(3.0)'
 
     # Test zero denominator value
     try:
@@ -461,6 +468,8 @@ def test_idiv():
     assert repr(c3) == 'Circle(2.5)'
     c4 /= 1.5
     assert repr(c4) == 'Circle(4.0)'
+    c4 /= c1
+    assert repr(c4) == 'Circle(2.0)'
 
     # Test zero denominator value
     try:
