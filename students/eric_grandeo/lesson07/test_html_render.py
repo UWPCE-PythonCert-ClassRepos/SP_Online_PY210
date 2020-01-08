@@ -261,6 +261,13 @@ def test_hr_attr():
     print(file_contents)
     assert file_contents == '<hr width="400" />\n'
 
+def test_br():
+    br = BR()
+    file_contents = render_result(br)
+    print(file_contents)
+    assert file_contents == "<br />\n"
+
+    
 
 
 
