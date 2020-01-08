@@ -267,7 +267,14 @@ def test_br():
     print(file_contents)
     assert file_contents == "<br />\n"
 
-    
+def test_content_in_br():
+    with pytest.raises(TypeError):
+        br = BR("some content")
+
+def test_append_content_in_br():
+    with pytest.raises(TypeError):
+        br = BR()
+        br.append("some content")
 
 
 

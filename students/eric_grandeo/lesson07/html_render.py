@@ -69,7 +69,7 @@ class Head(Element):
     tag = "head"
 
 class OneLineTag(Element):
-    #update this with the open and close tags
+    
     def render(self, out_file):
         out_file.write("<{}>".format(self.tag))        
         out_file.write(self.contents[0])
@@ -82,9 +82,17 @@ class Title(OneLineTag):
     tag = "title"
 
 class SelfClosingTag(Element):
+    def __init__(self, content=None, **kwargs):
+        if content is not None:
+            raise TypeError("SelfClosingTag can not contain any content")
+        super().__init__(content=content, **kwargs)
+    
     def render(self, out_file):
         tag = self._open_tag()[:-1] + " />\n"
         out_file.write(tag)
+
+    def append(self, *args):
+        raise TypeError("You can not add content to a SelfClosingTag")
 
 class HR(SelfClosingTag):
     tag = "hr"
