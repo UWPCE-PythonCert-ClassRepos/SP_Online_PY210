@@ -32,7 +32,7 @@ class Element(object):
         return "".join(open_tag) 
 
     def _close_tag(self):
-        close_tag = "</{}>\n".format(self.tag)
+        close_tag = "</{}>".format(self.tag)
         return close_tag
 
     def render(self, out_file):
@@ -71,9 +71,11 @@ class Head(Element):
 class OneLineTag(Element):
     
     def render(self, out_file):
-        out_file.write("<{}>".format(self.tag))        
+        out_file.write(self._open_tag())
+        #out_file.write("<{}>".format(self.tag))        
         out_file.write(self.contents[0])
-        out_file.write("</{}>\n".format(self.tag))
+        #out_file.write("</{}>\n".format(self.tag))
+        out_file.write(self._close_tag())
 
     def append(self, content):
         raise NotImplementedError
@@ -99,4 +101,10 @@ class HR(SelfClosingTag):
 
 class BR(SelfClosingTag):
     tag = "br"
+
+class A(OneLineTag):
+    tag = "a"
+    def __init__(self, link, content=None, **kwargs):
+        kwargs['href'] = link
+        super().__init__(content, **kwargs)
 

@@ -276,6 +276,17 @@ def test_append_content_in_br():
         br = BR()
         br.append("some content")
 
+########
+# Step 6
+########
+
+def test_a():
+    a = A("http://google.com", "link to google")
+    file_contents = render_result(a)
+    print(file_contents)
+    assert file_contents == '<a href="http://google.com">link to google</a>'
+
+
 
 
 
