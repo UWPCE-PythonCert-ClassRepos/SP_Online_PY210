@@ -286,7 +286,28 @@ def test_a():
     print(file_contents)
     assert file_contents == '<a href="http://google.com">link to google</a>'
 
+########
+# Step 7
+########
 
+#test unordered list with li class in it
+#possibly break down this test
+def test_ul():
+    ul = UL(id="TheList", style="line-height:200%")
+    li = Li("The first item in a list")
+    ul.append(li)
+    file_contents = render_result(ul)
+    print(file_contents)
+    assert file_contents.startswith('<ul')
+    assert 'id="TheList"' in file_contents
+    assert 'style="line-height:200%"' in file_contents 
+    assert '<li>' in file_contents
+    assert 'The first item in a list' in file_contents
+    assert '</li>' in file_contents
+    assert file_contents.endswith('</ul>\n')
+    
+
+ 
 
 
 

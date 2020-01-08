@@ -68,6 +68,14 @@ class P(Element):
 class Head(Element):
     tag = "head"
 
+class UL(Element):
+    tag = "ul"
+
+class Li(Element):
+    tag = "li"
+
+
+
 class OneLineTag(Element):
     
     def render(self, out_file):
