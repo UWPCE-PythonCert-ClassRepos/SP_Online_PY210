@@ -2,20 +2,64 @@
 
 # Allen Maxwell
 # Python 210
-# 1/3/2020
+# 1/4/2020
 # circle.py
+# ver 2
 
 import math
 
+def is_valid_entry(value):
+    if isinstance(value, str):
+        raise ValueError('Value must be a number')
+    elif isinstance(value, (int, float)):
+        if value < 0:
+            raise ValueError('Value must be a positive number')
+        else:
+            return True
+    else:
+        return False
+
+def is_valid_for_div(denominator):
+    if is_valid_entry(denominator):
+        if denominator == 0:
+            raise ValueError('Denominator value must greater than zero')
+        else:
+            return True
+    else:
+        if denominator.radius == 0:
+            raise ValueError('Denominator value must greater than zero')
+        else:
+            return False
+
+def is_valid_for_add(self, value):
+    if isinstance(value, str):
+        raise ValueError('Value must be a number')
+    elif isinstance(value, (int, float)):
+        if self.radius + value < 0:
+            raise ValueError('Value must less than or equal to the radius')
+        else:
+            return True
+    else:
+        return False
+
+def is_valid_for_sub(self, value):
+    if isinstance(value, str):
+        raise ValueError('Value must be a number')
+    elif isinstance(value, (int, float)):
+        if self.radius - value < 0:
+            raise ValueError('Value must less than or equal to the radius')
+        else:
+            return True
+    else:
+        if self.radius - value.radius < 0:
+            raise ValueError('Value must less than or equal to the radius')
+        else:
+            return False
 
 class Circle(object):
 
     def __init__(self, radius=0):
-        if not isinstance(radius, (int, float)):
-            raise ValueError('Radius must be a number')
-        elif radius < 0:
-            raise ValueError('Radius must be a positive number')
-        else:
+        if is_valid_entry(radius):
             self._radius = radius
 
     @property
@@ -24,11 +68,7 @@ class Circle(object):
 
     @radius.setter
     def radius(self, radius):
-        if not isinstance(radius, (int, float)):
-            raise ValueError('Radius must be a number')
-        elif radius < 0:
-            raise ValueError('Radius must be a positive number')
-        else:
+        if is_valid_entry(radius):
             self._radius = radius
 
     @property
@@ -37,11 +77,7 @@ class Circle(object):
 
     @diameter.setter
     def diameter(self, diameter):
-        if not isinstance(diameter, (int, float)):
-            raise ValueError('Diameter must be a number')
-        elif diameter < 0:
-            raise ValueError('Diameter must be a positive number')
-        else:
+        if is_valid_entry(diameter):
             self._radius = diameter / 2
 
     @property
@@ -54,11 +90,7 @@ class Circle(object):
 
     @classmethod
     def from_diameter(cls, diameter):
-        if not isinstance(diameter, (int, float)):
-            raise ValueError('Diameter must be a number')
-        elif diameter < 0:
-            raise ValueError('Diameter must be a positive number')
-        else:
+        if is_valid_entry(diameter):
             return cls(diameter / 2)
 
     def __str__(self):
@@ -68,126 +100,64 @@ class Circle(object):
         return 'Circle({})'.format(self._radius)
 
     def __add__(self, other):
-        if isinstance(other, str):
-            raise ValueError('Value must be a number')
-        elif isinstance(other, (int, float)):
-            if self.radius + other < 0:
-                raise ValueError('Value must less than or equal to the radius')
-            else:
-                return self.__class__(self._radius + other)
+        if is_valid_for_add(self, other):
+            return self.__class__(self._radius + other)
         else:
             return self.__class__(self._radius + other.radius)
 
     def __radd__(self, other):
-        if isinstance(other, str):
-            raise ValueError('Value must be a number')
-        elif isinstance(other, (int, float)):
-            if self.radius + other < 0:
-                raise ValueError('Value must less than or equal to the radius')
-            else:
-                return self.__class__(self._radius + other)
+        if is_valid_for_add(self, other):
+            return self.__class__(self._radius + other)
         else:
             return self.__class__(self._radius + other.radius)
 
     def __iadd__(self, other):
-        if isinstance(other, str):
-            raise ValueError('Value must be a number')
-        elif isinstance(other, (int, float)):
-            if self.radius + other < 0:
-                raise ValueError('Value must less than or equal to the radius')
-            else:
-                return self.__class__(self._radius + other)
+        if is_valid_for_add(self, other):
+            return self.__class__(self._radius + other)
         else:
             return self.__class__(self._radius + other.radius)
 
     def __sub__(self, other):
-        if isinstance(other, str):
-            raise ValueError('Value must be a number')
-        elif isinstance(other, (int, float)):
-            if self.radius - other < 0:
-                raise ValueError('Value must less than or equal to the radius')
-            else:
-                return self.__class__(self._radius - other)
+        if is_valid_for_sub(self, other):
+            return self.__class__(self._radius - other)
         else:
-            if self.radius - other.radius < 0:
-                raise ValueError('Value must less than or equal to the radius')
-            else:
-                return self.__class__(self._radius - other.radius)
+            return self.__class__(self._radius - other.radius)
 
     def __isub__(self, other):
-        if isinstance(other, str):
-            raise ValueError('Value must be a number')
-        elif isinstance(other, (int, float)):
-            if self.radius - other < 0:
-                raise ValueError('Value must less than or equal to the radius')
-            else:
-                return self.__class__(self._radius - other)
+        if is_valid_for_sub(self, other):
+            return self.__class__(self._radius - other)
         else:
-            if self.radius - other.radius < 0:
-                raise ValueError('Value must less than or equal to the radius')
-            else:
-                return self.__class__(self._radius - other.radius)
+            return self.__class__(self._radius - other.radius)
 
     def __mul__(self, other):
-        if isinstance(other, str):
-            raise ValueError('Value must be a number')
-        elif isinstance(other, (int, float)):
-            if self.radius * other < 0:
-                raise ValueError('Value must less than or equal to the radius')
-            else:
-                return self.__class__(self._radius * other)
+        if is_valid_entry(other):
+            return self.__class__(self._radius * other)
         else:
             return self.__class__(self._radius * other.radius)
 
     def __rmul__(self, other):
-        if isinstance(other, str):
-            raise ValueError('Value must be a number')
-        elif isinstance(other, (int, float)):
-            if self.radius * other < 0:
-                raise ValueError('Value must less than or equal to the radius')
-            else:
-                return self.__class__(self._radius * other)
+        if is_valid_entry(other):
+            return self.__class__(self._radius * other)
         else:
             return self.__class__(self._radius * other.radius)
 
     def __imul__(self, other):
-        if isinstance(other, str):
-            raise ValueError('Value must be a number')
-        elif isinstance(other, (int, float)):
-            if self.radius * other < 0:
-                raise ValueError('Value must less than or equal to the radius')
-            else:
-                return self.__class__(self._radius * other)
+        if is_valid_entry(other):
+            return self.__class__(self._radius * other)
         else:
             return self.__class__(self._radius * other.radius)
 
     def __truediv__(self, other):
-        if isinstance(other, str):
-            raise ValueError('Value must be a number')
-        elif isinstance(other, (int, float)):
-            if other <= 0:
-                raise ValueError('Value must less than or equal to the radius')
-            else:
-                return self.__class__(self._radius / other)
+        if is_valid_for_div(other):
+            return self.__class__(self._radius / other)
         else:
-            if other.radius <= 0:
-                raise ValueError('Value must less than or equal to the radius')
-            else:
-                return self.__class__(self._radius / other.radius)
+            return self.__class__(self._radius / other.radius)
 
     def __idiv__(self, other):
-        if isinstance(other, str):
-            raise ValueError('Value must be a number')
-        elif isinstance(other, (int, float)):
-            if other <= 0:
-                raise ValueError('Value must less than or equal to the radius')
-            else:
-                return self.__class__(self._radius / other)
+        if is_valid_for_div(other):
+            return self.__class__(self._radius / other)
         else:
-            if other.radius <= 0:
-                raise ValueError('Value must less than or equal to the radius')
-            else:
-                return self.__class__(self._radius / other.radius)
+            return self.__class__(self._radius / other.radius)
 
     def __eq__(self, other):
         return self.radius == other.radius
@@ -200,7 +170,6 @@ class Circle(object):
 
     def sort_key(self):
         return self.radius
-
 
 class Sphere(Circle):
 
