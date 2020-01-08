@@ -19,11 +19,10 @@ def send_thanks():
         elif query.lower()=="quit":
             return
         else:
-            tracker=0
-            while tracker==0:
+            while True:
                 try:
                     new_donate=float(input("\nHow much would you like to donate: \n"))
-                    tracker=1
+                    break
                 except ValueError:
                     print("\nPlease enter a number in numerical form\n")
             if query in donor_list:
@@ -76,9 +75,9 @@ if __name__ == '__main__':
             "B - Create a report\n"
             "C - Send a thank you to all donors\n"
             "D - Quit\n")
-        if prompt.upper() in ["A","B","C","D"]:
+        try:
             menu[prompt.upper()]()
-        else:
+        except KeyError:
             print("\nPlease enter A, B, C or D\n")
 
 
