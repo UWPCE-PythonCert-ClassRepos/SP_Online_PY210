@@ -120,15 +120,11 @@ if __name__ == '__main__':
               ">>> ")))
 
         # Run functions for tasks based on user's response
-        
-        try:
-            arg_dict.get(task)()
-        except ValueError:
-            task = input('Please enter a valid option from 1-4: ')
-            continue
-        except TypeError:
-            task = input('Please enter a valid option from 1-4: ')
-            continue
-        except KeyError:
-            task = input('Please enter a valid option from 1-4: ')
-            continue
+        while True:
+            try:
+                arg_dict.get(task)()
+            except (ValueError, TypeError, KeyError) as e:
+                task = input('Please enter a valid option from 1-4: ')
+                continue
+            else:
+                break
