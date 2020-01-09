@@ -1,19 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e250506b-0653-4564-a65a-965fa09b97e7" name="Default Changelist" comment="updating series exercise with updated doc-strings following PEP guidelines">
-      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/nichmill.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/README.rst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/working_dir/lesson03/strformat_lab.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/nickmiller.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/nickmiller.xml" afterDir="false" />
+    <list default="true" id="e250506b-0653-4564-a65a-965fa09b97e7" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/REDAME.rst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/working_dir/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/working_dir/base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/working_dir/lesson03/list_lab.py" beforeDir="false" afterPath="$PROJECT_DIR$/working_dir/lesson03/list_lab.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/working_dir/lesson03/slicing_lab.py" beforeDir="false" afterPath="$PROJECT_DIR$/working_dir/lesson03/slicing_lab.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/working_dir/lesson03/string_formatting.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/working_dir/noodling/grid_printer_advanced.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/working_dir/noodling/sketchpad.py" beforeDir="false" afterPath="$PROJECT_DIR$/working_dir/noodling/sketchpad.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -52,6 +41,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/working_dir" />
       <recent name="$PROJECT_DIR$/working_dir/noodling" />
       <recent name="$PROJECT_DIR$/working_dir/lesson01" />
     </key>
@@ -219,7 +209,7 @@
       <workItem from="1577068267920" duration="2992000" />
       <workItem from="1577482060431" duration="17664000" />
       <workItem from="1578279355715" duration="10428000" />
-      <workItem from="1578593859371" duration="5252000" />
+      <workItem from="1578593859371" duration="5535000" />
     </task>
     <task id="LOCAL-00001" summary="local and remote branch conflict resolution">
       <created>1578282701286</created>
@@ -235,7 +225,14 @@
       <option name="project" value="LOCAL" />
       <updated>1578284158262</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="updating directory structure, working on lesson 3 exercises">
+      <created>1578612085355</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1578612085355</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -258,7 +255,8 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="local and remote branch conflict resolution" />
     <MESSAGE value="updating series exercise with updated doc-strings following PEP guidelines" />
-    <option name="LAST_COMMIT_MESSAGE" value="updating series exercise with updated doc-strings following PEP guidelines" />
+    <MESSAGE value="updating directory structure, working on lesson 3 exercises" />
+    <option name="LAST_COMMIT_MESSAGE" value="updating directory structure, working on lesson 3 exercises" />
   </component>
   <component name="WindowStateProjectService">
     <state x="408" y="165" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1577068046335">
