@@ -75,3 +75,13 @@ Hint: use index numbers to specify positions.
 
 tupleshuffle = (4, 30, 2017, 2, 27)
 
+# Task 05
+
+"""
+Here’s a task for you: Given the following four element list:
+['oranges', 1.3, 'lemons', 1.1]
+Write an f-string that will display:
+The weight of an orange is 1.3 and the weight of a lemon is 1.1
+Now see if you can change the f-string so that it displays the names of the fruit in upper case, and the weight 20%
+higher (that is 1.2 times higher).
+"""
