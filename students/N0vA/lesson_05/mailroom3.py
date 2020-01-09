@@ -23,12 +23,14 @@ def thank_you():
             print(list(database.keys()))
     
     # Enter donation amount
-    amount = input('How much was their donations? ')
-    try: 
-        amount = int(amount)
-    except ValueError:
-        amount = input('Enter a valid donation amount: ')
-        amount = int(amount)
+    while True:
+        try:
+            amount = int(input('How much was their donations? '))
+        except ValueError:
+            print('Sorry that is an invalid')
+            continue
+        else:
+            break
     
     # Add new donation to database
     if database.get(name):
@@ -123,11 +125,27 @@ if __name__ == '__main__':
         except ValueError:
             task = int(input('Please enter a valid option from 1-4: '))
         else:
-            # I tried except KeyError here and that didn't work
             if task not in arg_dict.keys():
                 task = int(input('Please enter a valid option from 1-4: '))
-        arg_dict.get(task)()
         
-            
-        
+        try:
+            arg_dict.get(task)()
+        except TypeError:
+            task = int(input('Please enter a valid option from 1-4: '))
+         
+"""I am struggling to understand what is going on with my code here because
+i tried the basic
+try:
+    arg_dict.get(task)()
+except ValueError:
+    print...
+    continue
+except KeyError:
+    print
+    continue
+except TypeError:
+    print
+    continue
 
+but this is the closest I can get it to working properly and it does not look
+clean this way to say the least"""
