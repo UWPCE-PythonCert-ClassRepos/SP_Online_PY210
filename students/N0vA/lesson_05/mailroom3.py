@@ -103,10 +103,10 @@ def quick_letter():
 # Execute file when running
 if __name__ == '__main__':
     
-    arg_dict = {1: thank_you,
-                2: report,
-                3: quick_letter,
-                4: exit}
+    arg_dict = {'1': thank_you,
+                '2': report,
+                '3': quick_letter,
+                '4': exit}
 
     while True:
     # Opens up the mailroom
@@ -120,32 +120,15 @@ if __name__ == '__main__':
               ">>> ")))
 
         # Run functions for tasks based on user's response
-        try:
-            task = int(task)
-        except ValueError:
-            task = int(input('Please enter a valid option from 1-4: '))
-        else:
-            if task not in arg_dict.keys():
-                task = int(input('Please enter a valid option from 1-4: '))
         
         try:
             arg_dict.get(task)()
+        except ValueError:
+            task = input('Please enter a valid option from 1-4: ')
+            continue
         except TypeError:
-            task = int(input('Please enter a valid option from 1-4: '))
-         
-"""I am struggling to understand what is going on with my code here because
-i tried the basic
-try:
-    arg_dict.get(task)()
-except ValueError:
-    print...
-    continue
-except KeyError:
-    print
-    continue
-except TypeError:
-    print
-    continue
-
-but this is the closest I can get it to working properly and it does not look
-clean this way to say the least"""
+            task = input('Please enter a valid option from 1-4: ')
+            continue
+        except KeyError:
+            task = input('Please enter a valid option from 1-4: ')
+            continue
