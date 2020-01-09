@@ -24,7 +24,7 @@ test_message2= '''Dear Greg Jones,
 
 def test_add_donor():
     expected = { test_name1: [] }
-    assert add_donor(test_name1,test_dict_blank) == expected
+    assert add_donor(test_name1, test_dict_blank) == expected
 
 def test_generate_thank_you_text():
     expected = f"Thank you {test_name1} for your generous donation of $12.45"

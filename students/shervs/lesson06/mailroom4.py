@@ -106,7 +106,7 @@ def letter_text(a_donor, some_donations):
     return (file_name,message)
 
 
-def write_to_file(a_file_name, a_message): # writes thanks you letter to a file #for each donor
+def write_to_file(a_file_name, a_message): #writes thanks you letter to a file #for each donor
     with open(a_file_name, 'w') as f:
             f.write(a_message)
 
