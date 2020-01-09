@@ -286,12 +286,13 @@ def test_a():
     print(file_contents)
     assert file_contents == '<a href="http://google.com">link to google</a>'
 
+
 ########
 # Step 7
 ########
 
 #test unordered list with li class in it
-#possibly break down this test
+#possibly break down this test!!
 def test_ul():
     ul = UL(id="TheList", style="line-height:200%")
     li = Li("The first item in a list")
@@ -305,9 +306,21 @@ def test_ul():
     assert 'The first item in a list' in file_contents
     assert '</li>' in file_contents
     assert file_contents.endswith('</ul>\n')
-    
 
+
+def test_h():
+    header = H(2, "The text of the header")
+    file_contents = render_result(header)
+    print(file_contents)
+    assert file_contents == "<h2>The text of the header</h2>"
  
+def test_h_attr():
+    header = H(2, "The text of the header", style="text-align: center", id="intro")
+    file_contents = render_result(header)
+    print(file_contents)
+    assert 'style="text-align: center"' in file_contents
+    assert 'id="intro"' in file_contents
+
 
 
 

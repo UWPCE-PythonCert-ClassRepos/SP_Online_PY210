@@ -116,3 +116,11 @@ class A(OneLineTag):
         kwargs['href'] = link
         super().__init__(content, **kwargs)
 
+class H(OneLineTag):
+    def __init__(self, level, content=None, **kwargs):
+        self.tag = "h" + str(level)
+        super().__init__(content, **kwargs)
+
+
+
+
