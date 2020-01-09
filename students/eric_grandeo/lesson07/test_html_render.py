@@ -131,7 +131,7 @@ def test_html():
     assert("and this is some more text") in file_contents
     print(file_contents)
     assert file_contents.endswith("</html>")
-
+    
 
 def test_body():
     e = Body("this is some text")
@@ -307,13 +307,14 @@ def test_ul():
     assert '</li>' in file_contents
     assert file_contents.endswith('</ul>\n')
 
-
+#test the header without attributes
 def test_h():
     header = H(2, "The text of the header")
     file_contents = render_result(header)
     print(file_contents)
     assert file_contents == "<h2>The text of the header</h2>"
  
+#test the header attributes 
 def test_h_attr():
     header = H(2, "The text of the header", style="text-align: center", id="intro")
     file_contents = render_result(header)
@@ -321,6 +322,24 @@ def test_h_attr():
     assert 'style="text-align: center"' in file_contents
     assert 'id="intro"' in file_contents
 
+########
+# Step 8
+########
+
+#testing Html with added Doctype tag
+def test_doctype():
+    e = Html("this is some text")
+    e.append("and this is some more text")
+
+    #file_contents = render_result(e).strip()
+    file_contents = render_result(e)
+
+    assert file_contents.startswith("<!DOCTYPE html>")
+    assert("this is some text") in file_contents
+    assert("and this is some more text") in file_contents
+    print(file_contents)
+    assert file_contents.endswith("</html>\n")
+    
 
 
 
