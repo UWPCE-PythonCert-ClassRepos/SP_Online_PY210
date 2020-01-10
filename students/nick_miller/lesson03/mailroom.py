@@ -15,16 +15,43 @@ donor_db = [
 # def
 
 
-def thanks(donor_db, name, donations):
+def thanks(db=donor_db, name=" ", donations="$0.00"):
     print("thanks")
 
 
-def report(donor_db):
+def report(db=donor_db):
     print(donor_db)
+    print()
+    key = ["name", "total given", "num gifts", "average gift"]
+    separator = "|"
+
+    print(f"{key[0]:<18}",
+          f"{separator:^3}",
+          f"{key[1]:<18}",
+          f"{separator:^3}",
+          f"{key[2]:>10}",
+          f"{separator:^3}",
+          f"{key[3]:>15}")
+    print("-"*76)
+
+    for i in range(0, (len(donor_db))):
+        entry = (donor_db[i])
+        name = entry[0]
+        # print(name)
+        dons = entry[1]
+        totes = sum(dons)
+        # print(totes)
+        nums = len(dons)
+        # print(nums)
+        aves = totes/nums
+        # print(aves)
+        print(f"{name:<18}", f"{separator:^3}", f"{totes:>18.2f}", f"{separator:^3}", f"{nums:^10}", f"{separator:^3}",
+              f"{aves:>15.2f}")
 
 
 def quit_prog():
-    print("quit")
+    print("quitting - see you next time")
+    quit()
 
 
 def main():
@@ -47,6 +74,9 @@ def main():
 
         elif usrchoice.strip() == '3':
             quit_prog()
+
+        else:
+            print("sorry, that's not a valid option")
 
 
 main()
