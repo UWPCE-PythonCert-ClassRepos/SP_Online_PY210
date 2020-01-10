@@ -124,7 +124,7 @@ class H(OneLineTag):
         super().__init__(content, **kwargs)
 
 class Meta(SelfClosingTag):
-    tag = 'meta charset="UTF-8"'
+    tag = "meta"
 
 
 
