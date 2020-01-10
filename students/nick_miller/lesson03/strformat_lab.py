@@ -78,10 +78,57 @@ tupleshuffle = (4, 30, 2017, 2, 27)
 # Task 05
 
 """
-Here’s a task for you: Given the following four element list:
+Given the following four element list:
 ['oranges', 1.3, 'lemons', 1.1]
 Write an f-string that will display:
 The weight of an orange is 1.3 and the weight of a lemon is 1.1
 Now see if you can change the f-string so that it displays the names of the fruit in upper case, and the weight 20%
 higher (that is 1.2 times higher).
 """
+
+fruitlist = ['oranges', 1.3, 'lemons', 1.1]
+
+print(f"The weight of an {fruitlist[0][:-1]} is {fruitlist[1]} \
+and the weight of a {fruitlist[2][:-1]} is {fruitlist[3]}.")
+print()
+
+print(f"The weight of an {fruitlist[0][:-1].upper()} is {fruitlist[1]*1.2} \
+and the weight of a {fruitlist[2][:-1].upper()} is {fruitlist[3]*1.2}.")
+print()
+
+# this one is extra, but for fun
+print(f"The weight of an {fruitlist[0][:-1].upper()} is {fruitlist[1]*1.2:.1f} \
+and the weight of a {fruitlist[2][:-1].upper()} is {fruitlist[3]*1.2:.1f}.")
+
+# Task 06
+
+"""
+Write some Python code to print a table of several rows, each with a name, an age and a cost. Make sure some of the
+costs are in the hundreds and thousands to test your alignment specifiers.
+"""
+
+forTable = (["Henry", 5, 300], ["River", 0.2, 6000], ["Alicia", 35, 200], ["Daddio", 36, 8000])
+
+key = ["name", "age", "cost"]
+row1 = forTable[0]
+row2 = forTable[1]
+row3 = forTable[2]
+row4 = forTable[3]
+
+print(f"{key[0]:<8}{key[1]:<8}{key[2]:>8}")
+print(f"{row1[0]:<8}{row1[1]:<8}{row1[2]:>8.2f}")
+print(f"{row2[0]:<8}{row2[1]:<8}{row2[2]:>8.2f}")
+print(f"{row3[0]:<8}{row3[1]:<8}{row3[2]:>8.2f}")
+print(f"{row4[0]:<8}{row4[1]:<8}{row4[2]:>8.2f}")
+print()
+
+# Extra
+
+"""
+And for an extra task, given a tuple with 10 consecutive numbers, can you work how to quickly print the tuple in
+columns that are 5 characters wide? It can be done on one short line!
+"""
+
+tuplex = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+
+
