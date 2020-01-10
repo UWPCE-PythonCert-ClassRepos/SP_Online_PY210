@@ -78,7 +78,6 @@ class Li(Element):
     tag = "li"
 
 
-
 class OneLineTag(Element):
     
     def render(self, out_file):
@@ -124,6 +123,8 @@ class H(OneLineTag):
         self.tag = "h" + str(level)
         super().__init__(content, **kwargs)
 
+class Meta(SelfClosingTag):
+    tag = 'meta charset="UTF-8"'
 
 
 

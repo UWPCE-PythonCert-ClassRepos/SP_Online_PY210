@@ -340,7 +340,11 @@ def test_doctype():
     print(file_contents)
     assert file_contents.endswith("</html>\n")
     
-
+def test_meta():
+    meta = Meta()
+    file_contents = render_result(meta)
+    print(file_contents)
+    assert file_contents == '<meta charset="UTF-8" />\n'
 
 
 # #####################
