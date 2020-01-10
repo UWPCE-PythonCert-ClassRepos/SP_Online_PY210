@@ -99,6 +99,7 @@ print()
 # this one is extra, but for fun
 print(f"The weight of an {fruitlist[0][:-1].upper()} is {fruitlist[1]*1.2:.1f} \
 and the weight of a {fruitlist[2][:-1].upper()} is {fruitlist[3]*1.2:.1f}.")
+print()
 
 # Task 06
 
@@ -131,4 +132,4 @@ columns that are 5 characters wide? It can be done on one short line!
 
 tuplex = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
 
-
+print(" ".join(["{:<5}"] * len(tuplex)).format(*tuplex))
