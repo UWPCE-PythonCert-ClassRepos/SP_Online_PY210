@@ -4,8 +4,8 @@
     <list default="true" id="e250506b-0653-4564-a65a-965fa09b97e7" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lesson03/strformat_lab.py" beforeDir="false" afterPath="$PROJECT_DIR$/lesson03/strformat_lab.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/noodling/sketchpad.py" beforeDir="false" afterPath="$PROJECT_DIR$/noodling/sketchpad.py" afterDir="false" />
     </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -46,6 +46,18 @@
       <recent name="$PROJECT_DIR$/working_dir/noodling" />
       <recent name="$PROJECT_DIR$/working_dir/lesson01" />
     </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
   </component>
   <component name="RunManager" selected="Python.strformat_lab">
     <configuration name="sketchpad (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
@@ -168,18 +180,6 @@
       </list>
     </recent_temporary>
   </component>
-  <component name="ServiceViewManager">
-    <option name="viewStates">
-      <list>
-        <serviceView>
-          <treeState>
-            <expand />
-            <select />
-          </treeState>
-        </serviceView>
-      </list>
-    </option>
-  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -213,6 +213,7 @@
       <workItem from="1578593859371" duration="5535000" />
       <workItem from="1578612318581" duration="5418000" />
       <workItem from="1578629437720" duration="3367000" />
+      <workItem from="1578676699497" duration="263000" />
     </task>
     <task id="LOCAL-00001" summary="local and remote branch conflict resolution">
       <created>1578282701286</created>
@@ -345,19 +346,19 @@
     <state x="1953" y="-475" width="894" height="812" key="search.everywhere.popup/0.0.1440.900/1440.-710.1920.1080@1440.-710.1920.1080" timestamp="1578324160907" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/nick_miller$strformat_lab.coverage" NAME="strformat_lab Coverage Results" MODIFIED="1578668647543" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/lesson03" />
-    <SUITE FILE_PATH="coverage/nick_miller$fizzbuzz.coverage" NAME="fizzbuzz Coverage Results" MODIFIED="1578284221756" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/working_dir/lesson02" />
+    <SUITE FILE_PATH="coverage/nick_miller$series.coverage" NAME="series Coverage Results" MODIFIED="1578283742960" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/working_dir/lesson02" />
     <SUITE FILE_PATH="coverage/nick_miller$list_lab.coverage" NAME="list_lab Coverage Results" MODIFIED="1578547840329" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/working_dir/lesson03" />
-    <SUITE FILE_PATH="coverage/nick_miller$break_me.coverage" NAME="break_me Coverage Results" MODIFIED="1573001009192" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/working_dir/lesson01" />
-    <SUITE FILE_PATH="coverage/nick_miller$example.coverage" NAME="example Coverage Results" MODIFIED="1578193253728" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/working_dir/noodling" />
     <SUITE FILE_PATH="coverage/nick_miller$grid_printer.coverage" NAME="grid_printer Coverage Results" MODIFIED="1578284214352" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/working_dir/lesson02" />
+    <SUITE FILE_PATH="coverage/nick_miller$example.coverage" NAME="example Coverage Results" MODIFIED="1578193253728" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/working_dir/noodling" />
     <SUITE FILE_PATH="coverage/nick_miller$grid_printer_advanced.coverage" NAME="grid_printer_advanced Coverage Results" MODIFIED="1577652875760" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/working_dir/lesson02" />
     <SUITE FILE_PATH="coverage/nick_miller$sketchpad__1_.coverage" NAME="sketchpad (1) Coverage Results" MODIFIED="1578668598391" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/noodling" />
+    <SUITE FILE_PATH="coverage/nick_miller$sketchpad.coverage" NAME="sketchpad Coverage Results" MODIFIED="1578606834938" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/working_dir/lesson02" />
+    <SUITE FILE_PATH="coverage/nick_miller$break_me.coverage" NAME="break_me Coverage Results" MODIFIED="1573001009192" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/working_dir/lesson01" />
+    <SUITE FILE_PATH="coverage/nick_miller$slicing_lab.coverage" NAME="slicing_lab Coverage Results" MODIFIED="1578549438159" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/working_dir/lesson03" />
+    <SUITE FILE_PATH="coverage/nick_miller$sum_double.coverage" NAME="sum_double Coverage Results" MODIFIED="1572828276088" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/codingbat-pushups" />
+    <SUITE FILE_PATH="coverage/nick_miller$fizzbuzz.coverage" NAME="fizzbuzz Coverage Results" MODIFIED="1578284221756" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/working_dir/lesson02" />
+    <SUITE FILE_PATH="coverage/nick_miller$strformat_lab.coverage" NAME="strformat_lab Coverage Results" MODIFIED="1578676702265" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/lesson03" />
     <SUITE FILE_PATH="coverage/nick_miller$mailroom.coverage" NAME="mailroom Coverage Results" MODIFIED="1577767368970" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/working_dir/lesson03" />
     <SUITE FILE_PATH="coverage/nick_miller$strformat_lab_py.coverage" NAME="strformat_lab.py Coverage Results" MODIFIED="1578611284812" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/working_dir/lesson03" />
-    <SUITE FILE_PATH="coverage/nick_miller$series.coverage" NAME="series Coverage Results" MODIFIED="1578283742960" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/working_dir/lesson02" />
-    <SUITE FILE_PATH="coverage/nick_miller$slicing_lab.coverage" NAME="slicing_lab Coverage Results" MODIFIED="1578549438159" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/working_dir/lesson03" />
-    <SUITE FILE_PATH="coverage/nick_miller$sketchpad.coverage" NAME="sketchpad Coverage Results" MODIFIED="1578606834938" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/working_dir/lesson02" />
-    <SUITE FILE_PATH="coverage/nick_miller$sum_double.coverage" NAME="sum_double Coverage Results" MODIFIED="1572828276088" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/codingbat-pushups" />
   </component>
 </project>

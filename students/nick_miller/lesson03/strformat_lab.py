@@ -96,7 +96,7 @@ print(f"The weight of an {fruitlist[0][:-1].upper()} is {fruitlist[1]*1.2} \
 and the weight of a {fruitlist[2][:-1].upper()} is {fruitlist[3]*1.2}.")
 print()
 
-# this one is extra, but for fun
+# this one is extra, but for fun (rounding to one decimal place)
 print(f"The weight of an {fruitlist[0][:-1].upper()} is {fruitlist[1]*1.2:.1f} \
 and the weight of a {fruitlist[2][:-1].upper()} is {fruitlist[3]*1.2:.1f}.")
 print()
