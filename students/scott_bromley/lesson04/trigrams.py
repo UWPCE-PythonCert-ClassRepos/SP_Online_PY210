@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import sys
 import random
+from collections import defaultdict
 
 
 def read_in_data(filename):
@@ -30,25 +31,26 @@ def build_trigram(words):
     """
     build trigram out of words
     :param words: list of words
-    :return: dict using tuple of word pairs as key and dict as values
+    :return: defaultdict using tuple of word pairs as key and dict as values
     """
-    trigram = {}
+    trigrams = defaultdict(list)
     for i in range(len(words) - 2):
-        trigram.setdefault(tuple(words[i:i + 2]), words[i + 2])
-    print(trigram)
-    return trigram
+        trigrams[tuple(words[i:i + 2])].append(words[i + 2])
+    return trigrams
 
 
-def build_text(words_dict={}):
+def build_text(trigrams={}):
     """
     reconstruct the text in filename as a kata
-    :param words_dict: dictionary of words consisting of a tuple and list
+    :param trigrams: dict of words consisting of a tuple and list
     :return: kata string of words_dict
     """
     kata = []
-    for pair in words_dict.items():
-        kata.extend(random.choice(list(words_dict)))
-    return None
+    kata.extend(random.choice(list(trigrams)))
+    for i in range(50):
+        kata.append(random.choice(trigrams.get(tuple(kata[-2:]))))
+    kata = " ".join(kata)
+    return kata
 
 
 if __name__ == "__main__":
@@ -60,7 +62,7 @@ if __name__ == "__main__":
     in_data = read_in_data(filename)
     words = make_words(in_data)
     word_pairs = build_trigram(words)
-    #new_text = build_text(word_pairs)
-    #print(new_text)
+    new_text = build_text(word_pairs)
+    print(new_text)
 else:
     print("Running %s as imported module", __file__)

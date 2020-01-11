@@ -59,10 +59,9 @@ def send_thank_you():
     if donor_name == 'list':
         print(f"List of donors: {', '.join(k for k, v in donors.items())}")
     else:
-        donation = format(float(get_user_input("Please enter the donation amount: $").strip('$')), '.2f')
+        donation = float(get_user_input("Please enter the donation amount: ").strip('$'))
         donor_info = {"first_name": donor_name.strip().split(' ')[0], "last_name": donor_name.strip().split(' ')[1],
                       "donation_amount": donation}
-        print(donor_info)
         if donor_name in donors:
             donors.setdefault(donor_name, []).append(donation)
         else:
@@ -109,19 +108,19 @@ def format_thank_you(donor_info={}):
 
 def create_report():
     """
-    prints a formatted table of donors ranked in descending order by Total Given
+    print a formatted table of donors ranked in descending order by Total Given
     :return: None
     """
     donor_summary = []
     for donor in donors:
-        donor_summary.append([donor, format(sum(donors.get(donor)), '.2f'), len(donors.get(donor)),
-                              format(statistics.mean(donors.get(donor)), '.2f')])
+        donor_summary.append([donor, sum(donors.get(donor)), len(donors.get(donor)),
+                              statistics.mean(donors.get(donor))])
     donor_summary.sort(key=lambda x: float(x[1]), reverse=True)
     print(donor_summary)
     print(f"Donor Name{'':<20} | Total Given{'':>0} | Num Gifts{'':>0} | Average Gift{'':>0}")
     print(f"-" * 72)
     for name, total, num_gift, avg_gift in donor_summary:
-        print(f"{name:<32}${total:>11}{num_gift:>12}  ${avg_gift:>13}")
+        print(f"{name:<32}${total:>11.2f}{num_gift:>12}  ${avg_gift:>13.2f}")
 
 
 def get_user_input(prompt):
