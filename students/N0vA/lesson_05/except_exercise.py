@@ -20,10 +20,8 @@ try:
     joke = fun(first_try[0])
 except NameError:
     print('There is no joke for topic - spam')
-    try:
-        joke = fun(first_try[1])
-    except NameError:
-        print('There is no joke for topic - cheese')
+    joke = fun(first_try[1])
+    
 
 # Here is a try/except block. Add an else that prints not_joke
 try:
