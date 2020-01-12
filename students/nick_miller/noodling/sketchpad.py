@@ -5,41 +5,64 @@ donor_db = [
             ("Mark Zuckerberg", [1663.23, 4300.87, 10432.0])
             ]
 
+names = []
+for i in range(0, (len(donor_db))):
+    entry = (donor_db[i])
+    name = entry[0]
+    names.append(name.lower())
 
-def report(db=donor_db):
-    print(donor_db)
-    print()
-    key = ["name", "total given", "num gifts", "average gift"]
-    separator = "|"
+# print(names)
 
-    print(f"{key[0]:<18}",
-          f"{separator:^3}",
-          f"{key[1]:<18}",
-          f"{separator:^3}",
-          f"{key[2]:>10}",
-          f"{separator:^3}",
-          f"{key[3]:>15}")
-    print("-"*76)
+# def report(db=donor_db):
+#     print(donor_db)
+#     print()
+#     key = ["name", "total given", "num gifts", "average gift"]
+#     separator = "|"
+#
+#     print(f"{key[0]:<18}",
+#           f"{separator:^3}",
+#           f"{key[1]:<18}",
+#           f"{separator:^3}",
+#           f"{key[2]:>10}",
+#           f"{separator:^3}",
+#           f"{key[3]:>15}")
+#     print("-"*76)
+#
+#     for i in range(0, (len(donor_db))):
+#         entry = (donor_db[i])
+#         name = entry[0]
+#         # print(name)
+#         dons = entry[1]
+#         totes = sum(dons)
+#         # print(totes)
+#         nums = len(dons)
+#         # print(nums)
+#         aves = totes/nums
+#         # print(aves)
+#         print(f"{name:<18}",
+#           f"{separator:^3}",
+#           f"{totes:>18.2f}",
+#           f"{separator:^3}",
+#           f"{nums:^10}",
+#           f"{separator:^3}",
+#           f"{aves:>15.2f}")
+#
+# report()
 
+thanksC = str(input("Enter a name or type 'list': "))
+thanksC = thanksC.lower()
+if thanksC.strip() == "list":
     for i in range(0, (len(donor_db))):
         entry = (donor_db[i])
         name = entry[0]
-        # print(name)
-        dons = entry[1]
-        totes = sum(dons)
-        # print(totes)
-        nums = len(dons)
-        # print(nums)
-        aves = totes/nums
-        # print(aves)
-        print(f"{name:<18}",
-          f"{separator:^3}",
-          f"{totes:>18.2f}",
-          f"{separator:^3}",
-          f"{nums:^10}",
-          f"{separator:^3}",
-          f"{aves:>15.2f}")
-
-report()
-
-# print(type(donor_db[0]))
+        print(name)
+elif thanksC.lower() not in names:
+    addQ = str(input("That name is not in the list, would you like to add it? (y/n)"))
+    addQ = addQ.lower()
+    if addQ.strip() == "n":
+        pass
+    if addQ.strip() == "y":
+        print("Adding ", thanksC.title(), " to the donor list.")
+        addY = str(input("Please enter their donation amount: "))
+else:
+    print("Thanks")

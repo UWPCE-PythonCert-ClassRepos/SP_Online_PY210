@@ -15,21 +15,32 @@ donor_db = [
 # def
 
 
-def thanks(db=donor_db, name=" ", donations="$0.00"):
-    print("thanks")
+def thanks(db=donor_db):
+    thanksC = str(input("Enter a name or type 'list': "))
+    thanksC = thanksC.lower()
+    if thanksC.strip() == 'list':
+        for i in range(0, (len(donor_db))):
+            entry = (donor_db[i])
+            name = entry[0]
+            print(name)
+    elif thanksC not in donor_db:
+        addQ = str(input("That name is not in the list, would you like to add it? (y/n)"))
+        if addQ.strip() == "n":
+            pass
+        if addQ.strip() == "y":
+            print("Adding ", thanksC.capitalize(), " to the donor list.")
+            addY = str(input("Please enter their donation amount: "))
 
 
 def report(db=donor_db):
-    print(donor_db)
-    print()
     key = ["name", "total given", "num gifts", "average gift"]
     separator = "|"
 
     print(f"{key[0]:<18}",
           f"{separator:^3}",
-          f"{key[1]:<18}",
+          f"{key[1]:^18}",
           f"{separator:^3}",
-          f"{key[2]:>10}",
+          f"{key[2]:^10}",
           f"{separator:^3}",
           f"{key[3]:>15}")
     print("-"*76)
@@ -47,6 +58,7 @@ def report(db=donor_db):
         # print(aves)
         print(f"{name:<18}", f"{separator:^3}", f"{totes:>18.2f}", f"{separator:^3}", f"{nums:^10}", f"{separator:^3}",
               f"{aves:>15.2f}")
+    print()
 
 
 def quit_prog():
@@ -59,7 +71,7 @@ def main():
         print("""
         Menu of Options
         1) Send a 'Thank You'
-        2) Create a report
+        2) Create a Report
         3) Exit Program
         """)
         usrchoice = str(input("Which option would you like to perform? [1 to 3]: "))
