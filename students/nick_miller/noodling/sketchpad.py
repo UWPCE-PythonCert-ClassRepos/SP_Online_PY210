@@ -57,12 +57,24 @@ if thanksC.strip() == "list":
         name = entry[0]
         print(name)
 elif thanksC.lower() not in names:
-    addQ = str(input("That name is not in the list, would you like to add it? (y/n)"))
+    addQ = str(input("That name is not in the list, would you like to add it? (y/n): "))
     addQ = addQ.lower()
     if addQ.strip() == "n":
         pass
     if addQ.strip() == "y":
-        print("Adding ", thanksC.title(), " to the donor list.")
-        addY = str(input("Please enter their donation amount: "))
-else:
-    print("Thanks")
+        print("Adding", thanksC.title(), "to the donor list.")
+        addY = float(input("Please enter their donation amount: "))
+        print("Adding " + thanksC.title() + "'s donation of $" + f"{addY:.2f}", "to their db entry")
+        addItem = (thanksC.title(), [float(f"{addY:.2f}")])
+        donor_db.append(addItem)
+elif thanksC.lower() in names:
+    nameIndex = names.index(thanksC.lower())
+    inList = str(input("That name is in the list, would you like to add a new donation to it? (y/n): "))
+    if inList.strip() == "n":
+        pass
+    if inList.strip() == "y":
+        addAmt = float(input("Please enter the new donation amount: "))
+        print("Adding " + thanksC.title() + "'s donation of $" + f"{addAmt:.2f}", "to their db entry")
+        updateItem = (thanksC.title(), [float(f"{addAmt:.2f}")])
+        donor_db.append(updateItem)
+        print(nameIndex)
