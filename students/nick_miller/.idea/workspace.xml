@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e250506b-0653-4564-a65a-965fa09b97e7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/noodling/sketchpad2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/nickmiller.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/nickmiller.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/noodling/sketchpad.py" beforeDir="false" afterPath="$PROJECT_DIR$/noodling/sketchpad.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -216,7 +213,7 @@
       <workItem from="1578629437720" duration="3367000" />
       <workItem from="1578676699497" duration="7787000" />
       <workItem from="1578704932551" duration="2429000" />
-      <workItem from="1578798517573" duration="5092000" />
+      <workItem from="1578798517573" duration="5697000" />
     </task>
     <task id="LOCAL-00001" summary="local and remote branch conflict resolution">
       <created>1578282701286</created>
@@ -267,7 +264,14 @@
       <option name="project" value="LOCAL" />
       <updated>1578686353782</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="mailroom thankyou function getting built and tested in sketchpad(s)">
+      <created>1578872006572</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1578872006572</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -294,7 +298,8 @@
     <MESSAGE value="updating work on strformat_lab" />
     <MESSAGE value="strformat_lab is done" />
     <MESSAGE value="mailroom report function built" />
-    <option name="LAST_COMMIT_MESSAGE" value="mailroom report function built" />
+    <MESSAGE value="mailroom thankyou function getting built and tested in sketchpad(s)" />
+    <option name="LAST_COMMIT_MESSAGE" value="mailroom thankyou function getting built and tested in sketchpad(s)" />
   </component>
   <component name="WindowStateProjectService">
     <state x="408" y="165" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1577068046335">
@@ -302,10 +307,10 @@
     </state>
     <state x="408" y="165" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1440.900/1440.-710.1920.1080@0.0.1440.900" timestamp="1577068046335" />
     <state x="408" y="176" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.23.1440.837/1440.-687.1920.1057@0.23.1440.837" timestamp="1575336842592" />
-    <state x="2011" y="-568" key="CommitChangelistDialog2" timestamp="1578284175174">
+    <state x="2011" y="-568" key="CommitChangelistDialog2" timestamp="1578872006296">
       <screen x="1440" y="-710" width="1920" height="1080" />
     </state>
-    <state x="2011" y="-568" key="CommitChangelistDialog2/0.0.1440.900/1440.-710.1920.1080@1440.-710.1920.1080" timestamp="1578284175174" />
+    <state x="2011" y="-568" key="CommitChangelistDialog2/0.0.1440.900/1440.-710.1920.1080@1440.-710.1920.1080" timestamp="1578872006296" />
     <state width="1878" height="257" key="GridCell.Tab.0.bottom" timestamp="1578862742255">
       <screen x="1440" y="-710" width="1920" height="1080" />
     </state>
@@ -350,6 +355,10 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state width="1398" height="303" key="GridCell.Tab.1.right/0.0.1440.900/1440.-710.1920.1080@0.0.1440.900" timestamp="1578629549975" />
+    <state x="2000" y="-430" key="Vcs.Push.Dialog.v2" timestamp="1578872010909">
+      <screen x="1440" y="-710" width="1920" height="1080" />
+    </state>
+    <state x="2000" y="-430" key="Vcs.Push.Dialog.v2/0.0.1440.900/1440.-710.1920.1080@1440.-710.1920.1080" timestamp="1578872010909" />
     <state x="480" y="72" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1577674043157">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
