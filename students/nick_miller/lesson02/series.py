@@ -89,3 +89,5 @@ if __name__ == "__main__":
     assert sum_series(5, 3, 2) == 19
 
     print("tests passed")
+
+# updating for new push
