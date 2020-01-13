@@ -21,15 +21,14 @@ def test_add_donation():
 def test_thank_you_text():
     
     expected = ('Dear Bill Gates:\n\n'
-                    'On behalf of your Local Charity, I would like to thank you for your generous donation.'
-                    'We appreciate your support not only for us but for our cause.\n\n'
+                    'On behalf of your Local Charity, I would like to thank you for your generous donation. We appreciate your support not only for us but for our cause.\n\n'
                     'We wish you all the best,\n\n'
                     'Local Charity Persident\n')
-    assert thank_you_text('Bill Gates') == expected
+    assert text_thank_you('Bill Gates') == expected
 
 def test_sort_database():
     
-    expected = [('Paul Allen', [450000000]), ('Bill Gates', [2000000, 250000000]), ('Elon Musk', [50000000, 10000000]), ('James Albright', [3500000]), ('Jeff Bezos', [2000000]), ('Howard Schultz', [1000000])]
+    expected = [('Paul Allen', [450000000]), ('Bill Gates', [2000000, 250000000, 45000000]), ('Elon Musk', [50000000, 10000000]), ('James Albright', [3500000]), ('Jeff Bezos', [2000000]), ('Howard Schultz', [1000000])]
     assert sort_database(database) == expected
 
 def test_format_report(): # Check if rows for report are formatted properly
@@ -44,7 +43,7 @@ def test_format_report(): # Check if rows for report are formatted properly
 def test_letter_text():
     """Get text from letter that will be sent to all donors."""
 
-    expected = ('Dear Elon Musk'
+    expected = ('Dear Elon Musk\n\n'
                 'Thank you for your donations totaling' 
                 '$ 60,000,000.  We appreciate your contributions'
                 'for the year.\n\nHappy holidays,\n\n' 
