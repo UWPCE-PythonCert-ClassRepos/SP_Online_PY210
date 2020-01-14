@@ -25,8 +25,8 @@ def add_donation(name, donation): # Add a donation for an existing donor
 
 def text_thank_you(name): # Write thank you email        
     
-    email = print(f'Dear {name}:\n\n'
-                    'On behalf of your Local Charity, I would like to thank you for your generous donation.'
+    email = (f'Dear {name}:\n\n'
+                    'On behalf of your Local Charity, I would like to thank you for your generous donation. '
                     'We appreciate your support not only for us but for our cause.\n\n'
                     'We wish you all the best,\n\n'
                     'Local Charity Persident\n')
@@ -113,13 +113,12 @@ def letter_text(name): # Text for letters for all donors
 
     # Donation amount
     charity_amount = sum(database[name])
-    first_name = name.split()[0]
     
     letter = ('Dear {0}\n\n'
             'Thank you for your donations totaling' 
             '$ {1:,}.  We appreciate your contributions'
             'for the year.\n\nHappy holidays,\n\n' 
-            'Your loal charity President').format(first_name, charity_amount)
+            'Your loal charity President').format(name, charity_amount)
     
     return letter
 
