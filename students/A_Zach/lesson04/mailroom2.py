@@ -2,7 +2,7 @@
 #update initial code to include dictionaries
 
 import sys
-
+from operator import itemgetter
 #Functions
 
 #Show list of names
@@ -12,29 +12,19 @@ def show_list():
     name_string = "\n".join(names)
     print(f"{name_string}")
 
-#Add a new name to the list
-def search_name(name):
-    donation = input("Please enter an amount to donate >")
-    donor_dict.setdefault(name.title,[]).append(float(donation))
-    return
-
 #make the program quit
 def quit_prog():
     print("Thank you. Goodbye!")
     sys.exit()
 
-#generate an email1
-def email(name):
-    email = f"\n\nDear {name},\n\n\tWe appreciate your generous donations totalling ${sum(donor_dict[name]):.2f}.\n\nThank you,\nAndrew\n\n" 
-    with open(f"Thank_You_to_{name}.txt", 'w+') as f:
+def write_email(name):
+    email = f"\n\nDear {name.title()},\n\n\tWe appreciate your generous donations totalling ${sum(donor_dict[name.title()]):.2f}.\n\nThank you,\nAndrew\n\n" 
+    with open(f"Thank_You_to_{name.title()}.txt", 'w+') as f:
         f.write(email)
-    return
-
 
 def nothing():
     print("Invalid response. Please use an appropriate response.")
-    return
-   
+
     
 def send_thank_you():
     name = input("Who would you like to thank?>")
@@ -48,59 +38,53 @@ def send_thank_you():
         if name.lower() == 'quit':
             return
     
-    #Call the search_name function
-    search_name(name)
+    donation = input("Please enter an amount to donate >")
+    if donation.lower() == 'quit':
+        return
+    donor_dict.setdefault(name.title(),[]).append(float(donation))
     
-    #call the email function
-    email = email(name)
+    write_email(name)
 
-def Thank_you_All():
+
+def thank_you_all():
     for name in donor_dict:
-        email(name)
+        write_email(name)
 
 #create report inputs   
-def report_results():
-    tots = []
-    aves = []
-    nums = []
-    for donation_list in donations:        
-        tots.append(sum(donation_list))
-        aves.append(sum(donation_list)/len(donation_list))
-        nums.append(len(donation_list))
-    return (tots, aves, nums)
-
-#Create a report
 def write_report():
-    results = report_results()
-    tots = results[0]
-    aves = results[1]
-    nums = results[2]
-    #sort by the totaled values
-    sort_by_tot = sorted(tot, reverse=True)
+    report = []
+    for name in donor_dict:    
+        names = name
+        tots = sum(donor_dict[name])
+        nums = len(donor_dict[name])
+        aves = tots/nums
+        report.append((names, tots, nums, aves))
+    
+    sort_by_tot = sorted(report, key = itemgetter(1), reverse=True)
+    print(sort_by_tot)
     #create a variable as the length of each column other than  names. For ease of updating
     l = 15
     #same but for name column
     ln = 25
     #Create a header names
-    Headers = ["Donor Name", "Total Given", "Num Gifts", "Average Gift"]
+    headers = ["Donor Name", "Total Given", "Num Gifts", "Average Gift"]
     #Print header line
-    print(f"\n{Headers[0]:<{ln}}|{Headers[1]:^{l}}|{Headers[2]:^{l}}|{Headers[3]:^{l}}")
+    print(f"\n{headers[0]:<{ln}}|{headers[1]:^{l}}|{headers[2]:^{l}}|{headers[3]:^{l}}")
     print("- "*int((l*3+3+ln)/2))
     #index each entry of sort_by_tot in tot and use that index to generate report
-    for i in sort_by_tot:
-        ind = tot.index(i)
-        print(f"{list(Donor_dict.keys())[ind]:<{ln}} ${tot[ind]:>{l-1}}{num[ind]:>{l+1}} ${ave[ind]:>{l-3}.2f}")
+    for entry in sort_by_tot:
+        print(f"{entry[0]:<{ln}} ${entry[1]:>{l-1}.2f}{entry[2]:>{l+1}} ${entry[3]:>{l-3}.2f}")
     print(f"\n")
     
 if __name__ ==  '__main__':
     #Create a database
-    Jen = ['Jenny Jones', [272.00, 8700.11, 4.22]]
-    Ste = ['Steve Martin', [85000.00, 12345.67, 54321.99]]
-    Che = ['Cher', [0.01, 0.01]]
-    Aba = ['Aba Ababa', [101.01, 10101.01, 1100.10]]
-    Wan = ['Wan Do Nation', [1.00]]   
+    jen = ['Jenny Jones', [272.00, 8700.11, 4.22]]
+    ste = ['Steve Martin', [85000.00, 12345.67, 54321.99]]
+    che = ['Cher', [0.01, 0.01]]
+    aba = ['Aba Ababa', [101.01, 10101.01, 1100.10]]
+    juan = ['Juan Doe Nation', [1.00]]   
     #Combine donors into a database
-    database = [Jen, Ste, Che, Aba, Wan]
+    database = [jen, ste, che, aba, juan]
     #create a dictionary of donor information
     donor_dict = {}
     for name in database:
