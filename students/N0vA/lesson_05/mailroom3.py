@@ -23,8 +23,14 @@ def thank_you():
             print(list(database.keys()))
     
     # Enter donation amount
-    amount = input('How much was their donations? ')
-    amount = int(amount)
+    while True:
+        try:
+            amount = int(input('How much was their donations? '))
+        except ValueError:
+            print('Sorry that is an invalid')
+            continue
+        else:
+            break
     
     # Add new donation to database
     if database.get(name):
@@ -92,6 +98,7 @@ def quick_letter():
 
             # Writing files
             new_file.write(letter)
+
        
 # Execute file when running
 if __name__ == '__main__':
@@ -113,5 +120,11 @@ if __name__ == '__main__':
               ">>> ")))
 
         # Run functions for tasks based on user's response
-        arg_dict.get(task)()
-
+        while True:
+            try:
+                arg_dict.get(task)()
+            except (ValueError, TypeError, KeyError) as e:
+                task = input('Please enter a valid option from 1-4: ')
+                continue
+            else:
+                break
