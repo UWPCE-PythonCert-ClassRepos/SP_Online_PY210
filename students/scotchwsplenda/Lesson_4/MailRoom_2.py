@@ -3,13 +3,13 @@ from operator import itemgetter
 
 
 # donors
-donators = [
-("Gordian",[30.0,45.0]),
-("Tiberius",[60.0]),
-("Maximus",[65.0, 12.0]),
-("Tacitus",[33.0,22.0,25.00]),
-("Commodus",[43.0,11.0])]
-
+donators = {
+"Gordian":[30.0,45.0],
+"Tiberius":[60.0],
+"Maximus":[65.0, 12.0],
+"Tacitus":[33.0,22.0,25.00],
+"Commodus":[43.0,11.0]
+}
 
 # Opening menu
 prompt = "\n".join(("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$",
@@ -18,6 +18,7 @@ prompt = "\n".join(("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$",
           "1 - Initiate Groveling",
           "2 - Data Metrics 3000",
           "3 - Quit",
+          "4 - Send thank you notes to all donors",
           "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$",
           "Indicate your choice:  "))
 
@@ -34,7 +35,7 @@ def main():
         elif response == "3":
             exit_program()
         elif response  =="4":
-            print(donators)
+            mass_mail()
         else:
             print("Not a valid option!")
 
@@ -54,31 +55,20 @@ def Send_Note():
         "\n"+"3 - Return to the MAILROOM main menu"
         "\n"+"Indicate your choice:  ")
         if respondy=="1":
-            print([i[0] for i in donators])
+            for key, value in donators.items():
+                print(key)
         if respondy=="2":
             donor_inp=input("Input donor: ")
-            if donor_inp in ([i[0] for i in donators]) :
-                # they've entered a donor we already know
+            if donor_inp in donators.keys():
                 don_amount = input("That's a known donor, input donation amount: ")
-                # return the index for the known donoor
-                # DO I HAVE TO LOOP THROUGH THE LIST? DO I HAVE TO SPECIFY IT'S THE FIRST 'ITEM' IN THE TUPLE?
-                don_indx = [item[0] for item in donators].index(donor_inp)
-                # indicate to python the column titles in the tuple at the specified index in the list
-                name, donations = donators[don_indx]
-                # apppend donation amount to donators
-                # WHY DOESN'T THIS 'SAVE' INTO MY ACTUAL CODE? IT WORKS DURING THE 'SESSION' BUT DOESN'T SAVE
-                donations.append(float(don_amount))
+                don_amount=float(don_amount)
+                donators[donor_inp].append(don_amount)
                 send_thanks(donor_inp,don_amount)
             else:
-                # they've entered a donor we don't have a record of
-                new_don = input("That's an unknown donor, do you wish to add them y/n?")
-                if new_don=="y":
-                    new_don_amount = input("Input new donor donation amount: ")
-                    # unsure how to enforce entry of a float or integer
-                    donators.append((donor_inp, new_don_amount))
-                    send_thanks(donor_inp,new_don_amount)
-                else:
-                    return
+                new_don = input("That's an unknown donor, input donation amount: ")
+                new_don=float(new_don)
+                donators.update({donor_inp:[new_don]})
+                send_thanks(donor_inp,new_don)
         elif respondy=="3":
             return
 
@@ -102,6 +92,13 @@ def data_metrics():
 def exit_program():
     print("Bye!")
     sys.exit()  # THIS IS TO EXIT THE PROGRAM AND START OVER
+
+# Option 4: send a note to all donoators
+def mass_mail():
+    for key, value in donators.items():
+        with open(f'{key}.txt', 'w') as f:
+            sumy = str(sum(value))
+            f.write(f'Thanks {key} for donating {sumy}.'+"\n"+'Your mother would be so proud.')
 
 
 if __name__ == "__main__":
