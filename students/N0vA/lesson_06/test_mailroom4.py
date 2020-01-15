@@ -32,13 +32,18 @@ def test_sort_database():
     assert sort_database(database) == expected
 
 def test_format_report(): # Check if rows for report are formatted properly
-
+    
+    # Format data to compare to unit test
     report_data = format_report(sort_database(database))
-    donor_1 = report_data[0]
-    expected = 'Paul Allen                    $   450,000,000        1        $450,000,000.00'
-    assert donor_1 == expected
-
-
+    # Format a row to test
+    data = sort_database(database)
+    member = []
+    member.append(data[1])
+    
+    # Test donor with multiple donations to ensure total and avg columns work properly
+    line_format = '{:<24}{:^5} ${:>14,}{:^5} {:^5}{:^5} ${:>14,.2f}'
+    member_row = line_format.format(member[0][0], ' ', int(sum(member[0][1])), ' ', round(len(member[0][1]),2), ' ', round(sum(member[0][1])/len(member[0][1]),2))
+    assert member_row == report_data[1]
 
 def test_letter_text():
     """Get text from letter that will be sent to all donors."""

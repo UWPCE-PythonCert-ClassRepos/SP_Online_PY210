@@ -142,7 +142,8 @@ def send_letters(): # Write a letter to all donors
             new_file.write(letter_text(name))
 
     print('Ok.  The letters have been sent to all donors.')
-       
+ 
+
 # Execute file when running
 if __name__ == '__main__':
     
