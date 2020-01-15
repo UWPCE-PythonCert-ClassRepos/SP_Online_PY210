@@ -11,46 +11,34 @@ database = {'Bill Gates': [2000000, 250000000],
             'Howard Schultz': [1000000], 
             'Paul Allen': [450000000]}
 
+
 # Send a thank you
 def thank_you():
     
-    print('Alright.  Which donor would you like to send a thank you card?')
+    # Set up inputs for appending database
+    name = 'list'
+    while name == 'list':
+        name = input("Alright.  Which donor would you like to send a thank you card?\nType 'list' to see a list of past donors >>>")   
+        if name == 'list':
+            print(list(database.keys()))
     
-    while True:
-        person = input('Enter their name here or type "list" to see a list of donors: ')
-        past_donor = False
+    # Enter donation amount
+    amount = input('How much was their donations? ')
+    amount = int(amount)
+    
+    # Add new donation to database
+    if database.get(name):
+        database[name].append(amount)
+    else:
+        database[name] = [amount]
 
-        # Print list option
-        if person.lower() == 'list':
-            past_donor = True
-            for per in database.keys():
-                print(per)
-
-        else:
-            for name in database.keys():
-                if person.lower() == name.lower():
-                    past_donor = True
-                    amount_donated = input('How much was their donation? ')
-                    amount_donated = int(amount_donated)
-                    database.get(name).append(amount_donated)      
-                    break
-
-            # Adding a new donor
-            if past_donor == False:
-                amount_donated = input('How much was their donation? ')
-                amount_donated = int(amount_donated)
-                database[person] = [amount_donated]
-
-
-            # Write thank you email        
-            email = print(f'Dear {person}:\n\n'
+    # Write thank you email        
+    email = print(f'Dear {name}:\n\n'
                     'On behalf of your Local Charity, I would like to thank you for your generous donation.'
                     'We appreciate your support not only for us but for our cause.\n\n'
                     'We wish you all the best,\n\n'
                     'Local Charity Persident\n')
 
-            email
-            return False
 
 # Define sort key
 def sort_key(donor):

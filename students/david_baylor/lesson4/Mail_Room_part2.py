@@ -18,16 +18,15 @@ def send_thank_you(data):
             print(i.capitalize())
         return data
     else:
-        for i in data:
-            if name.upper() == i.upper(): 
-                print("This personn has alredy donated add another donation under their name.")
-                donation = float(input(f"How much did {name.capitalize()} donate: $"))
-                data[i][0] += donation
-                data[i][1] += 1
-                write_email(name, donation)
-                return data               
+        if name in data:
+            print("This personn has alredy donated add another donation under their name.")
+            donation = float(input(f"How much did {name.capitalize()} donate: $"))
+            data[name][0] += donation
+            data[name][1] += 1
+            write_email(name, donation)
+            return data               
         donation = float(input(f"How much did {name.capitalize()} donate: $"))
-        data += [{"name":name, "total":donation, "num gifts":1, "average gift":donation}]
+        data[name] = [donation, 1]
         write_email(name, donation)
         return data
 
@@ -39,7 +38,7 @@ def sort_data(data):
 
 def create_report(data):
     sorted_data = sort_data(data)
-    print("""
+    print("""        
 Donor Name                | Total Given | Num Gifts | Average Gift
 --------------------------|-------------|-----------|-------------""")
     for i in sorted_data:
