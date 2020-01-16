@@ -16,11 +16,11 @@ print()
 
 # Ask the user for another fruit and add it to the end of the list.
 
-userAdd = input("Enter a fruit: ")
+user_add = input("Enter a fruit to add to the list: ")
 
-userAdd = userAdd.capitalize()
+user_add = user_add.capitalize()
 
-fruits.append(userAdd)
+fruits.append(user_add)
 
 # Display the list.
 
@@ -30,38 +30,41 @@ print()
 # Ask the user for a number and display the number back to the user and the fruit corresponding to that number
 # (on a 1-is-first basis). Remember that Python uses zero-based indexing, so you will need to correct.
 
+pick = str(len(fruits))
+ask = "Pick a number between 1 and " + pick + ": "
+
 while True:
     try:
-        userPick = int(input("Pick a number between 1 and 5: "))
-        if userPick in range(6):
+        user_pick = int(input(ask))
+        if user_pick in range(len(fruits)+1):
             break
     except:
         pass
     print('\nIncorrect input, try again')
 
-userPick = userPick - 1
+user_pick = user_pick - 1
 
-print((userPick + 1), fruits[userPick])
+print((user_pick + 1), fruits[user_pick])
 print()
 
 # Add another fruit to the beginning of the list using “+” and display the list.
 
-userAdd = input("Enter another fruit: ")
+user_add = input("Enter another fruit: ")
 
-userAdd = [userAdd.capitalize()]
+user_add = [user_add.capitalize()]
 
-fruits = userAdd + fruits
+fruits = user_add + fruits
 
 print(fruits)
 print()
 
 # Add another fruit to the beginning of the list using insert() and display the list.
 
-userAdd = input("Enter another fruit: ")
+user_add = input("Enter another fruit: ")
 
-userAdd = userAdd.capitalize()
+user_add = user_add.capitalize()
 
-fruits.insert(0, userAdd)
+fruits.insert(0, user_add)
 
 print(fruits)
 print()
@@ -92,50 +95,73 @@ print()
 print("Begin series 2:")
 print()
 
+print("This is the current list:")
 print(fruits)
+print()
 
 # Remove the last fruit from the list.
 
 del fruits[-1]
 
 # Display the list.
-
+print("Same list, last item removed: ")
 print(fruits)
 print()
 
 # Ask the user for a fruit to delete, find it and delete it.
-usrChoose = input("Enter a fruit to remove from the list: ")
+usr_choose = input("Enter a fruit to remove from the list: ")
 
-usrChoose = usrChoose.strip()
-usrChoose = usrChoose.capitalize()
+usr_choose = usr_choose.strip()
+usr_choose = usr_choose.capitalize()
 
-while usrChoose not in fruits:
-    usrChoose= input("Sorry, that fruit is not in the list, enter a fruit to remove from the list: ")
-    usrChoose = usrChoose.strip()
-    usrChoose = usrChoose.capitalize()
+while usr_choose not in fruits:
+    usr_choose= input("Sorry, that fruit is not in the list, enter a fruit to remove from the list: ")
+    usr_choose = usr_choose.strip()
+    usr_choose = usr_choose.capitalize()
 
-while usrChoose in fruits:
-    fruits.remove(usrChoose)
+while usr_choose in fruits:
+    fruits.remove(usr_choose)
 
 print(fruits)
 print()
 
 # Bonus: Multiply the list times two. Keep asking until a match is found. Once found, delete all occurrences.
 
-print("Bonus: ")
+print("Bonus - the list has been multiplied, it looks like this: ")
 fruits = fruits * 2
-
-usrChoose = input("Enter a fruit to remove from the list: ")
-
-usrChoose = usrChoose.strip()
-usrChoose = usrChoose.capitalize()
-
-while usrChoose not in fruits:
-    usrChoose = input("Sorry, that fruit is not in the list, enter a fruit to remove from the list: ")
-    usrChoose = usrChoose.strip()
-    usrChoose = usrChoose.capitalize()
-
-while usrChoose in fruits:
-    fruits.remove(usrChoose)
-
 print(fruits)
+print()
+
+usr_choose = input("Enter a fruit to remove from the list: ")
+
+usr_choose = usr_choose.strip()
+usr_choose = usr_choose.capitalize()
+
+while usr_choose not in fruits:
+    usr_choose = input("Sorry, that fruit is not in the list, enter a fruit to remove from the list(s): ")
+    usr_choose = usr_choose.strip()
+    usr_choose = usr_choose.capitalize()
+
+while usr_choose in fruits:
+    fruits.remove(usr_choose)
+
+print("The doubled list, sans the item you entered:")
+print(fruits)
+print()
+
+print("That was the end of series 2.")
+print()
+
+print("Begin series 3:")
+print()
+
+for item in fruits:
+    like = fruits[item]
+    likestr = "Do you like ", like, "? (y/n)"
+    input(likestr)
+
+print("That was the end of series 3.")
+print()
+
+print("Begin series 4:")
+print()
