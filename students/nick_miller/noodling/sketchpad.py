@@ -141,16 +141,36 @@
 
 fruits = ["Oranges", "Peaches", "Apples", "Pineapples"]
 
-print("Begin series 3:")
-print()
 
+# def yesorno(question):
+#     reply = str(input(question + ' (y/n): ')).lower().strip()
+#     if reply[0] == 'y':
+#         return True
+#     if reply[0] == 'n':
+#         return False
+#     else:
+#         return yesorno("Please respond with a 'y' or an 'n'. " + question + ":")
+# delfruits = []
+#
+# for fruit in fruits:
+#     question = "Do you like " + fruit + "? (y/n): "
+#     yesorno = input(question)
+#     drop = fruits.index(fruit)
+#     while yesorno != "y" and yesorno != "n":
+#         yesorno = input("Please enter y or n: ").lower()
+#     if yesorno == "n":
+#         delfruits.append(drop)
+# for i in delfruits:
+#     fruits.pop(i)
+#
+# print(fruits)
+
+backwardsfruits = []
 for i in fruits:
-    like = i
-    like = str(like)
-    likestr = "Do you like " + like + "? (y/n): "
-    yesorno = input(likestr)
-    while yesorno is not "y" or "n":
-        yesorno = input(likestr)
+    i = i[::-1]
+    backwardsfruits.append(i)
 
+print(backwardsfruits)
 
+del fruits[-1]
 print(fruits)

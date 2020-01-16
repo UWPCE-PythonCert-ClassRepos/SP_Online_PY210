@@ -16,7 +16,7 @@ print()
 
 # Ask the user for another fruit and add it to the end of the list.
 
-user_add = input("Enter a fruit to add to the list: ")
+user_add = input("Enter a fruit to add to the end of the list: ")
 
 user_add = user_add.capitalize()
 
@@ -43,13 +43,13 @@ while True:
     print('\nIncorrect input, try again')
 
 user_pick = user_pick - 1
-
-print((user_pick + 1), fruits[user_pick])
+user_pick_str = "The fruit at position " + str((user_pick + 1)) + " is " + fruits[user_pick]
+print(user_pick_str)
 print()
 
 # Add another fruit to the beginning of the list using “+” and display the list.
 
-user_add = input("Enter another fruit: ")
+user_add = input("Enter a fruit to the front of the list: ")
 
 user_add = [user_add.capitalize()]
 
@@ -60,7 +60,7 @@ print()
 
 # Add another fruit to the beginning of the list using insert() and display the list.
 
-user_add = input("Enter another fruit: ")
+user_add = input("Enter another fruit to add at the beginning: ")
 
 user_add = user_add.capitalize()
 
@@ -155,13 +155,38 @@ print()
 print("Begin series 3:")
 print()
 
-for item in fruits:
-    like = fruits[item]
-    likestr = "Do you like ", like, "? (y/n)"
-    input(likestr)
+delfruits = []
+for fruit in fruits:
+    question = "Do you like " + fruit + "? (y/n): "
+    yesorno = input(question)
+    drop = fruits.index(fruit)
+    while yesorno != "y" and yesorno != "n":
+        yesorno = input("Please enter y or n: ").lower()
+    if yesorno == "n":
+        delfruits.append(drop)
+for i in delfruits:
+    fruits.pop(i)
+
+print("Here is a list of just the fruits you like:")
+print(fruits)
 
 print("That was the end of series 3.")
 print()
 
 print("Begin series 4:")
 print()
+
+backwardsfruits = []
+for i in fruits:
+    i = i[::-1]
+    backwardsfruits.append(i)
+
+print("Here are all the fruits in the list, with their letters reversed:")
+print(backwardsfruits)
+print()
+
+del fruits[-1]
+print("Here is the original list with the last item deleted:")
+print(fruits)
+
+# End list_lab
