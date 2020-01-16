@@ -33,17 +33,19 @@ def test_sort_database():
 
 def test_format_report(): # Check if rows for report are formatted properly
     
-    # Format data to compare to unit test
-    report_data = format_report(sort_database(database))
-    # Format a row to test
-    data = sort_database(database)
-    member = []
-    member.append(data[1])
+    # Create testing database
+    data = {'Brad Pitt': [100, 200],
+            'Keanu Reeves': [150, 250]}
+    # Format data
+    report_data = format_report(sort_database(data))
     
-    # Test donor with multiple donations to ensure total and avg columns work properly
-    line_format = '{:<24}{:^5} ${:>14,}{:^5} {:^5}{:^5} ${:>14,.2f}'
-    member_row = line_format.format(member[0][0], ' ', int(sum(member[0][1])), ' ', round(len(member[0][1]),2), ' ', round(sum(member[0][1])/len(member[0][1]),2))
-    assert member_row == report_data[1]
+    # Get donors for testing
+    donor_1 = report_data[0]
+    donor_2 = report_data[1]
+    
+    assert donor_1 == 'Keanu Reeves                  $           400        2        $        200.00'
+    assert donor_2 == 'Brad Pitt                     $           300        2        $        150.00'
+
 
 def test_letter_text():
     """Get text from letter that will be sent to all donors."""
@@ -59,3 +61,27 @@ def test_send_letters():
     
     send_letters()
     assert os.path.exists("./Elon_Musk.txt")
+
+
+
+
+"""Question- I originally had this has my test_report_format
+function and I found testing the string formatting difficult
+and was looking for feedback on how I did it vs the way below
+or any other way.
+
+def test_format_report(): # Check if rows for report are formatted properly
+    
+    # Format data to compare to unit test
+    report_data = format_report(sort_database(database))
+    # Format a row to test
+    data = sort_database(database)
+    member = []
+    member.append(data[1])
+    
+    # Test donor with multiple donations to ensure total and avg columns work properly
+    line_format = '{:<24}{:^5} ${:>14,}{:^5} {:^5}{:^5} ${:>14,.2f}'
+    member_row = line_format.format(member[0][0], ' ', int(sum(member[0][1])), ' ', round(len(member[0][1]),2), ' ', round(sum(member[0][1])/len(member[0][1]),2))
+    assert member_row == report_data[1]
+
+"""
