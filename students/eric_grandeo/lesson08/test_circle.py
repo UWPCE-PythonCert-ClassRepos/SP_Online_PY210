@@ -27,5 +27,10 @@ def test_circle_area_set():
         c = Circle(2)
         c.area = 42
 
+def test_from_diameter():
+    c = Circle.from_diameter(8)
+    assert c.diameter == 8
+    assert c.radius == 4
+
 
 
