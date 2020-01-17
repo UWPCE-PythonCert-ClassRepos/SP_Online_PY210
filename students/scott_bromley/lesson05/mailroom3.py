@@ -133,13 +133,11 @@ def create_report():
                                  statistics.mean(donors.get(donor))])
         except IndexError as donor_summary_err:
             raise donor_summary_err
-        else:
-            donor_summary.sort(key=lambda x: float(x[1]), reverse=True)
-            print(f"Donor Name{'':<20} | Total Given{'':>0} | Num Gifts{'':>0} | Average Gift{'':>0}")
-            print(f"-" * 72)
-        finally:
-            for name, total, num_gift, avg_gift in donor_summary:
-                print(f"{name:<32}${total:>11.2f}{num_gift:>12}  ${avg_gift:>13.2f}")
+    donor_summary.sort(key=lambda x: float(x[1]), reverse=True)
+    print(f"Donor Name{'':<20} | Total Given{'':>0} | Num Gifts{'':>0} | Average Gift{'':>0}")
+    print(f"-" * 72)
+    for name, total, num_gift, avg_gift in donor_summary:
+        print(f"{name:<32}${total:>11.2f}{num_gift:>12}  ${avg_gift:>13.2f}")
 
 
 # @safe_input
