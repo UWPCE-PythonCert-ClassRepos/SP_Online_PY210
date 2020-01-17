@@ -34,7 +34,7 @@ def test_from_diameter():
     assert c.radius == 4
 
     
-def test_rep():
+def test_rep_circle():
     c = Circle(4)
     assert repr(c) == 'Circle(4)'
     d = eval(repr(c))
@@ -71,4 +71,19 @@ def test_sort():
     list_of_circles.sort(key=Circle.sort_key)
     assert list_of_circles == [Circle(0), Circle(1), Circle(2), Circle(3), Circle(4), Circle(5), Circle(6), Circle(7), Circle(8), Circle(9)]
 
-    
+#Sphere class tests
+def test_sphere():
+    s1 = Sphere(4)
+    assert s1.radius == 4 
+
+def test_sphere_volume():
+    s1 = Sphere(4)
+    assert s1.volume == 268.082573106329
+
+
+def test_rep_sphere():
+    s = Sphere(4)
+    assert repr(s) == 'Sphere(4)'
+    d = eval(repr(s))
+    assert d.radius == 4
+

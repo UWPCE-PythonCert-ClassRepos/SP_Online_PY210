@@ -66,4 +66,23 @@ class Circle:
     def sort_key(self):
         return self.radius
 
+#sphere subclass
+class Sphere(Circle):
+    
+    def __str__(self):
+        pass
+
+    def __repr__(self):
+        pass
+
+    @property
+    def volume(self):
+        self._volume = ((4/3)*math.pi*self.radius**3)
+        return self._volume
+
+    def __str__(self):
+        return "Sphere with radius: {}".format(self.radius)
+
+    def __repr__(self):
+        return "Sphere({})".format(repr(self.radius))
 
