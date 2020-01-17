@@ -22,9 +22,9 @@ class Donor (object):
     def compose_thank_you (self):
         msg = f"\n{self.name},\n\nThank you for your donation of ${self.donations[-1]:.2f}.\n"
         return msg
+
     
     def get_max_lengths(seq, header):
-    
         name_len = len(header[0])
         total_len = len(header[1])
         count_len = len(header[2])
@@ -71,6 +71,10 @@ class DonorCollection():
         for donor in self.donors:
             return_list += f'{donor}\n'
         return return_list
+
+
+    def donor_exists(self, name):
+        return any(d for d in self.donors.values() if d.name.upper() == name.upper())
    
 
     '''
@@ -122,6 +126,6 @@ class DonorCollection():
         table.insert(1, "-" * (len(sep_line) ) )
     
         print("\n".join(table) + "\n")
-        return ("\n".join(table) + "\n")
     
     
+#!/usr/bin/env python3

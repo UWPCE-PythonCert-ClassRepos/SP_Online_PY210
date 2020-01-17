@@ -54,37 +54,42 @@ def format_line(item, lengths):
     return f"{item[0]:<{lengths[0]}}  ${total:>{lengths[1]}}   {item[2]:>{lengths[2]}}  ${avg:>{lengths[3]}}"
 
 
+def get_donation_amount(donor):
+    while True:
+        try:
+            donation_amount = input("Enter the donation amount")
+            if float(donation_amount) > 0:
+                donor.add_donation(float(donation_amount))
+                print(donor.compose_thank_you())
+                return
+            else:
+                print("The number you enter must be greater than 0.")
+                continue
+        except ValueError:
+            print('Invalid input. You must enter an amount')
+
+
 def enter_a_donation(donors):
     while True:
         name = input("Type 'list' to see a list of names, 'quit' to quit, or enter a name: ")
-        # now redirect to feature functions based on the user selection
         if name == "list":
             print (donors.list_donors())
             continue
         elif name == "quit":
             return
         else:
-            result = donors.donor_exists(donor_name)
-            if result is False:
-                donor = Donor(donor_name)
-                ask_donation_value(donor)
-                return
+            result = donors.donor_exists(name)
+            if result is False: # new donor
+                donor = Donor(name)
+                get_donation_amount(donor)
+                donors.add(donor)
             else:
-                ask_donation_value(donors.donors[donor_name])
-                return
+                get_donation_amount(donors.donors[name])
+            return
 
 
-    # enter donation amount
-    donation = float(input("Enter a donation amount: "))
-    add_donation (name, donation, donor_db)
-
-    # write email
-    thank_you_note = compose_thank_you (name, donation)
-    print (thank_you_note)
-
-
-def send_a_thank_you (donors):
-    pass
+def send_a_thank_you (donor):
+    print (donor.compose_thank_you ())
 
 
 def create_report (donors):
