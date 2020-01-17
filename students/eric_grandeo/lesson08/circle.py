@@ -50,8 +50,18 @@ class Circle:
     def __add__(self, other):
         return Circle(self.radius + other.radius)
 
+    #fix placements of arguments
     def __mul__(self, num):
         return Circle(self.radius * num)
 
-        
+    def __lt__(self, other):
+        pass
+
+    def __gt__(self, other):
+        pass
+
+    def __eq__(self, other):
+        pass
+
+    
 

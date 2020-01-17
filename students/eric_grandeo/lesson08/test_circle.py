@@ -50,4 +50,11 @@ def test_multiply():
     c1 = Circle(4)
     assert repr(c1 * 3) == repr(Circle(12))
 
+def test_lessthan():
+    pass
 
+def test_greaterthan():
+    pass
+
+def test_equal():
+    pass
