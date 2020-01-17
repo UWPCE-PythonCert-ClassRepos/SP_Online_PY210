@@ -12,32 +12,22 @@ donators = {
 }
 
 # Opening menu
-prompt = "\n".join(("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$",
-        "Welcome to the MAILROOM main menu",
-          "Please choose from below options:",
-          "1 - Initiate Groveling",
-          "2 - Data Metrics 3000",
-          "3 - Quit",
-          "4 - Send thank you notes to all donors",
-          "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$",
-          "Indicate your choice:  "))
-
-
-# opening menu option responses
 def main():
-    while True:
-        response = input(prompt)  # continuously collect user selection
-        # now redirect to feature functions based on the user selection
-        if response == "1":
-            Send_Note()
-        elif response == "2":
-            data_metrics()
-        elif response == "3":
-            exit_program()
-        elif response  =="4":
-            mass_mail()
-        else:
-            print("Not a valid option!")
+    print('''
+              Welcome to the MAILROOM main menu
+              Please choose from below options:
+              1 - Initiate Grovel Sequence
+              2 - Data Metrics 3000
+              3 - Quit
+              4 - Send thank you notes to all donors
+              $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+              ''')
+    choice=int(input('Indicate your choice: '))
+    swit_dic={1:send_note, 2:data_metrics, 3:exit_program, 4:mass_mail}
+    swit_dic[choice]()
+
+
+
 
 # Option 1: Content of Thank you note
 def send_thanks(a,b):
@@ -45,7 +35,7 @@ def send_thanks(a,b):
     "\n"+'Give til it hurts you capitalist swine')
 
 #Option 1: logic of thank you note
-def Send_Note():
+def send_note():
     done=False
     while not done:
         respondy= input(
@@ -55,8 +45,8 @@ def Send_Note():
         "\n"+"3 - Return to the MAILROOM main menu"
         "\n"+"Indicate your choice:  ")
         if respondy=="1":
-            for key, value in donators.items():
-                print(key)
+            for k in donators:
+                print(k)
         if respondy=="2":
             donor_inp=input("Input donor: ")
             if donor_inp in donators.keys():
@@ -70,16 +60,16 @@ def Send_Note():
                 donators.update({donor_inp:[new_don]})
                 send_thanks(donor_inp,new_don)
         elif respondy=="3":
-            return
+            main()
 
 # Option 2: create report
 def data_metrics():
     report = []
-    for name, donations in donators:
-        total_Given = sum(donations)
-        number_Gifts = len(donations)
-        average_Gift = total_Given/number_Gifts
-        report.append((name, total_Given, number_Gifts, round(average_Gift,1)))
+    for k, v in donators.items():
+        total_Given = sum(v)
+        number_Gifts = len(v)
+        average_Gift = sum(v)/len(v)
+        report.append((k, total_Given, number_Gifts, round(average_Gift,1)))
     ranked_dons=sorted(report, key=itemgetter(1),reverse=True)
     # https://stackoverflow.com/questions/46490541/how-print-list-of-tuples-side-by-side/46490575
     # for x in ranked_dons:
@@ -87,6 +77,7 @@ def data_metrics():
     print('Name'+'-'*30+'Sum'+'-'*28+'Count'+'-'*30+'Avg')
     for a,b,c,d in ranked_dons:
         print(f'{a:<33}{b:<33}{c:<33}{d:<33}')
+    main()
 
 #Option 3: get out of this program
 def exit_program():
@@ -98,7 +89,7 @@ def mass_mail():
     for key, value in donators.items():
         with open(f'{key}.txt', 'w') as f:
             sumy = str(sum(value))
-            f.write(f'Thanks {key} for donating {sumy}.'+"\n"+'Your mother would be so proud.')
+            f.write(f'Thanks {key} for donating ${sumy}.'+"\n"+'Your mother would be so proud.')
 
 
 if __name__ == "__main__":
