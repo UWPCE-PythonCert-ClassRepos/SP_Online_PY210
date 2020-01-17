@@ -2,6 +2,7 @@
 
 import pytest
 
+
 from circle import *
 
 def test_circle_radius():
@@ -32,5 +33,10 @@ def test_from_diameter():
     assert c.diameter == 8
     assert c.radius == 4
 
-
+    
+def test_rep():
+    c = Circle(4)
+    assert repr(c) == 'Circle(4)'
+    d = eval(repr(c))
+    assert d.radius == 4
 

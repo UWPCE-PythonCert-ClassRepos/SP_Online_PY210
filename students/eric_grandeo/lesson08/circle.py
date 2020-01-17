@@ -41,4 +41,10 @@ class Circle:
     def from_diameter(cls, diameter):
         return cls(diameter/2)
         
-    
+    def __str__(self):
+        return "Circle with radius: {}".format(self.radius)
+
+    def __repr__(self):
+        return "Circle({})".format(repr(self.radius))
+
+
