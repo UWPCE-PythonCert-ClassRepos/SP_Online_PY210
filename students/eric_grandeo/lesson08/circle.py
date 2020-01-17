@@ -13,13 +13,15 @@ Be able to compare to see if they are are equal.
 (follows from above) be able to put them in a list and sort them.
 '''
 
+import math
+
 class Circle:
 
     def __init__(self, radius=1):
         self.radius = radius
         self._diameter = None
-        
-        
+        self._area = None
+         
     @property 
     def diameter(self):
         self._diameter = self.radius*2
@@ -30,6 +32,9 @@ class Circle:
         self._diameter = value
         self.radius = value/2           
 
-        
+    @property
+    def area(self):
+        self._area = math.pi * (self.radius**2)
+        return self._area    
 
-
+    

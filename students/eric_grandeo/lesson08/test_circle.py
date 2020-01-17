@@ -18,3 +18,14 @@ def test_circle_diameter_setter():
     assert c.diameter == 2
     assert c.radius == 1
 
+def test_circle_area():
+    c = Circle(2)
+    assert c.area == 12.566370614359172
+
+def test_circle_area_set():
+    with pytest.raises(AttributeError):
+        c = Circle(2)
+        c.area = 42
+
+
+
