@@ -65,3 +65,10 @@ def test_equal():
     c1 = Circle(12)
     c2 = Circle(12)
     assert c1 == c2
+
+def test_sort():
+    list_of_circles = [Circle(6), Circle(7), Circle(8), Circle(4), Circle(0), Circle(2), Circle(3), Circle(5), Circle(9), Circle(1)]
+    list_of_circles.sort(key=Circle.sort_key)
+    assert list_of_circles == [Circle(0), Circle(1), Circle(2), Circle(3), Circle(4), Circle(5), Circle(6), Circle(7), Circle(8), Circle(9)]
+
+    
