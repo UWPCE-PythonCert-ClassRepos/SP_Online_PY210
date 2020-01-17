@@ -51,10 +51,17 @@ def test_multiply():
     assert repr(c1 * 3) == repr(Circle(12))
 
 def test_lessthan():
-    pass
+    c1 = Circle(4)
+    c2 = Circle(12)
+    assert c1 < c2
 
 def test_greaterthan():
-    pass
+    c1 = Circle(4)
+    c2 = Circle(12)
+    assert c2 > c1
+
 
 def test_equal():
-    pass
+    c1 = Circle(12)
+    c2 = Circle(12)
+    assert c1 == c2

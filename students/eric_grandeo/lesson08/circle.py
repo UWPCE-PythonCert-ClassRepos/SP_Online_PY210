@@ -55,13 +55,13 @@ class Circle:
         return Circle(self.radius * num)
 
     def __lt__(self, other):
-        pass
+        return self.radius < other.radius
 
     def __gt__(self, other):
-        pass
+        return self.radius > other.radius
 
     def __eq__(self, other):
-        pass
+        return self.radius == other.radius
 
-    
+
 
