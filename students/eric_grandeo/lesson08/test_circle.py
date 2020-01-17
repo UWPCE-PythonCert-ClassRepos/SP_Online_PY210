@@ -40,3 +40,14 @@ def test_rep():
     d = eval(repr(c))
     assert d.radius == 4
 
+def test_add():
+    c1 = Circle(2)
+    c2 = Circle(4)
+    assert repr(c1 + c2) == repr(Circle(6))
+
+
+def test_multiply():
+    c1 = Circle(4)
+    assert repr(c1 * 3) == repr(Circle(12))
+
+
