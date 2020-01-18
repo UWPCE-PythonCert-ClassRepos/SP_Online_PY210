@@ -54,7 +54,12 @@ def send_thanks():
             print("")
         else:
             # get gift amount and add to dict
-            gift = float(input("Gift amount: "))
+            while True:
+                try:
+                    gift = float(input("Gift amount: "))
+                    break
+                except ValueError:
+                    print("Input must be a number!")
             donors[name].append(gift)
             # print thank you email
             emailstr = dedent("""\
@@ -84,8 +89,11 @@ def send_thanks_bulk():
         filename = "".join(c for c in name if c.isalnum()) + ".txt"
         # write message to file
         print(f"Creating file for {name}...")
-        with open(filename, 'w') as f:
-            f.write(emailstr)
+        try:
+            with open(filename, 'w') as f:
+                f.write(emailstr)
+        except OSError:
+            print(f"ERROR: Unable to open file '{filename}'!")
 
 
 def create_report():
