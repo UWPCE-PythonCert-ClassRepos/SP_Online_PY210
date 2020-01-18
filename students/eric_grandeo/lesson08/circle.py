@@ -50,7 +50,6 @@ class Circle:
     def __add__(self, other):
         return Circle(self.radius + other.radius)
 
-    #fix placements of arguments
     def __mul__(self, num):
         return Circle(self.radius * num)
 
@@ -69,12 +68,6 @@ class Circle:
 #sphere subclass
 class Sphere(Circle):
     
-    def __str__(self):
-        pass
-
-    def __repr__(self):
-        pass
-
     @property
     def volume(self):
         self._volume = ((4/3)*math.pi*self.radius**3)
@@ -85,4 +78,17 @@ class Sphere(Circle):
 
     def __repr__(self):
         return "Sphere({})".format(repr(self.radius))
+
+    def __add__(self, other):
+        return Sphere(self.radius + other.radius)
+
+    def __mul__(self, num):
+        return Sphere(self.radius * num)
+
+
+
+    @property
+    def surface_area(self):
+        self._surface_area = 4 * math.pi * (self.radius**2)
+        return self._surface_area 
 

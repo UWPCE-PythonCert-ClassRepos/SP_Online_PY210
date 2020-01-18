@@ -87,3 +87,40 @@ def test_rep_sphere():
     d = eval(repr(s))
     assert d.radius == 4
 
+
+def test_sphere_area():
+    s = Sphere(4)
+    assert s.surface_area == 201.06192982974676
+
+def test_add_sphere():
+    s1 = Sphere(2)
+    s2 = Sphere(4)
+    assert repr(s1 + s2) == repr(Sphere(6))
+
+
+def test_multiply_sphere():
+    s1 = Sphere(4)
+    assert repr(s1 * 3) == repr(Sphere(12))
+
+def test_lessthan_sphere():
+    s1 = Sphere(4)
+    s2 = Sphere(12)
+    assert s1 < s2
+
+def test_greaterthan_sphere():
+    s1 = Sphere(4)
+    s2 = Sphere(12)
+    assert s2 > s1
+
+
+def test_equal_sphere():
+    s1 = Sphere(12)
+    s2 = Sphere(12)
+    assert s1 == s2
+
+def test_sort_sphere():
+    list_of_spheres = [Sphere(6), Sphere(7), Sphere(8), Sphere(4), Sphere(0), Sphere(2), Sphere(3), Sphere(5), Sphere(9), Sphere(1)]
+    list_of_spheres.sort(key=Sphere.sort_key)
+    assert list_of_spheres == [Sphere(0), Sphere(1), Sphere(2), Sphere(3), Sphere(4), Sphere(5), Sphere(6), Sphere(7), Sphere(8), Sphere(9)]
+
+
