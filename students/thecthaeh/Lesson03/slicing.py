@@ -1,13 +1,6 @@
 #!/usr/bin/env python3
 
 """A series of functions that return sequences altered in various ways."""
-Write some functions that take a sequence as an argument, and return a copy of that sequence:
-
-with the first and last items exchanged.
-with every other item removed.
-with the first 4 and the last 4 items removed, and then every other item in the remaining sequence.
-with the elements reversed (just with slicing).
-with the last third, then first third, then the middle third in the new order.
 
 def first_last_exchange(seq):
     """Return a copy of the given sequence with the first and last items exchanged."""
@@ -55,3 +48,37 @@ def new_third_order(seq):
     new_seq = seq[last_third:] + seq[:first_third] + seq[first_third:second_third]
     
     return new_seq
+
+if __name__ == "__main__":
+    #run some tests
+    
+    a_string = "this is a string"
+    a_list = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    a_tuple = (34, 6, 32, 4, 12, 9)
+    
+    # test that first_last_exchange works for strings, lists, and tuples
+    assert first_last_exchange(a_string) == 'ghis is a strint'
+    assert first_last_exchange(a_list) == [9, 2, 3, 4, 5, 6, 7, 8, 1]
+    assert first_last_exchange(a_tuple) == (9, 6, 32, 4, 12, 34)
+    
+    # test that remove_every_other works for strings, lists, and tuples
+    assert remove_every_other(a_string) == 'ti sasrn'
+    assert remove_every_other(a_list) == [1, 3, 5, 7, 9]
+    assert remove_every_other(a_tuple) == (34, 32, 12)
+    
+    # test that remove4_every_other works for strings, lists, and tuples
+    assert remove4_every_other(a_string) == ' sas'
+    assert remove4_every_other(a_list) == [5]
+    assert remove4_every_other(a_tuple) == ()
+    
+    # test that reverse works for strings, lists, and tuples
+    assert reverse(a_string) == 'gnirts a si siht'
+    assert reverse(a_list) == [9, 8, 7, 6, 5, 4, 3, 2, 1]
+    assert reverse(a_tuple) == (9, 12, 4, 32, 6, 34)
+    
+    # test that new_third_order works for strings, lists, and tuples
+    assert new_third_order(a_string) == 'tringthis is a s'
+    assert new_third_order(a_list) == [7, 8, 9, 1, 2, 3, 4, 5, 6]
+    assert new_third_order(a_tuple) == (12, 9, 34, 6, 32, 4)
+    
+    print("tests passed")
