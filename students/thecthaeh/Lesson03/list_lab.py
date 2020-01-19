@@ -1,4 +1,6 @@
-# Series 1
+#!/usr/bin/env python3
+
+"""Series 1: Add fruits to a list using different methods."""
 fruit_list = ["Apples", "Pears", "Oranges", "Peaches"]
 
 print(fruit_list)
@@ -33,7 +35,7 @@ for fruit in fruit_list[:]:
     if fruit[0] == 'P' or fruit[0] == 'p':
         print(fruit)
 
-# Series 2
+"""Series 2: Use the list from Series 1 and remove fruits from it using various methods."""
 f = fruit_list[:]
 
 print(f)
@@ -57,7 +59,7 @@ else:
     while fruit_removal2 in f:
         f.remove(fruit_removal2)
 
-# Series 3
+"""Series 3: Keep or remove fruits from the list in Series 1 based on the user's preference."""
 f = fruit_list[:]
 
 for fruit in f[:]:
@@ -71,7 +73,7 @@ for fruit in f[:]:
 
 print(f)
  
-# Series 4
+"""Series 4: Reverse the items of the list from Series 1. Remove the last item of the original list."""
 reverse_fruits = []
 
 for fruit in fruit_list[:]:
