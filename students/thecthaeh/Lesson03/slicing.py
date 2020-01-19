@@ -30,22 +30,19 @@ def new_third_order(seq):
     """Return a copy of the given sequence in the order: last third, first third, middle third."""
     length_thirds = len(seq) // 3
     
-    first_third = length_thirds
-    second_third = first_third + length_thirds
-    last_third  = first_third + second_third
+    first_third_end = length_thirds
+    second_third_end = first_third_end + length_thirds
     remainder = len(seq) % 3
     
     # ensure any remainders are distributed across each third instead of being
     # tacked on to the end of the sequence (last_third in this case)
-    if len(seq) % 3 == 1:
-        first_third += 1
-    elif len(seq) % 3 == 2:
-        first_third += 1
-        second_third += 2
+    if remainder == 1:
+        first_third_end += 1
+    elif remainder == 2:
+        first_third_end += 1
+        second_third_end += 2
     
-    print(first_third, second_third, last_third)
-    
-    new_seq = seq[last_third:] + seq[:first_third] + seq[first_third:second_third]
+    new_seq = seq[second_third_end:] + seq[:first_third_end] + seq[first_third_end:second_third_end]
     
     return new_seq
 
@@ -77,7 +74,7 @@ if __name__ == "__main__":
     assert reverse(a_tuple) == (9, 12, 4, 32, 6, 34)
     
     # test that new_third_order works for strings, lists, and tuples
-    assert new_third_order(a_string) == 'tringthis is a s'
+    assert new_third_order(a_string) == 'stringthis is a '
     assert new_third_order(a_list) == [7, 8, 9, 1, 2, 3, 4, 5, 6]
     assert new_third_order(a_tuple) == (12, 9, 34, 6, 32, 4)
     
