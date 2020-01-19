@@ -63,9 +63,9 @@ else:
 f = fruit_list[:]
 
 for fruit in f[:]:
-    preference = input("Do you like {}? ".format(fruit.lower())
+    preference = input("Do you like {}? ".format(fruit.lower()))
     
-    while preference != 'yes' and preference!= 'no':
+    while preference != 'yes' and preference != 'no':
         preference = input("Please answer with yes or no. ")
         
     if preference == 'no':
