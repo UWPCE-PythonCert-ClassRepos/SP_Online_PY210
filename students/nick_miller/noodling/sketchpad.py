@@ -1,176 +1,106 @@
+# #!/usr/bin/env python3
+#
+# # (or q)
+#
 # donor_db = [
 #             ("William Gates, III", [653772.32, 12.17]),
 #             ("Jeff Bezos", [877.33]),
 #             ("Paul Allen", [663.23, 43.87, 1.32]),
 #             ("Mark Zuckerberg", [1663.23, 4300.87, 10432.0])
 #             ]
-#
-#
-# def nameslist(db=donor_db):
+# def thank_you():
 #     names = []
-#     for i in range(0, (len(donor_db))):
-#         entry = (donor_db[i])
-#         name = entry[0]
-#         names.append(name.lower())
-#     list(names)
-# #
-# # # print(names)
-# #
-# # # def report(db=donor_db):
-# # #     print(donor_db)
-# # #     print()
-# # #     key = ["name", "total given", "num gifts", "average gift"]
-# # #     separator = "|"
-# # #
-# # #     print(f"{key[0]:<18}",
-# # #           f"{separator:^3}",
-# # #           f"{key[1]:<18}",
-# # #           f"{separator:^3}",
-# # #           f"{key[2]:>10}",
-# # #           f"{separator:^3}",
-# # #           f"{key[3]:>15}")
-# # #     print("-"*76)
-# # #
-# # #     for i in range(0, (len(donor_db))):
-# # #         entry = (donor_db[i])
-# # #         name = entry[0]
-# # #         # print(name)
-# # #         dons = entry[1]
-# # #         totes = sum(dons)
-# # #         # print(totes)
-# # #         nums = len(dons)
-# # #         # print(nums)
-# # #         aves = totes/nums
-# # #         # print(aves)
-# # #         print(f"{name:<18}",
-# # #           f"{separator:^3}",
-# # #           f"{totes:>18.2f}",
-# # #           f"{separator:^3}",
-# # #           f"{nums:^10}",
-# # #           f"{separator:^3}",
-# # #           f"{aves:>15.2f}")
-# # #
-# # # report()
-# #
-# # thanksC = str(input("Enter a name or type 'list': "))
-# # thanksC = thanksC.lower()
-# # if thanksC.strip() == "list":
-# #     for i in range(0, (len(donor_db))):
-# #         entry = (donor_db[i])
-# #         name = entry[0]
-# #         print(name)
-# # elif thanksC.lower() not in names:
-# #     addQ = str(input("That name is not in the list, would you like to add it? (y/n): "))
-# #     addQ = addQ.lower()
-# #     if addQ.strip() == "n":
-# #         pass
-# #     if addQ.strip() == "y":
-# #         print("Adding", thanksC.title(), "to the donor list.")
-# #         addY = float(input("Please enter their donation amount: "))
-# #         print("Adding " + thanksC.title() + "'s donation of $" + f"{addY:.2f}", "to their db entry")
-# #         addItem = (thanksC.title(), [float(f"{addY:.2f}")])
-# #         donor_db.append(addItem)
-# # elif thanksC.lower() in names:
-# #     nameIndex = names.index(thanksC.lower())
-# #     inList = str(input("That name is in the list, would you like to add a new donation to it? (y/n): "))
-# #     if inList.strip() == "n":
-# #         pass
-# #     if inList.strip() == "y":
-# #         addAmt = float(input("Please enter the new donation amount: "))
-# #         print("Adding " + thanksC.title() + "'s donation of $" + f"{addAmt:.2f}", "to their db entry")
-# #         updateItem = (thanksC.title(), [float(f"{addAmt:.2f}")])
-# #         donor_db.append(updateItem)
-# #         print(nameIndex)
-#
-# # words = ['maritus', 'et', 'quolibet', 'is', 'habitancium', 'dico', 'locum~locus', 'domus', 'totus', 'tempus', 'vitis', 'is', 'de', 'quolibet', 'ipse']
-# #
-# # words2 = words
-# #
-# # words2 = str(words2)
-# #
-# # print(words2)
-# #
-# # print(words2.find("cram"))
-# #
-# # print(words)
-#
-#
-# # def thanks(db=donor_db):
-# #     thanksC = str(input("Enter a name or type 'list': "))
-# #     thanksC = thanksC.lower()
-# #     if thanksC.strip() == 'list':
-# #         for i in range(0, (len(donor_db))):
-# #             entry = (donor_db[i])
-# #             name = entry[0]
-# #             print(name)
-# #     elif thanksC in names:
-# #         finditem = names.index(thanksC)
-# #         donor_db_new = list(donor_db)
-# #         listtoaddto = donor_db_new[finditem]
-# #         addY = addY = str(input("Please enter their donation amount: "))
-# #         addY = float(f"{addY:.2f}")
-# #         listtoaddto = listtoaddto[1]
-# #         listtoaddto.append(addY)
-# #         donor_db_new = tuple(donor_db_new)
-# #     elif thanksC not in donor_db:
-# #         addQ = str(input("That name is not in the list, would you like to add it? (y/n)"))
-# #         if addQ.strip() == "n":
-# #             pass
-# #         if addQ.strip() == "y":
-# #             print("Adding ", thanksC.capitalize(), " to the donor list.")
-# #             addY = str(input("Please enter their donation amount: "))
-#
-# def thanks(db=donor_db):
-#     thanksC = str(input("Enter a name or type 'list': "))
-#     thanksC = thanksC.lower()
-#     if thanksC.strip() == 'list':
+#     for name, donations in donor_db:
+#         name = name.lower()
+#         names.append(name)
+#     thanks_c = str(input("Enter a name or type 'list': "))
+#     thanks_c = thanks_c.lower()
+#     if thanks_c.strip() == "q":
+#         return
+#     if thanks_c.strip() == "list":
 #         for i in range(0, (len(donor_db))):
 #             entry = (donor_db[i])
 #             name = entry[0]
 #             print(name)
-#     elif thanksC not in nameslist():
-#         addQ = str(input("That name is not in the list, would you like to add it? (y/n)"))
-#         if addQ.strip() == "n":
-#             pass
-#         if addQ.strip() == "y":
-#             print("Adding ", thanksC.capitalize(), " to the donor list.")
-#             addY = str(input("Please enter their donation amount: "))
+#     elif thanks_c.lower() not in names:
+#         add_q = str(input("That name is not in the list, would you like to add it? (y/n): "))
+#         add_q = add_q.lower()
+#         if add_q.strip() == "q":
+#             return
+#         if add_q.strip() == "n":
+#             return
+#         if add_q.strip() == "y":
+#             print("Adding", thanks_c.title(), "to the donor list.")
+#             add_y = input("Please enter their donation amount: ")
+#             if add_y.lower().strip() == "q":
+#                 return
+#             else:
+#                 add_y = float(add_y)
+#                 print("Adding " + thanks_c.title() + "'s donation of $" + f"{add_y:.2f}", "to their db entry")
+#                 addItem = (thanks_c.title(), [float(f"{add_y:.2f}")])
+#                 donor_db.append(addItem)
+#                 firster = thanks_c.title().split()
+#                 firster = firster[0]
+#                 toters = float(f"{add_y:.2f}")
+#                 letter = ('\n'.join(['', 'Dearest {first_name},', '', 'Thank you for your generous support!',
+#                                      'We appreciate your donation of ${donats:.2f}.', '',
+#                                      'Sincerest regards',
+#                                      '',
+#                                      'The Foundation'])).format(first_name=firster, donats=toters)
+#                 print("Here is your Thank You:")
+#                 print(letter)
+#     elif thanks_c.lower() in names:
+#         name_index = names.index(thanks_c.lower())
+#         ind_list = donor_db[name_index]
+#         ind_list = list(ind_list)
+#         donats = ind_list[1]
+#         name_donat = ind_list[0], donats
+#         name_donat = tuple(name_donat)
+#         in_list = str(input("That name is in the list, would you like to add a new donation to it? (y/n): "))
+#         while in_list != "y" and in_list != "n" and in_list != "q":
+#             in_list = input("Please enter y or n: ").lower()
+#         if in_list == "n":
+#             next_q = str(input("Do you still want to send a Thank You? (y/n): "))
+#             while next_q != "y" and next_q != "n" and next_q != "q":
+#                 next_q = input("Please enter y or n: ").lower()
+#             if next_q == "n":
+#                 pass
+#             if next_q == "q":
+#                 return
+#             elif next_q == "y":
+#                 print("ok, we'll write one now...")
+#         elif in_list == "y":
+#             ind_list = donor_db[name_index]
+#             ind_list = list(ind_list)
+#             donats = ind_list[1]
+#             add_donats = input("Add a donation amount: ")
+#             add_donats = float(add_donats)
+#             donats.append(add_donats)
+#             name_donat = ind_list[0], donats
+#             name_donat = tuple(name_donat)
+#         namer = name_donat[0]
+#         namer = namer.split()
+#         firster = namer[0]
+#         monies = name_donat[1]
+#         toters = sum(monies)
+#
+#         letter = ('\n'.join(['', 'Dearest {first_name},', '', 'Thank you for your generous support!',
+#                              'We appreciate your donation(s), which total ${donats:.2f} to date!', '', 'Sincerest regards',
+#                              '',
+#                              'The Foundation'])).format(first_name=firster, donats=toters)
+#
+#         print("Here is your Thank You:")
+#         print(letter)
 #
 #
-# thanks()
-
-fruits = ["Oranges", "Peaches", "Apples", "Pineapples"]
+# thank_you()
 
 
-# def yesorno(question):
-#     reply = str(input(question + ' (y/n): ')).lower().strip()
-#     if reply[0] == 'y':
-#         return True
-#     if reply[0] == 'n':
-#         return False
-#     else:
-#         return yesorno("Please respond with a 'y' or an 'n'. " + question + ":")
-# delfruits = []
-#
-# for fruit in fruits:
-#     question = "Do you like " + fruit + "? (y/n): "
-#     yesorno = input(question)
-#     drop = fruits.index(fruit)
-#     while yesorno != "y" and yesorno != "n":
-#         yesorno = input("Please enter y or n: ").lower()
-#     if yesorno == "n":
-#         delfruits.append(drop)
-# for i in delfruits:
-#     fruits.pop(i)
-#
-# print(fruits)
+def y_or_n_or_q(ver):
+    ver = ver.strip().lower()
+    while ver != "y" and ver != "n" and ver != "q":
+        ver = input("Please enter y or n: ")
+    return ver
 
-backwardsfruits = []
-for i in fruits:
-    i = i[::-1]
-    backwardsfruits.append(i)
 
-print(backwardsfruits)
-
-del fruits[-1]
-print(fruits)
+y_or_n_or_q(";lkj ")
