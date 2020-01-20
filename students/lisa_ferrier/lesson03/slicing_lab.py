@@ -4,7 +4,7 @@
 
 def exchange_first_last(seq):
     '''This function exchanges the first and last items in a sequence '''
-    seq2 = seq[-1:]+seq[1:-1]+seq[:1]
+    seq2 = seq[-1:] + seq[1:-1] + seq[:1]
     return seq2
 
 
@@ -35,11 +35,11 @@ def thirds_rearrange(seq):
     last + first + mid
     '''
     seq_len = (len(seq))
-    thirds = int(seq_len/3)
+    thirds = int(seq_len / 3)
     first = seq[0:thirds]
-    mid = seq[thirds:thirds*2]
-    last = seq[seq_len-thirds-1:]
-    return(last+first+mid)
+    mid = seq[thirds:thirds * 2]
+    last = seq[seq_len - thirds - 1:]
+    return(last + first + mid)
 
 
 exchange_first_last('hotdog')

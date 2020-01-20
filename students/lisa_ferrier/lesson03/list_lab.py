@@ -24,7 +24,7 @@ print(fruit)
 # basis..
 number = int(input('Provide a number 1 and ' + str(len(fruit)) + ':    '))
 # correct the input number to reference the true index position
-print(fruit[number-1])
+print(fruit[number - 1])
 
 # create a second 'fruit' list
 fruit2 = ['Mangoes']
@@ -78,7 +78,7 @@ BONUS
 Multiply the list times 2. Keeps asking until a match is found. Once found,
 delete all occurrences
 '''
-fruit2 = fruit*2
+fruit2 = fruit * 2
 print(fruit2)
 # ask user to specify another fruit to remove.
 response3 = input('Look at the last printed list. Choose a fruit to remove.')
