@@ -3,10 +3,21 @@
 import pytest
 from mailroom_oo import *
 
+#creates class, get name
 def test_donor():
     donor = Donor("Bill", "Gates")
     assert donor.name == "Bill Gates"
     
+
+#test get instance
+def test_get_instance():
+    donor = Donor("Bill", "Gates")
+    amounts = [50, 100, 150]
+    for amount in amounts:
+        donor.add_donation(amount)
+    assert {"Bill Gates": [50, 100, 150]} == donor.donor
+
+
 def test_donation():
     donor = Donor("Bill", "Gates")
     donor.add_donation(500)
@@ -51,4 +62,4 @@ def test_thank_you():
 
     assert donor.thank_you == test_result
 
-    
+

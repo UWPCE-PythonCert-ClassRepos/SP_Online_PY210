@@ -10,6 +10,9 @@ class Donor():
         self.name = firstName + " " + lastName
         self.donations = []
 
+    @property
+    def donor(self):
+        return {self.name: self.donations}
     
     def add_donation(self, donation):
         self.donations.append(int(donation))  
@@ -46,10 +49,9 @@ class Donor():
     
     
 
-
 #hold all of the donor objects, method to add a new donor, search for a donor, 
 #save and reload data, generate reports
 class DonorCollection:
     pass
-
+    
 
