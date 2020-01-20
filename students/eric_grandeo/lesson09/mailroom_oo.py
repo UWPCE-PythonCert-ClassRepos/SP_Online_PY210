@@ -25,6 +25,14 @@ class Donor():
         self._num_donations = len(self.donations)
         return self._num_donations
 
+    @property
+    def avg_donations(self):
+        self._avg_donations = self.sum_donations/self.num_donations
+        return self._avg_donations
+
+
+    
+
 
 #hold all of the donor objects, method to add a new donor, search for a donor, 
 #save and reload data, generate reports

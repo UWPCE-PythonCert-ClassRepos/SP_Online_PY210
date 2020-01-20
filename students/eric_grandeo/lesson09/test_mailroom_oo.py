@@ -27,3 +27,11 @@ def test_num_donations():
     for amount in amounts:
         donor.add_donation(amount)
     assert donor.num_donations == 3
+
+def test_avg_donations():
+    donor = Donor("Bill", "Gates")
+    amounts = [50, 100, 150]
+    for amount in amounts:
+        donor.add_donation(amount)
+    assert donor.avg_donations == 100
+
