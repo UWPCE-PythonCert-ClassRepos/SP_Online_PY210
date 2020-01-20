@@ -14,14 +14,16 @@ class Donor():
     
     def add_donation(self, donation):
         self.donations.append(int(donation))  
-        
-    
 
+    @property    
+    def sum_donations(self):
+        self._sum_donations = sum(self.donations)
+        return self._sum_donations
 
-
-    def thank_you():
-        pass
-
+    @property
+    def num_donations(self):
+        self._num_donations = len(self.donations)
+        return self._num_donations
 
 
 #hold all of the donor objects, method to add a new donor, search for a donor, 
