@@ -5,10 +5,8 @@ from mailroom_oo import *
 
 def test_donor():
     donor = Donor("Bill", "Gates")
-    assert donor._firstName == "Bill"
-    assert donor._lastName == "Gates"
+    assert donor.name == "Bill Gates"
     
-
 def test_donation():
     donor = Donor("Bill", "Gates")
     donor.add_donation(500)
@@ -35,3 +33,22 @@ def test_avg_donations():
         donor.add_donation(amount)
     assert donor.avg_donations == 100
 
+
+def test_thank_you():
+    donor = Donor("Bill", "Gates")
+    amounts = [50, 100, 150]
+    for amount in amounts:
+        donor.add_donation(amount)
+
+    test_result = """
+        Dear {name},
+        Thank you very much for the generous donation of ${donation:,.2f}
+        It is very much appreciated.
+        Respectfully,
+
+        Eric G.
+        """.format(name="Bill Gates", donation=150)
+
+    assert donor.thank_you == test_result
+
+    

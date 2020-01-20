@@ -7,8 +7,7 @@
 #hold all information about a single donor, including thank you letter, donation and donation history
 class Donor():
     def __init__(self, firstName, lastName):
-        self._firstName = firstName
-        self._lastName = lastName
+        self.name = firstName + " " + lastName
         self.donations = []
 
     
@@ -30,7 +29,21 @@ class Donor():
         self._avg_donations = self.sum_donations/self.num_donations
         return self._avg_donations
 
+    @property
+    def thank_you(self):
+        email_dict = dict(name=self.name, donation=self.donations[-1])
 
+        result = """
+        Dear {name},
+        Thank you very much for the generous donation of ${donation:,.2f}
+        It is very much appreciated.
+        Respectfully,
+
+        Eric G.
+        """.format(**email_dict)
+
+        return result
+    
     
 
 
