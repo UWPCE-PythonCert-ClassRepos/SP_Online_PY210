@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="e250506b-0653-4564-a65a-965fa09b97e7" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lesson03/list_lab.py" beforeDir="false" afterPath="$PROJECT_DIR$/lesson03/list_lab.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lesson03/mailroom.py" beforeDir="false" afterPath="$PROJECT_DIR$/lesson03/mailroom.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/noodling/sketchpad2.py" beforeDir="false" afterPath="$PROJECT_DIR$/noodling/sketchpad2.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -220,7 +217,7 @@
       <workItem from="1578798517573" duration="5697000" />
       <workItem from="1578937046268" duration="362000" />
       <workItem from="1578937788839" duration="6748000" />
-      <workItem from="1579108825841" duration="39721000" />
+      <workItem from="1579108825841" duration="39929000" />
     </task>
     <task id="LOCAL-00001" summary="local and remote branch conflict resolution">
       <created>1578282701286</created>
@@ -320,7 +317,14 @@
       <option name="project" value="LOCAL" />
       <updated>1579457252657</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="fixing an index error for section 3 of the list_lab.py">
+      <created>1579496341079</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1579496341079</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -353,7 +357,8 @@
     <MESSAGE value="updating grid_printer.py for submission" />
     <MESSAGE value="this commit is to submit list_lab.py and grid_printer.py" />
     <MESSAGE value="adding commit for mailroom.py (mailroom pt 1)" />
-    <option name="LAST_COMMIT_MESSAGE" value="adding commit for mailroom.py (mailroom pt 1)" />
+    <MESSAGE value="fixing an index error for section 3 of the list_lab.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixing an index error for section 3 of the list_lab.py" />
   </component>
   <component name="WindowStateProjectService">
     <state x="1137" y="-878" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1579204084297">
@@ -365,12 +370,12 @@
     </state>
     <state x="408" y="165" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1440.900/1440.-710.1920.1080@0.0.1440.900" timestamp="1577068046335" />
     <state x="408" y="176" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.23.1440.837/1440.-687.1920.1057@0.23.1440.837" timestamp="1575336842592" />
-    <state x="428" y="105" key="CommitChangelistDialog2" timestamp="1579457251163">
+    <state x="428" y="105" key="CommitChangelistDialog2" timestamp="1579496340515">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="2011" y="-568" key="CommitChangelistDialog2/0.0.1440.900/1440.-710.1920.1080@1440.-710.1920.1080" timestamp="1578872006296" />
     <state x="1284" y="-938" key="CommitChangelistDialog2/0.0.1440.900/713.-1080.1920.1080/-1207.-1080.1920.1080@713.-1080.1920.1080" timestamp="1579210129940" />
-    <state x="428" y="105" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1579457251163" />
+    <state x="428" y="105" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1579496340515" />
     <state width="1398" height="344" key="GridCell.Tab.0.bottom" timestamp="1579496265412">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
@@ -451,12 +456,12 @@
       <screen x="713" y="-1080" width="1920" height="1080" />
     </state>
     <state x="1182" y="-901" key="SettingsEditor/0.0.1440.900/713.-1080.1920.1080/-1207.-1080.1920.1080@713.-1080.1920.1080" timestamp="1579215138003" />
-    <state x="420" y="233" key="Vcs.Push.Dialog.v2" timestamp="1579457317715">
+    <state x="420" y="233" key="Vcs.Push.Dialog.v2" timestamp="1579496407536">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="2000" y="-430" key="Vcs.Push.Dialog.v2/0.0.1440.900/1440.-710.1920.1080@1440.-710.1920.1080" timestamp="1578872010909" />
     <state x="1273" y="-800" key="Vcs.Push.Dialog.v2/0.0.1440.900/713.-1080.1920.1080/-1207.-1080.1920.1080@713.-1080.1920.1080" timestamp="1579210136490" />
-    <state x="420" y="233" key="Vcs.Push.Dialog.v2/0.0.1440.900@0.0.1440.900" timestamp="1579457317715" />
+    <state x="420" y="233" key="Vcs.Push.Dialog.v2/0.0.1440.900@0.0.1440.900" timestamp="1579496407536" />
     <state x="480" y="72" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1577674043157">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
