@@ -81,15 +81,19 @@ def send_thanks():
 
 def create_report():
     """Output a list of donors sorted by total donation amount."""
+    # print header
     print("{:^25} | {:^15} | {:^9} | {:^15}".format(
         "Name", "Total Given", "Num Gifts", "Average Gift"))
     print("{:->73}".format(""))
-    for donor in donors:
-        # parse values
+
+    # sort list of donors by total donations made
+    donors_sorted = sorted(donors, key=lambda d: sum(d['gifts']), reverse=True)
+
+    # loop through list and print
+    for donor in donors_sorted:
         total = sum(donor["gifts"])
         num = len(donor["gifts"])
         avg = sum(donor["gifts"]) / len(donor["gifts"])
-        # print the thing
         print("{:<25} | {:>15.2f} | {:>9} | {:>15.2f}".format(
             donor["name"], total, num, avg))
 
