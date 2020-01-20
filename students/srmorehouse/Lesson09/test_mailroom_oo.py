@@ -47,3 +47,18 @@ def test_collection_list_donors():
     assert 'A. Tester\nB. Developer' in donors.list_donors()
 
 
+def test_donor_compose_thank_you():
+    donor = Donor('Test', [1.23, 2.10])
+    assert '2.10' in donor.compose_thank_you()
+
+
+def test_donor_get_donor_summary():
+    donor = Donor('Test', [1.23, 2.10])
+    name, total, count, avg = donor.get_donor_summary()
+    print(f'name = {name}, total = {total}, count = {count}, avg = {avg}')
+    assert name == 'Test'
+    assert total == 3.33
+    assert count == 2
+    assert avg == 1.665
+
+

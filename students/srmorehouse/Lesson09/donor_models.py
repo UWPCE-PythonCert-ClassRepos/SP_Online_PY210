@@ -48,7 +48,7 @@ class Donor (object):
         sum_donations = sum(self.donations)
         average_donation = sum_donations/len_donations if len_donations else 0
 
-        return (self.name, sum_donations, len_donations, average_donations)
+        return (self.name, sum_donations, len_donations, average_donation)
     
     
     def sort_key(item):
@@ -77,10 +77,6 @@ class DonorCollection():
         return any(d for d in self.donors.values() if d.name.upper() == name.upper())
    
 
-    '''
-    def generate_letters
-    ''' 
-    
     def print_report (self):
         cur_dir = os.getcwd()
     

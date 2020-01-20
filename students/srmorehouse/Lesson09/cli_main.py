@@ -93,7 +93,7 @@ def send_a_thank_you (donor):
 
 
 def create_report (donors):
-    pass
+    donor.create_report()
 
 
 def print_report (donors):
