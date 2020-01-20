@@ -4,9 +4,14 @@ import pytest
 from mailroom_oo import *
 
 def test_donor():
-    donor = Donor("Bill", "Gates", 100)
+    donor = Donor("Bill", "Gates")
     assert donor._firstName == "Bill"
     assert donor._lastName == "Gates"
-    assert donor.donation == 100
-
     
+
+def test_donation():
+    donor = Donor("Bill", "Gates")
+    donor.add_donation(500)
+    assert donor.donations == [500]
+
+
