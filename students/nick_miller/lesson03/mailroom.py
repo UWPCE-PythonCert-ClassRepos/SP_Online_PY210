@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import sys
+
 # sample data for donor db from tutorial; db is a list of tuples, with a donor name and list of donations
 
 donor_db = [
@@ -175,7 +177,7 @@ def report(db=donor_db):
 
 def quit_prog():
     print("Quitting - See you next time.")
-    quit()
+    sys.exit()
 
 
 def main():

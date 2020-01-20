@@ -155,6 +155,9 @@ print()
 print("Begin series 3:")
 print()
 
+print("Starting over with the original list for sanity: ")
+fruits = ["Oranges", "Peaches", "Apples", "Pineapples"]
+print(fruits)
 delfruits = []
 for fruit in fruits:
     question = "Do you like " + fruit + "? (y/n): "
@@ -165,7 +168,9 @@ for fruit in fruits:
     if yesorno == "n":
         delfruits.append(drop)
 for i in delfruits:
-    fruits.pop(i)
+    fruits[i] = '!'
+for i in range(0, fruits.count('!')):
+    fruits.remove('!')
 
 print("Here is a list of just the fruits you like:")
 print(fruits)
