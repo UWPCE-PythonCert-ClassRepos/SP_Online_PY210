@@ -1,6 +1,6 @@
-#Isabella Kemp
-#1/19/2020
-#list lab
+# Isabella Kemp
+# 1/19/2020
+# list lab
 
 # Series 1
 # Create a list that displays Apples, Pears, Oranges, Peaches and display the list.
@@ -18,7 +18,7 @@ List = ["Apples", "Pears", "Oranges", "Peaches"]
 num = int(input("Please enter a number: "))
 print(num)
 if num < len(List):
-    print (List[num-1])
+    print(List[num - 1])
 
 # Adds new fruit (Strawberries) to the beginning of the original fruit list, using +.
 new_list = ["Strawberries"] + List
@@ -32,7 +32,7 @@ print(List)
 # Display all fruits that begin with "P" using a for loop
 List = ["Apples", "Pears", "Oranges", "Peaches"]
 for fruit in List:
-    if "P" in fruit:
+    if "P" in fruit[0]:
         print(fruit)
 
 # Series 2
@@ -48,23 +48,27 @@ delete_fruit = input("Which fruit would you like to delete? ")
 for fruit in List:
     if delete_fruit == fruit:
         List.remove(delete_fruit)
-        break # exits loop
+        break  # exits loop
 print(List)
 
 # Series 3
-# Asks the user what fruit they like, and if they say no it deletes the fruit, if neither, it will continue to ask.
+# Asks the user what fruit they like, and if they say no it deletes the fruit,
+# if neither, it will continue to ask. Puts fruits to lower case.
 List = ["Apples", "Pears", "Oranges", "Peaches"]
+
+
 def find_fav_fruits(List):
     for fruit in List:
-        ask_user = input("Do you like " + fruit + "? yes/no?")
-        if ask_user == "no":
+        ask_user = input("Do you like " + fruit.lower() + "? yes/no?")
+        if ask_user.lower() == "no":
             List.remove(fruit)
-        elif ask_user == "yes":
+        elif ask_user.lower() == "yes":
             continue
         else:
             ask_user = input("Please enter yes or no.")
 
     print(List)
+
 
 find_fav_fruits(List)
 
