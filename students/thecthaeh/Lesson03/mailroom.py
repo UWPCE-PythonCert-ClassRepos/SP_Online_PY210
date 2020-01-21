@@ -1,3 +1,10 @@
+#!/usr/bin/env python3
+
+"""Automate the process of creating 'Thank You' letters and tracking donors and donations through reports.
+
+"""
+from operator import itemgetter
+
 donor_info = [('Frank Miller', [320.00, 100.00, 570.50]), ('Tess Baker', [1000.00, 540.00]), 
 ('Grant Hugh', [5000.00]), ('Sarah Piper', [40.00]), ('Jim Newton', [1350.00, 1500.00, 5.50])]
 
@@ -22,7 +29,7 @@ while actions != '3':
                 donor[1].append(donate_amt)
         print(donor_info)
         
-        print(f"Thank you, {full_name}, for your generous donation.")
+        print(f"Thank you, {full_name}, for your generous donation of {donate_amt}.")
         
         actions = input("Choose one of the following options: \n1. Send a Thank You \n2. Create a Report \n3. Quit \n>>> ")
         
@@ -32,9 +39,19 @@ while actions != '3':
         top_row = "{:30} |{:>20} |{:>15} |{:>20}".format(*header[:])
         print(top_row)
         print('-' * len(top_row))
-
+        
+        #initiate the report list
+        report = []
+        
+        #fill the report with donor information
         for donor in donor_info:
-            report = [donor[0], sum(donor[1]), len(donor[1]), sum(donor[1])/len(donor[1])]
-            print("{:30}  ${:>19.2f}  {:>15}  ${:>19.2f}".format(*report[:]))
+            report.append([donor[0], sum(donor[1]), len(donor[1]), sum(donor[1])/len(donor[1])])
+        
+        #sort the report
+        sortedReport = sorted(report, key = itemgetter(1), reverse = True) #need to fix this
+        
+        #print the sorted report
+        for donor in sortedReport:
+            print("{:30}  ${:>19.2f}  {:>15}  ${:>19.2f}".format(*donor[:]))
         
         actions = input("Choose one of the following options: \n1. Send a Thank You \n2. Create a Report \n3. Quit \n>>> ")
