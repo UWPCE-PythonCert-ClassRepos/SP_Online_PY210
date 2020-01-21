@@ -6,9 +6,9 @@
 
 #hold all information about a single donor, including thank you letter, donation and donation history
 class Donor():
-    def __init__(self, firstName, lastName):
-        self.name = firstName + " " + lastName
-        self.donations = []
+    def __init__(self, name, donations=[]):
+        self.name = name
+        self.donations = donations
 
     @property
     def donor(self):
@@ -52,6 +52,29 @@ class Donor():
 #hold all of the donor objects, method to add a new donor, search for a donor, 
 #save and reload data, generate reports
 class DonorCollection:
-    pass
+    def __init__(self):
+        self.donor_list = []
+
+    def add_donor(self, name, amount=[]):
+        
+        if name not in self.donor_list:
+            new_donor = Donor(name, [amount])
+            self.donor_list.append(new_donor.name)
+        else:
+            name.add_donation(amount)
+
+
+    #trying to get object to return values, may need string represenations of objects
+
+    '''
+    def get_donor(self, name):
+        if name in self.donor_list:
+            return self.donor_list(name)
+    ''' 
+
+    def generate_report():
+        pass
+
     
+
 
