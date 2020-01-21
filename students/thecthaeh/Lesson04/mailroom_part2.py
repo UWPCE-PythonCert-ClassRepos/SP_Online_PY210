@@ -6,10 +6,12 @@
 from operator import itemgetter
 
 #convert to a dict
-donor_info_dict = ('Frank Miller'=[320.00, 100.00, 570.50], 'Tess Baker'=[1000.00, 540.00], 
-'Grant Hugh'=[5000.00], 'Sarah Piper'=[40.00], 'Jim Newton'=[1350.00, 1500.00, 5.50])
-#donor_info = [('Frank Miller', [320.00, 100.00, 570.50]), ('Tess Baker', [1000.00, 540.00]), 
-#('Grant Hugh', [5000.00]), ('Sarah Piper', [40.00]), ('Jim Newton', [1350.00, 1500.00, 5.50])]
+donor_info_dict = {}
+donor_info_dict['Frank Miller'] = [320.00, 100.00, 570.50]
+donor_info_dict['Tess Baker'] = [1000.00, 540.00]
+donor_info_dict['Grant Hugh'] = [5000.00]
+donor_info_dict['Sarah Piper'] = [40.00]
+donor_info_dict['Jim Newton'] = [1350.00, 1500.00, 5.50]
 
 def prompt():
     global actions
@@ -28,7 +30,7 @@ def handle_selection1():
         prompt()
         return
     
-    donate_amt = input("Enter the donation amount.\n>> $")
+    donate_amt = input("\nEnter the donation amount.\n>> $")
     if donate_amt.lower() == 'quit':
         prompt()
         return
@@ -37,16 +39,15 @@ def handle_selection1():
 
 #function for adding a donation
 def add_donation(donor_name, donate_amt):
-    #donor_found = False
-    #for donor in donor_info_dict:
     if donor_name in donor_info_dict:
         donor_info_dict[donor_name].append(donate_amt)
-        #donor_found = True
-    #if donor_found == False:
     else:
         donor_info_dict.setdefault(donor_name, [donate_amt])
         
     print(f"Thank you, {donor_name}, for your generous donation of ${donate_amt:.2f}.")
+
+#print a thank you letter to the donor
+#should use a dict and .format(**dict) method to create letter
 
 #function for selection 2
 def handle_selection2():
@@ -60,8 +61,8 @@ def handle_selection2():
     report = []
     
     #fill the report with donor information
-    for donor in donor_info:
-        report.append([donor[0], sum(donor[1]), len(donor[1]), sum(donor[1])/len(donor[1])])
+    for donor in donor_info_dict:
+        report.append([donor, sum(donor_info_dict[donor]), len(donor_info_dict[donor]), sum(donor_info_dict[donor])/len(donor_info_dict[donor])])
     
     #sort the report
     sorted_report = sorted(report, key = itemgetter(1), reverse = True)
@@ -76,7 +77,7 @@ def handle_selection2():
 select_func_dict = {
     1: handle_selection1, 
     2: handle_selection2,
-}
+    }
 
 def main(): #use a dict to switch between the user's selections
     prompt()
