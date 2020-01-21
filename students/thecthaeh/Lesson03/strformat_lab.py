@@ -47,8 +47,8 @@ print(f"The weight of an {fruit[:-1].upper()} is {weight * 1.2} and the weight o
 
 """Task Six: Use string formatting to display data in columns.
 
-Use alignment specifers to ensure the columns are properly aligned. Then,
-display a tuple of 10 consecutive numbers in columns of 5 characters wide.
+Use alignment specifers to ensure the columns are properly aligned.
+Extra task: display a tuple of 10 consecutive numbers in columns of 5 characters wide.
 """
 row1 = ['Larry', 23, 190.00]
 row2 = ['Sabine', 12, 4500.00]
@@ -58,6 +58,8 @@ row4 = ['Ben', 6, 10500.23]
 table = [row1, row2, row3, row4]
 
 for row in table:
-    print("{:20}{:^20}{:>20.2f}".format(*row[:]))
+    print("{:20}{:>20}{:>20.2f}".format(*row[:]))
 
-# come back and finish task 6 extra
+# Extra task
+def consecutive_tup(n):
+    print(("{:>5}" * len(n)).format(*n[:]))
