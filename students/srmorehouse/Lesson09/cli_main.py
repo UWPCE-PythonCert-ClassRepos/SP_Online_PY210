@@ -13,13 +13,13 @@ Lesson 09
 prompt = "\n".join(("Welcome to the Mailroom!",
           "Please choose from below options:",
           "1 - Enter a Donation",
-          "2 - Send a Thank You",
-          "3 - Create Report",
-          "4 - Send letters to all",
-          "5 - Exit",
+          "2 - Create Report",
+          "3 - Send letters to all",
+          "4 - Exit",
           ">>> "))
 
 first_usage = False
+
 
 def get_max_lengths(seq, header):
 
@@ -41,26 +41,13 @@ def get_max_lengths(seq, header):
     return [name_len, total_len, count_len, avg_len]
 
 
-def sort_key(item):
-    return item[1]
-
-
-"""
-Return a formatted string that will fit in the donor summary table.
-"""
-def format_line(item, lengths):
-    total = f"{item[1]:.02f}"
-    avg = f"{item[3]:.02f}"
-    return f"{item[0]:<{lengths[0]}}  ${total:>{lengths[1]}}   {item[2]:>{lengths[2]}}  ${avg:>{lengths[3]}}"
-
-
 def get_donation_amount(donor):
     while True:
         try:
             donation_amount = input("Enter the donation amount")
             if float(donation_amount) > 0:
                 donor.add_donation(float(donation_amount))
-                print(donor.compose_thank_you())
+                print (donor.compose_thank_you ())
                 return
             else:
                 print("The number you enter must be greater than 0.")
@@ -70,6 +57,7 @@ def get_donation_amount(donor):
 
 
 def enter_a_donation(donors):
+    donor=''
     while True:
         name = input("Type 'list' to see a list of names, 'quit' to quit, or enter a name: ")
         if name == "list":
@@ -83,17 +71,14 @@ def enter_a_donation(donors):
                 donor = Donor(name)
                 get_donation_amount(donor)
                 donors.add(donor)
+                return
             else:
                 get_donation_amount(donors.donors[name])
             return
 
 
-def send_a_thank_you (donor):
-    print (donor.compose_thank_you ())
-
-
 def create_report (donors):
-    donor.create_report()
+    print (donors.create_report())
 
 
 def print_report (donors):
@@ -107,10 +92,9 @@ def exit_program(ignore):
 
 def main():
     prompt_action = {"1" : enter_a_donation,
-                     "2" : send_a_thank_you,
-                     "3" : create_report,
-                     "4" : print_report,
-                     "5" : exit_program }
+                     "2" : create_report,
+                     "3" : print_report,
+                     "4" : exit_program }
 
     donors = DonorCollection()
     donors.add (Donor('Bill Gates',[1,2]))

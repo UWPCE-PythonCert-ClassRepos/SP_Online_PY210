@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import operator
 import os
 import sys
 
@@ -51,12 +52,7 @@ class Donor (object):
         return (self.name, sum_donations, len_donations, average_donation)
     
     
-    def sort_key(item):
-        return item[1]
-    
-    
 class DonorCollection():
-
 
     def __init__(self):
         self.donors={}
@@ -102,26 +98,20 @@ class DonorCollection():
         total = f"{item[1]:.02f}"
         avg = f"{item[3]:.02f}"
         return f"{item[0]:<{lengths[0]}}  ${total:>{lengths[1]}}   {item[2]:>{lengths[2]}}  ${avg:>{lengths[3]}}"
-    
-    
+   
+
+    def sort_key (item):
+        return (item[1])
+
+
     def create_report (self):
-        pad = 2
-        table = []
-        donor_summary = get_donor_summary(donor_db)
-        header = ["Donor Name", "Total Given", "Num Gifts", "Average Gift"]
-        lengths = get_max_lengths(donor_summary, header)
-    
-        sep_strings = [("-" * (lengths[0] + pad)), ("-" * (lengths[1] + pad)), ("-" * (lengths[2] + pad)), ("-" * (lengths[3] + pad))]
-        sep_line = "+".join(sep_strings)
-    
-        for item in sorted(donor_summary, key=sort_key, reverse=True):
-            table.append(format_line(item, lengths))
-    
-        # Header
-        table.insert(0, f"\n{header[0]:<{lengths[0]}} | {header[1]:>{lengths[1]}} | {header[2]:>{lengths[2]}}  | {header[3]:>{lengths[3]}} ")
-        table.insert(1, "-" * (len(sep_line) ) )
-    
-        print("\n".join(table) + "\n")
-    
+        sorted_values = sorted(
+            [x.get_donor_summary() for x in self.donors.values()], key=operator.itemgetter(1), reverse=True)
+        result = "\n"
+        result += 'Donor Name                | Total Given | Num Gifts | Average Gift\n'
+        result += '-'*66 + '\n'
+        for name, total_given, number_gifts, avg_gift in sorted_values:
+            result += f'{name:<27}${total_given:>11.2f}{number_gifts:>12}  ${avg_gift:>11.2f}\n'
+        return result
     
 #!/usr/bin/env python3
