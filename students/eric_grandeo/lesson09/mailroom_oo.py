@@ -55,22 +55,31 @@ class DonorCollection:
     def __init__(self):
         self.donor_list = []
 
-    def add_donor(self, name, amount=[]):
+    def add_donor(self, name, amount):
+
+        for donors in self.donor_list:
+            if donors.name == name:
+                donors.add_donation(amount)
+                return
         
-        if name not in self.donor_list:
-            new_donor = Donor(name, [amount])
-            self.donor_list.append(new_donor.name)
-        else:
-            name.add_donation(amount)
+        new_donor = Donor(name, amount)
+        self.donor_list.append(new_donor)
 
+    @property
+    def donor_names(self):
+        donor_name = []
+        for donor in self.donor_list:
+            donor_name.append(donor.name)
+        return donor_name
 
-    #trying to get object to return values, may need string represenations of objects
+    @property
+    def donor_dict(self):
+        donor_dict = {}
+        for donor in self.donor_list:
+            donor_dict.update(donor.donor)
+        return donor_dict
 
-    '''
-    def get_donor(self, name):
-        if name in self.donor_list:
-            return self.donor_list(name)
-    ''' 
+     
 
     def generate_report():
         pass

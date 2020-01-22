@@ -53,34 +53,24 @@ def test_thank_you():
 
 #test 8: getting donor objects into donorcollections
 def test_donorcollections():
-    donor1 = Donor("Bill Gates", [50, 100, 150])
-    donor2 = Donor("Paul Allen", [150, 200, 250])
-    
     d = DonorCollection()
-    d.add_donor(donor1)
-    d.add_donor(donor2)
-    assert ['Bill Gates', 'Paul Allen'] == [item.name for item in d.donor_list]
+    d.add_donor("Bill Gates", [50, 100, 150])
+    d.add_donor("Paul Allen", [150, 200, 250])
+    assert ['Bill Gates', 'Paul Allen'] == d.donor_names
+    assert {"Bill Gates": [50, 100, 150], "Paul Allen": [150, 200, 250]} == d.donor_dict
 
     
-
 '''
-def test_add_new_donor():
-    donor1 = Donor("Bill Gates")
-    amounts = [50, 100, 150]
-    for amount in amounts:
-        donor1.add_donation(amount)
-    
-    donor2 = Donor("Paul Allen")
-    amounts = [50, 100, 150]
-    for amount in amounts:
-        donor2.add_donation(amount)
-
+#test 9: updating existing donor
+def test_update_donor():
     d = DonorCollection()
-    d.add_donor(donor1)
-    d.add_donor(donor2)
-    d.add_donor("Jeff Bezos", 500)
+    d.add_donor("Bill Gates", [50, 100, 150])
+    d.add_donor("Paul Allen", [150, 200, 250])
+    d.donor_names
     
-    assert {'Paul Allen': [50, 100, 150, 500], 'Bill Gates': [50, 100, 150], 'Jeff Bezos': [500]} == d.donor_list
-'''
-    
+    #d.add_donor("Bill Gates", 500)
+    #print(d.donor_list)
+    #assert ['Bill Gates', 'Paul Allen', 'Jeff Bezos'] == d.donor_list
+    #assert d.donor_list[0].name == {"Bill Gates": [50, 100, 150, 500]}
+''' 
 
