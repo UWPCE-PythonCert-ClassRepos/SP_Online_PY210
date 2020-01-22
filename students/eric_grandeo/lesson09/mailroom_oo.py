@@ -78,9 +78,6 @@ class DonorCollection:
         return donor_dict
 
 
-    def sort_key(self):
-        return Donor.sum_donations
-
     @property
     def report_data(self):
         report_data_dict = {}
@@ -91,8 +88,16 @@ class DonorCollection:
         return sorted_report_data_dict
 
 
-    def generate_report():
-        pass
+    def generate_report(self, sorted_report_data_dict):
+        header_row = ("{:<25s}|{:>15s} |{:>10s} | {:>12s}".format("Donor Name", "Total Given", "Num Gifts", "Average Gift"))
+        dash_line = "-" * 68
+        data_lines = ''
+        
+        for k,v in sorted_report_data_dict.items():
+            data_lines += ("{:<25s}|${:>14,.2f} |{:>10.0f} |${:>12,.2f}".format(k, v[0], v[1], v[2])) + '\n'
+        text_to_print = '\n' + header_row + '\n' + dash_line + '\n' + data_lines + '\n'
+        return text_to_print
+
 
     
 

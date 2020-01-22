@@ -87,4 +87,11 @@ def test_report_data():
 
 #test 11: generate report
 def test_generate_report():
-    pass
+    d = DonorCollection()
+    d.add_donor("Bill Gates", [50, 100, 150])
+    d.add_donor("Paul Allen", [150, 200, 250, 700])
+    d.add_donor("Mark Zuckerberg", [100, 300, 1000])
+    d.add_donor("Jeff Bezos", [250, 750, 100, 1500])
+    print(d.generate_report(d.report_data))
+    #assert False
+
