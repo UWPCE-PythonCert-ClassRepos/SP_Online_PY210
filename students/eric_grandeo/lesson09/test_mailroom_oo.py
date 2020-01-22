@@ -60,17 +60,15 @@ def test_donorcollections():
     assert {"Bill Gates": [50, 100, 150], "Paul Allen": [150, 200, 250]} == d.donor_dict
 
     
-'''
+
 #test 9: updating existing donor
 def test_update_donor():
     d = DonorCollection()
     d.add_donor("Bill Gates", [50, 100, 150])
     d.add_donor("Paul Allen", [150, 200, 250])
-    d.donor_names
+    #assert {"Bill Gates": [50, 100, 150], "Paul Allen": [150, 200, 250]} == d.donor_dict
+    d.add_donor("Bill Gates", 500)
+    assert {"Bill Gates": [50, 100, 150, 500], "Paul Allen": [150, 200, 250]} == d.donor_dict
     
-    #d.add_donor("Bill Gates", 500)
-    #print(d.donor_list)
-    #assert ['Bill Gates', 'Paul Allen', 'Jeff Bezos'] == d.donor_list
-    #assert d.donor_list[0].name == {"Bill Gates": [50, 100, 150, 500]}
-''' 
+ 
 

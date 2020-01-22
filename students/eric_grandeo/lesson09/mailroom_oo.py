@@ -80,7 +80,6 @@ class DonorCollection:
         return donor_dict
 
      
-
     def generate_report():
         pass
 
