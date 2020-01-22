@@ -21,26 +21,6 @@ prompt = "\n".join(("Welcome to the Mailroom!",
 first_usage = False
 
 
-def get_max_lengths(seq, header):
-
-    name_len = len(header[0])
-    total_len = len(header[1])
-    count_len = len(header[2])
-    avg_len = len(header[3])
-
-    for item in seq:
-        total = f"${item[1]:.02f}"
-        count = str(item[2])
-        avg = f"${item[3]:.02f}"
-
-        name_len = len(item[0]) if len(item[0]) > name_len else name_len
-        total_len = len(total) if len(total) > total_len else total_len
-        count_len = len(count) if len(count) > count_len else count_len
-        avg_len = len(avg) if len(avg) > avg_len else avg_len
-
-    return [name_len, total_len, count_len, avg_len]
-
-
 def get_donation_amount(donor):
     while True:
         try:
@@ -82,7 +62,8 @@ def create_report (donors):
 
 
 def print_report (donors):
-    pass
+    donors.print_report()
+    print ('Letters sent.\n')
 
 
 def exit_program(ignore):

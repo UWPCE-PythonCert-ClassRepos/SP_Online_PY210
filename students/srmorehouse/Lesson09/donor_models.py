@@ -23,33 +23,14 @@ class Donor (object):
     def compose_thank_you (self):
         msg = f"\n{self.name},\n\nThank you for your donation of ${self.donations[-1]:.2f}.\n"
         return msg
-
-    
-    def get_max_lengths(seq, header):
-        name_len = len(header[0])
-        total_len = len(header[1])
-        count_len = len(header[2])
-        avg_len = len(header[3])
-    
-        for item in seq:
-            total = f"${item[1]:.02f}"
-            count = str(item[2])
-            avg = f"${item[3]:.02f}"
-    
-            name_len = len(item[0]) if len(item[0]) > name_len else name_len
-            total_len = len(total) if len(total) > total_len else total_len
-            count_len = len(count) if len(count) > count_len else count_len
-            avg_len = len(avg) if len(avg) > avg_len else avg_len
-    
-        return [name_len, total_len, count_len, avg_len]
     
     
     def get_donor_summary(self):
-        len_donations = len(self.donations)
+        num_donations = len(self.donations)
         sum_donations = sum(self.donations)
-        average_donation = sum_donations/len_donations if len_donations else 0
+        average_donation = sum_donations/num_donations if num_donations else 0
 
-        return (self.name, sum_donations, len_donations, average_donation)
+        return (self.name, sum_donations, num_donations, average_donation)
     
     
 class DonorCollection():
@@ -78,32 +59,15 @@ class DonorCollection():
     
         for donor in self.donors.values():
     
-            name = donor[0]
-            total_donations = sum(donor[1])
-            count_donations = len(donor[1])
+            letter = "Thank you {0:s} for your donations totaling ${1:.2f}.".format (donor.name, sum(donor.donations))
     
-            letter = "Thank you {0:s} for your donations totaling ${1:.2f}.".format (name, total_donations)
-    
-            file_name = name.replace(" ","_") + ".txt"
+            file_name = donor.name.replace(" ","_") + ".txt"
             full_path = os.path.join (cur_dir,file_name)
     
             with open (full_path, "w") as file:
                 file.write (letter)
  
  
-    """
-    Return a formatted string that will fit in the donor summary table.
-    """
-    def format_line(item, lengths):
-        total = f"{item[1]:.02f}"
-        avg = f"{item[3]:.02f}"
-        return f"{item[0]:<{lengths[0]}}  ${total:>{lengths[1]}}   {item[2]:>{lengths[2]}}  ${avg:>{lengths[3]}}"
-   
-
-    def sort_key (item):
-        return (item[1])
-
-
     def create_report (self):
         sorted_values = sorted(
             [x.get_donor_summary() for x in self.donors.values()], key=operator.itemgetter(1), reverse=True)
