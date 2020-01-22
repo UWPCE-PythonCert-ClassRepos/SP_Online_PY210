@@ -78,7 +78,13 @@ def test_report_data():
     d.add_donor("Paul Allen", [150, 200, 250, 700])
     d.add_donor("Mark Zuckerberg", [100, 300, 1000])
     d.add_donor("Jeff Bezos", [250, 750, 100, 1500])
-    assert {"Bill Gates": [300, 3, 100],
-            "Paul Allen": [1300, 4, 325], 
-            "Mark Zuckerberg": [1400, 3, 466.6666666666667],
-            "Jeff Bezos": [2600, 4, 650]} == d.report_data
+    
+    assert OrderedDict([('Jeff Bezos', [2600, 4, 650.0]),
+                        ('Mark Zuckerberg', [1400, 3, 466.6666666666667]),
+                        ('Paul Allen', [1300, 4, 325.0]),
+                        ('Bill Gates', [300, 3, 100.0])]) == d.report_data
+
+
+#test 11: generate report
+def test_generate_report():
+    pass

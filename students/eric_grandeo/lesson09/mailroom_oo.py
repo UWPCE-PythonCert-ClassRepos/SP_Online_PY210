@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 
-#class donor
-#class report(sub of donor?)
-#class thank_you(sub of donor?)
+from collections import OrderedDict
 
 #hold all information about a single donor, including thank you letter, donation and donation history
 class Donor():
@@ -80,13 +78,17 @@ class DonorCollection:
         return donor_dict
 
 
+    def sort_key(self):
+        return Donor.sum_donations
+
     @property
     def report_data(self):
         report_data_dict = {}
         for donor in self.donor_list:
             temp_dict = {donor.name: [donor.sum_donations, donor.num_donations, donor.avg_donations]}
             report_data_dict.update(temp_dict)
-        return report_data_dict
+        sorted_report_data_dict = OrderedDict(sorted(report_data_dict.items(), key=lambda t: t[1], reverse=True))
+        return sorted_report_data_dict
 
 
     def generate_report():
