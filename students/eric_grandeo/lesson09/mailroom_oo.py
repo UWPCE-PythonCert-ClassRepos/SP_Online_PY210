@@ -79,7 +79,16 @@ class DonorCollection:
             donor_dict.update(donor.donor)
         return donor_dict
 
-     
+
+    @property
+    def report_data(self):
+        report_data_dict = {}
+        for donor in self.donor_list:
+            temp_dict = {donor.name: [donor.sum_donations, donor.num_donations, donor.avg_donations]}
+            report_data_dict.update(temp_dict)
+        return report_data_dict
+
+
     def generate_report():
         pass
 

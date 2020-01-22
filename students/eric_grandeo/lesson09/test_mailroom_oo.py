@@ -70,5 +70,15 @@ def test_update_donor():
     d.add_donor("Bill Gates", 500)
     assert {"Bill Gates": [50, 100, 150, 500], "Paul Allen": [150, 200, 250]} == d.donor_dict
     
- 
 
+#test 10: test create report data 
+def test_report_data():
+    d = DonorCollection()
+    d.add_donor("Bill Gates", [50, 100, 150])
+    d.add_donor("Paul Allen", [150, 200, 250, 700])
+    d.add_donor("Mark Zuckerberg", [100, 300, 1000])
+    d.add_donor("Jeff Bezos", [250, 750, 100, 1500])
+    assert {"Bill Gates": [300, 3, 100],
+            "Paul Allen": [1300, 4, 325], 
+            "Mark Zuckerberg": [1400, 3, 466.6666666666667],
+            "Jeff Bezos": [2600, 4, 650]} == d.report_data
