@@ -77,6 +77,18 @@ class DonorCollection:
             donor_dict.update(donor.donor)
         return donor_dict
 
+    
+    def donor_data(self, name):
+        for donors in self.donor_list:
+            if donors.name == name:
+                return donors.donor
+
+
+    def donor_obj(self, name):
+        for donors in self.donor_list:
+            if donors.name == name:
+                return donors
+
 
     @property
     def report_data(self):

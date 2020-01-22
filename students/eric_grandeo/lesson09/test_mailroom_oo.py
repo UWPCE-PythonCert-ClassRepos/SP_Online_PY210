@@ -95,3 +95,22 @@ def test_generate_report():
     print(d.generate_report(d.report_data))
     #assert False
 
+#test 12: get donor data from collection
+def test_donor_data():
+    d = DonorCollection()
+    d.add_donor("Bill Gates", [50, 100, 150])
+    d.add_donor("Paul Allen", [150, 200, 250, 700])
+    d.add_donor("Mark Zuckerberg", [100, 300, 1000])
+    d.add_donor("Jeff Bezos", [250, 750, 100, 1500])
+    assert d.donor_data("Jeff Bezos") == {"Jeff Bezos": [250, 750, 100, 1500]}
+    
+#test 13: get donor object
+def test_donor_obj():
+    d = DonorCollection()
+    d.add_donor("Bill Gates", [50, 100, 150])
+    d.add_donor("Paul Allen", [150, 200, 250, 700])
+    d.add_donor("Mark Zuckerberg", [100, 300, 1000])
+    d.add_donor("Jeff Bezos", [250, 750, 100, 1500])
+    assert str(type(d.donor_obj("Jeff Bezos"))) == "<class 'mailroom_oo.Donor'>"
+    
+    

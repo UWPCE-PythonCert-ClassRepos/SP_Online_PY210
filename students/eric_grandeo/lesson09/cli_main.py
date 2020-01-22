@@ -11,6 +11,11 @@ donors = {"Bill Gates": [653772.32, 12.17],
           "Mark Zuckerberg": [1663.23, 4300.87, 10432.0],
           "Tim Cook": [1563.32, 8976.54]}
 
+d = DonorCollection()
+
+for k,v in donors.items():
+    d.add_donor(k, v)
+
 
 #switch between users selections, using a dict
 def menu_selection(prompt, dispatch_dict):
@@ -45,8 +50,10 @@ def sub_menu_selection(prompt, dispatch_dict):
                     elif donation.isalpha():
                         raise ValueError
                     else:
-                        add_donation(response, donation, donors)
-                        thankyou_email(response, donation)    
+                        d.add_donor(response, donation)
+                        d.donor_obj(response).thank_you
+                        #add_donation(response, donation, donors)
+                        #thankyou_email(response, donation)    
                         break 
                 except ValueError:
                     print("Please enter a number \n")        
