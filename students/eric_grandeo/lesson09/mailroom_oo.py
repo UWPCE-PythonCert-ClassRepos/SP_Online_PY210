@@ -3,7 +3,7 @@
 from collections import OrderedDict
 
 #hold all information about a single donor, including thank you letter, donation and donation history
-class Donor():
+class Donor:
     def __init__(self, name, donations=[]):
         self.name = name
         self.donations = donations
@@ -12,8 +12,8 @@ class Donor():
     def donor(self):
         return {self.name: self.donations}
     
-    def add_donation(self, donation):
-        self.donations.append(int(donation))  
+    def add_donation(self, donation=[]):
+        self.donations.extend(donation)  
 
     @property    
     def sum_donations(self):

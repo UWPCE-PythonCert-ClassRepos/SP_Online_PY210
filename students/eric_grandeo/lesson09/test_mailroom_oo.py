@@ -5,11 +5,10 @@ from mailroom_oo import *
 
 #test 1: creates class, get name
 def test_donor():
-    donor = Donor("Bill Gates", 500)
+    donor = Donor("Bill Gates", [500])
     assert donor.name == "Bill Gates"
-    assert donor.donations == 500
+    assert donor.donations == [500]
     
-
 #test 2: test get instance
 def test_get_instance():
     donor = Donor("Bill Gates", [50, 100, 150] )
@@ -18,7 +17,8 @@ def test_get_instance():
 #test 3: test adding a donation
 def test_add_donation():
     donor = Donor("Bill Gates")
-    donor.add_donation(500)
+    donor.add_donation([500])
+    print(donor.donations)
     assert donor.donations == [500]
 
 #test 4: summing donations
@@ -67,7 +67,7 @@ def test_update_donor():
     d.add_donor("Bill Gates", [50, 100, 150])
     d.add_donor("Paul Allen", [150, 200, 250])
     #assert {"Bill Gates": [50, 100, 150], "Paul Allen": [150, 200, 250]} == d.donor_dict
-    d.add_donor("Bill Gates", 500)
+    d.add_donor("Bill Gates", [500])
     assert {"Bill Gates": [50, 100, 150, 500], "Paul Allen": [150, 200, 250]} == d.donor_dict
     
 

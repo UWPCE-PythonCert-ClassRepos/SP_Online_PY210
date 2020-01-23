@@ -16,7 +16,6 @@ d = DonorCollection()
 for k,v in donors.items():
     d.add_donor(k, v)
 
-
 #switch between users selections, using a dict
 def menu_selection(prompt, dispatch_dict):
     while True:
@@ -50,8 +49,8 @@ def sub_menu_selection(prompt, dispatch_dict):
                     elif donation.isalpha():
                         raise ValueError
                     else:
-                        d.add_donor(response, donation)
-                        d.donor_obj(response).thank_you
+                        d.add_donor(response, [donation])
+                        d.donor_obj(response).thank_you #this is not working
                         #add_donation(response, donation, donors)
                         #thankyou_email(response, donation)    
                         break 
@@ -64,7 +63,12 @@ def sub_menu_selection(prompt, dispatch_dict):
 def thank_you(donors):
     sub_menu_selection(sub_prompt, sub_dispatch)
 
+def display_donors(donors):
+    print(d.donor_dict)
 
+def create_report(donors):
+    data = d.report_data
+    print(d.generate_report(data))
 
 def quit_submenu(donors):
     return "exit menu"
@@ -79,15 +83,13 @@ main_prompt = "\n".join(("Welcome to the mailroom!",
           "Please choose from below options:",
           "1 - Send a thank you",
           "2 - Create a report",
-          "3 - Send letters to all donors",
-          "4 - Quit",
+          "3 - Quit",
           ">>> "))
 
 #change quit program to just break the loop
 main_dispatch = {"1" : thank_you,
                 "2" : create_report,
-                "3" : send_letters,
-                "4": quit_program}
+                "3": quit_program}
 
 sub_prompt = "\n".join(("Please enter one of the following",
             "A full name",
