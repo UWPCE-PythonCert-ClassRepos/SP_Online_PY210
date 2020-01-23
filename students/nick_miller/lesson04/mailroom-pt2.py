@@ -60,12 +60,12 @@ def one_thanks(db=donor_db):
         return
     elif thanks_c.title() not in donor_db.keys():
         add_q = str(input("That name is not in the list, would you like to add it? (y/n): "))
-        add_q = add_q.lower()
-        if add_q.strip() == "q":
+        add_q = add_q.lower().strip()
+        if add_q == "q":
             return
-        if add_q.strip() == "n":
+        elif add_q == "n":
             return
-        if add_q.strip() == "y":
+        elif add_q == "y":
             print("Adding", thanks_c.title(), "to the donor list.")
             add_y = input("Please enter their donation amount: ")
             if add_y.lower().strip() == "q":
