@@ -49,6 +49,7 @@ def test_collection_list_donors():
 
 def test_donor_compose_thank_you():
     donor = Donor('Test', [1.23, 2.10])
+    assert 'Test' in donor.compose_thank_you()
     assert '2.10' in donor.compose_thank_you()
 
 
@@ -60,5 +61,35 @@ def test_donor_get_donor_summary():
     assert total == 3.33
     assert count == 2
     assert avg == 1.665
+
+
+def test_collection_donor_exists():
+    donors = DonorCollection()
+    donors.add(Donor('Test1', [10]))
+    donors.add(Donor('Test2', [27]))
+    assert donors.donor_exists('Test1')
+    assert donors.donor_exists('Test2')
+
+
+def test_create_report():
+    donors = DonorCollection()
+    donors.add(Donor('Tester 01', [1.00, 2.00]))
+    expected = ("\nDonor Name                | Total Given | Num Gifts | Average Gift\n"
+                "------------------------------------------------------------------\n"
+                "Tester 01                  $       3.00           2  $       1.50\n")
+    actual = donors.create_report()
+    print(actual)
+    assert actual == expected
+
+
+def test_collection_print_report():
+    cur_dir = os.getcwd()
+    donors = DonorCollection()
+    donors.add(Donor('Test1', [10]))
+    donors.add(Donor('Test2', [27]))
+    donor_count = len(donors.donors)
+    donors.print_report()
+    donor_file_count = len([x for x in os.listdir(cur_dir) if x.endswith('.txt')])
+    assert donor_file_count == donor_count
 
 
