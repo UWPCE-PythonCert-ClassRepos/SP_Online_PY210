@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-"""PY210_SP - mailroom part 2
+"""PY210_SP - mailroom part 2 - no dict switch, yet
 author: Nick Miller"""
 
 import sys
@@ -132,20 +132,27 @@ def thanks_all(db=donor_db):
     :param db: dictionary-based database of donors(key) and their donations(values)
     :return: a text file thank you for each donor
     """
-    print("thanks all")
+    for donor in donor_db:
+        firster = letter_prep(donor, donor_db)[1]
+        toters = letter_prep(donor, donor_db)[3]
+        letter_text = letter_format(firster, toters)
+        file_name = donor.lower().replace(" ", "") + ".txt"
+        letter_text = letter_format(firster, toters)
+        save_file(file_name, letter_text)
+    print("Individual Thank You files for each donor have been created in the same directory\n"
+          "in which this programs lives/runs.")
 
 
-def save_file(infile, input_dict):
+def save_file(file_name, letter_text):
     """
     borrowed from a totally diff assignment, needs re-tooled to save files for donation thank-yous
-    :param infile: blank file?
-    :param input_dict: dictionary-based database of donors(key) and their donations(values)
-    :return: thank-you files for each donor
+    :param file_name: name for file to be written
+    :param letter_text: formatted text to be written to file
+    :return: text file with Thank You letter
     """
-    with open(infile, 'w') as save_file:
-        for key, value in input_dict.items():
-            save_file.write(str(key) + ", " + str(value) + "\n")
-    save_file.close()
+    f = open(file_name, "w+")
+    f.write(letter_text)
+    f.close()
 
 
 def report_sort_key(item):
@@ -218,7 +225,7 @@ def main():
             one_thanks()
 
         elif usrchoice.strip() == '2':
-            all_thanks()
+            thanks_all()
 
         elif usrchoice.strip() == '3':
             report()
