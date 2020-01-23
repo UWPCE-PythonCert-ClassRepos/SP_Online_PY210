@@ -4,11 +4,11 @@ from operator import itemgetter
 #Functions
 
 #Show list of names
-def show_list(dict):
+def show_list():
     """print names of donors"""
     names = list(dict)
     name_string = "\n".join(names)
-    name_list =f"{name_string}" 
+    name_list = f"{name_string}"
     print(name_list)
     return name_list
 
@@ -26,7 +26,7 @@ def send_thank_you():
             return
     donation = input("Please enter an amount to donate >")
     #call add_donation function
-    donation =add_donation(name, donor_dict, donation)
+    donation = add_donation(name, donor_dict, donation)
     if donation.lower() == 'quit':
         return
     #call the email function
@@ -47,13 +47,17 @@ def add_donation(name, dict, donation):
             break
     return dict
 
-#make the program quit
+# make the program quit
+
+
 def quit_prog():
     """quits program"""
     print("Thank you. Goodbye!")
     sys.exit()
 
-#generate an email1
+# generate an email1
+
+
 def write_email(name, dict):
     """writes email to a text file thanking a given donor"""
     email = f"\n\nDear {name},\n\n\tWe appreciate your generous donations totaling ${sum(dict[name]):.2f}.\n\nThank you,\nAndrew\n\n" 
@@ -67,7 +71,7 @@ def thank_you_all(dict):
     [email(name) for name in dict]
 
 
-#Create a report
+# Create a report
 
 def report_data(name, dict):
     """function generates the number of donations, total amount, and average amount of each donor"""
@@ -75,19 +79,21 @@ def report_data(name, dict):
     tots = sum(dict[name])
     nums = len(dict[name])
     aves = tots/nums
-    return (name,tots,nums,aves)
+    return name, tots, nums, aves
+
 
 def build_report(dict):
     report = []
     [report.append(report_data(name, dict)) for name in dict.keys()]
-    #sort by the totaled values
+    # sort by the totaled values
     sort_by_tot = sorted(report, key = itemgetter(1), reverse=True)
     return sort_by_tot
-    
+
+
 def write_report():
-    #create a variable as the length of each column other than  names. For ease of updating
+    # create a variable as the length of each column other than  names. For ease of updating
     l = 15
-    #same but for name column
+    # same but for name column
     ln = 25
     #Create header names
     headers = ["Donor Name", "Total Given", "Num Gifts", "Average Gift"]
