@@ -18,9 +18,6 @@ prompt = "\n".join(("Welcome to the Mailroom!",
           "4 - Exit",
           ">>> "))
 
-first_usage = False
-
-
 def get_donation_amount(donor):
     while True:
         try:
