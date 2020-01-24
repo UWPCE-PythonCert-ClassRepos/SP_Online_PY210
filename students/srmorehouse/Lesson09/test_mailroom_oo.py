@@ -22,6 +22,14 @@ def test_donor_donation():
     assert sum(donor2.donations) == 3.57
 
 
+def test_donor_add_donation():
+    donor1 = Donor('A. Tester', [1.23])
+    assert sum(donor1.donations) == 1.23
+    donor1.add_donation(1)
+    assert sum(donor1.donations) == 2.23
+    assert len(donor1.donations) == 2
+
+
 def test_collection_init():
     donors = DonorCollection()
     assert type(donors) is DonorCollection
