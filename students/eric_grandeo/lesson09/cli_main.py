@@ -16,8 +16,8 @@ d = DonorCollection()
 for k,v in donors.items():
     d.add_donor(k, v)
 
-#switch between users selections, using a dict
 def menu_selection(prompt, dispatch_dict):
+    '''switch between users selections, using a dict'''
     while True:
         #handle KeyError
         try:
@@ -26,8 +26,9 @@ def menu_selection(prompt, dispatch_dict):
         except KeyError:
             print("Please select 1 through 4. \n")
 
-#this function is for the submenu
+
 def sub_menu_selection(prompt, dispatch_dict):
+    '''This function is for the submenu; updates and adds donors'''
     while True:
         try:
             response = input(sub_prompt).title()
@@ -43,6 +44,7 @@ def sub_menu_selection(prompt, dispatch_dict):
                 break
             else:
                 try:
+                    #confirm with user to add new donor not previously in the collection
                     if response not in d.donor_names:
                         response_check = input("This donor is new, are you sure you want to add? Y or N: ")
                         if response_check.upper() == "N":
@@ -52,6 +54,7 @@ def sub_menu_selection(prompt, dispatch_dict):
                         break
                     elif donation.isalpha():
                         raise ValueError
+                    #check for positive numbers, re-use ValueError is negative
                     elif int(donation) <= 0:
                         raise ValueError
                     else:
@@ -66,22 +69,26 @@ def sub_menu_selection(prompt, dispatch_dict):
 
 #calls the sub menu function when thank you is selected from main menu
 def thank_you(donors):
+    '''Add or update donor, print thank you email'''
     sub_menu_selection(sub_prompt, sub_dispatch)
 
 def display_donors(donors):
+    '''Print list of donors'''
     print(d.donor_dict)
 
 def create_report(donors):
+    '''Print report of donor data (sum, average, num) in neat report, ordered by total donation'''
     data = d.report_data
     print(d.generate_report(data))
 
 def quit_submenu(donors):
+    '''Exit back to main menu'''
     return "exit menu"
 
 def quit_program(donors):
+    '''Exit program'''
     print("Good Bye")
     sys.exit()
-
 
 
 main_prompt = "\n".join(("Welcome to the mailroom!",
@@ -91,7 +98,6 @@ main_prompt = "\n".join(("Welcome to the mailroom!",
           "3 - Quit",
           ">>> "))
 
-#change quit program to just break the loop
 main_dispatch = {"1" : thank_you,
                 "2" : create_report,
                 "3": quit_program}
