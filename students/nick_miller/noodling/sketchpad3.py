@@ -1,28 +1,44 @@
 # #!/usr/bin/env python3
+#
+# feast = ['lambs', 'sloths', 'orangutans', 'breakfast cereals', 'fruit bats']
+#
+# comprehension = [delicacy.capitalize() for delicacy in feast]
+#
+# print(comprehension[0])
 
-import sys
+# donor_db = {
+#     "Jeff Staple": [20, 20],
+#     "Takashi Murakami": [10.50],
+#     "Virgil Abloh": [300, 40.33, 5.35],
+#     "Jan Chipchase": [1001.23, 400.87, 102]
+# }
+#
+# comprehension = [name.strip().lower() for name in donor_db]
+#
+# print(comprehension[2])
+#
+# feast = ['spam', 'sloths', 'orangutans', 'breakfast cereals', 'fruit bats']
+#
+# comp = [delicacy for delicacy in feast if len(delicacy) > 6]
+#
+# print(len(feast))
+#
+# print(comp)
+#
+# eggs = ['poached egg', 'fried egg']
+#
+# meats = ['lite spam', 'ham spam', 'fried spam']
+#
+# comprehension = ['{0} and {1}'.format(egg, meat) for egg in eggs for meat in meats]
+#
+# print(comprehension[0])
+#
+# comprehension = {c for c in 'aabbbcccc'}
+#
+# print(comprehension)
 
-donor_db = {
-    "Jeff Staple": [20, 20],
-    "Takashi Murakami": [10.50],
-    "Virgil Abloh": [300, 40.33, 5.35],
-    "Jan Chipchase": [1001.23, 400.87, 102]
-}
+dict_of_weapons = {'first': 'fear', 'second': 'surprise', 'third': 'ruthless efficiency', 'forth': 'fanatical devotion',
+                   'fifth': None}
+dict_comprehension = {k.upper(): weapon for k, weapon in dict_of_weapons.items() if weapon}
 
-# user_key = str(input("enter a name: "))
-# user_key = user_key.title()
-# if user_key in donor_db.keys():
-#     donats = donor_db[user_key]
-#     summer = sum(donats)
-#     print(summer)
-#     namer = user_key.split(" ")
-#     firster = namer[0]
-#     print(firster)
-
-for item in donor_db:
-    donats = donor_db[item]
-    donats.append(10.00)
-    print(donats)
-
-# else:
-#     print("no dice")
+print(len(dict_comprehension))

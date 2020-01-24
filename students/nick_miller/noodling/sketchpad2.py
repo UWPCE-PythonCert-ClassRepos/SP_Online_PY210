@@ -17,7 +17,7 @@ def quit_prog():
 
 resp_dict = {0: yes, 1: no, 3: quit_prog}
 
-resp_dict.get(0)()
+# resp_dict.get(0)()
 
 thanks_c = "peter pan"
 add_q = str(input("That name is not in the list, would you like to add it? (y/n): "))
