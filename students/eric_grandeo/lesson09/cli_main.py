@@ -93,7 +93,7 @@ main_dispatch = {"1" : thank_you,
 
 sub_prompt = "\n".join(("Please enter one of the following",
             "A full name",
-            "Type list to see all name",
+            "Type list to see all names",
             "Enter 'q' to quit",
             ">>> "))
 
