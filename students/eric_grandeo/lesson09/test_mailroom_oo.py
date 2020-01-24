@@ -114,12 +114,3 @@ def test_donor_obj():
     d.add_donor("Jeff Bezos", [250, 750, 100, 1500])
     assert str(type(d.donor_obj("Jeff Bezos"))) == "<class 'mailroom_oo.Donor'>"
 
-'''    
-#test 14: get a donor from donorcollections, then print thank you letter
-def test_dc_thank_you():
-    d = DonorCollection()
-    d.add_donor("Bill Gates", [150])
-    n = d.donor_obj("Bill Gates")
-    print(n.thank_you_letter)
-    assert False  
-'''

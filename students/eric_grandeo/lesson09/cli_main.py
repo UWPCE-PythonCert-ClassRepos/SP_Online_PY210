@@ -49,7 +49,7 @@ def sub_menu_selection(prompt, dispatch_dict):
                     elif donation.isalpha():
                         raise ValueError
                     else:
-                        d.add_donor(response, [donation])
+                        d.add_donor(response, [int(donation)])
                         n = d.donor_obj(response)
                         print(n.thank_you_letter)
                          
