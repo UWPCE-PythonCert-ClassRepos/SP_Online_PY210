@@ -15,6 +15,12 @@ def print_error(fname: str, param: any):
 # Figure out what the exception is, catch it and while still
 # in that catch block, try again with the second item in the list
 first_try = ['spam', 'cheese', 'mr death']
+# try:
+#     joke = fun(first_try[0])
+# except:
+#     joke = fun(first_try[1])
+
+# this is better
 for n, item in enumerate(first_try):
     try:
         joke = fun(first_try[n])
@@ -28,13 +34,14 @@ try:
     not_joke = fun(first_try[2])
 except SyntaxError:
     print('Run Away!')
+else:
+    print(not_joke)
 
 # What did that do? You can think of else in this context, as well as in
 # loops as meaning: "else if nothing went wrong"
 # (no breaks in  loops, no exceptions in try blocks)
 
-# Figure out what the exception is, catch it and in that same block
-#
+# Figure out what the exception is, catch it and in that same block,
 # try calling the more_fun function with the 2nd language in the list,
 # again assigning it to more_joke.
 #
@@ -46,8 +53,11 @@ except SyntaxError:
 # parameters. (pun intended)
 
 langs = ['java', 'c', 'python']
-for n, item in enumerate(langs):
-    try:
-        more_joke = more_fun(langs[n])
-    except:
-        print_error(more_fun.__name__, "langs[{}]".format(n))
+try:
+    more_joke = more_fun(langs[0])
+except:
+    more_joke = more_fun(langs[1])
+else:
+    more_fun(langs[2])
+finally:
+    last_fun()
