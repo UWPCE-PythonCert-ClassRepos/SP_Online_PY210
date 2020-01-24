@@ -48,6 +48,8 @@ def sub_menu_selection(prompt, dispatch_dict):
                         break
                     elif donation.isalpha():
                         raise ValueError
+                    elif int(donation) <= 0:
+                        raise ValueError
                     else:
                         d.add_donor(response, [int(donation)])
                         n = d.donor_obj(response)
@@ -55,7 +57,7 @@ def sub_menu_selection(prompt, dispatch_dict):
                          
                         break
                 except ValueError:
-                    print("Please enter a number \n")        
+                    print("Please enter a positive number \n")        
         
 
 
