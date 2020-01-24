@@ -1,10 +1,12 @@
 # series.py
 # Lisa Ferrier, Python 201, Lesson 02
 
+
 def fibonacci(n):
     """
-    Calculates the fibonacci value for an integer supplied by a user. Sequence begins at zero. Input value must be >=0.
-    Function calls sum_series and accepts the default starting values (0,1) to initiate the sequence.
+    Calculates the fibonacci value for an integer supplied by a user. Sequence
+    begins at zero. Input value must be >=0. Function calls sum_series and
+    accepts the default starting values (0,1) to initiate the sequence.
     """
     return sum_series(n)
     pass
@@ -12,10 +14,11 @@ def fibonacci(n):
 
 def lucas(n):
     """
-    Calculates the lucas value for an integer supplied by a user. Input value must be >=0.
-    Function calls sum_series function and sets the first two values (2,1) to initiate the sequence.
+    Calculates the lucas value for an integer supplied by a user. Input value
+    must be >=0. Function calls sum_series function and sets the first two
+    values (2,1) to initiate the sequence.
     """
-    return sum_series(n,2,1)
+    return sum_series(n, 2, 1)
     pass
 
 
@@ -28,15 +31,16 @@ def sum_series(n, a=0, b=1):
     Defaults are set to 0, 1, so if you don't pass in any values, you'll
     get the fibonacci series
     """
-    if n<0:
+    if n < 0:
         print('Input must be >=0.')
-    elif n==0:
+    elif n == 0:
         return a
-    elif n==1:
+    elif n == 1:
         return b
     else:
-        return sum_series(n-1,a,b)+sum_series(n-2,a,b)
+        return sum_series(n-1, a, b)+sum_series(n-2, a, b)
     pass
+
 
 if __name__ == "__main__":
     # run some tests
