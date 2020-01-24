@@ -50,14 +50,14 @@ def sub_menu_selection(prompt, dispatch_dict):
                         raise ValueError
                     else:
                         d.add_donor(response, [donation])
-                        d.donor_obj(response).thank_you #this is not working
-                        #add_donation(response, donation, donors)
-                        #thankyou_email(response, donation)    
-                        break 
+                        n = d.donor_obj(response)
+                        print(n.thank_you_letter)
+                         
+                        break
                 except ValueError:
                     print("Please enter a number \n")        
+        
 
-                
 
 #calls the sub menu function when thank you is selected from main menu
 def thank_you(donors):

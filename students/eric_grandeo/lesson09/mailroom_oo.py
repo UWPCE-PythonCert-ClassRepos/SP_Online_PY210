@@ -31,8 +31,8 @@ class Donor:
         return self._avg_donations
 
     @property
-    def thank_you(self):
-        email_dict = dict(name=self.name, donation=self.donations[-1])
+    def thank_you_letter(self):
+        email_dict = dict(name=self.name, donation=int(self.donations[-1]))
 
         result = """
         Dear {name},

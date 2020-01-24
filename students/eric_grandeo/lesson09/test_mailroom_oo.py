@@ -49,7 +49,8 @@ def test_thank_you():
         Eric G.
         """.format(name="Bill Gates", donation=150)
 
-    assert donor.thank_you == test_result
+    assert donor.thank_you_letter == test_result
+    
 
 #test 8: getting donor objects into donorcollections
 def test_donorcollections():
@@ -112,5 +113,13 @@ def test_donor_obj():
     d.add_donor("Mark Zuckerberg", [100, 300, 1000])
     d.add_donor("Jeff Bezos", [250, 750, 100, 1500])
     assert str(type(d.donor_obj("Jeff Bezos"))) == "<class 'mailroom_oo.Donor'>"
-    
-    
+
+'''    
+#test 14: get a donor from donorcollections, then print thank you letter
+def test_dc_thank_you():
+    d = DonorCollection()
+    d.add_donor("Bill Gates", [150])
+    n = d.donor_obj("Bill Gates")
+    print(n.thank_you_letter)
+    assert False  
+'''
