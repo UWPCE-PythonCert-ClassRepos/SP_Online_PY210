@@ -30,26 +30,28 @@ def thank_you():
 
     #if user does not enter a name or 'list' they will be brought back to the main menu
     if donor_name == '':
-        main()
+        return
+
+
 
     #displays previous donor list
     if donor_name == 'List':
         for i in range(len(donor_list)):
             print(donor_list[i][0])
-        main()
-    match = 0
+        return
+
+    #collect donation amount
+    donation_amt = input("\n""How much did " + donor_name + " donate? > ")
+    amt = round(float(donation_amt),2)
 
     #iterate through donor list, add new name and amount, or amount if the name was already on the list
     for i in range(len(donor_list)):
         if donor_name == donor_list[i][0]:
-            match = i
+            donor_list[i][1].append(amt)
             break
     else:
-        donor_list.append((donor_name,[]))
-        match = i + 1
-    donation_amt = input("\n""How much did " + donor_name + " donate? > ")
-    amt = round(float(donation_amt),2)
-    donor_list[match][1].append(amt)
+        donor_list.append((donor_name,[amt]))
+
 
     #display a default thank you note addressed to the donor
     print('\n'.join(('\n''Dear ' + donor_name + ','+ '\n',
