@@ -97,15 +97,15 @@ page.append(head)
 body = hr.Body()
 
 body.append(hr.P("Here is a paragraph of text -- there could be more of them, "
-                    "but this is enough  to show that we can do some text",
+                  "but this is enough  to show that we can do some text",
                style="text-align: center; font-style: oblique;"))
 
 page.append(body)
 
 render_page(page, "test_html_output4.html")
 
-# # Step 5
-# #########
+# Step 5
+#########
 
 page = hr.Html()
 
@@ -117,8 +117,8 @@ page.append(head)
 body = hr.Body()
 
 body.append(hr.P("Here is a paragraph of text -- there could be more of them, "
-                  "but this is enough  to show that we can do some text",
-               style="text-align: center; font-style: oblique;"))
+                 "but this is enough  to show that we can do some text",
+              style="text-align: center; font-style: oblique;"))
 
 body.append(hr.Hr())
 
@@ -126,8 +126,8 @@ page.append(body)
 
 render_page(page, "test_html_output5.html")
 
- # Step 6
- #########
+# Step 6
+#########
 
 page = hr.Html()
 
@@ -139,8 +139,8 @@ page.append(head)
 body = hr.Body()
 
 body.append(hr.P("Here is a paragraph of text -- there could be more of them, "
-                  "but this is enough  to show that we can do some text",
-               style="text-align: center; font-style: oblique;"))
+                 "but this is enough  to show that we can do some text",
+              style="text-align: center; font-style: oblique;"))
 
 body.append(hr.Hr())
 
@@ -152,8 +152,8 @@ page.append(body)
 
 render_page(page, "test_html_output6.html")
 
-# # Step 7
-# #########
+# Step 7
+#########
 
 page = hr.Html()
 
@@ -164,11 +164,11 @@ page.append(head)
 
 body = hr.Body()
 
-body.append( hr.H(2, "PythonClass - Class 6 example") )
+body.append( hr.Header(2, "PythonClass - Class 6 example") )
 
 body.append(hr.P("Here is a paragraph of text -- there could be more of them, "
-                  "but this is enough  to show that we can do some text",
-               style="text-align: center; font-style: oblique;"))
+                 "but this is enough  to show that we can do some text",
+              style="text-align: center; font-style: oblique;"))
 
 body.append(hr.Hr())
 
@@ -190,8 +190,8 @@ page.append(body)
 
 render_page(page, "test_html_output7.html")
 
-# # Step 8 and 9
-# ##############
+# Step 8 and 9
+##############
 
 page = hr.Html()
 
@@ -204,7 +204,7 @@ page.append(head)
 
 body = hr.Body()
 
-body.append( hr.H(2, "PythonClass - Example") )
+body.append( hr.Header(2, "PythonClass - Example") )
 
 body.append(hr.P("Here is a paragraph of text -- there could be more of them, "
                  "but this is enough  to show that we can do some text",
