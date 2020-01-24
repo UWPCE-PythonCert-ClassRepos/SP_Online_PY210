@@ -43,6 +43,10 @@ def sub_menu_selection(prompt, dispatch_dict):
                 break
             else:
                 try:
+                    if response not in d.donor_names:
+                        response_check = input("This donor is new, are you sure you want to add? Y or N: ")
+                        if response_check.upper() == "N":
+                            break
                     donation = input("Please enter in a donation, or 'q' to quit: ")
                     if donation == "q":
                         break
@@ -54,8 +58,7 @@ def sub_menu_selection(prompt, dispatch_dict):
                         d.add_donor(response, [int(donation)])
                         n = d.donor_obj(response)
                         print(n.thank_you_letter)
-                         
-                        break
+                        break                
                 except ValueError:
                     print("Please enter a positive number \n")        
         
