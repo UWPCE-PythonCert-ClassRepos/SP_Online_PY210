@@ -9,6 +9,9 @@ Make sure to catch specifically the error you find, rather than all errors.
 
 from except_test import fun, more_fun, last_fun
 
+def print_error(fname: str, param: any):
+    print("\nError on: {f}({p})\n".format(f=fname, p=param))
+
 # Figure out what the exception is, catch it and while still
 # in that catch block, try again with the second item in the list
 first_try = ['spam', 'cheese', 'mr death']
@@ -18,7 +21,7 @@ for n, item in enumerate(first_try):
         if joke:
             print(joke)
     except NameError:
-        print("Error on: {0}({1}).".format(fun.__name__, first_try[n]))
+        print_error(fun.__name__, "first_try[{}]".format(n))
 
 # Here is a try/except block. Add an else that prints not_joke
 try:
@@ -43,9 +46,8 @@ except SyntaxError:
 # parameters. (pun intended)
 
 langs = ['java', 'c', 'python']
-for i,item in enumerate(langs):
+for n, item in enumerate(langs):
     try:
-        more_joke = more_fun(langs[i])
-        continue
+        more_joke = more_fun(langs[n])
     except:
-        print("Error on: {0}({1})".format(more_fun.__name__, langs[i]))
+        print_error(more_fun.__name__, "langs[{}]".format(n))
