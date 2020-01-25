@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-"""PY210_SP - mailroom part 2 - no dict switch, yet
+"""PY210_SP - mailroom part 2
 author: Nick Miller"""
 
 import sys
@@ -202,42 +202,41 @@ def quit_prog():
     :return: ends program
     """
     print("Quitting - See you next time.")
-    sys.exit()
+    return "exit menu"
 
 
-def main():
+def menu_selection(prompt, dispatch_dict):
     """
-    Main menu function
-    :return: navigates into menu option functions; q exits back to this menu
+    :param prompt: requests user input for a given prompt
+    :param dispatch_dict: a dispatch dict of functions corresponding to choices
+    :return: menu loops until "exit menu" is called
     """
     while True:
-        print("""
-        Menu of Options
-        1) Send a 'Thank You' to a single donor
-        2) Send 'Thank You' letters to all donors
-        3) Create a Report
-        4) Exit Program
-        """)
-        usrchoice = str(input("Which option would you like to perform? [1 to 4]: "))
-        print()
-
-        if usrchoice.strip() == '1':
-            one_thanks()
-
-        elif usrchoice.strip() == '2':
-            thanks_all()
-
-        elif usrchoice.strip() == '3':
-            report()
-
-        elif usrchoice.strip() == '4':
-            quit_prog()
-
-        elif usrchoice.strip() == 'q':
-            quit_prog()
-
-        else:
-            print("sorry, that's not a valid option")
+        response = input(prompt)
+        response = response.lower().strip()
+        while response != "1" and response != "2" and response != "3" and response != "4" and response != "q":
+            print("That's not a valid input.")
+            response = input(prompt)
+        if dispatch_dict[response]() == "exit menu":
+            break
 
 
-main()
+main_prompt = ("""
+Menu of Options
+1) Send a 'Thank You' to a single donor
+2) Send 'Thank You' letters to all donors
+3) Create a Report
+4) Exit Program
+>>> Enter a selection please: 
+""")
+
+
+menu_dict = {"1": one_thanks,
+             "2": thanks_all,
+             "3": report,
+             "4": quit_prog,
+             "q": quit_prog,}
+
+
+if __name__ == "__main__":
+    menu_selection(main_prompt, menu_dict)
