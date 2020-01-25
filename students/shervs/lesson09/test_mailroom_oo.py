@@ -1,6 +1,5 @@
 """
 test code for mailroom_oo
-
 """
 import io
 import pytest
@@ -9,83 +8,63 @@ import math
 from donor_models import *
 
 def test_donor_init():
-    donor = Donor('Sam')
-    assert donor.name == 'Sam'
+    donor = Donor('mike')
+    assert donor.name == 'mike'
+    assert donor.donations == []
 
-def test_compare():
-    c= Donor('sam',20)
-    d= Donor('mina',40)
-    e= Donor('titi',30)
-    f= Donor('mo',30)
-    assert c < d 
-    assert d > c 
+    donor = Donor('tim smith',[2, 3.1])
+    assert donor.name == 'tim smith'
+    assert donor.donations == [2, 3.1]
 
+def test_add_donation():
+    donor = Donor('tim smith', [2, 3.1])
+    donor.add_donation(45.2) 
+    donor.donations == [2 , 3.1, 45.2] 
 
-# ## step 2, 3 ##
+def test_sum_donation():
+    donor = Donor('tim smith', [2, 3.1]) 
+    assert donor.sum_donation() == 2 + 3.1  
 
-# def test_diamter():
-#     c = Circle(10)
-#     assert c.diameter == 20
+def test_num_donation():
+    donor = Donor('tim smith', [2, 3.1]) 
+    assert donor.num_donation() == 2  
 
-# def test_radius_sync_diamater():
-#     c = Circle(5)
-#     c.diameter = 2
-#     assert c.radius == 1
+def test_average_donation():
+    donor = Donor('tim smith', [2, 3.1]) 
+    assert donor.average_donation() == (2 + 3.1)/2 
 
-# ## step 4 ##
-# def test_area():
-#     c = Circle(2)
-#     assert c.area == math.pi*2*2
+def test___lt__():
+    a = Donor('mike', [10])
+    b = Donor('joe', [20])
+    assert a < b 
 
-# ## step 5 ##
-# def test_alternate_construct():
-#     c = Circle.from_diameter(8)
-#     assert c.diameter == 8
-#     assert c.radius == 4
+def test___str__():
+    donor = Donor('Mike', [25])
+    assert donor.__str__() ==  'Mike                       $      25.00           1  $       25.00'
 
-# ## step 6 ##
-# def test_print():
-#     c = Circle(20.1)
-#     assert c.__str__() == 'Circle with radius: 20.100000'
-#     assert c.__repr__() == 'Circle(20.1)'
+def test_letter_file_name():
+    donor = Donor('Mike Jones', [25])
+    assert donor.letter_file_name() == 'Mike_Jones.txt'
 
-# ## step 7 ##
-# def test_operator_overloading():
-#     c= Circle (20)
-#     d= Circle (10)
-#     assert c+d == Circle(30)
-#     assert 5*d == Circle(50)
+def test_DonorCollection_init():
+    dc = DonorCollection()
+    assert dc.donors == []
 
-# ## step 8 ##
-# def test_compare():
-#     c= Circle (20)
-#     d= Circle (10)
-#     e= Circle (20)
-#     assert c > d 
-#     assert d < c 
-#     assert c == e 
-#     circles = [Circle(6), Circle(7), Circle(8), Circle(4), Circle(0), Circle(2), Circle(3), Circle(5), Circle(9), Circle(1)]
-#     circles.sort()
-#     assert circles == [Circle(0), Circle(1), Circle(2), Circle(3), Circle(4), Circle(5), Circle(6), Circle(7), Circle(8), Circle(9)]
+def test_sort():
+    dc = DonorCollection()
+    dc.add_donor(Donor('mike',[20]))
+    dc.add_donor(Donor('tim',[40]))
+    dc.add_donor(Donor('joe',[30]))
+    dc.sort()
+    assert dc.donors[0].name == 'tim'
+    assert dc.donors[1].name == 'joe'
+    assert dc.donors[2].name == 'mike'
 
-# ## step 9 ##
-# def test_sphere_init():
-#     s = Sphere(5)
-#     assert s.radius == 5
-
-# def test_sphere_volume():
-#     s = Sphere(1)
-#     assert s.volume == (4/3)*math.pi
-
-# def test_sphere_compare():
-#     c= Sphere(20)
-#     d= Sphere(10)
-#     e= Sphere(20)
-#     assert c > d 
-#     assert d < c 
-#     assert c == e 
-
-
-
-
-  
+def test_add_to_list():
+    dc = DonorCollection()
+    dc.add_donor(Donor('mike',[20]))
+    dc.add_to_list('mike', 30)
+    assert dc.donors[0].donations == [20, 30]
+    dc.add_to_list('joe', 40)
+    assert dc.donors[1].name == 'joe'
+    assert dc.donors[1].donations == [40]
