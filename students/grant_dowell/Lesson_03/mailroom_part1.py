@@ -42,7 +42,8 @@ def thanks(db):
         donation = input("Please enter a donation amount: ")
         if donation.lower() != 'quit':  #Check if user is attempting to quit
             entry[1].append(float(donation))
-            thank_you = f"Dear {name.title()},\n\nThank you for your donation of ${donation:.2f}!"
+            thank_you = (f"Dear {name.title()},\n\n Thank you for your donation"
+                         f"of ${donation}!")
     return db, thank_you
 
 def report(db):

@@ -13,7 +13,7 @@ print(a_str)
 
 # ---- Task 2 ----
 b_str = (f"file_{a_tuple[0]:03d} :    {a_tuple[1]:.2f}, {a_tuple[2]:.2e}, "
-         "{a_tuple[3]:3.2e}")
+         f"{a_tuple[3]:3.2e}")
 print(b_str)
 
 # ---- Task 3 ----
@@ -48,10 +48,10 @@ print(d_str)
 
 in_list = ['oranges', 1.3, 'lemons', 1.1]
 d_str = (f"The weight of an {in_list[0][:-1]} is {in_list[1]} and the weight "
-         "of a {in_list[2][:-1]} is {in_list[3]}")
+         f"of a {in_list[2][:-1]} is {in_list[3]}")
 print(d_str)
 e_str = (f"The weight of an {in_list[0][:-1].upper()} is {in_list[1]*1.2} and "
-         "the weight of a {in_list[2][:-1].upper()} is {in_list[3]*1.2}")
+         f"the weight of a {in_list[2][:-1].upper()} is {in_list[3]*1.2}")
 print(e_str)
 
 # ---- Task 6 ----
