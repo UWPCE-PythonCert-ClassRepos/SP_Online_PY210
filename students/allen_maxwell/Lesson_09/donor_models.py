@@ -9,31 +9,31 @@
 import os
 
 
-def check_name(name):
-    '''Checks the name entry for a Full Name (First and Last).'''
-    try:
-        name.split()[1]
-        name = name.title()
-        return name.title()
-    except TypeError:
-        raise ('Name must contain a first and last name')
-
-
-def check_donation(donation):
-    '''Checks the donation data for two positive values, > 0 [float, int].'''
-    if (donation[0] > 0 and donation[1] > 0):
-        donation[1] = int(donation[1])
-        return donation
-    else:
-        raise AttributeError('Donations must be positive values, > 0 [float, int]')
-
-
 class Donor(object):
 
     def __init__(self, donor_name, donations):
         '''Donor class input: Full Name, [total_donations, num_donations].'''
-        self._name = check_name(donor_name)
-        self._donations = check_donation(donations)
+        self._name = self.check_name(donor_name)
+        self._donations = self.check_donation(donations)
+
+    @staticmethod
+    def check_name(name):
+        '''Checks the name entry for a Full Name (First and Last).'''
+        try:
+            name.split()[1]
+            name = name.title()
+            return name.title()
+        except TypeError:
+            raise ('Name must contain a first and last name')
+
+    @staticmethod
+    def check_donation(donation):
+        '''Checks the donation data for two positive values, > 0 [float, int].'''
+        if (donation[0] > 0 and donation[1] > 0):
+            donation[1] = int(donation[1])
+            return donation
+        else:
+            raise AttributeError('Donations must be positive values, > 0 [float, int]')
 
     @property
     def name(self):
@@ -125,10 +125,10 @@ class DonorCollection(Donor):
 
     def is_donor_present(self, donor_name):
         '''Checks if the donor is present in the collection.'''
-        for donor in self.donors.values():
-            if donor_name == donor.name:
-                return True
-        return False
+        if self.donors.get(donor_name):
+            return True
+        else:
+            return False
 
     def get_donors_names(self):
         '''Returns collection names.'''
