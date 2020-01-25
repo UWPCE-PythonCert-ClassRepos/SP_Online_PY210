@@ -7,7 +7,7 @@ Excercise 3.2 - List Lab
 # ---- Series 1 ----
 
 # Create and show a list of fruit
-fruit_list = ['Apples','Pears','Oranges','Peaches']
+fruit_list = ['Apples', 'Pears', 'Oranges', 'Peaches']
 print(fruit_list)
 
 # Ask the user for a fruit and add it to the end of the list
@@ -34,7 +34,7 @@ print('\nDisplaying all fruits that start with "P":')
 for item in fruit_list:
     if item[0] == 'P' or item[0] == 'p':
         print(item)
-        
+
 # ---- Series 2 ----
 
 # Display the list from above, then remove the last item and display it again
@@ -49,12 +49,12 @@ if fruit_for_del in fruit_list:
     fruit_list2.remove(fruit_for_del)
 else:
     print("That's not in the list!")
-    
+
 print(f"Here's the final list: {fruit_list2}")
 
 
 # ---- Series 3 ----
-    
+
 fruit_list3 = fruit_list[:]
 # Ask the user for input about each item in the list and delete if necessary
 for fruit in fruit_list3[:]:
@@ -74,10 +74,7 @@ print(f"Here's the final list: {fruit_list3}")
 fruit_list4 = []
 for fruit in fruit_list:
     fruit_list4.append(fruit[::-1])
-    
+
 fruit_list4.pop()
 print(f"Here's the original list: {fruit_list}")
 print(f"Here's the modified list: {fruit_list4}")
-
-    
-    
