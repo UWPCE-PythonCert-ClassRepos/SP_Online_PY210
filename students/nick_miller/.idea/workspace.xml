@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="e250506b-0653-4564-a65a-965fa09b97e7" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lesson04/mailroom-pt2.py" beforeDir="false" afterPath="$PROJECT_DIR$/lesson04/mailroom-pt2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/noodling/mailroom_sketchpad.py" beforeDir="false" afterPath="$PROJECT_DIR$/noodling/mailroom_sketchpad.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lesson05/exceptions_exercise.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -220,7 +219,7 @@
       <workItem from="1578937046268" duration="362000" />
       <workItem from="1578937788839" duration="6748000" />
       <workItem from="1579108825841" duration="54847000" />
-      <workItem from="1579735253824" duration="14535000" />
+      <workItem from="1579735253824" duration="15036000" />
     </task>
     <task id="LOCAL-00001" summary="local and remote branch conflict resolution">
       <created>1578282701286</created>
@@ -362,7 +361,14 @@
       <option name="project" value="LOCAL" />
       <updated>1579829271547</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="mailroom-pt2.py is ready to submit">
+      <created>1579914765590</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1579914765590</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -401,7 +407,8 @@
     <MESSAGE value="nearing completion on mailroom-pt2.py" />
     <MESSAGE value="nearing completion on mailroom-pt2.py, except_exercise.py is done." />
     <MESSAGE value="importing/dl'ing and dropping in the files for lesson07" />
-    <option name="LAST_COMMIT_MESSAGE" value="importing/dl'ing and dropping in the files for lesson07" />
+    <MESSAGE value="mailroom-pt2.py is ready to submit" />
+    <option name="LAST_COMMIT_MESSAGE" value="mailroom-pt2.py is ready to submit" />
   </component>
   <component name="WindowStateProjectService">
     <state x="1137" y="-878" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1579204084297">
@@ -414,13 +421,13 @@
     <state x="408" y="165" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1440.900/1440.-710.1920.1080@0.0.1440.900" timestamp="1577068046335" />
     <state x="1257" y="-882" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1440.900/713.-1080.1920.1080/-1207.-1080.1920.1080@713.-1080.1920.1080" timestamp="1579733142163" />
     <state x="408" y="176" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.23.1440.837/1440.-687.1920.1057@0.23.1440.837" timestamp="1575336842592" />
-    <state x="0" y="105" key="CommitChangelistDialog2" timestamp="1579829271069">
+    <state x="0" y="105" key="CommitChangelistDialog2" timestamp="1579914764764">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="1233" y="-924" key="CommitChangelistDialog2/0.0.1440.900/-1207.-1080.1920.1080/713.-1080.1920.1080@713.-1080.1920.1080" timestamp="1579820016315" />
     <state x="2011" y="-568" key="CommitChangelistDialog2/0.0.1440.900/1440.-710.1920.1080@1440.-710.1920.1080" timestamp="1578872006296" />
     <state x="1284" y="-938" key="CommitChangelistDialog2/0.0.1440.900/713.-1080.1920.1080/-1207.-1080.1920.1080@713.-1080.1920.1080" timestamp="1579210129940" />
-    <state x="0" y="105" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1579829271069" />
+    <state x="0" y="105" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1579914764764" />
     <state width="1398" height="344" key="GridCell.Tab.0.bottom" timestamp="1579914706670">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
@@ -510,13 +517,13 @@
     </state>
     <state x="1182" y="-901" key="SettingsEditor/0.0.1440.900/-1207.-1080.1920.1080/713.-1080.1920.1080@713.-1080.1920.1080" timestamp="1579644312039" />
     <state x="1182" y="-901" key="SettingsEditor/0.0.1440.900/713.-1080.1920.1080/-1207.-1080.1920.1080@713.-1080.1920.1080" timestamp="1579215138003" />
-    <state x="420" y="233" key="Vcs.Push.Dialog.v2" timestamp="1579829276097">
+    <state x="420" y="233" key="Vcs.Push.Dialog.v2" timestamp="1579914831054">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="1273" y="-800" key="Vcs.Push.Dialog.v2/0.0.1440.900/-1207.-1080.1920.1080/713.-1080.1920.1080@713.-1080.1920.1080" timestamp="1579820020792" />
     <state x="2000" y="-430" key="Vcs.Push.Dialog.v2/0.0.1440.900/1440.-710.1920.1080@1440.-710.1920.1080" timestamp="1578872010909" />
     <state x="1273" y="-800" key="Vcs.Push.Dialog.v2/0.0.1440.900/713.-1080.1920.1080/-1207.-1080.1920.1080@713.-1080.1920.1080" timestamp="1579210136490" />
-    <state x="420" y="233" key="Vcs.Push.Dialog.v2/0.0.1440.900@0.0.1440.900" timestamp="1579829276097" />
+    <state x="420" y="233" key="Vcs.Push.Dialog.v2/0.0.1440.900@0.0.1440.900" timestamp="1579914831054" />
     <state x="480" y="72" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1577674043157">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
