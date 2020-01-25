@@ -18,6 +18,9 @@ def sortby_amt(entry):
     return sum(entry[1])
 
 def thanks(db):
+    """ Generates a Thank You message for a new donation, and adds donation
+        to database """
+
     thank_you = ""
     vld_name = False
     while vld_name is False:
@@ -43,10 +46,14 @@ def thanks(db):
     return db, thank_you
 
 def report(db):
+    """Generates report of donors and donation statistics, sorted by total
+       given."""
+
     print("Donor Name            | Total Given | Num Gifts | Average Gift")
     print("--------------------------------------------------------------")
     for entry in sorted(db, key=sortby_amt, reverse=True):
-        print("{:<21}  ${:11.2f}   {:9d}  ${:12.2f}".format(entry[0], sum(entry[1]), len(entry[1]), (sum(entry[1])/len(entry[1]))))
+        print("{:<21}  ${:11.2f}   {:9d}  ${:12.2f}".format(entry[0],
+              sum(entry[1]), len(entry[1]), (sum(entry[1])/len(entry[1]))))
     print('\n\n')
 
 # Init the donor database
