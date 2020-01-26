@@ -49,7 +49,7 @@ def send_thank_you():
 def thank_you_all():
     for name in donor_dict:
         write_email(name)
-
+    
 #create report inputs   
 def write_report():
     report = []

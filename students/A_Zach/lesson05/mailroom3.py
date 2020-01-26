@@ -60,7 +60,7 @@ def report_data(name):
     nums = len(donor_dict[name])
     aves = tots/nums
     return (name,tots,nums,aves)
-    
+ 
 #Create a report
 def write_report():
     report = []
