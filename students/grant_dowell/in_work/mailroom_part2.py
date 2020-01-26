@@ -68,12 +68,9 @@ def report():
 
 def log_all_letters():
     for name in db:
-        print(name)
         file_name = name + '.txt'
-        print(file_name)
         with open(file_name, 'w') as outfile:
             outfile.write(generate_letter(name))
-            
 
 def quitter():
     print('Goodbye!')
