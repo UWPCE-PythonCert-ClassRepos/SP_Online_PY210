@@ -1,20 +1,31 @@
 #!/usr/bin/env python3
 
-print("Begin series 3:")
-print()
+import sys
 
-fruits = ["Oranges", "Peaches", "Apples", "Pineapples"]
-delfruits = []
-for fruit in fruits:
-    question = "Do you like " + fruit + "? (y/n): "
-    yesorno = input(question)
-    drop = fruits.index(fruit)
-    while yesorno != "y" and yesorno != "n":
-        yesorno = input("Please enter y or n: ").lower()
-    if yesorno == "n":
-        delfruits.append(drop)
-for i in delfruits:
-    fruits[i] = '!'
-for i in range(0, fruits.count('!')):
-    fruits.remove('!')
-print(fruits)
+
+def yes():
+    print("Yes")
+
+
+def no():
+    print("No")
+
+
+def quit_prog():
+    sys.exit()
+
+
+resp_dict = {0: yes, 1: no, 3: quit_prog}
+
+# resp_dict.get(0)()
+
+thanks_c = "peter pan"
+add_q = str(input("That name is not in the list, would you like to add it? (y/n): "))
+add_q = add_q.lower().strip()
+if add_q == "q":
+    pass
+if add_q == "n":
+    pass
+if add_q == "y":
+    print("Adding", thanks_c.title(), "to the donor list.")
+
