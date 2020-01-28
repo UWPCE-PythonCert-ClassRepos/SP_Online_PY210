@@ -18,13 +18,15 @@ def sortby_amt(entry):
     return sum(entry[1])
 
 def generate_letter(name=None):
+    """ Builds a letter using the global database"""
+
     template = "Dear {name},\n\n" + \
                "Thank you for your most recent donation of " + \
                "${last_donation}. We greatly appreciate it.\n\n" + \
                " ~ The Treasurer"
     donor_info = {'name':name, 'last_donation':db[name][-1]}
     letter = template.format(**donor_info)
-    return letter    
+    return letter
 
 def thanks():
     """ Generates a Thank You message for a new donation, and adds donation
@@ -41,7 +43,7 @@ def thanks():
             break
         else:
             vld_name = True
-            for entry in db:    # Check for name in db
+            for _ in db:    # Check for name in db
                 if name.lower == name.lower:
                     break
             else:   # If name not found in db, add it
@@ -67,6 +69,8 @@ def report():
     print('\n\n')
 
 def log_all_letters():
+    """ Generates a letter for every person in the global database and saves
+        it as a separate file."""
     for name in db:
         file_name = name + '.txt'
         with open(file_name, 'w') as outfile:
@@ -75,15 +79,15 @@ def log_all_letters():
 def quitter():
     print('Goodbye!')
 
-    
-    
+
+
 # Init the donor database
 db = {"William Gates, III": [653772.32, 12.17],
-            "Jeff Bezos": [877.33],
-            "Paul Allen": [663.23, 43.87, 1.32],
-            "Mark Zuckerberg": [1663.23, 4300.87, 10432.0],
-            "John Doe": [1.00, 2.00, 3.00, 4.00]
-           }
+      "Jeff Bezos": [877.33],
+      "Paul Allen": [663.23, 43.87, 1.32],
+      "Mark Zuckerberg": [1663.23, 4300.87, 10432.0],
+      "John Doe": [1.00, 2.00, 3.00, 4.00]}
+
 menu_quit = False
 
 if __name__ == '__main__':
@@ -104,7 +108,7 @@ if __name__ == '__main__':
 #            report(donor_db)
 #        else:
 #            continue
-             
+
     menu = {"1":thanks, "2": report, "3":log_all_letters, "4": quitter}
     cmd = None
     while cmd != '4':
