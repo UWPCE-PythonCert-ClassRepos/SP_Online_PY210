@@ -1,44 +1,85 @@
-# #!/usr/bin/env python3
-#
-# feast = ['lambs', 'sloths', 'orangutans', 'breakfast cereals', 'fruit bats']
-#
-# comprehension = [delicacy.capitalize() for delicacy in feast]
-#
-# print(comprehension[0])
+#!/usr/bin/env python3
 
-# donor_db = {
-#     "Jeff Staple": [20, 20],
-#     "Takashi Murakami": [10.50],
-#     "Virgil Abloh": [300, 40.33, 5.35],
-#     "Jan Chipchase": [1001.23, 400.87, 102]
-# }
-#
-# comprehension = [name.strip().lower() for name in donor_db]
-#
-# print(comprehension[2])
-#
-# feast = ['spam', 'sloths', 'orangutans', 'breakfast cereals', 'fruit bats']
-#
-# comp = [delicacy for delicacy in feast if len(delicacy) > 6]
-#
-# print(len(feast))
-#
-# print(comp)
-#
-# eggs = ['poached egg', 'fried egg']
-#
-# meats = ['lite spam', 'ham spam', 'fried spam']
-#
-# comprehension = ['{0} and {1}'.format(egg, meat) for egg in eggs for meat in meats]
-#
-# print(comprehension[0])
-#
-# comprehension = {c for c in 'aabbbcccc'}
-#
-# print(comprehension)
+"""PY210_SP - trigrams
+author: Nick Miller"""
 
-dict_of_weapons = {'first': 'fear', 'second': 'surprise', 'third': 'ruthless efficiency', 'forth': 'fanatical devotion',
-                   'fifth': None}
-dict_comprehension = {k.upper(): weapon for k, weapon in dict_of_weapons.items() if weapon}
+import sys
+import random
+import re
 
-print(len(dict_comprehension))
+
+# def read_text(file_name):
+#     """
+#     takes in a text file, strips punctuation, makes everything lowercase, puts all words in a list
+#     :param file_name: file_name in same dir as program
+#     :return: list of words
+#     """
+def read_text(file_name):
+    with open(file_name, 'r') as f:
+        words_list = f.read().split()
+    f.close()
+    words_list = [re.sub(r"([a-z])--([a-z])", r"\1 \2", i, 0, re.IGNORECASE) for i in words_list]
+    words_list = [re.sub(r'[^\w\s]', '', i) for i in words_list]
+    words_list = [words for segments in words_list for words in segments.split()]
+    words_list = [i.lower() for i in words_list]
+    return words_list
+
+
+def build_trigrams(words_list):
+    """
+    create trigrams dict from a list of words
+    :param words_list: a list of words
+    :return: returns a dict of pairs(key) and their followers
+    """
+    trigrams = {}
+    for i in range(len(words_list)-2):
+        pair = words_list[i:i + 2]
+        pair = tuple(pair)
+        follower = words_list[i + 2]
+        follower = list(follower.split())
+        if pair in trigrams:
+            trigrams[pair].extend(follower)
+        else:
+            trigrams.update({pair: follower})
+    return trigrams
+
+
+def make_new(words_dict, words_list):
+    rand_int = random.randint(0, len(words_list)-3)
+    text = words_list[rand_int:rand_int + 2]
+    choice = tuple(text)
+    random_text = random.choice(words_dict.get(choice))
+    while len(text) < 250:
+        while choice == (words_list[-2], words_list[-1]):
+            text.pop()
+            choice = (text[-2], text[-1])
+            print(text)
+            while len(words_dict.get(choice)) == 1:
+                if len(text) == 2:
+                    text.pop()
+                    rand_int = random.randint(0, len(words)-3)
+                    text.extend(words[rand_int:rand_int + 2])
+                    choice = tuple(text)
+                    break
+                else:
+                    text.pop()
+                    choice = (text[-2], text[-1])
+        random_text = random.choice(words_dict.get(choice))
+        text.append(random_text)
+        choice = (choice[-1], random_text)
+    return " ".join(text)
+
+
+# if __name__ == "__main__":
+#     # get the filename from the command line
+#     try:
+#         filename = sys.argv[1]
+#     except IndexError:
+#         print("please supply the name of a base file to use")
+#         sys.exit(1)
+
+filename = "sherlock.txt"
+words_in = read_text(filename)
+trigram = build_trigrams(words_in)
+hot_off_the_press = make_new(trigram, words_in)
+print(hot_off_the_press)

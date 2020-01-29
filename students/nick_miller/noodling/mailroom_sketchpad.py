@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
-"""PY210_SP - mailroom part 2 - no dict switch, yet
-author: Nick Miller"""
+"""
+this is a sketchpad file
+"""
 
 import sys
 
@@ -206,8 +207,17 @@ def quit_prog():
 
 
 def menu_selection(prompt, dispatch_dict):
+    """
+    :param prompt: requests user input for a given prompt
+    :param dispatch_dict: a dispatch dict of functions corresponding to choices
+    :return: menu loops until "exit menu" is called
+    """
     while True:
         response = input(prompt)
+        response = response.lower().strip()
+        while response != "1" and response != "2" and response != "3" and response != "4" and response != "q":
+            print("That's not a valid input.")
+            response = input(prompt)
         if dispatch_dict[response]() == "exit menu":
             break
 
@@ -226,7 +236,7 @@ menu_dict = {"1": one_thanks,
              "2": thanks_all,
              "3": report,
              "4": quit_prog,
-             "q": quit_prog}
+             "q": quit_prog,}
 
 
 if __name__ == "__main__":

@@ -1,25 +1,28 @@
-# #!/usr/bin/env python3
+#!/usr/bin/env python3
 
-import sys
+words = "I wish I may I wish I might".split()
 
 
-def y_or_n(veriable):
+def build_trigrams(words):
     """
-    this is a stupid function that strips and lowers whatever is passed to it
-    :param veriable: input string, usually
-    :return: stripped and lowered, makes checking for y or n easier
+    build up the trigrams dict from the list of words
+
+    returns a dict with:
+       keys: word pairs
+       values: list of followers
     """
-    veriable = veriable.strip().lower()
-    return veriable
+    trigrams = {}
+
+    # build up the dict here!
+    for i in range(len(words) - 2):
+        pair = words[i:i + 2]
+        follower = words[i + 2]
+
+    " ".join(the_list_of_words)
+
+    return trigrams
 
 
-question = input("do you like pankakes? ")
-ans = y_or_n(question)
-while ans != "y" and ans != "n" and ans != "q":
-    ans = input("Please enter y or n: ")
-if ans == "q":
-    sys.exit()
-if ans == "n":
-    print("no")
-if ans == "y":
-    print("yeah")
+if __name__ == "__main__":
+    trigrams = build_trigrams(words)
+    print(trigrams)

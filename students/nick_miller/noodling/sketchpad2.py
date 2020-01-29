@@ -1,31 +1,20 @@
 #!/usr/bin/env python3
 
-import sys
 
-
-def yes():
-    print("Yes")
-
-
-def no():
-    print("No")
-
-
-def quit_prog():
-    sys.exit()
-
-
-resp_dict = {0: yes, 1: no, 3: quit_prog}
-
-# resp_dict.get(0)()
-
-thanks_c = "peter pan"
-add_q = str(input("That name is not in the list, would you like to add it? (y/n): "))
-add_q = add_q.lower().strip()
-if add_q == "q":
-    pass
-if add_q == "n":
-    pass
-if add_q == "y":
-    print("Adding", thanks_c.title(), "to the donor list.")
-
+def build_trigrams(words_list):
+    """
+    create trigrams dict from a list of words
+    :param words_list: a list of words
+    :return: returns a dict of pairs(key) and their followers
+    """
+    trigrams = {}
+    for i in range(len(words_list)-2):
+        pair = words_list[i:i + 2]
+        pair = tuple(pair)
+        follower = words_list[i + 2]
+        follower = list(follower.split())
+        if pair in trigrams:
+            trigrams[pair].extend(follower)
+        else:
+            trigrams.update({pair: follower})
+    return trigrams
