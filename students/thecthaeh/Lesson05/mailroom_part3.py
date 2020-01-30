@@ -18,7 +18,7 @@ def prompt():
     actions = input("Choose one of the following options: \n1. Send a Thank You to a single donor \n2. Create a Report \n3. Send letters to all donors \n4. Quit \n>>> ")
 
 def option1():
-    """Add a donor and/or a donation and send a Thank You letter to that donor."""
+    """Send a Thank You letter to a single donor."""
     full_name = input("Enter the donor's full name.\n>> ")
     
     while full_name == 'list':
@@ -45,11 +45,11 @@ def option1():
     if donate_amt.lower() == 'quit':
         prompt()
         return
-    add_donation(full_name, float(donate_amt))
+
     prompt()
 
-#function for adding a donation
 def add_donation(donor_name, donate_amt):
+    """Add a donor and/or a donation."""
     if donor_name in donor_info_dict:
         donor_info_dict[donor_name].append(donate_amt)
     else:
@@ -60,35 +60,27 @@ def add_donation(donor_name, donate_amt):
 #print a thank you letter to each donor
 #should use a dict and .format(**dict) method to create letter
 
-#function for selection 2
 def option2():
+    """Create a report listing donors, their total donation amount, the number of donations, and their average donation."""
     header = ['Donor Name', 'Total Given', 'Num Gifts', 'Average Gifts']
     
     top_row = "{:30} |{:>20} |{:>15} |{:>20}".format(*header[:])
     print(top_row)
     print('-' * len(top_row))
     
-    #initiate the report list
-    report = []
+    report = [[donor, sum(donor_info_dict[donor]), len(donor_info_dict[donor]), sum(donor_info_dict[donor])/len(donor_info_dict[donor])] for donor in donor_info_dict]
     
-    #fill the report with donor information
-    for donor in donor_info_dict:
-        report.append([donor, sum(donor_info_dict[donor]), len(donor_info_dict[donor]), sum(donor_info_dict[donor])/len(donor_info_dict[donor])])
-    
-    #sort the report
+    #sort the report in descending order of total donation amount
     sorted_report = sorted(report, key = itemgetter(1), reverse = True)
     
-    #print the sorted report
     for donor in sorted_report:
         print("{:30}  ${:>19.2f}  {:>15}  ${:>19.2f}".format(*donor[:]))
     
     prompt()
 
-#function for selection 3
 def option3():
-    letter_dict = {}
-    for donor_name in donor_info_dict:
-        letter_dict.setdefault(donor_name, sum(donor_info_dict[donor_name]))
+    """Send letters to all donors."""
+    letter_dict = {donor_name:sum(donor_info_dict[donor_name]) for donor_name in donor_info_dict}
     print(letter_dict) #test
     
     for name in letter_dict:
@@ -117,6 +109,9 @@ def main(): #use a dict to switch between the user's selections
             
         elif actions == '3':
             select_func_dict.get(3)()
+        
+        else:
+            prompt()
             
 if __name__ == "__main__":
     main()
