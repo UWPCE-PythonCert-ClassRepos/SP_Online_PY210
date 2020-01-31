@@ -61,3 +61,7 @@ else:
     more_fun(langs[2])
 finally:
     last_fun()
+
+# this is one of my fav python jokes
+import webbrowser
+webbrowser.open("http://turnoff.us/geek/python-private-methods/")
