@@ -57,7 +57,6 @@ def thanks_all(db=donor_db):
     for donor in donor_db:
         firster = letter_prep(donor, donor_db)[1]
         toters = letter_prep(donor, donor_db)[3]
-        letter_text = letter_format(firster, toters)
         file_name = donor.lower().replace(" ", "") + ".txt"
         letter_text = letter_format(firster, toters)
         save_file(file_name, letter_text)
