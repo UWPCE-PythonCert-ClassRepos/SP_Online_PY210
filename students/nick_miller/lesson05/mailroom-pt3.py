@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 
-"""
-this is a sketchpad file
-"""
+"""PY210_SP - mailroom part 3
+author: Nick Miller"""
 
 import sys
 
@@ -27,7 +26,7 @@ def letter_prep(ver, db):
     monies = db[ver.title()]
     toters = sum(monies)
     toters = float(f"{toters:.2f}")
-    return [namer, firster, monies, toters]
+    return [firster, toters]
 
 
 def letter_format(firster, toters):
@@ -82,8 +81,8 @@ def one_thanks(db=donor_db):
                 print("Adding " + thanks_c + "'s donation of $" + add_y_f, "to their db entry")
                 add_y_l = [add_y]
                 donor_db[thanks_c] = add_y_l
-                firster = letter_prep(thanks_c, donor_db)[1]
-                toters = letter_prep(thanks_c, donor_db)[3]
+                firster = letter_prep(thanks_c, donor_db)[0]
+                toters = letter_prep(thanks_c, donor_db)[1]
                 letter = letter_format(firster, toters)
                 print("Here is your Thank You:")
                 print(letter)
@@ -119,8 +118,8 @@ def one_thanks(db=donor_db):
                         break
                 except ValueError:
                     print("Sorry, that is not a valid amount. ")
-        firster = letter_prep(thanks_c, donor_db)[1]
-        toters = letter_prep(thanks_c, donor_db)[3]
+        firster = letter_prep(thanks_c, donor_db)[0]
+        toters = letter_prep(thanks_c, donor_db)[1]
         letter = letter_format(firster, toters)
         print("Here is your Thank You:")
         print(letter)

@@ -18,7 +18,34 @@ def letter_prep(ver, db):
     monies = db[ver.title()]
     toters = sum(monies)
     toters = float(f"{toters:.2f}")
-    return [namer, firster, monies, toters]
+    return [firster, toters]
+
+
+def letter_format(firster, toters):
+    """
+    takes in first name and totals and returns formatted Thank You message
+    :param firster: first name, sanitized before passing
+    :param toters: sum of donations, sanitized before passing
+    :return: formatted, faux-personalized Thank You message
+    """
+    letter = ('\n'.join(['', 'Dearest {first_name},', '', 'Thank you for your generous support!',
+                             'We appreciate your donation(s), which total ${donats:.2f} to date!', '',
+                             'Sincerest regards,',
+                             '',
+                             'The Foundation'])).format(first_name=firster, donats=toters)
+    return letter
+
+
+def save_file(file_name, letter_text):
+    """
+    borrowed from a totally diff assignment, needs re-tooled to save files for donation thank-yous
+    :param file_name: name for file to be written
+    :param letter_text: formatted text to be written to file
+    :return: text file with Thank You letter
+    """
+    f = open(file_name, "w+")
+    f.write(letter_text)
+    f.close()
 
 
 def thanks_all(db=donor_db):
