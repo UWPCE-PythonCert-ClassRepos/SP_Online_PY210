@@ -14,6 +14,8 @@ Grant Dowell
 #  2) Create a Report
 #  3) Quit
 
+import sys
+
 def sortby_amt(entry):
     return sum(entry[1])
 
@@ -24,7 +26,7 @@ def generate_letter(name=None):
                "Thank you for your most recent donation of " + \
                "${last_donation}. We greatly appreciate it.\n\n" + \
                " ~ The Treasurer"
-    donor_info = {'name':name, 'last_donation':db[name][-1]}
+    donor_info = {'name':name.title(), 'last_donation':db[name][-1]}
     letter = template.format(**donor_info)
     return letter
 
@@ -35,27 +37,26 @@ def thanks():
     thank_you = ""
     vld_name = False
     while vld_name is False:
-        name = input("Please enter a Full Name or 'List': ")
-        if name.lower() == 'list':
+        name = input("Please enter a Full Name or 'List': ").lower()
+        if name == 'list':
             for name in db.keys():
-                print(name)
-        elif name.lower() == 'quit':
+                print(name.title())
+        elif name == 'quit':
             break
         else:
             vld_name = True
-            for _ in db:    # Check for name in db
-                if name.lower == name.lower:
-                    break
+            if db.get(name):
+                continue
             else:   # If name not found in db, add it
                 db[name] = []
     else:
-        print(name)
+#        print(name)
         donation = input("Please enter a donation amount: ")
         if donation.lower() != 'quit':  #Check if user is attempting to quit
             db[name].append(float(donation))
             thank_you = generate_letter(name)
         print("\n" + thank_you + "\n")
-    return db, thank_you
+    return db
 
 def report():
     """Generates report of donors and donation statistics, sorted by total
@@ -64,7 +65,7 @@ def report():
     print("Donor Name            | Total Given | Num Gifts | Average Gift")
     print("--------------------------------------------------------------")
     for key, value in sorted(db.items(), key=sortby_amt, reverse=True):
-        print("{:<21}  ${:11.2f}   {:9d}  ${:12.2f}".format(key,
+        print("{:<21}  ${:11.2f}   {:9d}  ${:12.2f}".format(key.title(),
               sum(value), len(value), (sum(value)/len(value))))
     print('\n\n')
 
@@ -78,15 +79,16 @@ def log_all_letters():
 
 def quitter():
     print('Goodbye!')
+    sys.exit()
 
 
 
 # Init the donor database
-db = {"William Gates, III": [653772.32, 12.17],
-      "Jeff Bezos": [877.33],
-      "Paul Allen": [663.23, 43.87, 1.32],
-      "Mark Zuckerberg": [1663.23, 4300.87, 10432.0],
-      "John Doe": [1.00, 2.00, 3.00, 4.00]}
+db = {"william gates, iii": [653772.32, 12.17],
+      "jeff bezos": [877.33],
+      "paul allen": [663.23, 43.87, 1.32],
+      "mark zuckerberg": [1663.23, 4300.87, 10432.0],
+      "john doe": [1.00, 2.00, 3.00, 4.00]}
 
 menu_quit = False
 
@@ -111,7 +113,7 @@ if __name__ == '__main__':
 
     menu = {"1":thanks, "2": report, "3":log_all_letters, "4": quitter}
     cmd = None
-    while cmd != '4':
+    while True:
         print('Select an Operation:')
         print("  1) Send Thank You")
         print("  2) Create a Report")
