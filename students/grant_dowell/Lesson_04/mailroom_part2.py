@@ -56,7 +56,6 @@ def thanks():
             db[name].append(float(donation))
             thank_you = generate_letter(name)
         print("\n" + thank_you + "\n")
-    return db
 
 def report():
     """Generates report of donors and donation statistics, sorted by total
