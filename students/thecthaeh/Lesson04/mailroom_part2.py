@@ -46,9 +46,6 @@ def add_donation(donor_name, donate_amt):
         
     print(f"Thank you, {donor_name}, for your generous donation of ${donate_amt:.2f}.")
 
-#print a thank you letter to each donor
-#should use a dict and .format(**dict) method to create letter
-
 #function for selection 2
 def option2():
     header = ['Donor Name', 'Total Given', 'Num Gifts', 'Average Gifts']
@@ -65,7 +62,7 @@ def option2():
         report.append([donor, sum(donor_info_dict[donor]), len(donor_info_dict[donor]), sum(donor_info_dict[donor])/len(donor_info_dict[donor])])
     
     #sort the report
-    sorted_report = sorted(report, key = itemgetter(1), reverse = True)
+    sorted_report = sorted(report, key=itemgetter(1), reverse=True)
     
     #print the sorted report
     for donor in sorted_report:
@@ -78,14 +75,10 @@ def option3():
     letter_dict = {}
     for donor_name in donor_info_dict:
         letter_dict.setdefault(donor_name, sum(donor_info_dict[donor_name]))
-    print(letter_dict) #test
     
     for name in letter_dict:
         with open(f"./{name}.txt", 'w') as f:
             f.write("Dear {},\n\nYou have donated a total of ${:.2f}. \n\nYour generosty will help us fulfill our plans for the coming year. We will send you updates on our upcoming projects so you can see how your donations are being used.\n\nThank you!\nThe Team\n".format(name, letter_dict[name]))
-            #f.write(("{}, your donation values were: {}" + ((", {}") * (len(donor_info_dict[name])-1)) + "\n").format(name, *donor_info_dict[name][:]))
-    
-    
     prompt()
 
 #This dict holds the different functions for each selection option
@@ -93,7 +86,6 @@ select_func_dict = {
     1: option1, 
     2: option2,
     3: option3,
-    #4: option4,
     }
 
 def main(): #use a dict to switch between the user's selections
