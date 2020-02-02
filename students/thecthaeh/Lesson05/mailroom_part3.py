@@ -37,10 +37,6 @@ def option1():
             break
         except ValueError:
             donate_amt = input("\nInvalid entry, try again. \nUsing only numbers, enter the donation amount. \n>> $")
-        except Exception as ex:
-            template = "An unhandled exception of type {0} occured. Argument:\n{1!r}"
-            message = template.format(type(ex).__name__, ex.args)
-            print(message)
     
     if donate_amt.lower() == 'quit':
         prompt()
