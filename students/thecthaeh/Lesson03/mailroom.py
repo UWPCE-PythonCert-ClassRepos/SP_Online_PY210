@@ -59,7 +59,7 @@ def handle_selection2():
         report.append([donor[0], sum(donor[1]), len(donor[1]), sum(donor[1])/len(donor[1])])
     
     #sort the report
-    sortedReport = sorted(report, key = itemgetter(1), reverse = True)
+    sortedReport = sorted(report, key=itemgetter(1), reverse=True)
     
     #print the sorted report
     for donor in sortedReport:
