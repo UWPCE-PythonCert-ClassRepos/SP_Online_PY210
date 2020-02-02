@@ -39,7 +39,7 @@ def add_donation(donor_name, donate_amt):
         if donor[0] == donor_name:
             donor[1].append(donate_amt)
             donor_found = True
-    if donor_found == False:
+    if donor_found is False:
         donor_info.append((donor_name, [donate_amt]))
     print(f"Thank you, {donor_name}, for your generous donation of ${donate_amt:.2f}.")
 
