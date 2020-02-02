@@ -133,3 +133,4 @@ columns that are 5 characters wide? It can be done on one short line!
 tuplex = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
 
 print(" ".join(["{:<5}"] * len(tuplex)).format(*tuplex))
+# new push
