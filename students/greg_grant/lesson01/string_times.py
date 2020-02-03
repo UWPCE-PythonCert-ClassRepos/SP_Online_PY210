@@ -1,5 +1,5 @@
 def string_times(string, n):
-    """ Duplicate a string multiple times given a string and a number of times to diisplicate the string."""
+    """ Duplicate a string multiple times given a string and a number of times to duplicate the string."""
     if not isinstance(string, str):
         raise TypeError
     if not isinstance(n, int):
