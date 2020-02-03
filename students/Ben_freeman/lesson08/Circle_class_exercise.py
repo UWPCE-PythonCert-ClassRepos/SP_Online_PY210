@@ -57,7 +57,7 @@ class Circle(object):
 
     @classmethod
     def from_diameter(cls,value):
-        return Circle(value/2)
+        return cls(value/2)
 
 
 
