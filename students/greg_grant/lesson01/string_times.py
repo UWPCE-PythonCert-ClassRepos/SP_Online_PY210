@@ -1,5 +1,9 @@
 def string_times(string, n):
-    """ Duplicate a string multiple times given a string and a number of times to duplicate the string."""
+    """ Return a duplicated string given a string and a number of times to duplicate the string.
+    :param arg1: The string to duplicate
+    :param arg2: An integer stating the number of times to duplicate the string
+
+    """
     if not isinstance(string, str):
         raise TypeError
     if not isinstance(n, int):
