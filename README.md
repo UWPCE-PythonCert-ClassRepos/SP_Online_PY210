@@ -1,6 +1,6 @@
 # SP_Online_PY210
 
-Class repository for the self paced online class 2019
+Class repository for the self paced online class 2019/2020
 
 
 It can be used by the class to share information and for students to submit their work.
