@@ -4,7 +4,6 @@ import ast
 
 
 def create_report(donors_variable):
-    print(donors_variable.donors)
     listy = donors_variable.sorting_function()
     title = ["Donor Name", "Total Given", "Num Gifts", "Average Gift"]
     print(f"{title[0]:<20} | {title[1]:>10} | {title[2]:<} | {title[3]:<}")
@@ -35,22 +34,18 @@ def send_thanks(donors_variable, query="empty_1", new_donate="empty_2"):
                     donors_variable.update_donor(query, new_donate)
                 else:
                     donors_variable.add_donor(query, new_donate)
-                for items in donors_variable.donors_object:
-                    if items.name == query:
-                        return print(items.message())
-
+                for items in donors_variable.donors:
+                    if donors_variable.donors[items].name == query:
+                        return print(donors_variable.donors[items].message())
 
 
 def data_handler(dictionary):
-    list_of_donors = []
-    for a in dictionary:
-        list_of_donors.append(mailroom_OO.Donor(dictionary[a],a))
-    return list_of_donors
+    return [mailroom_OO.Donor(v,k) for k,v in dictionary.items()]
 
 
 def save_file_prompt(donors_variable):
     chosen_file = input("Saving file as: \n")
-    mailroom_OO.FileHandling(chosen_file).save_file(donors_variable.donors)
+    mailroom_OO.FileHandling(chosen_file).save_file(donors_variable)
 
 
 def mass_send_thanks(donors_variable):
@@ -59,6 +54,7 @@ def mass_send_thanks(donors_variable):
 
 def quit_now(arg):
     sys.exit()
+
 
 # Menu dict
 menu = {
