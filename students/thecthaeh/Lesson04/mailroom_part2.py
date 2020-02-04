@@ -3,6 +3,7 @@
 """Automate the process of creating 'Thank You' letters and tracking donors and donations through reports.
 
 """
+import sys
 from operator import itemgetter
 
 #convert to a dict
@@ -12,9 +13,6 @@ donor_info_dict['Tess Baker'] = [1000.00, 540.00]
 donor_info_dict['Grant Hugh'] = [5000.00]
 donor_info_dict['Sarah Piper'] = [40.00]
 donor_info_dict['Jim Newton'] = [1350.00, 1500.00, 5.50]
-
-def prompt():
-    return input("Choose one of the following options: \n1. Send a Thank You to a single donor \n2. Create a Report \n3. Send letters to all donors \n4. Quit \n>>> ")
 
 #function for selection 1
 def single_thank_you():
@@ -26,13 +24,12 @@ def single_thank_you():
         full_name = input("\nEnter the donor's full name.\n>> ")
         
     if full_name.lower() == "quit":
-        return prompt()
+        return
     
     donate_amt = input("\nEnter the donation amount.\n>> $")
     if donate_amt.lower() == 'quit':
-        return prompt()
+        return
     add_donation(full_name, float(donate_amt))
-    return prompt()
 
 #function for adding a donation
 def add_donation(donor_name, donate_amt):
@@ -64,27 +61,27 @@ def create_report():
     #print the sorted report
     for donor in sorted_report:
         print("{:30}  ${:>19.2f}  {:>15}  ${:>19.2f}".format(*donor[:]))
-    
-    return prompt()
 
 #function for selection 3
 def thank_all():
     for name, donation in donor_info_dict.items():
         with open(f"./{name}.txt", 'w') as f:
             f.write("Dear {},\n\nYou have donated a total of ${:.2f}. \n\nYour generosty will help us fulfill our plans for the coming year. We will send you updates on our upcoming projects so you can see how your donations are being used.\n\nThank you!\nThe Team\n".format(name, sum(donation)))
-    return prompt()
+
+def quit_program():
+    sys.exit()
 
 def main(): #use a dict to switch between the user's selections
-    actions = prompt()
-    while True:
-        if actions == '4' or actions == 'quit':
-            break
-        menu = {
-            1: single_thank_you, 
-            2: create_report,
-            3: thank_all
+    menu = {
+            '1': single_thank_you, 
+            '2': create_report,
+            '3': thank_all,
+            '4': quit_program,
+            'quit': quit_program
         }
-        actions = menu.get(int(actions))()
+    while True:
+        prompt = input("Choose one of the following options: \n1. Send a Thank You to a single donor \n2. Create a Report \n3. Send letters to all donors \n4. Quit \n>>> ")
+        menu[prompt]()
             
 if __name__ == "__main__":
     main()
