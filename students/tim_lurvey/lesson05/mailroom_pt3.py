@@ -2,7 +2,10 @@
 __author__ = 'Tim Lurvey, ig408c'
 
 import sys
-from lurvey_classes import bunch
+# from lurvey_classes import bunch
+class bunch(object):
+    def __init__(self,**kwargs):
+        setattr(self, '__dict__', kwargs)
 
 my_data = {}
 my_data.update({'Tom Hanks': bunch(total=24536.20, number=3)})
@@ -17,7 +20,7 @@ def add_new_name(name: str = ""):
     return True
 
 
-def compose_email(name: str = "", donation: float = 0., data: any = None):
+def compose_email(name: str = "", donation: float = 0., data: bunch = None):
     """return the string of the formatted email"""
     if data.number < 1:
         s = ""
@@ -47,8 +50,11 @@ def add_donation(name: str = "", ammount: float = 0.):
 
 
 def print_name_list():
-    # I am familiar with one line list comprehension and I know I use it too much
-    # making my code difficult to read, including lambda functions
+    # I am familiar with one-line list comprehension but I know I use it too much
+    # making my code difficult to read, with including lambda functions.  The more
+    # I read and write code, the more I find the need to be verbose.  If speed is
+    # important I will bring the list comprehension into the C level with
+    # one-liners.
     # "\n".join(["The following names are available:",] + [name for name in my_data.keys()])
     print_list = "The following names are available:\n"
     for i, item in enumerate(my_data.items()):
@@ -105,14 +111,15 @@ def report():
     return True
 
 
-def quit():
+def fquit():
     """Exit the application by unseating the switch"""
     print("\nGoodbye! Exiting program...")
     return False
 
-def error(input: str = ""):
+
+def error(inpt: str = ""):
     """Report an error"""
-    print("\nError on input.  Invalid selection \"{}\"".format(input))
+    print("\nError on input.  Invalid selection \"{}\"".format(inpt))
     return True
 
 
@@ -133,9 +140,9 @@ def main(args):
             # keep looping until valid result
             continue
         # Define the logic
-        logic_dict = {'1':send_thank_you,
-                      '2':report,
-                      'q':quit}
+        logic_dict = {'1': send_thank_you,
+                      '2': report,
+                      'q': fquit}
         # Get the corresponding function and execute it
         CONTINUE = logic_dict.get(request, error)()
 
