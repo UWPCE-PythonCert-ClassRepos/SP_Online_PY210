@@ -14,11 +14,10 @@ donor_info_dict['Sarah Piper'] = [40.00]
 donor_info_dict['Jim Newton'] = [1350.00, 1500.00, 5.50]
 
 def prompt():
-    global actions
-    actions = input("Choose one of the following options: \n1. Send a Thank You to a single donor \n2. Create a Report \n3. Send letters to all donors \n4. Quit \n>>> ")
+    return input("Choose one of the following options: \n1. Send a Thank You to a single donor \n2. Create a Report \n3. Send letters to all donors \n4. Quit \n>>> ")
 
 #function for selection 1
-def option1():
+def single_thank_you():
     full_name = input("Enter the donor's full name.\n>> ")
     
     while full_name == 'list':
@@ -27,15 +26,13 @@ def option1():
         full_name = input("\nEnter the donor's full name.\n>> ")
         
     if full_name.lower() == "quit":
-        prompt()
-        return
+        return prompt()
     
     donate_amt = input("\nEnter the donation amount.\n>> $")
     if donate_amt.lower() == 'quit':
-        prompt()
-        return
+        return prompt()
     add_donation(full_name, float(donate_amt))
-    prompt()
+    return prompt()
 
 #function for adding a donation
 def add_donation(donor_name, donate_amt):
@@ -47,7 +44,7 @@ def add_donation(donor_name, donate_amt):
     print(f"Thank you, {donor_name}, for your generous donation of ${donate_amt:.2f}.")
 
 #function for selection 2
-def option2():
+def create_report():
     header = ['Donor Name', 'Total Given', 'Num Gifts', 'Average Gifts']
     
     top_row = "{:30} |{:>20} |{:>15} |{:>20}".format(*header[:])
@@ -68,37 +65,26 @@ def option2():
     for donor in sorted_report:
         print("{:30}  ${:>19.2f}  {:>15}  ${:>19.2f}".format(*donor[:]))
     
-    prompt()
+    return prompt()
 
 #function for selection 3
-def option3():
-    letter_dict = {}
-    for donor_name in donor_info_dict:
-        letter_dict.setdefault(donor_name, sum(donor_info_dict[donor_name]))
-    
-    for name in letter_dict:
+def thank_all():
+    for name, donation in donor_info_dict.items():
         with open(f"./{name}.txt", 'w') as f:
-            f.write("Dear {},\n\nYou have donated a total of ${:.2f}. \n\nYour generosty will help us fulfill our plans for the coming year. We will send you updates on our upcoming projects so you can see how your donations are being used.\n\nThank you!\nThe Team\n".format(name, letter_dict[name]))
-    prompt()
-
-#This dict holds the different functions for each selection option
-select_func_dict = {
-    1: option1, 
-    2: option2,
-    3: option3,
-    }
+            f.write("Dear {},\n\nYou have donated a total of ${:.2f}. \n\nYour generosty will help us fulfill our plans for the coming year. We will send you updates on our upcoming projects so you can see how your donations are being used.\n\nThank you!\nThe Team\n".format(name, sum(donation)))
+    return prompt()
 
 def main(): #use a dict to switch between the user's selections
-    prompt()
-    while actions != '4':
-        if actions == '1':
-            select_func_dict.get(1)()
-            
-        elif actions == '2':
-            select_func_dict.get(2)()
-            
-        elif actions == '3':
-            select_func_dict.get(3)()
+    actions = prompt()
+    while True:
+        if actions == '4' or actions == 'quit':
+            break
+        menu = {
+            1: single_thank_you, 
+            2: create_report,
+            3: thank_all
+        }
+        actions = menu.get(int(actions))()
             
 if __name__ == "__main__":
     main()
