@@ -191,7 +191,6 @@ def quit_prog():
     used to trigger program quit
     :return: ends program
     """
-    print("Quitting - See you next time.")
     return "exit menu"
 
 

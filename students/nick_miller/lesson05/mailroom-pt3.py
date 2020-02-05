@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-"""PY210_SP - mailroom part 3
+"""PY210_SP - mailroom-part 3
 author: Nick Miller"""
 
 import sys
