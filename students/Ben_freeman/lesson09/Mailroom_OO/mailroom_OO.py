@@ -3,7 +3,6 @@ import os
 
 class Donor(object):
     """This class handles single donor data"""
-    donor = []
 
     def __init__(self, current_donor_history, donor_name):
         """self.donor is the number of and amount of donations associated with a particular donor, named self.donor"""
@@ -25,17 +24,21 @@ class Donor(object):
         """counts the number of all of the donations of a particular donor"""
         return len(self.donor)
 
-    def __str__(self):
+    def message(self):
         """our default thank you message"""
-        return f"\nThank you {self.name} for your donation of ${self.donor_sum:.2f}, your donations make the work "\
-            f"of the 'American society for taking donations' possible.\n\n""Sincearly,\n\n""A low paid intern\n "
+        return f"\nThank you {self.name} for your donations totaling ${self.donor_sum:.2f}, your donations make the " \
+            f" work of the 'American society for taking donations' possible.\n\n""Sincearly,\n\n""A low paid intern\n "
 
+    def update_donor(self, new_donate):
+        """adds a donation to an existing donors profile"""
+        self.donor.append(new_donate)
 
 class DonorCollection(object):
     """Class to handle all of the methods that have to do with multiple donors at once"""
 
     def __init__(self, donor_list):
-        self.donors = donor_list
+        self.donors = {a.name: a.donor for a in donor_list}
+        self.donors_object = donor_list
 
     def mass_send_thanks(self):
         """this is the method that writes thank you letters to all of our donors, and places them in one folder to
@@ -44,24 +47,27 @@ class DonorCollection(object):
             os.mkdir("Letters")
         except FileExistsError:
             pass
-        for item in self.donors:
-            with open(f"Letters/{item}.txt", "w+") as letter:
-                letter.write(str(Donor(self.donors[item],item)))
+        for item in self.donors_object:
+            with open(f"Letters/{item.name}.txt", "w+") as letter:
+                letter.write(item.message())
 
     def sorting_function(self):
         """does what the name suggests, it sorts our dictionary of donors"""
         temp_list = []
-        for keys, values in self.donors.items():
-            temp_list.append([sum(values), keys, len(values), sum(values) / len(values)])
+        for item in self.donors_object:
+            temp_list.append([item.donor_sum, item.name, item.donor_donations, item.donor_average])
         return sorted(temp_list, reverse=True)
 
     def update_donor(self,query, new_donate):
         """adds a donation to an existing donors profile"""
-        self.donors[query].append(new_donate)
+        for donor in self.donors_object:
+            if donor.name == query:
+                donor.update_donor(new_donate)
 
     def add_donor(self,query, new_donate):
         """adds a new donor"""
-        self.donors[query] = [new_donate]
+        self.donors.update({query: [new_donate]})
+        self.donors_object.append(Donor([new_donate],query))
 
     def list_donors(self):
         """lists the donors"""
@@ -87,5 +93,5 @@ class FileHandling(object):
 
     def save_file(self, new_donor_list):
         """saves a file, writing a new one if the file name doesnt exist"""
-            with open(f"{self.file}.txt", "w+") as donor_file:
-                donor_file.write(str(new_donor_list))
+        with open(f"{self.file}.txt", "w+") as donor_file:
+            donor_file.write(str(new_donor_list))

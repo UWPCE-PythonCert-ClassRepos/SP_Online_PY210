@@ -1,9 +1,11 @@
 import sys
 import mailroom_OO
+import ast
 
 
-def create_report(donor_list_variable):
-    listy = mailroom_OO.DonorCollection(donor_list_variable).sorting_function()
+def create_report(donors_variable):
+    print(donors_variable.donors)
+    listy = donors_variable.sorting_function()
     title = ["Donor Name", "Total Given", "Num Gifts", "Average Gift"]
     print(f"{title[0]:<20} | {title[1]:>10} | {title[2]:<} | {title[3]:<}")
     print(f"-------------------------------------------------------------")
@@ -11,12 +13,12 @@ def create_report(donor_list_variable):
         print(f"{listy[i][1]:<21} ${listy[i][0]:>12.2f}{listy[i][2]:>11}  ${listy[i][3]:>12.2f}")
 
 
-def send_thanks(donor_list_variable, query="empty_1", new_donate="empty_2"):
+def send_thanks(donors_variable, query="empty_1", new_donate="empty_2"):
     while True:
         if query == "empty_1":
             query = input("Please enter a Full Name, enter 'list' to see a list of current donors, or quit to exit: ")
         if query == "list":
-            print(mailroom_OO.DonorCollection(donor_list_variable).list_donors())
+            print(donors_variable.list_donors())
             break
         elif query.lower() == "quit":
             break
@@ -29,20 +31,30 @@ def send_thanks(donor_list_variable, query="empty_1", new_donate="empty_2"):
                     except ValueError:
                         print("\nPlease enter a number in numerical form\n")
             else:
-                if query in donor_list:
-                    mailroom_OO.DonorCollection(donor_list_variable).update_donor(query, new_donate)
+                if query in donors_variable.donors:
+                    donors_variable.update_donor(query, new_donate)
                 else:
-                    mailroom_OO.DonorCollection(donor_list_variable).add_donor(query, new_donate)
-                return print(mailroom_OO.Donor(donor_list[query], query))
+                    donors_variable.add_donor(query, new_donate)
+                for items in donors_variable.donors_object:
+                    if items.name == query:
+                        return print(items.message())
 
 
-def save_file_prompt(chosen_dict):
+
+def data_handler(dictionary):
+    list_of_donors = []
+    for a in dictionary:
+        list_of_donors.append(mailroom_OO.Donor(dictionary[a],a))
+    return list_of_donors
+
+
+def save_file_prompt(donors_variable):
     chosen_file = input("Saving file as: \n")
-    mailroom_OO.FileHandling(chosen_file).save_file(chosen_dict)
+    mailroom_OO.FileHandling(chosen_file).save_file(donors_variable.donors)
 
 
-def mass_send_thanks(dictionary):
-    mailroom_OO.DonorCollection(dictionary).mass_send_thanks()
+def mass_send_thanks(donors_variable):
+    donors_variable.mass_send_thanks()
 
 
 def quit_now(arg):
@@ -59,7 +71,7 @@ menu = {
 
 # Script
 if __name__ == '__main__':
-    donor_list={}
+    donor_dict={}
     answer = input("Would you like to import a donor file? \n").upper()
     if answer == "YES":
         while True:
@@ -70,8 +82,9 @@ if __name__ == '__main__':
             if data == "file not found":
                 print(data,", please try again")
             else:
-                donor_list.update(eval(data))
+                donor_dict.update(ast.literal_eval(data))
                 break
+    donors = mailroom_OO.DonorCollection(data_handler(donor_dict))
     while True:
         prompt = input(
             "What would you like to do?:\n"
@@ -81,6 +94,6 @@ if __name__ == '__main__':
             "D - Save the new donor list\n"
             "E - Quit\n")
         try:
-            menu[prompt.upper()](donor_list)
+            menu[prompt.upper()](donors)
         except KeyError:
             print("\nPlease enter A, B, C or D\n")
