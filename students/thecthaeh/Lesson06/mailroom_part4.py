@@ -3,6 +3,7 @@
 """Automate the process of creating 'Thank You' letters and tracking donors and donations through reports.
 
 """
+import sys
 from operator import itemgetter
 
 donors = {}
@@ -11,10 +12,6 @@ donors['Tess Baker'] = [1000.00, 540.00]
 donors['Grant Hugh'] = [5000.00]
 donors['Sarah Piper'] = [40.00]
 donors['Jim Newton'] = [1350.00, 1500.00, 5.50]
-
-def prompt():
-    global actions
-    actions = input("\nChoose one of the following options: \n1. Send a Thank You to a single donor \n2. Create a Report \n3. Send letters to all donors \n4. Quit \n>>> ")
 
 def add_donation(donor_name, donation):
     """Add a donation amount to a new or existing donor."""
@@ -40,7 +37,7 @@ def thank_you(donor_name):
     else:
         return "This donor does not exist."
 
-def option1():
+def single_thank_you():
     """Send a Thank You letter to a single donor.
     
     Update the donors dict with a new donor and/or donation amount and
@@ -53,7 +50,6 @@ def option1():
         input_donor = input("\nEnter the donor's full name.\n>> ")
         
     if input_donor.lower() == "quit":
-        prompt()
         return
     
     input_donation = input("\nEnter the donation amount.\n>> $")
@@ -65,11 +61,9 @@ def option1():
             input_donation = input("\nInvalid entry, try again. \nUsing only numbers, enter the donation amount. \n>> $")
     
     if input_donation.lower() == 'quit':
-        prompt()
         return
 
     print(thank_you(input_donor))
-    prompt()
 
 def report(a_dict):
     """Take in a dict and create a report."""
@@ -86,7 +80,7 @@ def report(a_dict):
     
     return report_content
 
-def option2():
+def create_report():
     """Create a report of all the donors.
     
     Include each donor, their total donation amount, the number of donations, and their average donation.
@@ -98,8 +92,6 @@ def option2():
     print('-' * len(full_report[0]))
     for donor in full_report[1]:
         print("{:30}  ${:>19,.2f}  {:>15}  ${:>19,.2f}".format(*donor[:]))
-    
-    prompt()
 
 def text_files(a_dict):
     """Create a text file for each donor."""
@@ -110,32 +102,24 @@ def text_files(a_dict):
         with open(f"./{key}.txt", 'w') as f:
             f.write(text.format(**letter_dict))
     
-def option3():
+def thank_all():
     """Send letters to all donors.""" 
     text_files(donors)
-    prompt()
 
-#This dict holds the different functions for each menu option
-menu = {
-    1: option1, 
-    2: option2,
-    3: option3,
-    }
+def quit_program():
+    sys.exit()
 
 def main(): #use a dict to switch between the user's selections
-    prompt()
-    while actions != '4':
-        if actions == '1':
-            menu.get(1)()
-            
-        elif actions == '2':
-            menu.get(2)()
-            
-        elif actions == '3':
-            menu.get(3)()
-        
-        else:
-            prompt()
+    menu = {
+            '1': single_thank_you, 
+            '2': create_report,
+            '3': thank_all,
+            '4': quit_program,
+            'quit': quit_program
+        }
+    while True:
+        prompt = input("Choose one of the following options: \n1. Send a Thank You to a single donor \n2. Create a Report \n3. Send letters to all donors \n4. Quit \n>>> ")
+        menu[prompt]()
             
 if __name__ == "__main__":
     main()
