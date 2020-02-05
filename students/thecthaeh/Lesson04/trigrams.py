@@ -6,6 +6,10 @@ import random
 """
 #testing the script using a small string to get the code correct
 words = "I wish I may I wish I might".split()
+file_path = "./Lesson04/sherlock_small.txt"
+
+#test that a longer string works
+more_words = "I believe I am that I believe I can be who I believe".split()
 
 """example of how the dict should look:
 
@@ -22,16 +26,16 @@ Examples of generated text to expect if using words as the original text:
 """
 trigrams = {}
 
-def build_trigrams(a_seq):
-    """Build up the trigrams dict from the list of words above.
+def build_trigrams(words):
+    """Build up the trigrams dict from a given string.
     
     returns a dict of:
         keys: adjacent word pairs
         values: the word that immediately follows the last word of the key
     """
-    for x in range(len(a_seq) - 2):
-        pair = tuple(a_seq[x:x + 2]) # will be the keys in trigrams. try frozen sets instead of tuples
-        follower = a_seq[x + 2] # will be the values in trigrams
+    for x in range(len(words) - 2):
+        pair = tuple(words[x:x + 2]) # will be the keys in trigrams. try frozen sets instead of tuples
+        follower = words[x + 2] # will be the values in trigrams
 
         #try to update this to use defaultdict(list) instead
         if pair in trigrams:
@@ -41,24 +45,45 @@ def build_trigrams(a_seq):
 
     return trigrams
 
-def generator():
-    #TESTING: update first word pair in new_text to be determined randomly & test with longer string
-    new_text = ["I", "wish"]
+def generator(trigrams):
+    """Creates a random "sentence" using trigrams."""
+    
+    #determine first word pair randomly
+    new_text = [word for word in random.choice(list(trigrams.keys()))]
 
     while tuple(new_text[-2:]) in trigrams:
-        new_text.append(random.choice(trigrams[tuple(new_text[-2:])]))
+        if len(new_text) > (len(words) * 2):
+            break
+        else:
+            new_text.append(random.choice(trigrams[tuple(new_text[-2:])]))
     
-    return new_text
+    new_text[0].upper()
+    
+    new_string = " ".join(new_text)
+    
+    print(f"{new_string}.")
+    
+    return trigrams
+
+def build_words(file_path):
+    file_string = ""
+    
+    try:
+        with open(file_path, 'r') as f:
+            file_string = f.read()
+            words = file_string.split()
+    except OSError:
+        print("File path invalid, using more words.")
+        words = more_words
+        
+    return words
 
 def main():
+    file_path
+    build_words(file_path)
+    build_trigrams(words)
+    generator(trigrams)
 
 
 if __name__ == "__main__":
-    trigrams = build_trigrams(words)
-    print(trigrams)
-    
-    #test that a longer string works
-    more_words = "I am trying to come up with a longer string than words".split()
-
-    assert build_trigrams(more_words)
-    print("test passed")
+    main()
