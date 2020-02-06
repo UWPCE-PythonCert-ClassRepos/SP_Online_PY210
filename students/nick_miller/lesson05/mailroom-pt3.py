@@ -3,8 +3,6 @@
 """PY210_SP - mailroom-part 3
 author: Nick Miller"""
 
-import sys
-
 
 donor_db = {
     "Jeff Staple": [20, 20],
