@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Mailroom Part 1
+Mailroom Part 4
 Grant Dowell
 """
 
@@ -24,11 +24,17 @@ def generate_letter(name=None):
 
     template = "Dear {name},\n\n" + \
                "Thank you for your most recent donation of " + \
-               "${last_donation}. We greatly appreciate it.\n\n" + \
+               "${last_donation:.2f}. We greatly appreciate it.\n\n" + \
                " ~ The Treasurer"
     donor_info = {'name':name.title(), 'last_donation':db[name][-1]}
     letter = template.format(**donor_info)
     return letter
+
+def add_donor(name):
+    db[name.lower()] = []
+    
+def add_donation(name, val):
+        db[name].append(float(val))
 
 def thanks():
     """ Generates a Thank You message for a new donation, and adds donation
@@ -48,25 +54,41 @@ def thanks():
             if db.get(name):
                 continue
             else:   # If name not found in db, add it
-                db[name] = []
+                add_donor(name)
     else:
-#        print(name)
-        donation = input("Please enter a donation amount: ")
-        if donation.lower() != 'quit':  #Check if user is attempting to quit
-            db[name].append(float(donation))
+        vld_donation = False
+        while vld_donation is False:
+            donation = input("Please enter a donation amount, or 'quit' to "+\
+                             "recieve a letter for the last recorded donation: ")
+            if donation.lower() != 'quit':  #Check if user is attempting to quit
+                try:
+                    add_donation(name, donation)
+                except ValueError:
+                    print("Please enter a number or 'quit'")
+                else:
+                    vld_donation = True
+            else:
+                break
+        try:
             thank_you = generate_letter(name)
-        print("\n" + thank_you + "\n")
+            print("\n" + thank_you + "\n")
+        except IndexError:
+            print('Donor has not made any donations')
 
 def report():
     """Generates report of donors and donation statistics, sorted by total
        given."""
-
-    print("Donor Name            | Total Given | Num Gifts | Average Gift")
-    print("--------------------------------------------------------------")
+    rpt = "Donor Name            | Total Given | Num Gifts | Average Gift\n" +\
+          "--------------------------------------------------------------\n"
     for key, value in sorted(db.items(), key=sortby_amt, reverse=True):
-        print("{:<21}  ${:11.2f}   {:9d}  ${:12.2f}".format(key.title(),
-              sum(value), len(value), (sum(value)/len(value))))
-    print('\n\n')
+        try:
+            rpt = rpt+"{:<21}  ${:11.2f}   {:9d}  ${:12.2f}\n".format(key.title(),
+                       sum(value), len(value), (sum(value)/len(value)))
+        except ZeroDivisionError:
+            pass
+        
+    print(rpt)
+    return rpt # Return for unit testing
 
 def log_all_letters():
     """ Generates a letter for every person in the global database and saves
@@ -80,18 +102,15 @@ def quitter():
     print('Goodbye!')
     sys.exit()
 
-
-
-# Init the donor database
-db = {"william gates, iii": [653772.32, 12.17],
+if __name__ == '__main__':
+    
+    # Init the donor database
+    db = {"william gates, iii": [653772.32, 12.17],
       "jeff bezos": [877.33],
       "paul allen": [663.23, 43.87, 1.32],
       "mark zuckerberg": [1663.23, 4300.87, 10432.0],
       "john doe": [1.00, 2.00, 3.00, 4.00]}
-
-menu_quit = False
-
-if __name__ == '__main__':
+    
 #    while True:
 #        print('Select an Operation:')
 #        print("  1) Send Thank You")
@@ -119,4 +138,8 @@ if __name__ == '__main__':
         print("  3) Generate Thank You Letter for All")
         print("  4) Quit\n")
         cmd = input('> ')
-        menu[cmd]()
+        try:
+            menu[cmd]()
+        except KeyError:
+            print("\nInput MUST be a number\n")
+#            
