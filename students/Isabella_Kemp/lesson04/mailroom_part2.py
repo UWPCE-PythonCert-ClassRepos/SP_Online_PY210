@@ -35,7 +35,7 @@ def get_user_input(prompt_string):
 def thank_you():
     while True:
         name = get_user_input("Enter a donor name to send a thank you letter, "
-                              "'list' or 'listall' for list of donors, '3' will exit: ")
+                              "'list' or 'listall' for list of donors, '4' will exit: ")
         if name == "list":
             for key in donors:
                 print(key)  # names
