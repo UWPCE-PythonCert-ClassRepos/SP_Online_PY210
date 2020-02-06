@@ -34,8 +34,8 @@ def test_letter_format():
                              'Sincerest regards,',
                              '',
                              'The Foundation']))
-#
-#
+
+
 # def test_thanks_all():
 #     assert mail.thanks_all(test_db)
 
@@ -61,6 +61,3 @@ if test_report_sort_key() is None:
     print("report_sort_key() is good")
 if test_quit_prog() is None:
     print("quit_prog() is good")
-
-
-# print(mail.thanks_all(test_db))

@@ -502,12 +502,12 @@
     <state x="408" y="165" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1440.900/1440.-710.1920.1080@0.0.1440.900" timestamp="1577068046335" />
     <state x="1257" y="-882" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1440.900/713.-1080.1920.1080/-1207.-1080.1920.1080@713.-1080.1920.1080" timestamp="1579733142163" />
     <state x="408" y="176" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.23.1440.837/1440.-687.1920.1057@0.23.1440.837" timestamp="1575336842592" />
-    <state x="0" y="105" key="CommitChangelistDialog2" timestamp="1580865426513">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state x="1284" y="-938" key="CommitChangelistDialog2" timestamp="1581013053561">
+      <screen x="713" y="-1080" width="1920" height="1080" />
     </state>
     <state x="1233" y="-924" key="CommitChangelistDialog2/0.0.1440.900/-1207.-1080.1920.1080/713.-1080.1920.1080@713.-1080.1920.1080" timestamp="1579820016315" />
     <state x="2011" y="-568" key="CommitChangelistDialog2/0.0.1440.900/1440.-710.1920.1080@1440.-710.1920.1080" timestamp="1578872006296" />
-    <state x="1284" y="-938" key="CommitChangelistDialog2/0.0.1440.900/713.-1080.1920.1080/-1207.-1080.1920.1080@713.-1080.1920.1080" timestamp="1579210129940" />
+    <state x="1284" y="-938" key="CommitChangelistDialog2/0.0.1440.900/713.-1080.1920.1080/-1207.-1080.1920.1080@713.-1080.1920.1080" timestamp="1581013053561" />
     <state x="0" y="105" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1580865426513" />
     <state width="1878" height="277" key="GridCell.Tab.0.bottom" timestamp="1581013023186">
       <screen x="713" y="-1080" width="1920" height="1080" />
@@ -606,12 +606,12 @@
     </state>
     <state x="1182" y="-901" key="SettingsEditor/0.0.1440.900/-1207.-1080.1920.1080/713.-1080.1920.1080@713.-1080.1920.1080" timestamp="1579644312039" />
     <state x="1182" y="-901" key="SettingsEditor/0.0.1440.900/713.-1080.1920.1080/-1207.-1080.1920.1080@713.-1080.1920.1080" timestamp="1579215138003" />
-    <state x="420" y="233" key="Vcs.Push.Dialog.v2" timestamp="1580865430815">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state x="1273" y="-800" key="Vcs.Push.Dialog.v2" timestamp="1581013060983">
+      <screen x="713" y="-1080" width="1920" height="1080" />
     </state>
     <state x="1273" y="-800" key="Vcs.Push.Dialog.v2/0.0.1440.900/-1207.-1080.1920.1080/713.-1080.1920.1080@713.-1080.1920.1080" timestamp="1579820020792" />
     <state x="2000" y="-430" key="Vcs.Push.Dialog.v2/0.0.1440.900/1440.-710.1920.1080@1440.-710.1920.1080" timestamp="1578872010909" />
-    <state x="1273" y="-800" key="Vcs.Push.Dialog.v2/0.0.1440.900/713.-1080.1920.1080/-1207.-1080.1920.1080@713.-1080.1920.1080" timestamp="1579210136490" />
+    <state x="1273" y="-800" key="Vcs.Push.Dialog.v2/0.0.1440.900/713.-1080.1920.1080/-1207.-1080.1920.1080@713.-1080.1920.1080" timestamp="1581013060983" />
     <state x="420" y="233" key="Vcs.Push.Dialog.v2/0.0.1440.900@0.0.1440.900" timestamp="1580865430815" />
     <state x="480" y="72" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1577674043157">
       <screen x="0" y="0" width="1440" height="900" />
