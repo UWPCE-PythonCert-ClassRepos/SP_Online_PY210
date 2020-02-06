@@ -60,6 +60,6 @@ table = [row1, row2, row3, row4]
 for row in table:
     print("{:20}{:>20}{:>20.2f}".format(*row[:]))
 
-# Extra task
+# task six: extra task
 def consecutive_tup(n):
     print(("{:>5}" * len(n)).format(*n[:]))
