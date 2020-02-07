@@ -36,12 +36,15 @@ def test_sorting_function():
 
 def test_update_donor():
     dummy_donor_collection.update_donor("Test1",20)
-    assert dummy_donor_collection.donors == {"Test1":[1,2,3,20], "Test2":[1,2,6]}
+    assert {dummy_donor_collection.donors[test_items].name:dummy_donor_collection.donors[test_items].donations
+            for test_items in dummy_donor_collection.donors} == {"Test1":[1,2,3,20], "Test2":[1,2,6]}
 
 
 def test_add_donor():
     dummy_donor_collection.add_donor("Test3", 20)
-    assert dummy_donor_collection.donors == {"Test1":[1,2,3,20], "Test2":[1,2,6],"Test3":[20]}
+    print (dummy_donor_collection.donors["Test2"].donations, dummy_donor_collection.donors["Test3"].donations)
+    assert {dummy_donor_collection.donors[test_items].name:dummy_donor_collection.donors[test_items].donations
+            for test_items in dummy_donor_collection.donors} == {"Test1":[1,2,3,20], "Test2":[1,2,6],"Test3":[20]}
 
 
 def test_list_donors():
@@ -49,7 +52,7 @@ def test_list_donors():
 
 
 def test_save_file():
-    mailroom_OO.FileHandling("test01").save_file(dummy_donor_collection.donors)
+    mailroom_OO.FileHandling("test01").save_file(dummy_donor_collection)
     assert os.path.exists("test01.txt") is True
 
 
@@ -70,6 +73,6 @@ def test_data_handler():
     dummy_dict = {"Test1":[1,2,3,20], "Test2":[1,2,6]}
 
     assert Cli.data_handler(dummy_dict)[0].name == "Test1"
-    assert Cli.data_handler(dummy_dict)[0].donor == [1,2,3,20]
+    assert Cli.data_handler(dummy_dict)[0].donations == [1,2,3,20]
     assert Cli.data_handler(dummy_dict)[1].name == "Test2"
-    assert Cli.data_handler(dummy_dict)[1].donor == [1,2,6]
+    assert Cli.data_handler(dummy_dict)[1].donations == [1,2,6]
