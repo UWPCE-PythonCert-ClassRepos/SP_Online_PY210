@@ -44,101 +44,163 @@ def letter_format(firster, toters):
     return letter
 
 
-def one_thanks(db=donor_db):
+def ask_user(q):
     """
-    this whole thing needs re-tooled to work with the new dict-based db
+    Asks a question, returns input
+    :param q: a question/input request string
+    :return: the user's returned input
+    """
+    answer = input(str(q))
+    return answer
+
+
+def input_prep(thanks_c):
+    """
+    formats user input for easier use
+    :param thanks_c: a string
+    :return: stripped, lowercase string
+    """
+    thanks_c = thanks_c.strip().lower()
+    return thanks_c
+
+
+def list_print(db=None):
+    """
+    prints the donors in a given db
     :param db: dictionary-based database of donors(key) and their donations(values)
-    :return: thanks for a donation
+    :return: a printed list of donors
     """
-    thanks_c = str(input("Enter a name or type 'list': "))
-    thanks_c = thanks_c.lower()
-    if thanks_c.strip() == "list":
-        for item in donor_db:
-            print(item)
-    elif thanks_c.strip().lower() == "q":
-        return
-    elif thanks_c.title() not in donor_db.keys():
-        add_q = str(input("That name is not in the list, would you like to add it? (y/n): "))
-        add_q = add_q.lower().strip()
-        if add_q == "q":
-            return
-        elif add_q == "n":
-            return
-        elif add_q == "y":
-            print("Adding", thanks_c.title(), "to the donor list.")
-            add_y = input("Please enter their donation amount: ")
-            if add_y.lower().strip() == "q":
+    if db is None:
+        db = donor_db
+    for item in db:
+        print(item)
+
+
+def list_check(thanks_c, db=None):
+    """
+    Checks the db to see if the entered donor is in it
+    :param thanks_c: a sanitized/assumed donor name
+    :param db: dictionary-based database of donors(key) and their donations(values)
+    :return: if the thanks_c param is in the dict, it is returned for further use, otherwise, the str "not" is returned
+    """
+    if db is None:
+        db = donor_db
+    if thanks_c.title() in db.keys():
+        return thanks_c
+    elif thanks_c.title() not in db.keys():
+        return "not"
+
+
+def input_check(thanks_c):
+    """
+    Cleans up input when used against y/n situations
+    :param thanks_c: user input
+    :return: formatted user input
+    """
+    if thanks_c.strip().lower() == "q":
+        return "q"
+    elif thanks_c.strip().lower() == "y":
+        return "y"
+    elif thanks_c.strip().lower() == "y":
+        return "n"
+    elif thanks_c.strip().lower() == "list":
+        return "list"
+    else:
+        return thanks_c
+
+
+def don_add(thanks_c, db=None):
+    """
+    Adds a donation to existing donor, formats it
+    :param thanks_c: a name to add to the db
+    :param db: dictionary-based database of donors(key) and their donations(values)
+    :return: updated db
+    """
+    if db is None:
+        db = donor_db
+    donats = donor_db[thanks_c.title()]
+    while True:
+        try:
+            amount = "Add a donation amount: "
+            add_donats = ask_user(amount)
+            if add_donats.strip().lower() == "q":
                 return
             else:
-                while True:
-                    try:
-                        add_y = float(add_y)
-                        break
-                    except ValueError:
-                        print("Sorry, that is not a valid amount. ")
-                add_y_f = f"{add_y:.2f}"
-                thanks_c = thanks_c.title()
-                print("Adding " + thanks_c + "'s donation of $" + add_y_f, "to their db entry")
-                add_y_l = [add_y]
-                donor_db[thanks_c] = add_y_l
-                firster = letter_prep(thanks_c, donor_db)[0]
-                toters = letter_prep(thanks_c, donor_db)[1]
-                letter = letter_format(firster, toters)
-                print("Here is your Thank You:")
-                print(letter)
-    elif thanks_c.title() in donor_db.keys():
-        in_list = str(input("That name is in the list, would you like to add a new donation to it? (y/n): "))
-        while in_list != "y" and in_list != "n" and in_list != "q":
-            in_list = input("Please enter y or n: ").lower()
-        if in_list == "q":
-            return
-        if in_list == "n":
-            next_q = str(input("Do you still want to send a Thank You? (y/n): "))
-            while next_q != "y" and next_q != "n" and next_q != "q":
-                next_q = input("Please enter y or n: ").lower()
-            if next_q == "n":
-                pass
-            if next_q == "q":
-                return
-            elif next_q == "y":
-                firster = letter_prep(thanks_c, donor_db)[1]
-                toters = letter_prep(thanks_c, donor_db)[3]
-                letter = letter_format(firster, toters)
-                print(letter)
-        elif in_list == "y":
-            donats = donor_db[thanks_c.title()]
-            while True:
-                try:
-                    add_donats = input("Add a donation amount: ")
-                    if add_donats.strip().lower() == "q":
-                        return
-                    else:
-                        add_donats = float(add_donats)
-                        donats.append(add_donats)
-                        break
-                except ValueError:
-                    print("Sorry, that is not a valid amount. ")
-        firster = letter_prep(thanks_c, donor_db)[0]
-        toters = letter_prep(thanks_c, donor_db)[1]
-        letter = letter_format(firster, toters)
-        print("Here is your Thank You:")
-        print(letter)
+                add_donats = float(add_donats)
+                donats.append(add_donats)
+                break
+        except ValueError:
+            print("Sorry, that is not a valid amount.")
 
 
-def thanks_all(db=donor_db):
+def db_update(new_item_key, new_item_value, db=None):
     """
-    given a donor db, write thank-you files for each donor
+    Updates db with new name and donations
+    :param new_item_key: donor name to add
+    :param new_item_value: donation to add (starts with one)
     :param db: dictionary-based database of donors(key) and their donations(values)
-    :return: a text file thank you for each donor
+    :return: updated db
     """
-    for donor in donor_db:
-        firster = letter_prep(donor, donor_db)[1]
-        toters = letter_prep(donor, donor_db)[3]
-        file_name = donor.lower().replace(" ", "") + ".txt"
-        letter_text = letter_format(firster, toters)
-        save_file(file_name, letter_text)
-    print("Individual Thank You files for each donor have been created in the same directory\n"
-          "in which this programs lives/runs.")
+    if db is None:
+        db = donor_db
+    db[new_item_key.title()] = [new_item_value]
+
+
+def one_thanks(db=None):
+    """
+    This will generate a single thank you based on user input
+    :param db: dictionary-based database of donors(key) and their donations(values)
+    :return: formatted thank you text
+    """
+    if db is None:
+        db = donor_db
+    q = "Enter a name or type 'list': "
+    ans = ask_user(q)
+    if input_check(ans) == "list":
+        list_print(donor_db)
+    elif input_prep(ans) in list_check(ans):
+        q = "That name is in the list, would you like to add a donation? (y/n): "
+        add_or_no = input_check(ask_user(q))
+        while add_or_no != "y" and add_or_no != "n" and add_or_no != "q":
+            add_or_no = input("Please enter y or n: ").lower()
+        if add_or_no == "y":
+            don_add(ans, donor_db)
+            letter = letter_prep(ans, donor_db)
+            letter = letter_format(letter[0], letter[1])
+            print(letter)
+        elif add_or_no == "n":
+            q = "Would you still like to create a thank you? (y/n): "
+            answ = input_check(ask_user(q))
+            while answ != "y" and answ != "n" and answ != "q":
+                answ = input("Please enter y or n: ").lower()
+            if answ == "y":
+                letter = letter_prep(ans, donor_db)
+                letter = letter_format(letter[0], letter[1])
+                print(letter)
+            elif ans == "n":
+                return
+            elif ans == "q":
+                return
+        elif add_or_no == "q":
+            return
+    elif list_check(ans) == "not":
+        q = "That name is not in the list, would you like to add it? (y/n): "
+        answ = input_check(ask_user(q))
+        while answ != "y" and answ != "n" and answ != "q":
+            answ = input("Please enter y or n: ").lower()
+        if answ == "y":
+            q = "Please enter a donation amount: "
+            amount = float(ask_user(q))
+            db_update(ans, amount, donor_db)
+            letter = letter_prep(ans, donor_db)
+            letter = letter_format(letter[0], letter[1])
+            print(letter)
+        elif answ == "n":
+            return
+        elif answ == "q":
+            return
+    elif input_check(ans) == "q":
+        return
 
 
 def save_file(file_name, letter_text):
@@ -153,6 +215,24 @@ def save_file(file_name, letter_text):
     f.close()
 
 
+def thanks_all(db=None):
+    """
+    given a donor db, write thank-you files for each donor
+    :param db: dictionary-based database of donors(key) and their donations(values)
+    :return: a text file thank you for each donor
+    """
+    if db is None:
+        db = donor_db
+    for donor in donor_db:
+        firster = letter_prep(donor, donor_db)[0]
+        toters = letter_prep(donor, donor_db)[1]
+        file_name = donor.lower().replace(" ", "") + ".txt"
+        letter_text = letter_format(firster, toters)
+        save_file(file_name, letter_text)
+    print("Individual Thank You files for each donor have been created in the same directory\n"
+          "in which this programs lives/runs.")
+
+
 def report_sort_key(item):
     """
     defines a sorting key for database, stolen for part 1, might need fixed for proper dict sorting
@@ -162,18 +242,28 @@ def report_sort_key(item):
     return item[1]
 
 
-def report(db=donor_db):
+def get_report(db=None):
     """
-    this functions takes in a donor database and returns a formatted report
-    :param db: input database, a dict of donor: donations
-    :return: formatted report, based on db data; sum of donations, total num of donations, average donation/name
+    Gets/makes report based on orig dict
+    :param db: dictionary-based database of donors(key) and their donations(values)
+    :return: formatted dictionary with some math run on donations
     """
+    if db is None:
+        db = donor_db
     report_don = []
     [report_don.append((key, sum(db[key]), len(db[key]), float(sum(db[key])/len(db[key])))) for key in db]
     report_don.sort(key=report_sort_key, reverse=True)
+    return report_don
+
+
+def display_report(report_dict):
+    """
+    this functions takes in a donor database and returns a formatted report
+    :param report_dict: input dict - formatted data from db
+    :return: formatted report, based on db data; sum of donations, total num of donations, average donation/name
+    """
     key = ["name", "total given", "num gifts", "average gift"]
     separator = "|"
-
     print(f"{key[0]:<18}",
           f"{separator:^3}",
           f"{key[1]:^18}",
@@ -182,8 +272,16 @@ def report(db=donor_db):
           f"{separator:^3}",
           f"{key[3]:>15}")
     print("-" * 76)
-    for row in report_don:
+    for row in report_dict:
         print("{:<18s}   {:>15.2f}   {:13.0f}   {:>20.2f}".format(*row))
+
+
+def report():
+    """
+    Combines report visual formatting with report data formatting
+    :return: a completed report
+    """
+    display_report(get_report(donor_db))
 
 
 def quit_prog():
