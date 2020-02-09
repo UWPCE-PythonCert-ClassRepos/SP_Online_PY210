@@ -81,30 +81,30 @@ def test_render_element():
 
 # # Uncomment this one after you get the one above to pass
 # # Does it pass right away?
-# def test_render_element2():
-#     """
-#     Tests whether the Element can render two pieces of text
-#     So it is also testing that the append method works correctly.
+def test_render_element2():
+    """
+    Tests whether the Element can render two pieces of text
+    So it is also testing that the append method works correctly.
 
-#     It is not testing whether indentation or line feeds are correct.
-#     """
-#     e = Element()
-#     e.append("this is some text")
-#     e.append("and this is some more text")
+    It is not testing whether indentation or line feeds are correct.
+    """
+    e = Element()
+    e.append("this is some text")
+    e.append("and this is some more text")
 
-#     # This uses the render_results utility above
-#     file_contents = render_result(e).strip()
+     # This uses the render_results utility above
+    file_contents = render_result(e).strip()
 
-#     # making sure the content got in there.
-#     assert("this is some text") in file_contents
-#     assert("and this is some more text") in file_contents
+     # making sure the content got in there.
+    assert("this is some text") in file_contents
+    assert("and this is some more text") in file_contents
 
-#     # make sure it's in the right order
-#     assert file_contents.index("this is") < file_contents.index("and this")
+     # make sure it's in the right order
+    assert file_contents.index("this is") < file_contents.index("and this")
 
-#     # making sure the opening and closing tags are right.
-#     assert file_contents.startswith("<html>")
-#     assert file_contents.endswith("</html>")
+     # making sure the opening and closing tags are right.
+    assert file_contents.startswith("<html>")
+    assert file_contents.endswith("</html>")
 
 
 
@@ -112,66 +112,66 @@ def test_render_element():
 # # # Step 2
 # # ########
 
-# # tests for the new tags
-# def test_html():
-#     e = Html("this is some text")
-#     e.append("and this is some more text")
-
-#     file_contents = render_result(e).strip()
-
-#     assert("this is some text") in file_contents
-#     assert("and this is some more text") in file_contents
-#     print(file_contents)
-#     assert file_contents.endswith("</html>")
-
-
-# def test_body():
-#     e = Body("this is some text")
-#     e.append("and this is some more text")
-
-#     file_contents = render_result(e).strip()
-
-#     assert("this is some text") in file_contents
-#     assert("and this is some more text") in file_contents
-
-#     assert file_contents.startswith("<body>")
-#     assert file_contents.endswith("</body>")
+ # tests for the new tags
+def test_html():
+     e = Html("this is some text")
+     e.append("and this is some more text")
+    
+     file_contents = render_result(e).strip()
+    
+     assert("this is some text") in file_contents
+     assert("and this is some more text") in file_contents
+     print(file_contents)
+     assert file_contents.endswith("</html>")
 
 
-# def test_p():
-#     e = P("this is some text")
-#     e.append("and this is some more text")
+def test_body():
+     e = Body("this is some text")
+     e.append("and this is some more text")
+    
+     file_contents = render_result(e).strip()
+    
+     assert("this is some text") in file_contents
+     assert("and this is some more text") in file_contents
+    
+     assert file_contents.startswith("<body>")
+     assert file_contents.endswith("</body>")
 
-#     file_contents = render_result(e).strip()
 
-#     assert("this is some text") in file_contents
-#     assert("and this is some more text") in file_contents
+def test_p():
+     e = P("this is some text")
+     e.append("and this is some more text")
+    
+     file_contents = render_result(e).strip()
+    
+     assert("this is some text") in file_contents
+     assert("and this is some more text") in file_contents
+    
+     assert file_contents.startswith("<p>")
+     assert file_contents.endswith("</p>")
 
-#     assert file_contents.startswith("<p>")
-#     assert file_contents.endswith("</p>")
 
-
-# def test_sub_element():
-#     """
-#     tests that you can add another element and still render properly
-#     """
-#     page = Html()
-#     page.append("some plain text.")
-#     page.append(P("A simple paragraph of text"))
-#     page.append("Some more plain text.")
-
-#     file_contents = render_result(page)
-#     print(file_contents) # so we can see it if the test fails
-
-#     # note: The previous tests should make sure that the tags are getting
-#     #       properly rendered, so we don't need to test that here.
-#     assert "some plain text" in file_contents
-#     assert "A simple paragraph of text" in file_contents
-#     assert "Some more plain text." in file_contents
-#     assert "some plain text" in file_contents
-#     # but make sure the embedded element's tags get rendered!
-#     assert "<p>" in file_contents
-#     assert "</p>" in file_contents
+def test_sub_element():
+     """
+     tests that you can add another element and still render properly
+     """
+     page = Html()
+     page.append("some plain text.")
+     page.append(P("A simple paragraph of text"))
+     page.append("Some more plain text.")
+    
+     file_contents = render_result(page)
+     print(file_contents) # so we can see it if the test fails
+    
+     # note: The previous tests should make sure that the tags are getting
+     #       properly rendered, so we don't need to test that here.
+     assert "some plain text" in file_contents
+     assert "A simple paragraph of text" in file_contents
+     assert "Some more plain text." in file_contents
+     assert "some plain text" in file_contents
+     # but make sure the embedded element's tags get rendered!
+     assert "<p>" in file_contents
+     assert "</p>" in file_contents
 
 
 
@@ -180,8 +180,98 @@ def test_render_element():
 # Step 3
 ########
 
-# Add your tests here!
+def test_head():
+     e = Head("this is some text")
+     e.append("and this is some more text")
+    
+     file_contents = render_result(e).strip()
+    
+     assert("this is some text") in file_contents
+     assert("and this is some more text") in file_contents
+    
+     assert file_contents.startswith("<head>")
+     assert file_contents.endswith("</head>")
+     
+def test_title():
+    e = Title("This is a Title")
+    with pytest.raises(NotImplementedError):
+        e.append("additional content")
+    file_contents = render_result(e).strip()
+    assert("This is a Title") in file_contents
+    assert "\n" not in file_contents
+    assert file_contents.startswith("<title>")
+    assert file_contents.endswith("</title>")
 
+def test_attributes():
+    e = P("A paragraph of text", style="text-align: center", id="intro")
+    file_contents = render_result(e).strip()
+    print(file_contents)
+    assert "A paragraph of text" in file_contents
+    assert file_contents.endswith("</p>")
+    assert file_contents.startswith("<p ")
+    assert 'style="text-align: center"' in file_contents
+    assert 'id="intro"' in file_contents
+
+def test_hr():
+    hr = Hr()
+    file_contents = render_result(hr)
+    print(file_contents)
+    assert file_contents == '<hr />\n'
+
+def test_hr_attr():
+    hr = Hr(width=400)
+    file_contents = render_result(hr).strip()
+    print(file_contents)
+    assert file_contents == '<hr width="400" />'
+
+def test_br():
+    br = Br()
+    file_contents = render_result(br)
+    print(file_contents)
+    assert file_contents == "<br />\n"
+    
+def test_content_in_br():
+    with pytest.raises(TypeError):
+        br = Br("some content")
+
+def test_append_content_in_br():
+    with pytest.raises(TypeError):
+        br = Br()
+        br.append("some content")
+
+def test_anchor():
+    link = A("http://google.com", "link to google")
+    file_contents = render_result(link)
+    print(file_contents)
+    assert file_contents == '<a href="http://google.com">link to google</a>\n'
+    
+def test_list():
+    unordered_list = Ul()
+    file_contents = render_result(unordered_list).strip()
+    print(file_contents)
+    assert file_contents.startswith('<ul>')
+    assert file_contents.endswith('</ul>')
+    
+def test_list_item():
+    item = Li()
+    file_contents = render_result(item).strip()
+    print(file_contents)
+    assert file_contents.startswith('<li>')
+    assert file_contents.endswith('</li>')
+        
+def test_header():
+    header = H(2, "The text of the header")
+    file_contents = render_result(header).strip()
+    print(file_contents)
+    assert file_contents.startswith('<h2>')
+    assert file_contents.endswith('</h2>')
+    
+def test_meta():
+    meta = Meta(charset="UTF-8")
+    file_contents = render_result(meta).strip()
+    print(file_contents)
+    assert file_contents == '<meta charset="UTF-8" />'
+    
 # #####################
 # # indentation testing
 # #  Uncomment for Step 9 -- adding indentation
