@@ -2,20 +2,18 @@
 __author__ = 'Tim Lurvey, ig408c'
 
 import sys
+from lurvey_classes import bunch
 
-sys.path.append('C:\\Users\\ig408c\\Documents\\!SCHOOL\\!Python\\SP_Online_PY210-master\\students\\tim_lurvey')
-from myClasses import bunch
-
-myData = {}
-myData.update({'Tom Hanks': bunch(total=24536.20, number=3)})
-myData.update({'Barry Larkin': bunch(total=4521., number=3)})
-myData.update({'Mo Sizlack': bunch(total=88.88, number=2)})
-myData.update({'Anonymous': bunch(total=100., number=1)})
-myData.update({'Donnald Trump': bunch(total=1., number=3)})
+my_data = {}
+my_data.update({'Tom Hanks': bunch(total=24536.20, number=3)})
+my_data.update({'Barry Larkin': bunch(total=4521., number=3)})
+my_data.update({'Mo Sizlack': bunch(total=88.88, number=2)})
+my_data.update({'Anonymous': bunch(total=100., number=1)})
+my_data.update({'Donnald Trump': bunch(total=1., number=3)})
 
 
 def add_new_name(name: str = ""):
-    myData.update({name: bunch(total=0., number=0)})
+    my_data.update({name: bunch(total=0., number=0)})
     return True
 
 
@@ -41,16 +39,16 @@ def compose_email(name: str = "", donation: float = 0., data: any = None):
 
 
 def add_donation(name: str = "", ammount: float = 0.):
-    data = myData.get(name)
+    data = my_data.get(name)
     data.total += float(ammount)
     data.number += 1
-    myData.update({name: data})
+    my_data.update({name: data})
     return True
 
 
 def print_name_list():
     print_list = "The following names are available:\n"
-    for i, item in enumerate(myData.items()):
+    for i, item in enumerate(my_data.items()):
         print_list += "{i:>3} : {name}\n".format(i=i, name=item[0])
     print(print_list[:-1])
     return True
@@ -66,7 +64,7 @@ def send_thank_you():
         return True
     else:
         # add the name is it is not in the database
-        if request not in myData:
+        if request not in my_data:
             add_new_name(name=request)
         # get the donation amount
         donation = input("Enter amount:").replace("$", "").strip()
@@ -79,7 +77,7 @@ def send_thank_you():
         # add the donation to their existing amount
         add_donation(name=request, ammount=float(donation))
         # return the email string
-        print(compose_email(name=request, donation=float(donation), data=myData.get(request)))
+        print(compose_email(name=request, donation=float(donation), data=my_data.get(request)))
         return True
 
 
@@ -92,7 +90,7 @@ def report():
     s = "\n"
     s += "Donor Name                | Total Given | Num Gifts | Average Gift\n"
     s += ("-" * 66) + "\n"
-    for i, data in enumerate(myData.items()):
+    for i, data in enumerate(my_data.items()):
         total = "$ {:.2f}".format(data[1].total)
         average = "$ {:.2f}".format(data[1].total / data[1].number)
         s += "{name:<26}|{tot:>13}|{num:>11d}|{avg:>13}\n".format(name=data[0],

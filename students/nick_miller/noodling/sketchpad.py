@@ -1,25 +1,26 @@
-# #!/usr/bin/env python3
+#!/usr/bin/env python3
 
-import sys
+donor_db = {
+    "Jeff Staple": [20, 20],
+    "Takashi Murakami": [10.50],
+    "Virgil Abloh": [300, 40.33, 5.35],
+    "Jan Chipchase": [1001.23, 400.87, 102]
+}
 
 
-def y_or_n(veriable):
+def letter_prep(ver, db):
     """
-    this is a stupid function that strips and lowers whatever is passed to it
-    :param veriable: input string, usually
-    :return: stripped and lowered, makes checking for y or n easier
+    takes user input (name)
+    :param ver: name (sanitized before being passed)
+    :param db: a dict of donors and their donations
+    :return: a list of their full name, first name, all donations, and a total
     """
-    veriable = veriable.strip().lower()
-    return veriable
+    namer = ver.split(" ")
+    firster = namer[0]
+    monies = db[ver.title()]
+    toters = sum(monies)
+    toters = float(f"{toters:.2f}")
+    return [firster, toters]
 
 
-question = input("do you like pankakes? ")
-ans = y_or_n(question)
-while ans != "y" and ans != "n" and ans != "q":
-    ans = input("Please enter y or n: ")
-if ans == "q":
-    sys.exit()
-if ans == "n":
-    print("no")
-if ans == "y":
-    print("yeah")
+print(letter_prep("jeff staple", donor_db))
