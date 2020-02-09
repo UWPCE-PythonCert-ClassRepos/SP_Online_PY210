@@ -37,8 +37,11 @@ def test_letter_format():
                              'The Foundation']))
 
 
-# def test_thanks_all():
-#     assert mail.thanks_all(test_db)
+def test_thanks_all():
+    mail.thanks_all(test_db)
+    assert os.path.isfile("janchipchase.txt") is True
+    assert os.path.isfile("jeffstaple.txt") is True
+    assert os.path.isfile("takashimurakami.txt") is True
 
 
 def test_save_file():
@@ -68,10 +71,6 @@ def test_input_check():
     assert mail.input_check("  Y") == expected2
 
 
-# def test_don_add():
-#     expected = ""
-#     assert mail.don_add() == expected
-
 def test_db_update():
     expected = None
     assert mail.db_update("donor four", 10, test_db) == expected
@@ -89,22 +88,24 @@ def test_quit_prog():
 
 print("Function check:")
 if test_letter_prep() is None:
-    print("letter_prep() is good")
+    print("1. letter_prep() is good")
 if test_letter_format() is None:
-    print("letter_format() is good")
+    print("2. letter_format() is good")
 if test_input_prep() is None:
-    print("input_prep() is good")
-# if test_thanks_all() is None:
-#     print("thanks_all() is good")
+    print("3. input_prep() is good")
+if test_thanks_all() is None:
+    print("4. thanks_all() is good")
 if test_list_check() is None:
-    print("list_check() is good")
+    print("5. list_check() is good")
 if test_input_check() is None:
-    print("input_check() is good")
+    print("6. input_check() is good")
 if test_db_update() is None:
-    print("db_update() is good")
+    print("7. db_update() is good")
 if test_save_file() is None:
-    print("save_file() is good")
+    print("8. save_file() is good")
 if test_report_sort_key() is None:
-    print("report_sort_key() is good")
+    print("9. report_sort_key() is good")
 if test_quit_prog() is None:
-    print("quit_prog() is good")
+    print("10. quit_prog() is good")
+print()
+print("10 tests run")

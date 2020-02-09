@@ -229,8 +229,19 @@ def thanks_all(db=None):
         file_name = donor.lower().replace(" ", "") + ".txt"
         letter_text = letter_format(firster, toters)
         save_file(file_name, letter_text)
+
+
+def confirm_all():
     print("Individual Thank You files for each donor have been created in the same directory\n"
           "in which this programs lives/runs.")
+
+
+def send_and_confirm(db=None):
+    if db is None:
+        db = donor_db
+    thanks_all(donor_db)
+    confirm_all()
+
 
 
 def report_sort_key(item):
@@ -318,7 +329,7 @@ Menu of Options
 """)
 
 menu_dict = {"1": one_thanks,
-             "2": thanks_all,
+             "2": send_and_confirm,
              "3": report,
              "4": quit_prog,
              "q": quit_prog}
