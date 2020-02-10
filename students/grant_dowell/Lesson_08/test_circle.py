@@ -5,6 +5,7 @@ Created on Sun Feb  9 20:13:36 2020
 @author: travel_laptop
 """
 import math
+import unittest as ut
 from circle import *
 
 def test_properties():
@@ -23,8 +24,9 @@ def test_diameter_init():
     
 def test_print():
     c = Circle(6)
-    assert print(c) == 'Circle with radius: 6.000000'
-    assert repr(c) == 'Circle(6)'
+    print(c)
+    assert str(c) == 'Circle with radius: 6.000000'
+    assert repr(c) == "Circle(6.00)"
     
 def test_math():
     c1 = Circle(2)
