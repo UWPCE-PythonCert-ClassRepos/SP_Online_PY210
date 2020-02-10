@@ -2,7 +2,8 @@
 """
 Created on Sun Feb  9 20:14:33 2020
 
-@author: travel_laptop
+@author: Grant Dowell
+Lesson 08 - Circle Class
 """
 import math
 
@@ -46,4 +47,27 @@ class Circle(object):
     def __repr__(self):
         return f"Circle({self.radius:.2f})"
     
+    def __add__(self, other):
+        new = Circle(self._radius + other._radius)
+        return new
+        
+    def __mul__(self, num):
+        if num >= 0:
+            new = Circle(self._radius * num)
+        else:
+            raise ValueError
+        return new
     
+    def __eq__(self, other):
+        if self._radius == other._radius:
+            out = True
+        else:
+            out = False
+        return out
+    
+    def __lt__(self,other):
+        if self._radius < other._radius:
+            out = True
+        else:
+            out = False
+        return out

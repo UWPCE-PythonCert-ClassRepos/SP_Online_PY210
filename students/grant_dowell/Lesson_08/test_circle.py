@@ -31,20 +31,24 @@ def test_print():
 def test_math():
     c1 = Circle(2)
     c2 = Circle(4)
+    c3 = c1 + c2
+    print(c3)
+    assert c3.radius == 6
     
-    assert c1 + c2 == Circle(6)
-    assert c2 * 3 == Circle(12)
+    c4 = c1 * 3
+    print(c4)
+    assert c4.radius == 6
     
 def test_compares():
     c1 = Circle(2)
     c2 = Circle(4)
     
-    assert c1 > c2 is False
-    assert c1 < c2 is True
-    assert c1 == c2 is False
+    assert (c1 > c2) is False
+    assert c1 < c2
+    assert (c1 == c2) is False
     
     c3 = Circle(4)
-    assert c2 == c3 is True
+    assert c2 == c3
     
 def test_sort():
     circles = [Circle(6), Circle(7), Circle(2), Circle(1)]
