@@ -184,11 +184,3 @@ def print_grid2(grid_size, cell_size):
     print_grid_beam(grid_size, cell_size)
     print()
 
-
-
-
-#print_basic_grid()
-
-#function_print_grid(3)
-
-print_grid2(5,3)
