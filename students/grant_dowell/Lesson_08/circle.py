@@ -76,4 +76,19 @@ class Circle(object):
     
     def __lt__(self,other):
         return self.radius < other.radius
+
+class Sphere(Circle):
+    def __str__(self):
+        return f"Sphere with radius: {self.radius:.6f}"
+    
+    def __repr__(self):
+        return f"Sphere({self.radius:.2f})"
+    
+    @property
+    def volume(self):
+        return 4/3 * math.pi * self.radius ** 3
+    
+    @property
+    def area(self):
+        raise NotImplementedError
     

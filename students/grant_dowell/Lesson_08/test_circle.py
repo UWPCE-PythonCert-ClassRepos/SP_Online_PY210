@@ -55,3 +55,13 @@ def test_sort():
     sorted_circles = [Circle(1), Circle(2), Circle(6), Circle(7)]
     circles.sort()
     assert circles == sorted_circles
+    
+def test_sphere_volume():
+    s = Sphere(2)
+    assert s.volume == 4/3 * math.pi * 8
+    
+def test_sphere_print():
+    s = Sphere(6)
+    print(s)
+    assert str(s) == 'Sphere with radius: 6.000000'
+    assert repr(s) == "Sphere(6.00)"
