@@ -39,7 +39,7 @@ def add_donation(donor_name, donate_amt):
         if donor[0] == donor_name:
             donor[1].append(donate_amt)
             donor_found = True
-    if donor_found == False:
+    if donor_found is False:
         donor_info.append((donor_name, [donate_amt]))
     print(f"Thank you, {donor_name}, for your generous donation of ${donate_amt:.2f}.")
 
@@ -59,7 +59,7 @@ def handle_selection2():
         report.append([donor[0], sum(donor[1]), len(donor[1]), sum(donor[1])/len(donor[1])])
     
     #sort the report
-    sortedReport = sorted(report, key = itemgetter(1), reverse = True)
+    sortedReport = sorted(report, key=itemgetter(1), reverse=True)
     
     #print the sorted report
     for donor in sortedReport:

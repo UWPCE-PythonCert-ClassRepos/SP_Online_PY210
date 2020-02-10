@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Mailroom Part 1
+Mailroom Part 3
 Grant Dowell
 """
 
@@ -50,11 +50,17 @@ def thanks():
             else:   # If name not found in db, add it
                 db[name] = []
     else:
-#        print(name)
-        donation = input("Please enter a donation amount: ")
-        if donation.lower() != 'quit':  #Check if user is attempting to quit
-            db[name].append(float(donation))
-            thank_you = generate_letter(name)
+        vld_donation = False
+        while vld_donation is False:
+            donation = input("Please enter a donation amount: ")
+            if donation.lower() != 'quit':  #Check if user is attempting to quit
+                try:
+                    db[name].append(float(donation))
+                except ValueError:
+                    print("Please enter a number or 'quit'")
+                else:
+                    vld_donation = True
+        thank_you = generate_letter(name)
         print("\n" + thank_you + "\n")
 
 def report():
@@ -119,4 +125,8 @@ if __name__ == '__main__':
         print("  3) Generate Thank You Letter for All")
         print("  4) Quit\n")
         cmd = input('> ')
-        menu[cmd]()
+        try:
+            menu[cmd]()
+        except KeyError:
+            print("\nInput MUST be a number\n")
+#            
