@@ -7,7 +7,7 @@ A class-based system for rendering html.
 
 # This is the framework for the base class
 class Element(object):
-    
+
     tag = "html"
     tag_attributes = dict()
     indent = '    '
@@ -17,7 +17,7 @@ class Element(object):
             self.contents = []
         else:
             self.contents = [content]
-        
+
         self.tag_attributes = kwargs
 
     def append(self, new_content):
@@ -27,7 +27,7 @@ class Element(object):
         out_file.write(self._open_tag(curr_ind))
         out_file.write("\n")
         for content in self.contents:
-            if isinstance(content,str):
+            if isinstance(content, str):
                 out_file.write(curr_ind+self.indent)
 #                out_file.write((self.indent + 1) * '    ') #Add indent to content
                 out_file.write(content)
@@ -74,7 +74,7 @@ class OneLineTag(Element):
     def render(self, out_file, curr_ind=""):
         out_file.write(self._open_tag(curr_ind))
         for content in self.contents:
-            if isinstance(content,str):
+            if isinstance(content, str):
                 out_file.write(content)
             else:
                 content.render(out_file)
@@ -93,9 +93,11 @@ class Hr(SelfClosingTag):
 class Br(SelfClosingTag):
     tag = 'br'
     
-    def __init__(self, content = None, **kwargs):
+    def __init__(self, content=None, **kwargs):
         if content is not None:
             raise TypeError
+        else:
+            super().init(content, **kwargs)
             
     def append(self, new_content):
         raise TypeError
