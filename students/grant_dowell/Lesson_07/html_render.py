@@ -97,7 +97,7 @@ class Br(SelfClosingTag):
         if content is not None:
             raise TypeError
         else:
-            super().init(content, **kwargs)
+            super().__init__(content, **kwargs)
             
     def append(self, new_content):
         raise TypeError
