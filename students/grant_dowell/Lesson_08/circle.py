@@ -34,7 +34,7 @@ class Circle(object):
     
     @property
     def area(self):
-        return math.pi * self._radius ** 2
+        return math.pi * self.radius ** 2
     
     @classmethod
     def from_diameter(cls, diameter):
@@ -48,26 +48,32 @@ class Circle(object):
         return f"Circle({self.radius:.2f})"
     
     def __add__(self, other):
-        new = Circle(self._radius + other._radius)
-        return new
+        return Circle(self.radius + other.radius)
+    
+    def __radd__(self, other):
+        return self.__add__(self, other)
         
-    def __mul__(self, num):
-        if num >= 0:
-            new = Circle(self._radius * num)
-        else:
-            raise ValueError
-        return new
+    def __sub__(self, other):
+        return Circle(self.radius - other.radius)
+    
+    def __rsub__(self, other):
+        return self.__sub__(self, other)
+    
+    def __mul__(self, other):
+        return Circle(self.radius * other)
+    
+    def __rmul__(self, other):
+        return self.__mul__(self, other)
+    
+    def __truediv__(self, other):
+        return Circle(self.radius / other)
+    
+    def __pow__(self, other):
+        return Circle(self.radius ** other)
     
     def __eq__(self, other):
-        if self._radius == other._radius:
-            out = True
-        else:
-            out = False
-        return out
+        return self.radius == other.radius
     
     def __lt__(self,other):
-        if self._radius < other._radius:
-            out = True
-        else:
-            out = False
-        return out
+        return self.radius < other.radius
+    
