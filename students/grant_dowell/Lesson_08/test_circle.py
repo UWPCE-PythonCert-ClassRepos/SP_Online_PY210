@@ -1,0 +1,51 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Sun Feb  9 20:13:36 2020
+
+@author: travel_laptop
+"""
+import math
+from circle import *
+
+def test_properties():
+    c = Circle(10)
+    assert c.radius == 10
+    assert c.diameter == 20
+    print(c.area)
+    assert c.area == math.pi * 100
+    
+    c.diameter = 6
+    assert c.radius == 3
+    
+def test_diameter_init():
+    c = Circle.from_diameter(8)
+    assert c.radius == 4
+    
+def test_print():
+    c = Circle(6)
+    assert print(c) == 'Circle with radius: 6.000000'
+    assert repr(c) == 'Circle(6)'
+    
+def test_math():
+    c1 = Circle(2)
+    c2 = Circle(4)
+    
+    assert c1 + c2 == Circle(6)
+    assert c2 * 3 == Circle(12)
+    
+def test_compares():
+    c1 = Circle(2)
+    c2 = Circle(4)
+    
+    assert c1 > c2 is False
+    assert c1 < c2 is True
+    assert c1 == c2 is False
+    
+    c3 = Circle(4)
+    assert c2 == c3 is True
+    
+def test_sort():
+    circles = [Circle(6), Circle(7), Circle(2), Circle(1)]
+    sorted_circles = [Circle(1), Circle(2), Circle(6), Circle(7)]
+    circles.sort()
+    assert circles == sorted_circles
