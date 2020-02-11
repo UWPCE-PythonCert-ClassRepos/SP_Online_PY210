@@ -77,23 +77,55 @@ def order_by_thirds(seq):
     a_new_sequence = last + first + middle
     return(a_new_sequence)
 
-    # if check == str:
-    #     last = 1
-    #     middle =
-    #     first =
-    #     a_new_sequence = "{}{}{}".format(last,copy,first)
-    #
-    #
-    # return sequence
 
+
+###############################################################################################################
+#   TESTING
+##############################################################################################################
 
 a_test_string2 = "abcdefghikjlmnop"
-a_test_tuple2 = (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33)
+
+a_test_tuple2 = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, \
+                 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34)
+
 a_test_string = "this is a string"
+
 a_test_tuple = (2, 54, 13, 12, 5, 32, 47)
+
 a_test_list = ['jack', 1, exchange_fist_last(a_test_string), 14, 32, 'joe', "2231", 7, 1977]
 
-def print_results(x):
-    print(exchange_fist_last(x))
 
-print_results(a_test_tuple2)
+if __name__ == "__main__":
+    # run some tests against exchange_fist_last()
+    assert exchange_fist_last(a_test_string) == "ghis is a strint"
+    assert exchange_fist_last(a_test_string2) == "pbcdefghikjlmnoa"
+    assert exchange_fist_last(a_test_tuple) == (47, 54, 13, 12, 5, 32, 2)
+    assert exchange_fist_last(a_test_list) == [1977, 1, "ghis is a strint", 14, 32, 'joe', "2231", 7, 'jack']
+
+    # run some tests against remove_every_other_item()
+    assert remove_every_other_item(a_test_string) == "ti sasrn"
+    assert remove_every_other_item(a_test_string2) == "acegijmo"
+    assert remove_every_other_item(a_test_tuple) == (2, 13, 5, 47)
+    assert remove_every_other_item(a_test_list) == ['jack', 'ghis is a strint', 32, '2231', 1977]
+
+    # run some tests against first_last_4_removed()
+    assert first_last_4_removed(a_test_string) == " sas"
+    assert first_last_4_removed(a_test_string2) == "egij"
+    assert first_last_4_removed(a_test_tuple2) == (5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29)
+    assert first_last_4_removed(a_test_list) == [32]
+
+    # run some tests against reverse_elements()
+    assert reverse_elements(a_test_string) == "gnirts a si siht"
+    assert reverse_elements(a_test_string2) == "ponmljkihgfedcba"
+    assert reverse_elements(a_test_tuple) == (47, 32, 5, 12, 13, 54, 2)
+    assert reverse_elements(a_test_list) == [1977, 7, '2231', 'joe', 32, 14, 'ghis is a strint', 1, 'jack']
+
+    # run some tests against order_by_thirds()
+    assert order_by_thirds(a_test_string) == "stringthis is a "
+    assert order_by_thirds(a_test_string2) == "jlmnopabcdefghik"
+    assert order_by_thirds(a_test_tuple2) == (23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 1, 2, 3, 4, 5, 6, 7, 8, \
+                                              9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22)
+    assert order_by_thirds(a_test_list) == ['2231', 7, 1977, 'jack', 1, 'ghis is a strint', 14, 32, 'joe']
+
+
+    print("All tests passed")
