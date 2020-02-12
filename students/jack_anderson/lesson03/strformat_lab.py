@@ -92,9 +92,29 @@ def task_five(x):
 
 
 
+def task_six():
+    x = ('NAME', 'AGE', 'COST')
+    a = ('Jack', 42, '$100,000' )
+    b = ('Stephanie', 9, '$1,200.97')
+    c = ('Mr. Anderson', 100, '$900,000.99')
+    z = '{name:{align}{width}}|{age:{align}{width}}|{cost:{align}{width}}|' \
+          .format(name=x[0], age=x[1], cost=x[2], align='^', width='15')
 
-def test(x):
-    return(task_five(x))
+
+    print('{name:{align}{width}}|{age:{align}{width}}|{cost:{align}{width}}|' \
+          .format(name=x[0], age=x[1], cost=x[2], align='^', width='15'))
+    print('{name:{align}{width}}|{age:{align}{width}}|{cost:{align}{width}}|'\
+        .format(name=a[0], age=a[1], cost=a[2], align='^',width='15'))
+    print('{name:{align}{width}}|{age:{align}{width}}|{cost:{align}{width}}|' \
+        .format(name=b[0], age=b[1], cost=b[2], align='^', width='15'))
+    print('{name:{align}{width}}|{age:{align}{width}}|{cost:{align}{width}}|' \
+        .format(name=c[0], age=c[1], cost=c[2], align='^', width='15'))
 
 
-test(list_5)
+
+
+def test():
+    return(task_six())
+
+
+test()
