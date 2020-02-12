@@ -11,7 +11,7 @@ or False otherwise.
 """
 
 
-def walnut_party(walnuts: int, is_weekend: bool):
+def walnut_party(walnuts: int, is_weekend: bool) -> bool:
     # Test inputs
     try:
         complex(walnuts)

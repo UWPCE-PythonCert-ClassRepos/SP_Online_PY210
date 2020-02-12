@@ -10,7 +10,7 @@ that if either of you has style of 2 or less, then the result is 0 (no).
 Otherwise the result is 1 (maybe).
 """
 
-def date_fashion(you: int, date: int):
+def date_fashion(you: int, date: int) -> bool:
     result = 1
     if you >= 8 or date >= 8:
         result = 2
