@@ -9,7 +9,7 @@ Mailroom assignment part 1
 
 # The list of donors and their amounts donated
 donors_list = [
-    ['Bubbles Trailer',[1500.23, 2523.12, 3012.89]],
+    ['Bubbles Trailer',[1500, 2523, 3012]],
     ['Julien Park',[2520.92, 8623.12]],
     ['Ricky Boys',[7042.76, 3845.56, 5123.25]],
     ['Jack Anderson',[1044, 2232, 4123.56]],
@@ -46,11 +46,11 @@ def name_check(x):
     """
     count = len(donor_names())
     current = donor_names()
-    start = 0
-    while start < count:
-        if x == current[start]:
-            return(start)
-        start = start + 1
+    z = 0
+    while z < count:
+        if x == current[z]:
+            return(z)
+        z = z + 1
     new_donor = [x,[]]
     donors_list.append(new_donor)
     return(count)
@@ -91,15 +91,18 @@ def prompt_donation_amount(name, donor_index):
     :param name: Name of donor
     :param donor_index: List index number of donor
     """
+    donor_info = donors_list[donor_index]
     donation = input("Please enter a donation amount for {} "
                      "(enter 'q' to cancel) : ".format(name))
-    if donation.lower() == 'q':
-        start()
+    if len(donation) == 0:
+        prompt_donation_amount(name, donor_index)
+
+    elif donation.lower() == 'q':
+        donors_list.pop()
+
     else:
-        donor_info = donors_list[donor_index]
         donor_info[1].append(donation)
         email_template(name, donation)
-        start()
 
 
 def send_thanks():
@@ -109,11 +112,16 @@ def send_thanks():
     name = input("Enter the full name of the donor "
                  "(enter 'q' to cancel "
                  "or enter 'list' to view a list of donors)\n")
-    if name.lower() == 'q':
+    if len(name) == 0:
+        send_thanks()
+
+    elif name.lower() == 'q':
         start()
+
     elif name.lower() == "list":
         print(donor_names())
         send_thanks()
+
     donor_index = name_check(name)
     prompt_donation_amount(name, donor_index)
 
@@ -149,7 +157,6 @@ def create_report():
         name, totals, num_donations, avg_donation = donor_details(i)
         report_template(name, totals, num_donations, (avg_donation))
     print()
-    start()
 
 
 def start():
@@ -157,30 +164,30 @@ def start():
     Action to prompt user to select various menu items or to close the program. Checks in place to ensure user
     enters a numerical key.
     """
-    action = input("Select a number to perform one of the following actions...\n"
+    while True:
+        action = input("Select a number to perform one of the following actions...\n"
                "1. Send a Thank You Email \n"
                "2. Create a Report \n"
                "3. Quit \n")
 
-    if action.isnumeric():
-        action = int(action)
-        if action > 3 or action < 1:
-            print("Please select a number 1, 2 or 3")
-            start()
+        if action.isnumeric():
+            action = int(action)
+            if action > 3 or action < 1:
+                print("Please select a number 1, 2 or 3")
 
-        elif action == 1:
-            send_thanks()
+            elif action == 1:
+                send_thanks()
 
-        elif action == 2:
-            create_report()
+            elif action == 2:
+                create_report()
 
-        elif action == 3:
-            print("Quitting program ....")
-            exit()
+            elif action == 3:
+                print("Quitting program ....")
+                exit()
 
-    else:
-        print("Please enter a numerical value")
-        start()
+        else:
+            print("Please enter a numerical value")
+
 
 
 
