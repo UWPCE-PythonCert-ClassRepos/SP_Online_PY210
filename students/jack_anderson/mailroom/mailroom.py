@@ -1,34 +1,49 @@
 #!/usr/bin/env python3
+"""
+Jack Anderson
+02/14/2020
+UW PY210
+Mailroom assignment part 1
+"""
 
 
+# The list of donors and their amounts donated
 donors_list = [
-    ['Bubbles Trailer',[150, 25, 300]],
-    ['Julien Park',[25, 86]],
-    ['Ricky Boys',[7, 3, 5]],
-    ['Jack Anderson',[1001, 22, 45]],
-    ['Lacey Coffin Greene',[750, 325, 1050]]
+    ['Bubbles Trailer',[1500.23, 2523.12, 3012.89]],
+    ['Julien Park',[2520.92, 8623.12]],
+    ['Ricky Boys',[7042.76, 3845.56, 5123.25]],
+    ['Jack Anderson',[1044, 2232, 4123.56]],
+    ['Lacey Coffin Greene',[7500.32, 6625, 1305, 3400.78]]
     ]
 
-def create_email(name, amount):
-    print()
-    print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-    print(f"Hello {name},\n"
-          f"Thank you for your gift of ${amount}! \n"
-          f"We appreiate your gift to help with costs for our upcoming play! \n"
-          f"Thank you for giving!\n"
-          f"Best Regards, \n"
-          f"The Blanchford Community Center!")
-    print()
-
-
 def donor_names():
+    # Return a list of donor names
     names = []
     for donors in donors_list:
         names.append(donors[0])
     return names
 
+def donor_details(x):
+    """
+    Action to summarize the details of a donor in the list
+    :param x: The donors index number in the donor list
+    :return: Name of donor, total amount donated, number of donations donor made, avg donation of donor
+    """
+    donor = x
+    name = donor[0]
+    donations = donor[1]
+    num_donations = len(donor[1])
+    totals = total_donated(donations)
+    avg_donation = int(totals) / int(num_donations)
+    return(name, totals, num_donations, avg_donation)
+
 
 def name_check(x):
+    """
+    Action to check if name exists in list and add name if not exists
+    :param x: Name of donor
+    :return: The index number of Name parameter
+    """
     count = len(donor_names())
     current = donor_names()
     start = 0
@@ -41,28 +56,107 @@ def name_check(x):
     return(count)
 
 
-def donor_details(x):
-    donor = x
-    name = donor[0]
-    donations = donor[1]
-    num_donations = len(donor[1])
-    totals = total_donated(donations)
-    avg_donation = int(totals) / int(num_donations)
-    print(name, totals, num_donations, avg_donation)
-  #  return(name, totals, num_donations, avg_donation)
-
-
-
 def total_donated(x):
-    x = 0
+    """
+    Action to add up the donation amount for each donor
+    :param x: Donors donation index number
+    :return: The sum of items in donor_index[1]
+    """
+    y = 0
     for i in x:
-        x = x + i
-        return(x)
+        y += float(i)
+    return(y)
 
+
+def report_template(name, total, count, avg):
+    """
+    Action to print out a report using the same template for all donors
+    :param name: Name of donor
+    :param total: Total Amount donated from donor
+    :param count: Total amounts of donations made
+    :param avg:  The average donation made
+    """
+    x = name
+    y = total
+    c = count
+    a = float(avg)
+    z = '{name:<21}\t$ {total:>{width}.2f}\t{count:^{width}}\t$ {avg:>{width}.2f}' \
+        .format(name=x, total=y, count=c, avg=a, width=10)
+    print(z)
+
+
+def prompt_donation_amount(name, donor_index):
+    """
+    Action to prompt the user for a donation amount and adds that amount to the donors list
+    :param name: Name of donor
+    :param donor_index: List index number of donor
+    """
+    donation = input("Please enter a donation amount for {} "
+                     "(enter 'q' to cancel) : ".format(name))
+    if donation.lower() == 'q':
+        start()
+    else:
+        donor_info = donors_list[donor_index]
+        donor_info[1].append(donation)
+        email_template(name, donation)
+        start()
+
+
+def send_thanks():
+    """
+    Action to prompt user for name then calls the name_check function and the prompt_donation_amount function
+    """
+    name = input("Enter the full name of the donor "
+                 "(enter 'q' to cancel "
+                 "or enter 'list' to view a list of donors)\n")
+    if name.lower() == 'q':
+        start()
+    elif name.lower() == "list":
+        print(donor_names())
+        send_thanks()
+    donor_index = name_check(name)
+    prompt_donation_amount(name, donor_index)
+
+
+def email_template(name, amount):
+    """
+    Action to print out donor email
+    :param name: Name of the donor
+    :param amount: The amount provided by the donor
+    """
+    print()
+    print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+    print(f"Hello {name},\n"
+          f"Thank you for your gift of ${amount}! \n"
+          f"We appreiate your gift to help with costs for our upcoming play! \n"
+          f"Thank you for giving!\n"
+          f"Best Regards, \n"
+          f"The Blanchford Community Center!")
+    print()
+
+
+def create_report():
+    """
+    Action to create a report
+    :return: Print report header followed by summary of all donors
+    """
+    print()
+    print('{name:<21}\t| {total:^{width}}\t| {count:^{width}}\t| {avg:>{width}}' \
+        .format(name='Donor Name', total='Total Given', count='Num Gifts', avg='Average Gift', width=10))
+    print("="* 70)
+
+    for i in donors_list:
+        name, totals, num_donations, avg_donation = donor_details(i)
+        report_template(name, totals, num_donations, (avg_donation))
+    print()
+    start()
 
 
 def start():
-
+    """
+    Action to prompt user to select various menu items or to close the program. Checks in place to ensure user
+    enters a numerical key.
+    """
     action = input("Select a number to perform one of the following actions...\n"
                "1. Send a Thank You Email \n"
                "2. Create a Report \n"
@@ -90,65 +184,5 @@ def start():
 
 
 
-def send_thanks():
-    name = input("Please enter the full name of the donor or enter 'q' to quit\n")
-
-    if name.upper() == 'Q':
-        exit()
-
-    elif name.upper() == "LIST":
-        print(donor_names())
-        send_thanks()
-
-    donor_index = name_check(name)
-
-    donation = input("Please enter a donation amount for {} or enter 'q' to quit ".format(name))
-
-    if name.upper() == 'Q':
-        exit()
-
-    amount = int(donation)
-
-    donor_info = donors_list[donor_index]
-
-    donor_info[1].append(amount)
-
-    create_email(name, amount)
+if __name__ == '__main__':
     start()
-
-
-
-def report_template(name, total, count, avg):
-    x = name
-    y = total
-    c = count
-    a = avg
-    z = '{name}\t${total:^}\t{count:>}\t${avg:>}' \
-        .format(name=x, total=y, count=c, avg=a)
-    print(z)
-
-
-def create_report():
-    print()
-    print('Donor Name                | Total Given | Num Gifts | Average Gift')
-    print('------------------------------------------------------------------')
-    donors = len(donors_list)
-
-    for i in donors_list:
-       donor_details(i)
-        #print(x)
-        #report_template(x[0],x[1],x[2],x[3])
-    print()
-    start()
-
-
-
-
-
-
-
-
-
-
-
-start()
