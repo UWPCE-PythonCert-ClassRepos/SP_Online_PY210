@@ -213,25 +213,56 @@ def test_title():
 
     assert file_contents.startswith("<title>")
     assert file_contents.endswith("</title>")
+
+
+def test_A():
+    e = A("http://google.com", "this is some text")
+
+    file_contents = render_result(e).strip()
+
+    assert("this is some text") in file_contents
+    assert("http://google.com") in file_contents
+
+    assert file_contents.startswith("<a href")
+    assert file_contents.endswith("</a>")
 # #####################
 # # indentation testing
 # #  Uncomment for Step 9 -- adding indentation
 # #####################
 
 
-# def test_indent():
-#     """
-#     Tests that the indentation gets passed through to the renderer
-#     """
-#     html = Html("some content")
-#     file_contents = render_result(html, ind="   ").rstrip()  #remove the end newline
+def test_indent():
+    """
+    Tests that the indentation gets passed through to the renderer
+    """
+    html = Html("some content")
+    file_contents = render_result(html, ind="   ").rstrip()  #remove the end newline
 
-#     print(file_contents)
-#     lines = file_contents.split("\n")
-#     assert lines[0].startswith("   <")
-#     print(repr(lines[-1]))
-#     assert lines[-1].startswith("   <")
+    print(file_contents)
+    lines = file_contents.split("\n")
+    assert lines[1].startswith("   <")
+    print(repr(lines[-1]))
+    assert lines[-1].startswith("   <")
 
+
+#
+# I took a different approach to indenting
+#
+
+
+def test_indent2():
+    """
+    Tests that the indentation is scaling and applied to content lines twice
+    """
+    html = P("some content")
+    file_contents = render_result(html, ind=" ").rstrip()  #remove the end newline
+
+    print(file_contents)
+    lines = file_contents.split("\n")
+    assert lines[0].startswith(" <")
+    assert lines[1].startswith("  s")
+    print(repr(lines[-1]))
+    assert lines[-1].startswith(" <")
 
 # def test_indent_contents():
 #     """
@@ -240,12 +271,12 @@ def test_title():
 #     """
 #     html = Element("some content")
 #     file_contents = render_result(html, ind="")
-
+#
 #     print(file_contents)
 #     lines = file_contents.split("\n")
 #     assert lines[1].startswith(Element.indent)
-
-
+#
+#
 # def test_multiple_indent():
 #     """
 #     make sure multiple levels get indented fully
@@ -253,14 +284,14 @@ def test_title():
 #     body = Body()
 #     body.append(P("some text"))
 #     html = Html(body)
-
+#
 #     file_contents = render_result(html)
-
+#
 #     print(file_contents)
 #     lines = file_contents.split("\n")
 #     for i in range(3):  # this needed to be adapted to the <DOCTYPE> tag
 #         assert lines[i + 1].startswith(i * Element.indent + "<")
-
+#
 #     assert lines[4].startswith(3 * Element.indent + "some")
 
 

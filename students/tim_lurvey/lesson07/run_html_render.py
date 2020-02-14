@@ -24,7 +24,7 @@ def render_page(page, filename, indent=None):
 
     f = StringIO()
     if indent is None:
-        page.render(f)
+        page.render(f, '    ')
     else:
         page.render(f, indent)
 
