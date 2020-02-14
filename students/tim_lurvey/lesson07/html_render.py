@@ -24,7 +24,7 @@ class Element(object):
         out_file.write(self.print_strings(getattr(self, 'initial_strings', []) + \
                                           self.get_strings(indent=ind)))
 
-    def add_keyval_to_tag(self, n:int, key:str, value:str= ""):
+    def add_keyval_to_tag(self, n: int, key: str, value: str = "") -> None:
         """add the string 'key="value"' to the nth tag"""
         i = self.tags[n].index(">")
         val = ""
@@ -32,7 +32,7 @@ class Element(object):
             val += f'="{value}"'
         self.tags[n] = self.tags[n][:i] + f'{key}{val}' + self.tags[n][i:]
 
-    def set_leading_tag_key(self, key:str, val: str = ""):
+    def set_leading_tag_key(self, key: str, val: str = "") -> None:
         """If key is requested, apply the keyed string and add to TAGS list"""
         if val:
             self.add_keyval_to_tag(n=0, key=f' {key}', value=val)
@@ -47,7 +47,7 @@ class Element(object):
 
     def get_strings(self, indent: str = "") -> list:
         """Convert contents into a string, recursively"""
-        lines = []   # create container for string chunks
+        lines = []  # create container for string chunks
         # get indent
         ind = ""
         if indent:
@@ -65,15 +65,16 @@ class Element(object):
         # wrap with object tags
         self.wrap_tags(strings_list=lines)
         # join with delimiters and tabs for pretty printing
-        return [ind+l for l in lines]
+        return [ind + l for l in lines]
 
-    def print_strings(self, lines: list, delimiter: str = "\n" ):
+    def print_strings(self, lines: list, delimiter: str = "\n") -> str:
         """join all the lines with the delimiter"""
         return delimiter.join(lines)
 
 
 class Html(Element):
     """HTML element, responsible for doc's initial line and formatting tags"""
+
     def __init__(self, content: str = ""):
         # set instance variables
         self.initial_strings = ["<!DOCTYPE html>"]
@@ -85,6 +86,7 @@ class Html(Element):
 
 class Body(Element):
     """Body element. Only accepts content"""
+
     def __init__(self, content: str = ""):
         # call parent initializer
         super().__init__(content=content)
@@ -95,6 +97,7 @@ class Body(Element):
 
 class P(Element):
     """Paragraph element. Accepts content and style"""
+
     def __init__(self, content: str = "", style: str = ""):
         # call parent initializer
         super().__init__(content=content)
@@ -104,9 +107,9 @@ class P(Element):
         self.set_leading_tag_key("style", style)
 
 
-
 class Head(Element):
     """Head element. Only accepts content"""
+
     def __init__(self, content: str = ""):
         # call parent initializer
         super().__init__(content=content)
@@ -117,6 +120,7 @@ class Head(Element):
 
 class Title(Head):
     """Title element. Only accepts content"""
+
     def __init__(self, content: str = ""):
         # call parent initializer
         super().__init__(content=content)
@@ -127,6 +131,7 @@ class Title(Head):
 
 class Hr(Element):
     """Hr element. Only accepts content"""
+
     def __init__(self, content: str = ""):
         # call parent initializer
         super().__init__(content=content)
@@ -137,6 +142,7 @@ class Hr(Element):
 
 class H(Element):
     """Heading element. Accepts content, heading number"""
+
     def __init__(self, num: int = 1, content: str = ""):
         # call parent initializer
         super().__init__(content=content)
@@ -145,50 +151,54 @@ class H(Element):
         self.tags = ["<h>", "</h>"]
         self.set_tags_num(num=num)
 
-    def set_tags_num(self, num):
+    def set_tags_num(self, num) -> None:
         for i in range(len(self.tags)):
             self.add_keyval_to_tag(i, key=num)
 
 
 class A(Title):
-    """Hyperlink element. Accepts content, url"""
-    def __init__(self, url:str = "", content: str = ""):
+    """Hyperlink anchor element. Accepts content, url"""
+
+    def __init__(self, url: str = "", content: str = ""):
         # call parent initializer
         super().__init__(content=content)
         # update instance variables
         self.indent = True
         self.tags = ["<a>", "</a>"]
         self.delimiter = ""
-        self.set_leading_tag_key("href",val=url)
+        self.set_leading_tag_key("href", val=url)
 
 
 class Ul(Element):
     """List header element. Accepts content, id, style"""
+
     def __init__(self, content: str = "", id: str = "", style: str = ""):
         # call parent initializer
         super().__init__(content=content)
         # update instance variables
         self.indent = True
         self.tags = ["<ul>", "</ul>"]
-        self.set_leading_tag_key("style",val=style)
-        self.set_leading_tag_key("id",val=id)
+        self.set_leading_tag_key("style", val=style)
+        self.set_leading_tag_key("id", val=id)
 
 
 class Li(Ul):
     """List item element. Accepts content, style"""
+
     def __init__(self, content: str = "", style: str = ""):
         # call parent initializer
         super().__init__(content=content, style=style)
         # update instance variables
         self.tags = ["<li>", "</li>"]
-        self.set_leading_tag_key("style",val=style)
+        self.set_leading_tag_key("style", val=style)
 
 
 class Meta(Element):
     """Meta element. Accepts content, charset"""
+
     def __init__(self, content: str = "", charset: str = ""):
         # call parent initializer
         super().__init__(content=content)
         # update instance variables
         self.indent = True
-        self.tags = ['<meta charset="{}" />'.format(charset),'']
+        self.tags = ['<meta charset="{}" />'.format(charset), '']
