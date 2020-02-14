@@ -146,8 +146,27 @@ class A(Title):
 
 
 class Ul(Html):
-
-    def __init__(self, id, style: str = ""):
-        super().__init__()
+    """List header"""
+    def __init__(self, content: str = "", id: str = "", style: str = ""):
+        super().__init__(content=content)
         self.indent = True
         self.tags = ["<ul>", "</ul>"]
+        if id:
+            self.add_keyval_to_tag(n=0, key=' id', value=id)
+        if style:
+            self.add_keyval_to_tag(n=0, key=' style', value=style)
+
+
+class Li(Ul):
+    """List item"""
+    def __init__(self, content: str = "", style: str = ""):
+        super().__init__(content=content)
+        self.tags = ["<li>", "</li>"]
+
+
+class Meta(Html):
+    """Meta element creator"""
+    def __init__(self, content: str = "", charset: str = ""):
+        super().__init__(content=content)
+        self.indent = True
+        self.tags = ['<meta charset="{}" />'.format(charset),'']
