@@ -43,7 +43,7 @@ def prompt_donation(name):
     elif donation.lower() == 'q':
         start()
 
-    return int(donation)
+    return float(donation)
 
 
 def donor_names():
@@ -100,7 +100,6 @@ def donor_details(x):
     return(name, total_donated, num_donations, avg_donation)
 
 
-
 def report_template(name, total, count, avg):
     """
     Action to print out a report using the same template for all donors
@@ -151,6 +150,7 @@ def print_report_template():
     for i in donors_list:
         name, totals, num_donations, avg_donation = donor_details(i)
         report_template(name, totals, num_donations, (avg_donation))
+    print()
 
 def send_thanks():
     """
@@ -160,7 +160,6 @@ def send_thanks():
     donation = prompt_donation(name)
     add_items(name, donation)
     print_email_template(name, donation)
-    print(donors_list)
 
 
 def start():
