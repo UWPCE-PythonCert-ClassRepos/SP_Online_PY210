@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
 
-"""
-A class-based system for rendering html.
-"""
+"""PY210_SP - html render - done
+author: Nick Miller"""
 
 
 # This is the framework for the base class
 class Element(object):
-
     tag = "html"
     indent = "   "
 
@@ -25,16 +23,16 @@ class Element(object):
     def append(self, new_content):
         self.content.append(new_content)
 
-    def render(self, out_file, cur_indentent=""):
-        out_file.write(cur_indentent + self.open_tag())
+    def render(self, out_file, cur_indent=""):
+        out_file.write(cur_indent + self.open_tag())
         out_file.write("\n")
         for content in self.content:
             try:
-                content.render(out_file, cur_indentent + self.indent)
+                content.render(out_file, cur_indent + self.indent)
             except AttributeError:
-                out_file.write(cur_indentent + self.indent + content)
+                out_file.write(cur_indent + self.indent + content)
                 out_file.write("\n")
-        out_file.write(cur_indentent + self.close_tag())
+        out_file.write(cur_indent + self.close_tag())
         out_file.write("\n")
 
     def open_tag(self):
@@ -95,8 +93,8 @@ class Head(Element):
 
 
 class OneLineTag(Element):
-    def render(self, out_file, cur_indentent=""):
-        out_file.write(cur_indentent + self.open_tag())
+    def render(self, out_file, cur_indent=""):
+        out_file.write(cur_indent + self.open_tag())
         out_file.write(self.content[0])
         out_file.write(self.close_tag())
 
@@ -130,8 +128,8 @@ class SelfClosingTag(Element):
             raise TypeError("SelfClosingTag cannot contain any content")
         super().__init__(content=content, **kwargs)
 
-    def render(self, out_file, cur_indentent=""):
-        out_file.write(cur_indentent + self.open_tag()[:-1] + " />\n")
+    def render(self, out_file, cur_indent=""):
+        out_file.write(cur_indent + self.open_tag()[:-1] + " />\n")
 
     def append(self, *args):
         raise TypeError("You cannot add content to a SelfClosingTag")
@@ -147,6 +145,7 @@ class Br(SelfClosingTag):
 
 class Ul(Element):
     tag = "ul"
+
 
 class Li(Element):
     tag = "li"

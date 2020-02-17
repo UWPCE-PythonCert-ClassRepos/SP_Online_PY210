@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-"""PY210_SP - circle class tests
+"""PY210_SP - circle class unit tests
 author: Nick Miller"""
 
 import pytest
@@ -40,6 +40,8 @@ def test_area_circle():
 def test_diameter_creator():
     circle = Circle.from_diameter(12)
     assert circle.radius == 6
+    sphere = Sphere.from_diameter(12)
+    assert sphere.radius == 6
 
 
 def test_add_circle():
@@ -90,3 +92,24 @@ def test_circle_sort():
     circles = [Circle(6), Circle(7), Circle(8), Circle(4), Circle(0), Circle(2), Circle(3), Circle(5), Circle(9), Circle(1)]
     circles.sort()
     assert circles == [Circle(0), Circle(1), Circle(2), Circle(3), Circle(4), Circle(5), Circle(6), Circle(7), Circle(8), Circle(9)]
+
+
+def test_init_sphere():
+    sphere = Sphere(10)
+    assert sphere.radius == 10
+
+
+def test_str_sphere():
+    assert str(Sphere(10)) == "This sphere has a radius of : 10"
+
+
+def test_volume_sphere():
+    sphere = Sphere(4)
+    assert sphere.volume == (4/3) * math.pi * 4 ** 3
+
+
+def test_area_sphere():
+    sphere = Sphere(4)
+    assert sphere.area == (4 * math.pi) * 4 ** 2
+
+

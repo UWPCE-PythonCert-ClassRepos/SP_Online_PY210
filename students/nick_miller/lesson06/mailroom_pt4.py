@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-"""PY210_SP - mailroom part 4
+"""PY210_SP - mailroom part 4 - done
 author: Nick Miller"""
 
 import sys
@@ -232,16 +232,23 @@ def thanks_all(db=None):
 
 
 def confirm_all():
+    """
+    :return: prints an output to confirm the send-all action completed for the user
+    """
     print("Individual Thank You files for each donor have been created in the same directory\n"
           "in which this programs lives/runs.")
 
 
 def send_and_confirm(db=None):
+    """
+    Combines the send-all and confirm into a single function for call from a menu-dict
+    :param db: dictionary-based database of donors(key) and their donations(values)
+    :return: saves files and prints a message
+    """
     if db is None:
         db = donor_db
     thanks_all(donor_db)
     confirm_all()
-
 
 
 def report_sort_key(item):
