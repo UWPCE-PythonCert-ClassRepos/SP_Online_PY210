@@ -10,8 +10,6 @@ donators = [
 ("Tacitus",[33.0,22.0,25.00]),
 ("Commodus",[43.0,11.0])]
 
-# Names of donors
-extant_don=[i[0] for i in donators]
 
 # Opening menu
 prompt = "\n".join(("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$",
@@ -42,7 +40,7 @@ def main():
 
 # Option 1: Content of Thank you note
 def send_thanks(a,b):
-    print(f'Wow {a}, only ${b}?'
+    print("\n"f'Wow {a}, only ${b}?'
     "\n"+'Give til it hurts you capitalist swine')
 
 #Option 1: logic of thank you note
@@ -56,10 +54,10 @@ def Send_Note():
         "\n"+"3 - Return to the MAILROOM main menu"
         "\n"+"Indicate your choice:  ")
         if respondy=="1":
-            print(extant_don)
+            print([i[0] for i in donators])
         if respondy=="2":
             donor_inp=input("Input donor: ")
-            if donor_inp in extant_don :
+            if donor_inp in ([i[0] for i in donators]) :
                 # they've entered a donor we already know
                 don_amount = input("That's a known donor, input donation amount: ")
                 # return the index for the known donoor
@@ -75,14 +73,14 @@ def Send_Note():
                 # they've entered a donor we don't have a record of
                 new_don = input("That's an unknown donor, do you wish to add them y/n?")
                 if new_don=="y":
-                    NEW_don_amount = input("Input new donor donation amount: ")
+                    new_don_amount = input("Input new donor donation amount: ")
                     # unsure how to enforce entry of a float or integer
-                    donators.append((donor_inp, NEW_don_amount))
-                    send_thanks(donor_inp,NEW_don_amount)
+                    donators.append((donor_inp, new_don_amount))
+                    send_thanks(donor_inp,new_don_amount)
                 else:
-                    return main()
+                    return
         elif respondy=="3":
-            return main()
+            return
 
 # Option 2: create report
 def data_metrics():

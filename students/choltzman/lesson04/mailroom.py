@@ -1,25 +1,14 @@
 #!/usr/bin/env python3
 from textwrap import dedent
+from collections import defaultdict
 
 # putting variables outside a function like this is ugly, but oh well
-donors = [
-        {
-            "name": "William Gates, III",
-            "gifts": [1234.56, 12345.67]
-        },
-        {
-            "name": "Mark Zuckerberg",
-            "gifts": [9506.31, 8288.91, 1357.02]
-        },
-        {
-            "name": "Jeff Bezos",
-            "gifts": [1234567.89]
-        },
-        {
-            "name": "Paul Allen",
-            "gifts": [1, 2, 3, 4, 5, 6, 7, 8, 9]
-        }
-]
+donors = defaultdict(list, {
+    'William Gates, III': [1234.56, 12345.67],
+    'Mark Zuckerberg': [9506.31, 8288.91, 1357.02],
+    'Jeff Bezos': [1234567.89],
+    'Paul Allen': [1, 2, 3, 4, 5, 6, 7, 8, 9]
+})
 
 
 def main():
@@ -59,18 +48,15 @@ def send_thanks():
     print("Input a donor's full name, or enter 'list' to see all donors.")
     while True:
         name = input("Name: ")
-        if name == "list":
-            for donor in donors:
-                print(donor['name'])
+        if name.lower() == "list":
+            for donor in donors.keys():
+                print(donor)
             print("")
         else:
+            # get gift amount and add to dict
             gift = float(input("Gift amount: "))
-            for donor in donors:
-                if donor['name'] == name:
-                    donor['gifts'].append(gift)
-                    break
-            else:
-                donors.append({"name": name, "gifts": [gift]})
+            donors[name].append(gift)
+            # print thank you email
             emailstr = dedent("""\
             From: "Nameless Charity" <sender@example.com>
             To: "{}" <receiver@example.com>
@@ -85,7 +71,7 @@ def send_thanks():
 
 def send_thanks_bulk():
     """Send a thank you to all donors."""
-    for donor in donors:
+    for name, gifts in donors.items():
         # format nice email message
         emailstr = dedent("""\
         From: "Nameless Charity" <sender@example.com>
@@ -93,11 +79,11 @@ def send_thanks_bulk():
         Subject: Thank you for your donations!
 
         You've donated a total of ${:,.2f} dollars to our cause! Thank you!
-        """.format(donor['name'], sum(donor['gifts'])))
+        """.format(name, sum(gifts)))
         # convert donor name to a safe file name
-        filename = "".join(c for c in donor['name'] if c.isalnum()) + ".txt"
+        filename = "".join(c for c in name if c.isalnum()) + ".txt"
         # write message to file
-        print(f"Creating file for {donor['name']}...")
+        print(f"Creating file for {name}...")
         with open(filename, 'w') as f:
             f.write(emailstr)
 
@@ -110,15 +96,16 @@ def create_report():
     print("{:->73}".format(""))
 
     # sort list of donors by total donations made
-    donors_sorted = sorted(donors, key=lambda d: sum(d['gifts']), reverse=True)
+    donors_sorted = sorted(donors.items(),
+                           key=lambda i: sum(i[1]), reverse=True)
 
     # loop through list and print
-    for donor in donors_sorted:
-        total = sum(donor['gifts'])
-        num = len(donor['gifts'])
-        avg = sum(donor['gifts']) / len(donor['gifts'])
+    for name, gifts in donors_sorted:
+        total = sum(gifts)
+        num = len(gifts)
+        avg = sum(gifts) / len(gifts)
         print("{:<25} | {:>15.2f} | {:>9} | {:>15.2f}".format(
-            donor['name'], total, num, avg))
+            name, total, num, avg))
 
 
 if __name__ == "__main__":
