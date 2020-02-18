@@ -39,68 +39,62 @@ def thank_you():
                               "'list' or 'listall' for list of donors, '4' will exit: ")
         if name == "list":
             # comprehension
-            print(list(donors))
+            donor_names = [key for key in donors]
+            print(donor_names)
+            # [print(key) for key in donors] For a prettier output, no None's are outputted
         elif name == "listall":
             # entire record name with donations
-            for key in donors:
-                print("{0} {1}". format(key, donors[key]))
-        elif name == '4':  # quit and return to main menu
+            # comprehension, I realize this isnt appropriate with a print statement
+            # but it does not return None's and cleans up the lines, so I wanted to try it
+            [print("{0} {1}". format(key, donors[key])) for key in donors]
+        elif name == '4':  # allows them to quit and go back to menu
             print("Finished processing thanks to donors...\n\n")
             return
         else:
             # User entered a name, so process that
             record = get_donor(name)
-            donation = get_donation()
             # print(record) # for debug comment out
-            if (record is not None):
+            if (record != None):
                 # donor is in our list,
                 # get donation amount, add donation to list, send thank you
-                print("Existing Donor")
+                print("user is in our list")
+                donation = get_donation()
                 record.append(donation)
                 donors[name] = record
+                email(name, donation)
 
             else:
                 # new donor is not in our list, add the donor to our list
                 # get donation amount, add donation to list, send thank you
                 print("!!! NEW DONOR !!!")
-                donors.update({name: [donation]})
-        
-            email(name, donation)
-
+                donation = get_donation()
+                donors.update({name: (donation)})
+                email(name, donation)
 # end thank_you
 
 
 # Checks to see if provided name is in our donor list
 # returns donor record if found, else None
 def get_donor(donor_name):
-    return donors.get(donor_name)
-    '''
-    record = None
     try:
-        record = donors[donor_name]
+        return donors[donor_name]
     except KeyError:
-        record = None
+        return None
     finally:
-        return record'''
+        return None
 
 
 # Get donation amount
 def get_donation():
-    while True:
-        money = get_user_input("Please enter a donation amount: $ ")
-        try:
-            amount = float(money)
-            if amount <= 0:
-                print("Invalid value")
-            else:
-                return amount
-        except ValueError:
-            print("Invalid value")
+    money = get_user_input("Please enter a donation amount: $ ")
+    amount = float(money)
+    return amount
 
 
 # Send thank you to donor
 def email(name, amount):
     print("Thank you {}, for your generous donation of ${:.2f} !".format(name, amount))
+    return
 
 
 # Sends a thank you letter for each donor and writes each letter to disk as a text file.
@@ -117,18 +111,17 @@ def letters():
         charity = sum(donors[donor])
         file_format = "{0}.txt".format(first_name)
         file_path = folder / file_format
-        try:
-            print(file_path)
-            with open(file_path, 'w') as write_file:
-                letters = ('Dear {0},\n'
-                            'Thank you for your donations totaling '
-                            '$ {1:,}. We very much appreciate it.\n'
-                            'All the best,\n'
-                            '- Izzy (Charity President)').format(first_name, charity)                
+    try:
+        with open(file_path, 'w') as write_file:
+            letters = ('Dear {0},\n'
+                        'Thank you for your donations totaling '
+                        '$ {1:,}. We very much appreciate it.\n'
+                        'All the best,\n'
+                        '- Izzy (Charity President)').format(first_name, charity)                
 
-                write_file.write(letters)
-        except IOError:
-            print("Unable to write to file")
+            write_file.write(letters)
+    except IOError:
+        print("Unable to write to file")
 
 
 # Creates a report of donor name, total donated, number of donations, and avg donation.
@@ -150,7 +143,8 @@ def report():
         average = total/num_donations
         print('{:<20} ${:>11,.2f}{:>13}            ${:>11,.2f}'.format(
             donor[0], total, num_donations, average))
-           
+    return  # return to main menu
+
 
 # define sort key
 def sort_key(donor):
