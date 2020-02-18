@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
 Jack Anderson
-02/14/2020
+02/18/2020
 UW PY210
-Mailroom assignment part 1
+Mailroom assignment part 2
 """
 from datetime import date
 
