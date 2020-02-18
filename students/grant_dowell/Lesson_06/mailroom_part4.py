@@ -26,15 +26,15 @@ def generate_letter(name=None):
                "Thank you for your most recent donation of " + \
                "${last_donation:.2f}. We greatly appreciate it.\n\n" + \
                " ~ The Treasurer"
-    donor_info = {'name':name.title(), 'last_donation':db[name][-1]}
+    donor_info = {'name': name.title(), 'last_donation': db[name][-1]}
     letter = template.format(**donor_info)
     return letter
 
 def add_donor(name):
     db[name.lower()] = []
-    
+
 def add_donation(name, val):
-        db[name].append(float(val))
+    db[name].append(float(val))
 
 def thanks():
     """ Generates a Thank You message for a new donation, and adds donation
@@ -86,7 +86,7 @@ def report():
                        sum(value), len(value), (sum(value)/len(value)))
         except ZeroDivisionError:
             pass
-        
+
     print(rpt)
     return rpt # Return for unit testing
 
@@ -103,14 +103,14 @@ def quitter():
     sys.exit()
 
 if __name__ == '__main__':
-    
+
     # Init the donor database
     db = {"william gates, iii": [653772.32, 12.17],
-      "jeff bezos": [877.33],
-      "paul allen": [663.23, 43.87, 1.32],
-      "mark zuckerberg": [1663.23, 4300.87, 10432.0],
-      "john doe": [1.00, 2.00, 3.00, 4.00]}
-    
+          "jeff bezos": [877.33],
+          "paul allen": [663.23, 43.87, 1.32],
+          "mark zuckerberg": [1663.23, 4300.87, 10432.0],
+          "john doe": [1.00, 2.00, 3.00, 4.00]}
+
 #    while True:
 #        print('Select an Operation:')
 #        print("  1) Send Thank You")
@@ -129,7 +129,7 @@ if __name__ == '__main__':
 #        else:
 #            continue
 
-    menu = {"1":thanks, "2": report, "3":log_all_letters, "4": quitter}
+    menu = {"1": thanks, "2": report, "3": log_all_letters, "4": quitter}
     cmd = None
     while True:
         print('Select an Operation:')
@@ -142,4 +142,3 @@ if __name__ == '__main__':
             menu[cmd]()
         except KeyError:
             print("\nInput MUST be a number\n")
-#            
