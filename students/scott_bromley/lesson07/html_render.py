@@ -20,8 +20,11 @@ class Element(object):
         else:
             self.attributes = kwargs
 
-    def append(self, new_content):
-        self.contents.append(new_content)
+    def append(self, content):
+        if hasattr(content, 'render'):
+            self.contents.append(content)
+        else:
+            self.contents.append(TextWrapper(str(content)))
 
     def render(self, out_file, cur_ind=""):
         out_file.write(cur_ind + self.indent)
@@ -138,4 +141,14 @@ class H(OneLineTag):
         self.tag = "h" + str(level)
         super().__init__(contents, **kwargs)
 
+
+class TextWrapper:
+    """
+    Wrapper that creates a class with a render method for simple text
+    """
+    def __init__(self, text):
+        self.text = text
+
+    def render(self, file_out):
+        file_out.write(self.txt)
 
