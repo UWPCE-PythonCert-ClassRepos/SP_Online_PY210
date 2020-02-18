@@ -20,40 +20,56 @@ d = dict()
 donors_dict = d
 
 def create_dictionary():
+    # Convert donors_list to a dictionary
     for i in donors_list:
         d[i[0]] = i[1]
 
 
+def create_file(name, template):
+    """
+    Action to create a file containing email template
+    :param name: Name of donor
+    :param template: Email template to use
+    """
+    x = get_date()
+    z = name.replace(" ", "_")
+    with open(f'{z}_{x}.txt', 'w') as f:
+        f.write(template)
+    print(f"Email file '{z}_{x}.txt' has been created for {name}")
+
+
 def prompt_input():
+    # Return the name entered by user
     name = input("Enter the full name of the donor (enter 'q' to cancel or 'list' to view a list of donors)\n")
-    if name.lower() == 'list':
-        list_names()
-        return prompt_input()
-
-    elif name.lower() == 'q':
-        start()
-
-    else:
-        return name
+    while name.lower() is not 'q':
+        if name.lower() == 'list':
+            list_names()
+            return prompt_input()
+        else:
+            return name
+    start()
 
 
 def prompt_amount():
-        donation = input("Please enter a donation amount (enter 'q' to cancel): $")
-        if donation.lower() == 'q':
-            start()
+    # Return the donation amount entered by user
+    donation = input("Please enter a donation amount (enter 'q' to cancel): $")
+    while donation.lower() is not 'q':
         return float(donation)
+    start()
 
 
 def list_names():
-    x = list(donors_dict)
-    print(x)
+    # Return a list of donors
+    donors = list(donors_dict)
+    print(donors)
 
 
 def add_items(name, donation):
     """
-    Action to check if name exists in list and add name if not exists
-    :param x: Name of donor
-    :return:
+    Action to add items to the donor_dict
+    :param name: Donor name
+    :param donation: Donation made by donor
+    :return: Donor name, Donor Donation
     """
     l = []
     l.append(float(donation))
@@ -68,14 +84,13 @@ def add_items(name, donation):
 
 
 
-def donor_details(key, value):
+def donor_details(name, donations):
     """
     Action to summarize the details of a donor in the list
-    :param x: The donors index number in the donor list
+    :param name: Name of the donor
+    :param donations: Donations made by the donor
     :return: Name of donor, total amount donated, number of donations donor made, avg donation of donor
     """
-    name = key
-    donations = value
     num_donations = len(donations)
     total_donated = sum(donations)
     avg_donation = total_donated / num_donations
@@ -103,7 +118,7 @@ def send_email(name, donation):
     """
     Action to print out donor email
     :param name: Name of the donor
-    :param amount: The amount provided by the donor
+    :param donation: The amount provided by the donor
     """
     template = (f"Hello {name},\n\n"
                 f"Thank you for your recent gift of ${donation:.2f}! \n"
@@ -115,6 +130,7 @@ def send_email(name, donation):
 
 
 def print_report_header():
+    # Print a header for the report
     print()
     print('{name:<21}\t| {total:^{width}}\t| {count:^{width}}\t| {avg:>{width}}' \
           .format(name='Donor Name', total='Total Given', count='Num Gifts', avg='Average Gift', width=10))
@@ -122,36 +138,28 @@ def print_report_header():
 
 
 def print_report_template():
-    """
-    Action to create a report
-    :return: Print report header followed by summary of all donors
-    """
+    # Action to call report generation functions
     print_report_header()
     for key, value in donors_dict.items():
         donor_details(key, value)
 
 
 def send_thanks():
+    # Action to create Thank you email for single person
     x, y = add_items(prompt_input(), prompt_amount())
     send_email(x, y)
 
+
 def send_all_thanks():
+    # Action to create Thank you email for ALL persons
     for key, value in donors_dict.items():
         send_email(key, value[0])
 
 
 def get_date():
+    # Return the current date
     today = date.today()
     return today
-
-
-def create_file(name, template):
-    x = get_date()
-    z = name.replace(" ", "_")
-    with open(f'{z}_{x}.txt', 'w') as f:
-        f.write(template)
-    print(f"Email file '{z}_{x}.txt' has been created for {name}")
-
 
 
 def start():
