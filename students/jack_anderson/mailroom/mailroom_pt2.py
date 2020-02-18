@@ -41,21 +41,24 @@ def create_file(name, template):
 def prompt_input():
     # Return the name entered by user
     name = input("Enter the full name of the donor (enter 'q' to cancel or 'list' to view a list of donors)\n")
-    while name.lower() is not 'q':
-        if name.lower() == 'list':
-            list_names()
-            return prompt_input()
-        else:
-            return name
-    start()
+    if name.lower() == 'q':
+        start()
+    elif name.lower() == 'list':
+        list_names()
+        return prompt_input()
+    else:
+        return name
+
 
 
 def prompt_amount():
     # Return the donation amount entered by user
     donation = input("Please enter a donation amount (enter 'q' to cancel): $")
-    while donation.lower() is not 'q':
+    if donation.lower() == 'q':
+        start()
+    else:
         return float(donation)
-    start()
+
 
 
 def list_names():
