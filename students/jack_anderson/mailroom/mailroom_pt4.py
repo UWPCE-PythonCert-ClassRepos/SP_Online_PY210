@@ -1,19 +1,19 @@
 #!/usr/bin/env python3
 """
 Jack Anderson
-02/18/2020
+02/19/2020
 UW PY210
-Mailroom assignment part 3
+Mailroom assignment part 4
 """
 from datetime import date
 
 # The list of donors and their amounts donated
 donors_list = [
-    ['Bubbles Trailer',[1500.99, 2523, 3012]],
-    ['Julien Park',[2520.92, 1623.12]],
-    ['Ricky Boys',[345.56, 5123.25]],
-    ['Jack Anderson',[1044, 2232, 4123.56]],
-    ['Lacey Coffin Greene',[1500.32, 625.34, 1305, 340.78]]
+    ['Bubbles Trailer', [1500.99, 2523, 3012]],
+    ['Julien Park', [2520.92, 1623.12]],
+    ['Ricky Boys', [345.56, 5123.25]],
+    ['Jack Anderson', [1044, 2232, 4123.56]],
+    ['Lacey Coffin Greene', [1500.32, 625.34, 1305, 340.78]]
   ]
 
 donors_dict = { donor[0]:donor[1] for donor in donors_list}
@@ -49,7 +49,7 @@ def prompt_amount():
 def list_names():
     # Return a list of donors
     donors = list(donors_dict)
-    print(donors)
+    return(donors)
 
 
 def add_items(name, donation):
@@ -70,7 +70,9 @@ def add_items(name, donation):
         donors_dict[name] = donated
     return name, donation
 
-
+def get_donor_values(donor):
+    x = donors_dict[donor]
+    return x
 
 def donor_details(name, donations):
     """
@@ -83,6 +85,7 @@ def donor_details(name, donations):
     total_donated = sum(donations)
     avg_donation = total_donated / num_donations
     report_template(name, total_donated, num_donations, avg_donation)
+    return (name, num_donations, total_donated, avg_donation)
 
 
 def report_template(name, total, count, avg):
@@ -100,6 +103,7 @@ def report_template(name, total, count, avg):
     z = '{name:<21}\t$ {total:>{width}.2f}\t{count:^{width}}\t$ {avg:>{width}.2f}' \
         .format(name=x, total=y, count=c, avg=a, width=10)
     print(z)
+    return(z)
 
 
 def send_email(name, donation):
@@ -115,30 +119,30 @@ def send_email(name, donation):
                 "Best Regards, \n"
                 "The Blanchford Community Center!")
     create_file(name, template)
+    return(template)
 
 
-def print_report_header():
+
+def report_header():
     # Print a header for the report
     print()
-    print('{name:<21}\t| {total:^{width}}\t| {count:^{width}}\t| {avg:>{width}}' \
-          .format(name='Donor Name', total='Total Given', count='Num Gifts', avg='Average Gift', width=10))
-    print("=" * 70)
+    header = '{name:<21}\t| {total:^{width}}\t| {count:^{width}}\t| {avg:>{width}}' \
+          .format(name='Donor Name', total='Total Given', count='Num Gifts', avg='Average Gift', width=10)
+    return header
 
 
 def create_report():
     # Action to call report generation functions
-    print_report_header()
+    print(report_header())
     action = [donor_details(name, donations) for name, donations in (sorted(donors_dict.items(), key =
              lambda x:(sum(x[1]), x[0]), reverse=True))]
     return action
-
 
 
 def send_thanks():
     # Action to create Thank you email for single person
     x, y = add_items(prompt_name(), prompt_amount())
     send_email(x, y)
-
 
 
 def send_all_thanks():
@@ -154,7 +158,7 @@ def get_date():
     return today
 
 
-def start():
+def start(*args):
     """
     Action to prompt user to select various menu items or to close the program. Checks in place to ensure user
     enters a numerical key.
@@ -170,9 +174,10 @@ def start():
                 "4 -- Quit \n")
 
             x = int(action)
+
             mailroom_start.get(x)()
-        # except (ValueError, TypeError):
-        #     print("Not a valid option: Please enter a number from 1 to 4")
+        except (ValueError, TypeError):
+            print("Not a valid option: Please enter a number from 1 to 4")
         except KeyboardInterrupt:
             print()
             quit()
@@ -197,7 +202,7 @@ def safe_input(prompt, is_name):
         else:
             if is_name == True:
                 if user_input.lower() == 'list':
-                    list_names()
+                    print(list_names())
                     return prompt_name()
                 else:
                     return user_input
