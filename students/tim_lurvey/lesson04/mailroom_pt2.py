@@ -2,6 +2,7 @@
 __author__ = 'Tim Lurvey, ig408c'
 
 import sys
+import os
 from lurvey_classes import bunch
 
 my_data = {}
@@ -17,7 +18,7 @@ def add_new_name(name: str = ""):
     return True
 
 
-def compose_email(name: str = "", donation: float = 0., data: any = None):
+def compose_email(name: str = "", donation: float = 0., data: bunch = None):
     """return the string of the formatted email"""
     if data.number < 1:
         s = ""
@@ -26,11 +27,15 @@ def compose_email(name: str = "", donation: float = 0., data: any = None):
         s = "s"
         is_are = "are"
     #
+    new_donation = ""
+    if donation:
+        new_donation += "Thank you for your generous donation of $ {donation:.2f}.\n".format(donation=donation,)
+    #
     email_str = "\nHello {name},\n\n" \
-                "Thank you for your generous donation of $ {donation:.2f}.\n" \
+                "{new_donation}" \
                 "Your {count} donation{s}, totaling $ {total:.2f}, {is_are} greatly appreciated.\n\n" \
                 "Thank you\n\n".format(name=name,
-                                       donation=donation,
+                                       new_donation=new_donation,
                                        count=data.number,
                                        s=s,
                                        total=data.total,
@@ -50,35 +55,50 @@ def print_name_list():
     print_list = "The following names are available:\n"
     for i, item in enumerate(my_data.items()):
         print_list += "{i:>3} : {name}\n".format(i=i, name=item[0])
-    print(print_list[:-1])
-    return True
+    return print_list[:-1]
 
 
-def send_thank_you():
+def send_thank_you(request: str = "", skip_donation: bool = False):
     """This method will send a thank you notice to a user in the database
     who has made a new donation."""
-    request = input('Enter a full name or "list" to view names\n>>> ')
+    if not request:
+        request += input('Enter a full name or "list" to view names\n>>> ')
     #
     if 'list' == request.strip().lower():
-        print_name_list()
-        return True
+        return print_name_list()
     else:
         # add the name is it is not in the database
         if request not in my_data:
             add_new_name(name=request)
-        # get the donation amount
-        donation = input("Enter amount:").replace("$", "").strip()
-        # if the number isn't castable to a float, warn user and exit function.
-        try:
-            float(donation)
-        except ValueError:
-            print("The value you entered is not a valid donation.  Error: '{}'\n>>> ".format(donation))
-            return True
-        # add the donation to their existing amount
-        add_donation(name=request, ammount=float(donation))
+        #
+        donation = 0.
+        if not skip_donation:
+            # get the donation amount
+            # if the number isn't castable to a float, warn user and exit function.
+            try:
+                donation += float(input("Enter amount:\n>>> ").replace("$", "").strip())
+            except ValueError:
+                "The value you entered is not a valid donation.  Error: '{}'\n>>> ".format(donation)
+            # add the donation to their existing amount
+            add_donation(name=request, ammount=float(donation))
         # return the email string
-        print(compose_email(name=request, donation=float(donation), data=my_data.get(request)))
-        return True
+        return compose_email(name=request, donation=float(donation), data=my_data.get(request))
+
+
+def send_letters_all():
+    # get the path from the user
+    while True:
+        pathx = input("Enter a path to write Thank you messages to.\n>>> ").strip()
+        if os.path.exists(pathx):
+            break
+        else:
+            print("Error: '{}' not found".format(pathx))
+    # write each donor's message to the path
+    print("Writing ...")
+    for donor,data in my_data.items():
+        with open(os.path.join(pathx, "thank_you_{}.txt".format(donor).replace(" ","_")), "w") as W:
+            W.write(compose_email(name=donor, data=data))
+    return "Writing Complete"
 
 
 def report():
@@ -98,30 +118,31 @@ def report():
                                                                   num=data[1].number,
                                                                   avg=average, )
     s += ("-" * 66) + "\n"
-    print(s)
-    return True
+    return s
 
 
-def quit():
+def quit_program():
     """Exit the application by unseating the switch"""
     print("\nGoodbye! Exiting program...")
-    return False
+    exit()
 
-def error(input: str = ""):
+
+def error(inp: str = ""):
     """Report an error"""
-    print("\nError on input.  Invalid selection \"{}\"".format(input))
+    print("\nError on input.  Invalid selection \"{}\"".format(inp))
     return True
 
 
 def main(args):
     """This is the controlling logic for the program.  The main loop will
     repeat forever until the user specifies to quit."""
-    # this is the switch variable
-    CONTINUE = True
     # while switch is true, loop
-    while CONTINUE:
+    while True:
         # Define main input
-        msg = """1 : Send a Thank You\n2 : Create a Report\nq : quit\n>>> """
+        msg = "1 : Send a Thank You\n" \
+              "2 : Create a Report\n" \
+              "3 : Send Thank you to all donors\n" \
+              "q : quit\n>>> "
         # Query
         request = input("Select:\n{}".format(msg)).strip()
         # Error check
@@ -132,9 +153,10 @@ def main(args):
         # Define the logic
         logic_dict = {'1':send_thank_you,
                       '2':report,
-                      'q':quit}
+                      '3':send_letters_all,
+                      'q':quit_program}
         # Get the corresponding function and execute it
-        CONTINUE = logic_dict.get(request, error)()
+        print(logic_dict.get(request, error)())
 
 
 if __name__ == '__main__':
