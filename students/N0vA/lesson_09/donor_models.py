@@ -40,7 +40,7 @@ class DonorCollection():
 
         return self._database
 
-    def display_report(self): # Sort Data by total amount donated
+    def display_report(self): # Format and print report
 
         def sort_key(donor): # Define sort key
             return int(sum(donor.donations))
@@ -50,6 +50,7 @@ class DonorCollection():
         sorted_data = sorted(self._database.values(), key=sort_key, reverse=True)
         
         report_rows = []
+        
         # Print each row to format table
         for per in sorted_data:
             report_rows.append(member_row.format(per.name, ' ', 
@@ -60,7 +61,14 @@ class DonorCollection():
         # Format table with header
         print('Generating report of donors....')
         # Header
-        print(""+"-" * 80 + "\n Donor Name"+" " * 19 + "| Total Donated | Num Donations | Average Donation\n"+"-" * 80)
+        h_1 = (f"-" * 80)
+        h_2 = (f" Donor Name"+" " * 19 + "| Total Donated | Num Donations | Average Donation")
+        h_3 = (f"-" * 80)
+        #print(""+"-" * 80 + "\n Donor Name"+" " * 19 + "| Total Donated | Num Donations | Average Donation\n"+"-" * 80)
+
+        report_rows.insert(0, h_3 )
+        report_rows.insert(0, h_2)
+        report_rows.insert(0, h_1)
 
         for row in report_rows:
             print(row)

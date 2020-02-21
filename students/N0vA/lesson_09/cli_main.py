@@ -50,7 +50,7 @@ def report():
     """Print a report of the existing donors"""
 
     database.display_report()
-
+    
     # Exit to main menu
     exit = 'none'
     while exit != 'quit':

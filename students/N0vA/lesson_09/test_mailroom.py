@@ -33,7 +33,7 @@ def test_thank_you_test(): # Test thank you email text
     print(d_1.text_thank_you)
     expected = f'\nDear Bill Gates:\n\nOn behalf of your Local Charity, I would like to thank you for your generous donation. We appreciate your support not only for us but for our cause.\n\nWe wish you all the best,\n\nLocal Charity Persident\n'
     print(expected)
-    assert d_1.text_thank_you == expected
+    assert d_1.text_thank_you() == expected
 
 def test_add_donor(): # Test new donor is added to the database
 
@@ -44,6 +44,33 @@ def test_add_donor(): # Test new donor is added to the database
 
     assert name in database._database.keys()
 
-#def test_report(): # Test report generations
+def test_report(): # Test report generations
 
+    def sort_key(donor): # Define sort key
+            return int(sum(donor.donations))
+
+    member_row = '{:<24}{:^5} ${:>14,}{:^5} {:^5}{:^5} ${:>14,.2f}'
+
+    sorted_data = sorted(database._database.values(), key=sort_key, reverse=True)
         
+    report_rows = []
+        
+    # Print each row to format table
+    for per in sorted_data:
+        report_rows.append(member_row.format(per.name, ' ', 
+            int(sum(per.donations)), ' ', 
+            round(len(per.donations),2), ' ', 
+            round(sum(per.donations) / len(per.donations),2)))
+
+    # Format table with header
+    print('Generating report of donors....')
+    # Header
+    h_1 = (f"-" * 80)
+    h_2 = (f" Donor Name"+" " * 19 + "| Total Donated | Num Donations | Average Donation")
+    h_3 = (f"-" * 80)
+    #print(""+"-" * 80 + "\n Donor Name"+" " * 19 + "| Total Donated | Num Donations | Average Donation\n"+"-" * 80)
+
+    # Check if a formatted donor row is in the formated list
+    l = 'Paul Allen                    $   450,000,000        1        $450,000,000.00'
+        
+    assert l in report_rows
