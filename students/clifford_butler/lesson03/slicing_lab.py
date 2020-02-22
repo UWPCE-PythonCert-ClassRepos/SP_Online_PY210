@@ -43,17 +43,43 @@ def remove_last4_first4_every_other(seq):
     """
     return seq[4:-4:2]
 
+def reverse_element(seq):
+    """
+    Takes a sequence as an argument and returns a copy of the sequence,
+    with the elements reversed.
+    """
+    return seq[::-1]
+
+def resequence(seq):
+    """
+    Takes a sequence as an argument and returns a copy of the sequence,
+    with the last third, then first third, 
+    then the middle third in the new order.
+    """
+    first = seq[:3]
+    middle = seq[3:-3]
+    last = seq[-3:]
+    return last + first + middle
+
 if __name__ == "__main__":
-    # run some tests for exchange_fist_last
+    # run some tests for exchange_fist_last(seq)
     assert exchange_first_last(a_string) == "ghis is a strint"
     assert exchange_first_last(a_tuple) == (32, 54, 13, 12, 5, 2)
     
-    # run some tests for every_otherseq()
+    # run some tests for every_other(seq)
     assert every_other(a_string) == "ti sasrn"
     assert every_other(a_tuple) == (2, 13, 5)
     
-    # run some tests for remove_last4_first4_every_other()
+    # run some tests for remove_last4_first4_every_other(seq)
     assert remove_last4_first4_every_other(a_string) == " sas"
     assert remove_last4_first4_every_other(a_tuple) == ()
+    
+    # run some tests for reverse_element(seq)
+    assert reverse_element(a_string) == "gnirts a si siht"
+    assert reverse_element(a_tuple) == (32, 5, 12, 13, 54, 2)
+    
+    # run some tests for reqequence(seq)
+    assert resequence(a_string) == "ingthis is a str"
+    assert resequence(a_tuple) == (12, 5, 32, 2, 54, 13)
     
     print("tests passed")
