@@ -28,9 +28,20 @@ def exchange_first_last(seq):
     last_part = seq[-1:]
     return last_part + seq[1:-1] + first_part
 
+def every_other(seq):
+    """
+    Takes a sequence as an argument and returns a copy of the sequence,
+    with every other item removed.
+    """
+    return seq[::2]
+
 if __name__ == "__main__":
     # run some tests for exchanging the first and last items
     assert exchange_first_last(a_string) == "ghis is a strint"
     assert exchange_first_last(a_tuple) == (32, 54, 13, 12, 5, 2)
+    
+    # run some tests for exchanging the first and last items
+    assert every_other(a_string) == "ti sasrn"
+    assert every_other(a_tuple) == (2, 13, 5)
     
     print("tests passed")
