@@ -18,12 +18,13 @@ Series 1
     Display all the fruits that begin with “P”, using a for loop.
 """
 
-print ("series 1 exercise" + "\n")
+print ("Series 1 exercise:" + "\n")
 
 # Create a list and display the list
 fruit_list = ["Apples", "Pears", "Oranges", "Peaches"]
 for item in (fruit_list):
-    print ("The fruit list has the following", len(fruit_list), "fruit:", str(fruit_list)[1:-1])
+    print ("A list has been created \
+with the following", len(fruit_list), "fruit:", str(fruit_list)[1:-1])
     break
 
 
@@ -32,7 +33,8 @@ response = input("Enter the fruit you would like to add to the list: ")
 if response not in fruit_list:
     fruit_list.append(response)
 else: print("Already in list!")
-print(fruit_list)
+print(response,"has been added to the end of the list. Here is the new list:")
+print(str(fruit_list)[1:-1])
 
 
 # Ask the user for a number and display the number back to the user 
@@ -40,24 +42,29 @@ print(fruit_list)
 response2 = int(input("What fruit would you like to display? \
 Enter the number corresonding with the fruit: "))
 for i, item in enumerate(fruit_list):
-    if 0 <= response2 < len(fruit_list):
+    if 0 <= response2 <= len(fruit_list):
         i += 1
-        print(str(response2), fruit_list[int(response2) - 1])
+        print(str(response2), fruit_list[int(response2) - 1], "\n")
         break
     else:
         print ("That number is out of range!")
-    print ("The fruit list has the following", len(fruit_list), "fruit:", str(fruit_list)[1:-1])
+    print ("The list has the following", len(fruit_list), "fruit:", str(fruit_list)[1:-1])
     break
        
 # Add another fruit to the beginning of the list using “+” and display the list
-fruit_list = ["Mangos"] + fruit_list
-print(fruit_list)
+new_fruit = "Mangoes"
+fruit_list = [new_fruit] + fruit_list
+print(new_fruit, "has been added to the beginning of the list using +.")
+print("Here is the new list:",str(fruit_list)[1:-1], "\n")
     
 # Add another fruit to the beginning of the list using insert() and display the list
-fruit_list.insert(0, "Watermelons")
-print(fruit_list)
+new_fruit2 = "Watermelons"
+fruit_list.insert(0, new_fruit2)
+print(new_fruit2, "has been added to the beginning of the list using insert().")
+print("Here is the new list:",str(fruit_list)[1:-1], "\n")
 
 # Display all the fruits that begin with “P”, using a for loop
+print("The following fruit start with P:")
 for fruit in fruit_list:
     if fruit[0].upper() == "P":
         print(fruit)
@@ -74,28 +81,29 @@ Using the list created in series 1 above:
     (Bonus: Multiply the list times two. Keep asking until a match is found. Once found, delete all occurrences.)
 """
 
-print ("\n" + "series 2 exercise" + "\n")
+print ("\n" + "Series 2 exercise:" + "\n")
 
 # Display items in fruit_list
-for item in (fruit_list):
-    print(item)
+print ("The list contains the following", len(fruit_list), "fruit:", str(fruit_list)[1:-1],"\n")
     
 #remove the last fruit from the list
+deleted_fruit = fruit_list[-1]
 fruit_list = fruit_list[:-1]
+print(deleted_fruit, "has been deleted from the list.")
 
 # Display items in fruit_list
-for item in (fruit_list):
-    print(item)
+print ("The list has the following", len(fruit_list), "fruit:", str(fruit_list)[1:-1], "\n")    
    
 # Ask the user for a fruit to delete, find it and delete it    
 response3 = input("Enter the fruit you would delete from the list: ")
 if response3 in fruit_list:
     fruit_list.remove(response3)
-    print(response3, "has been deleted!")
+    print(response3, "has been deleted.")
 else:
     print (response3, " cannot be deleted because it is not in the fruit list.")   
-print ("The fruit list has the following", len(fruit_list), "fruit:", str(fruit_list)[1:-1])
+print ("The list has the following", len(fruit_list), "fruit:", str(fruit_list)[1:-1])
     
 
 # Bonus, multiply the list times two. Keep asking until a match is found. Once found, delete all occurrences
-print ("\n" + "series 2 exercise bonus" + "\n")
+print ("\n" + "Series 2 exercise bonus:" + "\n")
+
