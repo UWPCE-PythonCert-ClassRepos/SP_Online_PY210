@@ -67,7 +67,22 @@ Using the list created in series 1 above:
     (Bonus: Multiply the list times two. Keep asking until a match is found. Once found, delete all occurrences.)
 """
 
-#print(" ")
 print ("\n" + "series 2 exercise" + "\n")
+
+# Display items in fruit_list
 for item in (fruit_list):
     print(item)
+    
+#remove the last fruit from the list
+fruit_list = fruit_list[:-1]
+
+# Display items in fruit_list
+for item in (fruit_list):
+    print(item)
+   
+# Ask the user for a fruit to delete, find it and delete it    
+response3 = input("Enter the fruit you would delete from the list: ")  
+fruit_list.remove(response3)
+  
+# Bonus, multiply the list times two. Keep asking until a match is found. Once found, delete all occurrences
+print ("\n" + "series 2 exercise bonus" + "\n")
