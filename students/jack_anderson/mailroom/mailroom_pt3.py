@@ -49,7 +49,7 @@ def prompt_amount():
 def list_names():
     # Return a list of donors
     donors = list(donors_dict)
-    print(donors)
+    return donors
 
 
 def add_items(name, donation):

@@ -6,6 +6,7 @@ UW PY210
 Mailroom assignment part 4
 """
 from datetime import date
+import os
 
 # The list of donors and their amounts donated
 donors_list = [
@@ -18,39 +19,23 @@ donors_list = [
 
 donors_dict = { donor[0]:donor[1] for donor in donors_list}
 
-
-def create_file(name, template):
-    """
-    Action to create a file containing email template
-    :param name: Name of donor
-    :param template: Email template to use
-    """
-    x = get_date()
-    z = name.replace(" ", "_")
-    with open(f'{z}_{x}.txt', 'w') as f:
-        f.write(template)
-    print(f"Email file '{z}_{x}.txt' has been created for {name}")
-
-
 def prompt_name():
     # Return the name entered by user
-    name = safe_input("Enter the full name of the donor "
-                      "(enter 'q' to cancel or 'list' to view a list of donors): ", is_name=True)
-    return name
+    name = input("Enter the full name of the donor (enter 'q' to cancel or 'list' to view a list of donors): ")
+    namecheck = check_name(name)
+    return namecheck
 
 
 def prompt_amount():
     # Return the donation amount entered by user
-    donation = safe_input("Please enter a donation amount "
-                          "(enter 'q' to cancel): $ ",is_name=False)
-    return donation
-
+    donation = input("Please enter a donation amount (enter 'q' to cancel): $ ")
+    donation_check = check_donation(donation)
+    return donation_check
 
 def list_names():
     # Return a list of donors
     donors = list(donors_dict)
-    return(donors)
-
+    return donors
 
 def add_items(name, donation):
     """
@@ -71,8 +56,9 @@ def add_items(name, donation):
     return name, donation
 
 def get_donor_values(donor):
-    x = donors_dict[donor]
-    return x
+    donor_values = donors_dict[donor]
+    return donor_values
+
 
 def donor_details(name, donations):
     """
@@ -106,7 +92,7 @@ def report_template(name, total, count, avg):
     return(z)
 
 
-def send_email(name, donation):
+def create_email_template(name, donation):
     """
     Action to print out donor email
     :param name: Name of the donor
@@ -118,7 +104,6 @@ def send_email(name, donation):
                 "Thank you for giving!\n\n"
                 "Best Regards, \n"
                 "The Blanchford Community Center!")
-    create_file(name, template)
     return(template)
 
 
@@ -138,18 +123,22 @@ def create_report():
              lambda x:(sum(x[1]), x[0]), reverse=True))]
     return action
 
-
-def send_thanks():
-    # Action to create Thank you email for single person
-    x, y = add_items(prompt_name(), prompt_amount())
-    send_email(x, y)
-
-
 def send_all_thanks():
     # Action to create Thank you email for ALL persons
     action = [send_email(name, donation[0]) for name, donation in donors_dict.items()]
     return action
 
+
+def send_thanks():
+    # Action to create Thank you email for single person
+    name = prompt_name()
+    donation = prompt_amount()
+    add_items(name, donation)
+    return send_email(name, donation)
+
+def send_email(name, donation):
+    template = create_email_template(name, donation)
+    create_file(name, template)
 
 
 def get_date():
@@ -157,8 +146,32 @@ def get_date():
     today = date.today()
     return today
 
+def create_file(name, template):
+    """
+    Action to create a file containing email template
+    :param name: Name of donor
+    :param template: Email template to use
+    """
+    location = create_directory()
+    z = name.replace(" ", "_")
+    x = get_date()
+    with open(f'{location}/{z}_{x}.txt', 'w') as f:
+        f.write(template)
+    print(f"Email file '{z}_{x}.txt' has been created for {name} in the {location} directory")
 
-def start(*args):
+
+def create_directory():
+    direct_name = 'outgoing_emails'
+    check_dir = list(os.listdir())
+    for i in check_dir:
+        if i == direct_name:
+            return direct_name
+    else:
+        os.mkdir(direct_name)
+        return direct_name
+
+
+def start():
     """
     Action to prompt user to select various menu items or to close the program. Checks in place to ensure user
     enters a numerical key.
@@ -174,51 +187,50 @@ def start(*args):
                 "4 -- Quit \n")
 
             x = int(action)
-
-            mailroom_start.get(x)()
-        except (ValueError, TypeError):
-            print("Not a valid option: Please enter a number from 1 to 4")
+            try:
+                mailroom_start.get(x)()
+            except (ValueError, TypeError):
+                print("Not a valid option: Please enter a number from 1 to 4")
         except KeyboardInterrupt:
             print()
-            quit()
+            return quit()
 
 
-def safe_input(prompt, is_name):
-    """
-    Check user prompt and perform action based on user input if no conditions are met
-    :param prompt: A string to display to the user when requesting input
-    :param is_name: set to True for name check, set to False for donation check
-    :return: Return user input or re-prompt user for input if invalid input received
-    """
+def check_name(name):
     try:
-        user_input = input(prompt)
-        if len(user_input) == 0:
-            print("Must enter a value")
-            return safe_input(prompt, is_name)
-
-        elif user_input.lower() == 'q':
-            start()
-
+        if len(name) == 0:
+            print("Must enter a donor name")
+            return prompt_name()
+        elif name.lower() == 'list':
+            print(list_names())
+            return prompt_name()
+        elif name.lower() == 'q':
+            return start()
         else:
-            if is_name == True:
-                if user_input.lower() == 'list':
-                    print(list_names())
-                    return prompt_name()
-                else:
-                    return user_input
-
-            else:
-                try:
-                    return float(user_input)
-                except ValueError:
-                    print("You must enter a numerical value")
-                    return prompt_amount()
+            return name
 
     except(KeyboardInterrupt):
         print()
-        quit()
+        return quit()
 
 
+def check_donation(donation):
+    try:
+        if len(donation) == 0:
+            print("Must enter a donation amount")
+            return prompt_amount()
+        elif donation.lower() == 'q':
+            return start()
+        else:
+            try:
+                return float(donation)
+            except ValueError:
+                print("You must enter a numerical value")
+                return prompt_amount()
+
+    except(KeyboardInterrupt):
+        print()
+        return quit()
 
 
 if __name__ == '__main__':

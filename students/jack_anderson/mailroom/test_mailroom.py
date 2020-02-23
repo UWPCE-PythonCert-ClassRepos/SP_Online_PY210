@@ -8,12 +8,25 @@ Jack Anderson
 
 Test Suite for the mailroom program
 """
+import unittest
 from datetime import date
 from mailroom_pt4 import *
 
 now = date.today()
 
 # SEND THANKS TEST CASES
+def test_name_check_valid():
+    assert check_name('jack') == "jack"
+
+def test_donation_check_valid_01():
+    assert check_donation('500') == 500.0
+
+def test_donation_check_valid_02():
+    assert check_donation('800.32') == 800.32
+
+def test_donation_check_invalid_01():
+    assert check_donation(800.32) == pytest.raises(TypeError)
+
 def test_list_names():
     assert list_names() == ['Bubbles Trailer', 'Julien Park', 'Ricky Boys', 'Jack Anderson', 'Lacey Coffin Greene']
 
@@ -30,13 +43,9 @@ def test_get_returning_donor_values():
     assert get_donor_values('Jack Anderson') == [500, 1044, 2232, 4123.56]
 
 def test_send_thanks_letterl():
-    template = ("Hello Bob,\n\n"
-                "Thank you for your recent gift of $100.00! \n"
-                "We will use your gift to help with costs for our upcoming play! \n"
-                "Thank you for giving!\n\n"
-                "Best Regards, \n"
-                "The Blanchford Community Center!")
-    assert send_email('Bob', 100) == template
+    template = 'Hello Bob,\n\nThank you for your recent gift of $100.00! \nWe will use your gift to help with costs for our upcoming play! \nThank you for giving!\n\nBest Regards, \nThe Blanchford Community Center!'
+
+    assert send_email('Bob', 100.00) == template
 
 
 # CREATE REPORT TEST CASES
@@ -50,3 +59,12 @@ def test_report_header():
 
 def test_create_report():
     assert create_report() == report
+
+# Create Email File
+def test_create_file():
+    x = user
+    y = date
+    email = f"Hello {x}, This is a test"
+    with open(f'outgoing_emails/{x}_{y}.txt', 'r') as f:
+        f.read()
+        assert == email
