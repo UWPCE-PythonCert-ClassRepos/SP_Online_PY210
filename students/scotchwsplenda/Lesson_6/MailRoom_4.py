@@ -39,7 +39,7 @@ def send_note():
 Please select from the below Thank You Note options:
 1 - Print list of extant donors
 2 - Enter donor name and donation
-3 - Return to the MAILROOM main menu
+3 - Exit Program
     ''')
     while True:
         try:
@@ -57,14 +57,9 @@ Please select from the below Thank You Note options:
                     donators[donor_inp].append(don_amount)
                     send_thanks(donor_inp, don_amount)
                 else:
-                    new_don = input(
-                        f"{donor_inp}'s an unknown donor, input donation"
-                        " amount: ")
-                    new_don = float(new_don)
-                    donators.update({donor_inp: [new_don]})
-                    send_thanks(donor_inp, new_don)
+                    new_dony(donor_inp)
             if respondy == 3:
-                exit_program()
+                mainy()
             if respondy > 3:
                 print('You have entered a non-choice'
                       ' , please get your shit together')
@@ -86,11 +81,21 @@ Please select from the below Thank You Note options:
 # True - stays in send_note() [have to quit terminal]
 
 
-# Option 1: sub-function
+# Option 1a: sub-function
 def send_thanks(a, b):
     print("\n"f'Wow {a}, only ${b}?'"\n" +
           'Give til it hurts you capitalist swine')
     send_note()
+
+
+# option 1b: new donor
+def new_dony(donor_inp):
+    new_don = input(
+        f"{donor_inp}'s an unknown donor, input donation"
+        " amount: ")
+    new_don = float(new_don)
+    donators.update({donor_inp: [new_don]})
+    send_thanks(donor_inp, new_don)
 
 
 # Option 2: create report
@@ -102,7 +107,7 @@ def data_metrics():
     print('Name'+'-'*30+'Sum'+'-'*28+'Count'+'-'*30+'Avg')
     for a, b, c, d in ranked_d:
         print(f'{a:<33}{b:<33}{c:<33}{d:<33}')
-    exit_program()
+    mainy()
 # https://www.youtube.com/watch?v=AhSvKGTh28Q
 
 
@@ -119,7 +124,7 @@ def mass_mail():
             sumy = str(sum(value))
             f.write(f'Thanks {key} for donating ${sumy}.'
                     + "\n"+'Your mother would be so proud.')
-    exit_program()
+    mainy()
 
 
 if __name__ == "__main__":
