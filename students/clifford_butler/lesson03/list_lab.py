@@ -23,7 +23,9 @@ print ("series 1 exercise" + "\n")
 # Create a list and display the list
 fruit_list = ["Apples", "Pears", "Oranges", "Peaches"]
 for item in (fruit_list):
-    print(item)
+    print ("The fruit list has the following", len(fruit_list), "fruit:", str(fruit_list)[1:-1])
+    break
+
 
 # Ask the user for another fruit and add it to the end of the list
 response = input("Enter the fruit you would like to add to the list: ")
@@ -35,13 +37,18 @@ print(fruit_list)
 
 # Ask the user for a number and display the number back to the user 
 # and the fruit corresponding to that number (on a 1-is-first basis)
-response2 = int(input("Enter a number: "))
+response2 = int(input("What fruit would you like to display? \
+Enter the number corresonding with the fruit: "))
 for i, item in enumerate(fruit_list):
-    if str(response2) in str(i):
+    if 0 <= response2 < len(fruit_list):
         i += 1
         print(str(response2), fruit_list[int(response2) - 1])
         break
-        
+    else:
+        print ("That number is out of range!")
+    print ("The fruit list has the following", len(fruit_list), "fruit:", str(fruit_list)[1:-1])
+    break
+       
 # Add another fruit to the beginning of the list using “+” and display the list
 fruit_list = ["Mangos"] + fruit_list
 print(fruit_list)
@@ -81,8 +88,14 @@ for item in (fruit_list):
     print(item)
    
 # Ask the user for a fruit to delete, find it and delete it    
-response3 = input("Enter the fruit you would delete from the list: ")  
-fruit_list.remove(response3)
-  
+response3 = input("Enter the fruit you would delete from the list: ")
+if response3 in fruit_list:
+    fruit_list.remove(response3)
+    print(response3, "has been deleted!")
+else:
+    print (response3, " cannot be deleted because it is not in the fruit list.")   
+print ("The fruit list has the following", len(fruit_list), "fruit:", str(fruit_list)[1:-1])
+    
+
 # Bonus, multiply the list times two. Keep asking until a match is found. Once found, delete all occurrences
 print ("\n" + "series 2 exercise bonus" + "\n")
