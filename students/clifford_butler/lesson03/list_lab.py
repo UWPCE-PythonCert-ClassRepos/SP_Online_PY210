@@ -102,8 +102,47 @@ if response3 in fruit_list:
 else:
     print (response3, " cannot be deleted because it is not in the fruit list.")   
 print ("The list has the following", len(fruit_list), "fruit:", str(fruit_list)[1:-1])
-    
 
-# Bonus, multiply the list times two. Keep asking until a match is found. Once found, delete all occurrences
-print ("\n" + "Series 2 exercise bonus:" + "\n")
+"""
+Series 3
+Again, using the list from series 1:
+
+    Ask the user for input displaying a line like “Do you like apples?” for each fruit in the list (making the fruit all lowercase).
+    For each “no”, delete that fruit from the list.
+    For any answer that is not “yes” or “no”, prompt the user to answer with one of those two values (a while loop is good here)
+    Display the list.)
+"""
+
+print ("\n" + "Series 3 exercise:" + "\n")
+
+'''
+while loop identifying which fruit the users likes
+displays what fruit the user likes once the while loop
+passes through all of the fruit in the list.
+'''
+hated_fruit = []
+
+for i in fruit_list:
+    response4 = ""
+    #response4 = input("Do you like {}? ".format(i.lower()))
+    while response4.lower() != "yes" and response4.lower() != "no":
+        response4 = input("Do you like {}? ".format(i.lower()))
+    if response4.lower() == "no":
+        hated_fruit.append(i)
+    elif response4 == "yes":
+        continue
+    else:
+        print("Please answer with 'yes' or 'no'")
+        
+print()
+
+for x in hated_fruit:
+    fruit_list.remove(x)
+
+if len(fruit_list) == 0:
+    print("The list contains", len(fruit_list), "fruit in the list.")
+        
+else:
+    print("The list has the following", len(fruit_list), "fruit:", str(fruit_list)[1:-1])
+
 
