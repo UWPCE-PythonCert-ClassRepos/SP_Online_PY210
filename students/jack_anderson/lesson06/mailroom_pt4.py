@@ -71,7 +71,7 @@ def donor_details(name, donations):
     total_donated = sum(donations)
     avg_donation = total_donated / num_donations
     report_template(name, total_donated, num_donations, avg_donation)
-    return (name, num_donations, total_donated, avg_donation)
+    return (name, total_donated, num_donations, avg_donation)
 
 
 def report_template(name, total, count, avg):
@@ -89,10 +89,9 @@ def report_template(name, total, count, avg):
     z = '{name:<21}\t$ {total:>{width}.2f}\t{count:^{width}}\t$ {avg:>{width}.2f}' \
         .format(name=x, total=y, count=c, avg=a, width=10)
     print(z)
-    return(z)
 
 
-def create_email_template(name, donation):
+def thanks_template(name, donation):
     """
     Action to print out donor email
     :param name: Name of the donor
@@ -113,12 +112,12 @@ def report_header():
     print()
     header = '{name:<21}\t| {total:^{width}}\t| {count:^{width}}\t| {avg:>{width}}' \
           .format(name='Donor Name', total='Total Given', count='Num Gifts', avg='Average Gift', width=10)
-    return header
+    print(header)
 
 
 def create_report():
     # Action to call report generation functions
-    print(report_header())
+    report_header()
     action = [donor_details(name, donations) for name, donations in (sorted(donors_dict.items(), key =
              lambda x:(sum(x[1]), x[0]), reverse=True))]
     return action
@@ -130,21 +129,15 @@ def send_all_thanks():
 
 
 def send_thanks():
-    # Action to create Thank you email for single person
+    # Print out a Thank you letter for single person
     name = prompt_name()
     donation = prompt_amount()
     add_items(name, donation)
-    return send_email(name, donation)
+    print(thanks_template(name, donation))
 
 def send_email(name, donation):
-    template = create_email_template(name, donation)
-    create_file(name, template)
+    create_file(name, thanks_template(name, donation))
 
-
-def get_date():
-    # Return the current date
-    today = date.today()
-    return today
 
 def create_file(name, template):
     """
@@ -154,21 +147,26 @@ def create_file(name, template):
     """
     location = create_directory()
     z = name.replace(" ", "_")
-    x = get_date()
+    x = date.today()
     with open(f'{location}/{z}_{x}.txt', 'w') as f:
         f.write(template)
     print(f"Email file '{z}_{x}.txt' has been created for {name} in the {location} directory")
 
 
-def create_directory():
-    direct_name = 'outgoing_emails'
-    check_dir = list(os.listdir())
-    for i in check_dir:
-        if i == direct_name:
-            return direct_name
+def create_directory(test=None):
+    dir_list = list(os.listdir())
+
+    if test == 1:
+        name_of_dir = 'test_directory'
     else:
-        os.mkdir(direct_name)
-        return direct_name
+        name_of_dir = 'outgoing_emails'
+
+    for dir in dir_list:
+        if dir == name_of_dir:
+            return dir
+    else:
+        os.mkdir(name_of_dir)
+        return name_of_dir
 
 
 def start():
