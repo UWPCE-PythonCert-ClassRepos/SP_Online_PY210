@@ -4,20 +4,17 @@ import random
 
 def test_radius():
     c = Circle(4)
-    print(c.radius)
     assert c.radius == 4
 
 
 def test_diameter():
     c = Circle(4)
-    print(c.diameter)
     assert c.diameter == 8
 
 
 def test_setter_diameter():
     c = Circle(4)
     c.diameter = 2
-    print(c.diameter, "and", c.radius)
     assert c.radius == 1
 
 
@@ -36,14 +33,13 @@ def test_area_Setter():
 
 def test_from_diameter():
     c = Circle.from_diameter(8)
-    print(c.radius)
     assert c.radius == 4
     assert c.diameter == 8
 
 
 def test_str():
     c = Circle(4)
-    assert print(Circle(4)) == "Circle with radius: 4"
+    assert str(Circle(4)) == "Circle with radius: 4"
 
 
 
@@ -93,7 +89,7 @@ def test_sphere_repr():
 
 def test_sphere_str():
     c = Sphere(4)
-    assert print(Sphere(4)) == "Sphere with radius: 4"
+    assert str(Sphere(4)) == "Sphere with radius: 4"
 
 
 def test_volume():

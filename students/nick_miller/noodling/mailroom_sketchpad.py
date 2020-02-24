@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 
-"""PY210_SP - mailroom part 2 - no dict switch, yet
+"""PY210_SP - mailroom part 4
 author: Nick Miller"""
 
 import sys
 
-# new example database
 
 donor_db = {
     "Jeff Staple": [20, 20],
@@ -27,7 +26,7 @@ def letter_prep(ver, db):
     monies = db[ver.title()]
     toters = sum(monies)
     toters = float(f"{toters:.2f}")
-    return [namer, firster, monies, toters]
+    return [firster, toters]
 
 
 def letter_format(firster, toters):
@@ -82,8 +81,8 @@ def one_thanks(db=donor_db):
                 print("Adding " + thanks_c + "'s donation of $" + add_y_f, "to their db entry")
                 add_y_l = [add_y]
                 donor_db[thanks_c] = add_y_l
-                firster = letter_prep(thanks_c, donor_db)[1]
-                toters = letter_prep(thanks_c, donor_db)[3]
+                firster = letter_prep(thanks_c, donor_db)[0]
+                toters = letter_prep(thanks_c, donor_db)[1]
                 letter = letter_format(firster, toters)
                 print("Here is your Thank You:")
                 print(letter)
@@ -119,8 +118,8 @@ def one_thanks(db=donor_db):
                         break
                 except ValueError:
                     print("Sorry, that is not a valid amount. ")
-        firster = letter_prep(thanks_c, donor_db)[1]
-        toters = letter_prep(thanks_c, donor_db)[3]
+        firster = letter_prep(thanks_c, donor_db)[0]
+        toters = letter_prep(thanks_c, donor_db)[1]
         letter = letter_format(firster, toters)
         print("Here is your Thank You:")
         print(letter)
@@ -133,9 +132,8 @@ def thanks_all(db=donor_db):
     :return: a text file thank you for each donor
     """
     for donor in donor_db:
-        firster = letter_prep(donor, donor_db)[1]
-        toters = letter_prep(donor, donor_db)[3]
-        letter_text = letter_format(firster, toters)
+        firster = letter_prep(donor, donor_db)[0]
+        toters = letter_prep(donor, donor_db)[1]
         file_name = donor.lower().replace(" ", "") + ".txt"
         letter_text = letter_format(firster, toters)
         save_file(file_name, letter_text)
@@ -171,16 +169,8 @@ def report(db=donor_db):
     :return: formatted report, based on db data; sum of donations, total num of donations, average donation/name
     """
     report_don = []
-    for key in db:
-        name = key
-        donations = db[name]
-        totes = sum(donations)
-        nums = len(donations)
-        aves = totes / nums
-        report_don.append((name, totes, nums, aves))
-
+    [report_don.append((key, sum(db[key]), len(db[key]), float(sum(db[key])/len(db[key])))) for key in db]
     report_don.sort(key=report_sort_key, reverse=True)
-
     key = ["name", "total given", "num gifts", "average gift"]
     separator = "|"
 
@@ -193,7 +183,7 @@ def report(db=donor_db):
           f"{key[3]:>15}")
     print("-" * 76)
     for row in report_don:
-        print("{:<18s}   {:>15.2f}   {:12d}   {:>20.2f}".format(*row))
+        print("{:<18s}   {:>15.2f}   {:13.0f}   {:>20.2f}".format(*row))
 
 
 def quit_prog():
@@ -206,8 +196,17 @@ def quit_prog():
 
 
 def menu_selection(prompt, dispatch_dict):
+    """
+    :param prompt: requests user input for a given prompt
+    :param dispatch_dict: a dispatch dict of functions corresponding to choices
+    :return: menu loops until "exit menu" is called
+    """
     while True:
         response = input(prompt)
+        response = response.lower().strip()
+        while response != "1" and response != "2" and response != "3" and response != "4" and response != "q":
+            print("That's not a valid input.")
+            response = input(prompt)
         if dispatch_dict[response]() == "exit menu":
             break
 
@@ -221,13 +220,11 @@ Menu of Options
 >>> Enter a selection please: 
 """)
 
-
 menu_dict = {"1": one_thanks,
              "2": thanks_all,
              "3": report,
              "4": quit_prog,
              "q": quit_prog}
-
 
 if __name__ == "__main__":
     menu_selection(main_prompt, menu_dict)

@@ -73,7 +73,7 @@ for fruit in f[:]:
 
 print(f)
  
-"""Series 4: Reverse the items of the list from Series 1. Remove the last item of the original list."""
+"""Series 4: Reverse the items of the list from Series 1. Then remove the last item of the original list."""
 reverse_fruits = []
 
 for fruit in fruit_list[:]:
