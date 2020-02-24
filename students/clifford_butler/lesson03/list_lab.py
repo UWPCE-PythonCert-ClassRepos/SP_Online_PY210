@@ -84,6 +84,7 @@ Using the list created in series 1 above:
 print ("\n" + "Series 2 exercise:" + "\n")
 
 # Display items in fruit_list
+fruit_list = ["Apples", "Pears", "Oranges", "Peaches"]
 print ("The list contains the following", len(fruit_list), "fruit:", str(fruit_list)[1:-1],"\n")
     
 #remove the last fruit from the list
@@ -120,6 +121,8 @@ while loop identifying which fruit the users likes
 displays what fruit the user likes once the while loop
 passes through all of the fruit in the list.
 '''
+
+fruit_list = ["Apples", "Pears", "Oranges", "Peaches"]
 hated_fruit = []
 
 for i in fruit_list:
@@ -134,7 +137,7 @@ for i in fruit_list:
     else:
         print("Please answer with 'yes' or 'no'")
         
-print()
+print("")
 
 for x in hated_fruit:
     fruit_list.remove(x)
@@ -145,4 +148,23 @@ if len(fruit_list) == 0:
 else:
     print("The list has the following", len(fruit_list), "fruit:", str(fruit_list)[1:-1])
 
+"""
+Series 4
+Once more, using the list from series 1:
 
+    Make a new list with the contents of the original, but with all the letters in each item reversed.
+    Delete the last item of the original list. Display the original list and the copy.
+
+"""
+
+print ("\n" + "Series 4 exercise:" + "\n")
+
+# Make a new list with the contents of the original, but with all the letters in each item reversed.
+fruit_list = ["Apples", "Pears", "Oranges", "Peaches"]
+series_four_list = fruit_list[:]
+series_four_list2 = [x[::-1] for x in series_four_list][:]
+
+#Delete the last item of the original list. Display the original list and the copy.
+fruit_list = fruit_list[:-1]
+print("The original list has the following", len(fruit_list), "fruit:", str(fruit_list)[1:-1])  
+print("The copied list has the following", len(series_four_list2), "fruit:", str(series_four_list2)[1:-1])
