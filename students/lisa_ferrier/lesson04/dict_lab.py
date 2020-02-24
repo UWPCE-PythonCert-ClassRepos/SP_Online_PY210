@@ -62,5 +62,5 @@ s.add('i')
 s2 = frozenset('Marathon')
 
 # Display the union and intersection of the two sets.
-print(s.union(s,s2))
+print(s.union(s, s2))
 print(s.intersection(s, s2))
