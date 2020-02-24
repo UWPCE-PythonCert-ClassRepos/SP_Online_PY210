@@ -3,6 +3,7 @@
 Jack Anderson
 02/24/2020
 UW PY210
+Lesson 06
 Mailroom assignment part 4
 """
 from datetime import date
@@ -65,14 +66,16 @@ def add_items(name, donation):
     """
     donated = []
     donated.append(float(donation))
-    if name in donors_dict.keys():
-        donations = donors_dict[name]
-        total = donated + donations
-        donors_dict[name] = total
+    donor = name.title()
+    donors = list_names()
+    for i in donors:
+        if name.lower() == i.lower():
+            donations = donors_dict[donor]
+            total = donated + donations
+            donors_dict[donor] = total
 
-    else:
-        donors_dict[name] = donated
-    return name, donation
+        else:
+            donors_dict[donor] = donated
 
 
 def get_donor_values(donor):
@@ -122,7 +125,7 @@ def thanks_template(name, donation):
     :param name: Name of the donor
     :param donation: The amount provided by the donor
     """
-    template = (f"Hello {name},\n\n"
+    template = (f"\nHello {name},\n\n"
                 f"Thank you for your recent gift of ${donation:.2f}! \n"
                 "We will use your gift to help with costs for our upcoming play! \n"
                 "Thank you for giving!\n\n"
@@ -150,7 +153,8 @@ def create_report():
 
 def send_email_to_all():
     # Action to create Thank you email for ALL persons
-    action = [create_file(name, thanks_template(name, donation[0])) for name, donation in donors_dict.items()]
+    location = prompt_confirmation()
+    action = [create_file(name, thanks_template(name, donation[0]), location) for name, donation in donors_dict.items()]
     return action
 
 
@@ -162,13 +166,13 @@ def send_thanks():
     print(thanks_template(name, donation))
 
 
-def create_file(name, template):
+def create_file(name, template, location):
     """
     Action to create a file containing email template
     :param name: Name of donor
     :param template: Email template to use
     """
-    location = create_directory()
+   # location = create_directory()
     z = name.replace(" ", "_")
     x = date.today()
     with open(f'{location}/{z}_{x}.txt', 'w') as f:
@@ -176,25 +180,58 @@ def create_file(name, template):
     print(f"Email file '{z}_{x}.txt' has been created for {name} in the {location} directory")
 
 
-def create_directory(test=None):
+def create_directory(name):
     """
     Action to create directory for bulk email files if directory is not already created
-    :param test: Set test=1 when calling create_dictionary() function during testing. Example: create_dictionary(test=1)
-    :return: The name of the created or existing directory
+    :param name: name of directory to create or store files
+    :return: name of the created or existing directory
     """
     dir_list = list(os.listdir())
-
-    if test == 1:
-        name_of_dir = 'test_directory'
+    if name in dir_list:
+        return name
     else:
-        name_of_dir = 'outgoing_emails'
+        try:
+            os.mkdir(name)
+            return name
+        except ValueError:
+            prompt_directory()
 
-    for dir in dir_list:
-        if dir == name_of_dir:
-            return dir
+
+def prompt_directory():
+    """
+    Action to prompt user for name of directory to create when storing outgoing email files
+    :return: directory name
+    """
+    dir_list = list(os.listdir())
+    print()
+    print(dir_list)
+    user_input = prompt_user("Please enter the name of the directory from the list above to store email files. \n"
+                             "To create a new folder, enter a new folder name or press 'enter/return' on the keyboard \n"
+                             "to create a default outgoing email directory (enter 'q' to cancel). \n")
+
+    if len(user_input) == 0:
+        return('outgoing_emails')
+
     else:
-        os.mkdir(name_of_dir)
-        return name_of_dir
+        return user_input
+
+
+def prompt_confirmation():
+    """
+    Action to prompt user for confirmation on creating outgoing email files.
+    Any input other than 'YES' or 'Y' will return user to start(), otherwise the directory is created
+    :return: directory name
+    """
+    name = prompt_directory()
+    user_confirm = prompt_user(f"Are you sure you want to create files for all Donors in the >>> {name} <<< directory (YES/NO)? \n"
+                               f"Enter 'YES' or 'Y' to confirm or 'q' to cancel.\n")
+
+    if user_confirm.lower() == 'yes' or 'y':
+        location = create_directory(name)
+        return location
+    else:
+        start()
+
 
 
 def start():
@@ -235,7 +272,7 @@ def check_name(name):
         print(list_names())
         return prompt_name()
     else:
-        return name
+        return name.title()
 
 
 
@@ -245,15 +282,15 @@ def check_donation(donation):
     :param donation: donation amount entered by user
     :return: prompt user for donation amount if invalid input else return donation as float type
     """
-    if len(donation) == 0:
-        print("Must enter a donation amount")
+    # if len(donation) == 0:
+    #     print("Must enter a donation amount")
+    #     prompt_amount()
+    # else:
+    try:
+        return float(donation)
+    except ValueError:
+        print("You must enter a numerical value")
         return prompt_amount()
-    else:
-        try:
-            return float(donation)
-        except ValueError:
-            print("You must enter a numerical value")
-            return prompt_amount()
 
 
 
