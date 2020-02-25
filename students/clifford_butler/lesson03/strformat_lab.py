@@ -20,5 +20,8 @@ def file_number():
     else:
         print ("file_0" + str(a_tuple[0]))
 
+def round_num():
+    # format index 1, round to 2 decimal places
+    print('{0:.2f}'.format(a_tuple[1]))
 
 if __name__ == "__main__":
