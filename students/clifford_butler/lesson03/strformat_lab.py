@@ -15,17 +15,18 @@ a_tuple = (22, 123.4567, 10000, 12345.67)
 def file_number():
     # Format index 0 file number
     if a_tuple[0] < 10:
-        
-        print ("file_00" + str(a_tuple[0]))
+        return ("file_00" + str(a_tuple[0]))
     else:
-        print ("file_0" + str(a_tuple[0]))
+        return ("file_0" + str(a_tuple[0]))
 
 def round_num():
-    # format index 1, round to 2 decimal places
-    print('{0:.2f}'.format(a_tuple[1]))
-
+    # Format index 1, round to 2 decimal places
+    return(format(a_tuple[1], '.2f'))    
+    
 def sci_not():
     # Format index 2, scientific notation
-    return("{:.2E}".format(Decimal(a_tuple[2])))
+    return(format((a_tuple[2]), '.2e'))
+
 
 if __name__ == "__main__":
+    print(sci_not())
