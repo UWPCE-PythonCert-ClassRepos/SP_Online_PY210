@@ -70,7 +70,24 @@ if __name__ == "__main__" :
     
     print(f"The weight of an {j} is {k} and the weight of a {l} is {m}")
     
-    
+    # Task 6, rite some Python code to print a table of several rows, each with a name, an age and a cost.
+    data_one = list()
+    data_one.append(["Name 1", 23.0, "$444.00"])
+    data_one.append(["Name 2", 1.6, "$44.00"])
+    data_one.append(["Name 3", 24, "$444,000.00"])
+
+    print(f"\n\n{'Name':<10}{'Age':<8} {'Cost':<12}")
+    print("-" * 9 + " " + "-" * 8 + " " + "-"*11)
+
+    for i in data_one:
+        print(f"{i[0]:<10}{i[1]:>8}{i[2]:>12}")
+
+    print(f"\n\n{'5char':<5}{' 5char':<5}")
+    print("-" * 5 + " " + "-" * 5)
+
+    # Print the tuple in columns that are 5 charaters wide? It can be done on one short line!
+    ten_numb = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+    print(''.join(map(str, ten_numb[0:5])) + " " + ''.join(map(str, ten_numb[-5:])))
     
     
     
