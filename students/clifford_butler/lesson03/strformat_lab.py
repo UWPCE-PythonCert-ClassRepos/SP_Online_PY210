@@ -45,14 +45,32 @@ if __name__ == "__main__" :
     print('{} :   {}, {}, {}'.format(a,b,c,d))
     
     # Task 3, re written format string
-    
     form_string = "The three numbers are: {:d}, {:d}, {:d}"
     numb = (1,2,3)
     
     print(form_string.format(*numb))
     
     # Task 4, use string formatiing to display given numbers
- 
+    another_tuple = (4, 30, 2017, 2, 27)
+    e = format((another_tuple[0]), '0>2d')
+    f = another_tuple[1]
+    g = another_tuple[2]
+    h = format((another_tuple[3]), '0>2d')
+    i = another_tuple[4]
+    
+    print('{} {} {} {} {}'.format(h,i,f,e,g))
 
-
-
+    # Task 5, use f-strings
+    
+    four_elements = ['oranges', 1.3, 'lemons', 1.1]
+    j = four_elements[0]
+    k = four_elements[1]
+    l = four_elements[2]
+    m = four_elements[3]
+    
+    print(f"The weight of an {j} is {k} and the weight of a {l} is {m}")
+    
+    
+    
+    
+    
