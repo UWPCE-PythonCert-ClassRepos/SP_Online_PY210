@@ -24,4 +24,8 @@ def round_num():
     # format index 1, round to 2 decimal places
     print('{0:.2f}'.format(a_tuple[1]))
 
+def sci_not():
+    # Format index 2, scientific notation
+    return("{:.2E}".format(Decimal(a_tuple[2])))
+
 if __name__ == "__main__":
