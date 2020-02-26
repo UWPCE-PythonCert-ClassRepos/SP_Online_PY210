@@ -42,12 +42,15 @@ prompt = "\n".join(("Welcome to the mail room!",
           "3 - Quit",
           ">>> "))
 
-prompt_name = "\n".join(("Type the donors name or,",
-          "type 'list' to display a list of the donors names.",
-          ">>> "))
+prompt_name = "\n".join(("Type the donors full name or,",
+              "type 'list' to display a list of the donors names.",
+              ">>> "))
 
 prompt_amount = "\n".join(("Whats the donation amount?",
-          ">>> "))
+                ">>> "))
+
+prompt_thank_you = "\n".join(("Thank you, {name} for the donation of {amount}",
+                   ">>> "))
 
 def get_index(donor_name):
     # Return the index number based on user input
@@ -57,6 +60,13 @@ def get_index(donor_name):
             return index
         
     return None
+
+def add_donor(donor_name):
+    # Add donor name to the data structure.
+    for item in donor_dict:
+        if item[0] not in donor_dict:
+            donor_dict.append([donor_name])
+            break
 
 def view_list():
     # Display the donor list.
@@ -73,11 +83,22 @@ def send_thank_you():
         
     for names_in_list in donor_dict:
         if names_in_list[0] == response:
+            # Request the user for a donation amount.
             response_amount = input(prompt_amount)
             x = get_index(response) 
             donor_dict[x].append(float(response_amount))
             print (donor_dict)
-
+            break
+    
+    else:
+        # Add the name to the list
+        add_donor(response)
+        # Request the user for a donation amount.
+        response_amount = input(prompt_amount)
+        x = get_index(response)
+        donor_dict[x].append(float(response_amount))
+        print(donor_dict)
+            
 def create_report():
     # place holder
     pass
