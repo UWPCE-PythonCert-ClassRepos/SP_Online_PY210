@@ -10,9 +10,6 @@ import sys
 
 
 
-#words = "I wish I may I wish I might".split()
-
-
 def build_trigrams(words):
     """
     build up the trigrams dict from the list of words
@@ -34,7 +31,13 @@ def build_trigrams(words):
     return trigrams
 
 
+
 def read_in_data(filename):
+    """
+    Action to open and read text file and filter out invalid characters
+    :param filename: Name of text file
+    :return: Filtered version of text file between file header and footer
+    """
     start_of_text = get_doc_start()
     end_of_text = get_doc_end()
     in_data = list()
@@ -70,6 +73,10 @@ def read_in_data(filename):
 
 
 def get_doc_start():
+    """
+    Action to check for when to start in the text file. Will start at line 1 if file is not Gutenberg ebook
+    :return: Line number to start the trigrams dict.
+    """
     start = "*** START OF THIS PROJECT GUTENBERG EBOOK THE ADVENTURES OF SHERLOCK HOLMES ***"
     with open(filename, "r") as f:
         for num, line in enumerate(f, 1):
@@ -81,7 +88,13 @@ def get_doc_start():
             else:
                 return 0
 
+
+
 def get_doc_end():
+    """
+    Action to check for when to end the text file. Will end at last line in text if file is not Gutenberg ebook.
+    :return: Line number to end the trigrams dict
+    """
     count = 0
     end = "*** END OF THIS PROJECT GUTENBERG EBOOK THE ADVENTURES OF SHERLOCK HOLMES ***"
     with open(filename, "r") as f:
@@ -96,7 +109,14 @@ def get_doc_end():
         return count
 
 
+
 def make_words(in_data):
+    """
+    Action to take all data from read_in_data function and spit up the words into seperate objects and make all words
+    lower case unless the word is 'I'.
+    :param in_data: String to split into seperate objects
+    :return: new words list with each word as its own object
+    """
     new_words = list()
     for line in in_data:
         line = line.split()
@@ -110,6 +130,12 @@ def make_words(in_data):
 
 
 def create_sentence(word_pairs):
+    """
+    Action to grab a random key and value from the trigams dict to start a sentence and then add on to that sentence.
+    Each sentence starts with a capital letter and ends with a period('.').
+    :param word_pairs: The dict created by the trigrams function
+    :return: Random sentence containing between 12 to 20 words.
+    """
     sentence = list()
     start = random.choice(list(word_pairs.keys()))
     start_follower = word_pairs[start]
@@ -123,20 +149,19 @@ def create_sentence(word_pairs):
         next_word = word_pairs[firstKey, secondKey]
         sentence.append(next_word[0])
 
-        # try:
-        #     next_word = word_pairs[sentence[]]
-        #     next_set = word_pairs[firstKey, nextKey]
-        #     sentence.append(next_set[0])
-        #     i = i + 1
-        # except KeyError:
-        #     print("No Key matches made")
-        #     sys.exit()
-
     a = " ".join(sentence)
     end = "."
     return (a + end)
 
+
+
+
 def build_text(filename):
+    """
+    Action to prompt user for number of sentences in story and then build story
+    :param filename: File containg text for trigams dict
+    :return: A number of generated story text sentences based on user input
+    """
     story = ""
     in_data = read_in_data(filename)
     words = make_words(in_data)
@@ -152,13 +177,13 @@ def build_text(filename):
 
         while line_start < line_end:
             new_text = create_sentence(word_pairs)
-            if line_start % 10 == 0:
-                story = (story + " " + new_text + '\n\n')
-                line_start += 1
-
-            else:
-                story = (story + " " + new_text)
-                line_start += 1
+            # if line_start % 10 == 0:
+            #     story = (story + " " + new_text + '\n')
+            #     line_start += 1
+            #
+            # else:
+            story = (story + " " + new_text)
+            line_start += 1
 
     except (TypeError, ValueError):
         print("You must enter a numerical value")
@@ -166,6 +191,7 @@ def build_text(filename):
 
     finally:
         return story
+
 
 
 
