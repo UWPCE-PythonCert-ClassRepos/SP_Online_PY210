@@ -52,6 +52,14 @@ prompt_amount = "\n".join(("Whats the donation amount?",
 exit_report = "\n".join(("Press 1 to exit to the initial prompt.",
                          "\n"))
 
+report_header = "\n".join(("Donor Name           | Total Given | Num Gifts | Average Gift",
+                            "-------------------------------------------------------------"))
+
+def dis_info():
+    for item in donor_dict:
+        x = ((20 - len(item[0]))*" ")
+        print(item[0],x,('$'),item[1])
+
 def get_index(donor_name):
     # Return the index number based on user input
     for item in (donor_dict):
@@ -107,13 +115,17 @@ def send_thank_you():
 def create_report():
     # Generate and display a report of the donors in donor_dict
     while True:
-        print('\n',donor_dict)
+        print(report_header)
+        dis_info()
+        
         response_quit = input(exit_report)
         # Return back to the initial prompt
         if response_quit == "1":
-            main()
+            print("fake exit")
+            break
         else:
             print("Not a valid option!")
+            break
             
 def exit_program():
     # exit the interactive script
