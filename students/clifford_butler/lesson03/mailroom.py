@@ -32,7 +32,7 @@ donor_dict = [
         ["Jeff Bezos", 877.33],
         ["Paul Allen", 663.23, 43.87, 1.32],
         ["Mark Zuckerberg", 1663.23, 4300.87, 10432.0],
-        ["Clifford Butler", 777.77, 44.44],
+        ["Alexandra Butler", 777.77, 44.44],
         ]
 
 prompt = "\n".join(("Welcome to the mail room!",
@@ -53,18 +53,27 @@ exit_report = "\n".join(("Press 1 to exit to the initial prompt.",
                          "\n"))
 
 report_header = "\n".join(("Donor Name           | Total Given | Num Gifts | Average Gift",
-                            "-------------------------------------------------------------"))
+                            "{:-^61}")).format('')
 
 def dis_info():
     for item in donor_dict:
-        x = ((20 - len(item[0]))*" ")
-        print(item[0],x,('$'),item[1])
+        spaces = ((20 - len(item[0]))*" ")
+        
+        sum_donations = sum(item[1:])
+        sum_donations = round(sum_donations,2)
+        num_gifts = len(item[1:])
+        avg_gift = (str(round(sum_donations/num_gifts,2)))
+        spaces_two = ((15 - len(str(sum_donations)))*' ')
+        spaces_three = (42*" ")
+        
+        print(item[0], spaces, ('$'), sum_donations, spaces_two, num_gifts, spaces_three, ('$'), avg_gift)
 
 def get_index(donor_name):
     # Return the index number based on user input
     for item in (donor_dict):
         if item[0] == donor_name:
             index = donor_dict.index(item)
+            
             return index
         
     return None
