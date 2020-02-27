@@ -49,14 +49,8 @@ prompt_name = "\n".join(("Type the donors full name or,",
 prompt_amount = "\n".join(("Whats the donation amount?",
                 ">>> "))
 
-prompt_thank_you = "\n".join(("Thank you, {response} for the donation of {response_amount}",
+prompt_thank_you = "\n".join(("Thank you, {name} for the donation of {amount}",
                    ">>> "))
-
-prompt_email = f"\n".join(("Hi, {response}",
-                "",
-                "Thank you for the generous donation of {response_amount}",
-                "",
-                ">>> "))
 
 def get_index(donor_name):
     # Return the index number based on user input
@@ -73,11 +67,6 @@ def add_donor(donor_name):
         if item[0] not in donor_dict:
             donor_dict.append([donor_name])
             break
-        
-def send_email():
-    # Send email to donor thanking them.
-    prompt_email
-    
 
 def view_list():
     # Display the donor list.
@@ -98,7 +87,6 @@ def send_thank_you():
             response_amount = input(prompt_amount)
             x = get_index(response) 
             donor_dict[x].append(float(response_amount))
-            print (donor_dict)
             break
     
     else:
@@ -108,11 +96,14 @@ def send_thank_you():
         response_amount = input(prompt_amount)
         x = get_index(response)
         donor_dict[x].append(float(response_amount))
-        print(donor_dict)
-        
-    print(prompt_email)
-    
             
+    print(
+            f"Hi {response},\n\n"
+            f"Thank you for the generous donation of {response_amount}.\n\n"
+            f"Sincerely,\n"
+            f"Clifford Butler"
+            )
+    
 def create_report():
     # place holder
     pass
