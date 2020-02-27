@@ -143,15 +143,18 @@ def create_sentence(word_pairs):
     sentence.append(start[1])
     sentence.append(start_follower[0])
 
-    for i in range(random.randint(12, 20)):
+    for i in range(random.randint(7, 15)):
         firstKey = sentence[-2]
         secondKey = sentence[-1]
-        next_word = word_pairs[firstKey, secondKey]
-        sentence.append(next_word[0])
+        value = word_pairs[firstKey, secondKey]
+        next_word = random.choice(value)
+        sentence.append(next_word)
 
-    a = " ".join(sentence)
-    end = "."
-    return (a + end)
+    full_sentence = " ".join(sentence)
+    end_punctuation = (".", "!", "?", ".", ".")
+    end_of_sentence = random.choice(end_punctuation)
+
+    return (full_sentence + end_of_sentence)
 
 
 
@@ -166,24 +169,24 @@ def build_text(filename):
     in_data = read_in_data(filename)
     words = make_words(in_data)
     word_pairs = build_trigrams(words)
-    line_start = 0
+    line_start = 1
     try:
         prompt = input("Please enter a number of sentences for the story: \n")
 
         if len(prompt) == 0:
             line_end = 25
         else:
-            line_end = int(prompt)
+            line_end = int(prompt) + 1
 
         while line_start < line_end:
             new_text = create_sentence(word_pairs)
-            # if line_start % 10 == 0:
-            #     story = (story + " " + new_text + '\n')
-            #     line_start += 1
-            #
-            # else:
-            story = (story + " " + new_text)
-            line_start += 1
+            if line_start % 10 == 0:
+                story = (story + " " + new_text + '\n\n')
+                line_start += 1
+
+            else:
+                story = (story + " " + new_text)
+                line_start += 1
 
     except (TypeError, ValueError):
         print("You must enter a numerical value")
