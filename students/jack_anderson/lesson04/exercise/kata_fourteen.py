@@ -66,6 +66,7 @@ def read_in_data(filename):
                 line = line.replace('"', ' ')
                 line = line.replace('--', ' ')
                 line = line.replace('  ', ' ')
+                line = line.replace('-', ' ')
                 in_data.append(line)
 
         return in_data
@@ -118,13 +119,16 @@ def make_words(in_data):
     :return: new words list with each word as its own object
     """
     new_words = list()
+    words_to_not_edit = ("I", "Mr", "Mrs", "Watsom", "Holmes", "St", "Sherlock")
+
     for line in in_data:
         line = line.split()
         for item in line:
-            if item == "I":
+            if item in words_to_not_edit:
                 new_words.append(item)
             else:
                 new_words.append(item.lower())
+
     return (new_words)
 
 
@@ -150,9 +154,15 @@ def create_sentence(word_pairs):
         next_word = random.choice(value)
         sentence.append(next_word)
 
+    end_check = sentence[-1]
+    invalid_check = ("I", "the", 'am')
+    if end_check in invalid_check:
+        sentence.remove(end_check)
+
     full_sentence = " ".join(sentence)
-    end_punctuation = (".", "!", "?", ".", ".")
+    end_punctuation = (". ", "! ", "? ", ". ", ". ")
     end_of_sentence = random.choice(end_punctuation)
+
 
     return (full_sentence + end_of_sentence)
 
@@ -185,12 +195,12 @@ def build_text(filename):
                 line_start += 1
 
             else:
-                story = (story + " " + new_text)
+                story = (story + new_text)
                 line_start += 1
 
     except (TypeError, ValueError):
         print("You must enter a numerical value")
-        build_text(filename)
+        sys.exit(1)
 
     finally:
         return story
