@@ -49,8 +49,8 @@ prompt_name = "\n".join(("Type the donors full name or,",
 prompt_amount = "\n".join(("Whats the donation amount?",
                 ">>> "))
 
-prompt_thank_you = "\n".join(("Thank you, {name} for the donation of {amount}",
-                   ">>> "))
+exit_report = "\n".join(("Press 1 to exit to the initial prompt.",
+                         "\n"))
 
 def get_index(donor_name):
     # Return the index number based on user input
@@ -105,9 +105,16 @@ def send_thank_you():
             )
     
 def create_report():
-    # place holder
-    pass
-
+    # Generate and display a report of the donors in donor_dict
+    while True:
+        print('\n',donor_dict)
+        response_quit = input(exit_report)
+        # Return back to the initial prompt
+        if response_quit == "1":
+            main()
+        else:
+            print("Not a valid option!")
+            
 def exit_program():
     # exit the interactive script
     print("Bye!")
