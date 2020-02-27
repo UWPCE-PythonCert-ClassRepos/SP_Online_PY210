@@ -45,6 +45,9 @@ def Lucas(n):
 if __name__ == "__main__":
 
     # run some tests
+    i = fibonacci(7)
+    print ("fibonacci of 7 == " + str(i))
+    assert fibonacci(7) == 13
 
 
     print ("All Tests Passed")
