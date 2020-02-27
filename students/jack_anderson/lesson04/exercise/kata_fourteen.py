@@ -42,9 +42,27 @@ def read_in_data(filename):
     with open(filename, "r") as f:
         for num,line in enumerate(f, 1):
             if num > start_of_text and num < end_of_text:
+                line = line.translate(invalid_chars)
+                line = line.replace("I.", ' ')
+                line = line.replace("II.", ' ')
+                line = line.replace("III.", ' ')
+                line = line.replace("IV.", ' ')
+                line = line.replace("V.", ' ')
+                line = line.replace("VI.", ' ')
+                line = line.replace("VII.", ' ')
+                line = line.replace("VIII.", ' ')
+                line = line.replace("IX.", ' ')
+                line = line.replace("XI.", ' ')
+                line = line.replace("XII.", ' ')
+                line = line.replace("XIII.", ' ')
+                line = line.replace("XIV.", ' ')
+                line = line.replace("XV.", ' ')
+                line = line.replace("' ", ' ')
+                line = line.replace(" ' ", ' ')
+                line = line.replace(" '", ' ')
                 line = line.replace('"', ' ')
                 line = line.replace('--', ' ')
-                line = line.translate(invalid_chars)
+                line = line.replace('  ', ' ')
                 in_data.append(line)
 
         return in_data
@@ -91,14 +109,6 @@ def make_words(in_data):
 
 
 
-def get_sentance_start(word_pairs):
-    sentence_start = random.choice(list(word_pairs.keys()))
-    first_word = sentence_start[0]
-    next_word = sentence_start[1]
-    start_of_sentence = (first_word, next_word)
-    return start_of_sentence
-
-
 def create_sentence(word_pairs):
     sentence = list()
     start = random.choice(list(word_pairs.keys()))
@@ -127,29 +137,35 @@ def create_sentence(word_pairs):
     return (a + end)
 
 def build_text(filename):
-    story = " "
+    story = ""
     in_data = read_in_data(filename)
     words = make_words(in_data)
     word_pairs = build_trigrams(words)
-    prompt = input("Please enter a number of sentences for the story: \n")
     line_start = 0
+    try:
+        prompt = input("Please enter a number of sentences for the story: \n")
 
-    if len(prompt) == 0:
-        line_end = 100
-    else:
-        line_end = int(prompt)
-
-    while line_start < line_end:
-        new_text = create_sentence(word_pairs)
-        if line_start % 7 == 0:
-            story = (story + " " + new_text + '\n\n')
-            line_start += 1
-
+        if len(prompt) == 0:
+            line_end = 25
         else:
-            story = (story + " " + new_text)
-            line_start += 1
+            line_end = int(prompt)
 
-    return story
+        while line_start < line_end:
+            new_text = create_sentence(word_pairs)
+            if line_start % 10 == 0:
+                story = (story + " " + new_text + '\n\n')
+                line_start += 1
+
+            else:
+                story = (story + " " + new_text)
+                line_start += 1
+
+    except (TypeError, ValueError):
+        print("You must enter a numerical value")
+        build_text(filename)
+
+    finally:
+        return story
 
 
 
