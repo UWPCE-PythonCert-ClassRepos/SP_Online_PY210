@@ -13,6 +13,9 @@ my_data.update({'Anonymous': bunch(total=100., number=1)})
 my_data.update({'Donnald Trump': bunch(total=1., number=3)})
 
 
+
+
+
 def add_new_name(name: str = ""):
     my_data.update({name: bunch(total=0., number=0)})
     return True
