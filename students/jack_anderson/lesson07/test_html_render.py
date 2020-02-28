@@ -119,41 +119,42 @@ def test_render_element2():
 
 # tests for the new tags
 def test_html():
-    e = Html("this is some text")
-    e.append("and this is some more text")
+    e = Html("this is some text for html test")
+    e.append("and this is some more text for html testing")
 
     file_contents = render_result(e).strip()
     print(file_contents)
 
-    assert("this is some text") in file_contents
-    assert("and this is some more text") in file_contents
+    assert("this is some text for html test") in file_contents
+    assert("and this is some more text for html testing") in file_contents
+    assert file_contents.startswith("<html>")
     assert file_contents.endswith("</html>")
 
 
 
 def test_body():
-    e = Body("this is some text")
-    e.append("and this is some more text")
+    e = Body("this is some body text")
+    e.append("and this is some more body text")
 
     file_contents = render_result(e).strip()
     print(file_contents)
 
-    assert("this is some text") in file_contents
-    assert("and this is some more text") in file_contents
+    assert("this is some body text") in file_contents
+    assert("and this is some more body text") in file_contents
 
     assert file_contents.startswith("<body>")
     assert file_contents.endswith("</body>")
 
 
 def test_p():
-    e = P("this is some text")
-    e.append("and this is some more text")
+    e = P("this is some text for p tag")
+    e.append("and this is some more text for P tag")
 
     file_contents = render_result(e).strip()
     print(file_contents)
 
-    assert("this is some text") in file_contents
-    assert("and this is some more text") in file_contents
+    assert("this is some text for p tag") in file_contents
+    assert("and this is some more text for P tag") in file_contents
 
     assert file_contents.startswith("<p>")
     assert file_contents.endswith("</p>")
@@ -189,12 +190,78 @@ def test_sub_element():
 # Step 3
 ########
 
-# Add your tests here!
+def test_head():
+    e = Head("This is a head test")
+    e.append("and this is some more text for head testing")
 
-# #####################
-# # indentation testing
-# #  Uncomment for Step 9 -- adding indentation
-# #####################
+    file_contents = render_result(e).strip()
+    print(file_contents)
+
+    assert("This is a head test") in file_contents
+    assert("and this is some more text for head testing") in file_contents
+
+    assert file_contents.endswith("</head>")
+    assert file_contents.startswith("<head>")
+
+
+
+def test_title():
+    e = Title("This is a Title Test")
+
+    file_contents = render_result(e).strip()
+    print(file_contents)
+
+    assert("This is a Title Test") in file_contents
+    assert("\n") not in file_contents
+
+    assert file_contents.endswith("</title>")
+    assert file_contents.startswith("<title>")
+
+
+def test_oneline_tag_append():
+    e = Title("This is a one line title")
+
+    with pytest.raises(NotImplementedError):
+        e.append("This should fail")
+    #
+    # try:
+    #     e.append("This should fail")
+    # except NotImplementedError:
+    #     pass
+
+def test_atttributes():
+    e = P("A paragraph of text", style="text-align: center", id="introduction")
+
+    file_contents = render_result(e).strip()
+    print(file_contents)  # so we can see it if the test fails
+
+    # note: The previous tests should make sure that the tags are getting
+    #       properly rendered, so we don't need to test that here.
+    #       so using only a "P" tag is fine
+    assert "A paragraph of text" in file_contents
+    # but make sure the embedded element's tags get rendered!
+    # first test the end tag is there -- same as always:
+    assert file_contents.endswith("</p>")
+
+    # but now the opening tag is far more complex
+    # but it starts the same:
+    assert file_contents.startswith("<p ") # make sure there's space after the p
+
+    # order of the tags is not important in html, so we need to
+    # make sure not to test for that
+    # but each attribute should be there:
+    assert 'style="text-align: center"' in file_contents
+    assert 'id="intro"' in file_contents
+
+    # # just to be sure -- there should be a closing bracket to the opening tag
+    assert file_contents[:-1].index(">") > file_contents.index('id="intro"')
+    assert file_contents[:file_contents.index(">")].count(" ") == 3
+
+
+#####################
+# indentation testing
+#  Uncomment for Step 9 -- adding indentation
+#####################
 
 
 # def test_indent():
