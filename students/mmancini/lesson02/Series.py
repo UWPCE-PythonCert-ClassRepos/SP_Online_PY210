@@ -3,7 +3,7 @@
 
 """
 
-Fibonacci module
+fibonacci module
 
 """
 
@@ -26,6 +26,7 @@ def Lucas(n):
     """
         Out: return the nth number in the lucas series
     """
+    
     lucasAry = []
     for i in range(n+1):
         if i == 0:
@@ -37,6 +38,19 @@ def Lucas(n):
 
     return lucasAry[n]
 
+def Sum_Series(n, arg1=0, arg2=1):
+    seriesAry = []
+    for i in range(n+1):
+        if i == 0:
+            seriesAry.append(arg1)
+        elif i == 1:
+            seriesAry.append(arg2)
+        else:
+            seriesAry.append(seriesAry[i-1]+seriesAry[i-2])
+            
+    return seriesAry[n]
+
+
 
 ####################################
 
@@ -45,9 +59,30 @@ def Lucas(n):
 if __name__ == "__main__":
 
     # run some tests
-    i = fibonacci(7)
-    print ("fibonacci of 7 == " + str(i))
-    assert fibonacci(7) == 13
+
+    testVal = 7
+    expectedRsltFib = 13;
+    expectedRsltLuc = 29;
+
+    print ("")
+    
+    rslt = Fibonacci(testVal)
+    print ("Series Fibonacci of " + str(testVal) + " == " + str(rslt))
+    assert rslt == expectedRsltFib
+
+    rslt = Lucas(testVal)
+    print ("Series Lucas of " + str(testVal) + " == " + str(rslt))
+    assert rslt == expectedRsltLuc 
+
+    rslt = Sum_Series(testVal, 0, 1)
+    print ("Sum_Series with args Fibonacci of " + str(testVal) + " == " + str(rslt))
+    assert rslt == expectedRsltFib
+    rslt = Sum_Series(testVal)
+    print ("Sum_Series with args Fibonacci of " + str(testVal) + " == " + str(rslt))
+    assert rslt == expectedRsltFib
+    rslt = Sum_Series(testVal, 2, 1)
+    print ("Sum_Series with args Fibonacci of " + str(testVal) + " == " + str(rslt))
+    assert rslt == expectedRsltLuc
 
 
     print ("All Tests Passed")
