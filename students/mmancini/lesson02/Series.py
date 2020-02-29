@@ -61,8 +61,8 @@ if __name__ == "__main__":
     # run some tests
 
     testVal = 7
-    expectedRsltFib = 13;
-    expectedRsltLuc = 29;
+    expectedRsltFib = 13
+    expectedRsltLuc = 29
 
     print ("")
     
@@ -84,5 +84,5 @@ if __name__ == "__main__":
     print ("Sum_Series with args Fibonacci of " + str(testVal) + " == " + str(rslt))
     assert rslt == expectedRsltLuc
 
-
     print ("All Tests Passed")
+
