@@ -217,6 +217,32 @@ def test_title():
     assert file_contents.endswith("</title>")
     assert file_contents.startswith("<title>")
 
+    # assert False
+    # assert False
+
+
+def test_hr_again():
+    """a simple horizontal rule with no attributes"""
+    hr = Hr()
+    file_contents = render_result(hr)
+    print(file_contents)
+    assert file_contents == '<hr />\n'
+
+    # assert False
+    # assert False
+
+
+def test_hr_attr_again():
+    """a horizontal rule with an attribute"""
+    hr = Hr(width=400)
+    file_contents = render_result(hr)
+    print(file_contents)
+    assert file_contents == '<hr width="400" />\n'
+    #
+    # assert False
+    # assert False
+
+
 
 def test_oneline_tag_append():
     e = Title("This is a one line title")
@@ -229,33 +255,92 @@ def test_oneline_tag_append():
     # except NotImplementedError:
     #     pass
 
-def test_atttributes():
-    e = P("A paragraph of text", style="text-align: center", id="introduction")
-
+def test_atttributes_element():
+    e = P("some text content", id="TheList", style="line-height:200%")
     file_contents = render_result(e).strip()
-    print(file_contents)  # so we can see it if the test fails
+    print(file_contents)
 
-    # note: The previous tests should make sure that the tags are getting
-    #       properly rendered, so we don't need to test that here.
-    #       so using only a "P" tag is fine
-    assert "A paragraph of text" in file_contents
-    # but make sure the embedded element's tags get rendered!
-    # first test the end tag is there -- same as always:
+    assert "some text content" in file_contents
+
     assert file_contents.endswith("</p>")
 
-    # but now the opening tag is far more complex
-    # but it starts the same:
-    assert file_contents.startswith("<p ") # make sure there's space after the p
+    assert file_contents.startswith("<p ")
 
-    # order of the tags is not important in html, so we need to
-    # make sure not to test for that
-    # but each attribute should be there:
-    assert 'style="text-align: center"' in file_contents
-    assert 'id="intro"' in file_contents
+    assert 'id="TheList"' in file_contents
+    assert 'style="line-height:200%"' in file_contents
 
-    # # just to be sure -- there should be a closing bracket to the opening tag
-    assert file_contents[:-1].index(">") > file_contents.index('id="intro"')
-    assert file_contents[:file_contents.index(">")].count(" ") == 3
+    # assert False
+    # assert False
+
+def test_atttributes_OneLineTag():
+    e = Title("a title with attributes", invalid_title_tag="Titles-dont-have-attribs", style="no_style_here")
+    file_contents = render_result(e).strip()
+    print(file_contents)
+
+    assert 'invalid_title_tag="Titles-dont-have-attribs"' in file_contents
+    assert 'style="no_style_here"' in file_contents
+    assert "a title with attributes" in file_contents
+
+    assert file_contents.endswith("</title>")
+    assert file_contents.startswith("<title ")
+
+    # assert False
+    # assert False
+
+def test_self_closing_tag_hr():
+    e = Hr(width=400)
+
+    file_contents = render_result(e).strip()
+    print(file_contents)
+
+    assert '<hr width="400" />' in file_contents
+    assert ("\n") not in file_contents
+
+    assert file_contents.endswith(">")
+    assert file_contents.startswith("<hr ")
+
+    # assert False
+    # assert False
+
+
+def test_self_closing_tag_br():
+    e = Br(height=400)
+
+    file_contents = render_result(e).strip()
+    print(file_contents)
+
+    assert '<br height="400" />' in file_contents
+    assert ("\n") not in file_contents
+
+    assert file_contents.endswith(">")
+    assert file_contents.startswith("<br ")
+
+    # assert False
+    # assert False
+
+# def test_self_closing_tag_error():
+#     e = Hr("this should fail", height=400)
+#     with pytest.raises(TypeError):
+#         file_contents = render_result(e).strip()
+#         print(file_contents)
+
+    # assert False
+    # assert False
+
+def test_anchor():
+    e = A("http://google.com", "link")
+
+    file_contents = render_result(e).strip()
+    print(file_contents)
+
+    assert('<a href="http://google.com">link</a>') in file_contents
+
+    assert file_contents.endswith("</a>")
+    assert file_contents.startswith("<a href=")
+
+    # assert False
+    # assert False
+
 
 
 #####################
