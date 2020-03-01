@@ -72,7 +72,6 @@ def verify_donor_info():
     Inputs
         donor_name (required)
         donation_amt (optional)
-
     Input is compared to names in the donor database. If donor does not exist, asks user if they would like to add a donation for the donor. If yes, asks user for donation amount, and appends information to the database. If no, returns user to initial function prompt.
     '''
     while True:
@@ -91,16 +90,16 @@ def verify_donor_info():
                     send_thank_yous(donor_name)
             else:
                 print('\nDonor not found in donor list. Add donation?')
-                response = input('Enter yes or no\n')
-                response = response.lower()
                 while True:
+                    response = input('Enter yes or no\n')
+                    response = response.lower()
                     if response == 'yes':
                         add_donation(donor_name)
                     elif response == 'no':
                         verify_donor_info()
                     else:
                         print('Please enter yes or no.\n')
-    main_menu()
+                    return response
 
 
 def add_donation(donor_name):
@@ -121,7 +120,8 @@ def add_donation(donor_name):
                 donors[donor_name].append(donation_amt)
             else:
                 donors[donor_name] = [donation_amt]
-        send_thank_yous(donor_name)
+            send_thank_yous(donor_name)
+            return donor_name
 
 
 def exit_program():
@@ -140,9 +140,7 @@ def menu_switch(argument):
         4: exit_program,
     }
     # Get the function from switcher dictionary
-    func = switcher.get(argument)
-    # Execute the function
-    return func()
+    return switcher.get(argument)()
 
 
 def main_menu():
@@ -164,12 +162,10 @@ def main_menu():
             print('''\nSorry, I didn't understand that. Please enter an integer
             between 1 and 4.\n''')
             # better try again... Return to the start of the loop
-            continue
         else:
-            if selection > 0 and selection <= 4:
+            if selection in menu_switch(selection).switcher:
                 # implement switch
                 menu_switch(selection)
-                break
             else:
                 continue
 
