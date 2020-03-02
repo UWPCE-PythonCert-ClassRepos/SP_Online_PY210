@@ -20,7 +20,7 @@ def mainy():
               ''')
     while True:
         try:
-            choice = int(input('Indicate your choice: '))
+            choice = int(input('Main Indicate your choice: '))
             swit_dic = {1: send_note, 2: data_metrics,
                         3: exit_program, 4: mass_mail}
             swit_dic[choice]()
@@ -43,21 +43,26 @@ Please select from the below Thank You Note options:
     ''')
     while True:
         try:
-            respondy = int(input("Indicate your choice:"))
+            respondy = int(input("send_note: Indicate your choice:"))
             if respondy == 1:
-                for k in donators:
-                    print(k)
+                print_donors()
                 continue
             if respondy == 2:
-                donor_inp = input("Input donor: ")
-                if donor_inp in donators.keys():
-                    don_amount = input("That's a known donor,"
-                                       " input donation amount: ")
+                try:
+                    donor_inp = input("Input donor: ")
+                    if donor_inp in donators.keys():
+                        don_amount = input("That's a known donor,"
+                                           " input donation amount: ")
+                    else:
+                        don_amount = input(f"{donor_inp}'s an unknown donor,"
+                                           " input donation amount: ")
                     don_amount = float(don_amount)
-                    donators[donor_inp].append(don_amount)
+                    update_dons(donor_inp, don_amount)
                     send_thanks(donor_inp, don_amount)
-                else:
-                    new_dony(donor_inp)
+                    continue
+                except ValueError:
+                    print('You have entered a non-number'
+                          ' , for the donation amount start over')
             if respondy == 3:
                 mainy()
             if respondy > 3:
@@ -81,21 +86,27 @@ Please select from the below Thank You Note options:
 # True - stays in send_note() [have to quit terminal]
 
 
+# option 1d: update donor database
+def update_dons(donor_inp, don_amount):
+    donators.update({donor_inp: [don_amount]})
+    return {donor_inp: [don_amount]}
+
+
 # Option 1a: sub-function
-def send_thanks(a, b):
-    print("\n"f'Wow {a}, only ${b}?'"\n" +
-          'Give til it hurts you capitalist swine')
-    send_note()
+def send_thanks(donor_inp, don_amount):
+    thanks = (f'Wow {donor_inp}, only ${don_amount}?'
+              ' Give til it hurts you capitalist swine')
+    print(thanks)
+    return thanks
 
 
-# option 1b: new donor
-def new_dony(donor_inp):
-    new_don = input(
-        f"{donor_inp}'s an unknown donor, input donation"
-        " amount: ")
-    new_don = float(new_don)
-    donators.update({donor_inp: [new_don]})
-    send_thanks(donor_inp, new_don)
+# option 1c: print list:
+def print_donors():
+    butt = list()
+    for k in donators:
+        butt.append(k)
+    print(butt)
+    return butt
 
 
 # Option 2: create report
@@ -107,7 +118,8 @@ def data_metrics():
     print('Name'+'-'*30+'Sum'+'-'*28+'Count'+'-'*30+'Avg')
     for a, b, c, d in ranked_d:
         print(f'{a:<33}{b:<33}{c:<33}{d:<33}')
-    mainy()
+    return ranked_d
+
 # https://www.youtube.com/watch?v=AhSvKGTh28Q
 
 
@@ -123,8 +135,7 @@ def mass_mail():
         with open(f'{key}.txt', 'w') as f:
             sumy = str(sum(value))
             f.write(f'Thanks {key} for donating ${sumy}.'
-                    + "\n"+'Your mother would be so proud.')
-    mainy()
+                    ' Your mother would be so proud.')
 
 
 if __name__ == "__main__":
