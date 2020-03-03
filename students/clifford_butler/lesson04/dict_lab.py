@@ -84,6 +84,14 @@ def d_two():
     for i in dict_two: 
         dict_two[i] = dict_two[i].count('t')
     print(dict_two)
+    
+def sets(n):
+    a_list=[]
+    for i in range(21):
+        if i % n == 0:
+            a_list.append(i)
+    a_set = set(a_list)
+    return a_set
 
 def main():
     
@@ -96,7 +104,21 @@ def main():
     d_two()
     
     print ('\n' + 'Sets: \n')
-   
+    
+    # create sets
+    s2 = sets(2)
+    s3 = sets(3)
+    s4 = sets(4)
+    
+    # display sets
+    print('s2:', s2)
+    print('s3:', s3)
+    print('s4:', s4)
+    
+    # display if s3 is subset of s3, and if s4 is a subset of s2
+    print (s3.issubset(s2))
+    print (s4.issubset(s2))
+    
     print ('\n' + 'Sets 2: \n')
     
 if __name__ == '__main__':
