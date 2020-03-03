@@ -71,7 +71,19 @@ def d_one(d):
         
         print('False! {} is not a value in the dictionary.'.format(n))
         break    
-     
+
+def d_two():
+    '''
+    Using the dictionary from item 1: Make a dictionary using the 
+    same keys but with the number of ‘t’s in each value as the value 
+    (consider upper and lower case?).
+    '''
+    dict_two = d.copy()
+    for k, v in dict_two.items():
+        dict_two[k.lower()] = v.lower()
+    for i in dict_two: 
+        dict_two[i] = dict_two[i].count('t')
+    print(dict_two)
 
 def main():
     
@@ -80,6 +92,8 @@ def main():
     d_one(d)
    
     print ('\n' + 'Dictionaries 2: \n')
+    
+    d_two()
     
     print ('\n' + 'Sets: \n')
    
