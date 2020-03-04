@@ -10,22 +10,23 @@ class Donor(RunningTotal):
     def __init__(self, name: str, total: float = 0., count: int = 0):
         super().__init__(new_key=name, total=total, count=count)
 
+    def __repr__(self):
+        return f"Donor('{self.name}', {self.total}, {self.count})"
+
     @property
     def name(self):
-        return self._key
+        return self.key
 
     @name.setter
     def name(self, new_name: str):
-        self._key = new_name
+        self.key = new_name
 
-
-# noinspection PyMethodMayBeStatic
 class DonorRepository(object):
     """Create and manage a data repository of Donor objects.  Donor objects must have unique names."""
     _REPORT_HEADER = "\nDonor Name                | Total Given | Num Gifts | Average Gift\n" + ("-" * 66) + "\n"
 
     def __init__(self, data_set: tuple = ()):
-        self._data = set()
+        self._data = []
         self._set_data(data_set)
 
     @property
@@ -53,7 +54,7 @@ class DonorRepository(object):
             else:
                 n, t, c = self._expand_input_values(d_obj)
                 add_obj = Donor(name=n, total=t, count=c)
-            self._data.add(add_obj)
+            self._data.append(add_obj)
 
     def add_new_donor(self, obj) -> None:
         """add a Donor object or a sequence of data to be converted (name, total, count)
@@ -85,7 +86,7 @@ class DonorRepository(object):
         # create new donation string, if needed
         fnew_donation = ""
         if new_donation:
-            fnew_donation += "Thank you for your generous donation of $ {:.2f}.\n".format(new_donation, )
+            fnew_donation += "Thank you for your generous donation of $ {:.2f}.\n".format(new_donation)
         # format email string
         email_str = "\nHello {name},\n\n" \
                     "{new_donation}" \
@@ -109,7 +110,7 @@ class DonorRepository(object):
         return print_list[:-1]
 
     def get_thank_you_email(self, donor: str = "", new_donation: float = 0.) -> str:
-        """This method will get the thank you text for a user in the database who has made a new donation."""  #
+        """This method will get the thank you text for a user in the database who has made a new donation."""
         if new_donation:
             # add the donation to their existing amount
             self.add_donation(name=donor, amount=float(new_donation))
@@ -138,7 +139,7 @@ class DonorRepository(object):
         s = self._REPORT_HEADER
         for i, name in enumerate(self.name_list):
             d = self.get_donor(name)
-            s += self._report_data_line(name=d.name,
+            s += self._report_data_line(name =d.name,
                                         total=d.total,
                                         count=d.count)
         s += ("-" * 66) + "\n"

@@ -32,12 +32,12 @@ def test_RunningTotal_func():
     d.add_to_total(1.)
     assert d.total == 99.0 + 1.0
     assert d.count == 10
+    assert d.average == 10
 
-
-def test_RunningTotal_func2():
-    d = RunningTotal(new_key="Tex Johnson", total=50, count=100)
-    assert d.average == 0.5
-
+def test_RunningTotal_repr():
+    d = RunningTotal(new_key="Tex Johnson", total=99, count=9)
+    assert repr(d) == "RunningTotal('Tex Johnson', 99.0, 9)"
+    assert eval(repr(d)) == d
 
 # data setup
 dl = [RunningTotal('x', 10, 2),

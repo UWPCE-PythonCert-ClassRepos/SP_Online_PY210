@@ -37,6 +37,31 @@ def test_Donor_methods(d):
     #
     assert d.average == 10000. / 2
 
+def test_Donor_magic_methods(d):
+    assert repr(d) == "Donor('tim', 9999.0, 1)"
+    assert eval(repr(d)) == d
+
+def test_Donor_sorted(d):
+    lst = []
+    lst.append(Donor('tom', 1234, 2))
+    lst.append(Donor('tim', 99, 9))
+    lst.append(Donor('tim', 99, 2))
+    lst.append(Donor('tom', 1, 1))
+    # unsorted
+    assert str(lst) == "["\
+                       "Donor('tom', 1234.0, 2), " \
+                       "Donor('tim', 99.0, 9), " \
+                       "Donor('tim', 99.0, 2), " \
+                       "Donor('tom', 1.0, 1)" \
+                       "]"
+    # sorted
+    assert str(sorted(lst, key=Donor.sort_key)) == "["\
+                                                   "Donor('tim', 99.0, 2), " \
+                                                   "Donor('tim', 99.0, 9), " \
+                                                   "Donor('tom', 1.0, 1), " \
+                                                   "Donor('tom', 1234.0, 2)" \
+                                                   "]"
+
 def test_DonorRepo_attributes(repo):
     assert repo._REPORT_HEADER == \
            '\n'\

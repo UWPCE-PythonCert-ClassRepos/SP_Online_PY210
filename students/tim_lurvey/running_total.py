@@ -17,9 +17,20 @@ class RunningTotal(object):
 
     def __init__(self, new_key: str, total: float = 0., count: int = 0):
         # all inputs must pass through assertive type checking
-        self._set_key(new_key=new_key)
-        self._set_total(new_total=total)
-        self._set_count(new_count=count)
+        self.key = new_key
+        self.total = total
+        self.count = count
+
+    def __repr__(self):
+        return f"RunningTotal('{self.key}', {self.total}, {self.count})"
+
+    def __eq__(self, other):
+        return (self.key, self.total, self.count) == \
+               (other.key, other.total, other.count)
+
+    @staticmethod
+    def sort_key(self):
+        return (self.name, self.total, self.count)
 
     @property
     def key(self):
@@ -27,9 +38,6 @@ class RunningTotal(object):
 
     @key.setter
     def key(self, new_key):
-        self._set_key(new_key=new_key)
-
-    def _set_key(self, new_key):
         """assertive type checking with error trapping"""
         try:
             assert isinstance(new_key, str)
@@ -41,7 +49,8 @@ class RunningTotal(object):
     def total(self):
         return self._total
 
-    def _set_total(self, new_total):
+    @total.setter
+    def total(self, new_total):
         """assertive type checking with error trapping"""
         try:
             self._total = float(new_total)
@@ -52,7 +61,8 @@ class RunningTotal(object):
     def count(self):
         return self._count
 
-    def _set_count(self, new_count):
+    @count.setter
+    def count(self, new_count):
         """assertive type checking with error trapping"""
         try:
             assert isinstance(new_count, int)
