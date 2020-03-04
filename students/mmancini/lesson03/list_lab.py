@@ -64,6 +64,18 @@ def series3(in_lst):
     return result_lst
 
 
+def series4(in_lst):
+    result_lst = []
+    print(f"series 4, original list ", result_lst)
+
+    for item in in_lst:
+        result_lst.append(item[::-1])
+
+    print(f"series 4, fruit names reversed ", result_lst)
+
+    return result_lst
+
+
 ####################################
 
 
@@ -72,11 +84,9 @@ def series3(in_lst):
 if __name__ == "__main__":
     # run some tests
     data_lst = ["Apples", "Pears", "Oranges", "Peaches"]
-    #result_lst1 = series1(data_lst)
-
-    result_lst1 = data_lst.copy()
-
+    result_lst1 = series1(data_lst)
     result_lst2 = series2(result_lst1)
     result_lst3 = series3(result_lst1)
+    result_lst4 = series4(result_lst1)
 
 
