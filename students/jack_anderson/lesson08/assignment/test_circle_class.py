@@ -157,16 +157,18 @@ def test_add():
     # assert False
 
 def test_multiply():
-    c = Circle(2)
+    c = Circle(4)
     c2 = c * 4
     print(c2)
-    assert c2.radius == 8
+    assert c2.radius == 16
+    c *= 3
+    assert c.radius == 12
 
     # assert False
     # assert False
 
 ##########
-# STEP 8
+# STEP 8-1
 ##########
 
 def test_compare_lt_gt_eq():
@@ -192,3 +194,61 @@ def test_sort():
 
     # assert False
     # assert False
+
+
+
+##########
+# STEP 8-2
+##########
+
+def test_subtract():
+    c1 = Circle(10)
+    c2 = c1 - 1
+    print(c2)
+
+    assert c2.radius == 9
+
+    c1 -= 7
+    print(c1)
+    assert c1.radius == 3
+
+
+
+def test_true_div():
+    c1 = Circle(4)
+    c2 = Circle(2)
+    c3 = c1 / c2
+    print(c3)
+
+    assert c3.radius == 2
+
+def test_floor_div():
+    c1 = Circle(16)
+    c2 = Circle(4)
+    c3 = c1 // c2
+    print(c3)
+    assert c3.radius == 4
+
+    # assert False
+    # assert False
+
+def test_reflected_mul():
+    c = Circle(2)
+    assert c * 3 == 3 * c
+
+    # assert False
+    # assert False
+
+def test_reflected_add():
+    c1 = Circle(5)
+    c2 = Circle(3)
+    assert c1 + c2 == c2 + c1
+
+
+def test_augmented_mul():
+    c = Circle(2)
+    c2 = Circle(10)
+    c *= 20
+    assert c.radius == 40
+
+
