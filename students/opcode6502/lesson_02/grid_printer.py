@@ -1,7 +1,8 @@
 # opcode6502: SP_Online_PY210
 
+
 # REQ-01: Write a function that draws a grid like the following:
-'''
+"""
 + - - - - + - - - - +
 |         |         |
 |         |         |
@@ -13,7 +14,7 @@
 |         |         |
 |         |         |
 + - - - - + - - - - +
-'''
+"""
 
 
 # Declare some variables we will use for printing the grid.
@@ -103,9 +104,37 @@ def print_body_row_v1(n):
     print("|", )
 
 
+# REQ-03: Write a function that draws a similar grid with a specified number
+# of rows and columns, and with each cell a given size.
+def print_grid2(x, y):
+    for i in range(x):
+        print_header_row_v2(x, y)
+        for z in range(y):
+            print_body_row_v2(x, y)
+    print_header_row_v2(x, y)
 
-# REQ-03: Write a function that draws a similar grid with a specified number of rows and columns,
-# and with each cell a given size.
+
+# This is a helper function which prints a header row to the screen.
+def print_header_row_v2(x, b):
+
+    # Print the upper leftmost '+' symbol
+    print("+ ", end='')
+
+    # Main loop
+    for i in range(x):
+        for i in range(b):
+            print("- ", end='')
+        print("+ ", end='')
+    print()
+
+
+# This is a helper function which prints a body row to the screen.
+def print_body_row_v2(x, y):
+    for x in range(x):
+        print("|", end='')
+        for x in range((y * 2) + 1):
+            print(" ", end='')
+    print("|")
 
 
 # TESTS
@@ -123,3 +152,12 @@ print_grid(9)
 
 print("REQ-02: TEST 03: Testing print_grid(15):")
 print_grid(15)
+
+print("REQ-03: TEST 01: Testing print_grid2(5, 3):")
+print_grid2(5, 3)
+
+print("REQ-03: TEST 02: Testing print_grid2(3, 4):")
+print_grid2(3, 4)
+
+print("REQ-03: TEST 03: Testing print_grid2(1, 1):")
+print_grid2(1, 1)
