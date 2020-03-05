@@ -252,3 +252,40 @@ def test_augmented_mul():
     assert c.radius == 40
 
 
+def test_sphere_str():
+    s = Sphere(8)
+    assert s.__str__() == "Sphere with radius: 8"
+
+
+def test_sphere_repr():
+    s = Sphere(4)
+    assert repr(s) == 'Sphere(4)'
+
+
+def test_sphere_volume():
+    s = Sphere(2)
+    print(s.volume)
+    assert s.volume == 33.51
+
+    # assert False
+    # assert False
+
+def test_sphere_area():
+    s = Sphere(5)
+    print(s.area)
+    assert s.area == 314.16
+
+def test_sphere_from_diameter():
+    s = Sphere.from_diameter(8)
+    print(s.area, s.volume, s.diameter, s.radius)
+    a = ((s.radius ** 2) * math.pi) * 4
+    v = (((4/3) * math.pi) * (s.radius ** 3))
+    assert s.area == float(f"{a:.2f}")
+    assert s.volume == float(f"{v:.2f}")
+    assert s.diameter == s.radius * 2
+    assert s.radius == s.diameter / 2
+
+    # assert False
+    # assert False
+
+

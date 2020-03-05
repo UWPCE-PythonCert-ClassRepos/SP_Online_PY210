@@ -83,3 +83,23 @@ class Circle(object):
         return Circle(self.radius // other.radius)
 
 
+class Sphere(Circle):
+
+    def __str__(self):
+        return f"Sphere with radius: {self.radius}"
+
+    def __repr__(self):
+        return f'Sphere({self.radius})'
+
+    @property
+    def volume(self):
+        # Volume of a sphere: 4/3 * pi * radius^3
+        x = (((4/3) * math.pi) * (self.radius ** 3))
+        return float(f"{x:.2f}")
+
+    @property
+    def area(self):
+        # A = 4 * pi * radius^2
+        x = ((self.radius ** 2) * math.pi) * 4
+        return float(f"{x:.2f}")
+
