@@ -65,5 +65,7 @@ def print_grid_concatenation_loop():
 
 
 # TESTS
+print("REQ-01: TEST 01: Testing the print_grid_concatenation() function:")
 print_grid_concatenation()
+print("REQ-01: TEST 02: Testing the print_grid_concatenation_loop() function:")
 print_grid_concatenation_loop()
