@@ -16,7 +16,7 @@
 '''
 
 
-# Declare some variables we will use for the raw printing version
+# Declare some variables we will use for printing the grid.
 plus = '+'
 minus = '-'
 slash = '|'
@@ -41,6 +41,21 @@ def print_grid_concatenation():
     print(plus + (space_minus * 4) + space_plus + (space_minus * 4) + space_plus)
 
 
+# This is a variation on the print_grid_concatenation() function.
+# I am experimenting with refactoring and simplifying this function.
+# I removed some redundant code and I used a loop to print the grid.
+def print_grid_concatenation_loop():
+
+    # Use a loop to print the grid.
+    for i in range(2):
+        print(plus + (space_minus * 4) + space_plus + (space_minus * 4) + space_plus)
+        for i in range(4):
+            print(slash + (space * 9) + slash + (space * 9) + slash)
+
+    # Print a final footer row to complete the grid.
+    print(plus + (space_minus * 4) + space_plus + (space_minus * 4) + space_plus)
+
+
 # REQ-02: Write a function print_grid(n) that takes one integer argument and
 # prints a grid just like before, BUT the size of the grid is given by the argument.
 
@@ -51,3 +66,4 @@ def print_grid_concatenation():
 
 # TESTS
 print_grid_concatenation()
+print_grid_concatenation_loop()
