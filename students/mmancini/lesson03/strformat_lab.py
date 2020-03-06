@@ -31,6 +31,21 @@ def task4(tup):
     print("task 4 output ==> " + '0{:d} {:d} {:d} 0{:d} {:d}'.format(tup[3], tup[4], tup[2], tup[0], tup[1]))
 
 
+def task5(tup):
+    s = f'The weight of an {tup[0].upper()} is {tup[1] * 1.2} and the weight of a {tup[2].upper()} is {tup[3] * 1.2}'
+    print("task 5 output ==> " + s)
+
+
+def task6():
+    table_data = [
+        ['Joe', 21, 11.22],
+        ['Sally', 23, 7.8],
+        ['Betty', 9, 123.456]
+        ]
+    for row in table_data:
+        print("{: >20} {: >20} {: >20}".format(*row))
+
+
 ####################################
 
 
@@ -47,4 +62,5 @@ if __name__ == "__main__":
     task2(xTup)
     task3(xTup3)
     task4(xTup4)
-   
+    task5(xTup5)
+    task6()
