@@ -36,6 +36,24 @@ def slice3(in_lst):
     return lst_a
 
 
+def slice_thirds(in_lst):
+    print(f"slice_thirds, original list ", in_lst)
+
+    third = int(len(in_lst) / 3)
+    # print(f"third =  ", str(third))
+    part1 = in_lst[0:third]
+    part2 = in_lst[third:(third*2)]
+    part3 = in_lst[(third*2):]
+    # print(f"part1 =  ", part1)
+    # print(f"part2 =  ", part2)
+    # print(f"part3 =  ", part3)
+
+    all_parts_lst = part3 + part1 + part2
+    print(f"slice_thirds, returning thirds list order 3rd-1st-2nd ", all_parts_lst)
+
+    return all_parts_lst
+
+
 def slice_test(in_lst):
 
     # ***MMM slice syntax notes [begix:endix:step]
@@ -73,5 +91,6 @@ if __name__ == "__main__":
     rslt1 = slice1(data_lst)
     rslt2 = slice2(data_lst)
     rslt3 = slice3(data_lst)
+    result_thirds = slice_thirds(data_lst)
 
 
