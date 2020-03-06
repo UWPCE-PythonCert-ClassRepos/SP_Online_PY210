@@ -4,20 +4,25 @@
 ####################################
 
 
-def slice_lab(in_lst):
-    result_lst = in_lst.copy()
-    print(f"slice lab, original list ", result_lst)
+def slice1(in_lst):
+    print(f"slice1, original list ", in_lst)
 
-    endix = len(in_lst) - 1
-    # print(f"endix =  ", str(endix))
+    lst_a = in_lst.copy()
+    lst_a = lst_a[-1:] + lst_a[1:-1] + lst_a[:1]
 
-    lsta = in_lst.copy()
-    lsta = lsta[-1:] + lsta[1:-1] + lsta[:1]
-    print(f"slice lab, swap first and last, ==> ", lsta)
-
-    return result_lst
+    print(f"slice1, returning swap first and last, ==> ", lst_a)
+    return lst_a
 
 
+def slice2(in_lst):
+    print(f"slice2, original list ", in_lst)
+
+    lst_a = in_lst.copy()
+    lst_a = lst_a[0::2]
+
+    print(f"slice2, returning every other item removed, ==> ", lst_a)
+
+    return lst_a
 
 
 def slice_test(in_lst):
@@ -27,6 +32,8 @@ def slice_test(in_lst):
     result_lst = in_lst.copy()
     print(f"slice_test, original list ", result_lst)
 
+    # endix = len(in_lst) - 1
+	
     lsta = in_lst.copy()
     lsta = lsta[-1:]
     print(f"aaa ", lsta)
@@ -36,7 +43,6 @@ def slice_test(in_lst):
     lstc = in_lst.copy()
     lstc = lstc[:1]
     print(f"ccc ", lstc)
-    # return (seq[-1:]+seq[1:-1]+seq[:1])
 
     print("")
 
@@ -53,6 +59,7 @@ if __name__ == "__main__":
 
     # slice_test(data_lst)
 
-    result_lst1 = slice_lab(data_lst)
+    rslt1 = slice1(data_lst)
+    rslt2 = slice2(data_lst)
 
 
