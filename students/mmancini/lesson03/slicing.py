@@ -25,6 +25,17 @@ def slice2(in_lst):
     return lst_a
 
 
+def slice3(in_lst):
+    print(f"slice3, original list ", in_lst)
+
+    lst_a = in_lst.copy()
+    lst_a = lst_a[::-1]
+
+    print(f"slice3, returning reversed, ==> ", lst_a)
+
+    return lst_a
+
+
 def slice_test(in_lst):
 
     # ***MMM slice syntax notes [begix:endix:step]
@@ -61,5 +72,6 @@ if __name__ == "__main__":
 
     rslt1 = slice1(data_lst)
     rslt2 = slice2(data_lst)
+    rslt3 = slice3(data_lst)
 
 
