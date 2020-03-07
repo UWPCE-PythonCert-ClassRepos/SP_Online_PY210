@@ -3,70 +3,15 @@ __author__ = 'Tim Lurvey, ig408c'
 
 import sys
 import os
+from running_total import RunningTotal
 
 
-class RunningTotal(object):
-    """A class for storing donor data"""
-    _key = ""
-    _total = 0.
-    _count = 0
-
-    def __init__(self, new_key: str, total: float = 0., count: int = 0):
-        self._set_key(new_key=new_key)
-        self._set_total(new_total=total)
-        self._set_count(new_count=count)
-
-    @property
-    def key(self):
-        return self._key
-
-    @key.setter
-    def key(self, new_key):
-        self._set_key(new_key=new_key)
-
-    def _set_key(self, new_key):
-        try:
-            assert isinstance(new_key, str)
-            self._key = new_key
-        except AssertionError:
-            raise TypeError("Error:key must be a string")
-
-    @property
-    def total(self):
-        return self._total
-
-    def _set_total(self, new_total):
-        try:
-            self._total = float(new_total)
-        except AssertionError:
-            raise TypeError("Error:total must be numeric")
-
-    @property
-    def count(self):
-        return self._count
-
-    def _set_count(self, new_count):
-        try:
-            assert isinstance(new_count, int)
-            self._count = new_count
-        except AssertionError:
-            raise TypeError("Error:key must be a integer")
-
-    def add_to_total(self, ammount):
-        self._total = self.total + ammount
-        self._count += 1
-
-    @property
-    def average(self):
-        return (self._total / self._count)
-
-
-my_data = set()
-my_data.add(RunningTotal(new_key='Tom Hanks', total=24536.20, count=3))
-my_data.add(RunningTotal(new_key='Barry Larkin', total=4521., count=3))
-my_data.add(RunningTotal(new_key='Mo Sizlack', total=88.88, count=2))
-my_data.add(RunningTotal(new_key='Anonymous', total=100., count=1))
-my_data.add(RunningTotal(new_key='Donnald Trump', total=1., count=3))
+my_data = []
+my_data.append(RunningTotal(new_key='Tom Hanks', total=24536.20, count=3))
+my_data.append(RunningTotal(new_key='Barry Larkin', total=4521., count=3))
+my_data.append(RunningTotal(new_key='Mo Sizlack', total=88.88, count=2))
+my_data.append(RunningTotal(new_key='Anonymous', total=100., count=1))
+my_data.append(RunningTotal(new_key='Donnald Trump', total=1., count=3))
 
 
 def get_name_matches(name: str, data: any=my_data):
@@ -119,7 +64,7 @@ def compose_email(name: str, new_donation: float = 0., data=my_data):
     # create new donation string, if needed
     fnew_donation = ""
     if new_donation:
-        donor_obj.add_to_total(ammount=new_donation)
+        donor_obj.add_to_total(amount=new_donation)
         fnew_donation += "Thank you for your generous donation of $ {donation:.2f}.\n".format(donation=new_donation, )
     # format email string
     email_str = "\nHello {name},\n\n" \
@@ -134,8 +79,8 @@ def compose_email(name: str, new_donation: float = 0., data=my_data):
     return email_str
 
 
-def add_donation(name: str = "", ammount: float = 0.):
-    get_data_object(key=name).add_to_total(ammount=ammount)
+def add_donation(name: str = "", amount: float = 0.):
+    get_data_object(key=name).add_to_total(amount=amount)
     return True
 
 
@@ -162,7 +107,7 @@ def send_thank_you(request: str = "", skip_donation: bool = False):
         except ValueError:
             "The value you entered is not a valid donation.  Error: '{}'\n>>> ".format(donation)
         # add the donation to their existing amount
-        add_donation(name=request, ammount=float(donation))
+        add_donation(name=request, amount=float(donation))
     # return the email string
     return compose_email(name=request, new_donation=float(donation))
 
