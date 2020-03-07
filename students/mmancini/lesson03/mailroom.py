@@ -11,12 +11,40 @@ db_donors = [("Jane Smith", [25, 50]),
 
 ####################################
 
+def get_donor_stats(inDonor):
+    # print(f"***MMM Donor stats:")
+    statsAry = []
+
+    donationsAry = inDonor[1]
+    # print(f"diag ***MMM1111111111 donation donor, donation ==> ", inDonor[0], donationsAry)
+    num_donations = 0
+    tot_of_donations = 0
+    for donation_amount in donationsAry:
+        num_donations += 1
+        tot_of_donations += donation_amount
+    avg_of_donations = tot_of_donations / num_donations
+    statsAry.append(tot_of_donations)
+    statsAry.append(num_donations)
+    statsAry.append(avg_of_donations)
+    return statsAry
+
 
 def create_report():
     print(f"Donor Report:")
 
-    #print("{: >20} {: >20} {: >20}".format(*row))
+    hdr1 = ["Donor Name ", "Donation Total", "Number of Donations", "Donation Average"]
+    hdr2 = ["-----------", "--------------", "-------------------", "----------------"]
 
+    print("   {: <20} {: >20} {: >20} {: >20}".format(*hdr1))
+    print("   {: <20} {: >20} {: >20} {: >20}".format(*hdr2))
+    for donor in db_donors:
+        # print(f"diag print donor, donor ==> ", donor[0], donor[1])
+        donor_stats = get_donor_stats(donor)
+        # print(f"***MMM diag print donor stats, donor ==> ", donor[0], donor_stats)
+        # print("{: >20} {: >20} {: >20}".format(*donor_stats))
+        #numStr.rjust(4, ' ')
+        print("   {: <20} {: >20} {: >20} {: >20}".format(donor[0].ljust(10, ' '), *donor_stats))
+        #print("{: ^20} {: ^20} {: ^20} {: ^20}".format(donor[0], *donor_stats))
 
 def menu_donation_amount():
     msg = ""
