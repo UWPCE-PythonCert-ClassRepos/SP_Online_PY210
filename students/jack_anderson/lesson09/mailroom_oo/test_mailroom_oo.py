@@ -13,6 +13,8 @@ from datetime import date
 from donor_models import *
 import os
 
+current = "{date}".format(date=date.today())
+
 
 def test_donor_init():
     c = Donor("david")
@@ -104,10 +106,20 @@ def test_report_template():
     # assert False
 
 
+def test_thanks_template():
+    c = Donor('mary', [100])
+    print(c.donations)
+    print(c.thanks_template())
+
+    assert 'Mary' in c.thanks_template()
+    assert '$100.00' in c.thanks_template()
+
+    # assert False
+    # assert False
 
 
 
-donors_list = [['bob', [1, 2, 3]],['sam', [4, 5, 6]],['sally', [7, 8, 9]]]
+donors_list = [['bob smith', [1, 2, 3]],['sam', [4, 5, 6]],['sally', [7, 8, 9]]]
 
 def test_donor_collection_init():
     validate_1 = donors_list[-1]
@@ -117,9 +129,9 @@ def test_donor_collection_init():
     print(validate_1[-1])
     assert dc.donors_dict['sally'] == validate_1[-1]
 
-    print(dc.donors_dict['bob'])
+    print(dc.donors_dict['bob smith'])
     print(validate_2[-1])
-    assert validate_2[-1] == dc.donors_dict['bob']
+    assert validate_2[-1] == dc.donors_dict['bob smith']
 
     assert 'sam' in dc.donors_dict
     assert 5 in dc.donors_dict['sam']
@@ -145,7 +157,7 @@ def test_add_donor():
 def test_list_donors():
     dc = DonorCollection(donors_list)
     print(dc.list_donors())
-    assert 'bob' in dc.list_donors()
+    assert 'bob smith' in dc.list_donors()
 
     # assert False
     # assert False
@@ -183,3 +195,95 @@ def test_create_report():
 
     # assert False
     # assert False
+
+
+
+def test_send_email_all():
+    x = current.replace("-", "_")
+    dir = 'outgoing_emails_{date}'.format(date=x)
+    email_list = [['bob smith', [1, 2, 3]], ['sam', [4, 5, 6]]]
+    dc = DonorCollection(email_list)
+    print(dc.send_email_all())
+
+    bob = "{dir}/Bob_Smith_{date}.txt".format(dir=dir, date=x)
+    sam = "{dir}/Sam_{date}.txt".format(dir=dir, date=x)
+
+    with open(bob, 'r') as f:
+        bob_data = f.read()
+    assert "Bob Smith" in bob_data
+
+    with open(sam, 'r') as f:
+        sam_data = f.read()
+    assert "Sam" in sam_data
+
+
+    # assert False
+    # assert False
+
+def create_directory_for_test(self):
+    dir = 'mail_testing'
+    c = DonorCollection(donors_list)
+    print(c.create_directory(dir))
+    dir_list = list(os.listdir())
+
+    assert dir in dir_list
+
+
+def test_create_email():
+    c = Donor('harry', [100])
+    x = current.replace("-", "_")
+    dir = 'outgoing_emails_{date}'.format(date=x)
+    print(c.create_email(dir))
+    x = current.replace("-", "_")
+    file = "{dir}/Harry_{date}.txt".format(dir=dir, date=x)
+    with open(file, 'r') as f:
+        data = f.read()
+    assert 'Harry' in data
+    assert '100.00' in data
+
+    # assert False
+    # assert False
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def test_clean_up_test_data():
+    x = current.replace("-", "_")
+    dir = 'outgoing_emails_{date}'.format(date=x)
+    email_list = list(os.listdir(f"{dir}"))
+
+    bob = f'{dir}/Bob_Smith_{x}.txt'
+    sam = f'{dir}/Sam_{x}.txt'
+    harry = f'{dir}/Harry_{x}.txt'
+
+    os.remove(bob)
+    assert bob not in email_list
+
+    os.remove(sam)
+    assert sam not in email_list
+
+    os.remove(harry)
+    assert harry not in email_list
+
+    os.rmdir(dir)
+    assert dir not in os.listdir()
+
+    # assert False
+    # assert False
+
+
