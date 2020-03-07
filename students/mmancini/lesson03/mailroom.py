@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+charity_name = "ABC Charity"
 
 db_donors = [("Jane Smith", [25, 50]),
              ("Tom Adams", [100]),
@@ -7,7 +8,14 @@ db_donors = [("Jane Smith", [25, 50]),
              ("Ming Chan", [50]),
              ("Mary Jones", [5, 10, 15])]
 
+
 ####################################
+
+
+def create_report():
+    print(f"Donor Report:")
+
+    #print("{: >20} {: >20} {: >20}".format(*row))
 
 
 def menu_donation_amount():
@@ -15,7 +23,7 @@ def menu_donation_amount():
     msg += "Please enter a donation amount::\n"
     msg += ".....>>"
 
-    # donation_amount_entry = input(msg)
+    # donation_amount_entry = int(input(msg))
     donation_amount_entry = 55      # ***MMM
 
     return donation_amount_entry
@@ -40,6 +48,7 @@ def process_new_donor(name):
 
     print(f"***MMM diag , donations >=> ", db_donors)
 
+    return amount
 
 def process_existing_donor(name):
     print(f"process existing donor ==> ", name)
@@ -56,14 +65,27 @@ def process_existing_donor(name):
 
     print(x)
 
+    return amount
+
+
+def process_send_thankyou_email(in_name, in_amount):
+    msg = ""
+    msg += f"To: {in_name}@abc.def:\n"
+    msg += f"From: {charity_name}.org:\n"
+    msg += f"Subject:  Thank You:\n"
+    msg += f"Body: Dear {in_name} Thank You for your generous donation of ${in_amount}:\n"
+    msg += ""
+
+    print(msg)
+
 def process_donor(in_name):
 
     donor_names_lst = [x[0] for x in db_donors]
 
     if in_name in donor_names_lst:
-        process_existing_donor(in_name)
+        amount_donated = process_existing_donor(in_name)
     else:
-        process_new_donor(in_name)
+        amount_donated = process_new_donor(in_name)
 
     ix = -1
     for donor in db_donors:
@@ -75,6 +97,7 @@ def process_donor(in_name):
 
         i = 1
 
+    return in_name, amount_donated
 
 def send_thankyou():
     msg = ""
@@ -99,35 +122,23 @@ def send_thankyou():
 
         break   # ***MMM test only
 
-    process_donor(entry)
-
+    donor_name,  donation_amount = process_donor(entry)
+    process_send_thankyou_email(donor_name,donation_amount)
 
 def main_menu():
     msg = ""
     msg += "Please enter option from below:\n"
     msg += " S: Send thank you note\n"
-    msg += " C: Create report\n"
+    msg += " R: Create report\n"
     msg += " Q: Quit\n"
     msg += ".....>>"
 
     # entry = input(msg)
 
-    entry = 'S'
+    # entry = 'S'
+    entry = 'R'
     print(f"user entered ==> ", entry)
 
-    if entry == 'S':
-        send_thankyou()
-
-    """
-    if user_action == 'S'
-        create_a_report()
-    elif user_action == '3':
-        quit()
-    else:
-        print('Invalid input. Please choose 1, 2 or 3.')
-
-
-    """
     return entry
 
 ###################################
@@ -142,8 +153,14 @@ def mailroom():
     while True:
         operation = main_menu()
 
-        if operation == 'Q':
+        if operation == 'S':
+            send_thankyou()
+        elif operation == 'R':
+            create_report()
+        elif operation == 'Q':
             is_done = True
+        else:
+            print(f"Invalid Entry, please retry: ==> ", operation)
 
         is_done = True  # ***MMM
 
