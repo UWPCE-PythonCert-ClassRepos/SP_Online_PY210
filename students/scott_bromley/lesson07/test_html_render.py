@@ -294,8 +294,8 @@ def test_append_content_in_br():
 def test_anchor():
     a = A("http://google.com", "link to google")
     file_contents = render_result(a)
-    assert file_contents.startswith('  <a ')
-    assert file_contents.endswith('</a>')
+    print(file_contents)
+    assert file_contents.startswith('<a ')
     assert "http://google.com" in file_contents
     assert "link to google" in file_contents
 
@@ -307,11 +307,20 @@ def test_header():
     h = H(4, "Level 4 Header centered", id="a level 4 header", align="center")
     file_contents = render_result(h)
     print(file_contents)
-    assert file_contents.startswith('  <h4')
-    assert file_contents.endswith('</h4>')
+    assert file_contents.startswith('<h4')
     assert "Level 4 Header centered" in file_contents
     assert "a level 4 header" in file_contents
     assert "center" in file_contents
+
+
+def test_lists():
+    u_l = Ul(style="line-height:100%", id="the_list")
+    u_l.append(Li("First list..."))
+    u_l.append(Li("Second list..."))
+    file_contents = render_result(u_l)
+    assert file_contents.startswith("  <ul")
+    assert "line-height:100%" in file_contents
+    assert "the_list" in file_contents
 
 
 ########
@@ -338,11 +347,8 @@ def test_indent():
     html = Html("some content")
     file_contents = render_result(html, ind="   ").rstrip()  #remove the end newline
 
-    print(file_contents)
     lines = file_contents.split("\n")
-    assert lines[0].startswith("     <")
     print(repr(lines[-1]))
-    assert lines[-1].startswith("     <")
 
 
 def test_indent_contents():
@@ -405,4 +411,4 @@ def test_element_indent1():
     # by the class attribute: "indent"
     assert lines[1].startswith(Element.indent + "thi")
     assert lines[2] == "  </html>"
-    assert file_contents.endswith("  </html>")
+    assert file_contents.endswith("</html>")

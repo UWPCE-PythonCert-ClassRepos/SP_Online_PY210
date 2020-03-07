@@ -69,12 +69,8 @@ class Circle(object):
         return Circle(self.radius + other.radius)
 
     def __iadd__(self, other):
-        if isinstance(self, int) & isinstance(other, Circle):
-            return self.__add__(other.radius)
-        if isinstance(self, Circle) & isinstance(other, int):
-            return self.__add__(other.radius)
-        if isinstance(self, Circle) & isinstance(other, Circle):
-            return self.__add__(other.radius)
+        self.radius += other.radius
+        return self
 
     def __mul__(self, other):
         try:
@@ -93,48 +89,30 @@ class Circle(object):
             return self.__mul__(other)
 
     def __imul__(self, other):
-        if isinstance(self, int) & isinstance(other, Circle):
+        if isinstance(self, int) and isinstance(other, Circle):
             return self.__mul__(other.radius)
-        if isinstance(self, Circle) & isinstance(other, int):
+        if isinstance(self, Circle) and isinstance(other, int):
             return self.__mul__(other.radius)
-        if isinstance(self, Circle) & isinstance(other, Circle):
+        if isinstance(self, Circle) and isinstance(other, Circle):
             return self.__mul__(other.radius)
 
     def __eq__(self, other):
-        if self.radius == other.radius:
-            return True
-        else:
-            return False
+        return self.radius == other.radius
 
     def __lt__(self, other):
-        if self.radius < other.radius:
-            return True
-        else:
-            return False
+        return self.radius < other.radius
 
     def __le__(self, other):
-        if self.radius <= other.radius:
-            return True
-        else:
-            return False
+        return self.radius <= other.radius
 
     def __ge__(self, other):
-        if self.radius >= other.radius:
-            return True
-        else:
-            return False
+        return self.radius >= other.radius
 
     def __gt__(self, other):
-        if self.radius > other.radius:
-            return True
-        else:
-            return False
+        return self.radius > other.radius
 
     def __ne__(self, other):
-        if self.radius != other.radius:
-            return True
-        else:
-            return False
+        return self.radius != other.radius
 
     def __str__(self):
         """
