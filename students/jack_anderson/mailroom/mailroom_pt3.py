@@ -11,7 +11,7 @@ from datetime import date
 donors_list = [
     ['Bubbles Trailer',[1500.99, 2523, 3012]],
     ['Julien Park',[2520.92, 1623.12]],
-    ['Ricky Boys',[742.76, 345.56, 5123.25]],
+    ['Ricky Boys',[345.56, 5123.25]],
     ['Jack Anderson',[1044, 2232, 4123.56]],
     ['Lacey Coffin Greene',[1500.32, 625.34, 1305, 340.78]]
   ]
@@ -49,7 +49,7 @@ def prompt_amount():
 def list_names():
     # Return a list of donors
     donors = list(donors_dict)
-    print(donors)
+    return donors
 
 
 def add_items(name, donation):
@@ -125,17 +125,20 @@ def print_report_header():
     print("=" * 70)
 
 
-def print_report_template():
+def create_report():
     # Action to call report generation functions
     print_report_header()
-    action = [donor_details(name, donations) for name, donations in donors_dict.items()]
+    action = [donor_details(name, donations) for name, donations in (sorted(donors_dict.items(), key =
+             lambda x:(sum(x[1]), x[0]), reverse=True))]
     return action
+
 
 
 def send_thanks():
     # Action to create Thank you email for single person
     x, y = add_items(prompt_name(), prompt_amount())
     send_email(x, y)
+
 
 
 def send_all_thanks():
@@ -157,7 +160,7 @@ def start():
     enters a numerical key.
     """
     while True:
-        mailroom_start = {1: send_thanks, 2: print_report_template, 3: send_all_thanks, 4: quit}
+        mailroom_start = {1: send_thanks, 2: create_report, 3: send_all_thanks, 4: quit}
         try:
             print()
             action = input("Select a number to perform one of the following actions...\n"
@@ -168,8 +171,8 @@ def start():
 
             x = int(action)
             mailroom_start.get(x)()
-        except (ValueError, TypeError):
-            print("Not a valid option: Please enter a number from 1 to 4")
+        # except (ValueError, TypeError):
+        #     print("Not a valid option: Please enter a number from 1 to 4")
         except KeyboardInterrupt:
             print()
             quit()
