@@ -31,11 +31,12 @@ def ty_letter(a, b):
     'Mama Fratelli')).format(a,b))
 
 
-def thank_you():
+#def thank_you():
     #input option for the user to enter a new name, add amount to previous donor, or see list of previous donors
-    donor_name = input("Enter donors full name (enter 'list' to display all names, or 'q' to exit)? > ").title()
 
+def donor_data():
     while True:
+        donor_name = input("Enter donors full name (enter 'list' to display all names, or 'q' to exit)? > ").title()
         if donor_name == '':
             print('\n'"Try again - donor name must be entered")
             return
@@ -49,27 +50,36 @@ def thank_you():
 
     #collect donation amount
     donation_amt = input("\n""How much did " + donor_name + " donate? > ")
+###include add_donor_info function???
     try:
         amt = round(float(donation_amt),2)
     except ValueError:
         print('\n''Try again. Enter donor name, then donation amount. -')
-        thank_you()
+        donor_data()
+    return thank_you(donor_name, amt)
 
+
+def thank_you(name,amount):
     #iterate through donor list, add new name and amount, or amount if the name was already on the list
-    if donor_name in donor_dict.keys():
-        donor_dict[donor_name].append(amt)
+    if name in donor_dict.keys():
+        donor_dict[name].append(amount)
     else:
-        donor_dict[donor_name] = [amt]
-    print(ty_letter(donor_name,amt))
+        donor_dict[name] = [amount]
+    print(ty_letter(name,amount))
 
 
 def create_report():
-    #display report of all donor with summed and sorted donation amounts
-    print('{:20}{:15}{:15}{:15}'.format('Donor Name', '| Total Given', '| Num Gifts', '| Average Gift'))
-    print('-' * 65)
+    #generate and format report of all donors with summed and sorted donation amounts
+    reportage = "\n".join([(f'{name:<20} $ {dollars[0]:<13.2f} {dollars[1]:<13} $ {dollars[2]:<15.2f}')
+    for name, dollars in new_donor_dict_func().items()])
+    return reportage
 
-    for name, dollars in new_donor_dict_func().items():
-        print(f'{name:<20} $ {dollars[0]:<13.2f} {dollars[1]:<13} $ {dollars[2]:<15.2f}')
+
+def print_report():
+    #print report header info and retrieve report data
+#    print('{:20}{:15}{:15}{:15}'.format('Donor Name', '| Total Given', '| Num Gifts', '| Average Gift'))
+#    print('-' * 65)
+    print(create_report())
 
 
 def letters_to_all():
@@ -88,7 +98,7 @@ def quit_program():
 
 
 def main():
-    main_menu = {1: thank_you, 2: create_report, 3: letters_to_all, 4: quit_program,}
+    main_menu = {1: donor_data, 2: print_report, 3: letters_to_all, 4: quit_program,}
 
     while True:
         response = ''
@@ -111,3 +121,4 @@ def main():
 #confirm file is executed on it's own in the main program, or being imported
 if __name__ == "__main__":
     main()
+    result = create_report()
