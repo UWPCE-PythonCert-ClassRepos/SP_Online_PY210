@@ -24,7 +24,6 @@ def mainy():
             swit_dic = {1: send_note, 2: data_metrics,
                         3: exit_program, 4: mass_mail}
             swit_dic[choice]()
-            break
         except KeyError:
             print('You have entered a non-choice'
                   ' , please get your shit together')
@@ -65,7 +64,7 @@ Please select from the below Thank You Note options:
                     donators.update({donor_inp: [new_don]})
                     send_thanks(donor_inp, new_don)
             if respondy == 3:
-                mainy()
+                exit_program()
             if respondy > 3:
                 print('You have entered a non-choice'
                       ' , please get your shit together')
@@ -74,7 +73,6 @@ Please select from the below Thank You Note options:
                 print('You have entered a non-choice'
                       ' , please get your shit together')
                 continue
-            break
         except ValueError:
             print('You have entered a non-number'
                   ' , please get your shit together')
@@ -104,7 +102,7 @@ def data_metrics():
     print('Name'+'-'*30+'Sum'+'-'*28+'Count'+'-'*30+'Avg')
     for a, b, c, d in ranked_d:
         print(f'{a:<33}{b:<33}{c:<33}{d:<33}')
-    mainy()
+    exit_program()
 # https://www.youtube.com/watch?v=AhSvKGTh28Q
 
 
@@ -121,7 +119,7 @@ def mass_mail():
             sumy = str(sum(value))
             f.write(f'Thanks {key} for donating ${sumy}.'
                     + "\n"+'Your mother would be so proud.')
-    mainy()
+    exit_program()
 
 
 if __name__ == "__main__":
