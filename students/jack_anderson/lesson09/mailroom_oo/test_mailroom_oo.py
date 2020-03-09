@@ -10,11 +10,12 @@ Unit tests for Donor and DonorClass classes as well as CLI functions
 
 import pytest
 from datetime import date
-from donor_models import *
+from cli_main import *
 import os
 
-current = "{date}".format(date=date.today())
-
+##############################
+# Unit Tests for  Donor Class
+##############################
 
 def test_donor_init():
     c = Donor("david")
@@ -117,53 +118,49 @@ def test_thanks_template():
     # assert False
     # assert False
 
-
-
-donors_list = [['bob smith', [1, 2, 3]],['sam', [4, 5, 6]],['sally', [7, 8, 9]]]
+######################################
+# Unit Tests for  DonorCollection Class
+#######################################
 
 def test_donor_collection_init():
-    validate_1 = donors_list[-1]
-    validate_2 = donors_list[0]
-    dc = DonorCollection(donors_list)
-    print(dc.donors_dict['sally'])
-    print(validate_1[-1])
-    assert dc.donors_dict['sally'] == validate_1[-1]
+    dc = DonorCollection()
+    print(dc.donors_dict['Jack'])
+    assert 'Jack' in dc.donors_dict
 
-    print(dc.donors_dict['bob smith'])
-    print(validate_2[-1])
-    assert validate_2[-1] == dc.donors_dict['bob smith']
+    print(dc.donors_dict['Ricky Boys'])
+    assert [1345.50, 1123.00] == dc.donors_dict['Ricky Boys']
 
-    assert 'sam' in dc.donors_dict
-    assert 5 in dc.donors_dict['sam']
+    assert 'Lacey Coffin Greene' in dc.donors_dict
+    assert 1500 in dc.donors_dict['Lacey Coffin Greene']
 
     # assert False
     # assert False
 
 def test_add_donor():
-    dc = DonorCollection(donors_list)
+    dc = DonorCollection()
     print(dc.donors_dict)
-    dc.add_donor('mark', 100)
+    dc.add_donor('mark', [100.25])
     print(dc.donors_dict)
     assert 'mark' in dc.donors_dict
-    assert dc.donors_dict['mark'] == 100
+    assert dc.donors_dict['mark'] == [100.25]
 
-    dc.add_donor("sam", 10)
-    print(dc.donors_dict['sam'])
-    assert dc.donors_dict['sam'] == [4, 5, 6, 10]
+    dc.add_donor("Jack", [100])
+    print(dc.donors_dict['Jack'])
+    assert dc.donors_dict['Jack'] == [1044, 2232, 123.49, 100]
 
     # assert False
     # assert False
 
 def test_list_donors():
-    dc = DonorCollection(donors_list)
+    dc = DonorCollection()
     print(dc.list_donors())
-    assert 'bob smith' in dc.list_donors()
+    assert 'Bubbles Trailer' and 'Jack' in dc.list_donors()
 
     # assert False
     # assert False
 
 def test_report_header():
-    dc = DonorCollection(donors_list)
+    dc = DonorCollection()
     print(dc.report_header())
 
     template = header = '{name:<21}\t| {total:^{width}}\t| {count:^{width}}\t| {avg:>{width}}'\
@@ -175,7 +172,7 @@ def test_report_header():
     # assert False
 
 def test_sort_donors():
-    dc = DonorCollection(donors_list)
+    dc = DonorCollection()
     print(dc.sorted_dict)
 
     assert dc.sorted_dict[0] > dc.sorted_dict[1]
@@ -185,7 +182,7 @@ def test_sort_donors():
 
 
 def test_create_report():
-    dc = DonorCollection(donors_list)
+    dc = DonorCollection()
     print(dc.report_header())
     for i in dc.create_report():
         print(i)
@@ -197,32 +194,26 @@ def test_create_report():
     # assert False
 
 
-
 def test_send_email_all():
-    x = current.replace("-", "_")
-    dir = 'outgoing_emails_{date}'.format(date=x)
-    email_list = [['bob smith', [1, 2, 3]], ['sam', [4, 5, 6]]]
-    dc = DonorCollection(email_list)
+    dir = 'outgoing_emails_{date}'.format(date=date.today()).replace("-", "_")
+    dc = DonorCollection()
     print(dc.send_email_all())
 
-    bob = "{dir}/Bob_Smith_{date}.txt".format(dir=dir, date=x)
-    sam = "{dir}/Sam_{date}.txt".format(dir=dir, date=x)
+    jack = "Jack_{date}.txt".format(date=date.today()).replace("-", "_")
+    ricky = "Ricky_Boys_{date}.txt".format(date=date.today()).replace("-", "_")
 
-    with open(bob, 'r') as f:
-        bob_data = f.read()
-    assert "Bob Smith" in bob_data
+    email_list = list(os.listdir(f"{dir}"))
+    print(email_list)
 
-    with open(sam, 'r') as f:
-        sam_data = f.read()
-    assert "Sam" in sam_data
-
+    assert jack in email_list
+    assert ricky in email_list
 
     # assert False
     # assert False
 
 def create_directory_for_test(self):
     dir = 'mail_testing'
-    c = DonorCollection(donors_list)
+    c = DonorCollection()
     print(c.create_directory(dir))
     dir_list = list(os.listdir())
 
@@ -231,11 +222,9 @@ def create_directory_for_test(self):
 
 def test_create_email():
     c = Donor('harry', [100])
-    x = current.replace("-", "_")
-    dir = 'outgoing_emails_{date}'.format(date=x)
+    dir = 'outgoing_emails_{date}'.format(date=date.today()).replace("-", "_")
     print(c.create_email(dir))
-    x = current.replace("-", "_")
-    file = "{dir}/Harry_{date}.txt".format(dir=dir, date=x)
+    file = "{dir}/Harry_{date}.txt".format(dir=dir, date=date.today()).replace("-", "_")
     with open(file, 'r') as f:
         data = f.read()
     assert 'Harry' in data
@@ -245,6 +234,20 @@ def test_create_email():
     # assert False
 
 
+def test_remove_donor():
+    dc = DonorCollection()
+    dc.remove_donor('mark')
+
+    assert "mark" not in dc.donors_dict
+
+    dc.remove_donor('Jack')
+    assert 'Jack' not in dc.donors_dict
+
+    dc.add_donor("Jack",[1044, 2232, 123.49] )
+    assert 'Jack' in dc.donors_dict
+
+    # assert False
+    # assert False
 
 
 
@@ -256,34 +259,37 @@ def test_create_email():
 
 
 
-
-
-
-
-
+##############################################
+# Clean up test data and reset the donors dict
+##############################################
 
 def test_clean_up_test_data():
-    x = current.replace("-", "_")
-    dir = 'outgoing_emails_{date}'.format(date=x)
+    dir = 'outgoing_emails_{date}'.format(date=date.today()).replace("-", "_")
     email_list = list(os.listdir(f"{dir}"))
 
-    bob = f'{dir}/Bob_Smith_{x}.txt'
-    sam = f'{dir}/Sam_{x}.txt'
-    harry = f'{dir}/Harry_{x}.txt'
+    print(email_list)
 
-    os.remove(bob)
-    assert bob not in email_list
-
-    os.remove(sam)
-    assert sam not in email_list
-
-    os.remove(harry)
-    assert harry not in email_list
+    try:
+        for i in email_list:
+            print(i)
+            os.remove("{d}/{f}".format(d=dir, f=i))
+    except FileNotFoundError:
+        print("Unable to locate file")
+        raise FileNotFoundError
 
     os.rmdir(dir)
     assert dir not in os.listdir()
 
+    default = [['Bubbles Trailer', [1500.24, 2523.33, 3012.12]],
+               ['Julien Park', [2520.99, 1623, 123.23]],
+               ['Ricky Boys', [1345.50, 1123.00]],
+               ['Jack', [1044, 2232, 123.49]],
+               ['Lacey Coffin Greene', [1500, 1625, 1305, 3400.87]]]
+    saved_data = {donor[0]: donor[1] for donor in default}
+
+    with open('donors.pckl', 'wb') as f:
+        pickle.dump(saved_data, f)
+        f.close()
+
     # assert False
     # assert False
-
-
