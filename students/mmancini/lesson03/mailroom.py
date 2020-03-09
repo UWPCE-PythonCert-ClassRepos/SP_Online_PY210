@@ -4,29 +4,30 @@ charity_name = "ABC Charity"
 
 db_donors = [("Jane Smith", [25, 50]),
              ("Tom Adams", [100]),
-             ("Helen Smalls", [10,20,30]),
+             ("Helen Smalls", [10, 20, 30]),
              ("Ming Chan", [50]),
              ("Mary Jones", [5, 10, 15])]
 
 
 ####################################
 
-def get_donor_stats(inDonor):
-    # print(f"***MMM Donor stats:")
-    statsAry = []
+def get_donor_stats(in_donor):
+    stats_ary = []
 
-    donationsAry = inDonor[1]
-    # print(f"diag ***MMM1111111111 donation donor, donation ==> ", inDonor[0], donationsAry)
+    donations_ary = in_donor[1]
+
     num_donations = 0
     tot_of_donations = 0
-    for donation_amount in donationsAry:
+    for donation_amount in donations_ary:
         num_donations += 1
         tot_of_donations += donation_amount
     avg_of_donations = tot_of_donations / num_donations
-    statsAry.append(tot_of_donations)
-    statsAry.append(num_donations)
-    statsAry.append(avg_of_donations)
-    return statsAry
+
+    stats_ary.append(tot_of_donations)
+    stats_ary.append(num_donations)
+    stats_ary.append(avg_of_donations)
+
+    return stats_ary
 
 
 def create_report():
@@ -38,21 +39,16 @@ def create_report():
     print("   {: <20} {: >20} {: >20} {: >20}".format(*hdr1))
     print("   {: <20} {: >20} {: >20} {: >20}".format(*hdr2))
     for donor in db_donors:
-        # print(f"diag print donor, donor ==> ", donor[0], donor[1])
         donor_stats = get_donor_stats(donor)
-        # print(f"***MMM diag print donor stats, donor ==> ", donor[0], donor_stats)
-        # print("{: >20} {: >20} {: >20}".format(*donor_stats))
-        #numStr.rjust(4, ' ')
         print("   {: <20} {: >20} {: >20} {: >20}".format(donor[0].ljust(10, ' '), *donor_stats))
-        #print("{: ^20} {: ^20} {: ^20} {: ^20}".format(donor[0], *donor_stats))
+
 
 def menu_donation_amount():
     msg = ""
     msg += "Please enter a donation amount::\n"
     msg += ".....>>"
 
-    # donation_amount_entry = int(input(msg))
-    donation_amount_entry = 55      # ***MMM
+    donation_amount_entry = int(input(msg))
 
     return donation_amount_entry
 
@@ -60,51 +56,45 @@ def menu_donation_amount():
 def show_donors():
     print(f"List of Donors:")
     for donor in db_donors:
-        # print(f"diag spin donors, donor ==> ", donor[0])
         print(f" ", donor[0])
 
 
 def process_new_donor(name):
-    print(f"process a new donor ==> ", name)
     amount_ary = []
 
     amount = menu_donation_amount()
     amount_ary.append(amount)
 
-    db_donors.append((name,amount_ary))
-    #donor_donations.append((user_action_TY, [donation]))
+    db_donors.append((name, amount_ary))
 
-    print(f"***MMM diag , donations >=> ", db_donors)
+    print(f"new donor {name} donated {amount}")
 
     return amount
 
-def process_existing_donor(name):
-    print(f"process existing donor ==> ", name)
 
+def process_existing_donor(name):
     donor_names_lst = [x[0] for x in db_donors]
     x = donor_names_lst.index(name)
 
     amount = menu_donation_amount()
-    #for d in db_donors:
-    #    d[1].append(3)
     db_donors[x][1].append(amount)
     print(f"existing donor {name} donated {amount}")
-    #print(db_donors)
-
-    print(x)
 
     return amount
 
 
 def process_send_thankyou_email(in_name, in_amount):
+    print(f"Thank You Email:")
     msg = ""
     msg += f"To: {in_name}@abc.def:\n"
+
     msg += f"From: {charity_name}.org:\n"
     msg += f"Subject:  Thank You:\n"
     msg += f"Body: Dear {in_name} Thank You for your generous donation of ${in_amount}:\n"
     msg += ""
 
     print(msg)
+
 
 def process_donor(in_name):
 
@@ -115,17 +105,8 @@ def process_donor(in_name):
     else:
         amount_donated = process_new_donor(in_name)
 
-    ix = -1
-    for donor in db_donors:
-        #print(f"diag spin donors, donor ==> ", donor[0])
-        i=1
-
-        #if donors[0] == user_action_TY:
-        #        donors[1].append(donation)
-
-        i = 1
-
     return in_name, amount_donated
+
 
 def send_thankyou():
     msg = ""
@@ -135,23 +116,16 @@ def send_thankyou():
     entry = ""
     need_entry = True
     while need_entry:
-        # entry = input(msg)
-
-        entry = 'Phil Mason'
-        # entry = 'Tom Adams'
-        #entry = 'list'
-        print(f"user entered ==> ", entry)
-
+        entry = input(msg)
         if entry.lower() == 'list':
             show_donors()
         else:
             # have a donor name
             need_entry = False
 
-        break   # ***MMM test only
-
     donor_name,  donation_amount = process_donor(entry)
-    process_send_thankyou_email(donor_name,donation_amount)
+    process_send_thankyou_email(donor_name, donation_amount)
+
 
 def main_menu():
     msg = ""
@@ -161,11 +135,7 @@ def main_menu():
     msg += " Q: Quit\n"
     msg += ".....>>"
 
-    # entry = input(msg)
-
-    # entry = 'S'
-    entry = 'R'
-    print(f"user entered ==> ", entry)
+    entry = input(msg)
 
     return entry
 
@@ -174,8 +144,6 @@ def main_menu():
 
 def mailroom():
     print("mailroom begin")
-
-    # exit()
 
     is_done = False
     while True:
@@ -189,8 +157,6 @@ def mailroom():
             is_done = True
         else:
             print(f"Invalid Entry, please retry: ==> ", operation)
-
-        is_done = True  # ***MMM
 
         if is_done:
             break
