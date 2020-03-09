@@ -3,9 +3,9 @@
 #import variable donors.py
 
 from datetime import date
-import os, sys
+import os, sys, pickle
 
-class Donor(object):
+class Donor():
 
 
     def __init__(self, name, donation=None):
@@ -66,7 +66,6 @@ The Blanchford Community Center!""".format(name=self.name, amount=self.sum_donat
         try:
             with open('{dir}/{name}_{date}.txt'.format(dir=dir, name=z, date=today), 'w') as f:
                 f.write(template)
-            return "Email file '{z}_{date}.txt' has been created for {name}".format(z=z, date=today, name=self.name)
         except TypeError:
             raise TypeError
 
@@ -74,20 +73,32 @@ The Blanchford Community Center!""".format(name=self.name, amount=self.sum_donat
 
 class DonorCollection():
 
-    def __init__(self, donors_list):
+    def __init__(self):
         self.date = date.today()
-        self.donors_dict = { donor[0]:donor[1] for donor in donors_list}
+        with open('donors.pckl', 'rb') as f:
+            self.donors_dict = pickle.load(f)
+            f.close()
         self.sorted_dict = sorted(self.donors_dict.items(), key=lambda x: (sum(x[1]), x[0]), reverse=True)
 
-    def add_donor(self, name, donation):
-        if name not in self.donors_dict:
-            self.donors_dict[name]=donation
+
+    def add_donor(self, name, amount):
+        new_donation = amount
+        if name not in self.donors_dict.keys():
+            self.donors_dict[name]= new_donation
         else:
-            self.donors_dict[name]+= [donation]
+            self.donors_dict[name]+= new_donation
+        x = self.donors_dict
+        with open('donors.pckl', 'wb') as f:
+            pickle.dump(x, f)
+            f.close()
+
 
     def list_donors(self):
-        self.donors = self.donors_dict.keys()
-        return self.donors
+        donor_names = ''
+        for key in self.donors_dict.keys():
+            donor_names += key + '\n'
+        return donor_names
+
 
     def report_header(self):
         # Print a header for the report
