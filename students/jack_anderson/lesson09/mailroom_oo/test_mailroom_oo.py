@@ -2,10 +2,10 @@
 
 """
 Jack Anderson
-03/05/2020
+03/10/2020
 UW PY210
 Lesson 09
-Unit tests for Donor and DonorClass classes as well as CLI functions
+Unit tests for Donor and DonorClass classes
 """
 
 import pytest
@@ -18,6 +18,7 @@ import os
 ##############################
 
 def test_donor_init():
+    # Test donor_init
     c = Donor("david")
     print(c.name, c.donations)
     assert c.name == "David"
@@ -35,7 +36,9 @@ def test_donor_init():
     # assert False
     # assert False
 
+
 def test_add_donation():
+    # Test adding donation returns all donations for donor
     c = Donor("bob")
     c.add_donation(5)
     print(c.donations)
@@ -51,6 +54,7 @@ def test_add_donation():
     # assert False
 
 def test_sum_donations():
+    # Test sum donations is returned
     c = Donor('Jim', (2, 7, 11))
     print(c.sum_donations)
     assert c.sum_donations == 20
@@ -64,6 +68,7 @@ def test_sum_donations():
     # assert False
 
 def test_num_donations():
+    # Test number of donations is returned
     c = Donor("pete", [2])
     print(c.num_donations)
     assert c.num_donations == len(c.donations)
@@ -84,6 +89,7 @@ def test_num_donations():
     # assert False
 
 def test_avg_donation():
+    # Test ave donation is returned
     c = Donor('Jim', (4, 5, 6))
     print(c.avg_donation)
     assert c.avg_donation == 5
@@ -97,6 +103,7 @@ def test_avg_donation():
     # assert False
 
 def test_report_template():
+    #Test report template is returned
     c = Donor('Jim', (4, 5, 6))
     print(c.report_template())
     template = '{name:<21}\t$ {total:>{width}.2f}\t{count:^{width}}\t$ {avg:>{width}.2f}'.format(
@@ -108,6 +115,7 @@ def test_report_template():
 
 
 def test_thanks_template():
+    #Test thanks template is returned when donor and donation is provided
     c = Donor('mary', [100])
     print(c.donations)
     print(c.thanks_template())
@@ -123,6 +131,7 @@ def test_thanks_template():
 #######################################
 
 def test_donor_collection_init():
+    # Test the DonorCollection init
     dc = DonorCollection()
     print(dc.donors_dict['Jack'])
     assert 'Jack' in dc.donors_dict
@@ -137,6 +146,7 @@ def test_donor_collection_init():
     # assert False
 
 def test_add_donor():
+    #Test new donor is included in return of donors dict. Test adding donation to donor is returned in donors dict
     dc = DonorCollection()
     print(dc.donors_dict)
     dc.add_donor('mark', [100.25])
@@ -152,6 +162,7 @@ def test_add_donor():
     # assert False
 
 def test_list_donors():
+    # Test a list of donors are returned
     dc = DonorCollection()
     print(dc.list_donors())
     assert 'Bubbles Trailer' and 'Jack' in dc.list_donors()
@@ -160,6 +171,7 @@ def test_list_donors():
     # assert False
 
 def test_report_header():
+    # Test the format of the report header is correct
     dc = DonorCollection()
     print(dc.report_header())
 
@@ -172,6 +184,7 @@ def test_report_header():
     # assert False
 
 def test_sort_donors():
+    # Test donors are returned, sorted by most > least donated
     dc = DonorCollection()
     print(dc.sorted_dict)
 
@@ -182,6 +195,7 @@ def test_sort_donors():
 
 
 def test_create_report():
+    # Test user can create report
     dc = DonorCollection()
     print(dc.report_header())
     for i in dc.create_report():
@@ -195,6 +209,7 @@ def test_create_report():
 
 
 def test_send_email_all():
+    # Create email for all donors and tests the email exists
     dir = 'outgoing_emails_{date}'.format(date=date.today()).replace("-", "_")
     dc = DonorCollection()
     print(dc.send_email_all())
@@ -208,10 +223,9 @@ def test_send_email_all():
     assert jack in email_list
     assert ricky in email_list
 
-    # assert False
-    # assert False
 
 def create_directory_for_test(self):
+    # Tests the create directory function
     dir = 'mail_testing'
     c = DonorCollection()
     print(c.create_directory(dir))
@@ -221,6 +235,7 @@ def create_directory_for_test(self):
 
 
 def test_create_email():
+    # Test for Donor() class. Test user can create a single email
     c = Donor('harry', [100])
     dir = 'outgoing_emails_{date}'.format(date=date.today()).replace("-", "_")
     print(c.create_email(dir))
@@ -235,6 +250,7 @@ def test_create_email():
 
 
 def test_remove_donor():
+    # test function in donorcollection class to remove a donor from the donor dict
     dc = DonorCollection()
     dc.remove_donor('mark')
 
@@ -251,19 +267,12 @@ def test_remove_donor():
 
 
 
-
-
-
-
-
-
-
-
-##############################################
-# Clean up test data and reset the donors dict
-##############################################
+####################################################################################
+#             Clean up test data and reset the donors dict                         #
+####################################################################################
 
 def test_clean_up_test_data():
+    # Function to clean up test data and reset to the default donors dict
     dir = 'outgoing_emails_{date}'.format(date=date.today()).replace("-", "_")
     email_list = list(os.listdir(f"{dir}"))
 
