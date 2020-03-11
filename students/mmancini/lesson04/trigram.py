@@ -29,6 +29,28 @@ def filter_data(in_data):
     return out_data
 
 
+def make_words(in_data):
+    lst_words = data.split()
+    return lst_words
+
+def build_triagram(in_lst_words):
+    """
+        des: create dictionary with key==word pair, value==next word
+        in: list
+        out: dict
+    """
+    triagram = {} #each pair will have a follower
+    for i in range(len(in_lst_words) - 2):
+        key = tuple(in_lst_words[i:i + 2])
+        next_word = in_lst_words[i + 2]
+        if key not in triagram.keys():
+            triagram[key] = [next_word]
+        else:
+            # key already exists
+            triagram[key].append(next_word)
+    return triagram
+
+
 ###################################
 
 
@@ -40,3 +62,6 @@ if __name__ == "__main__":
     filename="Sherlock_small.txt"
     data = get_file_data(filename)
     data = filter_data(data)
+    word_lst = make_words(data)
+    # print(data)
+    trigram = build_triagram(word_lst)
