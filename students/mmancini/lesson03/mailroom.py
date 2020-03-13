@@ -53,7 +53,7 @@ def create_report_sorted():
         tup = (donor[0],)
         tup += (donor_stats[1],)
         tup += (donor_stats[2],)
-        db2.append( (donor_stats[0],tup) )
+        db2.append((donor_stats[0], tup))
     db2.sort(reverse=True)
 
     hdr1 = ["Donor Name ", "Donation Total", "Number of Donations", "Donation Average"]
