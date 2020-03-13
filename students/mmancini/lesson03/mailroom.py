@@ -43,6 +43,33 @@ def create_report():
         print("   {: <20} {: >20} {: >20} {: >20}".format(donor[0].ljust(10, ' '), *donor_stats))
 
 
+def create_report_sorted():
+    print(f"Donor Report:")
+
+    # sort donors report by total donation
+    db2 = []
+    for donor in db_donors:
+        donor_stats = get_donor_stats(donor)
+        tup = (donor[0],)
+        tup += (donor_stats[1],)
+        tup += (donor_stats[2],)
+        db2.append( (donor_stats[0],tup) )
+    db2.sort(reverse=True)
+
+    hdr1 = ["Donor Name ", "Donation Total", "Number of Donations", "Donation Average"]
+    hdr2 = ["-----------", "--------------", "-------------------", "----------------"]
+
+    print("   {: <20} {: >20} {: >20} {: >20}".format(*hdr1))
+    print("   {: <20} {: >20} {: >20} {: >20}".format(*hdr2))
+    for donor in db2:
+        donor_stats = []
+        tup_info = donor[1]
+        donor_stats.append(donor[0])
+        donor_stats.append(tup_info[1])
+        donor_stats.append(tup_info[2])
+        print("   {: <20} {: >20} {: >20} {: >20}".format(tup_info[0].ljust(10, ' '), *donor_stats))
+
+
 def menu_donation_amount():
     msg = ""
     msg += "Please enter a donation amount::\n"
@@ -147,12 +174,13 @@ def mailroom():
 
     is_done = False
     while True:
+
         operation = main_menu()
 
         if operation == 'S':
             send_thankyou()
         elif operation == 'R':
-            create_report()
+            create_report_sorted()
         elif operation == 'Q':
             is_done = True
         else:
@@ -170,5 +198,6 @@ def mailroom():
 # main, test funcs
 
 if __name__ == "__main__":
+
     mailroom()
 
