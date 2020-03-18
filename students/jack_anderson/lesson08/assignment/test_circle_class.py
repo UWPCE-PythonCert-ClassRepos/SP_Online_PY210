@@ -1,4 +1,12 @@
 #!/usr/bin/env python3
+"""
+Jack Anderson
+03/14/2020
+UW PY210
+Lesson 08
+
+Unit tests for the Circle and Sphere classes
+"""
 
 import pytest
 import math
@@ -30,6 +38,7 @@ def test_radius_neg_num():
         c = Circle(-5)
         print(c.radius)
         assert c.radius == "Must use a positive interger"
+
 
 def test_radius_string():
     with pytest.raises(TypeError):
@@ -274,6 +283,7 @@ def test_sphere_area():
     s = Sphere(5)
     print(s.area)
     assert s.area == 314.16
+
 
 def test_sphere_from_diameter():
     s = Sphere.from_diameter(8)
