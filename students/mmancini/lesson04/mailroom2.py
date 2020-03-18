@@ -163,7 +163,19 @@ def send_thankyou2():
 
 def write_letters_to_all2():
 
-    # stub to do
+    for key, value in db_donors2.items():
+
+        donor_name = key
+        donations_ary = value
+        donations_total = sum(donations_ary)
+
+        filename = donor_name + ".txt"
+        with open(filename, "w") as f:
+            dict_data_line = {"donor_name": donor_name, "donation_amount": float(donations_total)}
+            thank_you_letter = ""
+            thank_you_letter += f"Dear {donor_name} Thank You for your generous donations " \
+                                f"totaling ${donations_total}:\n".format(**dict_data_line)
+            f.write(thank_you_letter)
 
 
 def main_menu2():
