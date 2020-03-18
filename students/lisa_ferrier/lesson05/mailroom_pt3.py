@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# mailroom_pt3.py, Python 210, Lesson 04
+# mailroom_pt3.py, Python 210, Lesson 05
 
 
 import sys
@@ -72,7 +72,7 @@ def verify_donor_info():
 
         if donor_name == 'Home':
             print('\nReturning to main menu...\n')
-            main_menu()
+            return
         elif donor_name == 'List':
             print(list(donors))
         else:

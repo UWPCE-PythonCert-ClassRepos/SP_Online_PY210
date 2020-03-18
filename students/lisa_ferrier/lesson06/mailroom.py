@@ -35,6 +35,7 @@ def send_thank_yous(donor_name):
         if entry[0] in donor_name:
             print(f'\nGenerating email to {entry[0]}')
             name = entry[0]
+            name.replace(' ', '_')
             outfile = (name + '_thank_you.txt')
             with open(outfile, 'w') as f:
                 f.write(f"Dear {entry[0]},\n Thank you for your generous donations in the amount of ${entry[1]:.2f} to the Children's Hospital. Many children will benefit from your contribution.\n With gratitude, \n Seattle Childrens.")
@@ -80,18 +81,18 @@ def verify_donor_info():
                 if name in donor_name:
                     send_thank_yous(donor_name)
                     return
-            else:
-                print('\nDonor not found in donor list. Add donation?')
-                while True:
-                    response = input('Enter yes or no\n')
-                    response = response.lower()
-                    if response == 'yes':
-                        add_donation(donor_name)
-                    elif response == 'no':
-                        verify_donor_info()
-                    else:
-                        print('Please enter yes or no.\n')
-                    return response
+                else:
+                    print('\nDonor not found in donor list. Add donation?')
+                    while True:
+                        response = input('Enter yes or no\n')
+                        response = response.lower()
+                        if response == 'yes':
+                            add_donation(donor_name)
+                        elif response == 'no':
+                            verify_donor_info()
+                        else:
+                            print('Please enter yes or no.\n')
+                        return response
 
 
 def add_donation(donor_name):
