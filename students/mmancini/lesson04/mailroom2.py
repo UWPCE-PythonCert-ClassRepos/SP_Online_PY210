@@ -85,6 +85,8 @@ def mailroom2():
 
     op_action_dict = {
                     'S': send_thankyou2,
+                    'R': create_report_sorted2,
+                    'W': write_letters_to_all2,
                     'Q': done2
                      }
 
