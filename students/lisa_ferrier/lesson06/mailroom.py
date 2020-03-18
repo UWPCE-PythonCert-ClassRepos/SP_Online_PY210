@@ -73,7 +73,7 @@ def verify_donor_info():
 
         if donor_name == 'Home':
             print('\nReturning to main menu...\n')
-            main_menu()
+            return
         elif donor_name == 'List':
             print(list(donors))
         else:
