@@ -11,6 +11,51 @@ db_donors2 = {
 
 ####################################
 
+def process_donor2(in_name):
+
+    donor_names_lst = db_donors2.keys()
+    if in_name in donor_names_lst:
+        amount_donated = process_existing_donor2(in_name)
+    else:
+        amount_donated = process_new_donor2(in_name)
+
+    return in_name, amount_donated
+
+
+def send_thankyou2():
+    msg = ""
+    msg += "Please enter donor name or 'list' for list of donors:\n"
+    msg += ".....>>"
+
+    entry = ""
+    need_entry = True
+    while need_entry:
+        entry = input(msg)
+        if entry.lower() == 'list':
+            show_donors2()
+        else:
+            # have a donor name
+            need_entry = False
+
+    donor_name,  donation_amount = process_donor2(entry)
+    process_send_thankyou_email2(donor_name, donation_amount)
+
+
+def main_menu2():
+    msg = ""
+    msg += "Please enter option from below:\n"
+    msg += " S: Send thank you note\n"
+    msg += " R: Create report\n"
+    msg += " W: Send letters to all\n"
+    msg += " Q: Quit\n"
+    msg += ".....>>"
+
+    entry = input(msg)
+
+    return entry
+
+###################################
+
 
 def show_donors2():
     print(f"List of Donors:")
