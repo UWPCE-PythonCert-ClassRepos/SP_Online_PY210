@@ -4,12 +4,12 @@
 def fizz_buzz():
     for i in range(1,101):
         if i % 3 == 0 and i % 5 == 0:
-            print ("FizzBuzz")
+            print ("i: " + str(i) + " FizzBuzz")
         elif i % 3 == 0:
-            print ("Fizz")
+            print ("i: " + str(i) + " Fizz")
         elif i % 5 == 0:
-            print ("Buzz")
+            print ("i: " + str(i) + " Buzz")
         else:
-            print (i)
+            print ("i: " + str(i))
 
 fizz_buzz()
