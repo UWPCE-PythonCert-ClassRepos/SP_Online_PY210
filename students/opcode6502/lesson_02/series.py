@@ -24,10 +24,18 @@ def fibonacci(n):
 # REQ-06
 # In your series.py module, add a new function lucas that returns the nth value
 # in the lucas numbers series (starting with zero index).
+def lucas(n):
 
-# REQ-07
-# Ensure that your function has a well-formed docstring
-# TODO: Add docstring
+    if n == 0:
+        return 2
+    elif n == 1:
+        return 1
+    else:
+        return lucas(n - 1) + lucas(n - 2)
+
+    # REQ-07
+    # Ensure that your function has a well-formed docstring
+    # TODO: Add docstring
 
 # REQ-08
 # Add a third function called sum_series that can compute all of these related series.
