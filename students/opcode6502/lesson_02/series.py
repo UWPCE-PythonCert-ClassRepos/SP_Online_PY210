@@ -46,6 +46,8 @@ def lucas(n):
 # Use the block to write a series of assert statements that demonstrate that
 # your three functions work properly.
 if __name__ == "__main__":
+
+    # assert: fibonacci(n)
     assert fibonacci(0) == 0
     assert fibonacci(1) == 1
     assert fibonacci(2) == 1
@@ -57,3 +59,17 @@ if __name__ == "__main__":
     assert fibonacci(8) == 21
     assert fibonacci(9) == 34
     assert fibonacci(10) == 55
+
+    # assert: lucas(n)
+    assert lucas(0) == 2
+    assert lucas(1) == 1
+    assert lucas(2) == 3
+    assert lucas(3) == 4
+    assert lucas(4) == 7
+    assert lucas(5) == 11
+    assert lucas(6) == 18
+    assert lucas(7) == 29
+    assert lucas(8) == 47
+    assert lucas(9) == 76
+    assert lucas(10) == 123
+
