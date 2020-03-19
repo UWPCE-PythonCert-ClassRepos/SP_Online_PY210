@@ -9,9 +9,13 @@
 # REQ-03: The function should have one parameter n.
 def fibonacci(n):
 
-    # REQ-04: The function should return the nth value in the fibonacci series
-    # (starting with zero index).
+    # Check if (n == 0) or (n == 1)
+    if n < 2:
+        return n
+    else:
+        # REQ-04: The function should return the nth value in the fibonacci series
+        # (starting with zero index).
+        return fibonacci(n - 2) + fibonacci(n - 1)
 
     # REQ-05: Docstring for fibonacci().
     # TODO: Add docstring
-
