@@ -21,7 +21,20 @@ def fibonacci(n):
     # TODO: Add docstring
 
 
-# REQ-10: Add a block of code to the end of your series.py module.
+# REQ-06
+# In your series.py module, add a new function lucas that returns the nth value
+# in the lucas numbers series (starting with zero index).
+
+# REQ-07
+# Ensure that your function has a well-formed docstring
+# TODO: Add docstring
+
+# REQ-08
+# Add a third function called sum_series that can compute all of these related series.
+# It should have one required parameter and two optional parameters.
+
+
+# REQ-09: Add a block of code to the end of your series.py module.
 # Use the block to write a series of assert statements that demonstrate that
 # your three functions work properly.
 if __name__ == "__main__":
