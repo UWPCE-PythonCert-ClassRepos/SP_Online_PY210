@@ -12,6 +12,26 @@ db_donors2 = {
 ####################################
 
 
+"""
+refactor notes, Natasha receommendations
+
++def get_donor_stats2(in_donor):
+
+	use sum() and len() instead of manually calculating.
+
++def show_donors2():
+
+	use the f-string directly here (I believe this was the same comment last time)
+
++def process_existing_donor2(name):
+
+	you can append() directly -> db_donors2[name].append(amount)
+
+"""
+
+####################################
+
+
 def get_donor_stats2(in_donor):
     stats_ary = []
 
