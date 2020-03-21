@@ -1,0 +1,51 @@
+[
+    {
+      "_donor_name": "Michael Bloomberg",
+      "_donations": [
+        363363.63,
+        18181.81,
+        54.54,
+        5.0,
+        12.67
+      ]
+    },
+    {
+      "_donor_name": "David Einhorn",
+      "_donations": [
+        1800.18,
+        36036.36,
+        54.54
+      ]
+    },
+    {
+      "_donor_name": "Seth Klarman",
+      "_donations": [
+        180.0,
+        72.72,
+        18.0
+      ]
+    },
+    {
+      "_donor_name": "Bill Ackerman",
+      "_donations": [
+        324.32
+      ]
+    },
+    {
+      "_donor_name": "Mark Cuban",
+      "_donations": []
+    },
+    {
+      "_donor_name": "Mark Zuckerberg",
+      "_donations": [
+        54545454.54,
+        1.18,
+        3.60,
+        5.40,
+        5.54,
+        1818.18,
+        7.27,
+        666.66
+      ]
+    }
+]

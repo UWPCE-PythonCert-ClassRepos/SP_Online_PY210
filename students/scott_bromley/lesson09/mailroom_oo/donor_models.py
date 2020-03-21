@@ -3,7 +3,6 @@
 from datetime import datetime
 from statistics import mean
 from re import match
-from collections import defaultdict
 
 
 class Donor:
@@ -61,7 +60,7 @@ class Donor:
             raise TypeError("donor name must be a string")
         if not name.strip():
             raise ValueError("invalid donor name")
-        name_regexp = r"[A-Za-z]{2,25}\s[A-Za-z]{2,25}"
+        name_regexp = r"^[a-zA-Z ]+$"
         self._donor_name = match(name_regexp, name).group()
 
     @property
@@ -174,30 +173,35 @@ class Donor:
         """
         return f"Donor({self._donor_name!r}, {self._donations!r})"
 
-    @staticmethod
-    def sort_key(self):
-        return self.last_name, self.first_name, self.donations
+    @classmethod
+    def sort_key(cls):
+        return cls.last_name, cls.first_name, cls.donations
 
-    @staticmethod
-    def sort_by_donations(self):
-        return self.donations
+    @classmethod
+    def sort_by_donations(cls):
+        return cls.donations
 
 
 class DonorCollection:
     """
     DonorCollection class is a collection of Donor objects
     """
-    def __init__(self, *donors):
+    def __init__(self, donors: Donor):
         """
         DonorCollection
-        :param donors: iterable of Donor object(s)
+        :param donors: dict of Donor object(s)
         """
-        self._donors = defaultdict(Donor)
-        for donor in donors:
-            try:
-                self._donors[donor.donor_name].append(donor.donations)
-            except TypeError as donor_err:
-                raise donor_err("object is not of type Donor")
+        self._donors = dict()
+        if not donors:
+            raise ValueError("DonorCollection cannot be empty")
+        if hasattr(donors, '__iter__') and not isinstance(donors, str):
+            for donor in donors:
+                if isinstance(donor, Donor):
+                    self._donors[donor.donor_name] = donor
+                else:
+                    raise TypeError("object is not of type Donor")
+        else:
+            raise TypeError("donors is not iterable")
 
     @property
     def donors(self):
@@ -207,15 +211,20 @@ class DonorCollection:
         """
         return tuple(self._donors)
 
-    def append(self, donor):
+    def append(self, donor: Donor):
         """
         add Donor object to collection
-        :param donor: Donor object
+        :param donor: Donor object or sequence of Donor objects
         :return: None
         """
-        if not isinstance(donor, Donor):
-            raise TypeError("object is not of type Donor")
-        self._donors.append(donor)
+        if hasattr(donor, '__iter__'):
+            for _ in donor:
+                if isinstance(_, Donor):
+                    self._donors[_.donor_name] = _
+                else:
+                    raise TypeError("object is not of type Donor")
+        else:
+            self._donors[donor.donor_name] = donor
 
     def report(self):
         """
@@ -226,9 +235,11 @@ class DonorCollection:
         header = ['Donor Name', '|', 'Total Given', '|', 'Num Gifts', '|', 'Average Gift']
         report_header = '{:<25}{:^5}{:<15}{:^5}{:<10}{:^5}{:<15}'.format(*header)
         divider = "-" * 72
+
         return "\n" + report_header + "\n" \
                + divider + "\n" \
-               + "\n".join([donor.report_row() for donor in self._donors]) \
+               + "\n".join([donor.report_row for donor in sorted(self._donors, key=lambda donor: donor.donations,
+                                                                 reverse=True)]) \
                + "\n"
 
     def __str__(self):

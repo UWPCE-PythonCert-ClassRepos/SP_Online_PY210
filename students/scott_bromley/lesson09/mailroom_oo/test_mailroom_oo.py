@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from pytest import mark, raises
+from unittest.mock import Mock
 from datetime import datetime
 from donor_models import Donor, DonorCollection
 
@@ -94,7 +95,7 @@ class DonorTests:
         with raises(expected):
             donor.avg_donation
 
-    @mark.donor
+    @mark.letter
     @mark.parametrize("test_input, expected", [
         (("Carl Brutananadilewski", [18.18, 1818.18, 72.72, 54.54]), ["Carl Brutananadilewski",
                                                                       f"{datetime.today().strftime('%Y-%d-%m')}", "54.54",
@@ -107,7 +108,7 @@ class DonorTests:
         assert expected[2] in donor.thank_you()
         assert expected[3] in donor.thank_you()
 
-    @mark.donor
+    @mark.letter
     @mark.parametrize("test_input, expected", [
         (("Carl Brutananadilewski", []), ValueError),
         (("Carl Brutananadilewski", None), ValueError)
@@ -117,7 +118,7 @@ class DonorTests:
         with raises(expected):
             donor.thank_you()
 
-    @mark.donor
+    @mark.report
     @mark.parametrize("test_input, expected", [
         (("Carl Brutananadilewski", [18.18, 1818.18, 72.72, 54.54, 1000.00]), ["Carl Brutananadilewski", "2,963.62", "5",
                                                                                "592.72"]),
@@ -130,7 +131,7 @@ class DonorTests:
         assert expected[2] in donor.report_row()
         assert expected[3] in donor.report_row()
 
-    @mark.donor
+    @mark.report
     @mark.parametrize("test_input, expected", [
         (("Carl Brutananadilewski", []), ValueError),
         (("Carl Brutananadilewski", None), ValueError)
@@ -164,6 +165,102 @@ class DonorCollectionTests:
     """
     DonorCollection unit tests
     """
-    def test_donor_collection_creation(self):
+    @mark.collection
+    def test_donor_collection_creation(self, donors):
+        donor_names = ["Bill Ackerman", "Mark Cuban", "Mark Zuckerberg", "Michael Bloomberg", "Seth Klarman",
+                       "David Einhorn"]
+        donor_collection = DonorCollection(donors)
+        for donor in donor_names:
+            assert donor in donor_collection.donors
+
+    @mark.collection
+    def test_donor_collection_creation_list(self, donors):
+        donor_names = ["Bill Ackerman", "Mark Cuban", "Mark Zuckerberg", "Michael Bloomberg", "Seth Klarman",
+                       "David Einhorn"]
+        donor_collection = DonorCollection(list(donors))
+        for donor in donor_names:
+            assert donor in donor_collection.donors
+
+    @mark.collection
+    @mark.parametrize("test_input, expected", [
+        ({Donor("Carl Brutananadilewski", [72000.00]), Mock("Larry Miller", [1818.18])}, TypeError),
+        (Donor("Carl Brutananadilewski", [18.18]), TypeError),
+        ((Donor("Carl Brutananadilewski", [18.18])), TypeError),
+        ({}, ValueError),
+        ([], ValueError),
+        (None, ValueError),
+        ("", ValueError)
+    ])
+    def test_donor_collection_error(self, test_input, expected):
+        with raises(expected):
+            DonorCollection(test_input)
+
+    @mark.collection
+    @mark.parametrize("test_input, expected", [
+        (Donor("Carl Brutananadilewski", [1818.18]), "Carl Brutananadilewski"),
+        (Donor("Jerry Seinfeld"), "Jerry Seinfeld"),
+        ({Donor("Larry David", [7272.72])}, "Larry David")
+    ])
+    def test_donor_collection_append(self, test_input, expected, donors):
+        donor_collection = DonorCollection(donors)
+        donor_collection.append(test_input)
+        assert expected in donor_collection.donors
+
+    @mark.collection
+    @mark.parametrize("test_input, expected", [
+        ([Donor("Sammie Davis Jr"), Donor("Larry Miller"), Donor("Mel Brooks", [1000.00])], ["Sammie Davis Jr",
+                                                                                             "Larry Miller",
+                                                                                             "Mel Brooks"]),
+        ({Donor("Larry David", [7272.72]), Donor("Elaine Benes", [1818.18]), Donor("Cosmo Kramer"),
+          Donor("George Costanza", [162.16])}, ["George Costanza", "Larry David", "Elaine Benes", "Cosmo Kramer"])
+    ])
+    def test_donor_collection_append_multiple(self, test_input, expected, donors):
+        donor_collection = DonorCollection(donors)
+        donor_collection.append(test_input)
+        for donor in expected:
+            assert donor in donor_collection.donors
+
+    @mark.collection
+    @mark.parametrize("test_input, expected", [
+        ("Mel Brooks, 18.18", TypeError),
+        ([Donor("Jerry Seinfeld", [90.00]), Mock("Larry David")], TypeError)
+    ])
+    def test_donor_collection_append_error(self, test_input, expected, donors):
+        donor_collection = DonorCollection(donors)
+        with raises(expected):
+            donor_collection.append(test_input)
+
+    @mark.collection
+    def test_donor_collection_report(self, donors):
+        donor_collection = DonorCollection(donors)
+        print(donor_collection.report())
+        assert False
+
+    @mark.collection
+    @mark.parametrize("test_input, expected", [
+    ])
+    def test_donor_collection_report_error(self, test_input, expected):
         pass
 
+
+    @mark.collection
+    @mark.parametrize("test_input, expected", [
+        ([Donor("Carl Brutananadilewski", [18.18])], "DonorCollection: {'Carl Brutananadilewski': "
+                                                     "Donor('Carl Brutananadilewski', [18.18])}"),
+        ([Donor("Carl Brutananadilewski", [])], "DonorCollection: {'Carl Brutananadilewski': "
+                                                "Donor('Carl Brutananadilewski', [])}")
+    ])
+    def test_donor_collection_str(self, test_input, expected):
+        donor_collection = DonorCollection(test_input)
+        assert donor_collection.__str__() == expected
+
+    @mark.collection
+    @mark.parametrize("test_input, expected", [
+        ([Donor("Carl Brutananadilewski", [18.18])], "DonorCollection({'Carl Brutananadilewski': "
+                                                     "Donor('Carl Brutananadilewski', [18.18])})"),
+        ([Donor("Carl Brutananadilewski", [])], "DonorCollection({'Carl Brutananadilewski': "
+                                                "Donor('Carl Brutananadilewski', [])})")
+    ])
+    def test_donor_collection_repr(self, test_input, expected):
+        donor_collection = DonorCollection(test_input)
+        assert donor_collection.__repr__() == expected
