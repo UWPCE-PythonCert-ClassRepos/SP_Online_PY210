@@ -6,7 +6,7 @@ import sys
 
 def main():
     main_prompt = ("\nPlease enter an option from the following menu\n"
-                   "1 - Send a Thank You to a single donor\n"
+                   "1 - Send a Thank You\n"
                    "2 - Create a Report\n"
                    "3 - Quit\n>> ")
     dispatch = {"1": thank_you, "2": display_report, "3": quit_mailroom}
@@ -39,10 +39,10 @@ def safe_input(prompt):
     try:
         response = input(prompt).strip()
     except KeyboardInterrupt:
-        print('CTRL-C pressed. Exiting mailroom...')
+        print('\nExiting mailroom...')
         sys.exit()
     except EOFError:
-        print('CTRL-Z pressed. Exiting mailroom...')
+        print('\nExiting mailroom...')
         sys.exit()
     else:
         return response
@@ -57,26 +57,70 @@ def thank_you():
     """
     donor_name = safe_input("Please enter the name of a donor: ")
     if donor_name == 'list':
-        print(f"List of donors: {
+        print(f"List of donors: {', '.join([donor for donor in donors.donors])}")
+    elif donor_name not in donors.donors:
+        add_donor(donor_name)
+        add_donation(donor_name)
     else:
         while True:
-            try:
-                donation = float(get_user_input("Please enter the donation amount: ").strip('$'))
-                if bool(donation) is True:
-                    break
-                else:
-                    print(f"Invalid donation, please enter a valid donation.\n")
-            except ValueError as donation_err:
-                raise donation_err
-                continue
-        donor_info = (donor_name, donation)
-        update_donor(donor_info)
-        print(f"{format_thank_you(donor_info)}")
+            add_donation(donor_name)
+            continue
+        print(f"{donors[donor_name].thank_you()}")
 
 
+def add_donor(donor_name: str):
+    """
+    if donor not in DB, add donor; prompt user for initial donation
+    :param donor_name:
+    :return:
+    """
+    donor_response = safe_input(f"Donor {donor_name} does not exist, add donor to database (Y/N)?: ").lower().strip()
+    if donor_response and donor_response[0] == "y":
+        donors.append(Donor(donor_name))
+        print(donors)
+    else:
+        exit()
 
 
+def add_donation(donor_name: str):
+    """
+    Prompts user for donation amount; adds to Donor's donations
+    :param donor_name:
+    :return:
+    """
+    donation = float(safe_input("Please enter the donation amount: ").strip('$'))
+    try:
+        donors[donor_name].add_donation(donation)
+        print(donors)
+    except ValueError as donation_err:
+        raise donation_err
 
+
+def display_report():
+    """
+    prints formatted report of Donor objects sorted by Donor.total_donations in descending order
+    :param collection: collection of Donor objects
+    :return: None
+    """
+    if not donors.donors:
+        raise ValueError("DonorCollection is empty")
+    donors.report()
+
+
+def quit_mailroom():
+    """
+    quit the mailroom
+    :return:  (quit option)
+    """
+    return 3
+
+
+if __name__ == "__main__":
+    print("Running", __file__)
+    donors = DonorCollection()
+    main()
+else:
+    print("Running as imported module", __file__)
 
 
 

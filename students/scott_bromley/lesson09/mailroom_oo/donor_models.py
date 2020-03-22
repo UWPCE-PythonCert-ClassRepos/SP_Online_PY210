@@ -186,22 +186,18 @@ class DonorCollection:
     """
     DonorCollection class is a collection of Donor objects
     """
-    def __init__(self, donors: Donor):
+    def __init__(self, donors=None):
         """
         DonorCollection
         :param donors: dict of Donor object(s)
         """
-        self._donors = dict()
-        if not donors:
-            raise ValueError("DonorCollection cannot be empty")
+        self._donors = donors if donors else dict()
         if hasattr(donors, '__iter__') and not isinstance(donors, str):
             for donor in donors:
                 if isinstance(donor, Donor):
                     self._donors[donor.donor_name] = donor
                 else:
                     raise TypeError("object is not of type Donor")
-        else:
-            raise TypeError("donors is not iterable")
 
     @property
     def donors(self):
@@ -210,6 +206,17 @@ class DonorCollection:
         :return: donors
         """
         return tuple(self._donors)
+
+    def __getitem__(self, donor_name):
+        """
+        return Donor object using [] operator
+        :param donor_name: key as name of donor
+        :return: Donor object
+        """
+        try:
+            return self._donors[donor_name]
+        except KeyError as key_err:
+            raise key_err
 
     def append(self, donor: Donor):
         """
