@@ -12,6 +12,26 @@ db_donors2 = {
 ####################################
 
 
+"""
+refactor notes, Natasha receommendations
+
++def get_donor_stats2(in_donor):
+
+	use sum() and len() instead of manually calculating.
+
++def show_donors2():
+
+	use the f-string directly here (I believe this was the same comment last time)
+
++def process_existing_donor2(name):
+
+	you can append() directly -> db_donors2[name].append(amount)
+
+"""
+
+####################################
+
+
 def get_donor_stats2(in_donor):
     stats_ary = []
 
@@ -19,9 +39,9 @@ def get_donor_stats2(in_donor):
 
     num_donations = 0
     tot_of_donations = 0
-    for donation_amount in donations_ary:
-        num_donations += 1
-        tot_of_donations += donation_amount
+
+    num_donations = len(donations_ary)
+    tot_of_donations = sum(donations_ary)
     avg_of_donations = tot_of_donations / num_donations
 
     stats_ary.append(tot_of_donations)
@@ -86,8 +106,10 @@ def menu_donation_amount2():
 
 def show_donors2():
     print(f"List of Donors:")
-    for donor in db_donors2.keys():
-        print(f" ", donor)
+
+    #for donor in db_donors2.keys():
+    #    print(f" ", donor)
+    print(f" ", *db_donors2.keys())
 
 
 def process_new_donor2(name):
@@ -105,9 +127,10 @@ def process_new_donor2(name):
 def process_existing_donor2(name):
 
     amount = menu_donation_amount2()
-    amounts_ary = db_donors2[name]
-    amounts_ary.append(amount)
-    db_donors2[name] = amounts_ary
+    #amounts_ary = db_donors2[name]
+    #amounts_ary.append(amount)
+    #db_donors2[name] = amounts_ary
+    db_donors2[name].append(amount)
     print(f"existing donor {name} donated {amount}")
 
     return amount
@@ -222,6 +245,4 @@ def mailroom2():
 
 if __name__ == "__main__":
 
-    # mailroom()
     mailroom2()
-
