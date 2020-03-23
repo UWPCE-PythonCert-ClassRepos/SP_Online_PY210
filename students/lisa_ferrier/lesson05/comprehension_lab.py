@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-# comprehension_lab.py, Python 210, Lesson 05
+# comprehension_lab.py
+# Lisa Ferrier, Python 210, Lesson 05
 
 
 # count even numbers using a list comprehension
@@ -36,7 +37,7 @@ s2 = {n for n in list(range(0, 21)) if n % 2 == 0}
 s3 = {n for n in list(range(0, 21)) if n % 3 == 0}
 s4 = {n for n in list(range(0, 21)) if n % 4 == 0}
 
-# 5c
+# 5c create sets using nested set comprehension on one line:
 nums = list(range(0, 21))
 divisors = [2, 3, 4, 5]
 

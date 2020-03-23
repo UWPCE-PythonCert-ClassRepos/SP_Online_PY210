@@ -1,10 +1,18 @@
 #!/usr/bin/env python
-# mailroom_pt3.py, Python 210, Lesson 05
+# mailroom_pt3.py,
+# Lisa Ferrier, Python 210, Lesson 05
 
 
 import sys
 from operator import itemgetter
 import time
+
+
+donors = {'Bill Gates': [9999.99, 1234.56, 6543.21],
+          'Paul Allen': [1500, 1750],
+          'Steve Jobs': [5000, 350.75, 4000],
+          'Jeff Bezos': [75.75, 25.25, 50.50],
+          }
 
 
 def gather_all_donors():
@@ -121,7 +129,7 @@ def exit_program():
     sys.exit()
 
 
-def menu_switch(argument):
+def menu_switch(selection):
     '''
     Main menu switch used to control program flow.
     '''
@@ -132,8 +140,11 @@ def menu_switch(argument):
         4: exit_program,
     }
     # Get the function from switcher dictionary
-    func = switcher.get(argument)
-    return func()
+    if selection not in switcher:
+        return
+    else:
+        func = switcher.get(selection)
+        return func()
 
 
 def main_menu():
@@ -154,15 +165,10 @@ def main_menu():
             print('''\nSorry, I didn't understand that. Please enter an integer
             between 1 and 4.\n''')
             # better try again... Return to the start of the loop
-        menu_switch(selection)
+        else:
+            menu_switch(selection)
 
 
 if __name__ == '__main__':
-
-    donors = {'Bill Gates': [9999.99, 1234.56, 6543.21],
-              'Paul Allen': [1500, 1750],
-              'Steve Jobs': [5000, 350.75, 4000],
-              'Jeff Bezos': [75.75, 25.25, 50.50],
-              }
 
     main_menu()

@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# except_test.py
+# Lisa Ferrier, Python 210, Lesson 05
 
 """
 silly little test module that is designed to trigger Exceptions when

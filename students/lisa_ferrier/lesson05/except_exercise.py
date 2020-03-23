@@ -1,4 +1,6 @@
 #!/usr/bin/python
+# except_exercise.py
+# Lisa Ferrier, Python 210, Lesson 05
 
 """
 An exercise in playing with Exceptions.
