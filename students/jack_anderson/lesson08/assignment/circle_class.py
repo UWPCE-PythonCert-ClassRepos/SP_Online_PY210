@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
+"""
+Jack Anderson
+03/14/2020
+UW PY210
+Lesson 08
 
-
+Circle and Sphere classes
+"""
 import math
 
 
 
-
 class Circle(object):
-
-    radius = ()
 
     def __init__(self, radius):
         try:
