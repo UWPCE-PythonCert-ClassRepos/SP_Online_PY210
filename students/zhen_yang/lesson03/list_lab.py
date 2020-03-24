@@ -38,15 +38,15 @@ for i in my_list:
     if i[0:1] == 'P':
         print(f"Fruit Starts with letter P: {i}")
 
-
+# copy a series 1 list for latter use
+backup_list = my_list[:]
+"""
 #####################
 # Series 2 
 #####################
 # 2.1 Display the list created in Series 1
 print(f"My fruit list created in Series 1: {my_list}")
 
-# copy a list for latter use
-backup_list = my_list[:]
 
 # 2.2 Remove the last fruit from the list
 my_list.pop()
@@ -56,7 +56,8 @@ print(f"My fruit list after remove the last fruit: {my_list}")
 
 # 2.4 Ask user for a fruit to delete, find it and delete it.
 input_str = input(f"Please input a fruit name: ")
-for i in my_list[:]: # iterate over a copy and mutate the original list
+# !!! iterate over a copy and mutate the original list
+for i in my_list[:]: 
     if i == input_str:
         my_list.remove(i) 
         print(f"Found the fruit: {input_str}.")
@@ -95,15 +96,40 @@ for i in range(my_count):
 
 print(f"Remove all the fruit:{input_str} from the list.")
 print(f"Updated list {my_list}.")
+"""
+
+
+#####################
+# Series 3 
+#####################
+my_list = backup_list[:]
+# Ask the user "Do you like apples?"
+
+# !!! iterate over a copy and mutate the original list
+for i in my_list[:]:
+    input_str = input(f"Do you like {i.lower()}?: ")
+    while input_str != 'yes' and input_str != 'no':
+        input_str = input("Please input 'yes' or 'no': ")
+
+    # delete this fruit from the list if the answer from user is 'no'
+    if input_str == 'no': 
+        my_list.remove(i)
+
+print(f"The final favoriate fruit list: {my_list}")
 
 
 
 #####################
 # Series 3 
 #####################
+# Make a new list with the contents of the original, 
+# but with all the letters in each item reversed
+my_list = backup_list[:]
+new_list =[]
+for i in my_list:
+    new_name = i[::-1]
+    new_list.append(new_name)
 
-
-
-
-
+print(f"The orignial list: {my_list}")
+print(f"The copy list: {new_list}")
 
