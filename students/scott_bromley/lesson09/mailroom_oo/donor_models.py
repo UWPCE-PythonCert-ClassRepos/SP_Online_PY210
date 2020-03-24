@@ -60,7 +60,7 @@ class Donor:
             raise TypeError("donor name must be a string")
         if not name.strip():
             raise ValueError("invalid donor name")
-        name_regexp = r"^[a-zA-Z ]+$"
+        name_regexp = r"^[A-Za-z]{2,25}\s[A-Za-z]{2,25}|\s[SJrIV]{1,4}$"
         self._donor_name = match(name_regexp, name).group()
 
     @property
@@ -93,7 +93,7 @@ class Donor:
         getter for number of donations
         :return: number of donations
         """
-        return len(self.donations)
+        return len(self.donations) if self.donations else 0
 
     @property
     def total_donations(self):
@@ -101,7 +101,7 @@ class Donor:
         getter for sum of donations
         :return: donations sum for donor
         """
-        return sum(self.donations)
+        return sum(self.donations) if self.donations else 0
 
     @property
     def avg_donation(self):
@@ -109,9 +109,7 @@ class Donor:
         getter for average donation
         :return: average donation of donor
         """
-        if self.num_donations == 0:
-            raise ValueError(f"{self.donor_name} has no donations")
-        return round(mean(self.donations), 2)
+        return round(mean(self.donations), 2) if self.donations else 0
 
     def add_donation(self, donation):
         """
@@ -133,32 +131,44 @@ class Donor:
         create formatted letter string for donor
         :return: formatted letter
         """
-        if not self._donations:
-            raise ValueError("donor has no donations")
-        else:
-            return f"\n\n{datetime.today().strftime('%Y-%d-%m')},\n\n\n" \
-                   f"Dear {self.donor_name},\n\n\n" \
-                   f"On behalf of all of us we thank you for your generous\n" \
-                   f"donation of ${self.donations[-1]:03.2f}.\n" \
-                   f"To date, you have donated: ${self.total_donations:03.2f}.\n" \
-                   "We look forward to seeing you at our annual meeting.\n\n" \
-                   "Sincerely,\n\n" \
-                   "ADL\n"
+        return f"\n\n{datetime.today().strftime('%Y-%d-%m')},\n\n\n" \
+            f"Dear {self.donor_name},\n\n\n" \
+            f"On behalf of all of us we thank you for your generous\n" \
+            f"donation of ${self.donations[-1]:03.2f}.\n" \
+            f"To date, you have donated: ${self.total_donations:03.2f}.\n" \
+            "We look forward to seeing you at our annual meeting.\n\n" \
+            "Sincerely,\n\n" \
+            "ADL\n"
 
     def report_row(self):
         """
         format report row for Donor object
         :return: formatted report row Donor
         """
-        if not self._donations:
-            raise ValueError("donor has no donations")
-        else:
-            return ('{:<25}{:^5}${:>14,.2f}{:^5}{:>10}{:^5}${:>14,.2f}'
-                    ).format(self.donor_name, ' ',
-                             self.total_donations, ' ',
-                             self.num_donations, ' ',
-                             self.avg_donation
-                             )
+        # if not self._donations:
+        #     raise ValueError("donor has no donations")
+        # else:
+        return ('{:<25}{:^5}${:>14,.2f}{:^5}{:>10}{:^5}${:>14,.2f}'
+                ).format(self.donor_name, ' ',
+                         self.total_donations, ' ',
+                         self.num_donations, ' ',
+                         self.avg_donation
+                         )
+
+    def __eq__(self, other):
+        """
+        equality comparator
+        :param other:
+        :return: Bool True if Donor objects are equal, False otherwise
+        """
+        return (self.donor_name, self.donations) == (other.donor_name, other.donations)
+
+    def __hash__(self):
+        """
+        hash of object
+        :return: hash of object
+        """
+        return hash(str(self))
 
     def __str__(self):
         """
@@ -173,31 +183,30 @@ class Donor:
         """
         return f"Donor({self._donor_name!r}, {self._donations!r})"
 
-    @classmethod
-    def sort_key(cls):
-        return cls.last_name, cls.first_name, cls.donations
+    def sort_key(self):
+        return self.last_name, self.first_name, self.donations
 
-    @classmethod
-    def sort_by_donations(cls):
-        return cls.donations
+    def sort_by_donations(self):
+        return self.total_donations
 
 
 class DonorCollection:
     """
     DonorCollection class is a collection of Donor objects
     """
-    def __init__(self, donors=None):
+    def __init__(self, donors=()):
         """
         DonorCollection
         :param donors: dict of Donor object(s)
         """
-        self._donors = donors if donors else dict()
+        self._donors = dict()
         if hasattr(donors, '__iter__') and not isinstance(donors, str):
             for donor in donors:
                 if isinstance(donor, Donor):
                     self._donors[donor.donor_name] = donor
                 else:
                     raise TypeError("object is not of type Donor")
+        self.append(donors)
 
     @property
     def donors(self):
@@ -207,16 +216,13 @@ class DonorCollection:
         """
         return tuple(self._donors)
 
-    def __getitem__(self, donor_name):
+    def __getitem__(self, donor_name: str):
         """
         return Donor object using [] operator
         :param donor_name: key as name of donor
-        :return: Donor object
+        :return: Donor object donations
         """
-        try:
-            return self._donors[donor_name]
-        except KeyError as key_err:
-            raise key_err
+        return self._donors[donor_name]
 
     def append(self, donor: Donor):
         """
@@ -241,12 +247,14 @@ class DonorCollection:
         """Return formatted report of Donor objects in DonorCollection."""
         header = ['Donor Name', '|', 'Total Given', '|', 'Num Gifts', '|', 'Average Gift']
         report_header = '{:<25}{:^5}{:<15}{:^5}{:<10}{:^5}{:<15}'.format(*header)
-        divider = "-" * 72
-
+        divider = "-" * 80
+        if not self.donors:
+            raise ValueError("donors is empty")
         return "\n" + report_header + "\n" \
                + divider + "\n" \
-               + "\n".join([donor.report_row for donor in sorted(self._donors, key=lambda donor: donor.donations,
-                                                                 reverse=True)]) \
+               + "\n".join([self._donors[donor].report_row() for donor in sorted(self._donors,
+                            key=lambda donor: self._donors[donor].sort_by_donations(),
+                            reverse=True)]) \
                + "\n"
 
     def __str__(self):

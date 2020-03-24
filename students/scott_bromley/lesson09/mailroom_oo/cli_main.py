@@ -77,7 +77,6 @@ def add_donor(donor_name: str):
     donor_response = safe_input(f"Donor {donor_name} does not exist, add donor to database (Y/N)?: ").lower().strip()
     if donor_response and donor_response[0] == "y":
         donors.append(Donor(donor_name))
-        print(donors)
     else:
         exit()
 
@@ -91,7 +90,6 @@ def add_donation(donor_name: str):
     donation = float(safe_input("Please enter the donation amount: ").strip('$'))
     try:
         donors[donor_name].add_donation(donation)
-        print(donors)
     except ValueError as donation_err:
         raise donation_err
 
