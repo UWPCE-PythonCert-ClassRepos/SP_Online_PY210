@@ -30,24 +30,6 @@ def get_donor_stats(in_donor):
 
 
 def get_highest_donor_average_comprehensions(in_highest_avg_donation_to_beat):
-    print(f"Donors with a donation average higher than $" + str(in_highest_avg_donation_to_beat))
-
-    # use list Comprehensions
-
-    # first get the stats of all donors
-    dict_donors_avg = {}
-    for donor in db_donors:
-        donor_stats = get_donor_stats(donor)
-        dict_donors_avg[donor] = donor_stats[2]
-
-    # using list comprehensions determine donors with highest average donations
-    lst_high_donors = [i for i in dict_donors_avg if dict_donors_avg[i] > in_highest_avg_donation_to_beat]
-    # print(*lst_high_donors, sep="\n")
-
-    print(" {: <20} =  {: <20}".format("Donor", "Average"))
-    for donor in lst_high_donors:
-        print(" {: <20} =  {: <20}" .format(donor, dict_donors_avg[donor]))
-    print("")
 
 
 def create_report():
@@ -236,7 +218,11 @@ def mailroom():
 
     while True:
         operation = main_menu()
-        op_action_dict.get(operation)()
+
+        try:
+            op_action_dict.get(operation)()
+        except TypeError:
+            print('\n\nInvalid operation code.  Please retry!')
 
     # print("mailroom end")
 
