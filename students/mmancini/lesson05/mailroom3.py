@@ -82,7 +82,10 @@ def menu_donation_amount():
 
     donation_amount_entry = -1
     while donation_amount_entry < 0:
-        donation_amount_entry = int(input(msg))
+        try:
+            donation_amount_entry = int(input(msg))
+        except ValueError:
+            print('\nInvalid entry, Please enter a positive single dollar amount!')
 
     return donation_amount_entry
 
