@@ -3,9 +3,19 @@
 ######################
 
 
+###########################################################################################
 # Data Sturcture for Mail Room
-donors_list = ['Adan William','Peter Chiykowski','Sara Gogo','Jason Zhang','Zooe Bezos']
-donors_amount = [[100.75,1200,3200.45], [25.25, 4340.25], [650], [150.00, 35.50, 80.75], [10,20]]
+# 1. For the whole records are stored in a list so that we can keep adding now one to it.
+# 2. For each record, we use tuple to make sure that a single record only can 
+#    contain two items: "name" and "donation amount".
+# 3. For donor name, we use string.
+# 4. For donation amount, we use a list so that each donor can donate more than time. 
+###########################################################################################
+donors_db = [('Adan William',[100.75,1200,3200.45]),
+             ('Peter Chiykowski',[25.25,4340.25]),
+             ('Sara Gogo',[650]),
+             ('Jason Zhang',[150.00,35.50,80.75]),
+             ('Zooe Bezos',[10,20])]
 
 
 ##################
@@ -59,33 +69,33 @@ def amount_prompt():
 
 
 ##################
-# find the name from donors_list 
+# find the name from donors_db 
 ##################
 def found_name(my_name):
-    for i in donors_list:
-        if i == my_name:
-            return True
-    return False
+    count = 0
+    for rowindex, row in enumerate(donors_db):
+        if row[0] == my_name:
+            return rowindex 
+    return -1 
 
 ##################
-# add the amount to the donors_amount list
+# add the amount to the existing donor on the donors_db 
 ##################
-def add_amount(d_name,amount):
-    the_index = donors_list.index(d_name)
-    #print(f"The donor  : {the_index}")
-    donors_amount[the_index].append(amount) 
-    #print(f"New donors_amount list: {donors_amount}")
-
-##################
-# add the new name to the donors_list
-# add the donated amount to the donors_amount
-##################
-def add_name(d_name,amount):
-    donors_list.append(d_name) 
-    #print(f"New donors_list: {donors_list}")
+def add_amount(amount,r_index):
     tmp_amount = [amount]
-    donors_amount.append(tmp_amount) 
-    #print(f"New donors_amount list: {donors_amount}")
+    donors_db[r_index][1].append(amount)
+    print(f"3. Updated donor amount: {donors_db[r_index]}")
+
+
+##################
+# add the new orcorder to the donors_db
+##################
+def add_newrecord(d_name,amount):
+    # use tuple to make sure that a single record only can 
+    # contain two items: "name" and "donation amount"
+    new_record = (d_name,[amount])
+    donors_db.append(new_record) 
+    #print(f"1. Updated record {donors_db}")
 
 
 ##################
@@ -107,23 +117,27 @@ def send_thankyou(d_name):
     # if user input 'list' we will list all the donor's name and ask full name again.
     while d_name == 'list':
         print("The donor list: ")
-        print(f"{donors_list}")
+        for i in donors_db:
+           print(f"{i[0]}   ",end ="")
+        print("\n")
+
         d_name = fullname_prompt() 
     if d_name == -1 :
         return
     # for existing donor, add the donated amount to the list
-    if found_name(d_name):
+    row_index = found_name(d_name)
+    if row_index != -1:
         amount = amount_prompt()
         if amount != -1:
-            add_amount(d_name, amount)
+            add_amount(amount,row_index)
             # print thankyou_letter()
             thankyou_letter(d_name,amount)
     # for new donor,
-    # add the new donor name and donated amount to the lists.
+    # add the new donor name and donated amount to donors_db.
     else:
         amount = amount_prompt()
         if amount != -1:
-            add_name(d_name,amount)
+            add_newrecord(d_name,amount)
             # print thankyou_letter()
             thankyou_letter(d_name,amount)
 
@@ -149,17 +163,16 @@ def create_report():
     print('-'*71)
 
     # print the content of the report
-    for i in donors_list :
+    for i in donors_db:
         tot_amount = 0
         avg_amount = 0
-        the_index = donors_list.index(i)
-        count = len(donors_amount[the_index])
-        for j in donors_amount[the_index]:
-            tot_amount = tot_amount + j
+        name = i[0]
+        count = len(i[1])
+        for j in i[1]:
+            tot_amount = tot_amount + j 
         avg_amount = tot_amount / count
-
         # print out current row data
-        print(formater_content.format(i,tot_amount,count,avg_amount))
+        print(formater_content.format(name,tot_amount,count,avg_amount))
 
     print("\n")
 
