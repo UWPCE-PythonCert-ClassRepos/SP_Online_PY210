@@ -6,13 +6,14 @@
 # Series 1
 #####################
 # 1.1 Create a list 
+print("----------- Series 1 ---------")
 my_list = ['Apples','Pears','Oranges','Peaches']
-print(f"My fruit list is: {my_list}.")
+#print(f"My fruit list is: {my_list}.")
 
 # 1.2 Add item to the list 
 new_item = input("Please input another fruit: ")
 my_list.append(new_item)
-print(f"1. My updated fruit list is: {my_list}.")
+#print(f"1. My updated fruit list is: {my_list}.")
 
 # 1.3 Ask user a number and display the number back and 
 # the fruit corresponding to that number  
@@ -40,10 +41,12 @@ for i in my_list:
 
 # copy a series 1 list for latter use
 backup_list = my_list[:]
-"""
+
+
 #####################
 # Series 2 
 #####################
+print("----------- Series 2 ---------")
 # 2.1 Display the list created in Series 1
 print(f"My fruit list created in Series 1: {my_list}")
 
@@ -60,8 +63,8 @@ input_str = input(f"Please input a fruit name: ")
 for i in my_list[:]: 
     if i == input_str:
         my_list.remove(i) 
-        print(f"Found the fruit: {input_str}.")
-        print(f"Updated list:{my_list}")
+        #print(f"Found the fruit: {input_str}.")
+        #print(f"Updated list:{my_list}")
         break
 else:
     print(f"Couldn't find the fruit: {input_str} from the list.")
@@ -72,7 +75,7 @@ else:
 
 # multiply the list by times two
 my_list = backup_list * 2
-print(f"Doubled list: {my_list}.")
+#print(f"Doubled list: {my_list}.")
 
 # Get the input fruit name
 input_str = input(f"Please input a fruit name that you want to delete: ")
@@ -84,7 +87,7 @@ my_count = my_list.count(input_str)
 while my_count == 0:
     input_str = input("Can't find the name from the list. Please input another name: ")
     my_count = my_list.count(input_str)
-print(f"Found the fruit:{input_str} appears in the list {my_count} times.")
+#print(f"Found the fruit:{input_str} appears in the list {my_count} times.")
 
 
 # Found the fruit from the list, then we delete all the occurrences
@@ -94,9 +97,10 @@ for i in range(my_count):
       the_index = my_list.index(input_str)
       my_list.pop(the_index)
 
-print(f"Remove all the fruit:{input_str} from the list.")
+print(f"Remove all the fruit: {input_str} from the list.")
 print(f"Updated list {my_list}.")
-"""
+
+
 
 
 #####################
@@ -105,6 +109,7 @@ print(f"Updated list {my_list}.")
 my_list = backup_list[:]
 # Ask the user "Do you like apples?"
 
+print("----------- Series 3 ---------")
 # !!! iterate over a copy and mutate the original list
 for i in my_list[:]:
     input_str = input(f"Do you like {i.lower()}?: ")
@@ -120,7 +125,7 @@ print(f"The final favoriate fruit list: {my_list}")
 
 
 #####################
-# Series 3 
+# Series 4 
 #####################
 # Make a new list with the contents of the original, 
 # but with all the letters in each item reversed
@@ -129,7 +134,7 @@ new_list =[]
 for i in my_list:
     new_name = i[::-1]
     new_list.append(new_name)
-
+print("----------- Series 4 ---------")
 print(f"The orignial list: {my_list}")
 print(f"The copy list: {new_list}")
 
