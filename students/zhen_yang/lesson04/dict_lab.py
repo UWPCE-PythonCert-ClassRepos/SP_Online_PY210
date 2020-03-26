@@ -31,3 +31,18 @@ print(f"Is cake in dic_1?: {'cake' in dic_1}")
 # Display whether or not "Mango" is a value in the dictonary 
 print(f"Is Mango in dic_1?: {'Mango' in dic_1.values()}")
 
+
+##################
+# Dictionaries 2 #
+##################
+# Based on the dictionary from Dictonaries 1,
+# Make a new dictionary using the same keys but with the number of 't's 
+# in each value as the value.
+print(f"Old dic: {dic_1}")
+dic_2 = {}
+for key,val in dic_1.items():
+    # get the number of 't's in value
+    num = val.lower().count('t')
+    dic_2[key] = num 
+
+print(f"New dic: {dic_2}")
