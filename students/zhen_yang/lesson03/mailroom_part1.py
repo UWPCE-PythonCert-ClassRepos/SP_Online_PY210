@@ -8,8 +8,8 @@
 # 1. For the whole records are stored in a list so that we can keep adding now one to it.
 # 2. For each record, we use tuple to make sure that a single record only can 
 #    contain two items: "name" and "donation amount".
-# 3. For donor name, we use string.
-# 4. For donation amount, we use a list so that each donor can donate more than time. 
+# 3. For 'donor name', we use string.
+# 4. For 'donation amount', we use a list so that each donor can donate more than once. 
 ###########################################################################################
 donors_db = [('Adan William',[100.75,1200,3200.45]),
              ('Peter Chiykowski',[25.25,4340.25]),
