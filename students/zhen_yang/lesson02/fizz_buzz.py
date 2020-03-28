@@ -12,6 +12,6 @@ for i in range(0,101):
         print(f"Buzz:{i} ",end = "")
         if i % 10 == 0 :
             print("\n")
-    else:
-        pass
+    #else:
+    #    pass
 
