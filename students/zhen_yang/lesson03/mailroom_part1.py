@@ -135,7 +135,7 @@ def sort_key(donor):
 
 
 #################################
-# define reate_report() Option #
+# define create_report() Option #
 #################################
 def create_report():
     col_1 = 'Donor Name'
