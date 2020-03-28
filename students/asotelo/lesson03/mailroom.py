@@ -5,7 +5,7 @@ username = getpass.getuser()
 
 '''
 Author: Alex Sotelo
-Exercise 3.2
+Lesson 3 Assignment 1
 Requirement: https://uwpce-pythoncert.github.io/PythonCertDevel/exercises/mailroom-part1.html
 '''
 
