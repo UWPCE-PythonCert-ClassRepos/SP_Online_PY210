@@ -1,6 +1,7 @@
 # slicing_lab.py
 # opcode6502: SP_Online_PY210
 
+
 # Write some functions that take a sequence as an argument, and return a copy of that sequence:
 # REQ-01: with the first and last items exchanged.
 # REQ-02: with every other item removed.
