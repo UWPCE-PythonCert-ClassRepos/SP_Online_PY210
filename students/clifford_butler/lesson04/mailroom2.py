@@ -20,6 +20,7 @@ produces the letter in parts.
 '''
 
 import sys
+import operator
 
 donor_dict = {"William Gates, III": [653772.32, 12.17],
         "Jeff Bezos":  [877.33],
@@ -49,17 +50,12 @@ report_header = "\n".join(("Donor Name           | Total Given | Num Gifts | Ave
                             "{:-^61}")).format('')
 
 def dis_info():
-    for item in donor_dict:
-        spaces = ((20 - len(item[0]))*" ")
-        
-        sum_donations = sum(item[1:])
-        sum_donations = round(sum_donations,2)
-        num_gifts = len(item[1:])
-        avg_gift = (str(round(sum_donations/num_gifts,2)))
-        spaces_two = ((15 - len(str(sum_donations)))*' ')
-        spaces_three = (42*" ")
-        
-        print(item[0], spaces, ('$'), sum_donations, spaces_two, num_gifts, spaces_three, ('$'), avg_gift)
+    print("\n{:<18}{:<6}{:<20}{}{:<25}{}{:<15}".format(*('Donor Name','|','Total Given','|','Num Gifts','|','Average Gift')))
+    print ('-'*90)
+
+    for donor, value in sorted(donor_dict.items(), key=operator.itemgetter(1)):
+        print ("{:<20} {:>2} {:>12} {:>17}{:>17}{:>12}".format(*(donor, '$', round(sum(value),2), len(value), '$',round(sum(value)/len(value),1))))
+
 
 def get_index(donor_name):
     # Return the index number based on user input
@@ -107,17 +103,20 @@ def send_thank_you():
 def create_report():
     # Generate and display a report of the donors in donor_dict
     while True:
-        print(report_header)
-        dis_info()
+        print("\n{:<18}{:<6}{:<20}{}{:<25}{}{:<15}".format(*('Donor Name','|','Total Given','|','Num Gifts','|','Average Gift')))
+        print ('-'*90)
+
+        for donor, value in sorted(donor_dict.items(), key=operator.itemgetter(1)):
+            print ("{:<20} {:>2} {:>12} {:>17}{:>17}{:>12}".format(*(donor, '$', round(sum(value),2), len(value), '$',round(sum(value)/len(value),1))))
+
         
         response_quit = input(exit_report)
         # Return back to the initial prompt
         if response_quit == "1":
-            print("fake exit")
             break
+        
         else:
-            print("Not a valid option!")
-            break
+            print("Not a valid option!")      
         
 def letter_to_all():
     for donor_name in donor_dict:
