@@ -31,7 +31,8 @@ prompt = "\n".join(("Welcome to the mail room!",
           "Please choose from below options:",
           "1 - Send a Thank You",
           "2 - Create a Report",
-          "3 - Quit",
+          "3 - Send letters to all donors",
+          "4 - Quit",
           ">>> "))
 
 prompt_name = "\n".join(("Type the donors full name or,",
@@ -117,6 +118,12 @@ def create_report():
         else:
             print("Not a valid option!")
             break
+        
+def letter_to_all():
+    for donor_name in donor_dict:
+        with open(f"{donor_name}.txt","w+") as donor_letter:
+            donor_letter.write(f"Hi {donor_name},\n\nThank you for the generous donation of ${sum(donor_dict[donor_name]):.2f}.\n\nSincerely,\nClifford Butler")
+    print("\nThank you letters sent!\n")
             
 def exit_program():
     # exit the interactive script
@@ -133,6 +140,8 @@ def main():
         elif response == "2":
             create_report()
         elif response == "3":
+            letter_to_all()
+        elif response == "4":
             exit_program()
         else:
             print("Not a valid option!")
