@@ -121,7 +121,17 @@ def main():
     
     print ('\n' + 'Sets 2: \n')
     
+    # create a set with the letters in ‘Python’ and add ‘i’ to the set.
+    set_letters = set({"P", "y", "t", "h", "o", "n"})
+    set_letters.add("i")
+    
+    # create a frozenset with the letters in ‘marathon’
+    frozenset_letters = frozenset({"m", "a", "r", "a", "t", "h", "o", "n"})
+    
+    # display the union and intersection of the two sets
+    print(set_letters.union(frozenset_letters))
+    print(set_letters.intersection(frozenset_letters))
+    
 if __name__ == '__main__':
    main()
-   
    
