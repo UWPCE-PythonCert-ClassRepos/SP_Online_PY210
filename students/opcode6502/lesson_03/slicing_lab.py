@@ -2,11 +2,11 @@
 # opcode6502: SP_Online_PY210
 
 
-# REQ-01: Write a function that take a sequence as an argument, and
-# return a copy of that sequence with the first and last items exchanged.
+# REQ-01: Write a function that takes a sequence as an argument, and
+# returns a copy of that sequence with the first and last items exchanged.
 def exchange_first_last(seq):
 
-    # Python Docstring
+    # DOCSTRING.
     """
     Returns a copy of a sequence with the first and last items exchanged
 
@@ -17,7 +17,7 @@ def exchange_first_last(seq):
         A copy of the sequence with the first and last items exchanged.
     """
 
-    #
+    # Variables.
     first_element = seq[:1]
     last_element = seq[-1:]
     final_sequence = last_element + seq[1:-1] + first_element
@@ -35,11 +35,11 @@ def exchange_first_last(seq):
     return final_sequence
 
 
-# REQ-02: Write a function that take a sequence as an argument, and
-# return a copy of that sequence with every other item removed.
+# REQ-02: Write a function that takes a sequence as an argument, and
+# returns a copy of that sequence with every other item removed.
 def remove_alternate_items(seq):
 
-    # Python Docstring
+    # DOCSTRING.
     """
     Returns a copy of a sequence with every other item removed
 
@@ -64,12 +64,12 @@ def remove_alternate_items(seq):
     return seq[::2]
 
 
-# REQ-03: Write a function that take a sequence as an argument, and
-# return a copy of that sequence with the first 4 and the last 4 items removed,
+# REQ-03: Write a function that takes a sequence as an argument, and
+# returns a copy of that sequence with the first 4 and the last 4 items removed,
 # and then every other item in the remaining sequence.
 def remove_four_print_alternate_items(seq):
 
-    # Python Docstring
+    # DOCSTRING.
     """
     Returns a copy of a sequence with the first 4 and the last 4 items removed,
     and then every other item in the remaining sequence.
@@ -106,11 +106,11 @@ def remove_four_print_alternate_items(seq):
     return seq[4:-4:2]
 
 
-# REQ-04: Write a function that take a sequence as an argument, and
-# return a copy of that sequence with the elements reversed (just with slicing).
+# REQ-04: Write a function that takes a sequence as an argument, and
+# returns a copy of that sequence with the elements reversed (just with slicing).
 def reverse_sequence(seq):
 
-    # Python Docstring
+    # DOCSTRING.
     """
     Returns a copy of a sequence with the elements reversed (just with slicing).
 
@@ -137,16 +137,35 @@ def reverse_sequence(seq):
     return seq[::-1]
 
 
-# REQ-05: Write a function that take a sequence as an argument, and
-# return a copy of that sequence with the last third, then first third,
+# REQ-05: Write a function that takes a sequence as an argument, and
+# returns a copy of that sequence with the last third, then first third,
 # then the middle third in the new order.
-def seq_req_05(arg):
-    print(arg)
+def third_reorder(seq):
+
+    # DOCSTRING.
+    """
+    Returns a copy of a sequence with the last third, then first third,
+    then the middle third in the new order
+
+    Args:
+        param1: The sequence to be copied and changed.
+
+    Returns:
+        A copy of a sequence with the last third, then first third,
+        then the middle third in the new order
+    """
+
+    # DEBUG statements for developer testing.
+    if debug_flag:
+        print("--------------------------------------------------")
+        print("[ EXEC  ]: third_reorder(seq): called!")
+        print("--------------------------------------------------")
+        print("[ DEBUG ]: seq             : " + seq)
 
 
 # DEBUG: The debug_flag will turn on helpful testing statements.
 # This creates a sort of 'black box' where you can read the exact steps
-# the code executed and debug where things went wrong.
+# that the code executed and debug where things went wrong.
 #
 # Set to 1 = ENABLE debug messages.
 # Set to 0 = DISABLE debug messages.
@@ -166,7 +185,7 @@ exchange_first_last(a_string)
 remove_alternate_items(a_string)
 remove_four_print_alternate_items(a_string)
 reverse_sequence(a_string)
-seq_req_05(a_string)
+third_reorder(a_string)
 
 
 # REQ-06: Write a test or two like that for each of the above functions.
