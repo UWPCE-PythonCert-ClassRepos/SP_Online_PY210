@@ -25,7 +25,7 @@ def exchange_first_last(seq):
     # DEBUG statements for developer testing.
     if debug_flag:
         print("- - - - - - - - - -  - - - - - - - - - - - - - - -")
-        print("[ EXEC  ]: seq_req_01(arg): called!")
+        print("[ EXEC  ]: exchange_first_last(seq): called!")
         print("[ DEBUG ]: arg: " + arg)
         print("[ DEBUG ]: first_element: " + first_element)
         print("[ DEBUG ]: last_element: " + last_element)
@@ -36,8 +36,30 @@ def exchange_first_last(seq):
 
 # REQ-02: Write a function that take a sequence as an argument, and
 # return a copy of that sequence with every other item removed.
-def seq_req_02(arg):
-    print(arg)
+def remove_alternate_items(seq):
+
+    # Python Docstring
+    """
+    Returns a copy of a sequence with every other item removed
+
+    Args:
+        param1: The sequence to be copied and changed.
+
+    Returns:
+        A copy of the sequence with every other item removed.
+    """
+
+    # DEBUG statements for developer testing.
+    if debug_flag:
+        print("- - - - - - - - - -  - - - - - - - - - - - - - - -")
+        print("[ EXEC  ]: remove_alternate_items(seq): called!")
+        print("[ DEBUG ]: arg: " + arg)
+        print("[ DEBUG ]: arg[0] " + arg[0])
+        print("[ DEBUG ]: arg[0:] " + arg[0:])
+        print("[ DEBUG ]: arg[:2] " + arg[:2])
+        print("[ DEBUG ]: arg[::2] " + arg[::2])
+
+    return arg[::2]
 
 
 # REQ-03: Write a function that take a sequence as an argument, and
