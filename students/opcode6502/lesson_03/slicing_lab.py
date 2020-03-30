@@ -67,7 +67,7 @@ def remove_alternate_items(seq):
 # REQ-03: Write a function that take a sequence as an argument, and
 # return a copy of that sequence with the first 4 and the last 4 items removed,
 # and then every other item in the remaining sequence.
-def remove_four_print_alternate(seq):
+def remove_four_print_alternate_items(seq):
 
     # Python Docstring
     """
@@ -108,8 +108,33 @@ def remove_four_print_alternate(seq):
 
 # REQ-04: Write a function that take a sequence as an argument, and
 # return a copy of that sequence with the elements reversed (just with slicing).
-def seq_req_04(arg):
-    print(arg)
+def reverse_sequence(seq):
+
+    # Python Docstring
+    """
+    Returns a copy of a sequence with the elements reversed (just with slicing).
+
+    Args:
+        param1: The sequence to be copied and changed.
+
+    Returns:
+        A copy of a sequence with the elements reversed (just with slicing).
+    """
+
+    # DEBUG statements for developer testing.
+    if debug_flag:
+        print("--------------------------------------------------")
+        print("[ EXEC  ]: reverse_sequence(seq): called!")
+        print("--------------------------------------------------")
+        print("[ DEBUG ]: seq             : " + seq)
+        print("[ DEBUG ]: seq[1]          : " + seq[1])
+        print("[ DEBUG ]: seq[-1]         : " + seq[-1])
+        print("[ DEBUG ]: seq[:1]         : " + seq[:1])
+        print("[ DEBUG ]: seq[:-1]        : " + seq[:-1])
+        print("[ DEBUG ]: seq[::1]        : " + seq[::1])
+        print("[ DEBUG ]: seq[::-1]       : " + seq[::-1])
+
+    return seq[::-1]
 
 
 # REQ-05: Write a function that take a sequence as an argument, and
@@ -140,7 +165,7 @@ a_string = "The quick brown fox jumps over the lazy dogs"
 exchange_first_last(a_string)
 remove_alternate_items(a_string)
 remove_four_print_alternate_items(a_string)
-seq_req_04(a_string)
+reverse_sequence(a_string)
 seq_req_05(a_string)
 
 
