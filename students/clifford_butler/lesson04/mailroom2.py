@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Sun Mar 29 16:04:35 2020
+
+@author: cliff
+"""
+
 #!/usr/bin/env python3
 '''
 Use dicts where appropriate.
@@ -45,17 +52,6 @@ prompt_amount = "\n".join(("Whats the donation amount?",
 
 exit_report = "\n".join(("Press 1 to exit to the initial prompt.",
                          "\n"))
-
-report_header = "\n".join(("Donor Name           | Total Given | Num Gifts | Average Gift",
-                            "{:-^61}")).format('')
-
-def dis_info():
-    print("\n{:<18}{:<6}{:<20}{}{:<25}{}{:<15}".format(*('Donor Name','|','Total Given','|','Num Gifts','|','Average Gift')))
-    print ('-'*90)
-
-    for donor, value in sorted(donor_dict.items(), key=operator.itemgetter(1)):
-        print ("{:<20} {:>2} {:>12} {:>17}{:>17}{:>12}".format(*(donor, '$', round(sum(value),2), len(value), '$',round(sum(value)/len(value),1))))
-
 
 def get_index(donor_name):
     # Return the index number based on user input
@@ -131,19 +127,20 @@ def exit_program():
 
 def main():
     # continuously collect user selection
+    switch_dict = {
+            1: send_thank_you, 
+            2: create_report, 
+            3: letter_to_all, 
+            4: exit_program
+            } 
+    
     while True:
-        response = input(prompt)  
-        # redirect to feature functions based on the user selection
-        if response == "1":
-            send_thank_you()
-        elif response == "2":
-            create_report()
-        elif response == "3":
-            letter_to_all()
-        elif response == "4":
-            exit_program()
+        response = int(input(prompt))
+        if int(response) not in switch_dict:
+            print('Not a valid option!\n')
+            
         else:
-            print("Not a valid option!")
+            switch_dict.get(response)()
 
 if __name__ == "__main__" :
     # run main function
