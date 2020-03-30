@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-# mailroom_pt2.py, Python 210, Lesson 04
+# mailroom_pt3.py,
+# Lisa Ferrier, Python 210, Lesson 05
 
 
 import sys
@@ -7,12 +8,11 @@ from operator import itemgetter
 import time
 
 
-donors = {
-    'Bill Gates': [9999.99, 1234.56, 6543.21],
-    'Paul Allen': [1500, 1750],
-    'Steve Jobs': [5000, 350.75, 4000],
-    'Jeff Bezos': [75.75, 25.25, 50.50],
-}
+donors = {'Bill Gates': [9999.99, 1234.56, 6543.21],
+          'Paul Allen': [1500, 1750],
+          'Steve Jobs': [5000, 350.75, 4000],
+          'Jeff Bezos': [75.75, 25.25, 50.50],
+          }
 
 
 def gather_all_donors():
@@ -49,7 +49,7 @@ def send_thank_yous(donor_name):
         time.sleep(1)
     print('\nReturning to main menu...\n')
     time.sleep(1)
-    main_menu()
+    return
 
 
 def create_report():
@@ -63,7 +63,6 @@ def create_report():
 
     for i in sort_summary:
         print(f'|  {i[0]:26}| ${i[1]:12.2f} |{i[2]:^15}| ${i[3]:12.2f} |')
-    main_menu()
 
 
 def verify_donor_info():
@@ -75,19 +74,20 @@ def verify_donor_info():
     Input is compared to names in the donor database. If donor does not exist, asks user if they would like to add a donation for the donor. If yes, asks user for donation amount, and appends information to the database. If no, returns user to initial function prompt.
     '''
     while True:
-        donor_name = input('''Enter the donor's full name. Enter 'list' to see the complete donor list. Enter 'home' to return to the main menu.
+        donor_name = input('''\nEnter the donor's full name. Enter 'list' to see the complete donor list. Enter 'home' to return to the main menu.
             ''')
         donor_name = donor_name.title()
 
         if donor_name == 'Home':
             print('\nReturning to main menu...\n')
-            main_menu()
+            return
         elif donor_name == 'List':
             print(list(donors))
         else:
             for name, donations in donors.items():
                 if name in donor_name:
                     send_thank_yous(donor_name)
+                    return
             else:
                 print('\nDonor not found in donor list. Add donation?')
                 while True:
@@ -129,7 +129,7 @@ def exit_program():
     sys.exit()
 
 
-def menu_switch(argument):
+def menu_switch(selection):
     '''
     Main menu switch used to control program flow.
     '''
@@ -140,22 +140,25 @@ def menu_switch(argument):
         4: exit_program,
     }
     # Get the function from switcher dictionary
-    return switcher.get(argument)()
+    if selection not in switcher:
+        return
+    else:
+        func = switcher.get(selection)
+        return func()
 
 
 def main_menu():
     '''
     Main menu executes on program launch. Asks the user to select a menu option and action is implemented using the menu_switch function to complete specified action.
     '''
-    print('''
-    Main Menu, select an option:
-    [1] - Thank individual donor.
-    [2] - Thank all donors.
-    [3] - Create a report summarizing donations.
-    [4] - Quit program.
-    ''')
 
     while True:
+        print('''Main Menu, select an option:
+              [1] - Thank individual donor.
+              [2] - Thank all donors.
+              [3] - Create a report summarizing donations.
+              [4] - Quit program.
+              ''')
         try:
             selection = int(input("Please select an option from above (1-4)\n"))
         except ValueError:
@@ -163,12 +166,9 @@ def main_menu():
             between 1 and 4.\n''')
             # better try again... Return to the start of the loop
         else:
-            if selection in menu_switch(selection).switcher:
-                # implement switch
-                menu_switch(selection)
-            else:
-                continue
+            menu_switch(selection)
 
 
 if __name__ == '__main__':
+
     main_menu()
