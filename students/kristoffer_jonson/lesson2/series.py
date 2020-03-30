@@ -38,3 +38,17 @@ def sum_series(n,x = 0, y = 1):
         previous_previous = previous
         previous = result
     return result
+
+def fibonacci2(n):
+    """
+    Return nth value of fibonacci sequence
+    :param n: Requested value in fibonacci sequence
+    """
+    return sum_series(n,0,1)
+
+def lucas2(n):
+    """
+    Return nth value of lucas sequence
+    :param n: Requested value in lucas sequence
+    """
+    return sum_series(n,2,1)
