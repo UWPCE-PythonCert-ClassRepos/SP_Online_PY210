@@ -196,8 +196,8 @@ my_str = 'ABC.xyzxy'
 #else:
 #    print(f"Str: {my_str} does not has the 'xyz'.")
 
-# sum67()
 
+# sum67()
 def find_end_index(myindex, num_array):
     for j in range(myindex+1,len(num_array)):
           if num_array[j] == 7:

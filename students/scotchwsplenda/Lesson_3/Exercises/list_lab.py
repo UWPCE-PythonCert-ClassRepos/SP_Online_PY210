@@ -17,7 +17,7 @@ print(dbase)
 '''Ask the user for a number and display the number back to the user and the
 fruit corresponding to that number (on a 1-is-first basis). Remember that
 Python uses zero-based indexing, so you will need to correct.'''
-x = int(input("give me a number: "))-1
+x = int(input(f"give me a number between 1 and {len(dbase)}: "))-1
 print(dbase[x])
 
 '''Add another fruit to the beginning of the list using “+” and display the
@@ -34,7 +34,7 @@ print(dbase)
 
 '''Display all the fruits that begin with “P”, using a for loop.'''
 for pp in dbase:
-    if pp[0] == 'P' or pp[0] == 'p':
+    if pp[0].upper() == 'P':
         print(pp)
 
 print('-------------------Series 2-------------------')
@@ -57,23 +57,23 @@ print('-------------------Series 3-------------------')
 '''Ask the user for input displaying a line like “Do you like apples?” for each
  fruit in the list (making the fruit all lowercase).'''
 
-hatedfruit = []
+HatedFruit = []
 
 for fruit in dbase:
     dele = input('do you hate {} ? Y/N: '.format(fruit))
-    if dele == 'Y' or dele == 'y':
-        hatedfruit.append(fruit)
+    if dele.upper() == 'Y':
+        HatedFruit.append(fruit)
         continue
-    if dele == 'N' or dele == 'n':
+    if dele.upper() == 'N':
         continue
     else:
         print('Follow directions')
 
-print(hatedfruit)
+print(HatedFruit)
 
 '''For each “no”, delete that fruit from the list.'''
 
-dbase = [x for x in dbase if x not in hatedfruit]
+dbase = [x for x in dbase if x not in HatedFruit]
 print(dbase)
 
 '''Display the list.'''
