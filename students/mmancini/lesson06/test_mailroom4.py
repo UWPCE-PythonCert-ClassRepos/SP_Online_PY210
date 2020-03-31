@@ -22,12 +22,19 @@ def test_send_thankyou_email():
     assert expected_thankyou_email == thankyou_email
 
 
+def test_all_donors_listed():
+    expected_all_donors_listed = mailroom.read_file(mailroom.canned_all_donors_listed)
+    all_donors_listed = mailroom.show_donors()
+    assert expected_all_donors_listed == all_donors_listed
+
+
 def test_suite():
 
     # run test suite tests
     print(f"Mailroom Test Suite Started")
     test_create_report()
 	test_send_thankyou_email()
+	test_all_donors_listed()
     print(f"Mailroom Test Suite Completed")
 
 ####################################
