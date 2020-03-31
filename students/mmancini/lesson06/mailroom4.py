@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 
+global canned_sorted_report
+global canned_thankyou_email
+global canned_all_donors_listed
+
 charity_name = "ABC Charity"
+
 
 db_donors = {
             "Jane Smith": [25, 50],
@@ -8,6 +13,31 @@ db_donors = {
             "Helen Smalls": [10, 20, 30],
             "Ming Chan": [50],
             "Mary Jones": [5, 10, 15]}
+
+
+####################################
+
+
+def init():
+    global canned_sorted_report
+    global canned_thankyou_email
+    global canned_all_donors_listed
+    canned_sorted_report = "canned_sorted_report.txt"
+    canned_thankyou_email = "canned_thankyou_email.txt"
+    canned_all_donors_listed = "canned_all_donors_listed.txt"
+
+
+def read_file(in_filespec):
+    with open(in_filespec, "r") as f:
+        data = f.read()
+
+    return data
+
+
+def write_file(in_filespec, in_msg):
+    with open(in_filespec, "w") as f:
+        f.write(in_msg)
+
 
 ####################################
 
@@ -79,9 +109,10 @@ def create_report_sorted():
     hdr1 = ["Donor Name ", "Donation Total", "Number of Donations", "Donation Average"]
     hdr2 = ["-----------", "--------------", "-------------------", "----------------"]
 
-    print("   {: <20} {: >20} {: >20} {: >20}".format(*hdr1))
-    print("   {: <20} {: >20} {: >20} {: >20}".format(*hdr2))
+    hdrline1 = ("   {: <20} {: >20} {: >20} {: >20}".format(*hdr1)) + "\n"
+    hdrline2 = ("   {: <20} {: >20} {: >20} {: >20}".format(*hdr2)) + "\n"
 
+    rptlines = ""
     # for key, value in db_donors2.items():
     for donor_info in db2:
 
@@ -89,8 +120,13 @@ def create_report_sorted():
         rpt_donation_line = {"donor_name": tup_info[0], "donation_total": donor_info[0],
                              "number_of_donations": tup_info[1],
                              "donation_average": tup_info[2]}
-        print("   {donor_name: <20} {donation_total: >20} {number_of_donations: >20} "
-              "{donation_average: >20}".format(**rpt_donation_line))
+        rptlines += ("   {donor_name: <20} {donation_total: >20} {number_of_donations: >20} "
+                     "{donation_average: >20}".format(**rpt_donation_line)) + "\n"
+
+    report = hdrline1 + hdrline2 + rptlines
+    # write_file(canned_sorted_report, report)
+    print(report)
+    return report
 
 
 def menu_donation_amount():
@@ -109,8 +145,11 @@ def menu_donation_amount():
 
 
 def show_donors():
-    print(f"List of Donors:")
-    print(f" ", *db_donors.keys())
+    hdr_listed_donors = f"List of Donors:"
+    listed_donors = hdr_listed_donors + "\n" + str((f" ", *db_donors.keys()))
+    print(listed_donors)
+    #write_file(canned_all_donors_listed, listed_donors)
+    return listed_donors
 
 
 def process_new_donor(name):
@@ -147,8 +186,8 @@ def process_send_thankyou_email(in_name, in_amount):
     msg += f"Body: Dear {in_name} Thank You for your generous donation of ${in_amount}:\n".format(**dict_data_line)
     msg += ""
 
+    # write_file(canned_thankyou_email, msg)
     print(msg)
-
     return msg
 
 
@@ -182,20 +221,24 @@ def send_thankyou():
     process_send_thankyou_email(donor_name, donation_amount)
 
 
+def create_letter(donor_name):
+
+    donations_ary = db_donors[donor_name]
+    donations_total = sum(donations_ary)
+    dict_data_line = {"donor_name": donor_name, "donation_amount": float(donations_total)}
+    thank_you_letter = ""
+    thank_you_letter += f"Dear {donor_name} Thank You for your generous donations " \
+                        f"totaling ${donations_total}:\n".format(**dict_data_line)
+    return thank_you_letter
+
+
 def write_letters_to_all():
 
     for key, value in db_donors.items():
-
         donor_name = key
-        donations_ary = value
-        donations_total = sum(donations_ary)
-
         filename = donor_name + ".txt"
         with open(filename, "w") as f:
-            dict_data_line = {"donor_name": donor_name, "donation_amount": float(donations_total)}
-            thank_you_letter = ""
-            thank_you_letter += f"Dear {donor_name} Thank You for your generous donations " \
-                                f"totaling ${donations_total}:\n".format(**dict_data_line)
+            thank_you_letter = create_letter(donor_name)
             f.write(thank_you_letter)
 
 
@@ -252,6 +295,8 @@ def mailroom():
 
 
 # main, test funcs
+
+init()
 
 if __name__ == "__main__":
 
