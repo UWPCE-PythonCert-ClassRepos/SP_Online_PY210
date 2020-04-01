@@ -4,9 +4,7 @@
 import os
 import sys
 
-###############################################################################
-# Data Sturcture for Mail Room Two
-###############################################################################
+""" -- Data Sturcture for Mail Room Two -- """
 donors_db = {
     'Adan William': [100.75, 1200, 3200.45],
     'Peter Chiykowski': [25.25, 4340.25],
@@ -14,8 +12,6 @@ donors_db = {
     'Jason Zhang': [150.00, 35.50, 80.75],
     'Zooe Bezos': [10, 20]
 }
-
-
 thankyou_template = "Dear {},\n" + \
     "     Thank you for your generous donation of ${:,.2f} \n" + \
     "     Total Amount:${:,.2f} Number of Gifts:{} Avg Amount:${:,.2f}.\n" + \
@@ -23,9 +19,7 @@ thankyou_template = "Dear {},\n" + \
     "                       Sincerely,\n" + \
     "                           Zhen "
 
-##################
-# prompt the three options for user
-##################
+""" -- prompt the three options for user -- """
 def ori_prompt():
     print("-- Choose an action: -- ")
     print("1 - Send a Thank You Letter to a single donor.")
@@ -35,10 +29,7 @@ def ori_prompt():
     input_str = input()
     return input_str.strip()
 
-
-##################
-# prompt the user to input full name of the donor
-##################
+""" -- prompt the user to input full name of the donor -- """
 def fullname_prompt():
     input_str = input("Please input donor's full name or input 'list' or \
 input 'quit' or 'q' to quit : ")
@@ -47,10 +38,7 @@ input 'quit' or 'q' to quit : ")
     else:
         return input_str.strip() # remove any whitespace
 
-
-##################
-# prompt the user to input a donation amount
-##################
+""" -- prompt the user to input a donation amount -- """
 def amount_prompt():
     input_str = input("Please input the donation amount  or \
 input 'quit' or 'q' to quit : ")
@@ -78,11 +66,8 @@ def out_put(key, amount):
     avg = tot / len(val)
     return thankyou_template.format(key, amount, tot, len(val), avg)
 
-
-##################
-# print the thank you letter to a single donoar on screen
-# or print to different files to all donors
-##################
+""" print the thank you letter to a single donoar on screen
+ or print to different files to all donors """
 def thankyou_letter(*argv):
     if len(argv) == 2:# to single donor on the screen
         print(out_put(argv[0], argv[1]))
@@ -91,10 +76,7 @@ def thankyou_letter(*argv):
         last_donation = argv[1][len(argv[1]) - 1]
         argv[2].write(out_put(argv[0], last_donation))
 
-
-###################################
-# define send_thankyou() Option 1 #
-###################################
+""" -- define send_thankyou() Option 1 -- """
 def send_thankyou():
     d_name = fullname_prompt()
     while d_name == 'list':# list all the donor's name
@@ -103,14 +85,16 @@ def send_thankyou():
             print(f"{key}   ", end="")
         print("\n")
         d_name = fullname_prompt()
-        if d_name in donors_db:# for exitsting donor
-            amount = amount_prompt()
-            donors_db[d_name].append(amount)
-            thankyou_letter(d_name, amount)
-        elif d_name != 'list': # for new donor
-            amount = amount_prompt()
-            donors_db[d_name] = [amount]
-            thankyou_letter(d_name, amount)
+
+    if d_name in donors_db:# for exitsting donor
+        amount = amount_prompt()
+        donors_db[d_name].append(amount)
+        thankyou_letter(d_name, amount)
+    #elif d_name != 'list': # for new donor
+    else: # for new donor
+        amount = amount_prompt()
+        donors_db[d_name] = [amount]
+        thankyou_letter(d_name, amount)
 
 
 # sort key function
@@ -118,10 +102,7 @@ def sort_key(donor):
     # sort the record based on the first name
     return donor[0].split(" ")[0]
 
-
-###################################
-# define create_report() Option 2 #
-###################################
+""" -- define create_report() Option 2 -- """
 def create_report():
     col_1 = 'Donor Name'
     col_2 = 'Total Amount'
@@ -141,21 +122,11 @@ def create_report():
     # note: dict.items() return a list of key value pair
     # the return from sorted() is a sorted list of key and value
     for mykey, val in sorted(donors_db.items(), key=sort_key):
-        tot_amount = 0
-        avg_amount = 0
-        name = str(mykey)
-        count = len(val)
-        for j in val:
-            tot_amount = tot_amount + j
-        avg_amount = tot_amount / count
-        print(formater_content.format(name, tot_amount, count, avg_amount))
-
+        print(formater_content.format(str(mykey), sum(val),
+              len(val), sum(val) / len(val)))
     print("\n")
 
-
-#######################################
-# define send_all_thankyou() Option 3 #
-#i######################################
+""" -- define send_all_thankyou() Option 3 -- """
 def send_all_thankyou():
     directory = 'res_dr'
     parent_dir = os.getcwd()
@@ -173,9 +144,7 @@ def send_all_thankyou():
             thankyou_letter(key, val, out_file)
 
 
-###################################
-# define Quit_Program()  Option 4 #
-###################################
+""" -- define Quit_Program()  Option 4 -- """
 def quit_program():
     print("Bye!")
     sys.exit()
@@ -189,10 +158,7 @@ switch_option_dict = {
     4: quit_program
 }
 
-
-#################################
-# define main() function        #
-#################################
+""" -- define main() function -- """
 def main():
     #Forever while loop to let user choose one of four options.
     while True:
