@@ -61,9 +61,9 @@ def build_trigrams(words):
 def build_text(word_pairs):
 
     t_keys = random.choice(list(word_pairs.keys()))
-    print(list(word_pairs.keys())[:250])
+    #print(list(word_pairs.keys())[:250])
     text = list(t_keys)
-    print(text)
+    #print(text)
     try:
         while True:
             if len(text) > 250: # generates a couple of hundred words of text
