@@ -8,6 +8,8 @@ A class-based system for rendering html.
 # This is the framework for the base class
 class Element(object):
     tag_name = 'html'
+    indent = '    '# four spaces for indentation
+    #indent = ''# no space for indentation
 
     def __init__(self, content=None, **kwargs):
         if kwargs:
@@ -22,37 +24,40 @@ class Element(object):
     def append(self, new_content):
         self.content.append(new_content)
 
-    def open_tag(self):
-        tag_str = [f'<{self.tag_name}']
+    def _open_tag(self, cur_ind=''):
+        tag_str = [f'{cur_ind}{self.indent}<{self.tag_name}']
         for key, val in self.attributes_dict.items():
             tmp_str = f' {key}="{val}"'
             tag_str.append(tmp_str)
         tag_str.append('>')
         return "".join(tag_str)
 
-    def close_tag(self):
-        return f'</{self.tag_name}>\n'
+    def _close_tag(self, cur_ind=''):
+        return f'{cur_ind}{self.indent}</{self.tag_name}>\n'
 
-    def render(self, out_file):
-        out_file.write(self.open_tag())
+    #def render(self, out_file):
+    def render(self, out_file, cur_ind=''):
+        out_file.write(self._open_tag(cur_ind))
         out_file.write('\n')
         for content in self.content:
             if isinstance(content, Element):# string element
-                content.render(out_file)
+                content.render(out_file, cur_ind + self.indent)
             elif isinstance(content, str):
-                out_file.write(content)
-                out_file.write('\n')
+                out_file.write(f'{cur_ind}{self.indent*2}{content}\n')
             else:# unknown objects
                 raise(AttributeError, "Unknown object.")
-        out_file.write(self.close_tag())
+        out_file.write(self._close_tag(cur_ind))
 
 # Define subclasses 'Html', 'Body', 'P'
 class Html(Element):
     tag_name = 'html'
+    indent = ''
 
-    def render(self, out_file):
-        out_file.write('<!DOCTYPE html>\n')
-        super().render(out_file)
+    #def render(self, out_file):
+    def render(self, out_file, cur_ind=''):
+        #out_file.write(f'{cur_ind}{self.indent}<!DOCTYPE html>\n')
+        out_file.write(f'<!DOCTYPE html>\n')
+        super().render(out_file, cur_ind + self.indent)
 
 class Body(Element):
     tag_name = 'body'
@@ -72,12 +77,11 @@ class OneLineTag(Element):
         else:
             raise AttributeError("OneLineTag only has one content.")
 
-    def render(self, out_file):
-        out_file.write(self.open_tag())
+    def render(self, out_file, cur_ind=''):
+        out_file.write(self._open_tag(cur_ind))
         # OneLineTag only allow single string content.
         if isinstance(self.content[0], str):# string element
-            out_file.write(self.content[0])
-            out_file.write(self.close_tag())
+            out_file.write(f'{self.content[0]}</{self.tag_name}>\n')
         else:
             print(f"content:{self.content}")
             raise AttributeError("OneLineTag doesn't allow Object decalration")
@@ -95,11 +99,9 @@ class SelfClosingTag(Element):
         else:
             raise TypeError("SelfClosingTag doesn't allow content paramter.")
 
-    def render(self, out_file):
-        #print(f"TT:{self.open_tag()}.")
-        out_file.write(self.open_tag()[:-1])
-        out_file.write(' />\n')
-
+    #def render(self, out_file):
+    def render(self, out_file, cur_ind=''):
+        out_file.write(f'{self._open_tag(cur_ind)[:-1]} />\n')
 
 class Hr(SelfClosingTag):
     tag_name = 'hr'
@@ -121,10 +123,9 @@ class A(Element):
             self.content = [content]
         super().__init__(content, **kwargs)
 
-    def render(self, out_file):
-        out_file.write(f'<{self.tag_name} href="{self.link}">')
-        out_file.write(f'{" ".join(self.content)}')
-        out_file.write(f'</a>\n')
+    def render(self, out_file, cur_ind=''):
+        out_file.write(f'{cur_ind}{self.indent}<{self.tag_name} \
+href="{self.link}">{self.content[0]}</a>\n')
 
 class H(OneLineTag):
     tag_name = 'h'
