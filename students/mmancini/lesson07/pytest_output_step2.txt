@@ -2,14 +2,15 @@
 platform win32 -- Python 3.7.6, pytest-5.4.1, py-1.8.1, pluggy-0.13.1 -- c:\python376\python.exe
 cachedir: .pytest_cache
 rootdir: C:\A_uwPython\SP_Online_PY210\SP_Online_PY210\students\mmancini\lesson07
-collecting ... collected 7 items
+collecting ... collected 8 items
 
-test_html_render.py::test_init PASSED                                    [ 14%]
-test_html_render.py::test_append PASSED                                  [ 28%]
-test_html_render.py::test_render_element PASSED                          [ 42%]
-test_html_render.py::test_render_element2 PASSED                         [ 57%]
-test_html_render.py::test_html PASSED                                    [ 71%]
-test_html_render.py::test_body PASSED                                    [ 85%]
-test_html_render.py::test_p PASSED                                       [100%]
+test_html_render.py::test_init PASSED                                    [ 12%]
+test_html_render.py::test_append PASSED                                  [ 25%]
+test_html_render.py::test_render_element PASSED                          [ 37%]
+test_html_render.py::test_render_element2 PASSED                         [ 50%]
+test_html_render.py::test_html PASSED                                    [ 62%]
+test_html_render.py::test_body PASSED                                    [ 75%]
+test_html_render.py::test_p PASSED                                       [ 87%]
+test_html_render.py::test_sub_element PASSED                             [100%]
 
-============================== 7 passed in 0.04s ==============================
+============================== 8 passed in 0.04s ==============================
