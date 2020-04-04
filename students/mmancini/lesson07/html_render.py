@@ -71,3 +71,6 @@ class OneLineTag(Element):
 
     def render(self, out_file):
         out_file.write("just something as a place holder...")
+
+class P(Element):
+    tag = 'p'
