@@ -31,7 +31,7 @@ def render_page(page, filename, indent=None):
     print(f.getvalue())
     with open(filename, 'w') as outfile:
         outfile.write(f.getvalue())
-"""
+
 
 # Step 1
 #########
@@ -231,7 +231,7 @@ page.append(body)
 
 render_page(page, "test_html_output8.html")
 
-"""
+
 # # Step 9
 # ########
 # run the html_render.py to get test_html_output9.html
