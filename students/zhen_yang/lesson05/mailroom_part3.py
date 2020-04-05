@@ -86,15 +86,12 @@ def send_thankyou():
         print("\n")
         d_name = fullname_prompt()
 
+    amount = amount_prompt()
     if d_name in donors_db:# for exitsting donor
-        amount = amount_prompt()
         donors_db[d_name].append(amount)
-        thankyou_letter(d_name, amount)
-    #elif d_name != 'list': # for new donor
     else: # for new donor
-        amount = amount_prompt()
         donors_db[d_name] = [amount]
-        thankyou_letter(d_name, amount)
+    thankyou_letter(d_name, amount)
 
 
 # sort key function
