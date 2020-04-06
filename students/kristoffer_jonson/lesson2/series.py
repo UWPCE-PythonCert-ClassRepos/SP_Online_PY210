@@ -7,7 +7,7 @@ def fibonacci(n):
     previous_previous = 0
     if n == 0:
         return previous_previous
-    if n == 1:
+    elif n == 1:
         return previous
     for i in range(2,n+1):
         result = previous+previous_previous
@@ -24,7 +24,7 @@ def lucas(n):
     previous_previous = 2
     if n == 0:
         return previous_previous
-    if n == 1:
+    elif n == 1:
         return previous
     for i in range(2,n+1):
         result = previous+previous_previous
@@ -44,7 +44,7 @@ def sum_series(n,x = 0, y = 1):
     result = 0
     if n == 0:
         return previous_previous
-    if n == 1:
+    elif n == 1:
         return previous
     for i in range(2,n+1):
         result = previous+previous_previous
