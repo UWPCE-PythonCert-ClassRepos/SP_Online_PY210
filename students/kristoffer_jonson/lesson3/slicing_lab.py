@@ -1,35 +1,35 @@
 def exchange_first_last(seq):
     """
     Return sequence with first and last element flipped
-    :param n: Requested sequence to be flipped
+    :param seq: Requested sequence to be flipped
     """
     return seq[-1:] + seq[1:-1] + seq[:1]
 
 def remove_every_other(seq):
     """
     Return sequence with every other element removed.  Retains first element.
-    :param n: Requested sequence to be sliced
+    :param seq: Requested sequence to be sliced
     """
     return seq[::2]
 
 def remove_four_leading_ending_every_other(seq):
     """
     Return sequence with first 4, last 4 and every other elements removed.
-    :param n: Requested sequence to be sliced
+    :param seq: Requested sequence to be sliced
     """
     return seq[4:-4:2]
 
 def reverse_elements(seq):
     """
     Return sequence with elements reversed
-    :param n: Requested sequence to be flipped
+    :param seq: Requested sequence to be flipped
     """
     return seq[::-1]
 
 def rotate_thirds(seq):
     """
     Return sequence with the the last third, then first third, then the middle third in the new order.
-    :param n: Requested sequence to be rotated
+    :param seq: Requested sequence to be rotated
     """
     length = len(seq)
     length_of_thirds = length // 3
