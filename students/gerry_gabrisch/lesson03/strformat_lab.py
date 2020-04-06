@@ -69,5 +69,3 @@ print()
 t =(1,2,3,4,5,6,7,8,9,10)
 #this works with a .format style but I could not make it work with f strings.  Any hints?
 print(('{:5}\n'*10).format(*t))
-
-
