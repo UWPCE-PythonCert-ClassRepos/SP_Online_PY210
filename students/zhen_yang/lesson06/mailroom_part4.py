@@ -120,8 +120,10 @@ def generate_report_formater():
 
 # sort key function
 def sort_key(donor):
+    # sort the record based on the total amount of the money donated
+    return sum(donor[1])
     # sort the record based on the first name
-    return donor[0].split(" ")[0]
+    #return donor[0].split(" ")[0]
 
 # generate_report()
 def generate_report(formater_title, formater_content):
@@ -132,6 +134,8 @@ def generate_report(formater_title, formater_content):
     """ sort the record based on the first name
     note: dict.items() return an unsorted list of key value pair
     the return from sorted() is a sorted list of key and value """
+    # using lambda function to get the sort key
+    #for mykey, val in sorted(donors_db.items(), key=lambda i: sum(i[1])):
     for mykey, val in sorted(donors_db.items(), key=sort_key):
         print(formater_content.format(str(mykey), sum(val),
               len(val), sum(val) / len(val)))
@@ -165,7 +169,7 @@ def generate_output_file():
     print(f"{my_path}")
     # create the 'res_dr' directory only if it doesn't exist.
     if not os.path.exists(output_directory):
-        os.mkdir(path)
+        os.mkdir(my_path)
     output_records = 0
     for key, val in donors_db.items():
         file_name = generate_output_file_name(key, val)
