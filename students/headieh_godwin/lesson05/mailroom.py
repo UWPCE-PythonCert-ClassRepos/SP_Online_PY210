@@ -131,10 +131,7 @@ def thanks():
     names = [donors[key]['name'] for key in donors]
 
     if response1 == 'list':
-        print('names')
         print(names)
-        print('names2')
-        print(names2)
     elif response1 == '':
         print('No name entered')
     elif response1 not in names:
