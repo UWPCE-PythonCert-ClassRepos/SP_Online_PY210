@@ -1,4 +1,4 @@
-##!/usr/bin/env python3
+#!/usr/bin/env python3
 #'''dict_lab.py for lesson04 by Gerry Gabrisch.  Started 4/2/2020'''
 
 ###   Dictionaries 1
