@@ -291,3 +291,26 @@ def test_Li():
     assert file_contents.endswith("</li>\n")
 
 
+# step6, anchor class test
+
+def test_a():
+    # test anchor class
+    a = A("http://google.com", 'link to google')
+    file_contents = render_result(a)
+    print(file_contents)
+    assert file_contents.startswith("<a ")
+    assert "http://google.com" in file_contents
+    assert "link to google" in file_contents
+    assert file_contents.endswith("</a>\n")
+
+
+# step7, test header
+
+def test_H():
+    h = H(2, 'some header text')
+    file_contents = render_result(h)
+    print(file_contents)
+    assert 'some header text' in file_contents
+    assert file_contents.startswith("<h2>")
+    assert file_contents.endswith("</h2>\n")
+
