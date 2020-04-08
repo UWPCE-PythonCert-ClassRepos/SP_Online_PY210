@@ -237,3 +237,57 @@ def test_attributes():
     assert file_contents[:file_contents.index(">")].count(" ") == 3
 
 
+# step 5 tests
+def test_hr():
+    # horizontal rule no attr
+    hr = Hr()
+    file_contents = render_result(hr)
+    print(file_contents)
+    assert file_contents == '<hr />\n'
+
+
+def test_hr_attr():
+    # horizontal rule with attr
+    hr = Hr(width=400)
+    file_contents = render_result(hr)
+    print(file_contents)
+    assert file_contents == '<hr width="400" />\n'
+
+
+def test_br():
+    br = Br()
+    file_contents = render_result(br)
+    print(file_contents)
+    assert file_contents == "<br />\n"
+
+
+def test_content_in_br():
+    # test break with content
+    with pytest.raises(TypeError):
+        br = Br("some content")
+
+
+def test_append_content_in_br():
+    with pytest.raises(TypeError):
+        br = Br()
+        br.append("some content")
+
+
+def test_Ul():
+    ul = Ul('Unordered List', type="1")
+    file_contents = render_result(ul)
+    print(file_contents)
+    assert 'Unordered List' in file_contents
+    assert file_contents.startswith("<ul")
+    assert file_contents.endswith("</ul>\n")
+
+
+def test_Li():
+    li = Li('ordered list')
+    file_contents = render_result(li)
+    print(file_contents)
+    assert 'ordered list' in file_contents
+    assert file_contents.startswith("<li")
+    assert file_contents.endswith("</li>\n")
+
+
