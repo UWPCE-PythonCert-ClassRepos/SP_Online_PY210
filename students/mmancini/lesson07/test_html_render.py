@@ -314,3 +314,67 @@ def test_H():
     assert file_contents.startswith("<h2>")
     assert file_contents.endswith("</h2>\n")
 
+# step8, tests doctype
+
+def test_doctype():
+    e = Html("this is some html text")
+    e.append("and this is some more html text")
+    file_contents = render_result(e).strip()
+    print(file_contents)
+    assert("this is some html text") in file_contents
+    assert("and this is some more html text") in file_contents
+    assert file_contents.startswith("<!DOCTYPE html>")
+    assert file_contents.endswith("</html>")
+
+
+# step 9 tests indentation
+
+def test_indent():
+    # test indent passsed to renderer
+    html = Html("some content")
+    file_contents = render_result(html, ind="   ").rstrip()  #remove the end newline
+    print(file_contents)
+    lines = file_contents.split("\n")
+    assert lines[0].startswith("   <")
+    print(repr(lines[-1]))
+    assert lines[-1].startswith("   <")
+
+
+def test_indent_contents():
+    #  test contents indented
+    html = Element("some content")
+    file_contents = render_result(html, ind="")
+    print(file_contents)
+    lines = file_contents.split("\n")
+    assert lines[1].startswith(Element.indent)
+
+
+def test_multiple_indent():
+    # test multi levle indented
+    body = Body()
+    body.append(P("some text"))
+    html = Html(body)
+    file_contents = render_result(html)
+    print(file_contents)
+    lines = file_contents.split("\n")
+    for i in range(3):  # this needed to be adapted to the <DOCTYPE> tag
+        assert lines[i + 1].startswith(i * Element.indent + "<")
+    assert lines[4].startswith(3 * Element.indent + "some")
+
+
+def test_element_indent1():
+    e = Element("this is some text")
+    # This uses the render_results utility above
+    file_contents = render_result(e).strip()
+    # making sure the content got in there.
+    assert("this is some text") in file_contents
+    # break into lines to check indentation
+    lines = file_contents.split('\n')
+    # making sure the opening and closing tags are right.
+    assert lines[0] == "<html>"
+    # this line should be indented by the amount specified
+    # by the class attribute: "indent"
+    assert lines[1].startswith(Element.indent + "thi")
+    assert lines[2] == "</html>"
+    assert file_contents.endswith("</html>")
+
