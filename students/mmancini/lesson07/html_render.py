@@ -70,7 +70,22 @@ class OneLineTag(Element):
 
 
     def render(self, out_file):
-        out_file.write("just something as a place holder...")
+        # loop through the list of contents:
+        for content in self.contents:
+            out_file.write("<{}>".format(self.tag))
+            try:
+                content.render(out_file)
+            except AttributeError:
+                out_file.write(content)
+            out_file.write("</{}>\n".format(self.tag))
+
+    def append(self, content):
+        raise NotImplementedError
+
+
+class Title(OneLineTag):
+    tag = "title"
+
 
 class P(Element):
     tag = 'p'
