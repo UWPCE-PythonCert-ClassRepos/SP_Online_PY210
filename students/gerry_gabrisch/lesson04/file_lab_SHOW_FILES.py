@@ -1,45 +1,16 @@
 #!/usr/bin/env python3
+'''This program will print all the file names and paths in the current working directory...'''
 import os
-import sys
-
-
-def get_files(the_directory):
-	'''Prints the path and file names in a single directory.
-	   Input parameter = a directory path as a string.'''
-	files = []
-	#walk the directory and get the file names...
-	for (dirpath, dirnames, filenames) in os.walk(the_directory):
-		#add file names to the list...
-		files.extend(filenames)
-		for f in files:
-			print(the_directory + f)
-		print()
-		#Break out before this loop before printing the sub-directories...
-		break
-		
-		
-def get_path():
-	'''Prompts the user for a file path...'''
-	return input('Enter a valid file path. >> ')
-
-
-def get_options():
-	while True:
-		options = input('Options\n1. Enter 1 to view files in a directory?\n2. Or 2 to quit. > ')
-		if options =='1':
-			the_directory = get_path()
-			get_files(the_directory)
-		elif options == '2':
-			print('Thanks, bye.')
-			sys.exit()
-		else:
-			#Reprompt for invalid answers...
-			print("That's not a valid option. Try again.\n")
-
 
 def main():
-	get_options()
-	
-	
+    #Get the path of the current working directory - that is - the directory that this file is stored in...
+    current_working_directory = os.path.abspath(os.getcwd())
+    #Get the files in the current working directory as a list...
+    files = os.listdir(current_working_directory)
+    #Iterate the list, build the full path and file name and print...
+    for file in files:
+        print(os.path.join(current_working_directory, file))
+    
+
 if __name__ == "__main__":
-	main()  
+    main()  
