@@ -2,53 +2,44 @@
 import os
 import sys
 
-def OnlyThisDirectory(theDirectory):
-	'''prints the path and file names is a single directory...'''
-	print('Print the file names in this directory only.\n')
+
+def get_files(the_directory):
+	'''Prints the path and file names in a single directory.
+	   Input parameter = a directory path as a string.'''
 	files = []
 	#walk the directory and get the file names...
-	for (dirpath, dirnames, filenames) in os.walk(theDirectory):
+	for (dirpath, dirnames, filenames) in os.walk(the_directory):
 		#add file names to the list...
 		files.extend(filenames)
 		for f in files:
-			print(theDirectory + f)
+			print(the_directory + f)
 		print()
-		#break out before this loop gets to sub-directories...
+		#Break out before this loop before printing the sub-directories...
 		break
 		
+		
+def get_path():
+	'''Prompts the user for a file path...'''
+	return input('Enter a valid file path. >> ')
 
-def PrintItAll(theDirectory):
-	'''this tool prints all the files and paths, including subdirectories...'''
-	print('Print all the files, and files in sub directories.\n')
-	#sift through all the directories and get the file paths...
-	for root, dirs, files in os.walk(theDirectory):
-		for file in files:
-			print(os.path.join(root, file))	
 
-def GetPath():
-	'''prompts the user and returns a file path...'''
-	return input('Enter a valid file path >> ')
-
-def main():
+def get_options():
 	while True:
-		print('Print file paths...')
-		#give the user some options...
-		options = input('Options\n1. View files in a directory only?\n2. View all files in this and all sub-directories?\n3. Or 3 to quit > ')
+		options = input('Options\n1. Enter 1 to view files in a directory?\n2. Or 2 to quit. > ')
 		if options =='1':
-			print('Print the files in this directory only.\n')
-			theDirectory = GetPath()
-			OnlyThisDirectory(theDirectory)
+			the_directory = get_path()
+			get_files(the_directory)
 		elif options == '2':
-			print('Print all files in the directory (and all sub directories)\n')
-			theDirectory = GetPath()
-			PrintItAll(theDirectory)
-		elif options == '3':
 			print('Thanks, bye.')
 			sys.exit()
 		else:
-			#if the user screws up...
+			#Reprompt for invalid answers...
 			print("That's not a valid option. Try again.\n")
 
 
+def main():
+	get_options()
+	
+	
 if __name__ == "__main__":
 	main()  
