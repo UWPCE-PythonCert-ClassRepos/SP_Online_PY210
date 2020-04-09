@@ -99,26 +99,28 @@ def take_donation(donations, donor_name):
             #call the mail format function...
             format_mailer(i)
     
-
 def format_mailer(i):
     '''print the thank you email to the screen....'''
     print()
     print(f'Dear {i[0]},\nThank you.  The Ministry of Silly Walks appreciates your donation of ${i[1][-1]:.2f}.\nRespectfully\nGerry\nGerry@MinistryofSillyWalks.com')
     print()
 
+def get_user_input():
+    promp_response = input('Would you like to \n1: Take a donation and send a Thank You \n2: Create a Report or \n3: Quit? Enter a number now.>')
+    if promp_response == '1':  
+        send_thanks(donations)
+    elif promp_response == '2':
+        create_report_list(donations)
+    elif promp_response == '3':
+        print('Exiting this program. Goodbye')
+        sys.exit()
+    else:
+        print('Invalid Entry')    
 
 def main():
     while True:
-        promp_response = input('Would you like to \n1: Take a donation and send a Thank You \n2: Create a Report or \n3: Quit? Enter a number now.>')
-        if promp_response == '1':  
-            send_thanks(donations)
-        elif promp_response == '2':
-            create_report_list(donations)
-        elif promp_response == '3':
-            print('Exiting this program. Goodbye')
-            sys.exit()
-        else:
-            print('Invalid Entry')
+        get_user_input()
+        
 if __name__ == "__main__":
     main()  
 
