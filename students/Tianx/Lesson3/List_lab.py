@@ -6,6 +6,7 @@
 # ------------------------------------------#
 
 # Series 1
+print("------Series 1------")
 # Create a list that contains “Apples”, “Pears”, “Oranges” and “Peaches”.
 my_list = ['Apples', 'Pears', 'Oranges', 'Peaches']
 
@@ -20,7 +21,6 @@ my_list.append(response)
 print(my_list)
 
 # Ask the user for a number and display the number back to the user and the fruit corresponding to that number.
-
 for i,item in enumerate(my_list):
     i = int(input("Please enter a number:"))-1
     print(i+1, item)
@@ -42,6 +42,7 @@ for item in my_list:
         print(item)
 
 # Series 2
+print("------Series 2------")
 my_list2 =['Apples', 'Pears', 'Oranges', 'Peaches']
 #Display the list.
 print(my_list2)
@@ -50,12 +51,13 @@ my_list2 = my_list2[:-1]
 #Display the list.
 print(my_list2)
 #Ask the user for a fruit to delete, find it and delete it.
-fruit_to_del = input('Please enter a fruit to delete')
+fruit_to_del = input('Please enter a fruit to delete:')
 my_list2.remove(fruit_to_del)
 print(my_list2)
 
 
 # Series 3
+print("------Series 3------")
 my_list3 = ['Apples', 'Pears', 'Oranges', 'Peaches']
 liked_list = []
 for i in my_list3:
@@ -67,3 +69,11 @@ for i in my_list3:
     else:
         pass
 print(liked_list)
+
+# Series 4
+print("------Series 4------")
+my_list4 = ['Apples', 'Pears', 'Oranges', 'Peaches']
+newlist = my_list4[::-1]
+my_list4 = my_list4[:-1]
+print(newlist)
+print(my_list4)
