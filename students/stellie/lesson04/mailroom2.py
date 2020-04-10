@@ -80,7 +80,6 @@ def create_report():
     print('=' * 65)
     donor_list = list(donor_db.items())  # create list out of database to iterate through
     sorted_db = sorted(donor_list, key=sum_total, reverse=True)  # sorts database by sum amounts in descending order
-    print(sorted_db)
     for item in sorted_db:
         total = sum(item[1])  # sum of all donations
         count = len(item[1])  # total number of donations
