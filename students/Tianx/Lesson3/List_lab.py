@@ -60,6 +60,7 @@ print(my_list2)
 print("------Series 3------")
 my_list3 = ['Apples', 'Pears', 'Oranges', 'Peaches']
 liked_list = []
+#Ask the user for input displaying a line like “Do you like apples?” for each fruit in the list (making the fruit all lowercase).
 for i in my_list3:
     response = input("Do you like " + i + "? ").lower()
     while response != 'yes' and response != 'no':
@@ -72,8 +73,11 @@ print(liked_list)
 
 # Series 4
 print("------Series 4------")
+#Make a new list with the contents of the original, but with all the letters in each item reversed.
 my_list4 = ['Apples', 'Pears', 'Oranges', 'Peaches']
 newlist = my_list4[::-1]
+
+#Delete the last item of the original list. Display the original list and the copy.
 my_list4 = my_list4[:-1]
 print(newlist)
 print(my_list4)
