@@ -8,18 +8,18 @@ donor_db = [("Scrooge McDuck", [8000.00, 70000.00]),
             ("Silas Skinflint", [0.25, 1.00, 0.43]),
             ]
 
-main_prompt = "\n".join(("","Welcome to the donors list",
+main_prompt = "\n".join(("", "Welcome to the donors list",
           "Please choose from below options:",
           "1 - Send a thank you",
           "2 - Create a report",
           "3 - Quit",
           "Type a number to select >>> "))
 
-ty_prompt = "\n".join(("","Please type the full name of the donor OR",
+ty_prompt = "\n".join(("", "Please type the full name of the donor OR",
         "type 'list' to see a list of donors",
         "Type input here >>>"))
 
-ty_message = "\n".join(("","Dear {}",
+ty_message = "\n".join(("", "Dear {}",
         "Thank you for your generous donation of {:.2f}",))
 
 def exit_program():
@@ -58,7 +58,7 @@ def report():
 
 
     donorsort = sorted(donor_db, key = sort_key)
-
+    donorsort.reverse()
 
 
     for donor in donorsort:

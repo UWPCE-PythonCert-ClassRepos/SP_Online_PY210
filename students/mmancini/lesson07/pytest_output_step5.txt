@@ -1,0 +1,27 @@
+============================= test session starts =============================
+platform win32 -- Python 3.7.6, pytest-5.4.1, py-1.8.1, pluggy-0.13.1 -- c:\python376\python.exe
+cachedir: .pytest_cache
+rootdir: C:\A_uwPython\SP_Online_PY210\SP_Online_PY210\students\mmancini\lesson07
+collecting ... collected 19 items
+
+test_html_render.py::test_init PASSED                                    [  5%]
+test_html_render.py::test_append PASSED                                  [ 10%]
+test_html_render.py::test_render_element PASSED                          [ 15%]
+test_html_render.py::test_render_element2 PASSED                         [ 21%]
+test_html_render.py::test_html PASSED                                    [ 26%]
+test_html_render.py::test_body PASSED                                    [ 31%]
+test_html_render.py::test_p PASSED                                       [ 36%]
+test_html_render.py::test_sub_element PASSED                             [ 42%]
+test_html_render.py::test_Head PASSED                                    [ 47%]
+test_html_render.py::test_title PASSED                                   [ 52%]
+test_html_render.py::test_one_line_tag PASSED                            [ 57%]
+test_html_render.py::test_attributes PASSED                              [ 63%]
+test_html_render.py::test_hr PASSED                                      [ 68%]
+test_html_render.py::test_hr_attr PASSED                                 [ 73%]
+test_html_render.py::test_br PASSED                                      [ 78%]
+test_html_render.py::test_content_in_br PASSED                           [ 84%]
+test_html_render.py::test_append_content_in_br PASSED                    [ 89%]
+test_html_render.py::test_Ul PASSED                                      [ 94%]
+test_html_render.py::test_Li PASSED                                      [100%]
+
+============================= 19 passed in 0.08s ==============================

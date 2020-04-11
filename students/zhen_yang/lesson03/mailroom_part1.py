@@ -76,7 +76,7 @@ def found_name(my_name):
 ##################
 def add_amount(amount, r_index):
     donors_db[r_index][1].append(amount)
-    print(f"3. Updated donor amount: {donors_db[r_index]}")
+    #print(f"3. Updated donor amount: {donors_db[r_index]}")
 
 
 ##################
@@ -152,17 +152,10 @@ def create_report():
     print(formater_title.format(col_1, col_2, col_3, col_4))
     print('-' * 71)
     # sort the record based on the first name
+    # the donors_db is a list not a dict.
     for i in sorted(donors_db, key=sort_key):
-        tot_amount = 0
-        avg_amount = 0
-        name = i[0]
-        count = len(i[1])
-        for j in i[1]:
-            tot_amount = tot_amount + j
-        avg_amount = tot_amount / count
-        # print out current row data
-        print(formater_content.format(name, tot_amount, count, avg_amount))
-
+        print(formater_content.format(i[0], sum(i[1]),
+              len(i), sum(i[1]) / len(i)))
     print("\n")
 
 

@@ -2,7 +2,7 @@
 # Mail Room Part Two #
 ######################
 import os
-
+import sys
 
 ###############################################################################
 # Data Sturcture for Mail Room Two
@@ -150,15 +150,8 @@ def create_report():
     # note: dict.items() return a list of key value pair
     # the return from sorted() is a sorted list of key and value
     for mykey, val in sorted(donors_db.items(), key=sort_key):
-        tot_amount = 0
-        avg_amount = 0
-        name = str(mykey)
-        count = len(val)
-        for j in val:
-            tot_amount = tot_amount + j
-        avg_amount = tot_amount / count
-        print(formater_content.format(name, tot_amount, count, avg_amount))
-
+        print(formater_content.format(str(mykey), sum(val),
+              len(val), sum(val) / len(val)))
     print("\n")
 
 
@@ -186,7 +179,9 @@ def send_all_thankyou():
 ###################################
 def quit_program():
     print("Bye!")
-    exit()
+    sys.exit()
+
+
 
 # use a dict to switch between options
 switch_option_dict = {
