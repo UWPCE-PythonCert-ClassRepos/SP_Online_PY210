@@ -32,3 +32,8 @@ print(f'\'0{t[3]} {t[4]} {t[2]} 0{t[0]}{t[1]}\'')
 print('------Task 5------')
 list_task5 =['oranges', 1.3, 'lemons', 1.1]
 print(f"The weight of an {list_task5[0][:-1]} is {list_task5[1]} and the weight of a {list_task5[2][:-1]} is {list_task5[3]}")
+print(f"The weight of an {list_task5[0][:-1].upper()} is {list_task5[1]*1.2} and the weight of a {list_task5[2][:-1].upper()} is {list_task5[3]*1.2}")
+
+# Task 6
+print('------Task 6------')
+
