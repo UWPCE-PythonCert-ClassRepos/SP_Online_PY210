@@ -21,7 +21,7 @@ my_list.append(response)
 print(my_list)
 
 # Ask the user for a number and display the number back to the user and the fruit corresponding to that number.
-for i,item in enumerate(my_list):
+for i, item in enumerate(my_list):
     i = int(input("Please enter a number:"))-1
     print(i+1, item)
     break
@@ -33,7 +33,7 @@ print(my_list)
 
 # Add another fruit to the beginning of the list using insert() and display the list.
 another_fruit2 ='Strawberry'
-my_list.insert(0,another_fruit2)
+my_list.insert(0, another_fruit2)
 print(my_list)
 
 # Display all the fruits that begin with “P”, using a for loop.
