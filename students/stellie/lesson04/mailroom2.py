@@ -55,7 +55,6 @@ def send_thank_you():
 # Displays list of donors
 def view_donors():
     print('\nThe following is the list of donors:')
-    print(donor_db)
     for donor in donor_db.keys():
         print(donor)
 
@@ -80,7 +79,7 @@ def create_report():
     print('\n{:<20} | {:<12} | {:<10} | {:<15}'.format('Donor Name', 'Total Given', 'Num Gifts', 'Average Gift'))
     print('=' * 65)
     donor_list = list(donor_db.items())  # create list out of database to iterate through
-    sorted_db = sorted(donor_list, key = sum_total, reverse = True)  # sorts database by sum amounts in descending order
+    sorted_db = sorted(donor_list, key=sum_total, reverse=True)  # sorts database by sum amounts in descending order
     for item in sorted_db:
         total = sum(item[1])  # sum of all donations
         count = len(item[1])  # total number of donations
@@ -89,7 +88,7 @@ def create_report():
 
 # Sums donation amounts for each donor record and returns amounts for sorted database
 def sum_total(donor_record):
-    return(sum([1]))
+    return(sum(donor_record[1]))
 
 # Sends letters to all donors for their donations
 def send_letters():
