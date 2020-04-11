@@ -43,7 +43,7 @@ for item in my_list:
 
 # Series 2
 print("------Series 2------")
-my_list2 =['Apples', 'Pears', 'Oranges', 'Peaches']
+my_list2 = ['Apples', 'Pears', 'Oranges', 'Peaches']
 #Display the list.
 print(my_list2)
 #Remove the last fruit from the list.
@@ -66,7 +66,7 @@ for i in my_list3:
     while response != 'yes' and response != 'no':
         response = input('Please answer yes or no ')
     if response == "yes":
-       liked_list.append(i)
+        liked_list.append(i)
     else:
         pass
 print(liked_list)
