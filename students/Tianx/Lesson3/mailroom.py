@@ -4,7 +4,7 @@
 # Desc: Assignment 1
 # Tian Xie, 2020-04-10, Created File
 # ------------------------------------------#
-# A dictionary of donor and a list of donation amounts
+# A dictionary of donor paired with a list of donation amounts
 dict_of_donors = {'Jeff Bezos': [1.00, 50.00],
                   'Warren Buffet': [100.00, 1000.00],
                   'Bill Gates': [100.00, 500.00],
@@ -22,7 +22,8 @@ main_prompt = "\n".join(("=======  Main Menu ======= \n",
 def menu_selection(prompt, dispatch_dict):
     """Displays a menu of choices to the user
     Args:
-        None.
+        prompt: main menu
+        dispatch_dict: choices for user to choose from
     Returns:
         None.
     """
@@ -49,7 +50,7 @@ def show_donor_list(donor_list):
 
             """
     print('======= The Donor List: =======')
-    print('Donor Name\n')
+    print('Donor Name:\n')
     for i in donor_list:
         print(i)
     print('======================================')
@@ -102,12 +103,11 @@ def send_thank_you():
             show_donor_list(dict_of_donors)
         elif donor_name == "exit": #If the user types exist return to main menu.
             break
-        elif donor_name in dict_of_donors:
+        elif donor_name in dict_of_donors: #If user enters exsiting donor
             response = input('Please enter a donation amount for ' + donor_name + ' >')
             donation_amount = float(response)
             adding_donor_info(donor_name, donation_amount, dict_of_donors)
             create_email(donor_name, donation_amount)
-            print(dict_of_donors)
             break
 
 
