@@ -119,25 +119,25 @@ def create_email(name, donation):
 
 
 def send_all():
-        """Writing a letter for each donor and save them into a directory with the donor's name.
+    """Writing a letter for each donor and save them into a directory with the donor's name.
 
-        Args:
-           None
+    Args:
+       None
 
-        Returns:
-           None.
-       """
-        strYesNo = input('Save a Thank you letter for all donors? [y/n] ').strip().lower()
-        # 3.6.2 Process choice
-        if strYesNo == 'y':
-            for name in dict_of_donors:
-                file_name = f'{name.replace(" ", "_"):}.txt'
-                with open(file_name, 'w') as objfile:
-                    objfile.write(f'Dear {name},\n\nThank you for your generosity, your donation of ${dict_of_donors[name][-1]:.2f} will be put to very good use.\n\n'
-                                  f'Your total donation amount is ${sum(dict_of_donors[name]):.2f}.\n\nWarm regards,\nMailroom Staff')
-            print("Files have been saved!")
-        else:
-            input('The letters were NOT saved to file. Press [ENTER] to return to the menu.')
+    Returns:
+       None.
+   """
+    strYesNo = input('Save a Thank you letter for all donors? [y/n] ').strip().lower()
+    # 3.6.2 Process choice
+    if strYesNo == 'y':
+        for name in dict_of_donors:
+            file_name = f'{name.replace(" ", "_"):}.txt'
+            with open(file_name, 'w') as objfile:
+                objfile.write(f'Dear {name},\n\nThank you for your generosity, your donation of ${dict_of_donors[name][-1]:.2f} will be put to very good use.\n\n'
+                              f'Your total donation amount is ${sum(dict_of_donors[name]):.2f}.\n\nWarm regards,\nMailroom Staff')
+        print("Files have been saved!")
+    else:
+        input('The letters were NOT saved to file. Press [ENTER] to return to the menu.')
 
 
 def create_report():
