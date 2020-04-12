@@ -5,8 +5,11 @@
 # Tian Xie, 2020-04-10, Created File
 # ------------------------------------------#
 # A dictionary of donor and a list of donation amounts
-dict_of_donors = {'Jeff Bezos': [1.00, 50.00], 'Warren Buffet': [100.00, 1000.00], 'Bill Gates': [100.00, 500.00], 'Tim Cook':[300.00],
-              'Jack Ma':[2000.00]}
+dict_of_donors = {'Jeff Bezos': [1.00, 50.00],
+                  'Warren Buffet': [100.00, 1000.00],
+                  'Bill Gates': [100.00, 500.00],
+                  'Tim Cook': [300.00],
+                  'Jack Ma': [2000.00]}
 # Main Prompt
 main_prompt = "\n".join(("=======  Main Menu ======= \n",
                          "Welcome to the Mailroom. Please select an option:",
@@ -33,6 +36,7 @@ def menu_selection(prompt, dispatch_dict):
                 response = input('Error: Please enter a number. Please select again >').strip()
         if dispatch_dict[response]() == "Exit Menu":
             break
+
 
 def show_donor_list(donor_list):
     """Displays current donor list.
@@ -68,6 +72,7 @@ def adding_donor_info(name, donation, donor_list):
         donor_list.update(added_donor)
     else:
         donor_list[name].insert(0, donation) # If donor name exists, insert the donation amount rather than updating the dictionary
+
 
 def send_thank_you():
     """Sending a thank you email using user input.
@@ -105,6 +110,7 @@ def send_thank_you():
             print(dict_of_donors)
             break
 
+
 def create_email(name, donation):
     print('=======Email Template=======')
     print(f'Dear {name},\n\nThank you for your generousity, your donation of ${donation:.2f} will be put to good use.\n\n'
@@ -129,6 +135,7 @@ def create_report():
         avg = total_given / number_gifts
         print(f'{name:26} ${total_given:>11.2f} {number_gifts:>11.0f}  ${avg:>12.2f}')
     print('------------------------------------------------------------------')
+
 
 def quit():
     print("Exiting the menu now")
