@@ -80,10 +80,10 @@ def adding_donor_info(name, donation, donor_list):
 def send_thank_you():
     """Sending a thank you email using user input.
 
-   Args:
+    Args:
        None
 
-   Returns:
+    Returns:
        None
 
     """
@@ -121,10 +121,10 @@ def create_email(name, donation):
 def send_all():
         """Writing a letter for each donor and save them into a directory with the donor's name.
 
-       Args:
+        Args:
            None
 
-       Returns:
+        Returns:
            None.
        """
         strYesNo = input('Save a Thank you letter for all donors? [y/n] ').strip().lower()
@@ -139,13 +139,14 @@ def send_all():
         else:
             input('The letters were NOT saved to file. Press [ENTER] to return to the menu.')
 
+
 def create_report():
     """Formatting a report.
 
-   Args:
+    Args:
        None
 
-   Returns:
+    Returns:
        None
 
     """
