@@ -27,9 +27,9 @@ def series_1():
 
     fruit_with_p = []
     for fruit in  fruit_list:
-        if 'p' in fruit.lower():
+        if fruit.startswith('P'):
             fruit_with_p.append(fruit)
-    print('Fruits with Ps are:')
+    print('Fruits that start with P are:')
     print(fruit_with_p)
 
     return fruit_list
