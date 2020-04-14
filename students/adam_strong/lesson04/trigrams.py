@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # Trigrams - Assingment 3
 import random
-import os
 import pathlib
 import sys
 
