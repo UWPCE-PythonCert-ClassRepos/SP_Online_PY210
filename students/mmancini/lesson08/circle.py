@@ -13,3 +13,7 @@ class Circle:
     @property
     def diameter(self):
         return self.radius * 2
+
+    @diameter.setter
+    def diameter(self, x):
+        self.radius = x / 2

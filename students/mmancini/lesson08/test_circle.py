@@ -5,6 +5,7 @@ import circle
 
 
 CONST_TEST_RADIUS = 5
+CONST_TEST_DIAMETER = 8
 
 ###################################
 
@@ -25,6 +26,15 @@ def test_circle_property_diameter():
     print(msg)
 
 
+def test_set_diameter():
+    cir = circle.Circle(CONST_TEST_RADIUS)
+    cir.diameter = CONST_TEST_DIAMETER
+    assert cir.diameter == CONST_TEST_DIAMETER
+    assert cir.radius == CONST_TEST_DIAMETER / 2
+    msg = ""
+    msg += f"Circle with new diameter {cir.diameter} has radius {cir.radius}"
+    print(msg)
+
 
 ###################################
 
@@ -34,3 +44,4 @@ if __name__ == "__main__":
     i = 0
     test_circle_creation()
     test_circle_property_diameter()
+    test_set_diameter()
