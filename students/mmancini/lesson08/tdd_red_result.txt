@@ -1,0 +1,20 @@
+============================= test session starts =============================
+platform win32 -- Python 3.7.6, pytest-5.4.1, py-1.8.1, pluggy-0.13.1
+rootdir: C:\MikeRoot2\Msft\LangPython\UnivWashPy3\uwpy\lesson08\step00
+collected 2 items
+
+test_circle.py F.                                                        [100%]
+
+================================== FAILURES ===================================
+____________________________ test_circle_creation _____________________________
+
+    def test_circle_creation():
+        i = 0
+        cir = circle.Circle(4)
+>       assert cir.radius == 4
+E       AttributeError: 'Circle' object has no attribute 'radius'
+
+test_circle.py:13: AttributeError
+=========================== short test summary info ===========================
+FAILED test_circle.py::test_circle_creation - AttributeError: 'Circle' object...
+========================= 1 failed, 1 passed in 0.12s =========================
