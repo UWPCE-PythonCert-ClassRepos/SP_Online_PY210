@@ -10,10 +10,17 @@ class Circle:
         i = 0
         self.radius = in_radius
 
+
     @property
     def diameter(self):
         return self.radius * 2
 
+
     @diameter.setter
     def diameter(self, x):
         self.radius = x / 2
+
+
+    @property
+    def area(self):
+        return (math.pi * (self.radius**2))
