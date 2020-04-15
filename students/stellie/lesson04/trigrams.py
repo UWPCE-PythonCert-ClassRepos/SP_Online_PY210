@@ -39,22 +39,35 @@ def make_words(data):
             clean_data.append(i.strip())
     num = random.randint(0, len(clean_data))
     words = clean_data[num].split(' ')
-    return(words)
+    # return(words)
+    return(['I', 'wish', 'I', 'may', 'I', 'wish', 'I', 'might'])
 
 def build_trigram(words):
-    print(words)
+    print('Word list:', words)
     trigram = {}
     for item in range(len(words) - 2):
+        print('trigram:', trigram)
         pair = (words[item], words[item + 1])
-        # print(pair)
+        print('pair:', pair)
         follower = words[item + 2]
-        # print(follower)
+        print('follower:', follower)
         if pair not in trigram:
             trigram[(pair)] = [follower]
+        else:
+            trigram[(pair)].append(follower)
     return(trigram)
 
 def create_story(trigram):
-    print(trigram)
+    story_list = []
+    print('\nLength of dictionary:', len(trigram))
+    print('\nTrigram:', trigram)
+    print('\nKeys:', trigram.keys())
+    print('\nValues:', trigram.values())
+    for item in trigram.items():
+        print(item)
+    num = random.randint(0, len(trigram))
+    print(num)
+    print('\nRandom set of keys from list:', list(trigram.keys())[num])
 
 if __name__ == '__main__':
     # try:
