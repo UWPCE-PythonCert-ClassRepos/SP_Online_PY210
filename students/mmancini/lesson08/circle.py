@@ -10,3 +10,6 @@ class Circle:
         i = 0
         self.radius = in_radius
 
+    @property
+    def diameter(self):
+        return self.radius * 2

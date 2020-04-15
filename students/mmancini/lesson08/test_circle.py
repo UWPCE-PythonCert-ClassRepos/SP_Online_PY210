@@ -18,7 +18,12 @@ def test_circle_creation():
 
 
 def test_circle_property_diameter():
-    i = 0
+    cir = circle.Circle(CONST_TEST_RADIUS)
+    assert cir.diameter == CONST_TEST_RADIUS * 2
+    msg = ""
+    msg += f"Circle diameter with radius {cir.radius} is {cir.diameter}"
+    print(msg)
+
 
 
 ###################################
