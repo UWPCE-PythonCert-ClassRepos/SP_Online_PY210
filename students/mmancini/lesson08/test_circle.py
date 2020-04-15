@@ -46,6 +46,15 @@ def test_circle_area():
     print(msg)
 
 
+def test_cls_method():
+    cir = circle.Circle.from_diameter(CONST_TEST_DIAMETER)
+    assert cir.diameter == CONST_TEST_DIAMETER
+    assert cir.radius == CONST_TEST_DIAMETER / 2
+    msg = ""
+    msg += f"Circle FROM diameter {cir.diameter} has radius {cir.radius}"
+    print(msg)
+
+
 ###################################
 
 # main, test funcs
@@ -56,3 +65,4 @@ if __name__ == "__main__":
     test_circle_property_diameter()
     test_circle_set_diameter()
     test_circle_area()
+    test_cls_method()
