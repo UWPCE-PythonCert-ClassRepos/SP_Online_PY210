@@ -3,28 +3,31 @@
 # Desc: Get the basics of sequence slicing down.
 # Tian Xie, 2020-04-05, Created File
 # ------------------------------------------#
-
-#with the first and last items exchanged.
+# with the first and last items exchanged.
 def exchange_first_last(seq):
-    a_new_sequence =seq[-1:] + seq[1:-1] + seq[:1]
+    a_new_sequence = seq[-1:] + seq[1:-1] + seq[:1]
     return a_new_sequence
 
-#with every other item removed.
+
+# with every other item removed.
 def remove_every_other(seq):
     a_new_sequence = seq[::2]
     return a_new_sequence
 
-#with the first 4 and the last 4 items removed, and then every other item in the remaining sequence.
+
+# with the first 4 and the last 4 items removed, and then every other item in the remaining sequence.
 def remove_first_last_4(seq):
     a_new_sequence = seq[4:-4]
     return a_new_sequence
 
-#with the elements reversed (just with slicing).
+
+# with the elements reversed (just with slicing).
 def reverse_elements(seq):
     a_new_sequence = seq[::-1]
     return a_new_sequence
 
-#with the last third, then first third, then the middle third in the new order.
+
+# with the last third, then first third, then the middle third in the new order.
 def new_order(seq):
     mid_third = len(seq) // 3
     last = seq[-mid_third:]
@@ -33,7 +36,8 @@ def new_order(seq):
     a_new_sequence = last + first + middle
     return a_new_sequence
 
-#Run some tests
+
+# Run some tests
 if __name__ == "__main__":
     a_string = "this is a string"
     a_tuple = (2, 54, 13, 12, 5, 32)
