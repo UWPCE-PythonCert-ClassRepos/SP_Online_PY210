@@ -4,16 +4,20 @@ import pytest
 import circle
 
 
+CONST_TEST_RADIUS = 5
+
 ###################################
 
 
 def test_circle_creation():
-    i = 0
-    cir = circle.Circle(4)
-    assert cir.radius == 4
+    cir = circle.Circle(CONST_TEST_RADIUS)
+    assert cir.radius == CONST_TEST_RADIUS
+    msg = ""
+    msg += f"Circle with radius {cir.radius}"
+    print(msg)
 
 
-def test_circle_2():
+def test_circle_property_diameter():
     i = 0
 
 
@@ -24,4 +28,4 @@ def test_circle_2():
 if __name__ == "__main__":
     i = 0
     test_circle_creation()
-    # test_circle_2()
+    test_circle_property_diameter()

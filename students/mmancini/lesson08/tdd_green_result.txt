@@ -1,0 +1,10 @@
+============================= test session starts =============================
+platform win32 -- Python 3.7.6, pytest-5.4.1, py-1.8.1, pluggy-0.13.1 -- c:\python376\python.exe
+cachedir: .pytest_cache
+rootdir: C:\MikeRoot2\Msft\LangPython\UnivWashPy3\uwpy\lesson08\step01
+collecting ... collected 2 items
+
+test_circle.py::test_circle_creation PASSED                              [ 50%]
+test_circle.py::test_circle_property_diameter PASSED                     [100%]
+
+============================== 2 passed in 0.02s ==============================

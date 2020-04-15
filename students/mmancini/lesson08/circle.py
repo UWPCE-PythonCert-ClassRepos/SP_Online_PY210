@@ -6,7 +6,7 @@ import math
 ###################################
 
 class Circle:
-    def __init__(self, rad_length):
+    def __init__(self, in_radius):
         i = 0
-        # self.radius = rad_length
+        self.radius = in_radius
 
