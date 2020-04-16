@@ -116,6 +116,49 @@ def test_comparison_operators():
     print(f"sorted circles {ary_cir}")
 
 
+def test_sphere_volume():
+    sph = circle.Sphere(CONST_TEST_RADIUS)
+    expected_vol = (4/3) * math.pi * (CONST_TEST_RADIUS**3)
+    assert str(sph.volume) == str(expected_vol)
+    msg = ""
+    msg += f"Sphere with radius {sph.radius} has volume {sph.volume}"
+    print(msg)
+
+
+def test_sphere_area():
+    sph = circle.Sphere(CONST_TEST_RADIUS)
+    expected_area = (4 * math.pi * (CONST_TEST_RADIUS**2))
+    assert str(sph.area) == str(expected_area)
+    msg = ""
+    msg += f"Sphere with radius {sph.radius} has area {sph.area}"
+    print(msg)
+
+
+def test_sphere_add():
+    sph_a = circle.Sphere(CONST_TEST_RADIUS)
+    sph_b = circle.Sphere(CONST_TEST_RADIUS+1)
+    sph_c = sph_a + sph_b
+    expected_radius = (CONST_TEST_RADIUS + (CONST_TEST_RADIUS+1))
+    assert sph_c.radius == expected_radius
+    msg = ""
+    msg += f"Add {sph_a} + {sph_b} == Sphere with radius: {expected_radius}"
+    print(msg)
+
+
+def test_sphere_comparison_operators():
+    sph_1 = circle.Sphere(1)
+    sph_2 = circle.Sphere(2)
+    sph_3 = circle.Sphere(3)
+    assert str(sph_1) == str(sph_1)
+    assert str(sph_1) <= str(sph_2)
+    assert str(sph_3) >= str(sph_1)
+    ary_sph = []
+    ary_sph.append(sph_2)
+    ary_sph.append(sph_3)
+    ary_sph.append(sph_1)
+    print(f"unsorted spheres {ary_sph}")
+    ary_sph.sort()
+    print(f"sorted spheres {ary_sph}")
 
 
 ###################################
@@ -134,4 +177,7 @@ if __name__ == "__main__":
     test_circle_add()
     test_circle_mult()
     test_comparison_operators()
-
+    test_sphere_volume()
+    test_sphere_area()
+    test_sphere_add()
+    test_sphere_comparison_operators()
