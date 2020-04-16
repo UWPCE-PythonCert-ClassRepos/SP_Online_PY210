@@ -55,6 +55,25 @@ def test_cls_method():
     print(msg)
 
 
+def test_circle_str():
+    cir = circle.Circle(CONST_TEST_RADIUS)
+    expected_str = f'circle.Circle with radius: {CONST_TEST_RADIUS}'
+    assert str(cir) == expected_str
+    msg = ""
+    msg += f"circle.Circle str is {cir}"
+    print(msg)
+
+
+def test_circle_repr():
+    cir_a = circle.Circle(CONST_TEST_RADIUS)
+    cir_b = repr(cir_a)
+    expected_str = f'circle.Circle({CONST_TEST_RADIUS})'
+    assert str(cir_b) == expected_str
+    msg = ""
+    msg += f"Circle repr is {cir_b}"
+    print(msg)
+
+
 ###################################
 
 # main, test funcs
@@ -66,3 +85,6 @@ if __name__ == "__main__":
     test_circle_set_diameter()
     test_circle_area()
     test_cls_method()
+    test_circle_str()
+    test_circle_repr()
+
