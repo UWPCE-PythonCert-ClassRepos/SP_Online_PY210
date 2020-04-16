@@ -37,3 +37,23 @@ class Circle:
 
     def __repr__(self):
         return 'circle.Circle({})'.format(self.radius)
+
+
+    def __add__(self, other):
+        return Circle(self.radius + other.radius)
+
+
+    def __iadd__(self, other):
+        return Circle(self.radius)
+
+
+    def __mul__(self, other):
+        return Circle(self.radius * other)
+
+
+    def __imul__(self, other):
+        return Circle(self.radius * other)
+
+
+    def __rmul__(self, other):
+        return Circle(self.radius * other)

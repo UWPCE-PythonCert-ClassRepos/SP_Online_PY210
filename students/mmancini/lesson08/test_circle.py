@@ -74,6 +74,29 @@ def test_circle_repr():
     print(msg)
 
 
+def test_circle_add():
+    cir_a = circle.Circle(CONST_TEST_RADIUS)
+    cir_b = circle.Circle(CONST_TEST_RADIUS+1)
+    cir_c = cir_a + cir_b
+    expected_cir = circle.Circle(CONST_TEST_RADIUS + (CONST_TEST_RADIUS+1))
+    assert str(cir_c) == str(expected_cir)
+    msg = ""
+    msg += f"Add {cir_a} + {cir_b} == {expected_cir}"
+    print(msg)
+
+
+def test_circle_mult():
+    a = circle.Circle(CONST_TEST_RADIUS)
+    b = CONST_TEST_RADIUS
+    c = a * b
+    expected_cir = circle.Circle(CONST_TEST_RADIUS * CONST_TEST_RADIUS)
+    assert str(c) == str(expected_cir)
+    msg = ""
+    msg += f"Mult {a} * {b} == {expected_cir}"
+    print(msg)
+
+
+
 ###################################
 
 # main, test funcs
@@ -87,4 +110,6 @@ if __name__ == "__main__":
     test_cls_method()
     test_circle_str()
     test_circle_repr()
+    test_circle_add()
+    test_circle_mult()
 
