@@ -1,0 +1,18 @@
+============================= test session starts =============================
+platform win32 -- Python 3.7.6, pytest-5.4.1, py-1.8.1, pluggy-0.13.1 -- c:\python376\python.exe
+cachedir: .pytest_cache
+rootdir: C:\MikeRoot2\Msft\LangPython\UnivWashPy3\uwpy\lesson08\step08
+collecting ... collected 10 items
+
+test_circle.py::test_circle_creation PASSED                              [ 10%]
+test_circle.py::test_circle_property_diameter PASSED                     [ 20%]
+test_circle.py::test_circle_set_diameter PASSED                          [ 30%]
+test_circle.py::test_circle_area PASSED                                  [ 40%]
+test_circle.py::test_cls_method PASSED                                   [ 50%]
+test_circle.py::test_circle_str PASSED                                   [ 60%]
+test_circle.py::test_circle_repr PASSED                                  [ 70%]
+test_circle.py::test_circle_add PASSED                                   [ 80%]
+test_circle.py::test_circle_mult PASSED                                  [ 90%]
+test_circle.py::test_comparison_operators PASSED                         [100%]
+
+============================= 10 passed in 0.05s ==============================

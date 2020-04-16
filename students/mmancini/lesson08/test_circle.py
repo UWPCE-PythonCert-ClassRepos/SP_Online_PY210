@@ -96,6 +96,27 @@ def test_circle_mult():
     print(msg)
 
 
+def test_comparison_operators():
+    cir_1 = circle.Circle(1)
+    cir_2 = circle.Circle(2)
+    cir_3 = circle.Circle(3)
+    cir_4 = circle.Circle(4)
+    cir_5 = circle.Circle(5)
+    assert str(cir_1) == str(cir_1)
+    assert str(cir_1) <= str(cir_2)
+    assert str(cir_2) >= str(cir_1)
+    ary_cir = []
+    ary_cir.append(cir_2)
+    ary_cir.append(cir_1)
+    ary_cir.append(cir_5)
+    ary_cir.append(cir_4)
+    ary_cir.append(cir_3)
+    print(f"unsorted circles {ary_cir}")
+    ary_cir.sort()
+    print(f"sorted circles {ary_cir}")
+
+
+
 
 ###################################
 
@@ -112,4 +133,5 @@ if __name__ == "__main__":
     test_circle_repr()
     test_circle_add()
     test_circle_mult()
+    test_comparison_operators()
 
