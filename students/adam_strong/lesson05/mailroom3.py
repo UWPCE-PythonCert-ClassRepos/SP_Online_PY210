@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-# Mailroom2.py - Lesson04 Assignment
+# Mailroom3.py - Lesson05 Assignment - Exceptions and Comprehensions
+
 import sys
 import pathlib
 
-# Changed the list into a dict
 donor_db = {"Scrooge McDuck": [8000.00, 70000.00],
             "Montgomery Burns": [49.53],
             "Richie Rich": [1000000.00, 500000.00],
@@ -39,16 +39,19 @@ def thank_you():
     tyname = input(ty_prompt)
     if tyname == 'list':
         report()
+    '''Exception added to ensure donation amount is a number'''
+    amt = input("Please enter the donation amount >>>")
     try:
-        amt = input("Please enter the donation amount >>>")
-        if donor_db.get(tyname) == None:
-            donor_db[tyname] = [float(amt)]
-        else:
-            donor_db.get(tyname).append(float(amt))
-        input(ty_message.format(tyname, float(amt)))
-        print('')
+        amt = float(amt)
     except ValueError:
         print('\n--->Not a valid amount, please try your submission again')
+    else:
+        if donor_db.get(tyname) is None:
+            donor_db[tyname] = [amt]
+        else:
+            donor_db.get(tyname).append(amt)
+        input(ty_message.format(tyname, amt))
+        print('')
 
 
 def report():
@@ -64,7 +67,6 @@ def report():
     main()
 
 def send_letter():
-
     for key,value in sorted(donor_db.items(),key=lambda i:sum(i[1]),reverse=True):
         form_letter = letter.format(key, sum(value))
         file_name = key.replace(" ", "_") + ".txt"
@@ -74,7 +76,6 @@ def send_letter():
             outfile.write(form_letter)
 
 # Switch function dict
-
 switch_func_dict = {
     1: thank_you,
     2: report,
@@ -82,13 +83,14 @@ switch_func_dict = {
     4: exit_program,
 }
 
-##################P PRIMARY CODE BLOCK ######################################################3
+################## PRIMARY CODE BLOCK ######################################################3
 
 # DELETE NOTE: home dir /Python_Cert/classrepo/SP_Online_PY210/students/adam_strong/lesson05
 def main():
     while True:
         response = input(main_prompt)
         #switch_func_dict.get(int(response))()
+        ''' Exception added to catch a non 1-4 value'''
         try:
             switch_func_dict.get(int(response))()
         except (ValueError,TypeError):
