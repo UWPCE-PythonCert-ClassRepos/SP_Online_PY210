@@ -48,9 +48,8 @@ Choose an action:
     return(answers)
 
 def email(donor_name, donation_amt, freq):
-
     if freq == 0: # case for new donor
-        print(f"""
+        return(f"""
 Dear {donor_name},
 
 Thank you for your very kind donation of ${donation_amt:.2f}
@@ -59,7 +58,7 @@ It will be put to very good use.
 
                        Sincerely,
                           -The Team""")
-    if freq == 1: #case for sending emails to all who have donated one time
+    elif freq == 1: #case for sending emails to all who have donated one time
         return(f"""
 Dear {donor_name},
 
@@ -121,7 +120,7 @@ def thanks():
     elif response1 not in names:
         response2 = valid_money()
         donors.update( {response1 : (response2,)} )
-        email(response1, response2, freq=0)
+        print(email(response1, response2, freq=0))
     #elif response1 in names:
     else:
         response2 = valid_money()
@@ -129,7 +128,7 @@ def thanks():
         wo_d = donors.get(response1)
         w_d = (wo_d) + (response2,)
         donors.update( {response1 : (w_d)} )
-        email(response1, response2, freq=0)
+        print(email(response1, response2, freq=0))
 
 def thanks_all():
     parent = os.getcwd()
@@ -140,11 +139,13 @@ def thanks_all():
         freq = len(v) # email cases of freq=1 or freq>1
         tot = sum(v)
         letter = email(k, tot, freq)
-        with open(filename, "w") as file:
+        print(k)
+        with open(filename, 'w') as file:
             file.write(letter)
+    print("Letters have been outputted for all donors")
 
 #Report
-def report():
+def report(donors=donors):
     raw = []
     """ prints a report of donors """
     col_labels = ["Donor Name",
