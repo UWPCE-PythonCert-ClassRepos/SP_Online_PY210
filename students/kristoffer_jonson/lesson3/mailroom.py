@@ -69,8 +69,8 @@ def enter_donation(donors, donator):
                         "(No leading $ required):"))
     donation = input(prompt)
     donation = float(donation)
-    for donors in donors:
-        donors[1].append(donation)
+    for donor in donors:
+        donor[1].append(donation)
     return donation
 
 def create_card(donator, amount):
