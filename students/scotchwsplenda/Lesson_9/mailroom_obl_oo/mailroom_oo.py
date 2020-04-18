@@ -1,19 +1,21 @@
 
+class IterRegistry(type):
+    def __iter__(cls):
+        return iter(cls._registry)
+
 
 class Donor():
 
-    def __init__(self, name, initial_donation=0):
+    __metaclass__ = IterRegistry
+    donlist = []
+
+    def __init__(self, cname, donations=[]):
         """New donor instance may be created with a name and/or a donation amount.
         The donation may be a single value, or a list of donations
         """
-        self.name = name
-        if type(initial_donation) is list:
-            self.donations = [i for i in initial_donation]
-            # grab the last item in the list for the "most recent donation"
-            self.most_recent_donation = initial_donation.pop(-1)
-        else:
-            self.donations = [initial_donation]
-            self.most_recent_donation = initial_donation
+        self.cname = cname
+        self.donations = donations
+        self.donlist.append(self)
 
     def add_donation(self, donation=0):
         self.donations.append(donation)
@@ -23,26 +25,22 @@ class Donor_Collection(object):
 
     def __init__(self):
         self.donors = []
-        # load em up
-        self.donors.append(Donor("Gordian", [30.0, 45.0]))
-        self.donors.append(Donor("Maximus", [65.0, 12.0]))
-        self.donors.append(Donor("Tacitus", [33.0, 22.0, 25.00]))
-        self.donors.append(Donor("Commodus", [43.0, 11.0]))
 
     def __repr__(self):
         return "Donor_Collection()"
 
     @property
     def donor_names(self):
-        return [i.name for i in self.donors]
+        return [i.cname for i in self.donors]
 
     @property
     def don_count(self):
         return len(self.donors)
 
+# why doesn't this work?
     def data_mets(self):
         for x in self.donors:
-            print(x.name, x.donations)
+            print(x.cname, x.donations)
 
     def add_donor(self, donor, donation=0):
         # expects a Donor object to be passed, but if not, will create one
@@ -53,3 +51,20 @@ class Donor_Collection(object):
 
     def add_donation(self, donation=0):
         self.donors.donations.append(donation)
+
+
+# load em up
+# Gordian = Donor_Collection.donors.append(Donor("Gordian", [30.0, 45.0]))
+# Maximus = Donor_Collection.donors.append(Donor("Maximus", [65.0, 12.0]))
+# Tacitus = Donor_Collection.donors.append(Donor("Tacitus", [33.0, 22.0, 25.00]))
+# Commodus = Donor_Collection.donors.append(Donor("Commodus", [43.0, 11.0]))
+
+Gordian = Donor("Gordian", [30.0, 45.0])
+Maximus = Donor("Maximus", [65.0, 12.0])
+Tacitus = Donor("Tacitus", [33.0, 22.0, 25.00])
+Commodus = Donor("Commodus", [43.0, 11.0])
+
+print(Donor.donlist.index(Commodus))
+x = Commodus
+x.add_donation(55)
+print(x.donations, x.cname)
