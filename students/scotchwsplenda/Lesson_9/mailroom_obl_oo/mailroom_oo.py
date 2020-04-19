@@ -1,70 +1,63 @@
-
-class IterRegistry(type):
-    def __iter__(cls):
-        return iter(cls._registry)
+from operator import itemgetter
 
 
 class Donor():
 
-    __metaclass__ = IterRegistry
-    donlist = []
-
-    def __init__(self, cname, donations=[]):
-        """New donor instance may be created with a name and/or a donation amount.
-        The donation may be a single value, or a list of donations
-        """
-        self.cname = cname
+    def __init__(self, name=None, donations=[]):
+        self.name = name
         self.donations = donations
-        self.donlist.append(self)
 
-    def add_donation(self, donation=0):
-        self.donations.append(donation)
+    def thanks_mail(self, name, amount):
+        email = ''.join((
+            "\nDear {},\n",
+            "Thanks for the ${:.2f} bucks.\n",
+            "We'll spend it real good baby.\n"
+            )).format(name, amount)
+        return email
 
 
-class Donor_Collection(object):
+class DonorCollection(object):
 
     def __init__(self):
-        self.donors = []
+        self.donor_db = {}
 
-    def __repr__(self):
-        return "Donor_Collection()"
-
-    @property
-    def donor_names(self):
-        return [i.cname for i in self.donors]
-
-    @property
-    def don_count(self):
-        return len(self.donors)
-
-# why doesn't this work?
-    def data_mets(self):
-        for x in self.donors:
-            print(x.cname, x.donations)
-
-    def add_donor(self, donor, donation=0):
-        # expects a Donor object to be passed, but if not, will create one
-        if isinstance(donor, Donor):
-            self.donors.append(donor)
+    def add_contribution(self, name, amount):
+        if self.donor_db.get(name):
+            # is in donor_db already
+            if isinstance(amount, list):
+                self.donor_db[name].extend(amount)  # if list
+            else:
+                self.donor_db[name].extend([amount])  # if float
         else:
-            self.donors.append(Donor(donor, donation))
+            # not in donor_db yet
+            if isinstance(amount, list):
+                self.donor_db[name] = amount
+            else:
+                self.donor_db[name] = [amount]
+        return self.donor_db
 
-    def add_donation(self, donation=0):
-        self.donors.donations.append(donation)
+    def loadup(self):
+        self.add_contribution("Gordian", [30.0, 45.0])
+        self.add_contribution("Maximus", [65.0, 12.0])
+        self.add_contribution("Tacitus", [33.0, 22.0, 25.00])
+        self.add_contribution("Commodus", [43.0, 11.0])
 
+    def donor_names(self):
+        return [k for k in self.donor_db.keys()]
 
-# load em up
-# Gordian = Donor_Collection.donors.append(Donor("Gordian", [30.0, 45.0]))
-# Maximus = Donor_Collection.donors.append(Donor("Maximus", [65.0, 12.0]))
-# Tacitus = Donor_Collection.donors.append(Donor("Tacitus", [33.0, 22.0, 25.00]))
-# Commodus = Donor_Collection.donors.append(Donor("Commodus", [43.0, 11.0]))
+    def data_metrics(self):
+        total_giv = [(name, sum(donat), len(donat),
+                     round((sum(donat)/len(donat)), 1))
+                     for (name, donat) in self.donor_db.items()]
+        ranked_d = sorted(total_giv, key=itemgetter(1), reverse=True)
+        print('Name'+'-'*30+'Sum'+'-'*28+'Count'+'-'*30+'Avg')
+        for a, b, c, d in ranked_d:
+            print(f'{a:<33}{b:<33}{c:<33}{d:<33}')
+        return ranked_d
 
-Gordian = Donor("Gordian", [30.0, 45.0])
-Maximus = Donor("Maximus", [65.0, 12.0])
-Tacitus = Donor("Tacitus", [33.0, 22.0, 25.00])
-Commodus = Donor("Commodus", [43.0, 11.0])
-
-print(Donor.donlist.index(Commodus))
-x = Commodus
-x.add_donation(55)
-print(x.donations, x.cname)
+    def mass_mail(self):
+        for key, value in self.donor_db.items():
+            with open(f'{key}.txt', 'w') as f:
+                sumy = str(sum(value))
+                f.write(f'Thanks {key} for donating ${sumy}.'
+                        ' Your mother would be so proud.')
