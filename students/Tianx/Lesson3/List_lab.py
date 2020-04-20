@@ -21,7 +21,7 @@ my_list.append(response)
 print(my_list)
 
 # Ask the user for a number and display the number back to the user and the fruit corresponding to that number.
-for i,item in enumerate(my_list):
+for i, item in enumerate(my_list):
     i = int(input("Please enter a number:"))-1
     print(i+1, item)
     break
@@ -33,7 +33,7 @@ print(my_list)
 
 # Add another fruit to the beginning of the list using insert() and display the list.
 another_fruit2 ='Strawberry'
-my_list.insert(0,another_fruit2)
+my_list.insert(0, another_fruit2)
 print(my_list)
 
 # Display all the fruits that begin with “P”, using a for loop.
@@ -43,7 +43,7 @@ for item in my_list:
 
 # Series 2
 print("------Series 2------")
-my_list2 =['Apples', 'Pears', 'Oranges', 'Peaches']
+my_list2 = ['Apples', 'Pears', 'Oranges', 'Peaches']
 #Display the list.
 print(my_list2)
 #Remove the last fruit from the list.
@@ -60,20 +60,24 @@ print(my_list2)
 print("------Series 3------")
 my_list3 = ['Apples', 'Pears', 'Oranges', 'Peaches']
 liked_list = []
+#Ask the user for input displaying a line like “Do you like apples?” for each fruit in the list (making the fruit all lowercase).
 for i in my_list3:
     response = input("Do you like " + i + "? ").lower()
     while response != 'yes' and response != 'no':
         response = input('Please answer yes or no ')
     if response == "yes":
-       liked_list.append(i)
+        liked_list.append(i)
     else:
         pass
 print(liked_list)
 
 # Series 4
 print("------Series 4------")
+#Make a new list with the contents of the original, but with all the letters in each item reversed.
 my_list4 = ['Apples', 'Pears', 'Oranges', 'Peaches']
 newlist = my_list4[::-1]
+
+#Delete the last item of the original list. Display the original list and the copy.
 my_list4 = my_list4[:-1]
 print(newlist)
 print(my_list4)

@@ -20,27 +20,38 @@ class Element(object):
     def append(self, new_content):
         self.content_list.append(new_content)
 
-    def render(self, out_file, curr_ident=""):
-        out_file.write(curr_ident + "<" + self.tag_name + render_attributes(self.attributes))
-        if isinstance(self, SelfClosingTag):
-            out_file.write(" />\n")
-        else:
-            out_file.write(">")
-            if not isinstance(self, OneLineTag):
-                out_file.write("\n")
+    def _open_tag(self, indent):
+        open_tag = indent + "<{}".format(self.tag_name)
+        open_tag = open_tag + self._render_attributes()
+        open_tag = open_tag + ">\n"
+        return open_tag
 
-            for content in self.content_list:
-                if hasattr(content, 'render'):
-                    content.render(out_file, curr_ident + self.indent)
-                else:
-                    if not isinstance(self, OneLineTag):
-                        out_file.write(curr_ident + self.indent)
-                    out_file.write(str(content))
-                    if not isinstance(self, OneLineTag) and content == self.content_list[-1]:
-                        out_file.write("\n")
-            if not isinstance(self, OneLineTag):
-                out_file.write(curr_ident)
-            out_file.write("</" + self.tag_name + ">" + "\n")
+    def _render_attributes(self):
+        element_attributes = ""
+        if len(self.attributes) > 0:
+            attrs = []
+            for k, v in self.attributes.items():
+                attrs.append(k + "=" + "\"" + str(v) + "\"")
+            element_attributes = " " + " ".join(attrs)
+        return element_attributes
+
+    def _render_content(self, content, indent):
+        content_out = indent + str(content)
+        if (content == self.content_list[-1]):
+            content_out = content_out + "\n"
+        return content_out
+
+    def _close_tag(self, indent):
+        return indent + "</{}>\n".format(self.tag_name)
+
+    def render(self, out_file, curr_ident=""):
+        out_file.write(self._open_tag(curr_ident))
+        for content in self.content_list:
+            if hasattr(content, 'render'):
+                content.render(out_file, curr_ident + self.indent)
+            else:
+                out_file.write(self._render_content(content, curr_ident + self.indent))
+        out_file.write(self._close_tag(curr_ident))
 
 
 class Html(Element):
@@ -67,6 +78,19 @@ class OneLineTag(Element):
     tag_name = "onelinetag"
     indent = ""
 
+    def _open_tag(self, indent):
+        open_tag = indent + "<{}".format(self.tag_name)
+        open_tag = open_tag + self._render_attributes()
+        open_tag = open_tag + ">"
+        return open_tag
+
+    def _render_content(self, content, indent):
+        return str(content)
+
+    def _close_tag(self, indent):
+        return "</{}>\n".format(self.tag_name)
+
+
 class Title(OneLineTag):
     tag_name = "title"
 
@@ -79,6 +103,15 @@ class SelfClosingTag(Element):
             raise ValueError("SelfClosingTag cannot have content")
         else:
             Element.__init__(self, **kwargs)
+
+    def _open_tag(self, indent):
+        open_tag = indent + "<{}".format(self.tag_name)
+        open_tag = open_tag + self._render_attributes()
+        open_tag = open_tag + " />\n"
+        return open_tag
+
+    def _close_tag(self, indent):
+        return ""
 
 
 class Hr(SelfClosingTag):
@@ -115,16 +148,3 @@ class H(OneLineTag):
 
 class Meta(SelfClosingTag):
     tag_name = "meta"
-
-
-# Helper methods
-def render_attributes(attributes):
-    element_attributes = ""
-    if len(attributes) > 0:
-        attrs = []
-        for k, v in attributes.items():
-            attrs.append(k + "=" + "\"" + str(v) + "\"")
-        element_attributes = " " + " ".join(attrs)
-    return element_attributes
-
-
