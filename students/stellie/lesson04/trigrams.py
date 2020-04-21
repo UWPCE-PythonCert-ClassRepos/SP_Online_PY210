@@ -46,11 +46,8 @@ def build_trigram(words):
     print('Word list:', words)
     trigram = {}
     for item in range(len(words) - 2):
-        print('trigram:', trigram)
         pair = (words[item], words[item + 1])
-        print('pair:', pair)
         follower = words[item + 2]
-        print('follower:', follower)
         if pair not in trigram:
             trigram[(pair)] = [follower]
         else:
@@ -61,13 +58,24 @@ def create_story(trigram):
     story_list = []
     print('\nLength of dictionary:', len(trigram))
     print('\nTrigram:', trigram)
-    print('\nKeys:', trigram.keys())
-    print('\nValues:', trigram.values())
+    print('\nKeys and Values:')
     for item in trigram.items():
         print(item)
-    num = random.randint(0, len(trigram))
-    print(num)
-    print('\nRandom set of keys from list:', list(trigram.keys())[num])
+    num = random.randint(0, len(trigram) - 1)
+    print('\nRandomly chosen index number:', num)
+    print('\nRandom set of keys from list (at index num):', list(trigram.keys())[num])
+    for i in list(trigram.keys())[num]:
+        story_list.append(i)
+    # story_list.append(new_text)
+
+    print('\nValues (at index num):', list(trigram.values())[num])
+    print('\nLength of values (at index num):', len(list(trigram.values())[num]))
+    val_num = random.randint(0, len(list(trigram.values())[num]) - 1)
+    print('\nRandomly chosen value (at index num):', val_num)
+    print('\nChosen value (at index num) to add to list:', list(trigram.values())[num][val_num])
+    story_list.append(list(trigram.values())[num][val_num])
+
+    return(story_list)
 
 if __name__ == '__main__':
     # try:
@@ -79,4 +87,4 @@ if __name__ == '__main__':
     words = make_words(data)
     word_pairs = build_trigram(words)
     new_text = create_story(word_pairs)
-    # print(new_text)
+    print('New Trigram Story:', new_text)
