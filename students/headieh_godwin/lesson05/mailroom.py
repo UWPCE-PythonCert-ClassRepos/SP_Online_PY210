@@ -2,64 +2,41 @@
 import inquirer
 import os
 import time
-
-donor1 = {
-    "name": "Karen",
-    "donations": (20,20,100)
-}
-donor2 = {
-    "name": "Susan",
-    "donations": (20)
-}
-donor3 = {
-    "name": "Larry",
-    "donations": (40,50)
-}
-donor4 = {
-    "name": "Curly",
-    "donations": (20.99,20,100)
-}
-donor5 = {
-    "name": "Mo",
-    "donations": (2)
-}
+import sys
+import re
 
 donors = {
-  "donor1": donor1,
-  "donor2": donor2,
-  "donor3": donor3,
-  "donor4": donor4,
-  "donor5": donor5
+  "Karen": (20,20,100),
+  "Susan": (20,),
+  "Larry": (40,50),
+  "Curly": (20.99,20,100),
+  "Mo": (2,)
 }
 
 def menu():
     """ Main function """
     while True:
-        resp = original_prompt2()
-        if resp == '1':
-            thanks()
-        elif resp == '3':
-            thanks_all()
-        elif resp == '4':
-            print('bye')
-            break
-        elif resp == '2':
-            report()
-        else:
-            print('input is invalid')
-            break
+        try:
+            resp = original_prompt()
+            if int(resp) in options:
+                options.get(int(resp))()
+            else:
+                print(' Input is invalid, please input a valid option. ')
+        except ValueError:
+            print(' Input is invalid, please input a valid option. ')
+
+
+#def original_prompt():
+#    """ Prompt for a user selection """
+#    questions = [
+#        inquirer.List('action',
+#                      message="What would you like to do? ",
+#                      choices=['Send a Thank You', 'Create a Report', 'quit'])]
+#    answers = inquirer.prompt(questions)
+#    return(answers['action'])
+
 
 def original_prompt():
-    """ Prompt for a user selection """
-    questions = [
-        inquirer.List('action',
-                      message="What would you like to do? ",
-                      choices=['Send a Thank You', 'Create a Report', 'quit'])]
-    answers = inquirer.prompt(questions)
-    return(answers['action'])
-
-
-def original_prompt2():
     answers = input(f"""
 Choose an action:
 
@@ -70,23 +47,23 @@ Choose an action:
 """)
     return(answers)
 
-def email(x, y, z):
+def email(donor_name, donation_amt, freq):
 
-    if z == 0: # case for adding donor
+    if freq == 0: # case for new donor
         print(f"""
-Dear {x},
+Dear {donor_name},
 
-Thank you for your very kind donation of ${y:.2f}
+Thank you for your very kind donation of ${donation_amt:.2f}
 
 It will be put to very good use.
 
                        Sincerely,
                           -The Team""")
-    if z == 1: #case for sending emails to all who have donated one time
+    if freq == 1: #case for sending emails to all who have donated one time
         return(f"""
-Dear {x},
+Dear {donor_name},
 
-Thank you for your very kind donation of ${y:.2f}
+Thank you for your very kind donation of ${donation_amt:.2f}
 
 It will be put to very good use.
 
@@ -95,9 +72,9 @@ It will be put to very good use.
 
     else: #case for sending emails to all who have donated multiple times
        return(  f"""
-Dear {x},
+Dear {donor_name},
 
-Thank you for your very kind donations totaling ${y:.2f}
+Thank you for your very kind donations totaling ${donation_amt:.2f}
 
 It will be put to very good use.
 
@@ -117,59 +94,54 @@ def valid_money():
         except ValueError:
             print("Invalid value")
 
+# Get name
+def valid_name():
+    while True:
+        r = input("Please enter a full name ")
+        r2= re.sub(r'[^a-zA-Z]+', '', r)
+        if r == '':
+            print('No name entered')
+        elif r2 == '':
+            print('Not a valid name')
+        else:
+            return r
+
+#quits
+def quits():
+    print("Bye!")
+    sys.exit()
+
 #Thanks!
 def thanks():
     """ Prompt for a donor name and amount - then prints email"""
-    response1 = input("Please enter a full name ")
-
-    #names2 = []
-    #for key in donors:
-    #    names2.append(donors[key]['name'])
-
-    #list comprehension
-    names = []
-    names = [donors[key]['name'] for key in donors]
-
+    response1 = valid_name()
+    names = [key for (key,value) in donors.items()]
     if response1 == 'list':
         print(names)
-    elif response1 == '':
-        print('No name entered')
     elif response1 not in names:
         response2 = valid_money()
-        new_donor = {"name": response1,
-                    "donations": float(response2)}
-        donors.update({'donor' + str(len(donors)): new_donor} )
-        email(new_donor['name'], new_donor['donations'], z=0)
-    elif response1 in names:
+        donors.update( {response1 : (response2,)} )
+        email(response1, response2, freq=0)
+    #elif response1 in names:
+    else:
         response2 = valid_money()
         filters1 = names.index(response1)
-        ky = list(donors.keys())[filters1]
-        wo_d = donors[ky]['donations']
-        if(type(wo_d) is tuple):
-            w_d = (wo_d) + (response2,)
-        else:
-            w_d = (wo_d,) + (response2,)
-        donors[ky]['donations'] = w_d
-        email(response1, response2, z=0)
+        wo_d = donors.get(response1)
+        w_d = (wo_d) + (response2,)
+        donors.update( {response1 : (w_d)} )
+        email(response1, response2, freq=0)
 
 def thanks_all():
     parent = os.getcwd()
     timestr = time.strftime("%Y%m%d-%H%M%S")
     os.mkdir(timestr)
     for k, v in donors.items():
-        filename = os.path.join(parent, timestr + "/" + v['name'] + '.txt')
-        if(type(v['donations']) is tuple):
-            z = len(v['donations']) # anything but 0 or 1
-            tot = sum(v['donations'])
-            letter = email(v['name'], tot, z)
-            with open(filename, "w") as file:
-                file.write(letter)
-        else:
-            tot = v['donations']
-            z = 1
-            letter= email(v['name'], tot, z)
-            with open(filename, "w") as file:
-                file.write(letter)
+        filename = os.path.join(parent, timestr + "/" + k + '.txt')
+        freq = len(v) # email cases of freq=1 or freq>1
+        tot = sum(v)
+        letter = email(k, tot, freq)
+        with open(filename, "w") as file:
+            file.write(letter)
 
 #Report
 def report():
@@ -180,14 +152,10 @@ def report():
                   "Num Gifts",
                   "Average Gift"]
     for k, v in donors.items():
-        if(type(v['donations']) is tuple):
-            tot = sum(v['donations'])
-            n = len(v['donations'])
-        else:
-            tot = v['donations']
-            n = 1
+        tot = sum(v)
+        n = len(v)
         avg = round(tot/n,2)
-        raw.append({'name': v['name'],
+        raw.append({'name': k,
                     'total': tot,
                     'number': n,
                     'average': avg})
@@ -197,7 +165,12 @@ def report():
     for i in sort_data:
         print(f"{i['name']:<30}${i['total']:>10.2f}{i['number']:>12}   ${i['average']:>15.2f}")
 
-
+options = {
+    1: thanks,
+    2: report,
+    3: thanks_all,
+    4: quits
+}
 
 if __name__ == '__main__':
     menu()

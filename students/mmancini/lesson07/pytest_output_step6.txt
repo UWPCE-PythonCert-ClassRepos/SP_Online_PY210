@@ -1,0 +1,29 @@
+============================= test session starts =============================
+platform win32 -- Python 3.7.6, pytest-5.4.1, py-1.8.1, pluggy-0.13.1 -- c:\python376\python.exe
+cachedir: .pytest_cache
+rootdir: C:\A_uwPython\SP_Online_PY210\SP_Online_PY210\students\mmancini\lesson07
+collecting ... collected 21 items
+
+test_html_render.py::test_init PASSED                                    [  4%]
+test_html_render.py::test_append PASSED                                  [  9%]
+test_html_render.py::test_render_element PASSED                          [ 14%]
+test_html_render.py::test_render_element2 PASSED                         [ 19%]
+test_html_render.py::test_html PASSED                                    [ 23%]
+test_html_render.py::test_body PASSED                                    [ 28%]
+test_html_render.py::test_p PASSED                                       [ 33%]
+test_html_render.py::test_sub_element PASSED                             [ 38%]
+test_html_render.py::test_Head PASSED                                    [ 42%]
+test_html_render.py::test_title PASSED                                   [ 47%]
+test_html_render.py::test_one_line_tag PASSED                            [ 52%]
+test_html_render.py::test_attributes PASSED                              [ 57%]
+test_html_render.py::test_hr PASSED                                      [ 61%]
+test_html_render.py::test_hr_attr PASSED                                 [ 66%]
+test_html_render.py::test_br PASSED                                      [ 71%]
+test_html_render.py::test_content_in_br PASSED                           [ 76%]
+test_html_render.py::test_append_content_in_br PASSED                    [ 80%]
+test_html_render.py::test_Ul PASSED                                      [ 85%]
+test_html_render.py::test_Li PASSED                                      [ 90%]
+test_html_render.py::test_a PASSED                                       [ 95%]
+test_html_render.py::test_H PASSED                                       [100%]
+
+============================= 21 passed in 0.09s ==============================
