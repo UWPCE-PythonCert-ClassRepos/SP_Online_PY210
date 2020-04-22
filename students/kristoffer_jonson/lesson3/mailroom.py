@@ -52,7 +52,7 @@ def thank_you(donors):
         current_donor = response
         donation = enter_donation(donors, response)
         create_card(response,donation)
-    elif response not in donor_list:
+    else:
         donors.append((response,[]))
         donation = enter_donation(donors, response)
         create_card(response,donation)
@@ -69,9 +69,8 @@ def enter_donation(donors, donator):
                         "(No leading $ required):"))
     donation = input(prompt)
     donation = float(donation)
-    for i in range(len(donors)):
-        if donator == donors[i][0]:
-            donors[i][1].append(donation)
+    for donor in donors:
+        donor[1].append(donation)
     return donation
 
 def create_card(donator, amount):
@@ -80,7 +79,7 @@ def create_card(donator, amount):
     :param donor: Name of donator
     :param donor: Amount of donation
     """
-    card_text = ['Dear {}:','','Thank you for your generosity in your gift of ${:.2f}.  It will ago aong way in supporting this charity.','']
+    card_text = ['Dear {}:','','Thank you for your generosity in your gift of ${:.2f}.  It will go long way in supporting this charity.','']
     card_text = card_text + ['Sincerely,','','','','Kristoffer Jonson']
     card_text = "\n".join(card_text)
     print(card_text.format(donator,amount))
