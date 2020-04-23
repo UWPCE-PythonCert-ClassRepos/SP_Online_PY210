@@ -21,6 +21,11 @@ all_donors = Donor_Collection()
 
 ###################################
 
+def display_donors(in_dict_all_donors):
+    print(f"List of Donors:")
+    print(f" ", *in_dict_all_donors.keys())
+
+
 def get_all_donors():
     return all_donors
 
@@ -45,7 +50,101 @@ def get_donor_stats(in_donor,in_dict_all_donors):
     return stats_ary
 
 
-def create_report(in_dict_donors_db):
+def send_thankyou_email(in_name, in_amount):
+    print(f"Thank You Email:")
+
+    dict_data_line = {"donor_name": in_name, "donation_amount": float(in_amount)}
+
+    msg = ""
+    msg += f"To: {in_name}@abc.def:\n"
+
+    msg += f"From: {charity_name}.org:\n"
+    msg += f"Subject:  Thank You:\n"
+    msg += f"Body: Dear {in_name} Thank You for your generous donation of ${in_amount}:\n".format(**dict_data_line)
+    msg += ""
+
+    print(msg)
+
+    return msg
+
+
+###################################
+
+def process_donor_donation(name, amount):
+    all_donors.add_donation(name,amount)
+    print(f"donor {name} donated {amount}")
+    print(f"***MMM donor {name} donated {amount}")
+    return name, amount
+
+
+###################################
+
+# ui Menus
+
+def ui_menu_main():
+    msg = ""
+    msg += "Please enter option from below:\n"
+    msg += " D: Receive donation\n"
+    msg += " L: Display list of donors\n"
+    msg += " S: Send thank you email\n"
+    msg += " R: Create report\n"
+    msg += " W: Write letters to all\n"
+    msg += " Q: Quit\n"
+    msg += ".....>>"
+
+    #***MMM entry = input(msg)
+    #entry = 'R'
+    #entry = 'W'
+    entry = 'L'
+
+    return entry
+
+
+def ui_menu_specify_donor_name():
+    msg = ""
+    msg += "Please enter donor name :\n"
+    msg += ".....>>"
+
+    entry = ""
+    entry = input(msg)
+
+    return entry
+
+
+def ui_menu_specify_donation_amount():
+    msg = ""
+    msg += "Please enter a donation amount::\n"
+    msg += ".....>>"
+
+    donation_amount_entry = int(input(msg))
+
+    return donation_amount_entry
+
+
+###################################
+
+# Operations
+
+def op_receive_donation():
+    pass
+    donor_name = ui_menu_specify_donor_name()
+    donation_amount = ui_menu_specify_donation_amount()
+    process_donor_donation(donor_name, donation_amount)
+    send_thankyou_email(donor_name, donation_amount)
+
+
+def op_display_list_of_donors(in_dict_donors_db):
+    display_donors(all_donors.dict_donors)
+    pass
+
+
+def op_send_thankyou_email():
+    donor_name,  donation_amount = process_donor2(entry)
+    #send_thankyou_email(donor_name, donation_amount)
+    pass
+
+
+def op_create_report(in_dict_donors_db):
 
     print(f"Donor Report:")
 
@@ -75,7 +174,7 @@ def create_report(in_dict_donors_db):
                   "{donation_average: >20}".format(**rpt_donation_line))
 
 
-def write_letters_to_all(in_dict_donors_db):
+def op_write_letters_to_all(in_dict_donors_db):
 
     for key, value in in_dict_donors_db.items():
 
@@ -92,42 +191,26 @@ def write_letters_to_all(in_dict_donors_db):
             f.write(thank_you_letter)
 
 
-###################################
-
-
-def ui_main_menu():
-    msg = ""
-    msg += "Please enter option from below:\n"
-    msg += " S: Send thank you note\n"
-    msg += " R: Create report\n"
-    msg += " W: Send letters to all\n"
-    msg += " Q: Quit\n"
-    msg += ".....>>"
-
-    #***MMM entry = input(msg)
-    #entry = 'R'
-    entry = 'W'
-
-    return entry
-
-###################################
-
-def done2():
+def op_done():
     quit()
 
+
+###################################
 
 def mailroom_main():
     print("mailroom begin")
 
     op_action_dict = {
-                    #'S': send_thankyou2,
-                    'R': create_report,
-                    'W': write_letters_to_all,
-                    'Q': done2
+                    'D': op_receive_donation,
+                    'L': op_display_list_of_donors,
+                    'S': op_send_thankyou_email,
+                    'R': op_create_report,
+                    'W': op_write_letters_to_all,
+                    'Q': op_done
                      }
 
     while True:
-        operation = ui_main_menu()
+        operation = ui_menu_main()
         op_action_dict.get(operation)()
 
         #***MMM

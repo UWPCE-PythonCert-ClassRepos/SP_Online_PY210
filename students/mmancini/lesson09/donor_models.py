@@ -30,11 +30,13 @@ class Donor_Collection():
     def get_dict_donors(self):
         return self.dict_donors
 
-    # def diag_show(self):
-    #     for key, value in self.dict_donors.items():
-    #         donor_name = key
-    #         donations_ary = value
-    #         msg = ""
-    #         msg += f"donor {donor_name} donations are {donations_ary}"
-    #         print(msg)
+    def add_donation(self, in_donor_name, in_donation_amount):
+        donor_names_lst = self.dict_donors.keys()
+        if in_donor_name in donor_names_lst:
+            self.dict_donors[in_donor_name].append(in_donation_amount)
+        else:
+            amount_ary = []
+            amount_ary.append(in_donation_amount)
+            self.dict_donors.update({in_donor_name: amount_ary})
+
 
