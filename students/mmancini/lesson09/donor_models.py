@@ -27,6 +27,9 @@ class Donor_Collection():
     def add_donor(self, in_donor):
         self.dict_donors[in_donor.name] = in_donor.lst_donations
 
+    def get_dict_donors(self):
+        return self.dict_donors
+
     # def diag_show(self):
     #     for key, value in self.dict_donors.items():
     #         donor_name = key

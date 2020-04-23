@@ -1,9 +1,10 @@
 ============================= test session starts =============================
 platform win32 -- Python 3.7.6, pytest-5.4.1, py-1.8.1, pluggy-0.13.1 -- c:\python376\python.exe
 cachedir: .pytest_cache
-rootdir: C:\MikeRoot2\Msft\LangPython\UnivWashPy3\uwpy\lesson09_ark_steps\lesson09_step001
-collecting ... collected 1 item
+rootdir: C:\MikeRoot2\Msft\LangPython\UnivWashPy3\uwpy\lesson09_ark_steps\step002
+collecting ... collected 2 items
 
-test_mailroom_oo.py::test_mailroom PASSED                                [100%]
+test_mailroom_oo.py::test_mailroom_create_report PASSED                  [ 50%]
+test_mailroom_oo.py::test_mailroom_write_letters PASSED                  [100%]
 
-============================== 1 passed in 0.04s ==============================
+============================== 2 passed in 0.04s ==============================

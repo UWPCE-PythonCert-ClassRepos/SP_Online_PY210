@@ -3,11 +3,9 @@
 from donor_models import Donor
 from donor_models import Donor_Collection
 
+from cli_main import *
 
 ###################################
-
-
-charity_name = "ABC Charity"
 
 db_donors2 = {
             "Jane Smith": [25, 50],
@@ -15,9 +13,6 @@ db_donors2 = {
             "Helen Smalls": [10, 20, 30],
             "Ming Chan": [50],
             "Mary Jones": [5, 10, 15]}
-
-
-all_donors = Donor_Collection()
 
 ###################################
 
@@ -30,7 +25,7 @@ def diag_show():
         print(msg)
 
 
-def init_donors_from_db():
+def init_donors_collection():
 
     for key, value in db_donors2.items():
         donor_name = key
@@ -40,28 +35,22 @@ def init_donors_from_db():
 
     diag_show()
 
-    #for donor in db_donors2:
-    #    dx = Donor(donor)
-    #d1 = Donor('Jeff Bezos')
-    # d2 = dm.Donor('William Gates, III')
-    # d3 = dm.Donor('Paul Allen')
-    # d4 = dm.Donor('Mark Zuckerberg')
-    # d1.add_donation(1000,400)
-    # d2.add_donation(100,90)
-    # d3.add_donation(556,4.9)
-    # d4.add_donation(1010,400.9, 99900)
-    # my_donors.add_donors(d1,d2,d3,d4)
 
-def test_mailroom():
-
-    init_donors_from_db()
-
+def test_mailroom_create_report():
     pass
+    init_donors_collection()
+    create_report(all_donors.dict_donors)
+
+
+def test_mailroom_write_letters():
+    pass
+    init_donors_collection()
+    write_letters_to_all(all_donors.dict_donors)
+
 
 ###################################
 
 if __name__ == "__main__":
-    i = 0
-    test_mailroom()
-
-
+    pass
+    test_mailroom_create_report()
+    test_mailroom_write_letters()
