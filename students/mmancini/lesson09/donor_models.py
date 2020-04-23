@@ -14,14 +14,10 @@ class Donor():
         self.lst_donations = in_donations
 
 
-class Donor_Collection():
-    # def __init__(self, donors=[]):
-    #     self.lst_donors = donors
-    #
-    # def add_donor(self, in_donor):
-    #     self.lst_donors.append(in_donor)
-
-    def __init__(self, donors={}):
+class DonorCollection():
+    def __init__(self, donors=None):
+        if donors is None:
+            donors = {}
         self.dict_donors = donors
 
     def add_donor(self, in_donor):
@@ -35,8 +31,7 @@ class Donor_Collection():
         if in_donor_name in donor_names_lst:
             self.dict_donors[in_donor_name].append(in_donation_amount)
         else:
-            amount_ary = []
-            amount_ary.append(in_donation_amount)
+            amount_ary = [in_donation_amount]
             self.dict_donors.update({in_donor_name: amount_ary})
 
 
