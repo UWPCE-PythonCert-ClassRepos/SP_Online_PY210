@@ -6,11 +6,11 @@ import sys
 import re
 
 donors = {
-  "Karen": (20,20,100),
-  "Susan": (20,),
-  "Larry": (40,50),
-  "Curly": (20.99,20,100),
-  "Mo": (2,)
+  "Karen": [20,20,100],
+  "Susan": [20],
+  "Larry": [40,50],
+  "Curly": [20.99,20,100],
+  "Mo": [2]
 }
 
 def menu():
@@ -115,7 +115,8 @@ def quits():
 def thanks():
     """ Prompt for a donor name and amount - then prints email"""
     response1 = valid_name()
-    names = [key for (key,value) in donors.items()]
+    #names = [key for (key,value) in donors.items()]
+    names = list(donors)
     if response1 == 'list':
         print(names)
     elif response1 not in names:
@@ -125,7 +126,6 @@ def thanks():
     #elif response1 in names:
     else:
         response2 = valid_money()
-        filters1 = names.index(response1)
         wo_d = donors.get(response1)
         w_d = (wo_d) + (response2,)
         donors.update( {response1 : (w_d)} )
