@@ -1,6 +1,23 @@
 #!/usr/bin/env python3
 import random
 
+def open_text_file(in_string):
+    in_string = open(in_string,'r')
+    in_string = in_string.read()
+    return in_string
+
+def clean_string(in_string):
+    #Make all the word lower case...worry about proper nouns later if you get to it...
+    in_string = in_string.lower()
+    #Remove puntuation except apostrophies...
+    in_string = in_string.translate({ord(i): None for i in '.,?!@#$%^&*()_-=+\//'})
+    #Remove some common escape sequences and add a black space...
+    in_string = in_string.translate({ord(i): ' ' for i in '\n\t\f\r'})
+    #Clean up double spaces...
+    in_string = in_string.replace("  ", " ")
+    return in_string
+
+
 def split_string(in_string):
     '''Takes a string and splits it by white spaces and returns a list...
     Input: String'''
@@ -30,17 +47,24 @@ def build_trigrams_dict(word_list):
 
 
 def get_random_dict_item(in_dict):
-    '''builds the first three trigram words by randomly selecting a dict entry and randomly selecting a list item...'''
+    '''Builds the first three trigram words by randomly selecting a dict entry and randomly selecting a list item...'''
     #Get keys as a list so that you can choose a random key.  You cannot get a dict item my index...
     this_key = list(in_dict)[random.randint(0, len(in_dict)-1)]
     #Add these key items to the beginning of the list...
     return this_key
 
+def add_random_to_start(wacky_list, this_key):
+    wacky_list.append(this_key[0])
+    wacky_list.append(this_key[1])
+    third_letter = random.choice(in_dict[this_key])
+    wacky_list.append(third_letter)
+    return wacky_list    
+
 
 def add_to_trigram(in_dict, this_key, wacky_list): 
     '''adds three list items to the trigam words in a list...'''
-    wacky_list.append(this_key[0])
-    wacky_list.append(this_key[1])
+    #wacky_list.append(this_key[0])
+    #wacky_list.append(this_key[1])
     third_letter = random.choice(in_dict[this_key])
     wacky_list.append(third_letter)
     return wacky_list
@@ -51,6 +75,7 @@ def make_trigram(in_dict, trigram_lenth):
     wacky_list = []
     #Pick a random starting point...
     random_key = get_random_dict_item(in_dict)
+    add_random_to_start(wacky_list, random_key)
     #Add the first random key and random third letter to the list...
     wacky_list = add_to_trigram(in_dict, random_key, wacky_list)
     
@@ -65,13 +90,15 @@ def make_trigram(in_dict, trigram_lenth):
        
 
 if __name__=='__main__':
-    in_string = 'When chickens are outlawed only outlaws will have chickens'
-    #in_string = 'a chicken and a half layed an egg in a day and a half'
     
+    in_string = 'sherlock_small.txt'
+    in_string = open_text_file(in_string)
    #Some number to limit the size of the trigram...
-    trigram_length = 21
-    #the words come in threes (and always include a starting triplet so....
-    trigram_length = int((trigram_length -3)/3)
+    trigram_length = 2
+    #The first three items are addes automatically so subtract three...
+    trigram_length = trigram_length -3)
+    #Clean the string of punctuation...
+    in_string = clean_string(in_string)
     #Split the string by blank spaces...
     word_list = split_string(in_string)
     
