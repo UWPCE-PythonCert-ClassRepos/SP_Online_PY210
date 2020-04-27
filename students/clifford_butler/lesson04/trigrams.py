@@ -11,7 +11,49 @@ I’ll fire the signal and the fun will commence…
 import random
 import sys
 
-words = "I wish I may I wish I might".split()
+#words = "I wish I may I wish I might".split()
+filename = (r"C:\Users\cliff\SP_Online_PY210\students\clifford_butler\lesson04\sherlock.txt")
+
+def read_in_data(filename):
+    # read and clean the data to be used for the process
+    lines = list()
+    translate_chars = str.maketrans(',.?!;()', '       ')
+    header = ('*** START OF THIS PROJECT GUTENBERG EBOOK')
+    
+    try:
+        read_file = open(filename, 'r')
+    except FileNotFoundError:
+        print(filename, ': this file was not found.')
+        sys.exit()
+    
+    
+    # skip past the header of the file
+    for line in read_file:
+        if line.find(header) != -1:
+            break
+
+    # read until the end-of-book line is found
+    for line in read_file:
+        if line.isspace():
+            continue
+        elif line.find('End of the Project Gutenberg EBook') != -1:
+            break
+        else:
+            line = line.translate(translate_chars)
+            line = line.replace('"', '')
+            line = line.replace('--', ' ')
+            lines.append(line.lower())
+    return lines
+
+def make_words(in_data):
+    words = []
+    for line in in_data:
+        #remove headers & footers
+        if line[0:3] == '***':
+            in_data.remove(line)
+            
+        else: in_data.extend(line.split())
+    return words
 
 def build_trigrams(words):
     """
@@ -28,21 +70,6 @@ def build_trigrams(words):
         follower = words[i + 2]
         trigrams.setdefault(tuple(pair),[]).append(follower)
     return trigrams
-
-def read_in_data(filename):
-    with open(filename) as file:
-        in_data = file.readlines()
-    return in_data
-    
-def make_words(in_data):
-    in_words = []
-    for line in in_data:
-        #remove headers & footers
-        if line[0:3] == '***':
-            in_data.remove(line)
-            
-        else: in_data.extend(line.split())
-    return in_words
     
 def build_text(trigrams):
     word_limit = int(input('Enter the desired number of words in the new text\
@@ -75,10 +102,13 @@ def build_text(trigrams):
 
 if __name__ == "__main__":    
     
-    filename = r"C:\Users\cliff\SP_Online_PY210\students\clifford_butler\lesson04\sherlock.txt"
     in_data = read_in_data(filename)
+    print ('good to go')
     words = make_words(in_data)
+    print ('good to go2')
     word_pairs = build_trigrams(words)
+    print ('good to go3')
     new_text = build_text(word_pairs)
+    print ('good to go4')
 
     print(new_text)
