@@ -76,8 +76,8 @@ def view_list():
     print("\n".join(donor_dict))
     
 def display_dict():
-    for i in donor_dict.keys():
-        print(i)
+    # use of comprehension to display a list of the donors
+    show_list = [print(i) for i in donor_dict.keys()]   
             
 def send_thank_you():
     # Request the user to input donor name, and donation information.
