@@ -18,8 +18,6 @@ try:
     joke = fun(first_try[0])
 except NameError:
     print('testing')
-    
-joke = fun(first_try[0])
 
 # Here is a try/except block. Add an else that prints not_joke
 try:
