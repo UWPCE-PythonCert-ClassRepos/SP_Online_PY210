@@ -39,6 +39,17 @@ def random_text(text, length):
             break
     return new_text
 
-if __name__ == "__main__":
-    trigrams = build_trigrams(words)
-    print(trigrams)
+if __name__ == "__main__":    
+    # get the filename from the command line
+    try:
+        filename = sys.argv[1]
+    except IndexError:
+        print("You must pass in a filename")
+        sys.exit(1)
+
+    in_data = read_in_data(filename)
+    words = make_words(in_data)
+    word_pairs = build_trigram(words)
+    new_text = build_text(word_pairs)
+
+    print(new_text)
