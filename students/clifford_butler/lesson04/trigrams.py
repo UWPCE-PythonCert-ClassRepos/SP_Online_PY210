@@ -8,10 +8,9 @@ I’ll fire the signal and the fun will commence…
 '''
 
 #!/usr/bin/env python3
+import random
 
 words = "I wish I may I wish I might".split()
-print(words)
-
 
 def build_trigrams(words):
     """
@@ -28,6 +27,17 @@ def build_trigrams(words):
         follower = words[i + 2]
         trigrams.setdefault(tuple(pair),[]).append(follower)
     return trigrams
+
+def random_text(text, length):
+    new_text = list(random.choice(list(text.keys())))
+    key = tuple(new_text[-2:])
+    while key in text:
+        value = random.choice(text[key])
+        new_text.append(value)
+        key = tuple(new_text[-2:])
+        if len(new_text) > length:
+            break
+    return new_text
 
 if __name__ == "__main__":
     trigrams = build_trigrams(words)
