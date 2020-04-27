@@ -17,7 +17,7 @@ first_try = ['spam', 'cheese', 'mr death']
 try:
     joke = fun(first_try[0])
 except NameError:
-    print('testing')
+    joke = fun(first_try[1])
     
 # Here is a try/except block. Add an else that prints not_joke
 try:
