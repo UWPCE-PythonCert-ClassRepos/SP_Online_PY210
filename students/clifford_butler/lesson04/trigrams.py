@@ -7,11 +7,9 @@ Katas are about trying something many times. In this one, what we’re experimen
 I’ll fire the signal and the fun will commence…
 '''
 
-#!/usr/bin/env python3
 import random
 import sys
 
-#words = "I wish I may I wish I might".split()
 filename = (r"C:\Users\cliff\SP_Online_PY210\students\clifford_butler\lesson04\sherlock.txt")
 
 def read_in_data(filename):
@@ -19,14 +17,7 @@ def read_in_data(filename):
     lines = list()
     translate_chars = str.maketrans(',.?!;()', '       ')
     header = ('*** START OF THIS PROJECT GUTENBERG EBOOK')
-    
-    try:
-        read_file = open(filename, 'r')
-    except FileNotFoundError:
-        print(filename, ': this file was not found.')
-        sys.exit()
-    
-    
+
     # skip past the header of the file
     for line in read_file:
         if line.find(header) != -1:
@@ -49,7 +40,6 @@ def make_words(in_data):
     words = list()
     for line in in_data:
         words.extend(line.split())
-
     return words
 
 def build_trigrams(words):
@@ -60,7 +50,6 @@ def build_trigrams(words):
        keys: word pairs
        values: list of followers
     """
-    
     trigrams = {}
     for i in range(len(words) -2):
         pair = words[i:i + 2]
@@ -97,7 +86,17 @@ def build_text(trigrams):
     new_text = " ".join(new_list)
     return new_text 
 
-if __name__ == "__main__":    
+if __name__ == "__main__":
+    '''
+    Runs the main funtion. Validating the file chosen exist. 
+    If the file does not exists, the program will prompt so and exit.
+    '''    
+    try:
+        read_file = open(filename, 'r')
+    except FileNotFoundError:
+        print(filename, ': this file was not found.')
+        sys.exit()
+    
     in_data = read_in_data(filename)
     words = make_words(in_data)
     word_pairs = build_trigrams(words)
