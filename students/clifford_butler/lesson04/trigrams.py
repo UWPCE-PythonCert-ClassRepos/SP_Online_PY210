@@ -11,45 +11,53 @@ import random
 import sys
 
 filename = (r"C:\Users\cliff\SP_Online_PY210\students\clifford_butler\lesson04\sherlock.txt")
+word_limit = 100
 
 def read_in_data(filename):
-    # read and clean the data to be used for the process
+    '''
+    read and clean the data to be used for the process
+    starting with the header and ending with the footers
+    '''
     lines = list()
-    translate_chars = str.maketrans(',.?!;()', '       ')
+    chars = str.maketrans(',.?!;()', '       ')
     header = ('*** START OF THIS PROJECT GUTENBERG EBOOK')
 
-    # skip past the header of the file
+    # Skip the header of the file
     for line in read_file:
         if line.find(header) != -1:
             break
 
-    # read until the end-of-book line is found
+    # Ensure the program reads until the end of the text
     for line in read_file:
         if line.isspace():
             continue
         elif line.find('End of the Project Gutenberg EBook') != -1:
             break
         else:
-            line = line.translate(translate_chars)
+            line = line.translate(chars)
             line = line.replace('"', '')
             line = line.replace('--', ' ')
             lines.append(line.lower())
     return lines
 
 def make_words(in_data):
+    '''
+    build a list of words based on the text file
+    returns a list to be used for building the trigrams
+    '''
     words = list()
     for line in in_data:
         words.extend(line.split())
     return words
 
 def build_trigrams(words):
-    """
+    '''
     build up the trigrams dict from the list of words
 
     returns a dict with:
        keys: word pairs
        values: list of followers
-    """
+    '''
     trigrams = {}
     for i in range(len(words) -2):
         pair = words[i:i + 2]
@@ -58,8 +66,9 @@ def build_trigrams(words):
     return trigrams
     
 def build_text(trigrams):
-    word_limit = int(input('Enter the desired number of words in the new text\
-(minimum of 3)>'))
+    '''
+    build the text based on the trigrams dict
+    '''
     #Pick the first random word pair from the dictionay
     first_pair = random.choice(list(trigrams))
     new_list = list(first_pair)
