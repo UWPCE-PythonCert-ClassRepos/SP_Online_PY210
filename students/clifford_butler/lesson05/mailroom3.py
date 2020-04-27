@@ -87,15 +87,29 @@ def send_thank_you():
         response = str(input(prompt_name))
        
     else:
+        try:
+            response_amount = float(input(prompt_amount))
+        except ValueError:
+            print('Input must be a number. Donor information not entered. Try again!')
+        else:
+            if response in donor_dict.keys():
+                donor_dict[response].append(response_amount)
+            
+            else:
+                donor_dict[response] = [response_amount]
+               
+            print(f"Hi {response},\n\nThank you for the generous donation of {response_amount}.\n\nSincerely,\nClifford Butler")
+
+'''            
         response_amount = float(input(prompt_amount))
-        if response in donor_dict.keys():
+        if response in donor_dict.keys():1
             donor_dict[response].append(response_amount)
             
         else:
             donor_dict[response] = [response_amount]   
-            
+           
     print(f"Hi {response},\n\nThank you for the generous donation of {response_amount}.\n\nSincerely,\nClifford Butler")
-    
+'''    
 def create_report():
     # Generate and display a report of the donors in donor_dict
     while True:
