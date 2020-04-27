@@ -17,17 +17,16 @@ def read_in_data(filename):
     '''
     read and clean the data to be used for the process
     starting with the header and ending with the footers
+    skipping the header and ensuring the programs reads 
+    until the end of the text
     '''
     lines = list()
     chars = str.maketrans(',.?!;()', '       ')
     header = ('*** START OF THIS PROJECT GUTENBERG EBOOK')
 
-    # Skip the header of the file
     for line in read_file:
         if line.find(header) != -1:
             break
-
-    # Ensure the program reads until the end of the text
     for line in read_file:
         if line.isspace():
             continue
@@ -68,13 +67,13 @@ def build_trigrams(words):
 def build_text(trigrams):
     '''
     build the text based on the trigrams dict
+    picks a random first pair of words
+    adding new words to the list using the
+    last two words in teh list as wor pairs
     '''
-    #Pick the first random word pair from the dictionay
     first_pair = random.choice(list(trigrams))
     new_list = list(first_pair)
     new_list.append(random.choice(trigrams[first_pair]))
-    #add a new word to the list using the last two words in the list as
-    #word pairs
     count = 3
     while count < word_limit:
         if tuple(new_list[-2:]) in trigrams:
@@ -105,7 +104,7 @@ if __name__ == "__main__":
     except FileNotFoundError:
         print(filename, ': this file was not found.')
         sys.exit()
-    
+    # runs throough the functions to generate new text    
     in_data = read_in_data(filename)
     words = make_words(in_data)
     word_pairs = build_trigrams(words)
