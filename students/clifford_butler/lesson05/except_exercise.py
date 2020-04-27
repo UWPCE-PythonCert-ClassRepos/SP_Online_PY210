@@ -42,10 +42,12 @@ else:
 # Finally, while still in the try/except block and regardless of whether
 # there were any exceptions, call the function last_fun with no
 # parameters. (pun intended)
-    
+
+langs = ['java', 'c', 'python']
+
 try:
-    langs = ['java', 'c', 'python']
+    more_joke = more_fun(langs[0])
 except IndexError:
     print('testing')
         
-more_joke = more_fun(langs[0])
+
