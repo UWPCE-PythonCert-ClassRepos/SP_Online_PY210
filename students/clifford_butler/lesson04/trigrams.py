@@ -21,11 +21,13 @@ def build_trigrams(words):
        values: list of followers
     """
     trigrams = {}
-
-    # build up the dict here!
-
+    for i in range(len(words)-2):
+        
+        pair = words[i:i + 2]
+        follower = words[i + 2]
+        #trigrams[pair].append(follower)
+        trigrams.setdefault(tuple(pair),[]).append(follower)
     return trigrams
-
 
 if __name__ == "__main__":
     trigrams = build_trigrams(words)
