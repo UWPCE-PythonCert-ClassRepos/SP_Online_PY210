@@ -10,6 +10,7 @@ I’ll fire the signal and the fun will commence…
 #!/usr/bin/env python3
 
 words = "I wish I may I wish I might".split()
+print(words)
 
 
 def build_trigrams(words):
@@ -20,12 +21,11 @@ def build_trigrams(words):
        keys: word pairs
        values: list of followers
     """
+    
     trigrams = {}
-    for i in range(len(words)-2):
-        
+    for i in range(len(words) -2):
         pair = words[i:i + 2]
         follower = words[i + 2]
-        #trigrams[pair].append(follower)
         trigrams.setdefault(tuple(pair),[]).append(follower)
     return trigrams
 
