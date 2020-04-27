@@ -46,13 +46,10 @@ def read_in_data(filename):
     return lines
 
 def make_words(in_data):
-    words = []
+    words = list()
     for line in in_data:
-        #remove headers & footers
-        if line[0:3] == '***':
-            in_data.remove(line)
-            
-        else: in_data.extend(line.split())
+        words.extend(line.split())
+
     return words
 
 def build_trigrams(words):
@@ -101,14 +98,8 @@ def build_text(trigrams):
     return new_text 
 
 if __name__ == "__main__":    
-    
     in_data = read_in_data(filename)
-    print ('good to go')
     words = make_words(in_data)
-    print ('good to go2')
     word_pairs = build_trigrams(words)
-    print ('good to go3')
     new_text = build_text(word_pairs)
-    print ('good to go4')
-
     print(new_text)
