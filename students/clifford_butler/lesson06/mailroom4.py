@@ -47,9 +47,21 @@ def main_menu():
         ">>> ")))
     return input()
 
-prompt_name = "\n".join(("Type the donors full name or,",
-              "type 'list' to display a list of the donors names.",
-              ">>> "))
+def prompt_name():
+    # request user to input a full name
+    try:
+        full_name = input("Type the donors full name or type list to display donor names.")
+        if full_name == 'list':
+            for key in donor_list:
+                print(key)
+            prompt_name()
+        elif full_name == "":
+            raise TypeError
+        else:
+            add_name(full_name)
+    except TypeError:
+            print("\nNot a valid answer. Please enter a name.\n>>>")
+    return full_name
 
 def prompt_amount(full_name):
     # request user input for donation amount
