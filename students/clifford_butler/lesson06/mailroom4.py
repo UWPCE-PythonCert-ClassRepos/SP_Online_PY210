@@ -87,13 +87,13 @@ def add_name(full_name):
 
 def thank_you_text(full_name,amount):
     # display thank you letter with donor name and donation amount
-    print ("\n\nHi {}:\n Thank you for the generous donation of ${:2d}, Sincerely, \n Clifford Butler\n".format(full_name,amount))
+    print ("\n\nHi {}:\n\nThank you for the generous donation of ${:2d}, Sincerely, \n\nClifford Butler\n".format(full_name,amount))
 
 def send_thank_you():
     # send thank you email based on user input information
     full_name = prompt_name()
     amount = prompt_amount(full_name)
-    thank_you_text(full_name, amount)
+    thank_you_text(full_name,amount)
     main()
 
 def create_report():
@@ -106,7 +106,6 @@ def create_report():
         if len(value) != 0:
             report.append((donor, round(sum(value),2), len(value),round(sum(value)/len(value))))
             print ("{:<20} {:>2} {:>12} {:>17}{:>17}{:>12}".format(*(donor, '$', round(sum(value),2), len(value), '$',round(sum(value)/len(value),1))))
-    print (report)
     return report
     
 def letter_to_all():
@@ -138,4 +137,4 @@ def main():
             print("\n'{}'  is not a valid option, please enter 1, 2, 3, or 4!. \n >> ".format(response))
 
 if __name__ == "__main__":
-    main()
+   main()
