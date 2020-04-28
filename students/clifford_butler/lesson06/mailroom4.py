@@ -29,6 +29,14 @@ produces the letter in parts.
 import sys
 import operator
 
+prompt = "\n".join(("Welcome to the mail room!",
+          "Please choose from below options:",
+          "1 - Send a Thank You",
+          "2 - Create a Report",
+          "3 - Send letters to all donors",
+          "4 - Quit",
+          ">>> "))
+
 prompt_name = "\n".join(("Type the donors full name or,",
               "type 'list' to display a list of the donors names.",
               ">>> "))
@@ -67,7 +75,7 @@ def add_donor(donor_name):
 
 def display_dict():
     # use of comprehension to display a list of the donors
-    show_list = [print(i) for i in donor_dict.keys()]   
+    show_list = [print(i) for i in donors().keys()]   
             
 def send_thank_you():
     # Request the user to input donor name, and donation information.
