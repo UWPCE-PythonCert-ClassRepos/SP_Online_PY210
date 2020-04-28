@@ -35,6 +35,14 @@ donor_dict = {"William Gates, III": [653772.32, 12.17],
         "Mark Zuckerberg": [1663.23, 4300.87, 10432.0],
         "Alexandra Butler": [777.77, 44.44]}
 
+prompt = "\n".join(("Welcome to the mail room!",
+          "Please choose from below options:",
+          "1 - Send a Thank You",
+          "2 - Create a Report",
+          "3 - Send letters to all donors",
+          "4 - Quit",
+          ">>> "))
+
 prompt_name = "\n".join(("Type the donors full name or,",
               "type 'list' to display a list of the donors names.",
               ">>> "))
