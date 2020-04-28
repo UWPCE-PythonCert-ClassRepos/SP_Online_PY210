@@ -10,28 +10,53 @@ import names
 import sys 
 from mock import patch
 
-dupl_dict = mr.donor_dict
-
 def test_get_index():
     '''
-    test if the hard coded names return the correct index number
-    test if a names not in the dictionary return None
+    test get index function
     '''
-    print(' ')
+    pass
     
 
 def test_add_donor():
     '''
-    test if the hard coded names are in donor_dict
-    test if the function validates names that aren't 
-    in the dictionary
+    test add donor function
     '''
-    assert 'William Gates, III' in mr.donor_dict
-    assert 'Jeff Bezos' in mr.donor_dict
-    assert 'Paul Allen' in mr.donor_dict
-    assert 'Mark Zuckerberg' in mr.donor_dict
-    assert 'Alexandra Butler' in mr.donor_dict
-    assert names.get_full_name() not in mr.donor_dict
+    assert 'William Gates, III' in donor_dict
+    assert 'Jeff Bezos' in donor_dict
+    assert 'Paul Allen' in donor_dict
+    assert 'Mark Zuckerberg' in donor_dict
+    assert 'Alexandra Butler' in donor_dict
+    assert names.get_full_name() not in donor_dict
+    
+def test_view_list():
+    '''
+    test view list function
+    '''
+    pass
+
+def test_display_dict():
+    '''
+    test display dictionary function
+    '''
+    pass
+
+def test_send_thank_you():
+    '''
+    test send thank you function
+    '''
+    pass
+
+def test_create_report():
+    '''
+    test create report function
+    '''
+    pass
+
+def test_letter_to_all():
+    '''
+    test letter to all function
+    '''
+    pass
 
 def test_exit_program():
     '''
@@ -46,18 +71,16 @@ if __name__== "__main__":
     print('test_get_index passed')
     test_add_donor()
     print('test_add_donor passed')
-    '''
     test_view_list()
-    print('passed')
+    print('test_view_list passed')
     test_display_dict()
-    print('passed')        
+    print('test_display_dict passed')        
     test_send_thank_you()
-    print('passed') 
+    print('test_send_thank_you passed') 
     test_create_report()    
-    print('passed')    
+    print('test_create_report passed')    
     test_letter_to_all()
-    print('passed')        
-    '''
+    print('test_letter_to_all passed')        
     test_exit_program()
     print('test_exit_program passed')
 
