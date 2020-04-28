@@ -47,6 +47,20 @@ def main_menu():
         ">>> ")))
     return input()
 
+def prompt_amount(full_name):
+    # request user input for donation amount
+    try:    
+        amount = input("What's the donation amount? \n >>")
+        amount = int(amount)
+        add_amount(full_name,amount) 
+    except ValueError:
+        print("Input must be a number. Donor information not entered. Try again! ")
+    return amount
+
+def add_amount(full_name,amount):
+    # add donation amount to the dictionary
+    donor_list[full_name].append(amount)
+
 def prompt_name():
     # request user to input a full name
     try:
@@ -63,34 +77,6 @@ def prompt_name():
             print("\nNot a valid answer. Please enter a name.\n>>>")
     return full_name
 
-def prompt_amount(full_name):
-    # request user input for donation amount
-    try:    
-        amount = input("What's the donation amount? \n >>")
-        amount = int(amount)
-        add_amount(full_name,amount) 
-    except ValueError:
-        print("Input must be a number. Donor information not entered. Try again! ")
-    return amount
-
-def add_amount(full_name,amount):
-    # add donation amount to the dictionary
-    donor_list[full_name].append(amount)
-
-def thank_you_text(full_name,amount):
-    # display thank you letter with donor name and donation amount
-    print ("\n\nHi {}:\n Thank you for the generous donation of ${:2d}, Sincerely, \n Clifford Butler\n".format(full_name,amount))
-
-def get_index(donor_name):
-    # Return the index number based on user input
-    for item in (donor_dict):
-        if item[0] == donor_name:
-            index = donor_dict.index(item)
-            
-            return index
-        
-    return None
-
 def add_name(full_name):
     # update add name to the dictionary
     for donor in donor_list:
@@ -99,59 +85,41 @@ def add_name(full_name):
     else:
         donor_list[full_name] = []
 
-def display_dict():
-    # use of comprehension to display a list of the donors
-    show_list = [print(i) for i in donors().keys()]   
-            
+def thank_you_text(full_name,amount):
+    # display thank you letter with donor name and donation amount
+    print ("\n\nHi {}:\n Thank you for the generous donation of ${:2d}, Sincerely, \n Clifford Butler\n".format(full_name,amount))
+
 def send_thank_you():
-    # Request the user to input donor name, and donation information.
-    response = str(input(prompt_name))
-    while response.lower() == 'list':
-        display_dict()
-        response = str(input(prompt_name))
-       
-    else:
-        try:
-            response_amount = float(input(prompt_amount))
-        except ValueError:
-            print('Input must be a number. Donor information not entered. Try again!')
-        else:
-            if response in donor_dict.keys():
-                donor_dict[response].append(response_amount)
-            
-            else:
-                donor_dict[response] = [response_amount]
-               
-            print(f"Hi {response},\n\nThank you for the generous donation of {response_amount}.\n\nSincerely,\nClifford Butler")
+    # send thank you email based on user input information
+    full_name = prompt_name()
+    amount = prompt_amount(full_name)
+    thank_you_text(full_name, amount)
+    main()
 
 def create_report():
     # Generate and display a report of the donors in donor_dict
-    while True:
-        print("\n{:<18}{:<6}{:<20}{}{:<25}{}{:<15}".format(*('Donor Name','|','Total Given','|','Num Gifts','|','Average Gift')))
-        print ('-'*90)
+    report = []
+    print("\n{:<18}{:<6}{:<20}{}{:<25}{}{:<15}".format(*('Donor Name','|','Total Given','|','Num Gifts','|','Average Gift')))
+    print ('-'*90)
 
-        for donor, value in sorted(donor_dict.items(), key=operator.itemgetter(1)):
+    for donor, value in sorted(donor_list.items(), key=operator.itemgetter(1)):
+        if len(value) != 0:
+            report.append((donor, round(sum(value),2), len(value),round(sum(value)/len(value))))
             print ("{:<20} {:>2} {:>12} {:>17}{:>17}{:>12}".format(*(donor, '$', round(sum(value),2), len(value), '$',round(sum(value)/len(value),1))))
-
-        
-        response_quit = input(exit_report)
-        # Return back to the initial prompt
-        if response_quit == "1":
-            break
-        
-        else:
-            print("Not a valid option!")      
-        
+    print (report)
+    return report
+    
 def letter_to_all():
-    for donor_name in donor_dict:
-        with open(f"{donor_name}.txt","w+") as donor_letter:
-            donor_letter.write(f"Hi {donor_name},\n\nThank you for the generous donation of ${sum(donor_dict[donor_name]):.2f}.\n\nSincerely,\nClifford Butler")
+    # send thank you letter to all donors
+    for full_name in donor_list:
+        with open(f"{full_name}.txt","w+") as donor_letter:
+            donor_letter.write(f"Hi {full_name},\n\nThank you for the generous donation of ${sum(donor_list[full_name]):.2f}.\n\nSincerely,\nClifford Butler")
     print("Thank you letters sent!")
-            
+
 def exit_program():
     # exit the interactive script
     print("Bye!")
-    sys.exit()  
+    sys.exit() 
 
 def main():
     #dict with the user options and the functions
@@ -171,4 +139,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-   
