@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
+'''Trigrams for Gerry Gabrisch.  
+Unsure why the sys.arg is throwing errors,
+Unsure why trigram always repeats third word,
+Enough string formatting! I am sick of it!...'''
+
+
 import random
+import sys
 
 def open_text_file(in_string):
     in_string = open(in_string,'r')
@@ -91,12 +98,18 @@ def make_trigram(in_dict, trigram_lenth):
 
 if __name__=='__main__':
     
-    in_string = 'sherlock_small.txt'
-    in_string = open_text_file(in_string)
-   #Some number to limit the size of the trigram...
-    trigram_length = 2
+    # get the filename from the command line
+    try:
+        filename = sys.argv[1]
+    except IndexError:
+        print("You must pass in a filename")
+        sys.exit(1)    
+    
+    in_string = filename
+    #Some number to limit the size of the trigram...
+    trigram_length = 20
     #The first three items are addes automatically so subtract three...
-    trigram_length = trigram_length -3)
+    trigram_length = trigram_length -3
     #Clean the string of punctuation...
     in_string = clean_string(in_string)
     #Split the string by blank spaces...
