@@ -5,15 +5,9 @@ Mailroom Part 4
 Add a full suite of unit tests.
 '''
 
-import mailroom4 as mr
+import mailroom4
 import sys 
 from mock import patch
-
-display_dict = 'William Gates, III\
-\nJeff Bezos\
-\nPaul Allen\
-\nMark Zuckerberg\
-\nAlexandra Butler'
 
 def test_thank_you_text():
     '''
@@ -30,29 +24,17 @@ def test_add_name():
     test add name function
     '''
     full_name = 'Clifford Butler'
-    mr.add_name(full_name)
-    assert full_name in mr.donor_list.keys()
+    add_name(full_name)
+    assert full_name in donor_list.keys()
 
-def test_send_thank_you():
+def test_prompt_amount():
     '''
-    test send thank you function
+    test prompt amount function
     '''
-    pass
-
-def test_create_report():
-    '''
-    test create report function
-    '''
-    pass
-
-
-
-def test_letter_to_all():
-    '''
-    test letter to all function
-    '''
-    pass
-    
+    full_name = "Clifford Butler"
+    amount = 5000
+    prompt_amount(full_name,amount)
+    assert donor_list[fullname][-1] == amount
 
 def test_exit_program():
     '''
