@@ -14,9 +14,9 @@ def test_thank_you_text():
     test thank you text function
     '''
     full_name = 'Clifford Butler'
-    amount = 5000
+    amount = 25000
     thank_you_text = ("\nHi {}:\n\nThank you for the generous donation of ${:2d}, Sincerely, \n\nClifford Butler".format(full_name,amount))
-    text = "\nHi Clifford Butler:\n\nThank you for the generous donation of $5000, Sincerely, \n\nClifford Butler"
+    text = "\nHi Clifford Butler:\n\nThank you for the generous donation of $25000, Sincerely, \n\nClifford Butler"
     assert thank_you_text == text
 
 def test_add_name():
@@ -35,6 +35,7 @@ def test_prompt_amount():
     amount = 5000
     prompt_amount(full_name)
     assert donor_list[full_name][-1] == amount
+    assert donor_list[full_name][0] != amount
     
 def test_add_amount():
     '''
@@ -45,6 +46,8 @@ def test_add_amount():
     full_name = 'Alexandra Butler'
     mr.add_amount(full_name,amount)
     assert mr.donor_list[full_name][-1] == amount
+    assert mr.donor_list[full_name][0] != amount
+    
 
 def test_exit_program():
     '''
@@ -53,6 +56,7 @@ def test_exit_program():
     with patch('sys.exit') as exit_mock:
         mr.exit_program()
         assert exit_mock.called == True
+        assert exit_mock.called != False
 
 if __name__== "__main__":
     test_thank_you_text()
