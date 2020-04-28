@@ -25,11 +25,13 @@ def test_thank_you_text():
     text = "\nHi Clifford Butler:\n\nThank you for the generous donation of $5000, Sincerely, \n\nClifford Butler"
     assert thank_you_text == text
 
-def test_display_dict():
+def test_add_name():
     '''
-    test display dictionary function
+    test add name function
     '''
-    pass
+    full_name = 'Clifford Butler'
+    mr.add_name(full_name)
+    assert full_name in mr.donor_list.keys()
 
 def test_send_thank_you():
     '''
@@ -62,6 +64,7 @@ def test_exit_program():
 
 if __name__== "__main__":
     test_thank_you_text()
+    test_add_name()
     test_exit_program()
     print('All test passed')
     
