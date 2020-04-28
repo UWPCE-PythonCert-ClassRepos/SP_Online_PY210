@@ -87,7 +87,7 @@ def add_name(full_name):
 
 def thank_you_text(full_name,amount):
     # display thank you letter with donor name and donation amount
-    print ("\n\nHi {}:\n\nThank you for the generous donation of ${:2d}, Sincerely, \n\nClifford Butler\n".format(full_name,amount))
+    print ("\nHi {}:\n\nThank you for the generous donation of ${:2d}, Sincerely, \n\nClifford Butler".format(full_name,amount))
 
 def send_thank_you():
     # send thank you email based on user input information
