@@ -154,27 +154,21 @@ def exit_program():
     sys.exit()  
 
 def main():
-    # continuously collect user selection
+    #dict with the user options and the functions
     switch_dict = {
-            1: send_thank_you, 
-            2: create_report, 
-            3: letter_to_all, 
-            4: exit_program
-            } 
-    
-    # get user response for nagivating the program
+        '1': send_thank_you,
+        '2': create_report,
+        '3': letter_to_all,
+        '4': exit_program
+    }
+
     while True:
         try:
-            response = int(input(prompt))
-        except ValueError:
-            print('Not a valid option! Enter 1, 2, 3, or 4\n')
-        else: 
-            if response not in switch_dict:
-                print('Not a valid option! Enter 1, 2, 3, or 4\n')
-            else:
-                switch_dict.get(response)()
-    switch_dict.get(response)()
+            response = main_menu()
+            switch_dict[response]()
+        except KeyError:
+            print("\n'{}'  is not a valid option, please enter 1, 2, 3, or 4!. \n >> ".format(response))
 
-if __name__ == "__main__" :
+if __name__ == "__main__":
     main()
    
