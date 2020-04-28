@@ -36,8 +36,15 @@ def test_prompt_amount():
     prompt_amount(full_name)
     assert donor_list[full_name][-1] == amount
     
-def test_create_report():
-    pass
+def test_add_amount():
+    '''
+    test add amount function
+    '''
+    full_name = "Alexandra Butler"
+    amount = 5000
+    full_name = 'Alexandra Butler'
+    mr.add_amount(full_name,amount)
+    assert mr.donor_list[full_name][-1] == amount
 
 def test_exit_program():
     '''
@@ -51,7 +58,7 @@ if __name__== "__main__":
     test_thank_you_text()
     test_add_name()
     test_prompt_amount()
-    test_create_report()
+    test_add_amount()
     test_exit_program()
     print('All test passed')
     
