@@ -6,35 +6,24 @@ Add a full suite of unit tests.
 '''
 
 import mailroom4 as mr
-import names
-#import sys 
+import sys 
 from mock import patch
 
-new_dict = mr.donor_dict
-
-test_list = 'William Gates, III\
+display_dict = 'William Gates, III\
 \nJeff Bezos\
 \nPaul Allen\
 \nMark Zuckerberg\
 \nAlexandra Butler'
 
-def test_add_donor():
+def test_thank_you_text():
     '''
-    test add donor function
+    test thank you text function
     '''
-    assert 'William Gates, III' in mr.donor_dict
-    assert 'Jeff Bezos' in mr.donor_dict
-    assert 'Paul Allen' in mr.donor_dict
-    assert 'Mark Zuckerberg' in mr.donor_dict
-    assert 'Alexandra Butler' in mr.donor_dict
-    assert names.get_full_name() not in mr.donor_dict
-    
-def test_view_list():
-    '''
-    test view list function
-    '''
-    a_list = ('William Gates, III\nJeff Bezos\nPaul Allen\nMark Zuckerberg\nAlexandra Butler')
-    assert test_list == a_list
+    full_name = 'Clifford Butler'
+    amount = 5000
+    thank_you_text = ("\nHi {}:\n\nThank you for the generous donation of ${:2d}, Sincerely, \n\nClifford Butler".format(full_name,amount))
+    text = "\nHi Clifford Butler:\n\nThank you for the generous donation of $5000, Sincerely, \n\nClifford Butler"
+    assert thank_you_text == text
 
 def test_display_dict():
     '''
@@ -52,17 +41,16 @@ def test_create_report():
     '''
     test create report function
     '''
+    pass
 
 
 
 def test_letter_to_all():
     '''
     test letter to all function
-    
-    a = ('\nThank you letters sent!\n')
-    #assert letter_to_all() != expected
-    assert letter_to_all() == a
     '''
+    pass
+    
 
 def test_exit_program():
     '''
@@ -73,20 +61,10 @@ def test_exit_program():
         assert exit_mock.called == True
 
 if __name__== "__main__":
-    test_add_donor()
-    print('test_add_donor passed')
-    test_view_list()
-    print('test_view_list passed')
-    test_display_dict()
-    print('test_display_dict passed')        
-    test_send_thank_you()
-    print('test_send_thank_you passed') 
-    test_create_report()    
-    print('test_create_report passed')    
-    test_letter_to_all()
-    print('test_letter_to_all passed')        
+    test_thank_you_text()
     test_exit_program()
-    print('test_exit_program passed')
+    print('All test passed')
+    
 
 
   
