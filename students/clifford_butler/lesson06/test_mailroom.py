@@ -7,32 +7,34 @@ Add a full suite of unit tests.
 
 import mailroom4 as mr
 import names
-import sys 
+#import sys 
 from mock import patch
 
-def test_get_index():
-    '''
-    test get index function
-    '''
-    pass
-    
+new_dict = mr.donor_dict
+
+test_list = 'William Gates, III\
+\nJeff Bezos\
+\nPaul Allen\
+\nMark Zuckerberg\
+\nAlexandra Butler'
 
 def test_add_donor():
     '''
     test add donor function
     '''
-    assert 'William Gates, III' in donor_dict
-    assert 'Jeff Bezos' in donor_dict
-    assert 'Paul Allen' in donor_dict
-    assert 'Mark Zuckerberg' in donor_dict
-    assert 'Alexandra Butler' in donor_dict
-    assert names.get_full_name() not in donor_dict
+    assert 'William Gates, III' in mr.donor_dict
+    assert 'Jeff Bezos' in mr.donor_dict
+    assert 'Paul Allen' in mr.donor_dict
+    assert 'Mark Zuckerberg' in mr.donor_dict
+    assert 'Alexandra Butler' in mr.donor_dict
+    assert names.get_full_name() not in mr.donor_dict
     
 def test_view_list():
     '''
     test view list function
     '''
-    pass
+    a_list = ('William Gates, III\nJeff Bezos\nPaul Allen\nMark Zuckerberg\nAlexandra Butler')
+    assert test_list == a_list
 
 def test_display_dict():
     '''
@@ -50,25 +52,27 @@ def test_create_report():
     '''
     test create report function
     '''
-    pass
+
+
 
 def test_letter_to_all():
     '''
     test letter to all function
+    
+    a = ('\nThank you letters sent!\n')
+    #assert letter_to_all() != expected
+    assert letter_to_all() == a
     '''
-    pass
 
 def test_exit_program():
     '''
     test exit function 
     '''
     with patch('sys.exit') as exit_mock:
-        exit_program()
+        mr.exit_program()
         assert exit_mock.called == True
 
 if __name__== "__main__":
-    test_get_index()
-    print('test_get_index passed')
     test_add_donor()
     print('test_add_donor passed')
     test_view_list()
