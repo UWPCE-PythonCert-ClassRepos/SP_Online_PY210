@@ -29,20 +29,6 @@ produces the letter in parts.
 import sys
 import operator
 
-donor_dict = {"William Gates, III": [653772.32, 12.17],
-        "Jeff Bezos":  [877.33],
-        "Paul Allen": [663.23, 43.87, 1.32],
-        "Mark Zuckerberg": [1663.23, 4300.87, 10432.0],
-        "Alexandra Butler": [777.77, 44.44]}
-
-prompt = "\n".join(("Welcome to the mail room!",
-          "Please choose from below options:",
-          "1 - Send a Thank You",
-          "2 - Create a Report",
-          "3 - Send letters to all donors",
-          "4 - Quit",
-          ">>> "))
-
 prompt_name = "\n".join(("Type the donors full name or,",
               "type 'list' to display a list of the donors names.",
               ">>> "))
@@ -52,6 +38,14 @@ prompt_amount = "\n".join(("Whats the donation amount?",
 
 exit_report = "\n".join(("Press 1 to exit to the initial prompt.",
                          "\n"))
+
+def donors():
+    # dictionary of donors and donation amounts
+    return {"William Gates, III": [653772.32, 12.17],
+            "Jeff Bezos":  [877.33],
+            "Paul Allen": [663.23, 43.87, 1.32],
+            "Mark Zuckerberg": [1663.23, 4300.87, 10432.0],
+            "Alexandra Butler": [777.77, 44.44]}
 
 def get_index(donor_name):
     # Return the index number based on user input
@@ -71,10 +65,6 @@ def add_donor(donor_name):
             print (donor_dict)
             break
 
-def view_list():
-    # Display the donor list.
-    print("\n".join(donor_dict))
-    
 def display_dict():
     # use of comprehension to display a list of the donors
     show_list = [print(i) for i in donor_dict.keys()]   
@@ -100,16 +90,6 @@ def send_thank_you():
                
             print(f"Hi {response},\n\nThank you for the generous donation of {response_amount}.\n\nSincerely,\nClifford Butler")
 
-'''            
-        response_amount = float(input(prompt_amount))
-        if response in donor_dict.keys():1
-            donor_dict[response].append(response_amount)
-            
-        else:
-            donor_dict[response] = [response_amount]   
-           
-    print(f"Hi {response},\n\nThank you for the generous donation of {response_amount}.\n\nSincerely,\nClifford Butler")
-'''    
 def create_report():
     # Generate and display a report of the donors in donor_dict
     while True:
@@ -132,7 +112,7 @@ def letter_to_all():
     for donor_name in donor_dict:
         with open(f"{donor_name}.txt","w+") as donor_letter:
             donor_letter.write(f"Hi {donor_name},\n\nThank you for the generous donation of ${sum(donor_dict[donor_name]):.2f}.\n\nSincerely,\nClifford Butler")
-    print("\nThank you letters sent!\n")
+    return("Thank you letters sent!")
             
 def exit_program():
     # exit the interactive script
@@ -163,5 +143,6 @@ def main():
 
 if __name__ == "__main__" :
     # run main function
+    donor_dict = donors()
     main()
    

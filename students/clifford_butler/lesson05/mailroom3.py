@@ -35,14 +35,6 @@ donor_dict = {"William Gates, III": [653772.32, 12.17],
         "Mark Zuckerberg": [1663.23, 4300.87, 10432.0],
         "Alexandra Butler": [777.77, 44.44]}
 
-prompt = "\n".join(("Welcome to the mail room!",
-          "Please choose from below options:",
-          "1 - Send a Thank You",
-          "2 - Create a Report",
-          "3 - Send letters to all donors",
-          "4 - Quit",
-          ">>> "))
-
 prompt_name = "\n".join(("Type the donors full name or,",
               "type 'list' to display a list of the donors names.",
               ">>> "))
@@ -71,10 +63,6 @@ def add_donor(donor_name):
             print (donor_dict)
             break
 
-def view_list():
-    # Display the donor list.
-    print("\n".join(donor_dict))
-    
 def display_dict():
     # use of comprehension to display a list of the donors
     show_list = [print(i) for i in donor_dict.keys()]   
@@ -99,17 +87,7 @@ def send_thank_you():
                 donor_dict[response] = [response_amount]
                
             print(f"Hi {response},\n\nThank you for the generous donation of {response_amount}.\n\nSincerely,\nClifford Butler")
-
-'''            
-        response_amount = float(input(prompt_amount))
-        if response in donor_dict.keys():1
-            donor_dict[response].append(response_amount)
-            
-        else:
-            donor_dict[response] = [response_amount]   
-           
-    print(f"Hi {response},\n\nThank you for the generous donation of {response_amount}.\n\nSincerely,\nClifford Butler")
-'''    
+  
 def create_report():
     # Generate and display a report of the donors in donor_dict
     while True:
