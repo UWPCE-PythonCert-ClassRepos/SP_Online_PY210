@@ -81,9 +81,6 @@ def thank_you_text(full_name,amount):
     # display thank you letter with donor name and donation amount
     print ("\n\nHi {}:\n Thank you for the generous donation of ${:2d}, Sincerely, \n Clifford Butler\n".format(full_name,amount))
 
-exit_report = "\n".join(("Press 1 to exit to the initial prompt.",
-                         "\n"))
-
 def get_index(donor_name):
     # Return the index number based on user input
     for item in (donor_dict):
