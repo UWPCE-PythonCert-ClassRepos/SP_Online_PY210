@@ -90,13 +90,13 @@ def get_index(donor_name):
         
     return None
 
-def add_donor(donor_name):
-    # Add donor name to the data structure.
-    for item in donor_dict:
-        if item[0] not in donor_dict:
-            donor_dict[donor_name] = []
-            print (donor_dict)
+def add_name(full_name):
+    # update add name to the dictionary
+    for donor in donor_list:
+        if full_name == donor:
             break
+    else:
+        donor_list[full_name] = []
 
 def display_dict():
     # use of comprehension to display a list of the donors
