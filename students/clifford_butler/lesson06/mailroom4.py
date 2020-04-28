@@ -61,6 +61,10 @@ def prompt_amount(full_name):
         print("Input must be a number. Donor information not entered. Try again! ")
     return amount
 
+def add_amount(full_name,amount):
+    # add donation amount to the dictionary
+    donor_list[full_name].append(amount)
+
 exit_report = "\n".join(("Press 1 to exit to the initial prompt.",
                          "\n"))
 
