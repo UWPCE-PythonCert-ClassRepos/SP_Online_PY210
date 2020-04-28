@@ -77,6 +77,10 @@ def add_amount(full_name,amount):
     # add donation amount to the dictionary
     donor_list[full_name].append(amount)
 
+def thank_you_text(full_name,amount):
+    # display thank you letter with donor name and donation amount
+    print ("\n\nHi {}:\n Thank you for the generous donation of ${:2d}, Sincerely, \n Clifford Butler\n".format(full_name,amount))
+
 exit_report = "\n".join(("Press 1 to exit to the initial prompt.",
                          "\n"))
 
