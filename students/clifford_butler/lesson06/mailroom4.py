@@ -146,7 +146,7 @@ def letter_to_all():
     for donor_name in donor_dict:
         with open(f"{donor_name}.txt","w+") as donor_letter:
             donor_letter.write(f"Hi {donor_name},\n\nThank you for the generous donation of ${sum(donor_dict[donor_name]):.2f}.\n\nSincerely,\nClifford Butler")
-    return("Thank you letters sent!")
+    print("Thank you letters sent!")
             
 def exit_program():
     # exit the interactive script
