@@ -29,13 +29,23 @@ produces the letter in parts.
 import sys
 import operator
 
-prompt = "\n".join(("Welcome to the mail room!",
-          "Please choose from below options:",
-          "1 - Send a Thank You",
-          "2 - Create a Report",
-          "3 - Send letters to all donors",
-          "4 - Quit",
-          ">>> "))
+# dictionary with donor names and donation amounts
+donor_list = {"William Gates, III": [653772.32, 12.17],
+              "Jeff Bezos":  [877.33],
+              "Paul Allen": [663.23, 43.87, 1.32],
+              "Mark Zuckerberg": [1663.23, 4300.87, 10432.0],
+              "Alexandra Butler": [777.77, 44.44]}
+
+def main_menu():
+    # display the main menu
+    print("\n".join(("Welcome to the MailRoom!",
+        "Please choose from below options:",
+        "1 - Send a Thank You",
+        "2 - Create a Report",
+        "3 - Send letters to all donors",
+        "4 - Quit",
+        ">>> ")))
+    return input()
 
 prompt_name = "\n".join(("Type the donors full name or,",
               "type 'list' to display a list of the donors names.",
@@ -46,14 +56,6 @@ prompt_amount = "\n".join(("Whats the donation amount?",
 
 exit_report = "\n".join(("Press 1 to exit to the initial prompt.",
                          "\n"))
-
-def donors():
-    # dictionary of donors and donation amounts
-    return {"William Gates, III": [653772.32, 12.17],
-            "Jeff Bezos":  [877.33],
-            "Paul Allen": [663.23, 43.87, 1.32],
-            "Mark Zuckerberg": [1663.23, 4300.87, 10432.0],
-            "Alexandra Butler": [777.77, 44.44]}
 
 def get_index(donor_name):
     # Return the index number based on user input
@@ -150,7 +152,5 @@ def main():
     switch_dict.get(response)()
 
 if __name__ == "__main__" :
-    # run main function
-    donor_dict = donors()
     main()
    
