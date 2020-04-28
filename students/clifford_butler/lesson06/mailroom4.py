@@ -51,8 +51,15 @@ prompt_name = "\n".join(("Type the donors full name or,",
               "type 'list' to display a list of the donors names.",
               ">>> "))
 
-prompt_amount = "\n".join(("Whats the donation amount?",
-                ">>> "))
+def prompt_amount(full_name):
+    # request user input for donation amount
+    try:    
+        amount = input("What's the donation amount? \n >>")
+        amount = int(amount)
+        add_amount(full_name,amount) 
+    except ValueError:
+        print("Input must be a number. Donor information not entered. Try again! ")
+    return amount
 
 exit_report = "\n".join(("Press 1 to exit to the initial prompt.",
                          "\n"))
