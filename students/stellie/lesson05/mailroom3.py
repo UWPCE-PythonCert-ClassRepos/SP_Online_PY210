@@ -43,7 +43,7 @@ def send_thank_you():
         view_donors()
         send_thank_you()
     elif user_response == 'menu':
-        main()
+        return
     else:
         # Search for already existing donor
         donor = search_db(user_response)
@@ -66,15 +66,16 @@ def send_thank_you():
 # Display list of donors
 def view_donors():
     print('\nThe following is the list of donors:')
-    [print(donor) for donor in donor_db.keys()]
+    for donor in donor_db.keys():
+        print(donor)
 
 
 # Search database to see if user already exists
 def search_db(donor_name):
-    for record in donor_db.keys():
-        if record == donor_name:
-            return record
-    return None
+    if donor_db.get(donor_name):
+        return donor_name
+    else:
+        return None
 
 
 # Prompt user to enter a donation amount
@@ -84,12 +85,12 @@ def donation_amount():
                               'like to donate: $')
         try:
             user_donation = float(prompt_amount)
-            if user_donation <= 0:
-                print('Please enter a valid amount.')
-            else:
-                return user_donation
         except ValueError:
             print('That is an invalid amount value.')
+        if user_donation <= 0:
+            print('Please enter a valid amount.')
+        else:
+            return user_donation
 
 
 # Send donor a thank you email
@@ -125,13 +126,12 @@ def sum_total(donor_record):
 def send_letters():
     for record in list(donor_db.items()):
         file_name = f'{record[0]}.txt'  # create file name using name of donor
-        new_file = open(file_name, 'w')  # create a new file
-        donor_letter = f'Dear {record[0]},\n\nThank you for your' + \
+        donor_letter = f'Dear {record[0]},\n\nThank you for your ' + \
                        f'{len(record[1])} donations that total $' + \
-                       f'{sum(record[1]):.2f}.\nIt will be put to very' + \
+                       f'{sum(record[1]):.2f}.\nIt will be put to very ' + \
                        f'good use.\n\n\tSincerely,\n\t-The Team'
-        new_file.write(donor_letter)  # write letter to the text file
-        new_file.close()
+        with open(file_name, 'w') as new_file:  # create a new file
+            new_file.write(donor_letter)  # write letter to the text file
 
 
 # Exit the program
