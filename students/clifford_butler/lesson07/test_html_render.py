@@ -161,7 +161,6 @@ def test_sub_element():
     page.append("Some more plain text.")
 
     file_contents = render_result(page)
-    print(file_contents) # so we can see it if the test fails
 
     # note: The previous tests should make sure that the tags are getting
     #       properly rendered, so we don't need to test that here.
@@ -186,15 +185,22 @@ Adding tests for step 3
 
 def test_title():
     e = Title("this is some text")
-    e.append("and this is some more text")
-
+    
     file_contents = render_result(e).strip()
 
     assert("this is some text") in file_contents
-    assert("and this is some more text") in file_contents
-    print(file_contents)
     assert file_contents.startswith("<title>")
     assert file_contents.endswith("</title>")
+    
+def test_one_line_tag_append():
+    """
+    You should not be able to append content to a OneLineTag
+    """
+    e = OneLineTag("the initial content")
+    e.append("some more content")
+
+    file_contents = render_result(e).strip()
+    print(file_contents)
 
 # #####################
 # # indentation testing
@@ -286,5 +292,6 @@ if __name__ == "__main__":
     test_body()
     test_p()
     test_sub_element()
+    test_title()
     print ('Tests passed')
    
