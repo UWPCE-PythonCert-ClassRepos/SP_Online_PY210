@@ -43,7 +43,7 @@ page.append("Here is a paragraph of text -- there could be more of them, "
 
 page.append("And here is another piece of text -- you should be able to add any number")
 
-render_page(page, r"C:\Users\cliff\SP_Online_PY210\students\clifford_butler\lesson07\test_html_output1.html")
+render_page(page, "test_html_output1.html")
 
 # The rest of the steps have been commented out.
 #  Uncomment them as you move along with the assignment.
@@ -62,11 +62,11 @@ body.append(hr.P("And here is another piece of text -- you should be able to add
 
 page.append(body)
 
-render_page(page, r"C:\Users\cliff\SP_Online_PY210\students\clifford_butler\lesson07\test_html_output2.html")
+render_page(page, "test_html_output2.html")
 
 # # Step 3
 # ##########
-'''
+
 page = hr.Html()
 
 head = hr.Head()
@@ -83,7 +83,7 @@ body.append(hr.P("And here is another piece of text -- you should be able to add
 page.append(body)
 
 render_page(page, "test_html_output3.html")
-
+'''
 # # Step 4
 # ##########
 
@@ -228,5 +228,5 @@ body.append(list)
 
 page.append(body)
 
-render_page(page, "test_html_output8.html")
+render_page(page, "test_html_output9.html")
 '''
