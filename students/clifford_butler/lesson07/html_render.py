@@ -46,7 +46,11 @@ class Element(object):
         open_tag.append(">")
         return "".join(open_tag)
         
-    def attributes(self):
+    def close_tag(self):
+        close_tag = "</{}>".format(self.tag)
+        return close_tag
+
+    def get_element_attributes(self):
         attribute = [self.tag]
 
         if self.attributes is not None:
