@@ -26,7 +26,7 @@ class Element(object):
     def append(self, new_content):
         self.contents.append(new_content)
 
-    def render(self, out_file,cur_ind=""):
+    def render(self, out_file,cur_indent=""):
         # loop through the list of content:
         out_file.write(cur_indent + self.open_tag())
         out_file.write("\n")
@@ -64,10 +64,10 @@ class Body(Element):
     
 class Html(Element):
     tag = "html"
-    def render(self, out_file, cur_ind=""):
+    def render(self, out_file, cur_indent=""):
         out_file.write(cur_ind)
         out_file.write("<!DOCTYPE html>\n")
-        super().render(out_file, cur_ind)    
+        super().render(out_file, cur_indent)    
     
 class P(Element):
     tag = "p"
@@ -77,8 +77,8 @@ class Head(Element):
     
 class OneLineTag(Element):
     # loop through the list of contents:
-    def render(self, out_file,cur_ind=""):
-         out_file.write("{}<{}>".format(self.indent + cur_ind,self.tag))
+    def render(self, out_file,cur_indent=""):
+         out_file.write("{}<{}>".format(self.indent + cur_indent,self.tag))
          out_file.write(self.content[0])
          out_file.write("</{}>\n".format(self.tag))        
     def append(self, content):
