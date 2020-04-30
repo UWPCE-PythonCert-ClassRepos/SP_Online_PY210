@@ -103,7 +103,7 @@ body.append(hr.P("Here is a paragraph of text -- there could be more of them, "
 page.append(body)
 
 render_page(page, "test_html_output4.html")
-'''
+
 # # Step 5
 # #########
 
@@ -125,7 +125,7 @@ body.append(hr.Hr())
 page.append(body)
 
 render_page(page, "test_html_output5.html")
-
+'''
 # # Step 6
 # #########
 
