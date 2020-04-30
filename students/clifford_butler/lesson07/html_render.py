@@ -16,12 +16,13 @@ class Element(object):
             self.contents = []
         else:
             self.contents = [content]
-        self.attributes = copy.deepcopy(kwargs)
+        #self.attributes = copy.deepcopy(kwargs)
+        
             
-    def attributes(self, outfile):
+    def attributes(self, out_file):
         open_tag = ["<{}".format(self.tag)]
-        for key, value in self.attributes.items():
-            open_tag.append(key + "=" + value)
+        for key, value in self.attributes:
+            open_tag.append(' {}="{}"'.format(key, value))
         open_tag.append(">\n")
         out_file.write("".join(open_tag))
 
@@ -57,10 +58,11 @@ class Head(Element):
 class OneLineTag(Element):
     # loop through the list of contents:
     def render(self, out_file):
-        #self.attributes(out_file)
+        self.attributes(out_file)
         out_file.write("<{}>".format(self.tag))
         out_file.write(self.contents[0])
         out_file.write("</{}>\n".format(self.tag))
+        out_file.write(self.attributes())
     def append(self, content):
         raise NotImplementedError
         
@@ -72,8 +74,8 @@ class SelfClosingTag(Element):
         
     def render(self, out_file):
         open_tag = ["<{}".format(self.tag)]
-        for key, value in self.attributes:
-            open_tag.append(key + "=" + value)
+        for key, value in self.attributes.items():
+            open_tag.append(" " + key + "=" + value)
         open_tag.append(" />\n")
         out_file.write("".join(open_tag))
         
@@ -83,12 +85,7 @@ class Hr(SelfClosingTag):
 class Br(SelfClosingTag):
     tag = "br"
     
-#class Title(Element):
-    tag = "title"
-    
 class Title(OneLineTag):
     tag = "title"
 
-class title(OneLineTag):
-    tag = "title"
     
