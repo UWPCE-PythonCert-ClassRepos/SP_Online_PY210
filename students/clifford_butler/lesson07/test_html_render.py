@@ -197,10 +197,28 @@ def test_one_line_tag_append():
     You should not be able to append content to a OneLineTag
     """
     e = OneLineTag("the initial content")
-    e.append("some more content")
+    with pytest.raises(NotImplementedError):
+        e.append("some more content")
 
     file_contents = render_result(e).strip()
-    print(file_contents)
+
+def test_attributes():
+    e = P("A paragraph of text", style="text-align: center", id="intro")
+
+    file_contents = render_result(e).strip()
+    print(file_contents)  # so we can see it if the test fails
+
+    # note: The previous tests should make sure that the tags are getting
+    #       properly rendered, so we don't need to test that here.
+    #       so using only a "P" tag is fine
+    assert "A paragraph of text" in file_contents
+    # but make sure the embedded element's tags get rendered!
+    # first test the end tag is there -- same as always:
+    assert file_contents.endswith("</p>")
+
+    # but now the opening tag is far more complex
+    # but it starts the same:
+    assert file_contents.startswith("<p")
 
 # #####################
 # # indentation testing
@@ -293,5 +311,6 @@ if __name__ == "__main__":
     test_p()
     test_sub_element()
     test_title()
+    test_one_line_tag_append()
     print ('Tests passed')
    

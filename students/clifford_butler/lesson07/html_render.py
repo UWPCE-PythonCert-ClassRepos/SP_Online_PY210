@@ -30,6 +30,10 @@ class Element(object):
                 out_file.write(content)
                 out_file.write("\n")
             out_file.write("</{}>\n".format(self.tag))
+            
+    def attributes(self, file_):
+        pass
+        
 
 class Body(Element):
     tag = "body"
