@@ -228,4 +228,4 @@ body.append(list)
 
 page.append(body)
 
-ender_page(page, "test_html_output8.html")
+render_page(page, "test_html_output8.html")
