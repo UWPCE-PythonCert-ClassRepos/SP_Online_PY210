@@ -83,7 +83,7 @@ body.append(hr.P("And here is another piece of text -- you should be able to add
 page.append(body)
 
 render_page(page, "test_html_output3.html")
-'''
+
 # # Step 4
 # ##########
 
@@ -103,7 +103,7 @@ body.append(hr.P("Here is a paragraph of text -- there could be more of them, "
 page.append(body)
 
 render_page(page, "test_html_output4.html")
-
+'''
 # # Step 5
 # #########
 
