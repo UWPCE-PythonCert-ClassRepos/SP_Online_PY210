@@ -6,20 +6,12 @@ A class-based system for rendering html.
 Author: Clifford Butler
 """
 
-#!/usr/bin/env python3
-
-"""
-A class-based system for rendering html.
-"""
-
-
 # This is the framework for the base class
 class Element(object):
     tag = "html"
     indent = "  "
 
     def __init__(self, content=None, **kwargs):
-        #self.attributes = kwargs
         if content is None:
             self.contents = []
         else:
@@ -29,22 +21,13 @@ class Element(object):
             self.attributes = kwargs
         else:
             self.attributes = {}
+            
     def append(self, new_content):
         self.contents.append(new_content)
 
-    def _open_tag(self):
-        open_tag = ["<{}".format(self.tag)]
-        for key, value in self.attributes.items():
-            open_tag.append(' {}="{}"'.format(key, value))
-        open_tag.append(">")
-        return "".join(open_tag)
-
-    def _close_tag(self):
-        return "</{}>".format(self.tag)
-
     def render(self, out_file, cur_ind=""):
         new_indent = cur_ind + self.indent
-        out_file.write(cur_ind+self._open_tag())
+        out_file.write(cur_ind + self.a_open_tag())
         out_file.write("\n")
         for content in self.contents:
             try:
@@ -52,11 +35,20 @@ class Element(object):
             except AttributeError:
                 out_file.write(new_indent + content)
             out_file.write("\n")
-        out_file.write(cur_ind + self._close_tag())
+        out_file.write(cur_ind + self.a_close_tag())
+        
+    def a_open_tag(self):
+        open_tag = ["<{}".format(self.tag)]
+        for key, value in self.attributes.items():
+            open_tag.append(' {}="{}"'.format(key, value))
+        open_tag.append(">")
+        return "".join(open_tag)
 
+    def a_close_tag(self):
+        return "</{}>".format(self.tag)
+    
 class Body(Element):
     tag = 'body'
-
 
 class Html(Element):
     tag = 'html'
@@ -74,13 +66,12 @@ class Head(Element):
 class OneLineTag(Element):
     def render(self, out_file, cur_ind=""):
         out_file.write(cur_ind)
-        out_file.write(self._open_tag())
+        out_file.write(self.a_open_tag())
         out_file.write(self.contents[0])
-        out_file.write(self._close_tag())
+        out_file.write(self.a_close_tag())
 
     def append(self, content):
         raise NotImplementedError
-
 
 class Title(OneLineTag):
     tag = "title"
@@ -92,20 +83,17 @@ class SelfClosingTag(Element):
         super().__init__(content=content, **kwargs)
 
     def render(self, out_file, cur_ind=""):
-        tag = self._open_tag()[:-1] + " />\n"
+        tag = self.a_open_tag()[:-1] + " />\n"
         out_file.write(cur_ind + tag)
 
     def append(self, *args):
         raise TypeError("You can not add content to a SelfClosingTag")
 
-
 class Hr(SelfClosingTag):
     tag = "hr"
 
-
 class Br(SelfClosingTag):
     tag = "br"
-
 
 class A(OneLineTag):
     tag = 'a'
@@ -113,14 +101,11 @@ class A(OneLineTag):
         kwargs['href'] = link
         super().__init__(content, **kwargs)
 
-
 class Ul(Element):
     tag = "ul"
 
-
 class Li(Element):
     tag = "li"
-
 
 class H(OneLineTag):
     tag = 'h'
@@ -129,9 +114,6 @@ class H(OneLineTag):
         super().__init__(content=content,**kwargs)
 
 class Meta(Element):
-    '''
-    The Meta class, extends element base
-    '''
     def __init__(self, charset):
         self.charset = charset
     def render(self, out_file, cur_ind=""):
