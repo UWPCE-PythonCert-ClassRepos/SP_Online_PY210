@@ -125,7 +125,7 @@ body.append(hr.Hr())
 page.append(body)
 
 render_page(page, "test_html_output5.html")
-'''
+
 # # Step 6
 # #########
 
@@ -151,7 +151,7 @@ body.append("to google")
 page.append(body)
 
 render_page(page, "test_html_output6.html")
-
+'''
 # # Step 7
 # #########
 
