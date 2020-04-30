@@ -262,3 +262,9 @@ def test_render_element():
 #     assert lines[1].startswith(Element.indent + "thi")
 #     assert lines[2] == "</html>"
 #     assert file_contents.endswith("</html>")
+    
+if __name__ == "__main__": 
+    test_init()
+    test_append()
+    test_render_element()
+    print ('Tests passed')
