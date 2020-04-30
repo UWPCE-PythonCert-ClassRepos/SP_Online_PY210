@@ -1,0 +1,13 @@
+============================= test session starts =============================
+platform win32 -- Python 3.7.6, pytest-5.4.1, py-1.8.1, pluggy-0.13.1 -- c:\python376\python.exe
+cachedir: .pytest_cache
+rootdir: C:\MikeRoot2\Msft\LangPython\UnivWashPy3\uwpy\lesson09_ark_steps\step005
+collecting ... collected 5 items
+
+test_mailroom_oo.py::test_mailroom_list_donors PASSED                    [ 20%]
+test_mailroom_oo.py::test_existing_donor_donation PASSED                 [ 40%]
+test_mailroom_oo.py::test_new_donor_donation PASSED                      [ 60%]
+test_mailroom_oo.py::test_mailroom_create_report PASSED                  [ 80%]
+test_mailroom_oo.py::test_mailroom_write_letters PASSED                  [100%]
+
+============================== 5 passed in 0.06s ==============================
