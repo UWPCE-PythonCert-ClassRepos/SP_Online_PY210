@@ -39,3 +39,6 @@ class Html(Element):
     
 class P(Element):
     tag = "p"
+
+class Head(Element):
+    tag = "head"
