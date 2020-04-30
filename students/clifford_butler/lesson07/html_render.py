@@ -10,8 +10,12 @@ class Element(object):
     
     tag = "html"
 
-    def __init__(self, content=None):
-        self.contents = [content]
+    def __init__(self, content= None):
+        # check if self.contents is empty
+        if content == None:
+            self.contents = []
+        else:
+            self.contents = [content]
 
     def append(self, new_content):
         self.contents.append(new_content)
