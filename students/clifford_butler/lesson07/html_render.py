@@ -28,18 +28,19 @@ class Element(object):
 
     def render(self, out_file,cur_indent=""):
         # loop through the list of content:
+        new_indent = cur_indent + self.indent
         out_file.write(cur_indent + self.open_tag())
         out_file.write("\n")
         for content in self.content:
             try:
-                content.render(out_file,cur_ind + self.indent)
+                content.render(out_file,cur_indent + self.indent)
             except AttributeError:
-                out_file.write("{}".format(cur_ind + self.indent))
+                out_file.write("{}".format(cur_indent + self.indent))
                 out_file.write("\n")
         out_file.write(cur_indent + self.close_tag())        
         out_file.write("\n")
         
-    def open_tag(self,out_file,cur_ind=""):
+    def open_tag(self,out_file,cur_indent=""):
         open_tag = ["<{}".format(self.tag)]
         for key, value in self.attributes.items():
             open_tag.append(" {}=\"{}\"".format(key, value))
@@ -65,7 +66,7 @@ class Body(Element):
 class Html(Element):
     tag = "html"
     def render(self, out_file, cur_indent=""):
-        out_file.write(cur_ind)
+        out_file.write(cur_indent)
         out_file.write("<!DOCTYPE html>\n")
         super().render(out_file, cur_indent)    
     
@@ -78,9 +79,13 @@ class Head(Element):
 class OneLineTag(Element):
     # loop through the list of contents:
     def render(self, out_file,cur_indent=""):
-         out_file.write("{}<{}>".format(self.indent + cur_indent,self.tag))
-         out_file.write(self.content[0])
-         out_file.write("</{}>\n".format(self.tag))        
+        #out_file.write("{}<{}>".format(self.indent + cur_indent,self.tag))
+        #out_file.write(self.content[0])
+        #out_file.write("</{}>\n".format(self.tag))        out_file.write(ind)
+        out_file.write(self._open_tag())
+        out_file.write(self.contents[0])
+        out_file.write(self._close_tag())
+        out_file.write('\n')         
     def append(self, content):
         raise NotImplementedError
         
@@ -90,8 +95,8 @@ class SelfClosingTag(Element):
             raise TypeError("not allowed content")
         super().__init__(content=content,**kwargs)
 
-    def render(self,out_file,cur_ind=""):
-        open_tag = ["{}<{}".format(self.indent + cur_ind,self.tag)]
+    def render(self,out_file,cur_indent=""):
+        open_tag = ["{}<{}".format(self.indent + cur_indent,self.tag)]
         for key, value in self.attributes.items():
             open_tag.append(" " + key + "=" + value)
         open_tag.append(" />\n")
@@ -112,8 +117,6 @@ class Li(Element):
 class Title(OneLineTag):
     tag = "title"
     
-class Meta(Element):
-    tag = "meta"
 
 class A(Element):
     tag = "a"
@@ -125,5 +128,8 @@ class H(OneLineTag):
     tag = "h"
     def __init__(self, level, content=None, **kwargs):
         self.tag = "h" + str(level)
-        super().__init__(content = content, **kwargs)
+        super().__init__(content, **kwargs)
+        
+class Meta(SelfClosingTag):
+    tag = "meta"
     
