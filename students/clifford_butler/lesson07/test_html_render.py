@@ -312,5 +312,6 @@ if __name__ == "__main__":
     test_sub_element()
     test_title()
     test_one_line_tag_append()
+    test_attributes()
     print ('Tests passed')
    

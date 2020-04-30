@@ -9,7 +9,7 @@ A class-based system for rendering html.
 class Element(object):
     tag = "html"
 
-    def __init__(self, content= None):
+    def __init__(self, content= None, **kwargs):
         # check if self.contents is empty
         if content == None:
             self.contents = []
