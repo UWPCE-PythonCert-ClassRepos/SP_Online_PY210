@@ -27,3 +27,15 @@ class Element(object):
             out_file.write(content)
             out_file.write("\n")
         out_file.write("</{}>\n".format(self.tag))
+
+class Body(Element):
+    
+    tag = "body"
+    
+class Html(Element):
+    
+    tag = "html"
+    
+class P(Element):
+    
+    tag = "p"
