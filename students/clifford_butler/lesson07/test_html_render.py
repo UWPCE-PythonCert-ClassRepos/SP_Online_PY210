@@ -219,6 +219,12 @@ def test_attributes():
     # but now the opening tag is far more complex
     # but it starts the same:
     assert file_contents.startswith("<p")
+    # order of the tags is not important in html, so we need to
+    # make sure not to test for that
+    # but each attribute should be there:
+    
+    #assert 'style="text-align: center"' in file_contents
+    #assert 'id="intro"' in file_contents
 
 # #####################
 # # indentation testing
