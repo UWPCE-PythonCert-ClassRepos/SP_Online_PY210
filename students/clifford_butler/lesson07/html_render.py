@@ -17,4 +17,7 @@ class Element(object):
         self.contents.append(new_content)
 
     def render(self, out_file):
-        out_file.write("just something as a place holder...")
+        # loop through the list of contents
+        for content in self.contents:
+            out_file.write(content)
+            out_file.write("\n")
