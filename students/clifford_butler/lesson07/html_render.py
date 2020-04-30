@@ -24,8 +24,12 @@ class Element(object):
         # loop through the list of contents:
         out_file.write("<{}>\n".format(self.tag))
         for content in self.contents:
-            out_file.write(content)
-            out_file.write("\n")
+            #out_file.write("<{}>\n".format(self.tag))
+            try:
+                content.render(out_file)
+            except AttributeError:
+                out_file.write(content)
+                out_file.write("\n")
         out_file.write("</{}>\n".format(self.tag))
 
 class Body(Element):
