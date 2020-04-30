@@ -42,3 +42,6 @@ class P(Element):
 
 class Head(Element):
     tag = "head"
+    
+class Title(Element):
+    tag = "title"
