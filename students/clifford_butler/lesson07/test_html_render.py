@@ -322,6 +322,6 @@ if __name__ == "__main__":
     #test_indent()
     #test_indent_contents()
     #test_multiple_indent()
-    test_element_indent1()
+    #test_element_indent1()
     print ('Tests passed')
    
