@@ -189,7 +189,7 @@ body.append(list)
 page.append(body)
 
 render_page(page, "test_html_output7.html")
-'''
+
 # # Step 8 and 9
 # ##############
 
@@ -228,5 +228,4 @@ body.append(list)
 
 page.append(body)
 
-render_page(page, "test_html_output9.html")
-'''
+render_page(page, "test_html_output8.html")
