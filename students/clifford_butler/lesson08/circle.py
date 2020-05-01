@@ -28,5 +28,21 @@ properties.
 a bunch of “magic methods”.
 a classmethod.
 """
+#import math
+
+class Circle:
+    '''a class to form circles'''
+    def __init__(self, radius):
+        self.radius = radius
+        
+    def area(self):
+        return self.radius**2*3.14
+    
+    def perimeter(self):
+        return 2*self.radius*3.14
+    
+c = Circle(8)    
+print(c.area())
+print(c.perimeter())
 
 
