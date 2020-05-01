@@ -30,7 +30,7 @@ a classmethod.
 """
 #import math
 
-class Circle:
+class Circle(object):
     '''a class to form circles'''
     def __init__(self, radius):
         self.radius = radius
@@ -41,8 +41,4 @@ class Circle:
     def perimeter(self):
         return 2*self.radius*3.14
     
-c = Circle(8)    
-print(c.area())
-print(c.perimeter())
-
 

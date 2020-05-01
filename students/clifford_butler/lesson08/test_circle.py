@@ -11,8 +11,9 @@ Test functions for circle.py classes/functions
 import circle
 
 def test_circle():
-    assert c.area() == 200.96
-    assert c.perimeter() == 50.24
+    c = Circle(4)
+    print("The radius is:", c.radius)
+    assert c.radius == 4
     
 if __name__ == "__main__":
     test_circle()
