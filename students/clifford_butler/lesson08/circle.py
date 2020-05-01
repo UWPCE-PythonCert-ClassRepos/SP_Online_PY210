@@ -75,12 +75,11 @@ class Circle(object):
 
     def __mult__(self,b):
         # mult a circle by radius
-        try:
-            mul_radius = (self.the_radius * b)
-        except(TypeError):
-            mul_radius = (self.the_radius * b)
+        mul_radius = (self.the_radius * b.the_radius)
         return Circle(mul_radius)
         #return Circle({self.the_radius * b})    
+c = Circle(4)
+print(c)
 
 #    def __mults__(self, t):
  #       # mult a circle by radius
