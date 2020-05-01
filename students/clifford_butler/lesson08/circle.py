@@ -68,12 +68,12 @@ class Circle(object):
     def __repr__(self):
         return (f"Circle({self.the_radius})")   
     
-    def __add__(self,b):
+    def __add__(self, b):
         # adds two circles by radius
         new_radius = self.radius + b.radius
         return Circle(new_radius)     
 
-    def __mul__(self,b):
+    def __mul__(self, b):
         # mult a circle by radius
         try:
             mul_radius = self.radius * b.radius
@@ -81,14 +81,20 @@ class Circle(object):
             mul_radius = self.radius * b
         return Circle(mul_radius) 
     
-    def __rmul__(self,b):
+    def __rmul__(self, b):
         # mult a circle by radius
         try:
             mul2_radius = b.radius * self.radius 
         except(AttributeError):
             mul2_radius = b * self.radius
         return Circle(mul2_radius)     
-        
+
+    def __eg__(self, b):
+        return self.radius == b.radius
+
+    def __lt__(self, b):
+        return self.radius < b.radius    
+    
 #c = 2 * c1
 #print(c)
 #print(a)

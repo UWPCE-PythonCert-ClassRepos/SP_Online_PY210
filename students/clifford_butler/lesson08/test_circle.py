@@ -84,6 +84,24 @@ def test_rmul():
     assert 'Circle(8)' == b
     print("test_mult2 passed")
 
+def test_eg():
+    # test multiplying circle by a number
+    c5 = (Circle(4))
+    a = repr(c5 * 2)
+    b = repr(2 * c5)
+    assert 'Circle(8)' == a
+    assert 'Circle(8)' == b
+    print("test_eg passed")
+
+def test_lt():
+    # test multiplying circle by a number
+    c5 = (Circle(4))
+    a = repr(c5 * 2)
+    b = repr(2 * c5)
+    assert 'Circle(8)' == a
+    assert 'Circle(8)' == b
+    print("test_lt passed")
+    
 if __name__ == "__main__":
     test_circle()
     test_diameter()
@@ -95,4 +113,6 @@ if __name__ == "__main__":
     test_str()
     test_repr()
     test_rmul()
+    test_eg()
+    test_lt()
     print("All tests passed!!")
