@@ -57,3 +57,10 @@ class Circle(object):
     def diameter(self, value):
         self.the_radius = value / 2    
 
+    def from_diameter(self):
+        # creates a circle from diameter
+        pass
+    
+c = Circle.from_diameter(8)
+#print (c.diameter())
+#print (c.radious)

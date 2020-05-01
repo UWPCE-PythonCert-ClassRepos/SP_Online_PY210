@@ -37,10 +37,15 @@ def test_area():
     c = Circle(2)
     assert c.area == 12.566370614359172
     
+def test_from_diameter():
+    c = Circle.from_diameter(8)
+    print (c.diameter)
+    print (c.radious)
     
 if __name__ == "__main__":
     test_circle()
     test_diameter()
     test_diameter2()
     test_area()
+    test_from_diameter()
     print("All tests passed!!")
