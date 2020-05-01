@@ -85,21 +85,29 @@ def test_rmul():
     print("test_mult2 passed")
 
 def test_eg():
-    # test multiplying circle by a number
-    c5 = (Circle(4))
-    a = repr(c5 * 2)
-    b = repr(2 * c5)
-    assert 'Circle(8)' == a
-    assert 'Circle(8)' == b
+    # test comparing with equal 
+    c5 = repr(Circle(4))
+    c6 = repr(Circle(4))
+    a = c5 != c6
+    b = c5 == c6
+    assert c5 == c6
+    assert a == False
+    assert b == True
     print("test_eg passed")
 
 def test_lt():
     # test multiplying circle by a number
-    c5 = (Circle(4))
-    a = repr(c5 * 2)
-    b = repr(2 * c5)
-    assert 'Circle(8)' == a
-    assert 'Circle(8)' == b
+    c5 = Circle(4)
+    c6 = Circle(2)
+    a = c5 > c6
+    b = c6 > c5
+    c = c6 < c5
+    d = c5 < c6
+    assert c5 > c6
+    assert a == True
+    assert b == False
+    assert c == True
+    assert d == False
     print("test_lt passed")
     
 if __name__ == "__main__":
