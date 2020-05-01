@@ -56,15 +56,14 @@ def test_mult():
     c1 = Circle(2)
     c2 = Circle(4)
     c = (c1 * c2)
-    assert Circle(8) == a  
+    assert 'Circle(8)' == c  
     print("test_mult passed")
     
 def test_str():
     # test the string output of a circle
     c = Circle(4)
-    print(c)
-    print (eval(repr(c)))
-    assert 'Circle(7)' != c
+    d = (eval(repr(c)))
+    assert 'A circle with the radius of: 4' == str(d)
     print("test_str passed")
     
 def test_repr():
