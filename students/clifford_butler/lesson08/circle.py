@@ -43,7 +43,7 @@ class Circle(object):
         
     @property    
     def area(self):
-        return round(math.pi * (self._radius ** 2), 4) 
+        return round(math.pi * (self.the_radius ** 2), 4) 
     
     @property
     def perimeter(self):
@@ -58,7 +58,7 @@ class Circle(object):
         self.the_radius = value / 2    
         
     @classmethod
-    def from_diameter(a, diameter):
+    def from_diameter(a,diameter):
         # creates a circle from diameter
         return a(diameter/2)
 
@@ -68,7 +68,11 @@ class Circle(object):
     def __repr__(self):
         return (f"Circle({self.the_radius})")    
 
-    
+'''    
 c = Circle(4)
 print (c)
 print (c)
+d = repr(c)
+Circle(4)
+print(d)
+'''
