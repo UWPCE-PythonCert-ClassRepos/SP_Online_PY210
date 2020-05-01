@@ -30,23 +30,30 @@ import math
 
 class Circle(object):
     '''a class to form circles'''
-    def __init__(self, radius=0):
+    def __init__(self, radius):
         self.the_radius = radius
     
     @property    
     def radius(self):
         return self.the_radius
     
+    @radius.setter
+    def radius(self, value):
+        self.the_radius = value 
+        
     @property    
     def area(self):
-        return self.the_radius**2*3.14
+        return self.the_radius ** 2 * math.pi 
     
     @property
     def perimeter(self):
-        return 2*self.the_radius*3.14
+        return 2 * self.the_radius * math.pi
     
     @property
     def diameter(self):
         return self.the_radius*2
-    
+
+    @diameter.setter
+    def diameter(self, value):
+        self.the_radius = value / 2    
 

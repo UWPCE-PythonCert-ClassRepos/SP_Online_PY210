@@ -9,21 +9,32 @@ Test functions for circle.py classes/functions
 """
 
 import circle
+import pytest
+
 
 def test_circle():
-    ''' test circle class is working'''
+    # test circle class is working
     c = Circle(8)
-    print("test_circle passed")
     assert c.radius == 8
-    
+    print("test_circle passed")
+     
 def test_diameter():
-    ''' test diameter() function is working'''
+    #test diameter() function is working
     c = Circle(1)
-    print ("c.radius = ",c.radius)
-    print ("c.diameter =",c.diameter())
     assert c.radius == 1
+    print("test_diameter passed")
+    
+def test_diameter2():
+    ''' test diameter2() function is working'''
+    c = Circle(4)
+    c.diameter = 2
+    assert c.diameter == 2
+    assert c.radius == 4
+    print("test_diameter2 passed")
     
 if __name__ == "__main__":
     test_circle()
     test_diameter()
-    print('Tests passed!!')
+    test_diameter2()
+    
+    print('All tests passed!!')
