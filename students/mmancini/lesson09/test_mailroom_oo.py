@@ -49,7 +49,7 @@ def test_mailroom_create_report():
     pass
     init_donors_collection()
     expected_report = read_file(canned_sorted_report)
-    report = mailroom_control.create_report(all_donors.dict_donors)
+    report = mailroom_control.create_donors_report(all_donors)
     assert report == expected_report
 
 
@@ -57,8 +57,9 @@ def test_mailroom_write_letters():
     pass
     init_donors_collection()
     expected_all_thankyou_letters = read_file(canned_all_thankyou_letters)
-    all_thankyou_letters = mailroom_control.write_letters_to_all_donors(all_donors.dict_donors)
+    all_thankyou_letters = mailroom_control.write_letters_to_all_donors(all_donors)
     assert all_thankyou_letters == expected_all_thankyou_letters
+
 
 
 ###################################
