@@ -11,7 +11,6 @@ Goal:
 The goal is to create a class that represents a simple circle.
 
 and the user can query the circle for either its radius or diameter.
-
 Other abilities of a Circle instance:
 
 Compute the circle’s area.
@@ -27,20 +26,27 @@ properties.
 a bunch of “magic methods”.
 a classmethod.
 """
-#import math
+import math
 
 class Circle(object):
     '''a class to form circles'''
-    def __init__(self, radius):
-        self.radius = radius
-        
+    def __init__(self, radius=0):
+        self.the_radius = radius
+    
+    @property    
+    def radius(self):
+        return self.the_radius
+    
+    @property    
     def area(self):
-        return self.radius**2*3.14
+        return self.the_radius**2*3.14
     
+    @property
     def perimeter(self):
-        return 2*self.radius*3.14
+        return 2*self.the_radius*3.14
     
+    @property
     def diameter(self):
-        return self.radius*2
+        return self.the_radius*2
     
 
