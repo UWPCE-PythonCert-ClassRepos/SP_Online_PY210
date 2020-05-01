@@ -95,7 +95,26 @@ class Circle(object):
     def __lt__(self, b):
         return self.radius < b.radius    
 
+class Sphere(Circle):
+
+    def __str__(self):
+        return (f"A sphere with the radius of: {self.radius}")
     
+    def __repr__(self):
+        return (f"A sphere with the radius of: {self.radius}")
+
+    @property
+    def volume(self):
+        return 4 / 3 * math.pi * self.radius ** 3
+
+    @property
+    def area(self):
+        return 4 * math.pi * self.radius ** 2 
+    
+s = Sphere(4)
+print(s.volume)
+print(s.area)
+print(s)    
 #c = 2 * c1
 #print(c)
 #print(a)

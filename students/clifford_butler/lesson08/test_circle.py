@@ -104,11 +104,19 @@ def test_lt():
     c = c6 < c5
     d = c5 < c6
     assert c5 > c6
+    assert c6 < c5 
     assert a == True
     assert b == False
     assert c == True
     assert d == False
     print("test_lt passed")
+
+def test_sphere():
+    # test sphere area and volume sub class
+    s = Sphere(4)
+    assert s.volume == 268.082573106329
+    assert s.area == 201.06192982974676
+    print("test_sphere passed")
     
 if __name__ == "__main__":
     test_circle()
@@ -123,4 +131,5 @@ if __name__ == "__main__":
     test_rmul()
     test_eg()
     test_lt()
+    test_sphere()
     print("All tests passed!!")
