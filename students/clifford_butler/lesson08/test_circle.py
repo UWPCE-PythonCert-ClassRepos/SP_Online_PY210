@@ -52,7 +52,7 @@ def test_add():
     assert str(c) == 'A circle with the radius of: 6'
     print("test_add passed")
     
-def test_mult():
+def test_mul():
     c = Circle(4)
     c1 = Circle(2)
     c2 = Circle(4)
@@ -75,11 +75,13 @@ def test_repr():
     assert 'Circle(7)' == d
     print("test_repr passed")
 
-def test_mult2():
+def test_rmul():
     # test multiplying circle by a number
     c5 = (Circle(4))
     a = repr(c5 * 2)
+    b = repr(2 * c5)
     assert 'Circle(8)' == a
+    assert 'Circle(8)' == b
     print("test_mult2 passed")
 
 if __name__ == "__main__":
@@ -89,8 +91,8 @@ if __name__ == "__main__":
     test_area()
     test_from_diameter()
     test_add()
-    test_mult()
+    test_mul()
     test_str()
     test_repr()
-    test_mult2()
+    test_rmul()
     print("All tests passed!!")
