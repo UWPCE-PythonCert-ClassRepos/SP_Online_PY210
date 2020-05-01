@@ -96,12 +96,13 @@ class Circle(object):
         return self.radius < b.radius    
 
 class Sphere(Circle):
-
+    '''a sub class to form spheres'''
+    
     def __str__(self):
         return (f"A sphere with the radius of: {self.radius}")
     
     def __repr__(self):
-        return (f"A sphere with the radius of: {self.radius}")
+        return (f"Sphere({self.radius})")
 
     @property
     def volume(self):
@@ -110,28 +111,3 @@ class Sphere(Circle):
     @property
     def area(self):
         return 4 * math.pi * self.radius ** 2 
-    
-s = Sphere(4)
-print(s.volume)
-print(s.area)
-print(s)    
-#c = 2 * c1
-#print(c)
-#print(a)
-
-
-#    def __mults__(self, t):
- #       # mult a circle by radius
-  #      new_radius = self.the_radius * t.the_radius
-   #     return (new_radius)   
-    
-#c1 = (Circle(2))
-#c2 = (Circle(4))
-#c3 = (Circle(8))
-#a = (c1 + c2)
-#b = (3 * a)
-#c = (a * 3)
-#print(b)
-#a = c3 + c1
-#print(c3 * 2)
-

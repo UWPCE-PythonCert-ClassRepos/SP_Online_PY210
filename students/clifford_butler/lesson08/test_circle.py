@@ -114,6 +114,7 @@ def test_lt():
 def test_sphere():
     # test sphere area and volume sub class
     s = Sphere(4)
+    z = Sphere.from_diameter(8)
     assert s.volume == 268.082573106329
     assert s.area == 201.06192982974676
     print("test_sphere passed")
