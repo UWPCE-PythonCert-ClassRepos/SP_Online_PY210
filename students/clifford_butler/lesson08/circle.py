@@ -68,6 +68,11 @@ class Circle(object):
     def __repr__(self):
         return (f"Circle({self.the_radius})")    
 
+c1 = Circle(2)
+c2 = Circle(4)
+a = (c1 + c2)
+print(a)
+
 '''    
 c = Circle(4)
 print (c)
