@@ -66,8 +66,12 @@ class Circle(object):
         return(f"A circle with the radius of: {self.the_radius}")    
 
     def __repr__(self):
-        return (f"Circle({self.the_radius})")    
-
+        return (f"Circle({self.the_radius})")   
+    
+    def __add__(self, b):
+        # adds two circles by radius
+        return (f"Circle({self.the_radius + b.the_radius})")    
+    
 c1 = Circle(2)
 c2 = Circle(4)
 a = (c1 + c2)

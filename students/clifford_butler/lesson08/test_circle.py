@@ -44,10 +44,18 @@ def test_from_diameter():
     assert c.radius == 4
     print("test_from_diameter passed")
     
+def test_add():
+    c1 = Circle(2)
+    c2 = Circle(4)
+    a = (c1 + c2)
+    assert repr(Circle(6)) == a  
+    print("test_add passed")
+    
 if __name__ == "__main__":
     test_circle()
     test_diameter()
     test_diameter2()
     test_area()
     test_from_diameter()
+    test_add()
     print("All tests passed!!")
