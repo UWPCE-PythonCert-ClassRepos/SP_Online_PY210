@@ -75,7 +75,10 @@ class Circle(object):
 
     def __mul__(self,b):
         # mult a circle by radius
-        mul_radius = self.the_radius * b.the_radius
+        try:
+            mul_radius = self.the_radius * b.the_radius
+        except(AttributeError):
+            mul_radius = self.the_radius * b
         return Circle(mul_radius)
         #return Circle({self.the_radius * b})    
         

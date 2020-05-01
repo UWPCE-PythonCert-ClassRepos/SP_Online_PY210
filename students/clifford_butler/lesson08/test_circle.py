@@ -74,7 +74,14 @@ def test_repr():
     d = repr(c)
     assert 'Circle(7)' == d
     print("test_repr passed")
-   
+
+def test_mult2():
+    # test multiplying circle by a number
+    c5 = (Circle(4))
+    a = repr(c5 * 2)
+    assert 'Circle(8)' == a
+    print("test_mult2 passed")
+
 if __name__ == "__main__":
     test_circle()
     test_diameter()
@@ -85,4 +92,5 @@ if __name__ == "__main__":
     test_mult()
     test_str()
     test_repr()
+    test_mult2()
     print("All tests passed!!")
