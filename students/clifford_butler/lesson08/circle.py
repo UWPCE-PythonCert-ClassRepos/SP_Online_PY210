@@ -58,10 +58,17 @@ class Circle(object):
         self.the_radius = value / 2    
         
     @classmethod
-    def from_diameter(self):
+    def from_diameter(a, diameter):
         # creates a circle from diameter
-        pass
+        return a(diameter/2)
+
+    def __str__(self):
+        return(f"A circle with the radius of: {self.the_radius}")    
+
+    def __repr__(self):
+        return (f"Circle({self.the_radius})")    
+
     
-c = Circle.from_diameter(8)
-#print (c.diameter())
-#print (c.radious)
+c = Circle(4)
+print (c)
+print (c)
