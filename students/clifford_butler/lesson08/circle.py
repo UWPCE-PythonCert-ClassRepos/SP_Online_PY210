@@ -10,7 +10,6 @@ Circle Class Exercise
 Goal:
 The goal is to create a class that represents a simple circle.
 
-A Circle can be defined by either specifying the radius or the diameter, 
 and the user can query the circle for either its radius or diameter.
 
 Other abilities of a Circle instance:
@@ -40,5 +39,8 @@ class Circle(object):
     
     def perimeter(self):
         return 2*self.radius*3.14
+    
+    def diameter(self):
+        return self.radius*2
     
 
