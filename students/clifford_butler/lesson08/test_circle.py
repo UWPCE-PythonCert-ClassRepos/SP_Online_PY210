@@ -48,28 +48,30 @@ def test_add():
     # test if adding two circle variables adds the two circles together
     c1 = Circle(2)
     c2 = Circle(4)
-    c = (c1 + c2)
+    c = c1 + c2
     assert str(c) == 'A circle with the radius of: 6'
     print("test_add passed")
     
 def test_mult():
+    c = Circle(4)
     c1 = Circle(2)
     c2 = Circle(4)
-    c = (c1 * c2)
-    assert 'Circle(8)' == c  
+    a = c1 * c2
+    assert 'A circle with the radius of: 4' == str(c) 
+    assert 'A circle with the radius of: 8' == str(a)      
     print("test_mult passed")
     
 def test_str():
     # test the string output of a circle
     c = Circle(4)
-    d = (eval(repr(c)))
+    d = eval(repr(c))
     assert 'A circle with the radius of: 4' == str(d)
     print("test_str passed")
     
 def test_repr():
     # test the string output of a circle
     c = Circle(7)
-    d = (repr(c))
+    d = repr(c)
     assert 'Circle(7)' == d
     print("test_repr passed")
    
@@ -80,7 +82,7 @@ if __name__ == "__main__":
     test_area()
     test_from_diameter()
     test_add()
-    #test_mult()
+    test_mult()
     test_str()
     test_repr()
     print("All tests passed!!")

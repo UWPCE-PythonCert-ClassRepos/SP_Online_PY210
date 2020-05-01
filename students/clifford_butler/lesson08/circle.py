@@ -70,16 +70,22 @@ class Circle(object):
     
     def __add__(self,b):
         # adds two circles by radius
-        new_radius = (self.the_radius + b.the_radius)
+        new_radius = self.the_radius + b.the_radius
         return Circle(new_radius)     
 
-    def __mult__(self,b):
+    def __mul__(self,b):
         # mult a circle by radius
-        mul_radius = (self.the_radius * b.the_radius)
+        mul_radius = self.the_radius * b.the_radius
         return Circle(mul_radius)
         #return Circle({self.the_radius * b})    
-c = Circle(4)
-print(c)
+        
+#c = Circle(4)
+#c1 = Circle(2)
+#c2 = Circle(4)
+#a = c1 * c2
+#print(c)
+#print(a)
+
 
 #    def __mults__(self, t):
  #       # mult a circle by radius
