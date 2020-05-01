@@ -48,8 +48,29 @@ def test_add():
     c1 = Circle(2)
     c2 = Circle(4)
     a = (c1 + c2)
-    assert repr(Circle(6)) == a  
+    g = eval(repr(Circle(6)))
+    print (g)
+    print(a)
+    print('Circle(6)')
+    assert str(a) == 'Circle(6)'  
     print("test_add passed")
+    
+def test_mult():
+    c1 = Circle(2)
+    c2 = Circle(4)
+    a = (c1 * c2)
+    assert (Circle(8)) == a  
+    print("test_mult passed")
+    
+def test_str():
+    # test the string output of a circle
+    c = Circle(7)
+    d = eval(repr(c))
+    print(c)
+    print(d)
+    text = "Circle(7)"
+    assert 'Circle(7)' == str(d)
+    assert text != d    
     
 if __name__ == "__main__":
     test_circle()
@@ -58,4 +79,5 @@ if __name__ == "__main__":
     test_area()
     test_from_diameter()
     test_add()
+    test_str()
     print("All tests passed!!")
