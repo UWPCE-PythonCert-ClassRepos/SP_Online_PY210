@@ -43,7 +43,7 @@ class Circle(object):
         
     @property    
     def area(self):
-        return self.the_radius ** 2 * math.pi 
+        return round(math.pi * (self._radius ** 2), 4) 
     
     @property
     def perimeter(self):
@@ -51,12 +51,13 @@ class Circle(object):
     
     @property
     def diameter(self):
-        return self.the_radius*2
+        return self.the_radius * 2
 
     @diameter.setter
     def diameter(self, value):
         self.the_radius = value / 2    
-
+        
+    @classmethod
     def from_diameter(self):
         # creates a circle from diameter
         pass
