@@ -49,7 +49,7 @@ def test_add():
     c1 = Circle(2)
     c2 = Circle(4)
     c = (c1 + c2)
-    assert str(c) != 'Circle(6)'
+    assert str(c) == 'A circle with the radius of: 6'
     print("test_add passed")
     
 def test_mult():
