@@ -35,19 +35,19 @@ class Donor(object):
         self.name = name
         self.donation = []
     
-    def add_donation(self, value):
-        # return the donation amount
-        self.donation.append(value)
+    def add_amount(self, amount):
+        # add donation amount based on name
+        self.donation.append(amount) 
     
 class DonorCollection(object):
     # Class responsible for donor collection data encapsulation
     def __init__(self):
         self.donors = {}
     
-    def add_donor(self, name):
+    def add_name(self, name):
         # add donor based on name given
-        if name not in self.donors:
-           self.donors[name] = Donor(name)        
+        for donor in self.donors:
+            if name == donor:
+                break
         else:
-           return self.donors[name]
-    
+            self.donors[name] = Donor(name)

@@ -8,12 +8,13 @@ import donor_models as dm
 import sys
 import operator
 
-# dictionary with donor names and donation amounts
-donor_list = {"William Gates, III": [653772.32, 12.17],
-              "Jeff Bezos":  [877.33],
-              "Paul Allen": [663.23, 43.87, 1.32],
-              "Mark Zuckerberg": [1663.23, 4300.87, 10432.0],
-              "Alexandra Butler": [777.77, 44.44]}
+def donor_list():
+    # dictionary with donor names and donation amounts
+    donors.add_name("William Gates, III", 653772.32, 12.17)
+    donors.add_name("Jeff Bezos", 877.33)
+    donors.add_name("Paul Allen", 663.23, 43.87, 1.32)
+    donors.add_name("Mark Zuckerberg", 1663.23, 4300.87, 10432.0)
+    donors.add_name("Alexandra Butler", 777.77, 44.44)
 
 def main_menu():
     # display the main menu
@@ -35,10 +36,6 @@ def prompt_amount(full_name):
     except ValueError:
         print("Input must be a number. Donor information not entered. Try again! ")
     return amount
-
-def add_amount(full_name,amount):
-    # add donation amount to the dictionary
-    donor_list[full_name].append(amount)
 
 def prompt_name():
     # request user to input a full name
