@@ -13,7 +13,10 @@ def donor_list():
     dc = DonorCollection()
     donors = ["William Gates, III", "Jeff Bezos", "Paul Allen", "Mark Zuckerberg", "Alexandra Butler"]
     amounts = [[653772.32, 12.17], [877.33], [663.23, 43.87, 1.32], [1663.23, 4300.87, 10432.0], [777.77, 44.44]]
-    
+    for donor, amount in zip(donors,amounts):
+        for donation in amount:
+            dc.update_donor(donor, donation)
+            
 def main_menu():
     # display the main menu
     print("\n".join(("Welcome to the MailRoom!",
@@ -95,9 +98,6 @@ def main():
         '4': exit_program
     }
     
-    # generate initial donor information
-    donor_list()
-    
     while True:
         try:
             response = main_menu()
@@ -106,5 +106,6 @@ def main():
             print("\n'{}'  is not a valid option, please enter 1, 2, 3, or 4!. \n >> ".format(response))
 
 if __name__ == "__main__":
-    
+   donor_list()
+   print (donor_list()) 
    main()

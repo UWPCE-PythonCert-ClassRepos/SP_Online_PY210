@@ -44,10 +44,17 @@ class DonorCollection(object):
     def __init__(self):
         self.donors = {}
     
-    def add_name(self, name):
-        # add donor based on name given
-        for donor in self.donors:
-            if name == donor:
-                break
-        else:
-            self.donors[name] = Donor(name)
+    def update_donor(self, name, amount):
+        # update donor
+        ud = self.get_donor(name)
+        ud.add_amount(amount)
+        self.donors[name] = ud
+
+    def get_donor(self, name):
+        # get donor name based on input
+        return self.donors.get(name, Donor(name))
+
+    @property
+    def donor_names(self):
+        # return list of the donor names
+        return list(self.donors)
