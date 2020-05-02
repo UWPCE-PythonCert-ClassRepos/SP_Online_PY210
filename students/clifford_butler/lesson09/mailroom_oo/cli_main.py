@@ -4,18 +4,16 @@
 User interaction functions and main program flow
 """
 
-import donor_models as dm
+from donor_models import Donor, DonorCollection
 import sys
 import operator
 
 def donor_list():
     # dictionary with donor names and donation amounts
-    donors.add_name("William Gates, III", 653772.32, 12.17)
-    donors.add_name("Jeff Bezos", 877.33)
-    donors.add_name("Paul Allen", 663.23, 43.87, 1.32)
-    donors.add_name("Mark Zuckerberg", 1663.23, 4300.87, 10432.0)
-    donors.add_name("Alexandra Butler", 777.77, 44.44)
-
+    dc = DonorCollection()
+    donors = ["William Gates, III", "Jeff Bezos", "Paul Allen", "Mark Zuckerberg", "Alexandra Butler"]
+    amounts = [[653772.32, 12.17], [877.33], [663.23, 43.87, 1.32], [1663.23, 4300.87, 10432.0], [777.77, 44.44]]
+    
 def main_menu():
     # display the main menu
     print("\n".join(("Welcome to the MailRoom!",
@@ -52,14 +50,6 @@ def prompt_name():
     except TypeError:
             print("\nNot a valid answer. Please enter a name.\n>>>")
     return full_name
-
-def add_name(full_name):
-    # update add name to the dictionary
-    for donor in donor_list:
-        if full_name == donor:
-            break
-    else:
-        donor_list[full_name] = []
 
 def thank_you_text(full_name,amount):
     # display thank you letter with donor name and donation amount
@@ -104,7 +94,10 @@ def main():
         '3': letter_to_all,
         '4': exit_program
     }
-
+    
+    # generate initial donor information
+    donor_list()
+    
     while True:
         try:
             response = main_menu()
@@ -113,4 +106,5 @@ def main():
             print("\n'{}'  is not a valid option, please enter 1, 2, 3, or 4!. \n >> ".format(response))
 
 if __name__ == "__main__":
+    
    main()
