@@ -1,31 +1,10 @@
+
 def exchange_first_last(seq): 
     '''Takes a sequence as input and places the last item first
        the first item last, and leave all other remaining items 
        in their original indexes.'''
-    #Get the last item in the sequence...
-    end = seq[-1]
-    #Get the first item in the sequence...
-    start = seq[0]
-    #Get everything in the sequence between the first and last elements...
-    seq = seq[1:-1]
-    #Lists have different ways of maninulating elements.  Check if it'
-    # a list and rebuild it.
-    if type(seq).__name__ == 'list':
-        seq.insert(0,end)
-        seq.append(start)
-        return seq 
-    #If the input was a string, identify it and add it together.
-    if type(seq).__name__ == 'str':
-        seq = end + seq + start
-        return seq 
-    #and because tuples are immutable concert it to a list, do the exchange, then cast
-    #the list back to a tuple...
-    if type(seq).__name__ == 'tuple':
-        seq = list(seq)
-        seq.insert(0,end)
-        seq.append(start)
-        return tuple(seq)         
-
+    return seq[-1:]+seq[1:-1]+seq[0:1]
+    
 def remove_every_other_item(seq):
     '''Removes every odd numbered item in a squence
        and returns a new sequence.'''
@@ -33,7 +12,7 @@ def remove_every_other_item(seq):
     return seq
 
 def remove_first_and_last_4(seq):
-    '''removes the first four elements and the last four elements
+    '''Removes the first four elements and the last four elements
     of a list. Only odd positioned (every other) element will be returned.
     This function will a text message if the sequence is too small for this function.'''
     #check sequence length...
@@ -45,37 +24,11 @@ def remove_first_and_last_4(seq):
 def reverse_seq(seq):
     '''reverses a sequence by slicing'''
     #Get the length of the squence...
-    positions = len(seq)-1
-    #For lists...
-    if type(seq).__name__ == 'list':
-        #make an empty list to hold the reversal...
-        reversed = []
-        #go through the list backwards and append the elements to the list...
-        while positions >=0:
-            reversed.append(seq[positions])
-            positions -= 1
-        return reversed
-    #for strings...
-    if type(seq).__name__ == 'str':
-        #make empty string to hold the reversal...
-        reversed = ''
-        #go through backwards and concantonate the elements in reverse...
-        while positions >=0:
-            reversed = reversed + seq[positions]
-            positions -= 1
-        return reversed
-    #For tuples just create a list from the tuple, dot the same as a list,
-    #then convert the list back to a tuple...
-    if type(seq).__name__ == 'tuple':
-        seq = list(seq)
-        reversed = []
-        while positions >=0:
-            reversed.append(seq[positions])
-            positions -= 1
-        return tuple(reversed)
+    return seq[::-1]
+        
     
 def mix_thirds(seq):
-    '''for any sequence return an new sequence
+    '''For any sequence return a new sequence
     with the last third, then first third, 
     then the middle third in the new order.'''
     #Get the length of the squence...
@@ -83,26 +36,12 @@ def mix_thirds(seq):
     if seqlength < 3:
         return "Sequence to small for this function."
     else:
-        #divide the sequence lenght by 3 using integer division to handle sequence lenghts 
+        #divide the sequence length by 3 using integer division to handle sequence lengths 
         #with an odd number of elements or those seqlengths not multiples of 3.
         firstpart = seqlength//3
         lastpart = seqlength - seqlength//3
-        #For lists...
-        if type(seq).__name__ == 'list':
-            return seq[lastpart:] + seq[:-lastpart] +seq[firstpart+1:lastpart] 
-        #for strings...
-        if type(seq).__name__ == 'str':
-            #return the mix.
-            return seq[lastpart:] + seq[:-lastpart] +seq[firstpart+1:lastpart]
-        #For tuples just create a list from the tuple, dot the same as a list,
-        #then convert the list back to a tuple...
-        if type(seq).__name__ == 'tuple':
-            seq = list(seq)
-            mixedlist = [] + seq[lastpart:] + seq[:-lastpart] +seq[firstpart+1:lastpart] 
-            return tuple(mixedlist)    
-
-
-
+        return seq[lastpart:] + seq[:-lastpart] +seq[firstpart+1:lastpart] 
+        
 if __name__ == "__main__":
     # run some tests
     
