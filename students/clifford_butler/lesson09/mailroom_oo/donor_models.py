@@ -29,17 +29,22 @@ working with, Donor objects – it should NOT work directly with
 a list of donations, etc.
 """
 
-class Donor(object):
+class Donor():
     # Class responsible for donor data encapsulation
     def __init__(self, name):
         self.name = name
-        self.donation = []
+        self.donations = []
     
     def add_amount(self, amount):
         # add donation amount based on name
-        self.donation.append(amount) 
+        self.donations.append(amount) 
     
-class DonorCollection(object):
+    def donation_amounts(self):
+        return sum(self.donations)
+        
+        
+    
+class DonorCollection():
     # Class responsible for donor collection data encapsulation
     def __init__(self):
         self.donors = {}
@@ -58,3 +63,17 @@ class DonorCollection(object):
     def donor_names(self):
         # return list of the donor names
         return list(self.donors)
+'''
+dc = DonorCollection()
+donors = ["William Gates, III", "Jeff Bezos", "Paul Allen", "Mark Zuckerberg", "Alexandra Butler"]
+amounts = [[653772.32, 12.17], [877.33], [663.23, 43.87, 1.32], [1663.23, 4300.87, 10432.0], [777.77, 44.44]]
+
+  
+for donor, amount in zip(donors,amounts):
+    for donation in amount:
+        dc.update_donor(donor, donation)
+            
+print(dc.donors.keys())        
+'''           
+            
+            

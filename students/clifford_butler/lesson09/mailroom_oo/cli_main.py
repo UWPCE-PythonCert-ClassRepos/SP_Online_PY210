@@ -107,5 +107,11 @@ def main():
 
 if __name__ == "__main__":
    donor_list()
-   print (donor_list()) 
+   for key in dc.donors:
+       print(key)
+   dd = amounts
+
+   print(dd)
+
+   print (Donor([0]).donations) 
    main()
