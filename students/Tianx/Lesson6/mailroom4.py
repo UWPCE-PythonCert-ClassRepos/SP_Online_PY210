@@ -53,13 +53,10 @@ def show_donor_dict(donor_dict):
         None.
 
     """
-    print('======= The Donor List: =======')
-    print('Donor Name:\n')
-    # Not using comprehension here.
-    for donor in donor_dict:
-        print(donor)
-    print('======================================')
-
+    donor_lst = []
+    for name in donor_dict:
+        donor_lst.append(name)
+    return donor_lst
 
 def adding_donor_info(name, donation, donor_dict):
     """Adding donor info to the dict.
@@ -74,10 +71,18 @@ def adding_donor_info(name, donation, donor_dict):
 
     """
     if name not in donor_dict:
-        added_donor = {name: [donation]}
+        added_donor = {name: [float(donation)]}
         donor_dict.update(added_donor)
     else:
         donor_dict[name].append(float(donation)) # If donor name exists, append the donation amount rather than updating the dictionary
+
+
+def create_email(name, donation):
+    #Creating a list of email components
+    email = ['=======Email Template=======']
+    body ='Dear {},\n\nThank you for your generosity, your donation of ${:.2f} will be put to good use.\n\n''Warm regards,\nMailroom Staff'.format(name, float(donation))
+    email.append(body)
+    return email
 
 
 def send_thank_you():
@@ -100,7 +105,9 @@ def send_thank_you():
         if donor_name == "Exit": #If the user types exist return to main menu.
             break
         elif donor_name == "List": #If the user types list show them a list of the donor names and re-prompt.
-            show_donor_dict(dict_of_donors)
+            print('======= The Donor List: =======')
+            for name in show_donor_dict(dict_of_donors):
+                print(name)
         else:
             if donor_name in dict_of_donors:
                 donation_amount = input('Please enter a donation amount for ' + donor_name + ' >')
@@ -111,8 +118,8 @@ def send_thank_you():
                     except ValueError:
                         donation_amount = input('Error: Please enter a number for the donation amount>')
                 adding_donor_info(donor_name, donation_amount, dict_of_donors)
-                print(dict_of_donors)
-                create_email(donor_name, donation_amount)
+                for email in create_email(donor_name, donation_amount):
+                    print(email)
             else:
                 print('\"{}\" is not a current donor, adding to the list...'.format(donor_name))
                 donation_amount = input('Please enter a donation amount for ' + donor_name + ' >')
@@ -123,14 +130,9 @@ def send_thank_you():
                     except ValueError:
                         donation_amount = input('Error: Please enter a number for the donation amount>')
                 adding_donor_info(donor_name, donation_amount, dict_of_donors)
-                create_email(donor_name, donation_amount)
+                for email in create_email(donor_name, donation_amount):
+                    print(email)
             break
-
-
-def create_email(name, donation):
-    print('=======Email Template=======')
-    print('Dear {},\n\nThank you for your generosity, your donation of ${:.2f} will be put to good use.\n\n'
-      'Warm regards,\nMailroom Staff'.format(name, float(donation)))
 
 
 def send_all():
@@ -152,7 +154,7 @@ def send_all():
 def sort_donor(dict_of_donors):
     return sum(dict_of_donors[1])
 
-def create_report():
+def create_report_format():
     """Formatting a report.
 
     Args:
@@ -168,9 +170,15 @@ def create_report():
         number_gifts = len(donation)
         avg = total_given / number_gifts
         report.append(f'{name:26} ${total_given:>11.2f} {number_gifts:>11.0f}  ${avg:>12.2f}')
+    return report
+
+def display_report(report):
     for item in report:
         print(item)
-    return report
+
+def create_report():
+	report = create_report_format()
+	display_report(report)
 
 def quit():
     print("Exiting the menu now")
