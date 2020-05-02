@@ -47,7 +47,7 @@ def show_donor_dict(donor_dict):
     """Displays current donor list.
 
     Args:
-        donor_dict: dictionary of donor.
+        donor_dict: dictionary of donors.
 
     Returns:
         None.
@@ -64,7 +64,7 @@ def adding_donor_info(name, donation, donor_dict):
     Args:
         name: donor name
         donation: donation amount
-        donor_dict: dictionary of donor.
+        donor_dict: dictionary of donors.
 
     Returns:
         None.
@@ -161,7 +161,7 @@ def create_report_format():
        None
 
     Returns:
-       None
+       report object
 
     """
     report = ['Donor Name                | Total Given | Num Gifts | Average Gift','------------------------------------------------------------------']
@@ -172,13 +172,32 @@ def create_report_format():
         report.append(f'{name:26} ${total_given:>11.2f} {number_gifts:>11.0f}  ${avg:>12.2f}')
     return report
 
+
 def display_report(report):
+    """Displaying the report.
+
+    Args:
+       report generated from create_report_format function
+
+    Returns:
+       None
+
+    """
     for item in report:
         print(item)
 
 def create_report():
-	report = create_report_format()
-	display_report(report)
+    """Creating format and then display.
+
+    Args:
+       None
+
+    Returns:
+       None
+
+    """
+    report = create_report_format()
+    display_report(report)
 
 def quit():
     print("Exiting the menu now")
