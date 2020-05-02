@@ -4,7 +4,7 @@
 User interaction functions and main program flow
 """
 
-import donor_models
+from donor_models import DonorCollection
 import sys
 
 def main_menu():
@@ -18,9 +18,22 @@ def main_menu():
         ">>> ")))
     return input()
 
-def send_thank_you():
+def send_thank_you(donors):
     # send thank you email based on user input information
-    pass
+    try: 
+        name = input("Type the donors full name or type list to display donor names.")
+        if name == 'list':
+            for key in donors.name:
+                print(key)
+            print('')
+        elif name == "":
+            raise TypeError
+        else:
+            donors.add_donor(name)
+    except TypeError:
+        print("not valid name")
+    return name
+    print(donors)
 
 def create_report():
     # generate and display a report of the donors in donor_dict
@@ -37,7 +50,7 @@ def exit_program():
 
 def main():
     # prompt user to select option
-    #donor_list = DonorCollection()
+    donors = DonorCollection()
     
     #dict with the user options and the functions
     switch_dict = {
@@ -50,7 +63,7 @@ def main():
     while True:
         try:
             response = main_menu()
-            switch_dict[response]()
+            switch_dict[response](donors)
         except KeyError:
             print("\n'{}'  is not a valid option, please enter 1, 2, 3, or 4!. \n >> ".format(response))
 

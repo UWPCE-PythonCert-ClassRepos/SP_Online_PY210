@@ -41,4 +41,13 @@ class Donor(object):
     
 class DonorCollection(object):
     # Class responsible for donor collection data encapsulation
-    pass
+    def __init__(self):
+        self.donors = {}
+    
+    def add_donor(self, name):
+        # add donor based on name given
+        if name not in self.donors:
+           self.donors[name] = Donor(name)        
+        else:
+           return self.donors[name]
+    
