@@ -46,7 +46,6 @@ def main():
         '3': letter_to_all,
         '4': exit_program
     } 
-    pass
 
     while True:
         try:
