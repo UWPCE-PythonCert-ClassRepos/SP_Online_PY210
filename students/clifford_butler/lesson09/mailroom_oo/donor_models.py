@@ -31,8 +31,14 @@ a list of donations, etc.
 
 class Donor(object):
     # Class responsible for donor data encapsulation
-    pass
-
+    def __init__(self, name):
+        self.name = name
+        self.donation = []
+    
+    def add_donation(self, value):
+        # return the donation amount
+        self.donation.append(value)
+    
 class DonorCollection(object):
     # Class responsible for donor collection data encapsulation
     pass
