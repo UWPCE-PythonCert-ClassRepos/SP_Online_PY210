@@ -37,6 +37,12 @@ def test_add():
     assert d.num_donations() == 3
     
     print('add donation test passed')
+    
+def test_empty():
+    '''
+    test returning empty/zero values
+    '''
+    pass
 
 def test_thank_you_text():
     '''
