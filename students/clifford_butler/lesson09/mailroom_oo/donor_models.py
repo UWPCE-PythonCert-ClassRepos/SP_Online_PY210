@@ -83,18 +83,18 @@ class DonorCollection():
     def donor_names(self):
         # return list of the donor names
         return list(self.donors)
-
+'''
 dc = DonorCollection()
 donors = ["William Gates, III", "Jeff Bezos", "Paul Allen", "Mark Zuckerberg", "Alexandra Butler"]
 amounts = [[653772.32, 12.17], [877.33], [663.23, 43.87, 1.32], [1663.23, 4300.87, 10432.0], [777.77, 44.44]]
-'''
+
 for donor, amount in zip(donors,amounts):
     if donor == donor:
         break
     else:
         for donation in amount:
             dc.update_donor(donor, donation)
-'''        
+       
 
 for donor, amount in zip(donors,amounts):
     for donation in amount:
@@ -109,4 +109,5 @@ for key in dc.donors:
 d = Donor([]).donations   
 print(d)
 #print(Donor([]).donations)              
-#print(dc.donors.keys())        
+#print(dc.donors.keys()) 
+'''       

@@ -4,9 +4,22 @@
 Test functions for mailroom_oo
 """
 
-import donor_models as dm
+from donor_models import Donor, DonorCollection
 import cli_main as cm
 from mock import patch
+import pytest
+
+def test_donor_init():
+    '''
+    test donor init function
+    '''
+    d = Donor('Reem Alqaysi')
+
+    with pytest.raises(TypeError):
+        d = Donor()
+        assert pytest.raises == True
+        
+    print('donor init test passed')
 
 def test_thank_you_text():
     '''
