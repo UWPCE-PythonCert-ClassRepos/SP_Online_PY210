@@ -32,8 +32,7 @@ def test_add():
         d.add_amount(amount)
     assert d.donations == z  
     print(d.donations)
-    #assert d.donations == donations_to_add
-    #assert d.last_donation() == 150.00
+    assert d.last_donation() == 150.00
     #assert d.total_donations() == 300.00
     #assert d.average_donation() == 100.00
     #assert d.num_donations() == 3
