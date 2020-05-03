@@ -31,11 +31,10 @@ def test_add():
     for amount in z:
         d.add_amount(amount)
     assert d.donations == z  
-    print(d.donations)
     assert d.last_donation() == 150.00
-    #assert d.total_donations() == 300.00
-    #assert d.average_donation() == 100.00
-    #assert d.num_donations() == 3
+    assert d.total_donations() == 300.00
+    assert d.average_donation() == 100.00
+    assert d.num_donations() == 3
     
     print('add donation test passed')
 
