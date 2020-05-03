@@ -113,5 +113,5 @@ if __name__ == "__main__":
 
    print(dd)
 
-   print (Donor([0]).donations) 
+   print (Donor([0])) 
    main()

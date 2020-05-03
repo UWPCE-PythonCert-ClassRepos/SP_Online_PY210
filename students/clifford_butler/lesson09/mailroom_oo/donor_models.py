@@ -34,13 +34,33 @@ class Donor():
     def __init__(self, name):
         self.name = name
         self.donations = []
-    
+        
+    def __lt__(self, other):
+        if self.total_donations() < other.total_donations():
+            return True
+        elif self.total_donations() == other.total_donations(): # Otherwise, sort by last name
+            return self.name.split()[-1] < other.name.split()[-1]
+        else:
+            return False
+        
     def add_amount(self, amount):
         # add donation amount based on name
         self.donations.append(amount) 
     
-    def donation_amounts(self):
+    def last_donation(self):
+        if self.donations:
+            return self.donations[-1]
+        else:
+            return 0
+
+    def total_donations(self):
         return sum(self.donations)
+
+    def num_donations(self):
+        return len(self.donations)
+
+    def average_donation(self):
+        return self.total_donations()/self.num_donations() if self.donations else 0
         
         
     
@@ -63,17 +83,30 @@ class DonorCollection():
     def donor_names(self):
         # return list of the donor names
         return list(self.donors)
-'''
+
 dc = DonorCollection()
 donors = ["William Gates, III", "Jeff Bezos", "Paul Allen", "Mark Zuckerberg", "Alexandra Butler"]
 amounts = [[653772.32, 12.17], [877.33], [663.23, 43.87, 1.32], [1663.23, 4300.87, 10432.0], [777.77, 44.44]]
+'''
+for donor, amount in zip(donors,amounts):
+    if donor == donor:
+        break
+    else:
+        for donation in amount:
+            dc.update_donor(donor, donation)
+'''        
 
-  
 for donor, amount in zip(donors,amounts):
     for donation in amount:
         dc.update_donor(donor, donation)
             
-print(dc.donors.keys())        
-'''           
+        
             
-            
+
+for key in dc.donors:
+   print(key) 
+
+d = Donor([]).donations   
+print(d)
+#print(Donor([]).donations)              
+#print(dc.donors.keys())        
