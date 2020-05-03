@@ -13,13 +13,32 @@ def test_donor_init():
     '''
     test donor init function
     '''
-    d = Donor('Reem Alqaysi')
+    d = Donor('Clifford Butler')
 
     with pytest.raises(TypeError):
         d = Donor()
         assert pytest.raises == True
+        assert pytest.raises != False
         
     print('donor init test passed')
+    
+def test_add():
+    '''
+    test add donation function
+    '''
+    d = Donor('Clifford Butler')
+    z = [100.00, 50.00, 150.00]
+    for amount in z:
+        d.add_amount(amount)
+    assert d.donations == z  
+    print(d.donations)
+    #assert d.donations == donations_to_add
+    #assert d.last_donation() == 150.00
+    #assert d.total_donations() == 300.00
+    #assert d.average_donation() == 100.00
+    #assert d.num_donations() == 3
+    
+    print('add donation test passed')
 
 def test_thank_you_text():
     '''
@@ -55,10 +74,12 @@ def test_exit_program():
         assert exit_mock.called != False
 
 if __name__== "__main__":
-    test_thank_you_text()
-    test_add_name()
-    test_prompt_amount()
-    test_add_amount()
-    test_exit_program()
+    test_donor_init()
+    test_add()
+    #test_thank_you_text()
+    #test_add_name()
+    #test_prompt_amount()
+    #test_add_amount()
+    #test_exit_program()
     print('All test passed')
     
