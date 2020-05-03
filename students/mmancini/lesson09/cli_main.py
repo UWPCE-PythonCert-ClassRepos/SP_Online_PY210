@@ -94,21 +94,20 @@ def op_receive_donation():
 
 
 def op_display_list_of_donors():
-    listed_donors = mailroom_control.display_donors(all_donors.dict_donors)
+    listed_donors = mailroom_control.display_donors(all_donors)
     # write_file(canned_all_donors_listed, listed_donors)
     return listed_donors
 
 
 def op_create_report():
-    report = mailroom_control.create_report(all_donors.dict_donors)
+    report = mailroom_control.create_report(all_donors)
     # write_file(canned_sorted_report, report)
     return report
 
 
 def op_write_letters_to_all():
-    all_thankyou_letters = mailroom_control.write_letters_to_all_donors(all_donors.dict_donors)
+    all_thankyou_letters = mailroom_control.write_letters_to_all_donors(all_donors)
     # write_file(canned_all_thankyou_letters, all_thankyou_letters)
-    quit()
 
 
 def op_done():
@@ -130,8 +129,11 @@ def mailroom_main():
                      }
 
     while True:
-        operation = mailroom_control.ui_menu_main()
-        op_action_dict.get(operation)()
+        try:
+            operation = mailroom_control.ui_menu_main()
+            op_action_dict.get(operation)()
+        except:
+            print("Invalid Operation Entry, please retry!")
 
 ###################################
 
