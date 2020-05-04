@@ -7,15 +7,15 @@ User interaction functions and main program flow
 from donor_models import Donor, DonorCollection
 import sys
 
+'''
+# removed for now not working.
 def donor_list():
-    # generate initial donor dict
-
-    dc = DonorCollection()       
+    # generate initial donor dict       
         
     d = Donor('William Gates, III')
     z = [653772.32]
-    for donor in z:
-        dc.add_amount(amount)
+    for amount in z:
+        d.add_amount(amount)
           
     d1 = Donor('Jeff Bezos')
     z = [877.33]
@@ -36,8 +36,7 @@ def donor_list():
     z = [777.77, 44.44]
     for amount in z:
         d4.add_amount(amount)
-        print(Donor('Clifford Butler').donations) 
-     
+'''     
 def main_menu():
     # display the main menu
     print("\n".join(("Welcome to the MailRoom!",
@@ -68,17 +67,17 @@ def send_thank_you():
                 else:
                     exit_program()
 
-        donation_amount = input("Enter the donation amount (or q to quit) ")
-        if donation_amount.lower() == 'q':
+        donation_amount = input("Enter the donation amount (or exit to exit) ")
+        if donation_amount.lower() == 'exit':
             exit_program()
         elif float(donation_amount) > 0:
             amount = float(donation_amount)
-            dc.update_donor(name,amount)
+            dc.update_donor(donor_name,amount)
         else:
-            print("The number you enter must be greater than 0.")
+            print("Enter a number greater than 0.")
 
         dc.update_donor(name,amount)
-        email = dc.get_donor(name).generate_email()
+        email = dc.get_donor(name).send_thank_you()
         print(email)
         return
 
@@ -99,15 +98,11 @@ def create_report():
     
 def letter_to_all():
     # send thank you letter to all donors
-    for name in dc.donor_names:
-        filename = name.replace(' ', '_').replace(',', '') + ".txt"
-        filename = filename.lower()
-        filetext = dc.get_donor(name).send_thank_you()
-        with open(filename,'w+') as output:
-            output.write(filetext)
-        print("\nLetters {} have been sent".format(filename))
-    print("Letters have been sent")
-
+    for name in dc.donors.keys():
+        with open(f"{name}.txt","w+") as output:
+            output.write(f"Hi {name},\n\nThank you for the generous donations.\n\nSincerely,\nClifford Butler")
+        print("\nLetter to {} has been sent".format(name))
+      
 def exit_program():
     # exit the interactive script
     print("Bye!")
@@ -131,5 +126,5 @@ def main():
 
 if __name__ == "__main__":
    dc = DonorCollection()
-   donor_list()
+   #donor_list() removed for now not working. 
    main()

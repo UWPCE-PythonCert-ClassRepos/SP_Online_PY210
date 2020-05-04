@@ -62,7 +62,7 @@ class Donor():
     def average_donation(self):
         return self.total_donations()/self.num_donations() if self.donations else 0
     
-    def send_thank_you():
+    def send_thank_you(self):
     
         email_info = {'donor_name':self.name,
                  'donation_amount':self.last_donation()}
@@ -87,7 +87,7 @@ class DonorCollection():
     @property
     def donor_names(self):
         # return list of the donor names
-        return list(self.donors.values())
+        return list(self.donors)
 
     def report_data(self):
         # returns the data needed for creating a report
