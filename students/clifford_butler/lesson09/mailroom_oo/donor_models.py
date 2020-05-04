@@ -61,6 +61,13 @@ class Donor():
 
     def average_donation(self):
         return self.total_donations()/self.num_donations() if self.donations else 0
+    
+    def send_thank_you():
+    
+        email_info = {'donor_name':self.name,
+                 'donation_amount':self.last_donation()}
+        email = ("\nHi {donor_name}:\n\nThank you for the generous donation of ${donoation_amount:2d}, Sincerely, \n\nClifford Butler".format(**email_info))
+        return (email)
         
         
     
