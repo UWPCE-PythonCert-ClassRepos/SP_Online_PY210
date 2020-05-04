@@ -26,15 +26,16 @@ def test_add():
     '''
     test add donation function
     '''
-    d = Donor('Clifford Butler')
-    z = [100.00, 50.00, 150.00]
+    d3 = Donor('Mark Zuckerberg')
+    z = [1663.23, 4300.87, 10432.0]
     for amount in z:
-        d.add_amount(amount)
-    assert d.donations == z  
-    assert d.last_donation() == 150.00
-    assert d.total_donations() == 300.00
-    assert d.average_donation() == 100.00
-    assert d.num_donations() == 3   
+        d3.add_amount(amount)        
+    assert d3.donations == z  
+    assert d3.total_donations() == 16396.1 
+    assert d3.last_donation() == 10432.0
+    assert d3.average_donation() == 5465.366666666666
+    assert d3.num_donations() == 3
+
     print('add donation test passed')
     
 def test_empty():
@@ -63,10 +64,6 @@ if __name__== "__main__":
     test_donor_init()
     test_add()
     test_empty()
-    #test_thank_you_text()
-    #test_add_name()
-    #test_prompt_amount()
-    #test_add_amount()
     test_exit_program()
     print('All test passed')
     

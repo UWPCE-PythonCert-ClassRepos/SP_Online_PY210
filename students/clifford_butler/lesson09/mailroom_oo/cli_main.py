@@ -9,10 +9,13 @@ import sys
 
 def donor_list():
     # generate initial donor dict
+
+    dc = DonorCollection()       
+        
     d = Donor('William Gates, III')
-    z = [653772.32, 12.1]
-    for amount in z:
-        d.add_amount(amount)
+    z = [653772.32]
+    for donor in z:
+        dc.add_amount(amount)
           
     d1 = Donor('Jeff Bezos')
     z = [877.33]
@@ -33,7 +36,8 @@ def donor_list():
     z = [777.77, 44.44]
     for amount in z:
         d4.add_amount(amount)
-        
+        print(Donor('Clifford Butler').donations) 
+     
 def main_menu():
     # display the main menu
     print("\n".join(("Welcome to the MailRoom!",
@@ -47,13 +51,12 @@ def main_menu():
 
 def send_thank_you():
     # get user input to send thank you
-    dc = DonorCollection()
     while True:
         donor_name = input("Enter the donor name, 'list' to get list of donors, or 'exit' to exit.) ")
         if donor_name.lower() == 'exit':
             exit_program()
         elif donor_name.lower() == "list":
-            print('\nCurrent list of donors:\n')
+            print('\nList of donors:\n')
             print('\n'.join(dc.donor_names))
             continue
         else:
@@ -91,17 +94,19 @@ def report_format(report):
     
 def create_report():
     # Generate, format, and print report data
-    dc = DonorCollection()
     report = dc.report_data()
-    report_format(report)    
+    report_format(report)  
     
 def letter_to_all():
     # send thank you letter to all donors
-    dc = DonorCollection()
-    for full_name in dc.get_donor:
-        with open(f"{full_name}.txt","w+") as donor_letter:
-            donor_letter.write(f"Hi {full_name},\n\nThank you for the generous donation of ${sum(donor_list[full_name]):.2f}.\n\nSincerely,\nClifford Butler")
-    print("Thank you letters sent!")
+    for name in dc.donor_names:
+        filename = name.replace(' ', '_').replace(',', '') + ".txt"
+        filename = filename.lower()
+        filetext = dc.get_donor(name).send_thank_you()
+        with open(filename,'w+') as output:
+            output.write(filetext)
+        print("\nLetters {} have been sent".format(filename))
+    print("Letters have been sent")
 
 def exit_program():
     # exit the interactive script
@@ -125,5 +130,6 @@ def main():
             print("\n'{}'  is not a valid option, please enter 1, 2, 3, or 4!. \n >> ".format(response))
 
 if __name__ == "__main__":
+   dc = DonorCollection()
    donor_list()
    main()

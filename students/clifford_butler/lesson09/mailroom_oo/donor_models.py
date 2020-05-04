@@ -76,9 +76,9 @@ class DonorCollection():
     
     def update_donor(self, name, amount):
         # update donor
-        ud = self.get_donor(name)
-        ud.add_amount(amount)
-        self.donors[name] = ud
+        dc = self.get_donor(name)
+        dc.add_amount(amount)
+        self.donors[name] = dc
 
     def get_donor(self, name):
         # get donor name based on input
@@ -87,14 +87,12 @@ class DonorCollection():
     @property
     def donor_names(self):
         # return list of the donor names
-        return list(self.donors)
-    
+        return list(self.donors.values())
+
     def report_data(self):
         # returns the data needed for creating a report
-        donors = list(self.donors.keys())
+        donors = list(self.donors.values())
         donors.sort(reverse=True)
-        report = [(donor.donor_names, donor.total_donations(), donor.num_donations(),
+        report = [(donor.name, donor.total_donations(), donor.num_donations(),
             donor.average_donation()) for donor in donors]
-        return report   
-    
-    
+        return report    
