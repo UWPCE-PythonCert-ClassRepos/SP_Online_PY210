@@ -45,7 +45,7 @@ def main_menu():
         ">>> ")))
     return input()
 
-def thank_you_text(full_name,amount):
+def send_thank_you():
     # get user input to send thank you
     dc = DonorCollection()
     while True:
