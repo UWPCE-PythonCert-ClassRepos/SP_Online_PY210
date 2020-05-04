@@ -7,18 +7,6 @@ User interaction functions and main program flow
 from donor_models import Donor, DonorCollection
 import sys
 
-'''
-def donor_list4():
-    # dictionary with donor names and donation amounts
-    dc = DonorCollection()
-    donors = ["William Gates, III", "Jeff Bezos", "Paul Allen", "Mark Zuckerberg", "Alexandra Butler"]
-    amounts = [[653772.32, 12.17], [877.33], [663.23, 43.87, 1.32], [1663.23, 4300.87, 10432.0], [777.77, 44.44]]
-    for donor, amount in zip(donors,amounts):
-        for donation in amount:
-            dc.update_donor(donor, donation)
-            
-    print(donors.values())        
-'''
 def donor_list():
     # generate initial donor dict
     d = Donor('William Gates, III')
@@ -67,22 +55,6 @@ def prompt_amount(full_name):
         print("Input must be a number. Donor information not entered. Try again! ")
     return amount
 
-def prompt_name():
-    # request user to input a full name
-    try:
-        full_name = input("Type the donors full name or type list to display donor names.")
-        if full_name == 'list':
-            for key in donor_list:
-                print(key)
-            prompt_name()
-        elif full_name == "":
-            raise TypeError
-        else:
-            Donor(full_name).update_donor(full_name)
-    except TypeError:
-            print("\nNot a valid answer. Please enter a name.\n>>>")
-    return full_name
-
 def thank_you_text(full_name,amount):
     # get user input to send thank you
     dc = DonorCollection()
@@ -116,13 +88,6 @@ def thank_you_text(full_name,amount):
         email = dc.get_donor(name).generate_email()
         print(email)
         return
-
-def send_thank_you():
-    # send thank you email based on user input information
-    full_name = prompt_name()
-    amount = prompt_amount(full_name)
-    thank_you_text(full_name,amount)
-    main()
 
 def report_format(report):
     formatted_report = ['',
