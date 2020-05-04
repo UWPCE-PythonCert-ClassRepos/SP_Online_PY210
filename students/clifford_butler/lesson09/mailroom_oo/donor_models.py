@@ -38,7 +38,7 @@ class Donor():
     def __lt__(self, other):
         if self.total_donations() < other.total_donations():
             return True
-        elif self.total_donations() == other.total_donations(): # Otherwise, sort by last name
+        elif self.total_donations() == other.total_donations():
             return self.name.split()[-1] < other.name.split()[-1]
         else:
             return False
@@ -67,8 +67,7 @@ class Donor():
         email_info = {'donor_name':self.name,
                  'donation_amount':self.last_donation()}
         email = ("\nHi {donor_name}:\n\nThank you for the generous donation of ${donoation_amount:2d}, Sincerely, \n\nClifford Butler".format(**email_info))
-        return (email)
-               
+        return (email)              
     
 class DonorCollection():
     # Class responsible for donor collection data encapsulation

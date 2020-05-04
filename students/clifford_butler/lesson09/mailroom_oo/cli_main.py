@@ -6,8 +6,8 @@ User interaction functions and main program flow
 
 from donor_models import Donor, DonorCollection
 import sys
-#import operator
 
+'''
 def donor_list4():
     # dictionary with donor names and donation amounts
     dc = DonorCollection()
@@ -18,10 +18,9 @@ def donor_list4():
             dc.update_donor(donor, donation)
             
     print(donors.values())        
-
+'''
 def donor_list():
     # generate initial donor dict
-    dc = DonorCollection()
     d = Donor('William Gates, III')
     z = [653772.32, 12.1]
     for amount in z:
@@ -46,8 +45,6 @@ def donor_list():
     z = [777.77, 44.44]
     for amount in z:
         d4.add_amount(amount)
-
-#print (dc.donors.values())
         
 def main_menu():
     # display the main menu
@@ -65,7 +62,7 @@ def prompt_amount(full_name):
     try:    
         amount = input("What's the donation amount? \n >>")
         amount = int(amount)
-        add_amount(full_name,amount) 
+        Donor(full_name).add_amount(full_name,amount) 
     except ValueError:
         print("Input must be a number. Donor information not entered. Try again! ")
     return amount
@@ -81,14 +78,44 @@ def prompt_name():
         elif full_name == "":
             raise TypeError
         else:
-            add_name(full_name)
+            Donor(full_name).update_donor(full_name)
     except TypeError:
             print("\nNot a valid answer. Please enter a name.\n>>>")
     return full_name
 
 def thank_you_text(full_name,amount):
-    # display thank you letter with donor name and donation amount
-    print ("\nHi {}:\n\nThank you for the generous donation of ${:2d}, Sincerely, \n\nClifford Butler".format(full_name,amount))
+    # get user input to send thank you
+    dc = DonorCollection()
+    while True:
+        donor_name = input("Enter the donor name, 'list' to get list of donors, or 'exit' to exit.) ")
+        if donor_name.lower() == 'exit':
+            exit_program()
+        elif donor_name.lower() == "list":
+            print('\nCurrent list of donors:\n')
+            print('\n'.join(dc.donor_names))
+            continue
+        else:
+            if donor_name not in dc.donor_names:
+                answer = input("The donor name is not in the list of donors. "
+                               "Do you want to add the donor? Yes or No ")
+                if answer.lower() == "yes":
+                    name = donor_name
+                else:
+                    exit_program()
+
+        donation_amount = input("Enter the donation amount (or q to quit) ")
+        if donation_amount.lower() == 'q':
+            exit_program()
+        elif float(donation_amount) > 0:
+            amount = float(donation_amount)
+            dc.update_donor(name,amount)
+        else:
+            print("The number you enter must be greater than 0.")
+
+        dc.update_donor(name,amount)
+        email = dc.get_donor(name).generate_email()
+        print(email)
+        return
 
 def send_thank_you():
     # send thank you email based on user input information
@@ -112,10 +139,11 @@ def create_report():
     dc = DonorCollection()
     report = dc.report_data()
     report_format(report)    
-    #print(dc.report_data())
+    
 def letter_to_all():
     # send thank you letter to all donors
-    for full_name in donor_list:
+    dc = DonorCollection()
+    for full_name in dc.get_donor:
         with open(f"{full_name}.txt","w+") as donor_letter:
             donor_letter.write(f"Hi {full_name},\n\nThank you for the generous donation of ${sum(donor_list[full_name]):.2f}.\n\nSincerely,\nClifford Butler")
     print("Thank you letters sent!")
