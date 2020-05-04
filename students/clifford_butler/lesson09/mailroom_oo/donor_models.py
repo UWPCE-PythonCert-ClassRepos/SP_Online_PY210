@@ -83,3 +83,11 @@ class DonorCollection():
     def donor_names(self):
         # return list of the donor names
         return list(self.donors)
+    
+    def report_data(self):
+        # returns the data needed for creating a report
+        donors = list(self.donors.values())
+        donors.sort(reverse=True)
+        report = [(donor.name, donor.total_donations(), donor.num_donations(),
+            donor.average_donation()) for donor in donors]
+        return report    
