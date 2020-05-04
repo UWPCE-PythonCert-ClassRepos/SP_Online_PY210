@@ -45,16 +45,6 @@ def main_menu():
         ">>> ")))
     return input()
 
-def prompt_amount(full_name):
-    # request user input for donation amount
-    try:    
-        amount = input("What's the donation amount? \n >>")
-        amount = int(amount)
-        Donor(full_name).add_amount(full_name,amount) 
-    except ValueError:
-        print("Input must be a number. Donor information not entered. Try again! ")
-    return amount
-
 def thank_you_text(full_name,amount):
     # get user input to send thank you
     dc = DonorCollection()
