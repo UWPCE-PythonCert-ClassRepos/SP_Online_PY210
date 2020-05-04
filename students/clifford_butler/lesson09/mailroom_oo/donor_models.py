@@ -68,8 +68,7 @@ class Donor():
                  'donation_amount':self.last_donation()}
         email = ("\nHi {donor_name}:\n\nThank you for the generous donation of ${donoation_amount:2d}, Sincerely, \n\nClifford Butler".format(**email_info))
         return (email)
-        
-        
+               
     
 class DonorCollection():
     # Class responsible for donor collection data encapsulation
@@ -93,8 +92,10 @@ class DonorCollection():
     
     def report_data(self):
         # returns the data needed for creating a report
-        donors = list(self.donors.values())
+        donors = list(self.donors.keys())
         donors.sort(reverse=True)
-        report = [(donor.name, donor.total_donations(), donor.num_donations(),
+        report = [(donor.donor_names, donor.total_donations(), donor.num_donations(),
             donor.average_donation()) for donor in donors]
-        return report    
+        return report   
+    
+    

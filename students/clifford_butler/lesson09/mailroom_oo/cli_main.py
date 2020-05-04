@@ -6,9 +6,9 @@ User interaction functions and main program flow
 
 from donor_models import Donor, DonorCollection
 import sys
-import operator
+#import operator
 
-def donor_list():
+def donor_list4():
     # dictionary with donor names and donation amounts
     dc = DonorCollection()
     donors = ["William Gates, III", "Jeff Bezos", "Paul Allen", "Mark Zuckerberg", "Alexandra Butler"]
@@ -17,6 +17,38 @@ def donor_list():
         for donation in amount:
             dc.update_donor(donor, donation)
             
+    print(donors.values())        
+
+def donor_list():
+    # generate initial donor dict
+    dc = DonorCollection()
+    d = Donor('William Gates, III')
+    z = [653772.32, 12.1]
+    for amount in z:
+        d.add_amount(amount)
+          
+    d1 = Donor('Jeff Bezos')
+    z = [877.33]
+    for amount in z:
+        d1.add_amount(amount) 
+        
+    d2 = Donor('Paul Allen')
+    z = [663.23, 43.87, 1.32]
+    for amount in z:
+        d2.add_amount(amount)
+
+    d3 = Donor('Mark Zuckerberg')
+    z = [1663.23, 4300.87, 10432.0]
+    for amount in z:
+        d3.add_amount(amount)
+
+    d4 = Donor('Clifford Butler')
+    z = [777.77, 44.44]
+    for amount in z:
+        d4.add_amount(amount)
+
+#print (dc.donors.values())
+        
 def main_menu():
     # display the main menu
     print("\n".join(("Welcome to the MailRoom!",
@@ -65,18 +97,22 @@ def send_thank_you():
     thank_you_text(full_name,amount)
     main()
 
-def create_report():
-    # Generate and display a report of the donors in donor_dict
-    report = []
-    print("\n{:<18}{:<6}{:<20}{}{:<25}{}{:<15}".format(*('Donor Name','|','Total Given','|','Num Gifts','|','Average Gift')))
-    print ('-'*90)
-
-    for donor, value in sorted(donor_list.items(), key=operator.itemgetter(1)):
-        if len(value) != 0:
-            report.append((donor, round(sum(value),2), len(value),round(sum(value)/len(value))))
-            print ("{:<20} {:>2} {:>12} {:>17}{:>17}{:>12}".format(*(donor, '$', round(sum(value),2), len(value), '$',round(sum(value)/len(value),1))))
-    return report
+def report_format(report):
+    formatted_report = ['',
+    'Donor Name                    | Total Donation | Num Donations | Avg Donation |',
+    '-------------------------------------------------------------------------------']
+    for donor in report:
+        donor_name, total, number, average = donor
+        formatted_report.append(f'{donor_name:<30} ${total:>14.2f}  {number:14d}  ${average:>12.2f}')
+    formatted_report.append('')
+    print('\n'.join(formatted_report))
     
+def create_report():
+    # Generate, format, and print report data
+    dc = DonorCollection()
+    report = dc.report_data()
+    report_format(report)    
+    #print(dc.report_data())
 def letter_to_all():
     # send thank you letter to all donors
     for full_name in donor_list:
@@ -107,11 +143,4 @@ def main():
 
 if __name__ == "__main__":
    donor_list()
-   for key in dc.donors:
-       print(key)
-   dd = amounts
-
-   print(dd)
-
-   print (Donor([0])) 
    main()

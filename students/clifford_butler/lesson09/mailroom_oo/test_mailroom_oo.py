@@ -48,30 +48,6 @@ def test_empty():
     assert a.num_donations() == 0
     print ('test empty passed')
 
-def test_thank_you_text():
-    '''
-    test thank you text function
-    '''
-    pass
-
-def test_add_name():
-    '''
-    test add name function
-    '''
-    pass
-
-def test_prompt_amount():
-    '''
-    test prompt amount function
-    '''
-    pass
-    
-def test_add_amount():
-    '''
-    test add amount function
-    '''
-    pass 
-
 def test_exit_program():
     '''
     test exit function 
