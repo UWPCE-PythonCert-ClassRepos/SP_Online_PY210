@@ -34,15 +34,19 @@ def test_add():
     assert d.last_donation() == 150.00
     assert d.total_donations() == 300.00
     assert d.average_donation() == 100.00
-    assert d.num_donations() == 3
-    
+    assert d.num_donations() == 3   
     print('add donation test passed')
     
 def test_empty():
     '''
     test returning empty/zero values
     '''
-    pass
+    a = Donor('Clifford Butler')
+    assert a.last_donation() == 0
+    assert a.total_donations() == 0
+    assert a.average_donation() == 0
+    assert a.num_donations() == 0
+    print ('test empty passed')
 
 def test_thank_you_text():
     '''
@@ -76,14 +80,17 @@ def test_exit_program():
         cm.exit_program()
         assert exit_mock.called == True
         assert exit_mock.called != False
+        
+    print ('test exit passed')     
 
 if __name__== "__main__":
     test_donor_init()
     test_add()
+    test_empty()
     #test_thank_you_text()
     #test_add_name()
     #test_prompt_amount()
     #test_add_amount()
-    #test_exit_program()
+    test_exit_program()
     print('All test passed')
     
