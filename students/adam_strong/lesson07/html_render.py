@@ -15,41 +15,36 @@ class Element(object):
         self.content = []
         self.kwargs = kwargs
         if content is not None:
-            self.content = [content,'\n']
-
+            self.content = [content, '\n']
 
     def append(self, content):
         self.content.append(content)
-
 
     def front_tag(self):
         k = ''
         for key in self.kwargs:
             k = k + ' ' + key + "='" + str(self.kwargs[key]) + "'"
-        self.content.insert(0,'<' + self.tag + k + '>')
-
+        self.content.insert(0, '<' + self.tag + k + '>')
 
     def back_tag(self):
-        self.content.insert(len(self.content),'</' + self.tag + '>')
-
+        self.content.insert(len(self.content), '</' + self.tag + '>')
 
     def render(self, out_file, cur_ind=''):
         self.cur_ind = cur_ind + (self.indent*self.indlvl)
         self.front_tag()
-        self.content.insert(1,'\n')
+        self.content.insert(1, '\n')
         self.back_tag()
-        self.content.insert(len(self.content),'\n')   
-        #Probably going to have to add indent
+        self.content.insert(len(self.content), '\n')
         for contentlet in self.content:
             try:
                 contentlet.render(out_file)
             except AttributeError:
-                if contentlet is '\n':
+                if contentlet == '\n':
                     out_file.write(contentlet)
-                elif contentlet[0] is '<':
+                elif contentlet[0] == '<':
                     out_file.write(self.cur_ind + contentlet)
                 else:
-                    out_file.write(self.cur_ind +self.indent + contentlet)
+                    out_file.write(self.cur_ind + self.indent + contentlet)
 
 
 # Here are all the subclasses
@@ -62,21 +57,20 @@ class Html(Element):
     def render(self, out_file, cur_ind=''):
         self.cur_ind = cur_ind + (self.indent*self.indlvl)
         self.front_tag()
-        self.content.insert(1,'\n')
-        self.content.insert(0,'<!DOCTYPE html>\n')
+        self.content.insert(1, '\n')
+        self.content.insert(0, '<!DOCTYPE html>\n')
         self.back_tag()
-        self.content.insert(len(self.content),'\n')   
-        #Probably going to have to add indent
+        self.content.insert(len(self.content), '\n')
         for contentlet in self.content:
             try:
                 contentlet.render(out_file)
             except AttributeError:
-                if contentlet is '\n':
+                if contentlet == '\n':
                     out_file.write(contentlet)
-                elif contentlet[0] is '<':
+                elif contentlet[0] == '<':
                     out_file.write(self.cur_ind + contentlet)
                 else:
-                    out_file.write(self.cur_ind +self.indent + contentlet)
+                    out_file.write(self.cur_ind + self.indent + contentlet)
 
 
 class Body(Element):
@@ -106,14 +100,13 @@ class OneLineTag(Element):
     def render(self, out_file, cur_ind=''):
         self.cur_ind = cur_ind + (self.indent*self.indlvl)
         self.front_tag()
-        self.back_tag() 
-        self.content.insert(len(self.content),'\n')
-        #Probably going to have to add indent
+        self.back_tag()
+        self.content.insert(len(self.content), '\n')
         for contentlet in self.content:
             try:
                 contentlet.render(out_file)
             except AttributeError:
-                if contentlet is '\n':
+                if contentlet == '\n':
                     out_file.write(contentlet)
                 elif (contentlet[0] is '<') and (contentlet[1] is not '/'):
                     out_file.write(self.cur_ind + contentlet)
@@ -128,35 +121,32 @@ class Title(OneLineTag):
 class SelfClosingTag(Element):
     tag = 'html'
 
-
     def __init__(self, content=None, **kwargs):
         self.content = []
         self.kwargs = kwargs
         if content is not None:
             raise TypeError
 
-
     def render(self, out_file, cur_ind=''):
         self.cur_ind = cur_ind + (self.indent*self.indlvl)
         self.self_closing()
-        self.content.insert(len(self.content),'\n')   
-        #Probably going to have to add indent
+        self.content.insert(len(self.content), '\n')
         for contentlet in self.content:
             try:
                 contentlet.render(out_file)
             except AttributeError:
-                if contentlet is '\n':
+                if contentlet == '\n':
                     out_file.write(contentlet)
-                elif contentlet[0] is '<':
+                elif contentlet[0] == '<':
                     out_file.write(self.cur_ind + contentlet)
                 else:
-                    out_file.write(self.cur_ind +self.indent + contentlet)
+                    out_file.write(self.cur_ind + self.indent + contentlet)
 
     def self_closing(self):
         k = ''
         for key in self.kwargs:
             k = k + ' ' + key + "='" + str(self.kwargs[key]) + "'"
-        self.content.insert(0,'<' + self.tag + k + ' />')
+        self.content.insert(0, '<' + self.tag + k + ' />')
 
 
 class Hr(SelfClosingTag):
@@ -186,20 +176,19 @@ class A(Element):
 
     def render(self, out_file, cur_ind=''):
         self.cur_ind = cur_ind + (self.indent*self.indlvl)
-        self.content.insert(0,'\n')
-        self.content.insert(1, '<' + self.tag +'="' + self.link + '">' + self.web + '</a>')
-        self.content.insert(len(self.content),'\n')
-        #Probably going to have to add indent
+        self.content.insert(0, '\n')
+        self.content.insert(1, '<' + self.tag + '="' + self.link + '">' + self.web + '</a>')
+        self.content.insert(len(self.content), '\n')
         for contentlet in self.content:
             try:
                 contentlet.render(out_file)
             except AttributeError:
-                if contentlet is '\n':
+                if contentlet == '\n':
                     out_file.write(contentlet)
-                elif contentlet[0] is '<':
+                elif contentlet[0] == '<':
                     out_file.write(self.cur_ind + contentlet)
                 else:
-                    out_file.write(self.cur_ind +self.indent + contentlet)
+                    out_file.write(self.cur_ind + self.indent + contentlet)
 
 
 class Ul(Element):
@@ -221,5 +210,3 @@ class H(OneLineTag):
         self.kwargs = kwargs
         if content is not None:
             self.content = [content]
-
-
