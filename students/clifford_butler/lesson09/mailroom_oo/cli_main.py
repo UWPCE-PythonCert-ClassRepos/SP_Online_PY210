@@ -7,36 +7,6 @@ User interaction functions and main program flow
 from donor_models import Donor, DonorCollection
 import sys
 
-'''
-# removed for now not working.
-def donor_list():
-    # generate initial donor dict       
-        
-    d = Donor('William Gates, III')
-    z = [653772.32]
-    for amount in z:
-        d.add_amount(amount)
-          
-    d1 = Donor('Jeff Bezos')
-    z = [877.33]
-    for amount in z:
-        d1.add_amount(amount) 
-        
-    d2 = Donor('Paul Allen')
-    z = [663.23, 43.87, 1.32]
-    for amount in z:
-        d2.add_amount(amount)
-
-    d3 = Donor('Mark Zuckerberg')
-    z = [1663.23, 4300.87, 10432.0]
-    for amount in z:
-        d3.add_amount(amount)
-
-    d4 = Donor('Clifford Butler')
-    z = [777.77, 44.44]
-    for amount in z:
-        d4.add_amount(amount)
-'''     
 def main_menu():
     # display the main menu
     print("\n".join(("Welcome to the MailRoom!",
@@ -126,5 +96,4 @@ def main():
 
 if __name__ == "__main__":
    dc = DonorCollection()
-   #donor_list() removed for now not working. 
    main()
