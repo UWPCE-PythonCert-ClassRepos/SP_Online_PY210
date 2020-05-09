@@ -37,10 +37,9 @@ assert exchange_first_last(a_string) == "nhis is the longest string I have ever 
 assert exchange_first_last(a_tuple) == (61, 54, 13, 12, 5, 32, 10, 54, 78, 83, 24, 2)
 assert every_other_item(a_string) == "ti stelnetsrn  aeee en"
 assert every_other_item(a_tuple) == (2, 13, 5, 10, 78, 24)
-assert remove_first_last_four_everyother(a_string) == " stelnetsrn  aeee"
+assert remove_first_last_four_everyother(a_string) == " stelnetsrn  aeee "
 assert remove_first_last_four_everyother(a_tuple) == (5, 10)
 assert reverse(a_string) == "nees reve evah I gnirts tsegnol eht si siht"
 assert reverse(a_tuple) == (61, 24, 83, 78, 54, 10, 32, 5, 12, 13, 54, 2)
 assert thirds_new_order(a_string) == " have ever seenthis is the longest string I"
 assert thirds_new_order(a_tuple) == (78, 83, 24, 61, 2, 54, 13, 12, 5, 32, 10, 54)
-
