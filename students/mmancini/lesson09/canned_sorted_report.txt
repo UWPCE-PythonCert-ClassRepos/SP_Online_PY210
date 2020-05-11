@@ -1,0 +1,8 @@
+   Donor Name                 Donation Total  Number of Donations     Donation Average
+   -----------                --------------  -------------------     ----------------
+   Sam Adams                            5000                    1               5000.0
+   Ming Chan                             150                    2                 75.0
+   Tom Adams                             100                    1                100.0
+   Jane Smith                             75                    2                 37.5
+   Helen Smalls                           60                    3                 20.0
+   Mary Jones                             30                    3                 10.0
