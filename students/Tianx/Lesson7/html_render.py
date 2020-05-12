@@ -115,7 +115,7 @@ class Li(Element):
     tag = "li"
 
 
-class Header(OneLineTag):
+class H(OneLineTag):
 
     def __init__(self, level, content=None, **kwargs):
         self.tag = 'h{}'.format(level)
