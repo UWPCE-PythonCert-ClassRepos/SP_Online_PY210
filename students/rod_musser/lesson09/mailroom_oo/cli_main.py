@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import sys
+from donor_models import DonorCollection
 
 welcome_prompt = "\n".join(("Welcome to the Local Charity Mail Room System",
                             "Please choose from the following options:",
@@ -7,6 +8,8 @@ welcome_prompt = "\n".join(("Welcome to the Local Charity Mail Room System",
                             "2 - Create a Report",
                             "3 - Quit",
                             ">>> "))
+
+donor_collection = DonorCollection()
 
 
 def main():
@@ -38,22 +41,30 @@ def send_thank_you():
     If the user types 'list',
     it will list all the donors int eh donor database.
     """
-    # response = input("Please enter a full name: ")
-    # if response.lower() == "list":
-    #     print(list_donors())
-    #     send_thank_you()
-    # else:
-    #     need_amount = True
-    #     while need_amount:
-    #         amount = input("Please enter the donation amount: ")
-    #         try:
-    #             amount = float(amount)
-    #         except ValueError:
-    #             print("Donation amount must be a number.  Please try again.")
-    #             continue
-    #         need_amount = False
-    #         add_donation(response, amount)
-    #         print(get_letter_text(generate_letter_data(response)))
+    response = input("Please enter a full name: ")
+    if response.lower() == "list":
+        print(donor_collection.list_donors())
+        send_thank_you()
+    else:
+        existing_donor_name = donor_collection.has_donor(response)
+        if existing_donor_name is None:
+            is_new_donor = input("Donor not found.  Is this a new donor? (y/n) ")
+            if is_new_donor.lower() == 'n':
+                send_thank_you()
+                return
+        else:
+            # use existing donor name
+            response = existing_donor_name
+        need_amount = True
+        while need_amount:
+            amount = input("Please enter the donation amount: ")
+            try:
+                donor_collection.add_donation(response, amount)
+            except ValueError as ve:
+                print(ve)
+                continue
+            need_amount = False
+            # print(get_letter_text(generate_letter_data(response)))
 
 
 def print_report():
