@@ -50,12 +50,19 @@ def test_create_report():
     assert mailroom4.create_report(donor_list)[1] == expected_donor2
 
 
-def test_create_letters():
-    """Test that donor letters are properly formatted for each donor"""
-    
-
-
-def test_send_letters():
+def test_create_file():
     """Test that files were created for each donor"""
+    record = ('Ryan Doe', [2000, 2000])
+    mailroom4.create_file(record)
     expected = 'Ryan Doe.txt'
     assert os.path.exists(expected) is True
+
+
+def test_compose_letter():
+    """Test that donor letters are properly formatted for each donor"""
+    record = ('Ryan Doe', [2000, 2000])
+    expected = ('Dear Ryan Doe,'
+                '\n\nThank you for your 2 donations that total $4000.00.'
+                '\nIt will be put to very good use.'
+                '\n\n\tSincerely,\n\t-The Team')
+    assert mailroom4.compose_letter(record) == expected

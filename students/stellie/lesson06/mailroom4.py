@@ -103,16 +103,16 @@ def thank_you_email(donor_name, amount):
            f'{amount:.2f}!')
 
 
-# Create a report for user to see list of all donors and donations made
 def display_report():
     print('\n{:<20} | {:<12} | {:<10} | {:<15}'.format('Donor Name', 'Total '
           'Given', 'Num Gifts', 'Average Gift'))
     print('=' * 65)
     # Create list out of database to iterate through
     donor_list = list(donor_db.items())
-    print('\n'.join(create_report(donor_list)))
+    print('\n'.join(create_report(donor_list)))  # displays donor report
 
 
+# Create report for user to see list of all donors and donations made
 def create_report(donor_list):
     # Sort database by sum amounts in descending order
     donor_stat = []
@@ -132,18 +132,22 @@ def sum_total(donor_record):
     return(sum(donor_record[1]))
 
 
+# Loop through donor database to retrieve name and donations made
 def letter_list_looper():
     for record in list(donor_db.items()):
-        create_file(record)
-        write_letter(record)
+        create_file(record)  # generate letter to donor
+    print('All donation letters have been created.')
 
 
 def create_file(record):
     file_name = f'{record[0]}.txt'  # create file name using name of donor
-    new_file = open(file_name, "x")  # create a new file
+    with open(file_name, 'w') as new_file:  # create a new file
+        new_file.write(compose_letter(record))  # write letter to the text file
+    return file_name
 
 
-def write_letter(record):
+# Generate letter for each donor and donations made
+def compose_letter(record):
     donor_letter = f'Dear {record[0]},\n\nThank you for your ' + \
                    f'{len(record[1])} donations that total $' + \
                    f'{sum(record[1]):.2f}.\nIt will be put to very ' + \
