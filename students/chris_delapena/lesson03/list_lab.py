@@ -7,7 +7,6 @@
 #Series 1
 print("***SERIES 1***")
 fruit = ['Apples', 'Pears', 'Oranges', 'Peaches']
-original = ['Apples', 'Pears', 'Oranges', 'Peaches']
 print(fruit)
 
 #Ask user for another fruit and add to list
@@ -29,7 +28,9 @@ print(fruit)
 print("Adding pineapple to the list")
 add_fruit_3 = 'Pineapple'
 fruit.insert(0, add_fruit_3)
-print(fruit)
+#Saving configuration of list in fruit_1
+fruit_1 = fruit
+print(fruit_1)
 
 #Display all fruits that begin with "P" using for loop
 print("displaying only fruits beginning with a 'P'")
@@ -40,7 +41,7 @@ for n in fruit:
 #Series 2
 print("***SERIES 2***")
 #Display list
-fruit_2 = fruit
+fruit_2 = fruit_1
 print(fruit_2)
 #Remove last fruit
 del fruit_2[-1]
@@ -62,7 +63,7 @@ print(fruit_2)
 print("***SERIES 3***")
 #Display list
 print(fruit)
-fruit_3 = fruit
+fruit_3 = fruit_1
 #Go through list asking if user likes that fruit
 for j in fruit_3:
     selection = input("Do you like {}? ".format(j))
@@ -82,12 +83,13 @@ print(fruit_3)
 #Series 4
 print("***SERIES 4***")
 #Display list
-fruit_4 = original
+fruit_4 = fruit_1
 print(fruit_4)
 #Reverse all letters for each item
 for k in range (len(fruit_4)):
     fruit_4[k] = fruit_4[k][::-1]
 print(fruit_4)
 #Delete last item of original list. Display list and copy
-original.pop()
-print(original)
+fruit_1.pop()
+print(fruit_1)
+print(fruit_4)
