@@ -12,7 +12,7 @@ from circle import *
 def test_circle_object_instantiation():
     ''' Tests that you can make a Circle object '''
     c = Circle(5)
-    assert c.radius == 5
+    assert c._radius == 5
 
 def test_diameter_from_radius():
     ''' Tests that you can calculate diameter from inputted radius'''
@@ -24,7 +24,7 @@ def test_radius_updates_from_diameter():
     the radius of the circle object'''
     c = Circle(5)
     c.diameter = 20
-    assert c.radius == 10
+    assert c._radius == 10
 
 def test_greater_than_zero():
     '''Tests that your value must be zero or greater'''
@@ -58,7 +58,7 @@ def test_add():
     c1 = Circle(5)
     c2 = Circle(4)
     c3 = c1 + c2
-    assert c3.radius == 9
+    assert c3._radius == 9
 
 def test_multiply():
     '''Tests that a circle times an integer multiplies the radius by that much 
@@ -67,8 +67,8 @@ def test_multiply():
     c1 = Circle(5)
     multicircle1 = 5 * c1
     multicircle2 = c1 * 4
-    assert multicircle1.radius == 25
-    assert multicircle2.radius == 20
+    assert multicircle1._radius == 25
+    assert multicircle2._radius == 20
 
 def test_equivilency():
     c1 = Circle(5)
@@ -85,7 +85,7 @@ def test_sorting():
 def test_sphere():
     s1 = Sphere(5)
     c1 = Circle(5)
-    assert s1.radius == 5
+    assert s1._radius == 5
     assert s1.diameter == 10
     assert s1.area == 314.1592653589793
     assert s1.volume == 523.5987755982989
@@ -104,7 +104,7 @@ def test_sphere_repr():
 def test_from_diameter():
     cD = Circle.from_diameter(10)
     sD = Sphere.from_diameter(10)
-    assert cD.radius == 5
+    assert cD._radius == 5
     assert cD.area == 78.53981633974483
-    assert sD.radius == 5
+    assert sD._radius == 5
     assert sD.area == 314.1592653589793
