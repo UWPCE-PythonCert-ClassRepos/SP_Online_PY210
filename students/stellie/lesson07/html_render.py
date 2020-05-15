@@ -4,18 +4,26 @@
 # Assignment 5: HTML Renderer Exercise
 
 """
-A class-based system for rendering html.
+A class-based system for rendering HTML.
 """
 
 
-# This is the framework for the base class
+# Base class framework
 class Element(object):
+    tag_name = 'html'
 
     def __init__(self, content=None):
-        pass
+        if content is None:
+            self.contents = []
+        else:
+            self.contents = [content]
 
     def append(self, new_content):
-        pass
+        self.contents.append(new_content)
 
     def render(self, out_file):
-        out_file.write("just something as a place holder...")
+        out_file.write("<{}>\n".format(self.tag_name))
+        for content in self.contents:   # loop through list of contents
+            out_file.write(content)
+            out_file.write("\n")
+        out_file.write("</{}>\n".format(self.tag_name))

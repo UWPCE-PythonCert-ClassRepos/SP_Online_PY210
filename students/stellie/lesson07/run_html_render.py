@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
 
-# Stella Kim
-# Assignment 5: HTML Renderer Exercise
-
 """
 a simple script can run and test your html rendering classes.
 
