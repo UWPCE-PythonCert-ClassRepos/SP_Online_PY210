@@ -63,18 +63,17 @@ def send_a_thank_you_note():
     return
 
 
+def total(data):
+    return sum(data[1])
+
+
 def create_a_report():
     title = {'Donor Name': ['Total Given', 'Num Gifts', 'Average Gift']}
     value_title = list(title.values())
     key_title = list(title.keys())
 
-    # calculate total donation
-    donation_matrix = {}
-    for item in donor_list.keys():
-        donation_matrix[item] = sum(list(donor_list[item]))
-
     # sort
-    donation_matrix_raw = sorted(donation_matrix.items(), reverse=True, key=lambda t: t[1])
+    donation_matrix_raw = sorted(donor_list.items(), reverse=True, key=total)
     donation_matrix_sorted = {}
     for i in range(len(donation_matrix_raw)):
         donation_matrix_sorted[donation_matrix_raw[i][0]] = donation_matrix_raw[i][1]
@@ -89,8 +88,8 @@ def create_a_report():
     print(line_title)
     print(line_x)
     for item in donation_matrix_sorted.keys():
-        main_lines = f'| {item:<20}| {donation_matrix_sorted[item]:<15.2f} | {len(donor_list[item]):<10} ' \
-                     f'| {float(donation_matrix_sorted[item]) / len(donor_list[item]):<15.2f}|'
+        main_lines = f'| {item:<20}| {sum(list(donation_matrix_sorted[item])):<15.2f} | {len(donation_matrix_sorted[item]):<10} ' \
+                     f'| {sum(list(donation_matrix_sorted[item])) / len(donation_matrix_sorted[item]):<15.2f}|'
         print(main_lines)
     print(line_1)
     return
