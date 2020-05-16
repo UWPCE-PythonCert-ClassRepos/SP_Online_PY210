@@ -60,7 +60,11 @@ def send_a_thank_you_note():
             break
         else:
             print("Not a valid option!!!")
-    return main()
+    return
+
+
+def total(data):
+    return sum(data[1])
 
 
 def create_a_report():
@@ -69,29 +73,26 @@ def create_a_report():
     key_title = list(title.keys())
 
     # sort
-    donor_list_sort = dict(sorted(donor_list.items(), key=lambda t: t[0]))
-    print(donor_list_sort)
+    donation_matrix_raw = sorted(donor_list.items(), reverse=True, key=total)
+    donation_matrix_sorted = {}
+    for i in range(len(donation_matrix_raw)):
+        donation_matrix_sorted[donation_matrix_raw[i][0]] = donation_matrix_raw[i][1]
 
-    # calculate total donation
-    donation_matrix = []
-    for j in range(0, len(donor_list_sort)):
-        donation_matrix.append([list(donor_list_sort.keys())[j], sum(list(donor_list_sort.values())[j]),
-                                len(list(donor_list_sort.values())[j])])
-
+    print(donation_matrix_sorted)
+    # Print the report
     line_title = f'| {key_title[0]:<20}| {value_title[0][0]:<15} | {value_title[0][1]:<10} | {value_title[0][2]:<15}|'
     line_x = '|' + '-' * 69 + '|'
     line_1 = ' ' + '-' * 69 + ' '
 
-    # Print the report
     print(line_1)
     print(line_title)
     print(line_x)
-    for i in range(0, len(donation_matrix)):
-        main_lines = f'| {donation_matrix[i][0]:<20}| {donation_matrix[i][1]:<15.2f} | {donation_matrix[i][2]:<10} ' \
-                     f'| {donation_matrix[i][1] / donation_matrix[i][2]:<15.2f}|'
+    for item in donation_matrix_sorted.keys():
+        main_lines = f'| {item:<20}| {sum(list(donation_matrix_sorted[item])):<15.2f} | {len(donation_matrix_sorted[item]):<10} ' \
+                     f'| {sum(list(donation_matrix_sorted[item])) / len(donation_matrix_sorted[item]):<15.2f}|'
         print(main_lines)
     print(line_1)
-    return main()
+    return
 
 
 def exit():
