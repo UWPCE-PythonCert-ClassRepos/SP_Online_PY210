@@ -1,14 +1,19 @@
 import pytest
 from donor_models import Donor
 from donor_models import DonorCollection
+from donor_models import Letter
 
 
 def test_new_donor():
     d = Donor('John Smith')
     assert d.name == 'John Smith'
+    assert str(d) == 'John Smith'
+    assert repr(d) == 'John Smith'
 
     d.name = 'Jane Doe'
     assert d.name == 'Jane Doe'
+    assert str(d) == 'Jane Doe'
+    assert repr(d) == 'Jane Doe'
 
 
 def test_add_donor_donation():
@@ -92,3 +97,47 @@ def test_has_donor():
     assert dc.has_donor('CHRIS PINE') == 'Chris Pine'
     assert dc.has_donor('chris pine') == 'Chris Pine'
     assert dc.has_donor('James Dohan') is None
+
+
+def test_letter():
+    d = Donor('Chuck Norris')
+    d.add_donation(50.05)
+    expected_letter_text = "Dear Chuck Norris,\n\n\
+Thank you for your generous support of Rod's Early \
+Retirement Fund.\n\nYour donation totaling $50.05 makes Rod's early retirement \
+dreams a reality.  Your generous support will enable Rod to perform critical early retirement \
+tasks like \n\n\t- Mai Tais on the beach \n\t- First class airline travel \n\t- Alpine skiing. \
+\n\nAgain, thank you for your generous support. \
+\n\nSincerely, \n\nRod Musser \nChairperson\nRod's Early Retirement Fund"
+
+    letter = Letter(d)
+    assert letter.generate_letter() == expected_letter_text
+    assert d.create_thank_you_letter() == expected_letter_text
+
+    d.add_donation(49.95)
+    expected_letter_text = "Dear Chuck Norris,\n\n\
+Thank you for your generous support of Rod's Early \
+Retirement Fund.\n\nYour donation totaling $49.95 makes Rod's early retirement \
+dreams a reality.  Your generous support will enable Rod to perform critical early retirement \
+tasks like \n\n\t- Mai Tais on the beach \n\t- First class airline travel \n\t- Alpine skiing. \
+\n\nAgain, thank you for your generous support. \
+\n\nSincerely, \n\nRod Musser \nChairperson\nRod's Early Retirement Fund"
+    letter = Letter(d)
+    assert letter.generate_letter() == expected_letter_text
+    assert d.create_thank_you_letter() == expected_letter_text
+
+
+def test_print_report():
+    dc = DonorCollection()
+    dc.add_donation('William Shatner', 500.25)
+    dc.add_donation('William Shatner', 100.75)
+    dc.add_donation('Harold Tunas', 45.00)
+    report = dc.print_report()
+    assert('Donor Name                | Total Given | Num Gifts | Avergage Gift') in report
+    assert('William Shatner            $      601.00           2 $        300.50') in report
+    assert('Harold Tunas               $       45.00           1 $         45.00') in report
+
+
+
+
+

@@ -48,10 +48,16 @@ def send_thank_you():
     else:
         existing_donor_name = donor_collection.has_donor(response)
         if existing_donor_name is None:
-            is_new_donor = input("Donor not found.  Is this a new donor? (y/n) ")
-            if is_new_donor.lower() == 'n':
-                send_thank_you()
-                return
+            need_yes_no = True
+            while need_yes_no:
+                is_new_donor = input("Donor not found.  Is this a new donor? (y/n) ")
+                if is_new_donor.lower() == 'n':
+                    send_thank_you()
+                    return
+                elif is_new_donor.lower() == 'y':
+                    need_yes_no = False
+                else:
+                    continue
         else:
             # use existing donor name
             response = existing_donor_name
@@ -64,7 +70,7 @@ def send_thank_you():
                 print(ve)
                 continue
             need_amount = False
-            # print(get_letter_text(generate_letter_data(response)))
+            print(donor_collection.get_donor(response).create_thank_you_letter())
 
 
 def print_report():
@@ -72,11 +78,7 @@ def print_report():
     Prints a report list each donor's name, their total contributions, total number of gifts,
     and average gift amount
     """
-    # print("Donor Name" + (' ' * 16) + ("| Total Given | Num Gifts | Avergage Gift"))
-    # print("-" * 68)
-    # row = "{name:<26s} ${total:=12.2f}  {num:10d} ${avg:14.2f}".format
-    # for donor in get_report():
-    #     print(row(name=donor[0], total=donor[1], num=donor[2], avg=donor[3]))
+    print(donor_collection.print_report())
 
 
 def exit_program():
