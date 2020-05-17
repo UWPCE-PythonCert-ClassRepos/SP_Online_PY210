@@ -36,10 +36,10 @@
 # REQ-10: Remove the last fruit from the list.
 
 
-# REQ-XX: Display the list.
+# REQ-11: Display the list.
 
 
-# REQ-XX: Ask the user for a fruit to delete, find it and delete it.
+# REQ-12: Ask the user for a fruit to delete, find it and delete it.
 # (Bonus: Multiply the list times two. Keep asking until a match is found. Once found, delete all occurrences.)
 
 
@@ -47,23 +47,23 @@
 # Again, using the list from series 1:
 
 
-# REQ-XX: Ask the user for input displaying a line like “Do you like apples?” for each fruit in the list (making the fruit all lowercase).
+# REQ-13: Ask the user for input displaying a line like “Do you like apples?” for each fruit in the list (making the fruit all lowercase).
 
 
-# REQ-XX: For each “no”, delete that fruit from the list.
+# REQ-14: For each “no”, delete that fruit from the list.
 
 
-# REQ-XX: For any answer that is not “yes” or “no”, prompt the user to answer with one of those two values (a while loop is good here)
+# REQ-15: For any answer that is not “yes” or “no”, prompt the user to answer with one of those two values (a while loop is good here)
 
 
-# REQ-XX: Display the list.
+# REQ-16: Display the list.
 
 
 # Series 4
 # Once more, using the list from series 1:
 
 
-# REQ-XX: Make a new list with the contents of the original, but with all the letters in each item reversed.
+# REQ-17: Make a new list with the contents of the original, but with all the letters in each item reversed.
 
 
-# REQ-XX: Delete the last item of the original list. Display the original list and the copy.
+# REQ-18: Delete the last item of the original list. Display the original list and the copy.
