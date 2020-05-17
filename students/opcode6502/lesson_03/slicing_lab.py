@@ -197,10 +197,10 @@ def third_reorder(seq):
 
 # DEBUG: The debug_flag will turn on helpful testing statements.
 # This creates a sort of 'black box' where you can read the exact steps
-# that the code executed and debug where things went wrong.
+# that the code executed and debug where things went wrong (or right).
 #
 # NOTE: These debug messages are best viewed with a terminal width of at least
-# 80 to 100 columns (depending on length of strings and tuples to be tested).
+# 90 to 100 columns (depending on length of strings and tuples to be tested).
 #
 # Set to 1 = ENABLE debug messages.
 # Set to 0 = DISABLE debug messages.
@@ -211,7 +211,7 @@ def third_reorder(seq):
 debug_flag = 0
 
 
-# REQ-06: Write a test or two like that for each of the above functions.
+# REQ-06: Write a test or two for each of the above functions.
 if __name__=='__main__':
     a_string = "The quick brown fox jumps over the lazy dogs"
     a_tuple = (0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233)
