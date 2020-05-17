@@ -5,14 +5,7 @@
 
 # Starting data structure of donors:
 
-import copy
 import pathlib
-
-donor_db = {"Scrooge McDuck": [8000.00, 70000.00],
-            "Montgomery Burns": [49.53],
-            "Richie Rich": [1000000.00, 500000.00],
-            "Chet Worthington": [200.00, 44387.63, 10200.00],
-            "Silas Skinflint": [0.25, 1.00, 0.43]}
 
 report_head = '{:20}| {:>15}|{:>15}| {:>15}'.format(
     'Donor Name', 'Total Given', 'Num Gifts', 'Average Gift')
@@ -31,49 +24,27 @@ ty_message = "\n".join(("", "Dear {}",
 repform = '{:20} ${:>15.2f}  {:>15}  ${:15.2f}'
 
 
-class DonorCollections(object):
-    '''DonorCollections class used to store and manipultate the main dict'''
-
-    donors = copy.deepcopy(donor_db)
-
-    def __init__(self, donors=donors):
-        self.donors = donors
-
-    def add_donor(self, tyname, amt):
-        '''Adds a new donor or updates an existing donor, returns thank you letter'''
-        tyname = tyname.title()
-        if self.donors.get(tyname) is None:
-            self.donors[tyname] = [amt]
-        else:
-            self.donors.get(tyname).append(amt)
-        ty_output = ty_message.format(tyname, amt)
-        return ty_output
-
-    def make_report(self):
-        '''Creates and returns the report on the data'''
-        aggregate = ['\n', report_head, break_line]
-        for key, value in sorted(self.donors.items(), key=lambda i: sum(i[1]), reverse=True):
-            don = Donor(key, value)
-            line = don.format_donor()
-            aggregate.append(line)
-        return aggregate
-
-    def send_letter(self):
-        '''Executes the loop to the Donor class to send letters to each donor'''
-        for key, value in sorted(self.donors.items(), key=lambda i: sum(i[1]), reverse=True):
-            don = Donor(key, value)
-            letter = don.create_letter()
-
-
-class Donor(object):
-    '''Donor class used to access data for a single donor'''
+class Donor:
 
     def __init__(self, name, value):
         self.name = name
         self.value = value
-        self.d_times = len(value)
-        self.total = sum(self.value)
-        self.avg = self.total/self.d_times
+
+    def add_donation(self, amount):
+        '''Appends the donation amount to an existing donor'''
+        self.value.append(amount)
+
+    @property
+    def d_times(self):
+        return len(self.value)
+
+    @property
+    def total(self):
+        return sum(self.value)
+
+    @property
+    def avg(self):
+        return self.total/self.d_times
 
     def format_donor(self):
         '''Formats the donor information for the report in DonorCollections'''
@@ -93,3 +64,34 @@ class Donor(object):
         '''Writes an individual letter'''
         form_letter = letter.format(self.name, self.total)
         return form_letter
+
+
+class DonorCollections(object):
+    '''DonorCollections class used to store and manipultate the main dict'''
+
+    def __init__(self, *args):
+        self.donors = {d.name: d for d in args}
+
+    def add_donor(self, tyname, amt):
+        '''Adds a new donor or updates an existing donor, returns thank you letter'''
+        tyname = tyname.title()
+        if self.donors.get(tyname) is None:
+            self.donors[tyname] = Donor(tyname, [amt])
+        else:
+            self.donors[tyname].add_donation(amt)
+        ty_output = ty_message.format(tyname, amt)
+        return ty_output
+
+    def make_report(self):
+        '''Creates and returns the report on the data'''
+        lines = []
+        aggregate = ['\n', report_head, break_line]
+        for donor_ob in self.donors.values():
+            lines.append([donor_ob.format_donor(), donor_ob.total])
+        [aggregate.append(item[0]) for item in sorted(lines, key=lambda i: i[1], reverse=True)]
+        return aggregate
+
+    def send_letter(self):
+        '''Executes the loop to the Donor class to send letters to each donor'''
+        for name in self.donors.values():
+            letter = name.create_letter()

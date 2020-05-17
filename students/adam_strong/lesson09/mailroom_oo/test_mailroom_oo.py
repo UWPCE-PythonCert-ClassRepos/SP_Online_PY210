@@ -31,17 +31,6 @@ monty_name = "Montgomery Burns"
 monty_value = [49.53]
 thanks_newberry = '\nDear John Newberry\nThank you for your generous donation of 5.00\n'
 thanks_silas = '\nDear Silas Skinflint\nThank you for your generous donation of 500.00\n'
-newberry_db = {"Scrooge McDuck": [8000.00, 70000.00],
-               "Montgomery Burns": [49.53],
-               "Richie Rich": [1000000.00, 500000.00],
-               "Chet Worthington": [200.00, 44387.63, 10200.00],
-               "Silas Skinflint": [0.25, 1.00, 0.43],
-               "John Newberry": [5.00]}
-add_donations_db = {"Scrooge McDuck": [8000.00, 70000.00],
-                    "Montgomery Burns": [49.53],
-                    "Richie Rich": [1000000.00, 500000.00],
-                    "Chet Worthington": [200.00, 44387.63, 10200.00],
-                    "Silas Skinflint": [0.25, 1.00, 0.43, 500.00]}
 filelist = ['Montgomery_Burns.txt', 'Richie_Rich.txt', 'Chet_Worthington.txt',
             'Silas_Skinflint.txt', 'Scrooge_McDuck.txt']
 newberry_addition = {"John Newberry": [5.00]}
@@ -101,7 +90,7 @@ def test_switch_bad2():
 
 def test_report():
     '''Tests the report function in DonorCollections class'''
-    data = dm.DonorCollections()
+    data = cli.data
     report = data.make_report()
     assert report == expected_report
 
@@ -127,35 +116,35 @@ def test_thankyou_main():
 
 def test_add_donor():
     '''Tests the add_donor function with novel name in DonorCollections class'''
-    data = dm.DonorCollections()
+    data = cli.data
     ty_output = data.add_donor('John Newberry', 5.00)
     assert ty_output == thanks_newberry
-    assert data.donors == newberry_db
+    assert data.donors['John Newberry'].value == [5.00]
     del data.donors['John Newberry']
 
 
 def test_add_donation_existing():
     '''Tests the add_donor function with existing name in DonorCollections class'''
-    data = dm.DonorCollections()
+    data = cli.data
     ty_output = data.add_donor('Silas Skinflint', 500.00)
     assert ty_output == thanks_silas
-    assert data.donors == add_donations_db
-    data.donors['Silas Skinflint'].pop(3)
+    assert data.donors['Silas Skinflint'].value == [0.25, 1.00, 0.43, 500.00]
+    data.donors['Silas Skinflint'].value.pop(3)
 
 
 def test_add_donation_existing_lower_case_input():
     '''Tests the add_donor function with existing name in DonorCollections class
     when the user does not capitalize either of the names'''
-    data = dm.DonorCollections()
+    data = cli.data
     ty_output = data.add_donor('silas skinflint', 500.00)
     assert ty_output == thanks_silas
-    assert data.donors == add_donations_db
-    data.donors['Silas Skinflint'].pop(3)
+    assert data.donors['Silas Skinflint'].value == [0.25, 1.00, 0.43, 500.00]
+    data.donors['Silas Skinflint'].value.pop(3)
 
 
 def test_report2():
     '''Validates that report still functions from previous tests'''
-    data = dm.DonorCollections()
+    data = cli.data
     report = data.make_report()
     assert report == expected_report
 
@@ -171,7 +160,7 @@ def test_file_creation():
 
 def test_send_letter():
     '''Tests the send_letter function in the DonorCollections class'''
-    data = dm.DonorCollections()
+    data = cli.data
     data.send_letter()
     testpth = pathlib.Path('./')
     for filesel in filelist:

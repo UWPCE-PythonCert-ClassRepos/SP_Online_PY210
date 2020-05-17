@@ -19,6 +19,13 @@ ty_prompt = "\n".join(("", "Please type the full name of the donor OR",
                            "type 'list' to see a list of donors",
                            "Type input here >>>"))
 
+data = dm.DonorCollections(dm.Donor('Scrooge McDuck', [8000.00, 70000.00]),
+                           dm.Donor('Montgomery Burns', [49.53]),
+                           dm.Donor('Richie Rich', [1000000.00, 500000.00]),
+                           dm.Donor('Chet Worthington', [200.00, 44387.63, 10200.00]),
+                           dm.Donor('Silas Skinflint', [0.25, 1.00, 0.43]))
+
+
 # Functions
 # 1 - Thank you
 
@@ -112,5 +119,4 @@ def main():
 
 if __name__ == '__main__':
     # Guards against running automatically if this script is imported
-    data = dm.DonorCollections()
     main()
