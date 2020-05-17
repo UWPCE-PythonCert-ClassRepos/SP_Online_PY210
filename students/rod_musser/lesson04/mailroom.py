@@ -14,8 +14,20 @@ welcome_prompt = "\n".join(("Welcome to the Local Charity Mail Room System",
                   "Please choose from the following options:",
                   "1 - Send a Thank You",
                   "2 - Create a Report",
-                  "3 - Quit",
+                  "3 - Send Letters To All Donors",
+                  "4 - Quit",
                   ">>> "))
+
+letter_template = "Dear {first_name} {last_name},\n\n\
+Thank you for your generous support of Rod's Early \
+Retirement Fund.\n\nYour {num_donations} donation(s) \
+totaling ${total_donation:.2f} makes Rod's early retirement \
+dreams a reality.  Your generous support will enable Rod \
+to perform critical early retirement tasks like \n\n\t- \
+Mai Tais on the beach \n\t- First class airline travel \
+\n\t- Alpine skiing.  \n\nAgain, thank you {first_name} \
+for your generous support. \n\nSincerely, \n\nRod Musser \
+\nChairperson\nRod's Early Retirement Fund"
 
 
 def main():
@@ -49,7 +61,14 @@ def add_donation(donor_name, amt):
     Expects a list which contains a donor and a list of amounts.
     """
     donors.setdefault(donor_name, []).append(amt)
-    print(f"Thank you {donor_name} for you generous donation of ${amt:.2f}")
+    letter_data = {}
+    first_last = donor_name.split(' ')
+    v = donors[donor_name]
+    letter_data['first_name'] = first_last[0]
+    letter_data['last_name'] = first_last[1]
+    letter_data['total_donation'] = sum(v[:])
+    letter_data['num_donations'] = len(v)
+    print(get_letter_text(letter_data))
 
 
 def sort_key(donor_summary):
@@ -75,6 +94,35 @@ def print_report(report):
         print(row(name=donor[0], total=donor[1], num=donor[2], avg=donor[3]))
 
 
+def send_letters():
+    letter_directory = input("Which directory shall I write the letters in?: ")
+    if not letter_directory.endswith('/'):
+        letter_directory = letter_directory + '/'
+
+    all_letter_data = create_letter_data()
+    for letter_data in all_letter_data[:]:
+        letter_file_name = letter_directory + '{first_name}_{last_name}.txt'.format(**letter_data)
+        with open(letter_file_name, 'w') as f:
+            f.write(get_letter_text(letter_data))
+
+
+def get_letter_text(letter_data):
+    return letter_template.format(**letter_data)
+
+
+def create_letter_data():
+    all_letter_data = []
+    for k, v in donors.items():
+        letter_data = {}
+        first_last = k.split(' ')
+        letter_data['first_name'] = first_last[0]
+        letter_data['last_name'] = first_last[1]
+        letter_data['total_donation'] = sum(v[:])
+        letter_data['num_donations'] = len(v)
+        all_letter_data.append(letter_data)
+    return all_letter_data
+
+
 def exit_program():
     print("You made a difference today.  Have a good one!")
     sys.exit()
@@ -83,7 +131,8 @@ def exit_program():
 main_menu_dict = {
     '1': send_thank_you,
     '2': create_report,
-    '3': exit_program
+    '3': send_letters,
+    '4': exit_program
 }
 
 if __name__ == "__main__":

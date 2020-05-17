@@ -1,0 +1,1 @@
+Nice to meet all of you. My name is Yue. I work for Parametric Portoflio Associates, Seattle. Hope to learn how to code using Python and other languages in this class. 

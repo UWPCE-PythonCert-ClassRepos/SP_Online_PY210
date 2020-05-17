@@ -1,0 +1,22 @@
+============================= test session starts =============================
+platform win32 -- Python 3.7.6, pytest-5.4.1, py-1.8.1, pluggy-0.13.1 -- c:\python376\python.exe
+cachedir: .pytest_cache
+rootdir: C:\MikeRoot2\Msft\LangPython\UnivWashPy3\uwpy\lesson08\step09
+collecting ... collected 14 items
+
+test_circle.py::test_circle_creation PASSED                              [  7%]
+test_circle.py::test_circle_property_diameter PASSED                     [ 14%]
+test_circle.py::test_circle_set_diameter PASSED                          [ 21%]
+test_circle.py::test_circle_area PASSED                                  [ 28%]
+test_circle.py::test_cls_method PASSED                                   [ 35%]
+test_circle.py::test_circle_str PASSED                                   [ 42%]
+test_circle.py::test_circle_repr PASSED                                  [ 50%]
+test_circle.py::test_circle_add PASSED                                   [ 57%]
+test_circle.py::test_circle_mult PASSED                                  [ 64%]
+test_circle.py::test_comparison_operators PASSED                         [ 71%]
+test_circle.py::test_sphere_volume PASSED                                [ 78%]
+test_circle.py::test_sphere_area PASSED                                  [ 85%]
+test_circle.py::test_sphere_add PASSED                                   [ 92%]
+test_circle.py::test_sphere_comparison_operators PASSED                  [100%]
+
+============================= 14 passed in 0.06s ==============================

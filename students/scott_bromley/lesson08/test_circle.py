@@ -134,12 +134,13 @@ class CircleTests:
 
     @mark.add
     @mark.parametrize("test_input, expected", [
-        ([Circle(10), 2.25], 12.25),
-        ([Circle(0.25), Circle(0.75)], 1.00)
+        ([10, 2.25], 12.25),
+        ([0.25, 0.75], 1.00)
     ])
     def test_iadd(self, test_input, expected):
-        c = test_input[0]
-        c += test_input[1]
+        c = Circle(test_input[0])
+        c1 = Circle(test_input[1])
+        c += c1
         assert c.radius == expected
 
     @mark.mult
@@ -166,12 +167,13 @@ class CircleTests:
 
     @mark.mult
     @mark.parametrize("test_input, expected", [
-        ([Circle(0.25), 0.25], 0.06),
-        ([Circle(25), Circle(25)], 625)
+        ([0.25, 0.25], 0.06),
+        ([25, 25], 625)
     ])
     def test_imult(self, test_input, expected):
-        c = test_input[0]
-        c *= test_input[1]
+        c = Circle(test_input[0])
+        c1 = Circle(test_input[1])
+        c *= c1
         assert c.radius == expected
 
     @mark.comparison

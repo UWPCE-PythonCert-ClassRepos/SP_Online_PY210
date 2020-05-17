@@ -64,7 +64,7 @@ def dis_info():
         num_gifts = len(item[1:])
         avg_gift = (str(round(sum_donations/num_gifts,2)))
         spaces_two = ((15 - len(str(sum_donations)))*' ')
-        spaces_three = (42*" ")
+        spaces_three = (4*" ")
         
         print(item[0], spaces, ('$'), sum_donations, spaces_two, num_gifts, spaces_three, ('$'), avg_gift)
 
@@ -130,11 +130,9 @@ def create_report():
         response_quit = input(exit_report)
         # Return back to the initial prompt
         if response_quit == "1":
-            print("fake exit")
             break
         else:
             print("Not a valid option!")
-            break
             
 def exit_program():
     # exit the interactive script
