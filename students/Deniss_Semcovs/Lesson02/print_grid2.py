@@ -1,6 +1,4 @@
  def print_grid(m,n):
-	line1 = ("+"+" -"*(n)+" +")
-    line2 = ("|"+"  "*(n)+" |")
 	addl1 = (" -"*(n)+" +")
 	addl2 = ("  "*(n)+" |")
 	for i in range(m):
