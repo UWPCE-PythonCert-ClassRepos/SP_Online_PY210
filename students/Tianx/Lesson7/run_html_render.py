@@ -208,7 +208,7 @@ body.append( hr.H(2, "PythonClass - Example") )
 
 body.append(hr.P("Here is a paragraph of text -- there could be more of them, "
                  "but this is enough  to show that we can do some text",
-                style="text-align: center; font-style: oblique;"))
+                 style="text-align: center; font-style: oblique;"))
 
 body.append(hr.Hr())
 
