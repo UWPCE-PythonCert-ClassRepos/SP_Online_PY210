@@ -147,6 +147,7 @@ def test_sub_element():
 # Step 3
 ########
 
+
 def test_head():
     e = Head('this is some text')
     e.append('and this is some more text')
@@ -184,6 +185,11 @@ def test_one_line_tag_append():
     print(file_contents)
 
 
+########
+# Step 4
+########
+
+
 def test_attributes():
     e = P('A paragraph of text', style='text-align: center', id='intro')
 
@@ -191,11 +197,70 @@ def test_attributes():
     print(file_contents)
 
     assert 'A paragraph of text' in file_contents
-    assert file_contents.startswith('<p>')
     assert file_contents.endswith('</p>')
+    assert file_contents.startswith('<p ')
     assert 'style="text-align: center"' in file_contents
     assert 'id="intro"' in file_contents
-    assert False
+    assert file_contents[:file_contents.index('>')].count(' ') == 3
+
+
+def test_attributes2():
+    e = Body('some text content', id='TheList', style='line-height:200%')
+
+    file_contents = render_result(e).strip()
+    print(file_contents)
+
+    assert 'some text content' in file_contents
+    assert file_contents.endswith('</body>')
+    assert file_contents.startswith('<body ')
+    assert 'style="line-height:200%"' in file_contents
+    assert 'id="TheList"' in file_contents
+    assert file_contents[:file_contents.index('>')].count(' ') == 2
+
+
+########
+# Step 5
+########
+
+
+def test_hr():
+    """Test simple horizontal rule with no attributes"""
+    hr = Hr()
+    file_contents = render_result(hr)
+    print(file_contents)
+    assert file_contents == '<hr />\n'
+
+
+def test_hr_attr():
+    """Test horizontal rule with an attribute"""
+    hr = Hr(width=400)
+    file_contents = render_result(hr)
+    print(file_contents)
+    assert file_contents == '<hr width="400" />\n'
+
+
+def test_br():
+    """Test break in line with no attributes"""
+    br = Br()
+    file_contents = render_result(br)
+    print(file_contents)
+    assert file_contents == '<br />\n'
+
+
+def test_content_in_br():
+    with pytest.raises(TypeError):
+        br = Br('some content')
+
+
+def test_append_content_in_br():
+    with pytest.raises(TypeError):
+        br = Br()
+        br.append('some content')
+
+
+########
+# Step 6
+########
 
 # #####################
 # # indentation testing
