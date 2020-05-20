@@ -46,6 +46,10 @@ class Element(object):
 class Html(Element):
     tag_name = 'html'
 
+    def render(self, out_file):
+        out_file.write('<!DOCTYPE html>\n')
+        super().render(out_file)
+
 
 class Body(Element):
     tag_name = 'body'
@@ -61,9 +65,9 @@ class Head(Element):
 
 class OneLineTag(Element):
     def render(self, out_file):
-        out_file.write('<{}>'.format(self.tag_name))
+        out_file.write(self._open_tag()[:-1])
         out_file.write(self.contents[0])
-        out_file.write('</{}>\n'.format(self.tag_name))
+        out_file.write(self._close_tag())
 
     def append(self, content):
         raise NotImplementedError
@@ -78,7 +82,7 @@ class SelfClosingTag(Element):
         if content is not None:
             raise TypeError('You can not add content to a SelfClosingTag')
         super().__init__(content=content, **kwargs)
-    
+
     def append(self, *args):
         raise TypeError('You can not add content to a SelfClosingTag')
 
@@ -93,3 +97,29 @@ class Hr(SelfClosingTag):
 
 class Br(SelfClosingTag):
     tag_name = 'br'
+
+
+class A(OneLineTag):
+    tag_name = 'a'
+
+    def __init__(self, link, content=None, **kwargs):
+        kwargs['href'] = link
+        super().__init__(content, **kwargs)
+
+
+class Ul(Element):
+    tag_name = 'ul'
+
+
+class Li(Element):
+    tag_name = 'li'
+
+
+class Header(OneLineTag):
+    def __init__(self, level, content=None, **kwargs):
+        self.tag_name = 'h{}'.format(level)
+        super().__init__(content, **kwargs)
+
+
+class Meta(SelfClosingTag):
+    tag_name = 'meta'
