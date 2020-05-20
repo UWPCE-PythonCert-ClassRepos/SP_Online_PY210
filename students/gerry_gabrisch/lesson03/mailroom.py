@@ -2,6 +2,7 @@
 '''mailroom.py for lesson03, Gerry Gabrisch, started 4/2/2020'''
 
 import sys
+from operator import itemgetter
 
 #a list of existing donations...
 donations = [('Eric Idle', [200.00, 500.00, 150.50]), 
@@ -11,71 +12,72 @@ donations = [('Eric Idle', [200.00, 500.00, 150.50]),
              ('Michael Palin', [100, 200]), 
              ('Terry Gilliam',[3000])]
 
-def SendThanks(donations):
+def send_thanks(donations):
     '''adds a donation amount  and sends an email thankyou.  If the donor does not already exist
        a new element in the donations list will be created'''
     #get the donor name and convert the first letters of the name to upper case...
     donor_name = input('Enter a donor name now, or type "List" for a list of donors.>').title()
 
     #get a new list with all the donors...I did this just to avoid having to add multiple iterators below...
-    donorsOnly = MakeDonorList(donations)     
+    donors_only = make_donor_list(donations)     
     
     if donor_name == 'List':
-        #if the user types List then call the ListDonors() and print all the names on a new line...
-        ListDonors(donorsOnly)
+        #if the user types List then call the list_donors() and print all the names on a new line...
+        list_donors(donors_only)
     #if this name is not already a donor then make a new donor element and get the donation amount...
-    if donor_name not in donorsOnly and donor_name != 'List':
-        donations = MakeNewDonor(donations, donor_name)
-    #this calls the function to take a donation... 
-    TakeDonation(donations, donor_name)
+    else:
+        if donor_name not in donors_only:
+            donations = make_new_donor(donations, donor_name)
+        #this calls the function to take a donation... 
+        take_donation(donations, donor_name)
             
-def CreateReportList(donations):
+def create_report_list(donations):
     '''this creates a report in the required formatting using f strings...'''
     #this list holds the name, donation total, donation count, and donation average...
-    reportList = []
+    report_list = []
     #for every donator build a new element with the values stated above...
     for i in donations:
-        userName = i[0] 
+        user_name = i[0] 
         #count the number of donations.
-        donationCount = len(i[1])
+        donation_count = len(i[1])
         #sum the donations
-        donationTotal = sum(i[1])
-        thisUsersReport = (userName, donationTotal, donationCount, donationTotal/donationCount)
+        donation_total = sum(i[1])
+        thisUsersReport = (user_name, donation_total, donation_count, donation_total/donation_count)
         #Sort the list based on total donations...
-        reportList.append(thisUsersReport)
+        report_list.append(thisUsersReport)
     #call the sorting function...
-    reportList = SortList(reportList)
+    report_list = sort_list(report_list)
     #call the report format function...
-    ReportFormatAndPrint(reportList)
+    report_format_and_print(report_list)
 
-def ReportFormatAndPrint(reportList):
+def report_format_and_print(report_list):
     '''takes the sorted report and formats and prints the report to the screen... '''
     #print the report header
     print('\nDonor Name                | Total Given | Num Gifts | Average Gift')
     #for every donator get the donation stats, format and print them...
-    for item in reportList:
+    for item in report_list:
         print(f'{item[0]:26} ${item[1]:>12.2f} {item[2]:>11}  ${item[3]:>11.2f}')
     print()
     
-def SortList(reportList):
+def sort_list(report_list):
     '''sorts the list using itemgetter from highest donor to lowest..'''
-    from operator import itemgetter
+    
     #sorting sorts from lowest to highest unless you use the reverse option...
-    reportList = sorted(reportList, key=itemgetter(1), reverse=True)
-    return reportList
+    report_list = sorted(report_list, key=itemgetter(1), reverse=True)
+    return report_list
 
-def MakeDonorList(donations):
+def make_donor_list(donations):
     '''this just makes a new list of donor names so I don't have to write multiple iterators...'''
-    donorsOnly = []
+    donors_only = []
     for i in donations:
-        donorsOnly.append((i[0]))  
-    return donorsOnly
+        donors_only.append((i[0]))  
+    return donors_only
 
-def ListDonors(list):
+def list_donors(list):
     '''prints the donor's names using this cool \n.join trick...'''
     print('\n'+'\n'.join(list)+'\n')
 
-def MakeNewDonor(donations, donor_name):
+def make_new_donor(donations, donor_name):
     '''make a new donor record if the user name is not an existing donor...'''
     #make a new list to hold the new donor and append the name to this list...
     new_donor = []
@@ -87,34 +89,38 @@ def MakeNewDonor(donations, donor_name):
     donations.append(new_donor)
     return donations
     
-def TakeDonation(donations, donor_name): 
+def take_donation(donations, donor_name): 
     '''gets a new donation amount and calls the email formatter...'''
-    donationAmount = float(input('Please enter a donation amount >'))
+    donation_amount = float(input('Please enter a donation amount >'))
     #find the donor and add this donation to their list of donations...    
     for i in donations:
         if i[0] == donor_name:
-            i[1].append(donationAmount)
+            i[1].append(donation_amount)
             #call the mail format function...
-            FormatMailer(i)
+            format_mailer(i)
     
-
-def FormatMailer(i):
+def format_mailer(i):
     '''print the thank you email to the screen....'''
     print()
     print(f'Dear {i[0]},\nThank you.  The Ministry of Silly Walks appreciates your donation of ${i[1][-1]:.2f}.\nRespectfully\nGerry\nGerry@MinistryofSillyWalks.com')
     print()
 
+def get_user_input():
+    promp_response = input('Would you like to \n1: Take a donation and send a Thank You \n2: Create a Report or \n3: Quit? Enter a number now.>')
+    if promp_response == '1':  
+        send_thanks(donations)
+    elif promp_response == '2':
+        create_report_list(donations)
+    elif promp_response == '3':
+        print('Exiting this program. Goodbye')
+        sys.exit()
+    else:
+        print('Invalid Entry')    
 
 def main():
     while True:
-        promp_response = input('Would you like to \n1: Take a donation and send a Thank You \n2: Create a Report or \n3: Quit? Enter a number now.>')
-        if promp_response == '1':  
-            SendThanks(donations)
-        if promp_response == '2':
-            CreateReportList(donations)
-        if promp_response == '3':
-            print('Exiting this program. Goodbye')
-            sys.exit()    
+        get_user_input()
+        
 if __name__ == "__main__":
     main()  
 

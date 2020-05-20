@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Mailroom4.py - Lesson06 Assignment - Unittesting with Pytest
+# Mailroom4.py - Lesson06 - Assignment 5 - Unittesting with Pytest
 
 import sys
 import pathlib
@@ -11,39 +11,42 @@ donor_db = {"Scrooge McDuck": [8000.00, 70000.00],
             "Silas Skinflint": [0.25, 1.00, 0.43]}
 
 main_prompt = "\n".join(("", "Welcome to the donors list",
-          "Please choose from below options:",
-          "1 - Send a thank you",
-          "2 - Create a report",
-          "3 - Send a letter to all the donors",
-          "4 - Quit",
-          "Type a number to select >>> "))
+                             "Please choose from below options:",
+                             "1 - Send a thank you",
+                             "2 - Create a report",
+                             "3 - Send a letter to all the donors",
+                             "4 - Quit",
+                             "Type a number to select >>> "))
 
 ty_prompt = "\n".join(("", "Please type the full name of the donor OR",
-        "type 'list' to see a list of donors",
-        "Type input here >>>"))
+                           "type 'list' to see a list of donors",
+                           "Type input here >>>"))
 
 ty_message = "\n".join(("", "Dear {}",
-        "Thank you for your generous donation of {:.2f}",))
+                            "Thank you for your generous donation of {:.2f}",))
 
-letter = "\n".join(("", "Dear {},","",
-        "    Thank you for your very kind donations totaling ${:.2f}.","",
-        "    It will be put to very good use.","",
-        "               Sincerely,",
-        "                  - The team"))
+letter = "\n".join(("", "Dear {},", "",
+                        "    Thank you for your very kind donations totaling ${:.2f}.", "",
+                        "    It will be put to very good use.", "",
+                        "               Sincerely,",
+                        "                  - The team"))
+
 
 def exit_program():
     '''Exit the program - TESTED'''
     print('\nShutting down the program\n')
     sys.exit()
 
+
 # THANK YOU LOGIC -------------------------------------------------------------------
 
 def thank_you():
-    ''' Main thank_you logic'''
+    ''' Main thank_you logic - TESTED'''
     tyname = input(ty_prompt)
     list_invoked(tyname)
     amt = input("Please enter the donation amount >>>")
     amt_logic(tyname, amt)
+
 
 def amt_logic(tyname, amt):
     '''Validates the amount - TESTED'''
@@ -52,7 +55,8 @@ def amt_logic(tyname, amt):
     except ValueError:
         print('\n--->Not a valid amount, please try your submission again')
     else:
-        ty_logic(tyname,amt)
+        ty_logic(tyname, amt)
+
 
 def ty_logic(tyname, amt):
     '''Adds the new names and generates a message - TESTED'''
@@ -63,6 +67,7 @@ def ty_logic(tyname, amt):
     print(ty_message.format(tyname, amt))
     print('')
 
+
 def list_invoked(tyname):
     '''Checks if list is entered - TESTED'''
     if tyname == 'list':
@@ -70,43 +75,46 @@ def list_invoked(tyname):
     else:
         return tyname
 
+
 # REPORT LOGIC ---------------------------------------------------------------------
 
 def report():
     '''Checks validity of report - TESTED'''
     print('')
-    head = '{:20}| {:>15}|{:>15}| {:>15}'.format('Donor Name', 'Total Given','Num Gifts', 'Average Gift')
+    head = '{:20}| {:>15}|{:>15}| {:>15}'.format('Donor Name', 'Total Given', 'Num Gifts', 'Average Gift')
     print(head)
     print('-'*72)
-    for key,value in sorted(donor_db.items(),key=lambda i:sum(i[1]),reverse=True):
-        line = '{:20} ${:>15.2f}  {:>15}  ${:15.2f}'.format(key, sum(value),len(value), (sum(value)/len(value)))
+    for key, value in sorted(donor_db.items(), key=lambda i: sum(i[1]), reverse=True):
+        line = '{:20} ${:>15.2f}  {:>15}  ${:15.2f}'.format(key, sum(value), len(value), (sum(value)/len(value)))
         print(line)
     print('')
-
     if __name__ == '__main__':
         main()
     else:
         return
 
-def write_letter(key,value):
+
+def write_letter(key, value):
     '''Writes an individual letter - TESTED'''
     form_letter = letter.format(key, sum(value))
     return form_letter
 
+
 def send_letter():
-    '''Writes files for the user'''
-    for key,value in sorted(donor_db.items(),key=lambda i:sum(i[1]),reverse=True):
-        create_text_file(key,value)
+    '''Writes files for the user - TESTED'''
+    for key, value in sorted(donor_db.items(), key=lambda i: sum(i[1]), reverse=True):
+        create_text_file(key, value)
 
 
-def create_text_file(key,value):
+def create_text_file(key, value):
     '''Creates the thank you file for a specific person - TESTED'''
-    form_letter = write_letter(key,value)
+    form_letter = write_letter(key, value)
     file_name = key.replace(" ", "_") + ".txt"
     pth = pathlib.Path('./')
     dest = pth.absolute() / file_name
     with open(dest, 'w') as outfile:
-        outfile.write(form_letter)  
+        outfile.write(form_letter)
+
 
 # MENU LOGIC --------------------------------------------------------------------------
 
@@ -114,8 +122,9 @@ def main_switch(response):
     '''Main logic from response menu - TESTED'''
     try:
         switch_func_dict.get(int(response))()
-    except (ValueError,TypeError):
+    except (ValueError, TypeError):
         print('\n----> Invalid Selection: Please input a number 1-4')
+
 
 # Switch function dict
 switch_func_dict = {
@@ -125,7 +134,7 @@ switch_func_dict = {
     4: exit_program,
 }
 
-################## PRIMARY CODE BLOCK ######################################################
+# _____________ PRIMARY CODE BLOCK _______________________________________
 
 
 def main():
@@ -133,7 +142,7 @@ def main():
         response = input(main_prompt)
         main_switch(response)
 
+
 if __name__ == '__main__':
     # Guards against running automatically if this script is imported
     main()
-    
