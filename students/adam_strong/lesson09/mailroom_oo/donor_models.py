@@ -88,7 +88,8 @@ class DonorCollections(object):
         aggregate = ['\n', report_head, break_line]
         for donor_ob in self.donors.values():
             lines.append([donor_ob.format_donor(), donor_ob.total])
-        [aggregate.append(item[0]) for item in sorted(lines, key=lambda i: i[1], reverse=True)]
+        #[aggregate.append(item[0]) for item in sorted(lines, key=lambda i: i[1], reverse=True)]
+        aggregate += [item[0] for item in sorted(lines, key=lambda i: i[1], reverse=True)]
         return aggregate
 
     def send_letter(self):
