@@ -22,7 +22,7 @@ def main():
     # the fruit corresponding to that number (on a 1-is-first basis).
     # Remember that Python uses zero-based indexing, so you will need to correct.
 
-    # TO-DO: Add error checking.
+    # TO-DO: Add exception handling.
     user_number = input("[ INPUT ]: Please enter a [ number ]: ")
     index = int(user_number)
     print(fruit_list[index-1])
@@ -43,6 +43,7 @@ def main():
 
     # - - Series 2 - - - - - -
     # Using the list created in series 1 above:
+
     # REQ-09: Display the list.
     print(fruit_list)
 
@@ -60,14 +61,15 @@ def main():
 
     # - - Series 3 - - - - - -
     # Again, using the list from series 1:
+
     # REQ-13: Ask the user for input displaying a line like “Do you like apples?” for each fruit in the list (making the fruit all lowercase).
     # REQ-14: For each “no”, delete that fruit from the list.
     # REQ-15: For any answer that is not “yes” or “no”, prompt the user to answer with one of those two values (a while loop is good here)
     for fruit in fruit_list:
         print(fruit)
         print("Do you like {}? ".format(fruit.lower()))
+        # TO-DO: Add input sanitization and exception handling.
         user_response = input("Yes or No: ")
-        # TO-DO: Add error checking.
         if user_response == 'no':
             print(fruit)
             fruit_list.remove(fruit)
@@ -78,12 +80,13 @@ def main():
 
     # - - Series 4 - - - - - -
     # Once more, using the list from series 1:
+
     # REQ-17: Make a new list with the contents of the original
     reverse_fruits_list = []
 
     # REQ-18: but with all the letters in each item reversed.
     for fruit in fruit_list:
-        reverse_fruits_list.append(fruit[::-1]
+        reverse_fruits_list.append(fruit[::-1])
 
     # REQ-19: Delete the last item of the original list.
     fruit_list.pop()
