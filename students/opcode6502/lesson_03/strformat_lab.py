@@ -4,10 +4,6 @@
 
 def main():
 
-    # REQ-01: Write a format string that will take the following four element tuple: 
-    # INPUT : (2, 123.4567, 10000, 12345.67) 
-    # OUTPUT:  'file_002 :   123.46, 1.00e+04, 1.23e+04'
-
     # DEBUG statements for developer testing.
     if debug_flag:
 
@@ -15,7 +11,7 @@ def main():
         test_tuple = (2, -2, 2.50, -2.50, 123.4567, 12345.67, "Hello", "Hi there", "The quick brown fox jumps over the lazy dogs")
 
         print("--------------------------------------------------")
-        print("[ EXEC  ]: STRING FORMATTING DEBUG TESTING")
+        print("[ EXEC  ]: STRING FORMATTING DEBUG TESTING        ")
         print("--------------------------------------------------")
         for item in test_tuple:
 
@@ -79,6 +75,10 @@ def main():
 
             print("--------------------------------------------------")
 
+    # REQ-01: Write a format string that will take the following four element tuple: 
+    # INPUT : (2, 123.4567, 10000, 12345.67) 
+    # OUTPUT:  'file_002 :   123.46, 1.00e+04, 1.23e+04'
+
     # Create tuple
     tuple_01 = (2, 123.4567, 10000, 12345.67)
 
@@ -91,7 +91,6 @@ def main():
 
     # REQ-03: Rewrite: "the 3 numbers are: {:d}, {:d}, {:d}".format(1,2,3)
     # to take an arbitrary number of values.
-
     def formatter(in_tuple):
         l = len(in_tuple)
         output = ("The {} numbers are: " + ', '.join(['{:d}'] * l)).format(l, *in_tuple)
@@ -105,7 +104,6 @@ def main():
 
     # REQ-04: Given a 5 element tuple:  ( 4, 30, 2017, 2, 27) 
     # Use string formating to print:  '02 27 2017 04 30'
-
     tuple_05 = (4, 30, 2017, 2, 27)
     print("{3:0>2d} {4:0} {2:0} {0:0>2d} {1:0}".format(*tuple_05))
 
@@ -115,7 +113,6 @@ def main():
     # Now see if you can change the f-string so that it
     # displays the names of the fruit in upper case,
     # and the weight 20% higher (that is 1.2 times higher).
-
     tuple_06 = ('orange', 1.3, 'lemon', 1.1)
     print(f"The weight of an {tuple_06[0]} is {tuple_06[1]} and the weight of a {tuple_06[2]} is {tuple_06[3]}")
     print(f"The weight of an {tuple_06[0].upper()} is {tuple_06[1]*1.2} and the weight of a {tuple_06[2].upper()} is {tuple_06[3]*1.2}")
@@ -125,12 +122,13 @@ def main():
     #
     # Make sure some of the costs are in the hundreds and thousands to test your alignment specifiers.
 
-    # Create tuples
+    # Create the tuples
     tuple_name = ("John", "Joe", "Mike", "Tony")
     tuple_age = (20, 25, 32, 999)
     tuple_cost = (10.99, 15, 25.97654321, 2221)
 
-    # Find length of the tuple (note: all tuples must be equal length or we receive an index error)
+    # Find the length of the tuples
+    # Note: all tuples must be equal length or we receive an index error)
     l = len(tuple_cost)
 
     # Format the tuples with center alignment
@@ -138,7 +136,7 @@ def main():
     row_age = ('{:^15}'* l).format(*tuple_age)
     row_cost = ('{:^15.2f}'* l).format(*tuple_cost)
 
-    # print tuples
+    # Print the tuples
     print(row_name)
     print(row_age)
     print(row_cost)
