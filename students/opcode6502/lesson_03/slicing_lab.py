@@ -166,7 +166,7 @@ def third_reorder(seq):
     # First, we determine the length of the sequence divided by three.
     seq_third = int(len(seq) / 3)
 
-    # DEBUG statements for developer testing
+    # DEBUG statements for developer testing.
     if debug_flag:
         print("--------------------------------------------------")
         print("[ EXEC  ]: third_reorder(seq): called!")
