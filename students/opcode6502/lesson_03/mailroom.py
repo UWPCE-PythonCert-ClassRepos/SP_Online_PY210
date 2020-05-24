@@ -1,6 +1,8 @@
 # mailroom.py
 # opcode6502: SP_Online_PY210
-#
+
+import sys
+
 # The Program: Part 1
 # Write a small command-line script called mailroom.py.
 # This script should be executable.
@@ -16,42 +18,21 @@
 #
 # You can store that data structure in the global namespace.
 
-donor = [ ("Donor 01", [100, 250, 150]),
-          ("Donor 02", [150, 500, 800, 900]),
-          ("Donor 03", [100, 250, 150, 100, 250, 150]),
-          ("Donor 04", [985, 20, 3, 1578]),
-          ("Donor 05", [985, 20, 3, 1578])
-        ]
-
+donors = [
+    ("Donor 01", [100]),
+    ("Donor 02", [150, 500]),
+    ("Donor 03", [250, 250, 150]),
+    ("Donor 04", [20, 3, 1578]),
+    ("Donor 05", [360, 300, 4000])
+]
 
 def create_report():
 
     # Debug statement.
     if debug_flag: print("[ DEBUG ]: create_report(): called!")
 
-    # Create a Report
+    # Print a list of your donors, sorted by total historical donation amount.
     #
-    # If the user (you) selected “Create a Report,” print a list of your donors,
-    # sorted by total historical donation amount.
-    #
-    # Include Donor Name, total donated, number of donations,
-    # and average donation amount as values in each row.
-    #
-    # You do not need to print out all of each donor’s donations, just the summary info.
-    #
-    # Using string formatting, format the output rows as nicely as possible.
-    # The end result should be tabular:
-    # (values in each column should align with those above and below).
-    #
-    # After printing this report, return to the original prompt.
-    #
-    # At any point, the user should be able to quit their current task and
-    # return to the original prompt.
-    #
-    # From the original prompt, the user should be able to quit the script cleanly.
-    #
-    # Your report should look something like this:
-
     # Donor Name                | Total Given | Num Gifts | Average Gift
     # ------------------------------------------------------------------
     # William Gates, III         $  653784.49           2  $   326892.24
@@ -59,8 +40,71 @@ def create_report():
     # Jeff Bezos                 $     877.33           1  $      877.33
     # Paul Allen                 $     708.42           3  $      236.14
 
+    # Print the header row.
+    if debug_flag: print("[ H ROW ]: ", end='')
+    print('{:25} | {:1} | {:1} | {:1}'.format("Donor Name", "Total Given", "Num Gifts", "Average Gift"))
+
+    # Print the spacer row.
+    if debug_flag: print("[ ----- ]: ", end='')
+    print('-'*66)
+
+    # print(donors)
+    def sort_key(d):
+        return sum(d[1])
+
+    donors_sorted = sorted(donors, key=sort_key, reverse=True)
+
+    for donor in donors_sorted:
+        donor_name = donor[0]
+        donor_total = sum(donor[1])
+        number_of_gifts = len(donor[1])
+        average_gift = round(donor_total / number_of_gifts)
+        if debug_flag: print("[  DATA ]: ", end='')
+        print('{:26} ${:>11.2f} {:>11}  ${:>12.2f}'.format(
+              donor_name,
+              donor_total,
+              number_of_gifts,
+              average_gift))
+
     # Debug statement.
     if debug_flag: print("[ DEBUG ]: create_report(): exiting!")
+
+
+def display_user_prompt():
+
+    # Debug statement.
+    if debug_flag: print("[ DEBUG ]: display_user_prompt(): called!")
+
+    # The script should prompt the user (you) to choose from a menu of 3 actions:
+    #   “Send a Thank You”,
+    #   “Create a Report” or
+    #   “Quit”.
+
+    # Display user prompt.
+    while True:
+        user_response = input(
+                    '[  MENU ]: Select an option:\n'
+                    '[    01 ]: Send a Thank You\n'
+                    '[    02 ]: Create a Report\n'
+                    '[    03 ]: Quit\n'
+                    '[ INPUT ]: ')
+        if user_response == '1':
+            send_thank_you()
+        elif user_response == '2':
+            create_report()
+        elif user_response == '3':
+            # Debug statement.
+            if debug_flag: print("[ DEBUG ]: display_user_prompt(): exiting!")
+            exit_script()
+        else:
+            print("[ ERROR ]: Select item: 1, 2, or 3.")
+
+
+def exit_script():
+
+    # Debug statement.
+    if debug_flag: print("[ DEBUG ]: exit_script(): called! Script halting.")
+    sys.exit()
 
 
 # Send a Thank You
@@ -94,37 +138,20 @@ def send_thank_you():
     if debug_flag: print("[ DEBUG ]: send_thank_you(): exiting!")
 
 
-def display_user_prompt():
-
-    # Debug statement.
-    if debug_flag: print("[ DEBUG ]: display_user_prompt(): called!")
-
-    # The script should prompt the user (you) to choose from a menu of 3 actions:
-    #   “Send a Thank You”,
-    #   “Create a Report” or
-    #   “Quit”.
-
-    # Display user prompt.
-    while True:
-        user_response = input(
-                    '[  MENU ]: Select an option:\n'
-                    '[    01 ]: Send a Thank You\n'
-                    '[    02 ]: Create a Report\n'
-                    '[    03 ]: Quit\n'
-                    '[ INPUT ]: ')
-        if user_response == '1':
-            send_thank_you()
-        elif user_response == '2':
-            create_report()
-        elif user_response == '3':
-            # Debug statement.
-            if debug_flag: print("[ DEBUG ]: display_user_prompt(): exiting!")
-            break
-        else:
-            print("[ ERROR ]: Select item: 1, 2, or 3.")
-
-
-debug_flag = 1
+# DEBUG: The debug_flag will turn on helpful testing statements.
+# This creates a sort of 'black box' where you can read the exact steps
+# that the code executed and debug where things went wrong (or right).
+#
+# NOTE: These debug messages are best viewed with a terminal width of at least
+# 90 to 100 columns (depending on length of strings and tuples to be tested).
+#
+# Set to 1 = ENABLE debug messages.
+# Set to 0 = DISABLE debug messages.
+#
+# DEBUG MESSAGES key:
+# [ EXEC  ]: Informs which function is printing debug statements.
+# [ DEBUG ]: A debug statement.
+debug_flag = 0
 
 
 if __name__=='__main__':
