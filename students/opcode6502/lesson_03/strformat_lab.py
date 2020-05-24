@@ -79,10 +79,10 @@ def main():
     # INPUT : (2, 123.4567, 10000, 12345.67) 
     # OUTPUT:  'file_002 :   123.46, 1.00e+04, 1.23e+04'
 
-    # Create tuple
+    # Create the tuple.
     tuple_01 = (2, 123.4567, 10000, 12345.67)
 
-    # Print tuple
+    # Print the tuple.
     print("file_{0:0>3d}: {1:.2f}, {2:.2e}, {3:.2e}".format(*tuple_01))
 
     # REQ-02: Using your results from Task One, repeat the exercise,
@@ -128,16 +128,16 @@ def main():
     tuple_age = (20, 25, 32, 999)
     tuple_cost = (10.99, 15, 25.97654321, 2221)
 
-    # Find the length of the tuples
-    # Note: all tuples must be equal length or we receive an index error)
+    # Find the length of the tuples.
+    # Note: all tuples must be equal length or we receive an index error.
     l = len(tuple_cost)
 
-    # Format the tuples with center alignment
+    # Format the tuples with center alignment.
     row_name = ('{:^15}'* l).format(*tuple_name)
     row_age = ('{:^15}'* l).format(*tuple_age)
     row_cost = ('{:^15.2f}'* l).format(*tuple_cost)
 
-    # Print the tuples
+    # Print the tuples.
     print(row_name)
     print(row_age)
     print(row_cost)
