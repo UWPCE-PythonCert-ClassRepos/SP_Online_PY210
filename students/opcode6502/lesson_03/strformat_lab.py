@@ -110,11 +110,12 @@ def main():
     # REQ-05: Given the following four element list: ['oranges', 1.3, 'lemons', 1.1]
     # Write an f-string that will display:
     # The weight of an orange is 1.3 and the weight of a lemon is 1.1
+    tuple_06 = ('orange', 1.3, 'lemon', 1.1)
+    print(f"The weight of an {tuple_06[0]} is {tuple_06[1]} and the weight of a {tuple_06[2]} is {tuple_06[3]}")
+
     # Now see if you can change the f-string so that it
     # displays the names of the fruit in upper case,
     # and the weight 20% higher (that is 1.2 times higher).
-    tuple_06 = ('orange', 1.3, 'lemon', 1.1)
-    print(f"The weight of an {tuple_06[0]} is {tuple_06[1]} and the weight of a {tuple_06[2]} is {tuple_06[3]}")
     print(f"The weight of an {tuple_06[0].upper()} is {tuple_06[1]*1.2} and the weight of a {tuple_06[2].upper()} is {tuple_06[3]*1.2}")
 
     # REQ-06: Write some Python code to print a table of several rows,
