@@ -19,7 +19,8 @@
 donor = [ ("Donor 01", [100, 250, 150]),
           ("Donor 02", [150, 500, 800, 900]),
           ("Donor 03", [100, 250, 150, 100, 250, 150]),
-          ("Donor 04", [985, 20, 3, 1578])
+          ("Donor 04", [985, 20, 3, 1578]),
+          ("Donor 05", [985, 20, 3, 1578])
         ]
 
 
@@ -104,8 +105,7 @@ def display_user_prompt():
     #   “Quit”.
 
     # Display user prompt.
-    user_response = None
-    while user_response != '3':
+    while True:
         user_response = input(
                     '[  MENU ]: Select an option:\n'
                     '[    01 ]: Send a Thank You\n'
