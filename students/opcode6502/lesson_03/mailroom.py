@@ -16,6 +16,12 @@
 #
 # You can store that data structure in the global namespace.
 
+donor = [ ("Donor 01", [100, 250, 150]),
+          ("Donor 02", [150, 500, 800, 900]),
+          ("Donor 03", [100, 250, 150, 100, 250, 150]),
+          ("Donor 04", [985, 20, 3, 1578])
+        ]
+
 
 def create_report():
 
@@ -24,12 +30,25 @@ def create_report():
 
     # Create a Report
     #
-    # If the user (you) selected “Create a Report,” print a list of your donors, sorted by total historical donation amount.
-    # Include Donor Name, total donated, number of donations, and average donation amount as values in each row. You do not need to print out all of each donor’s donations, just the summary info.
-    # Using string formatting, format the output rows as nicely as possible. The end result should be tabular (values in each column should align with those above and below).
+    # If the user (you) selected “Create a Report,” print a list of your donors,
+    # sorted by total historical donation amount.
+    #
+    # Include Donor Name, total donated, number of donations,
+    # and average donation amount as values in each row.
+    #
+    # You do not need to print out all of each donor’s donations, just the summary info.
+    #
+    # Using string formatting, format the output rows as nicely as possible.
+    # The end result should be tabular:
+    # (values in each column should align with those above and below).
+    #
     # After printing this report, return to the original prompt.
-    # At any point, the user should be able to quit their current task and return to the original prompt.
+    #
+    # At any point, the user should be able to quit their current task and
+    # return to the original prompt.
+    #
     # From the original prompt, the user should be able to quit the script cleanly.
+    #
     # Your report should look something like this:
 
     # Donor Name                | Total Given | Num Gifts | Average Gift
@@ -50,14 +69,25 @@ def send_thank_you():
     if debug_flag: print("[ DEBUG ]: send_thank_you(): called!")
 
     # If the user (you) selects “Send a Thank You” option, prompt for a Full Name.
+    #
     # If the user types list show them a list of the donor names and re-prompt.
+    #
     # If the user types a name not in the list, add that name to the data structure and use it.
+    #
     # If the user types a name in the list, use it.
+    #
     # Once a name has been selected, prompt for a donation amount.
+    #
     # Convert the amount into a number; it is OK at this point for the program to crash if someone types a bogus amount.
+    #
     # Add that amount to the donation history of the selected user.
-    # Finally, use string formatting to compose an email thanking the donor for their generous donation. Print the email to the terminal and return to the original prompt.
-    # It is fine (for now) for the program not to store the names of the new donors that had been added, in other words, to forget new donors once the script quits running.
+    #
+    # Finally, use string formatting to compose an email thanking the donor for their generous donation.
+    #
+    # Print the email to the terminal and return to the original prompt.
+    #
+    # It is fine (for now) for the program not to store the names of the new donors that had been added
+    # in other words, to forget new donors once the script quits running.
 
     # Debug statement.
     if debug_flag: print("[ DEBUG ]: send_thank_you(): exiting!")
