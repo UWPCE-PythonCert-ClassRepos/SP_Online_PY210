@@ -22,7 +22,7 @@ def main():
     # the fruit corresponding to that number (on a 1-is-first basis).
     # Remember that Python uses zero-based indexing, so you will need to correct.
 
-    # TO-DO: Add exception handling.
+    # TO-DO: Add input sanitization and exception handling.
     user_number = input("[ INPUT ]: Please enter a [ number ]: ")
     index = int(user_number)
     print(fruit_list[index-1])
