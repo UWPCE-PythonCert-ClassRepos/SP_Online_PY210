@@ -1,25 +1,27 @@
 # mailroom.py
 # opcode6502: SP_Online_PY210
-
-
-    # The Program: Part 1
-    # Write a small command-line script called mailroom.py.
-    # This script should be executable.
-    # The script should accomplish the following goals:
-    #
-    # It should have a data structure that holds:
-    #   a list of your donors and
-    #   a history of the amounts they have donated.
-    #
-    # This structure should be populated at first with
-    #   at least five donors,
-    #   with between 1 and 3 donations each.
-    #
-    # You can store that data structure in the global namespace.
+#
+# The Program: Part 1
+# Write a small command-line script called mailroom.py.
+# This script should be executable.
+# The script should accomplish the following goals:
+#
+# It should have a data structure that holds:
+#   a list of your donors and
+#   a history of the amounts they have donated.
+#
+# This structure should be populated at first with
+#   at least five donors,
+#   with between 1 and 3 donations each.
+#
+# You can store that data structure in the global namespace.
 
 
 def create_report():
+
+    # Debug statement.
     if debug_flag: print("[ DEBUG ]: create_report(): called!")
+
     # Create a Report
     #
     # If the user (you) selected “Create a Report,” print a list of your donors, sorted by total historical donation amount.
@@ -36,12 +38,17 @@ def create_report():
     # Mark Zuckerberg            $   16396.10           3  $     5465.37
     # Jeff Bezos                 $     877.33           1  $      877.33
     # Paul Allen                 $     708.42           3  $      236.14
+
+    # Debug statement.
     if debug_flag: print("[ DEBUG ]: create_report(): exiting!")
 
 
 # Send a Thank You
 def send_thank_you():
+
+    # Debug statement.
     if debug_flag: print("[ DEBUG ]: send_thank_you(): called!")
+
     # If the user (you) selects “Send a Thank You” option, prompt for a Full Name.
     # If the user types list show them a list of the donor names and re-prompt.
     # If the user types a name not in the list, add that name to the data structure and use it.
@@ -51,17 +58,20 @@ def send_thank_you():
     # Add that amount to the donation history of the selected user.
     # Finally, use string formatting to compose an email thanking the donor for their generous donation. Print the email to the terminal and return to the original prompt.
     # It is fine (for now) for the program not to store the names of the new donors that had been added, in other words, to forget new donors once the script quits running.
+
+    # Debug statement.
     if debug_flag: print("[ DEBUG ]: send_thank_you(): exiting!")
 
 
 def display_user_prompt():
+
+    # Debug statement.
+    if debug_flag: print("[ DEBUG ]: display_user_prompt(): called!")
+
     # The script should prompt the user (you) to choose from a menu of 3 actions:
     #   “Send a Thank You”,
     #   “Create a Report” or
     #   “Quit”.
-
-    # Debug statement.
-    if debug_flag: print("[ DEBUG ]: display_user_prompt(): called!")
 
     # Display user prompt.
     user_response = None
@@ -77,6 +87,7 @@ def display_user_prompt():
         elif user_response == '2':
             create_report()
         elif user_response == '3':
+            # Debug statement.
             if debug_flag: print("[ DEBUG ]: display_user_prompt(): exiting!")
             break
         else:
