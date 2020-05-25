@@ -1,7 +1,7 @@
 # ------------------------------------------------------------------------#
 # !/usr/bin/env python3
 # Title: cli_main.py
-# Desc: The module cli_main.py would include all of your user interaction functions and main program flow.
+# Desc: The module cli_main.py would include all user interaction functions and main program flow.
 # Tian Xie, 2020-05-21, Created File
 # ------------------------------------------------------------------------#
 
