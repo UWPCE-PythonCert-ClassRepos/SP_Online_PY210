@@ -8,7 +8,10 @@
 
 class Donor(object):
     def __init__(self, donor_name, donation=None):
-        """ Initialize the Donor class """
+        """
+        Initialize the Donor class
+        :param donor_name, donation
+        """
         self.name = donor_name
 
         if donation is None:
@@ -64,17 +67,31 @@ class Donor(object):
 
     # special method for sorting
     def __lt__(self, other):
+        """
+        special method for sorting
+        :param other:
+        :return: self.total_donations < other.total_donations
+        """
         return self.total_donations < other.total_donations
 
     def __iter__(self):
+        """
+        Iterator
+        :return:self.name.__iter__()
+        """
         return self.name.__iter__()
 
     def __repr__(self):
+        """
+        compute the "official" string representation of an object.
+        :return: f'{self.name}, {self.donations}'
+        """
         return f'{self.name}, {self.donations}'
 
 
 class DonorCollection:
     def __init__(self):
+        """ Initialize the DonorCollection class with default list"""
         self.donor_list = [Donor('Jeff Bezos', [1.00, 50.00]),
                            Donor('Warren Buffet', [100.00, 1000.00]),
                            Donor('Bill Gates', [100.00, 500.00]),
@@ -84,6 +101,7 @@ class DonorCollection:
     def add_donor(self, donor_name, donation):
         """
         Returns new donor object.
+        :param donor_name, donation
         """
         new_donor = Donor(donor_name, [float(donation)])
         self.donor_list.append(new_donor)
@@ -92,6 +110,7 @@ class DonorCollection:
     def get_donor(self, donor_name):
         """
         Return the donor if present.
+        :param donor_name,
         """
         for donor in self.donor_list:
             if donor_name == donor.name:
@@ -100,6 +119,7 @@ class DonorCollection:
     def donor_exists(self, donor_name):
         """
         Check if donor exists.
+        :param donor_name,
         """
         for donor in self.donor_list:
             if donor_name == donor.name:
@@ -110,6 +130,7 @@ class DonorCollection:
         """
         Handles new donation, add donation to exiting the donor if present.
         Creates new donor and add donation if name is not found.
+        :param donor_name, donation
         """
         for donor in self.donor_list:
             if donor_name == donor.name:
