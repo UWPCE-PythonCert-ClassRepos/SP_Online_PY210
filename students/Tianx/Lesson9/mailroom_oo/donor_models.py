@@ -57,7 +57,9 @@ class Donor(object):
         """
         returns an email template for each donor
         """
-        email = f'Dear {self.name},\n\nThank you for your generosity, your donation of ${float(self.donations[-1]):.2f} will be put to good use.\n\n''Warm regards,\nMailroom Staff'
+        email = f'Dear {self.name},\n\nThank you for your generosity, your donation of' \
+                f' ${float(self.donations[-1]):.2f} will be put to good use.\n\n''' \
+                'Warm regards,\nMailroom Staff'
         return email
 
     # special method for sorting
@@ -68,7 +70,7 @@ class Donor(object):
         return self.name.__iter__()
 
     def __repr__(self):
-        return (f'{self.name}, {self.donations}')
+        return f'{self.name}, {self.donations}'
 
 
 class DonorCollection:
@@ -135,10 +137,12 @@ class DonorCollection:
            report object
 
         """
-        report = ['Donor Name                | Total Given | Num Gifts | Average Gift','------------------------------------------------------------------']
+        report = ['Donor Name                | Total Given | Num Gifts | Average Gift',
+                  '------------------------------------------------------------------']
         self.donor_list.sort(reverse=True)
         for i in self.donor_list:
-            report.append(f'{i.name:26} ${float(i.total_donations):>11.2f} {i.num_donations:>11.0f}  ${i.avg_donation:>12.2f}')
+            report.append(f'{i.name:26} ${float(i.total_donations):>11.2f} '
+                          f'{i.num_donations:>11.0f}  ${i.avg_donation:>12.2f}')
         return report
 
     def send_all(self):
@@ -154,4 +158,6 @@ class DonorCollection:
             file_name = f'{donor.name.replace(" ", "_"):}.txt'
             with open(file_name, 'w') as objfile:
                 objfile.write(
-                    f'Dear {donor.name},\n\nThank you for your generosity, your total donation amount is ${float(donor.total_donations):.2f}.\n\nWarm regards,\nMailroom Staff')
+                    f'Dear {donor.name},\n\nThank you for your generosity, '
+                    f'your total donation amount is ${float(donor.total_donations):.2f}.'
+                    f'\n\nWarm regards,\nMailroom Staff')
