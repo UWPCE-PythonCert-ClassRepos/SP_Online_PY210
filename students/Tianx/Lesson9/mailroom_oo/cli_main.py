@@ -10,6 +10,7 @@ from donor_models import DonorCollection
 # Initiate Default donor collection
 donor_collection = DonorCollection()
 
+
 def menu_selection(prompt, dispatch_dict):
     """Displays a menu of choices to the user
     Args:
@@ -25,9 +26,11 @@ def menu_selection(prompt, dispatch_dict):
             if dispatch_dict[response]() == "Exit Menu":
                 break
         except KeyError:
-            print('\nError: you entered {}, which is not a number from 1-4. Please select again >'.format(response))
+            print('\nError: you entered {}, which is not a number from 1-4. '
+                  'Please select again >'.format(response))
         except ValueError:
-            print('\nError: you entered {}, which is not a number from 1-4. Please select again >'.format(response))
+            print('\nError: you entered {}, which is not a number from 1-4. '
+                  'Please select again >'.format(response))
 
 
 def handle_donation_input(donor_name):
@@ -38,16 +41,19 @@ def handle_donation_input(donor_name):
     Returns:
         donation_amount.
     """
-    donation_amount = float(input('Please enter a donation amount for ' + donor_name + ' >'))
+
     # Make sure users don't enter a negative donation.
-    while donation_amount < 0:
-        donation_amount = float(input('Error: Please enter a positibe number for the donation amount>'))
+    donation_amount = input('Please enter a donation amount for ' + donor_name + ' >')
     while True:
         try:
             float(donation_amount)
+            assert float(donation_amount) > 0
             break
         except ValueError:
             donation_amount = input('Error: Please enter a number for the donation amount>')
+        except AssertionError:
+            donation_amount = input('Error: Please enter a positive number for the donation '
+                                    'amount>')
     return donation_amount
 
 
@@ -64,7 +70,7 @@ def adding_donation(donor_name):
 
 
 def send_thank_you():
-    """Handles send thank you menu logic.
+    """Handles send_.
 
     Args:
        None
@@ -73,20 +79,24 @@ def send_thank_you():
        None
 
     """
-    # Ask user for a donor's name or to display current list of donors, then ask for donation amount
+    # Ask user for a donor's name or to display current list of donors,
+    # then ask for donation amount
     print()
     while True:
         donor_name = input('======= The Thank you Menu: =======\n'
                            "Enter 'list' for to see the list of donors\n"
                            "or enter full name of donor. \n"
                            "Enter 'exit' to return to the main menu >").title()
-        if donor_name == "Exit": #If the user types exist return to main menu.
+        # If the user types exist return to main menu.
+        if donor_name == "Exit":
             break
-        elif donor_name == "List": #If the user types list show them a list of the donor names and re-prompt.
+        # If the user types list show them a list of the donor names and re-prompt.
+        elif donor_name == "List":
             print('======= The Donor List: =======')
             print(donor_collection.show_donor_list)
         elif donor_collection.donor_exists(donor_name)is False:
-            choice = input((f'{donor_name} is not currently in the donor list, are you sure you want to add to the list? Y/N')).upper()
+            choice = input((f'{donor_name} is not currently in the donor list, '
+                            f'are you sure you want to add to the list? Y/N')).upper()
             if choice == "Y":
                 adding_donation(donor_name)
             else:
@@ -123,6 +133,7 @@ def send_all():
    """
     donor_collection.send_all()
     print('Letters sent to all donors.')
+
 
 def quit():
     print("Exiting the menu now")
