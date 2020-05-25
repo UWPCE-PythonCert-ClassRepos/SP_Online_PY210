@@ -31,6 +31,13 @@ def menu_selection(prompt, dispatch_dict):
 
 
 def handle_donation_input(donor_name):
+    """Handles donation input, making sure donation amount is positive
+    Args:
+        donor_name: name of the donor
+
+    Returns:
+        donation_amount.
+    """
     donation_amount = float(input('Please enter a donation amount for ' + donor_name + ' >'))
     # Make sure users don't enter a negative donation.
     while donation_amount < 0:
@@ -45,12 +52,19 @@ def handle_donation_input(donor_name):
 
 
 def adding_donation(donor_name):
+    """adds a donation, then displays an email.
+        Args:
+            donor_name: name of the donor
+
+        Returns:
+            none.
+        """
     donor_collection.add_new_donation(donor_name, handle_donation_input(donor_name))
     print(donor_collection.get_donor(donor_name).create_email)
 
 
 def send_thank_you():
-    """Sending a thank you email using user input.
+    """Handles send thank you menu logic.
 
     Args:
        None
