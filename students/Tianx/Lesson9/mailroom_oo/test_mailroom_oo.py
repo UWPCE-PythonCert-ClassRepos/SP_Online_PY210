@@ -56,7 +56,8 @@ def test_create_email():
     donor = Donor("Jimmy Johns")
     donor.add_donation(100)
     result = donor.create_email
-    assert result == 'Dear Jimmy Johns,\n\nThank you for your generosity, your donation of $100.00 will be put' \
+    assert result == 'Dear Jimmy Johns,\n\nThank you for your generosity, ' \
+                     'your donation of $100.00 will be put' \
                      ' to good use.\n\n''Warm regards,\nMailroom Staff'
 
 
@@ -138,10 +139,13 @@ def test_send_all():
     assert os.path.isfile('Bill_Gates.txt')
     assert os.path.isfile('Tim_Cook.txt')
     assert os.path.isfile('Jack_Ma.txt')
-    expected_letter = ['Dear Jeff Bezos,\n', '\n', 'Thank you for your generosity, your total donation amount is $51.00.\n', '\n', 'Warm regards,\n', 'Mailroom Staff']
+    expected_letter = ['Dear Jeff Bezos,\n', '\n',
+                       'Thank you for your generosity, your total donation amount is '
+                       '$51.00.\n', '\n', 'Warm regards,\n', 'Mailroom Staff']
     assert get_letter_text('Jeff_Bezos') == expected_letter
 
-if __name__== "__main__":
+
+if __name__ == "__main__":
     test_donor_init_()
     test_donor_name()
     test_add_donation()
