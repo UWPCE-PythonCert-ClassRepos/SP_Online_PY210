@@ -70,7 +70,7 @@ def adding_donation(donor_name):
 
 
 def send_thank_you():
-    """Handles send_.
+    """Handles send_thank_you menu choice.
 
     Args:
        None
