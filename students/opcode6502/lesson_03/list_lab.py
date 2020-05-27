@@ -40,7 +40,6 @@ def main():
         if fruit[0]=="P":
             print("[ DEBUG ]: Fruit: " + fruit)
 
-
     # - - Series 2 - - - - - -
     # Using the list created in series 1 above:
 
@@ -57,7 +56,6 @@ def main():
     # (Bonus: Multiply the list times two. Keep asking until a match is found. Once found, delete all occurrences.)
     fruit_to_be_deleted = input("[ INPUT ]: Please enter a fruit to remove: ")
     fruit_list.remove(fruit_to_be_deleted)
-
 
     # - - Series 3 - - - - - -
     # Again, using the list from series 1:
@@ -76,7 +74,6 @@ def main():
 
     # REQ-16: Display the list.
     print(fruit_list)
-
 
     # - - Series 4 - - - - - -
     # Once more, using the list from series 1:
