@@ -4,77 +4,6 @@
 
 def main():
 
-    # DEBUG statements for developer testing.
-    if debug_flag:
-
-        # Create the test tuple
-        test_tuple = (2, -2, 2.50, -2.50, 123.4567, 12345.67, "Hello", "Hi there", "The quick brown fox jumps over the lazy dogs")
-
-        print("--------------------------------------------------")
-        print("[ EXEC  ]: STRING FORMATTING DEBUG TESTING        ")
-        print("--------------------------------------------------")
-        for item in test_tuple:
-
-            # Item
-            print("[ DEBUG ]: item               : " + str(item))
-            print("[ DEBUG ]: type               : " + str(type(item)))
-
-            # Basic formatting usage
-            # { } { } .format(value1, value2)
-
-            # Intergers
-            if isinstance(item, int):
-                print("[ DEBUG ]: { :=}              : " + str('{:=}'.format(item)))
-                print("[ DEBUG ]: { :+}              : " + str('{:+}'.format(item)))
-                print("[ DEBUG ]: { :-}              : " + str('{:-}'.format(item)))
-                print("[ DEBUG ]: { : }              : " + str('{: }'.format(item)))
-                print("[ DEBUG ]: { :b}              : " + str('{:b}'.format(item)))
-                print("[ DEBUG ]: { :d}              : " + str('{:d}'.format(item)))
-                print("[ DEBUG ]: { :4d}             : " + str('{:4d}'.format(item)))
-                print("[ DEBUG ]: { :e}              : " + str('{:e}'.format(item)))
-                print("[ DEBUG ]: { :.4e}            : " + str('{:.4e}'.format(item)))
-                print("[ DEBUG ]: { :f}              : " + str('{:f}'.format(item)))
-                print("[ DEBUG ]: { :.4f}            : " + str('{:.4f}'.format(item)))
-                print("[ DEBUG ]: { :g}              : " + str('{:g}'.format(item)))
-                print("[ DEBUG ]: { :n}              : " + str('{:n}'.format(item)))
-                print("[ DEBUG ]: { :o}              : " + str('{:o}'.format(item)))
-                print("[ DEBUG ]: { :x}              : " + str('{:x}'.format(item)))
-
-            # Floating Point
-            if isinstance(item, float):
-                print("[ DEBUG ]: { :=}              : " + str('{:=}'.format(item)))
-                print("[ DEBUG ]: { :+}              : " + str('{:+}'.format(item)))
-                print("[ DEBUG ]: { :-}              : " + str('{:-}'.format(item)))
-                print("[ DEBUG ]: { : }              : " + str('{: }'.format(item)))
-                print("[ DEBUG ]: { :e}              : " + str('{:e}'.format(item)))
-                print("[ DEBUG ]: { :.4e}            : " + str('{:.4e}'.format(item)))
-                print("[ DEBUG ]: { :f}              : " + str('{:f}'.format(item)))
-                print("[ DEBUG ]: { :.4f}            : " + str('{:.4f}'.format(item)))
-                print("[ DEBUG ]: { :g}              : " + str('{:g}'.format(item)))
-                print("[ DEBUG ]: { :n}              : " + str('{:n}'.format(item)))
-
-            # Strings
-            if isinstance(item, str):
-
-                # Alignment
-                print("[ DEBUG ]: { :1}              : " + str('{:1}'.format(item)))
-                print("[ DEBUG ]: { :>1}             : " + str('{:>1}'.format(item)))
-                print("[ DEBUG ]: { :^1}             : " + str('{:^1}'.format(item)))
-                print("[ DEBUG ]: { :50}             : " + str('{:50}'.format(item)))
-                print("[ DEBUG ]: { :>50}            : " + str('{:>50}'.format(item)))
-                print("[ DEBUG ]: { :^50}            : " + str('{:^50}'.format(item)))
-
-                # Padding
-                print("[ DEBUG ]: { :_<50}           : " + str('{:_<50}'.format(item)))
-                print("[ DEBUG ]: { :_>50}           : " + str('{:_>50}'.format(item)))
-
-                # Truncating
-                print("[ DEBUG ]: { :.1}             : " + str('{:.1}'.format(item)))
-                print("[ DEBUG ]: { :.5}             : " + str('{:.5}'.format(item)))
-                print("[ DEBUG ]: { :.40}            : " + str('{:.40}'.format(item)))
-
-            print("--------------------------------------------------")
-
     # REQ-01: Write a format string that will take the following four element tuple: 
     # INPUT : (2, 123.4567, 10000, 12345.67) 
     # OUTPUT:  'file_002 :   123.46, 1.00e+04, 1.23e+04'
@@ -148,22 +77,6 @@ def main():
 
     tuple_06 = (1, 2, 3, 4, 5, 6, 7, 8, 9)
     print(('{:5}' * (len(tuple_06))).format(*tuple_06))
-
-
-# DEBUG: The debug_flag will turn on helpful testing statements.
-# This creates a sort of 'black box' where you can read the exact steps
-# that the code executed and debug where things went wrong (or right).
-#
-# NOTE: These debug messages are best viewed with a terminal width of at least
-# 90 to 100 columns (depending on length of strings and tuples to be tested).
-#
-# Set to 1 = ENABLE debug messages.
-# Set to 0 = DISABLE debug messages.
-#
-# DEBUG MESSAGES key:
-# [ EXEC  ]: Informs which function is printing debug statements.
-# [ DEBUG ]: A debug statement.
-debug_flag = 0
 
 
 if __name__=='__main__':
