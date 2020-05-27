@@ -22,18 +22,6 @@ def exchange_first_last(seq):
     last_element = seq[-1:]
     final_sequence = last_element + seq[1:-1] + first_element
 
-    # DEBUG statements for developer testing.
-    if debug_flag:
-        print("--------------------------------------------------")
-        print("[ EXEC  ]: exchange_first_last(seq): called!")
-        print("--------------------------------------------------")
-        print("[ DEBUG ]: seq                : " + str(seq))
-        print("[ DEBUG ]: type(seq)          : " + str(type(seq)))
-        print("[ DEBUG ]: first_element      : " + str(first_element))
-        print("[ DEBUG ]: last_element       : " + str(last_element))
-        print("[ DEBUG ]: final_sequence     : " + str(final_sequence))
-        print("")
-
     return final_sequence
 
 
@@ -51,19 +39,6 @@ def remove_alternate_items(seq):
     Returns:
         A copy of the sequence with every other item removed.
     """
-
-    # DEBUG statements for developer testing.
-    if debug_flag:
-        print("--------------------------------------------------")
-        print("[ EXEC  ]: remove_alternate_items(seq): called!")
-        print("--------------------------------------------------")
-        print("[ DEBUG ]: seq                : " + str(seq))
-        print("[ DEBUG ]: type(seq)          : " + str(type(seq)))
-        print("[ DEBUG ]: seq[0]             : " + str(seq[0]))
-        print("[ DEBUG ]: seq[0:]            : " + str(seq[0:]))
-        print("[ DEBUG ]: seq[:2]            : " + str(seq[:2]))
-        print("[ DEBUG ]: seq[::2]           : " + str(seq[::2]))
-        print("")
 
     return seq[::2]
 
@@ -86,29 +61,6 @@ def remove_four_print_alt(seq):
         and then every other item in the remaining sequence.
     """
 
-    # DEBUG statements for developer testing.
-    if debug_flag:
-        print("--------------------------------------------------")
-        print("[ EXEC  ]: remove_four_print_alt(seq): called!")
-        print("--------------------------------------------------")
-        print("[ DEBUG ]: seq                : " + str(seq))
-        print("[ DEBUG ]: type(seq)          : " + str(type(seq)))
-        #
-        # The first four items.
-        print("[ DEBUG ]: seq[4]             : " + str(seq[4]))
-        print("[ DEBUG ]: seq[4:]            : " + str(seq[4:]))
-        #
-        # The last four items.
-        print("[ DEBUG ]: seq[-4]            : " + str(seq[-4]))
-        print("[ DEBUG ]: seq[:-4]           : " + str(seq[:-4]))
-        #
-        # Every other item.
-        print("[ DEBUG ]: seq[::2]           : " + str(seq[::2]))
-        #
-        # The final sliced sequence.
-        print("[ DEBUG ]: seq[4:-4:2]        : " + str(seq[4:-4:2]))
-        print("")
-
     return seq[4:-4:2]
 
 
@@ -126,21 +78,6 @@ def reverse_sequence(seq):
     Returns:
         A copy of a sequence with the elements reversed (just with slicing).
     """
-
-    # DEBUG statements for developer testing.
-    if debug_flag:
-        print("--------------------------------------------------")
-        print("[ EXEC  ]: reverse_sequence(seq): called!")
-        print("--------------------------------------------------")
-        print("[ DEBUG ]: seq                : " + str(seq))
-        print("[ DEBUG ]: type(seq)          : " + str(type(seq)))
-        print("[ DEBUG ]: seq[1]             : " + str(seq[1]))
-        print("[ DEBUG ]: seq[-1]            : " + str(seq[-1]))
-        print("[ DEBUG ]: seq[:1]            : " + str(seq[:1]))
-        print("[ DEBUG ]: seq[:-1]           : " + str(seq[:-1]))
-        print("[ DEBUG ]: seq[::1]           : " + str(seq[::1]))
-        print("[ DEBUG ]: seq[::-1]          : " + str(seq[::-1]))
-        print("")
 
     return seq[::-1]
 
@@ -166,24 +103,6 @@ def third_reorder(seq):
     # First, we determine the length of the sequence divided by three.
     seq_third = int(len(seq) / 3)
 
-    # DEBUG statements for developer testing.
-    if debug_flag:
-        print("--------------------------------------------------")
-        print("[ EXEC  ]: third_reorder(seq): called!")
-        print("--------------------------------------------------")
-        print("[ DEBUG ]: seq                : " + str(seq))
-        print("[ DEBUG ]: len(seq)           : " + str(len(seq)))
-        print("[ DEBUG ]: len(seq) / 3       : " + str(len(seq) / 3))
-        print("[ DEBUG ]: len(seq) % 3       : " + str(len(seq) % 3))
-        print("[ DEBUG ]: seq[seq_third]     : " + str(seq[seq_third]))
-        print("[ DEBUG ]: seq[-seq_third]    : " + str(seq[-seq_third]))
-        print("[ DEBUG ]: seq[:seq_third]    : " + str(seq[:seq_third]))
-        print("[ DEBUG ]: seq[seq_third:]    : " + str(seq[seq_third:]))
-        print("[ DEBUG ]: seq[-seq_third:]   : " + str(seq[-seq_third:]))
-        print("[ DEBUG ]: seq[::seq_third]   : " + str(seq[::seq_third]))
-        print("[ DEBUG ]: seq[::-seq_third]  : " + str(seq[::-seq_third]))
-        print("")
-
     # Next, execute the correct code for the length of the string.
     if len(seq) % 3 == 0:
         new_seq = seq[-seq_third:] + seq[:seq_third] + seq[seq_third:(2 * seq_third)]
@@ -193,22 +112,6 @@ def third_reorder(seq):
         new_seq = seq[-(seq_third + 1):] + seq[:seq_third + 1] + seq[seq_third + 1:(2 * seq_third + 1)]
 
     return new_seq
-
-
-# DEBUG: The debug_flag will turn on helpful testing statements.
-# This creates a sort of 'black box' where you can read the exact steps
-# that the code executed and debug where things went wrong (or right).
-#
-# NOTE: These debug messages are best viewed with a terminal width of at least
-# 90 to 100 columns (depending on length of strings and tuples to be tested).
-#
-# Set to 1 = ENABLE debug messages.
-# Set to 0 = DISABLE debug messages.
-#
-# DEBUG MESSAGES key:
-# [ EXEC  ]: Informs which function is printing debug statements.
-# [ DEBUG ]: A debug statement.
-debug_flag = 0
 
 
 # REQ-06: Write a test or two for each of the above functions.
