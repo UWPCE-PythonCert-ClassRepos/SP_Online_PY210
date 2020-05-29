@@ -1,68 +1,60 @@
 #!/usr/bin/env python3
 
-import cli_main
-import os.path
+from cli_main import *
+from donor_models import *
 
 """Test code for Object Oriented Mailroom"""
 
 
 def test_search_db():
-    """Test to see if existing donor in database returns True value"""
-    assert mailroom4.search_db('John Smith') is True
-    assert mailroom4.search_db('Mary Johnson') is True
-    assert mailroom4.search_db('David Carlton') is True
-    assert mailroom4.search_db('James Wright') is True
-    assert mailroom4.search_db('Caroline Baker') is True
-
-
-def test_search_db_unregistered():
-    """Test to see if unexisting donor in database returns False value"""
-    assert mailroom4.search_db('Jane Doe') is False
+    """
+    Check for existing and non-existing donor in database.  Test whether or not
+    donation amounts are correct for donor.
+    """
+    assert 'John Smith' in data.data.keys()
+    assert 'Alice Wonderland' not in data.data.keys()
+    assert data.search_db('James Wright') == [500, 500, 500]
 
 
 def test_add_donation():
-    """Test expected result when adding donation amount to existing user"""
-    mailroom4.donor_db['John Smith'].append(300)
-    expected = [10000, 5000, 1000, 300]
-    assert mailroom4.donor_db['John Smith'] == expected
+    """Test expected result when adding donation amount to existing donor"""
+    Donor('Caroline Baker', data.data.get('Caroline Baker')).add_donation(1000)
+    assert data.search_db('Caroline Baker') == [1000, 1000]
 
 
 def test_add_new_donor():
     """Test expected result when adding new donor and donation to database"""
-    mailroom4.donor_db['Ryan Doe'] = [2000]
-    expected = [2000]
-    assert mailroom4.donor_db['Ryan Doe'] == expected
+    data.add_new_donor('Alice Wonderland', 100)
+    assert 'Alice Wonderland' in data.data.keys()
+    assert data.search_db('Alice Wonderland') == [100]
 
 
 def test_thank_you_email():
     """Test expected thank you messsage after a donation is made"""
-    expected = ('\nThank you Ryan Doe for your generous donation amount of $300.00!')
-    assert mailroom4.thank_you_email('Ryan Doe', 300) == expected
+    expected = ('\nThank you Jane Doe for your generous donation amount of $400.00!')
+    assert Donor('Jane Doe', 400).thank_you_email() == expected
 
 
 def test_create_report():
     """Test expected donor data output after adding new donors and donations"""
-    donor_db = {'Ryan Doe': [2000, 2000], 'Jane Doe': [10000]}
-    donor_list = list(donor_db.items())
+    test = {'Ryan Doe': [2000, 2000], 'Jane Doe': [10000]}
+    data = DonorCollection(**test)
     expected_donor1 = 'Jane Doe             | 10000.00     | 1          | 10000.00       '
     expected_donor2 = 'Ryan Doe             | 4000.00      | 2          | 2000.00        '
-    assert mailroom4.create_report(donor_list)[0] == expected_donor1
-    assert mailroom4.create_report(donor_list)[1] == expected_donor2
+    assert data.create_report()[0] == expected_donor1
+    assert data.create_report()[1] == expected_donor2
 
 
-def test_create_file():
-    """Test that files were created for each donor"""
-    record = ('Ryan Doe', [2000, 2000])
-    mailroom4.create_file(record)
-    expected = 'Ryan Doe.txt'
-    assert os.path.exists(expected) is True
+def test_donation_count():
+    """Test expected number of donations made by a donor"""
+    assert Donor('James Wright', data.data.get('James Wright')).donation_count() == 3
 
 
-def test_compose_letter():
-    """Test that donor letters are properly formatted for each donor"""
-    record = ('Ryan Doe', [2000, 2000])
-    expected = ('Dear Ryan Doe,'
-                '\n\nThank you for your 2 donations that total $4000.00.'
-                '\nIt will be put to very good use.'
-                '\n\n\tSincerely,\n\t-The Team')
-    assert mailroom4.compose_letter(record) == expected
+def test_total_donations():
+    """Test expected sum of donations made by a donor"""
+    assert Donor('James Wright', data.data.get('James Wright')).total_donations() == 1500
+
+
+def test_avg_donations():
+    """Test expected average donations amount made by a donor"""
+    assert Donor('James Wright', data.data.get('James Wright')).avg_donations() == 500
