@@ -19,6 +19,7 @@ donor_db = {'John Smith': [10000, 5000, 1000],
             'James Wright': [500, 500, 500],
             'Caroline Baker': [1000]
             }
+data = DonorCollection(**donor_db)  # call DonorCollection class with DB data
 
 # Display menu options to user
 prompt = '\n'.join(('\nWelcome to the mail room.',
@@ -47,30 +48,22 @@ def send_thank_you():
         return
     else:
         # Search for already existing donor
-        if search_db(user_response):
+        if data.search_db(user_response):
             print('\nThis donor already exists in our database.')
             donation = donation_amount()  # obtain donation amount made
-            add_donation(user_response, donation)
+            Donor(user_response, data.data.get(user_response)).add_donation(donation)
         else:
             print('\nThis is a NEW donor and will be added to the database.')
             donation = donation_amount()  # obtain donation amount made
-            add_new_donor(user_response, donation)
-        print(thank_you_email(user_response, donation))
+            data.add_new_donor(user_response, donation)
+        print(Donor(user_response, donation).thank_you_email())
 
 
 # Display list of donors
 def view_donors():
     print('\nThe following is the list of donors:')
-    for donor in donor_db.keys():
+    for donor in data.data.keys():
         print(donor)
-
-
-# Search database to see if user already exists
-def search_db(donor_name):
-    if donor_db.get(donor_name):
-        return True
-    else:
-        return False
 
 
 # Prompt user to enter a donation amount
@@ -88,22 +81,6 @@ def donation_amount():
             return user_donation
 
 
-# Add donation amount to existing donor in database
-def add_donation(donor_name, donation_amount):
-    donor_db[donor_name].append(donation_amount)
-
-
-# Add new donor and donation amount to database
-def add_new_donor(donor_name, donation_amount):
-    donor_db[donor_name] = [donation_amount]
-
-
-# Send donor a thank you email
-def thank_you_email(donor_name, amount):
-    return(f'\nThank you {donor_name} for your generous donation amount of $'
-           f'{amount:.2f}!')
-
-
 def display_report():
     print('\n{:<20} | {:<12} | {:<10} | {:<15}'.format('Donor Name', 'Total '
           'Given', 'Num Gifts', 'Average Gift'))
@@ -111,26 +88,6 @@ def display_report():
     # Create list out of database to iterate through
     donor_list = list(donor_db.items())
     print('\n'.join(create_report(donor_list)))  # displays donor report
-
-
-# Create report for user to see list of all donors and donations made
-def create_report(donor_list):
-    # Sort database by sum amounts in descending order
-    donor_stat = []
-    sorted_db = sorted(donor_list, key=sum_total, reverse=True)
-    for item in sorted_db:
-        total = sum(item[1])  # sum of all donations
-        count = len(item[1])  # total number of donations
-        average = total/count  # average of all donations
-        donor_stat.append((f'{item[0]:<20} | {total:<12.2f} | {count:<10} |'
-                           f' {average:<15.2f}'))
-    return donor_stat
-
-
-# Sum donation amounts for each donor record and return amounts for sorted
-# database
-def sum_total(donor_record):
-    return(sum(donor_record[1]))
 
 
 # Loop through donor database to retrieve name and donations made

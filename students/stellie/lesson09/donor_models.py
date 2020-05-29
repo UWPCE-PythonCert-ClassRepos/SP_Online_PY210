@@ -7,22 +7,60 @@
 
 
 class Donor(object):
-    # Class responsible for donor data encapsulation
+    def __init__(self, donor_name, donations=None):
+        self.name = donor_name
+        if donations is None:
+            self.donations = []
+        else:
+            self.donations = donations
 
-    # This class will hold all the information about a single donor, and have
-    # attributes, properties, and methods to provide access to the donor-
-    # specific information that is needed. Any code that only accesses
-    # information about a single donor should be part of this class.
-    pass
+    # Add donation amount to donor in database
+    def add_donation(self, donation_amount):
+        self.donations.append(donation_amount)
+
+    # Send donor a thank you email
+    def thank_you_email(self):
+        return(f'\nThank you {self.name} for your generous donation amount '
+               f'of ${self.donations:.2f}!')
+
+    # Track number of donations made by a donor
+    def donation_count(self):
+        return len(self.donations)
+
+    # Sum donations total of a donor
+    def total_donations(self):
+        return sum(self.donations)
 
 
 class DonorCollection(object):
-    # Class responsible for donor collection data encapsulation
+    def __init__(self, **donor_db):
+        self.data = donor_db
+        self.items = list(donor_db.items())
 
-    # This class will hold all of the donor objects, as well as methods to add
-    # a new donor, search for a given donor, etc. If you want a way to save and
-    # re-load your data, this class would hold that method, too.
+    # Search database to see if user already exists
+    def search_db(self, donor_name):
+        return self.data.get(donor_name)
 
-    # Your class for the collection of donors will also hold the code that
-    # generates reports about multiple donors.
-    pass
+    # Add new donor and donation amount to database
+    def add_new_donor(self, donor_name, donation_amount):
+        self.data[donor_name] = Donor(donor_name, [donation_amount]).donations
+        return self.data
+
+    # Create report for user to see list of all donors and donations made
+    def create_report(self, donor_name):
+        # Sort database by sum amounts in descending order
+        donor_stat = []
+        sorted_db = sorted(self.items, reverse=True)
+        for item in sorted_db:
+            total = sum(item[1])  # sum of all donations
+            count = len(item[1])  # total number of donations
+            average = total/count  # average of all donations
+            donor_stat.append((f'{item[0]:<20} | {total:<12.2f} | {count:<10} '
+                               f'| {average:<15.2f}'))
+        return donor_stat
+
+
+    # Sum donation amounts for each donor record and return amounts for sorted
+    # database
+    # def sum_total(donor_record):
+    #     return(sum(donor_record[1]))
