@@ -31,11 +31,15 @@ class Donor(object):
     def total_donations(self):
         return sum(self.donations)
 
+    # Sum donations total of a donor
+    def avg_donations(self):
+        return sum(self.donations) / len(self.donations)
+
 
 class DonorCollection(object):
     def __init__(self, **donor_db):
         self.data = donor_db
-        self.items = list(donor_db.items())
+        self.items = donor_db.items()
 
     # Search database to see if user already exists
     def search_db(self, donor_name):
@@ -47,20 +51,18 @@ class DonorCollection(object):
         return self.data
 
     # Create report for user to see list of all donors and donations made
-    def create_report(self, donor_name):
+    def create_report(self):
+        # Sum donation amounts for each donor record and return amounts for
+        # sorted database
+        def sum_total(donor_record):
+            return(sum(donor_record[1]))
         # Sort database by sum amounts in descending order
         donor_stat = []
-        sorted_db = sorted(self.items, reverse=True)
+        sorted_db = sorted(self.items, key=sum_total, reverse=True)
         for item in sorted_db:
-            total = sum(item[1])  # sum of all donations
-            count = len(item[1])  # total number of donations
-            average = total/count  # average of all donations
-            donor_stat.append((f'{item[0]:<20} | {total:<12.2f} | {count:<10} '
-                               f'| {average:<15.2f}'))
+            total = Donor(item[0], item[1]).total_donations()
+            count = Donor(item[0], item[1]).donation_count()
+            average = Donor(item[0], item[1]).avg_donations()
+            donor_stat.append(f'{item[0]:<20} | {total:<12.2f} | '
+                              f'{count:<10} | {average:<15.2f}')
         return donor_stat
-
-
-    # Sum donation amounts for each donor record and return amounts for sorted
-    # database
-    # def sum_total(donor_record):
-    #     return(sum(donor_record[1]))

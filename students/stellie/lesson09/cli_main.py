@@ -85,9 +85,7 @@ def display_report():
     print('\n{:<20} | {:<12} | {:<10} | {:<15}'.format('Donor Name', 'Total '
           'Given', 'Num Gifts', 'Average Gift'))
     print('=' * 65)
-    # Create list out of database to iterate through
-    donor_list = list(donor_db.items())
-    print('\n'.join(create_report(donor_list)))  # displays donor report
+    print('\n'.join(data.create_report()))  # displays donor report
 
 
 # Loop through donor database to retrieve name and donations made
