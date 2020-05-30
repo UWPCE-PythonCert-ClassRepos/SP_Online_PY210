@@ -31,7 +31,8 @@ def test_add_new_donor():
 
 def test_thank_you_email():
     """Test expected thank you messsage after a donation is made"""
-    expected = ('\nThank you Jane Doe for your generous donation amount of $400.00!')
+    expected = ('\nThank you Jane Doe for your generous '
+                'donation amount of $400.00!')
     assert Donor('Jane Doe', 400).thank_you_email() == expected
 
 
@@ -39,22 +40,27 @@ def test_create_report():
     """Test expected donor data output after adding new donors and donations"""
     test = {'Ryan Doe': [2000, 2000], 'Jane Doe': [10000]}
     data = DonorCollection(**test)
-    expected_donor1 = 'Jane Doe             | 10000.00     | 1          | 10000.00       '
-    expected_donor2 = 'Ryan Doe             | 4000.00      | 2          | 2000.00        '
+    expected_donor1 = 'Jane Doe             | 10000.00     |' + \
+                      ' 1          | 10000.00       '
+    expected_donor2 = 'Ryan Doe             | 4000.00      |' + \
+                      ' 2          | 2000.00        '
     assert data.create_report()[0] == expected_donor1
     assert data.create_report()[1] == expected_donor2
 
 
 def test_donation_count():
     """Test expected number of donations made by a donor"""
-    assert Donor('James Wright', data.data.get('James Wright')).donation_count() == 3
+    assert Donor('James Wright',
+                 data.data.get('James Wright')).donation_count() == 3
 
 
 def test_total_donations():
     """Test expected sum of donations made by a donor"""
-    assert Donor('James Wright', data.data.get('James Wright')).total_donations() == 1500
+    assert Donor('James Wright',
+                 data.data.get('James Wright')).total_donations() == 1500
 
 
 def test_avg_donations():
     """Test expected average donations amount made by a donor"""
-    assert Donor('James Wright', data.data.get('James Wright')).avg_donations() == 500
+    assert Donor('James Wright',
+                 data.data.get('James Wright')).avg_donations() == 500

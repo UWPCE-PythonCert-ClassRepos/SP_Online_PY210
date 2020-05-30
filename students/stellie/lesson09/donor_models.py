@@ -27,11 +27,11 @@ class Donor(object):
     def donation_count(self):
         return len(self.donations)
 
-    # Sum donations total of a donor
+    # Sum all donations made by a donor
     def total_donations(self):
         return sum(self.donations)
 
-    # Sum donations total of a donor
+    # Find the average of all donations made by a donor
     def avg_donations(self):
         return sum(self.donations) / len(self.donations)
 
@@ -52,12 +52,10 @@ class DonorCollection(object):
 
     # Create report for user to see list of all donors and donations made
     def create_report(self):
-        # Sum donation amounts for each donor record and return amounts for
-        # sorted database
         def sum_total(donor_record):
-            return(sum(donor_record[1]))
-        # Sort database by sum amounts in descending order
+            return(sum(donor_record[1]))  # return donor donations sum in DB
         donor_stat = []
+        # Sort database by sum amounts in descending order
         sorted_db = sorted(self.items, key=sum_total, reverse=True)
         for item in sorted_db:
             total = Donor(item[0], item[1]).total_donations()

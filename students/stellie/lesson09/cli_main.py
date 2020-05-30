@@ -19,20 +19,21 @@ donor_db = {'John Smith': [10000, 5000, 1000],
             'James Wright': [500, 500, 500],
             'Caroline Baker': [1000]
             }
-data = DonorCollection(**donor_db)  # call DonorCollection class with DB data
+
+# Set variable to call DonorCollection class with DB data
+data = DonorCollection(**donor_db)
 
 # Display menu options to user
 prompt = '\n'.join(('\nWelcome to the mail room.',
                     'Please choose from the below options:',
                     '1 - Send a Thank You',
                     '2 - Create a report',
-                    '3 - Send letters to all donors',
-                    '4 - Quit',
+                    '3 - Quit',
                     '>>> '))
 
 
 def invalid_option():
-    print('\nThat is not a valid option.  Please choose one of the four '
+    print('\nThat is not a valid option.  Please choose one of the three '
           'options above.')
 
 
@@ -48,15 +49,17 @@ def send_thank_you():
         return
     else:
         # Search for already existing donor
-        if data.search_db(user_response):
+        if data.search_db(user_response.title()):
             print('\nThis donor already exists in our database.')
             donation = donation_amount()  # obtain donation amount made
-            Donor(user_response, data.data.get(user_response)).add_donation(donation)
+            Donor(user_response.title(),
+                  data.data.get(user_response.title())).add_donation(donation)
         else:
             print('\nThis is a NEW donor and will be added to the database.')
             donation = donation_amount()  # obtain donation amount made
-            data.add_new_donor(user_response, donation)
-        print(Donor(user_response, donation).thank_you_email())
+            # Add new donor and donation to the DB
+            data.add_new_donor(user_response.title(), donation)
+        print(Donor(user_response.title(), donation).thank_you_email())
 
 
 # Display list of donors
@@ -81,34 +84,13 @@ def donation_amount():
             return user_donation
 
 
+# Display a report of all donors and donations made
 def display_report():
     print('\n{:<20} | {:<12} | {:<10} | {:<15}'.format('Donor Name', 'Total '
           'Given', 'Num Gifts', 'Average Gift'))
     print('=' * 65)
-    print('\n'.join(data.create_report()))  # displays donor report
-
-
-# Loop through donor database to retrieve name and donations made
-def letter_list_looper():
-    for record in list(donor_db.items()):
-        create_file(record)  # generate letter to donor
-    print('All donation letters have been created.')
-
-
-def create_file(record):
-    file_name = f'{record[0]}.txt'  # create file name using name of donor
-    with open(file_name, 'w') as new_file:  # create a new file
-        new_file.write(compose_letter(record))  # write letter to the text file
-    return file_name
-
-
-# Generate letter for each donor and donations made
-def compose_letter(record):
-    donor_letter = f'Dear {record[0]},\n\nThank you for your ' + \
-                   f'{len(record[1])} donations that total $' + \
-                   f'{sum(record[1]):.2f}.\nIt will be put to very ' + \
-                   f'good use.\n\n\tSincerely,\n\t-The Team'
-    return donor_letter
+    # Call create_report class to display donor report
+    print('\n'.join(data.create_report()))
 
 
 # Exit the program
@@ -122,8 +104,7 @@ def main():
     switch_dict = {
         1: send_thank_you,
         2: display_report,
-        3: letter_list_looper,
-        4: exit_program
+        3: exit_program
     }
     while True:
         try:
