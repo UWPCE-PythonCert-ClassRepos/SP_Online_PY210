@@ -11,11 +11,12 @@ def fibonacci(n):
     nn = 0
     for i in range(n):
         while nn < n:
-            print(fn)
             nth = fn+sn
             fn = sn
             sn = nth
             nn += 1
+    print(fn)
+           
 # Lucas series 
 def lucas(n):
     """This function will return series of numbers with range(n)
@@ -25,11 +26,11 @@ def lucas(n):
     nn = 0
     for i in range(n):
         while nn < n:
-            print(fn)
             nth = fn+sn
             fn = sn
             sn = nth
             nn += 1
+    print(fn)
 # Sum Series
 def sum_series(n, n0=0, n1=1):
     """This function will return series of numbers with range(n)
@@ -39,11 +40,11 @@ def sum_series(n, n0=0, n1=1):
     nn = 0
     for i in range(n):
         while nn < n:
-            print(fn)
             nth = fn+sn
             fn = sn
             sn = nth
             nn += 1
+    print(fn)
 
 if __name__ == "__main__":
     # run some tests
