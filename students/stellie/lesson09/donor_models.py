@@ -39,7 +39,6 @@ class Donor(object):
 class DonorCollection(object):
     def __init__(self, **donor_db):
         self.data = donor_db
-        # self.data = {item[0]: Donor(item) for item in donor_db}
 
     # Search database to see if user already exists
     def search_db(self, donor_name):
