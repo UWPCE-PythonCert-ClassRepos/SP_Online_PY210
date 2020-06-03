@@ -15,9 +15,20 @@ def main():
                              "Enter: '2' - Create a report",
                              "Enter: '3' - Send letters to all donors",
                              "Enter: '4' - Quit"))
-    user_main = input(main_prompt)
-    arg_dict = {1: send_a_thank_you_note, 2: create_a_report, 3: send_letters_to_all_donors, 4: exit_program}
-    arg_dict.get(int(user_main))()
+    while True:
+        user_main = input(main_prompt)
+        while True:
+            try:
+                int(user_main)
+            except ValueError:
+                user_main = input(main_prompt)
+            else:
+                if user_main == '4':
+                    exit_program()
+                else:
+                    arg_dict = {1: send_a_thank_you_note, 2: create_a_report, 3: send_letters_to_all_donors}
+                    arg_dict.get(int(user_main))()
+                    main()
 
 
 def send_a_thank_you_note():
@@ -34,12 +45,10 @@ def send_a_thank_you_note():
         elif user_send_a_thank_you_note == '1':
             user_name = input("Please enter the full name that you want to search with a space in between"
                               "(Ex. 'Tom James'):")
-            user_amount = input("Please enter the amount of the donation:")
+            user_amount = float(input("Please enter the amount of the donation:"))
 
             if user_name in donor_list.keys():
-                list_history = list(donor_list[user_name])
-                list_history.append(float(user_amount))
-                donor_list[user_name] = list_history
+                donor_list[user_name].append(user_amount)
             else:
                 donor_list[user_name] = [float(user_amount)]
 
@@ -48,7 +57,6 @@ def send_a_thank_you_note():
             break
         else:
             print("Not a valid option!!!")
-    return main()
 
 
 def total(data):
@@ -61,12 +69,8 @@ def create_a_report():
     key_title = list(title.keys())
 
     # sort
-    donation_matrix_raw = sorted(donor_list.items(), reverse=True, key=total)
-    donation_matrix_sorted = {}
-    for i in range(len(donation_matrix_raw)):
-        donation_matrix_sorted[donation_matrix_raw[i][0]] = donation_matrix_raw[i][1]
+    donation_matrix_sorted = sorted(donor_list.items(), reverse=True, key=total)
 
-    print(donation_matrix_sorted)
     # Print the report
     line_title = f'| {key_title[0]:<20}| {value_title[0][0]:<15} | {value_title[0][1]:<10} | {value_title[0][2]:<15}|'
     line_x = '|' + '-' * 69 + '|'
@@ -75,12 +79,11 @@ def create_a_report():
     print(line_1)
     print(line_title)
     print(line_x)
-    for item in donation_matrix_sorted.keys():
-        main_lines = f'| {item:<20}| {sum(list(donation_matrix_sorted[item])):<15.2f} | {len(donation_matrix_sorted[item]):<10} ' \
-                     f'| {sum(list(donation_matrix_sorted[item])) / len(donation_matrix_sorted[item]):<15.2f}|'
+    for item in donation_matrix_sorted:
+        main_lines = f'| {item[0]:<20}| {sum(item[1]):<15.2f} | {len(item[1]):<10} ' \
+                     f'| {sum(item[1]) / len(item[1]):<15.2f}|'
         print(main_lines)
     print(line_1)
-    return main()
 
 
 def send_letters_to_all_donors():
@@ -90,7 +93,6 @@ def send_letters_to_all_donors():
         amount = " " + str(sum(donor_list[item]))
         file.write(email(item, y=amount))
     print('file saved')
-    return main()
 
 
 def exit_program():
