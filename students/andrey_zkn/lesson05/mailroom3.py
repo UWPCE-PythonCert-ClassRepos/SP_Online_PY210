@@ -35,12 +35,16 @@ def send_thank_you():
         for name in donors:
             print(name)
         mail_to = input ("Please enter a  full name of a donor ")        
-    amount = float(input ("Enter the donation amount "))
-    if mail_to not in donors:
-        donors[mail_to] = [amount]
-    else: 
-        donors[mail_to] += [amount]
-    print(thank_you_message(mail_to))
+    try:
+		amount = float(input ("Enter the donation amount "))
+    except ValueError:
+		print("\n Invalid Amount. Please enter a valid number here! \n")
+	else:
+		if mail_to not in donors:
+			donors[mail_to] = [amount]
+		else: 
+			donors[mail_to] += [amount]
+		print(thank_you_message(mail_to))
 
 
 def summation(arg):
@@ -77,11 +81,12 @@ def quit_now():
 def main():
     options_dict = {1: send_thank_you, 2: create_report, 3: send_letters_to_all, 4: quit_now }
     while True:
-        option = int(menu_options())
-        if option not in options_dict:
+		try:
+			option = int(menu_options())
+			options_dict.get(option)()
+		except TypeError:
             print("Not a valid option. Please select one of the available options!")
-        else: 
-           options_dict.get(option)()
+
 
 if __name__ == "__main__":
     main()  
