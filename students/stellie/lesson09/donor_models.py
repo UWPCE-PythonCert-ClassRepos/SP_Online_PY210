@@ -39,7 +39,6 @@ class Donor(object):
 class DonorCollection(object):
     def __init__(self, **donor_db):
         self.data = donor_db
-        self.items = donor_db.items()
 
     # Search database to see if user already exists
     def search_db(self, donor_name):
@@ -52,15 +51,12 @@ class DonorCollection(object):
 
     # Create report for user to see list of all donors and donations made
     def create_report(self):
-        def sum_total(donor_record):
-            return(sum(donor_record[1]))  # return donor donations sum in DB
-        donor_stat = []
         # Sort database by sum amounts in descending order
-        sorted_db = sorted(self.items, key=sum_total, reverse=True)
+        sorted_db = sorted(self.data.items(), key=lambda donor_record:
+                           sum(donor_record[1]), reverse=True)
         for item in sorted_db:
-            total = Donor(item[0], item[1]).total_donations()
-            count = Donor(item[0], item[1]).donation_count()
-            average = Donor(item[0], item[1]).avg_donations()
-            donor_stat.append(f'{item[0]:<20} | {total:<12.2f} | '
-                              f'{count:<10} | {average:<15.2f}')
-        return donor_stat
+            donor_record = Donor(item[0], item[1])
+            yield (f'{donor_record.name:<20} | '
+                   f'{donor_record.total_donations():<12.2f} | '
+                   f'{donor_record.donation_count():<10} | '
+                   f'{donor_record.avg_donations():<15.2f}')
