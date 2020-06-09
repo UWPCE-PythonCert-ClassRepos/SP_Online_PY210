@@ -16,29 +16,24 @@ To quit enter "3":
 """)
 
     resp = int(input("Enter your choice: "))
-#while True:
-    if resp == 1:
+    while resp == 1:
+        print("Print 'list' to view donor names.")
         donName = str(input("Please enter full name of the donor: "))
         if donName == "list":
             for i in data:
                 print(i[0])
         else:
-            if donName == i[0]:
-                for i in data:
-                #while donName == i[0]:
+            for i in data:
+                if donName == i[0]:
                     donation = int(input("Please enter the donation amount: "))
                     i.append(donation)            
                     print("Hello {}, thank you for your generous donation of ${} to support our cause.".format(donName, donation))
-                #break
+                    break
             else:
                 newDonation = int(input("This is a new donor, please enter the donation amount: "))
                 print("Letter for the donor: ")
                 print("Hello {}, thank you for your generous donation of ${} to support our cause.".format(donName, newDonation))
-            #break
-
-   
-#    print(i)
-
+            break
     if resp == 2:
         tags = ['Donor Name', 'Total Given', 'Num Gifts', 'Average Gift']
         print("{:20s}| {:10s} | {:10s} | {:10s}".format(*tags))
@@ -50,6 +45,5 @@ To quit enter "3":
             aGift = ((sum(i[1:]))/(len(i[1:])))
             data2 = (dName, tGiven, nGifts, aGift)
             print("{:20s} $ {:10d}   {:10d}  $ {:.2f}".format(*data2))
-        #break
     if resp == 3:
         break
