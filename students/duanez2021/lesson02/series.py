@@ -34,24 +34,30 @@ def fibonacci(n):
     else:
         return fibonacci(n-1) + fibonacci(n-2)
 
-
 for i in range(13):
         print(str(fibonacci(i)))
 
-
-
-
 #	Lucas Numbers
 #
-#	The Lucas Numbers are a related series of integers that start with the values 2 and 1 rather than 0 and 1. The resulting series looks like this:
+#	The Lucas Numbers are a related series of integers that start with the values 2 and 1
+#	rather than 0 and 1. The resulting series looks like this:
 #
 #	2, 1, 3, 4, 7, 11, 18, 29, ...
 #
-#	In your series.py module, add a new function lucas that returns the nth value in the lucas numbers series (starting with zero index).
+#	In your series.py module, add a new function lucas that returns the nth value in the
+#	lucas numbers series (starting with zero index).
 #
 #	Ensure that your function has a well-formed docstring
 #
 #	You should find it’s very similar to the fibonacci() function.
 #
-#
-#
+def lucas(n):
+    if n == 0:
+        return 2
+    elif n == 1:
+        return 1
+    else:
+        return lucas(n-1) + lucas(n-2)
+lucas(3)
+for n in range(4):
+        print(str(lucas(n)))
