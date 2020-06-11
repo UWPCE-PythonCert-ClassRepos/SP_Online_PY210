@@ -17,17 +17,17 @@ def add_to_dict(database, key, value):
 
 
 def create_donor(donor_name):
-    donors_db[donor_name] = float("{:.2f}".format(0.00))
+    donors_db[donor_name] = float('{:.2f}'.format(0.00))
 
 
 def create_report():
     #
     # Print the header rows.
     print('{:25} | {:1} | {:1} | {:1}'.format(
-        "Donor Name",
-        "Total Given",
-        "Num Gifts",
-        "Average Gift"))
+        'Donor Name',
+        'Total Given',
+        'Num Gifts',
+        'Average Gift'))
     print('-'*66)
     #
     # Sort the donor list.
@@ -50,10 +50,10 @@ def create_report():
 def debug_print_db():
     for key, value in donors_db.items():
         print('[ ----- ]: ------------------------------------------------------- ')
-        print("[ DEBUG ]: str(key)                     : " + str(key))
-        print("[ DEBUG ]: str(type(key))               : " + str(type(key)))
-        print("[ DEBUG ]: str(value)                   : " + str(value))
-        print("[ DEBUG ]: str(type(value))             : " + str(type(value)))
+        print('[ DEBUG ]: str(key)                     : ' + str(key))
+        print('[ DEBUG ]: str(type(key))               : ' + str(type(key)))
+        print('[ DEBUG ]: str(value)                   : ' + str(value))
+        print('[ DEBUG ]: str(type(value))             : ' + str(type(value)))
 
 
 def exit_script():
@@ -62,7 +62,7 @@ def exit_script():
 
 def format_text(text):
     for i in text:
-        text = text.replace(" ", "_")
+        text = text.replace(' ', '_')
     return text
 
 
@@ -83,7 +83,7 @@ def list_donor_names():
 
 
 def print_menu_error():
-    print("[ ERROR ]: Select item: 1, 2, 3 or 4.")
+    print('[ ERROR ]: Select item: 1, 2, 3 or 4.')
 
 
 def send_thank_you():
@@ -94,7 +94,7 @@ def send_thank_you():
             print(send_thank_you_menu[value])
         #
         # Get user_response.
-        user_response = input("[ INPUT ]: ")
+        user_response = input('[ INPUT ]: ')
         #
         # Check user_response.
         if user_response.lower() == 'list':
@@ -106,17 +106,17 @@ def send_thank_you():
             if user_response == key:
                 #
                 # Get the donation amount.
-                donation_amount = input("[ INPUT ]: Amount to add for {}: ".format(user_response))
+                donation_amount = input('[ INPUT ]: Amount to add for {}: '.format(user_response))
                 #
                 # Add the donation.
                 add_donation(user_response, float(donation_amount))
                 #
                 # Print the thank you mail.
-                print(f"\n"
-                "Dear {},\n\n"
-                "Thank you for your donation of ${}.\n\n"
-                "  Regards,\n"
-                "  - the Thank You bot\n".format(key,(float(donation_amount))))
+                print(f'\n'
+                'Dear {},\n\n'
+                'Thank you for your donation of ${}.\n\n'
+                '  Regards,\n'
+                '  - the Thank You bot\n'.format(key,(float(donation_amount))))
                 #
                 # We have to break here.
                 break
@@ -127,7 +127,7 @@ def send_thank_you():
 def send_thank_you_global():
     #
     # This is the template for the thank you message.
-    thank_you_template = str(get_timestamp()) + "\n  Dear {},\n  Thank you for your donation of ${}.\n Regards, \n    - the Thank You bot \n"
+    thank_you_template = str(get_timestamp()) + '\n  Dear {},\n  Thank you for your donation of ${}.\n Regards, \n    - the Thank You bot \n'
     #
     # Get the location of 'tempdir'.
     file_path = tempfile.gettempdir()
@@ -137,7 +137,7 @@ def send_thank_you_global():
         #
         # Format to keep things neat on disk.
         formatted_key = format_text(key)
-        formatted_file_path = file_path + "/" + str(formatted_key) + "_" + str(get_timestamp()) + ".txt"
+        formatted_file_path = file_path + '/' + str(formatted_key) + '_' + str(get_timestamp()) + '.txt'
         #
         # Format and write the files to disk.
         with open(formatted_file_path,'w') as file:
@@ -163,7 +163,7 @@ def display_main_menu():
         #
         # Get 'user_response' and test input.
         try:
-            user_response = int(input("[ INPUT ]: "))
+            user_response = int(input('[ INPUT ]: '))
         except:
             print_menu_error()
         #
@@ -186,35 +186,35 @@ if __name__=='__main__':
 
     # Create and populate 'donors_db'.
     donors_db = dict()
-    add_donation("Donor 04", float(400))
-    add_donation("Donor 02", float(200))
-    add_donation("Donor 03", float(300))
-    add_donation("Donor 01", float(100))
+    add_donation('Donor 04', float(400))
+    add_donation('Donor 02', float(200))
+    add_donation('Donor 03', float(300))
+    add_donation('Donor 01', float(100))
 
     # Create and populate 'main_menu'.
     main_menu = dict()
-    add_to_dict(main_menu, "01", "[ ----- ]: ------------------------------------------------------- ")
-    add_to_dict(main_menu, "02", "[  MAIN ]: Select an option: " )
-    add_to_dict(main_menu, "03", "[ ----- ]: ------------------------------------------------------- ")
-    add_to_dict(main_menu, "04", "[     1 ]: Send a Thank You to a single donor.")
-    add_to_dict(main_menu, "05", "[     2 ]: Create a Report.")
-    add_to_dict(main_menu, "06", "[     3 ]: Send letters to all donors.")
-    add_to_dict(main_menu, "07", "[     4 ]: Quit")
-    add_to_dict(main_menu, "08", "[     5 ]: [ DEBUG ]: Print database debug data to screen")
+    add_to_dict(main_menu, '01', '[ ----- ]: ------------------------------------------------------- ')
+    add_to_dict(main_menu, '02', '[  MAIN ]: Select an option: ' )
+    add_to_dict(main_menu, '03', '[ ----- ]: ------------------------------------------------------- ')
+    add_to_dict(main_menu, '04', '[     1 ]: Send a Thank You to a single donor.')
+    add_to_dict(main_menu, '05', '[     2 ]: Create a Report.')
+    add_to_dict(main_menu, '06', '[     3 ]: Send letters to all donors.')
+    add_to_dict(main_menu, '07', '[     4 ]: Quit')
+    add_to_dict(main_menu, '08', '[     5 ]: [ DEBUG ]: Print database debug data to screen')
 
     # Create and populate 'send_thank_you_menu'.
     send_thank_you_menu = dict()
-    add_to_dict(send_thank_you_menu, "01", "[ ----- ]: ------------------------------------------------------- ")
-    add_to_dict(send_thank_you_menu, "02", "[ DONOR ]: Select an option: ")
-    add_to_dict(send_thank_you_menu, "03", "[ ----- ]: ------------------------------------------------------- ")
-    add_to_dict(send_thank_you_menu, "04", "[     1 ]: Type: \'list\'")
-    add_to_dict(send_thank_you_menu, "05", "[       ]:        Display a list of donors.")
-    add_to_dict(send_thank_you_menu, "06", "[     2 ]: Type: \'Existing Donor\'s Name\'")
-    add_to_dict(send_thank_you_menu, "07", "[       ]:        Add a new donation for a donor.")
-    add_to_dict(send_thank_you_menu, "08", "[     3 ]: Type: \'New Donor\'s Name\'")
-    add_to_dict(send_thank_you_menu, "09", "[       ]:        Create a new donor.")
-    add_to_dict(send_thank_you_menu, "10", "[     4 ]: Type: \'main\'")
-    add_to_dict(send_thank_you_menu, "11", "[       ]:        Return to the Main Menu.")
+    add_to_dict(send_thank_you_menu, '01', '[ ----- ]: ------------------------------------------------------- ')
+    add_to_dict(send_thank_you_menu, '02', '[ DONOR ]: Select an option: ')
+    add_to_dict(send_thank_you_menu, '03', '[ ----- ]: ------------------------------------------------------- ')
+    add_to_dict(send_thank_you_menu, '04', '[     1 ]: Type: \'list\'')
+    add_to_dict(send_thank_you_menu, '05', '[       ]:        Display a list of donors.')
+    add_to_dict(send_thank_you_menu, '06', '[     2 ]: Type: \'Existing Donor\'s Name\'')
+    add_to_dict(send_thank_you_menu, '07', '[       ]:        Add a new donation for a donor.')
+    add_to_dict(send_thank_you_menu, '08', '[     3 ]: Type: \'New Donor\'s Name\'')
+    add_to_dict(send_thank_you_menu, '09', '[       ]:        Create a new donor.')
+    add_to_dict(send_thank_you_menu, '10', '[     4 ]: Type: \'main\'')
+    add_to_dict(send_thank_you_menu, '11', '[       ]:        Return to the Main Menu.')
 
     # Call display_main_menu().
     display_main_menu()
