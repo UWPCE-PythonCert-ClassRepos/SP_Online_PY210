@@ -46,3 +46,29 @@ Use index numbers to specify positions for tuple
 """
 t4 = ( 4, 30, 2017, 2, 27)
 print(f"{t4[3]:02}, {t4[4]}, {t4[2]}, {t4[0]:02}, {t4[1]}")
+
+print('***Task 5***')
+"""
+Given ['oranges', 1.3, 'lemons', 1.1], write f-string
+to display The weight of an orange is 1.3 and the weight of a lemon is 1.1.
+Also, change f-string to display names of fruit in upper case
+and weight 20% higher.
+"""
+t5 = ['oranges', 1.3, 'lemons', 1.1]
+print(f"The weight of an {t5[0][:-1]} is {t5[1]} and the weight of a {t5[2][:-1]} is {t5[3]}")
+print(f"The weight of an {t5[0][:-1].upper()} is {t5[1]*1.2} and the weight of a {t5[2][:-1].upper()} is {t5[3]*1.2}")
+
+print('***Task 6***')
+"""
+Write some Python code to print a table of several rows,
+each with a name, an age and a cost. Make sure some of
+the costs are in the hundreds and thousands to test your alignment specifiers.
+And for an extra task, given a tuple with 10 consecutive numbers,
+can you work how to quickly print the tuple in columns that are 5 charaters
+wide? It can be done on one short line!
+"""
+t6 = (["Name", "Age", "Salary"], ["Duhamel", 35, 100000], ["Moriarty", 55, 85555],
+["Steadrock", 34, 155500], ["Gumm", 21, 19000])
+
+for i in range(len(t6)):
+    print(f"{t6[i][0]:<12} {t6[i][1]:<8} {t6[i][2]:<10}")
