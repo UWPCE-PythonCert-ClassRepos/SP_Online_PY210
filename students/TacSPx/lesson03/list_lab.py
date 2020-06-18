@@ -2,6 +2,8 @@
 # Title: list_lab
 # Description: Four series of codes for modifying lists
 #
+# <05/22/2020>, Created Script
+# <06/12/2020>, Revised script to incorporate suggestions
 # ---------------------------------------------------------------------------- #
 
 # series1:
@@ -105,8 +107,6 @@ def series2(fruit):
     print()
     print("You went to the store and doubled your list:")
     print_list()
-    return None
-
 
 def series3(fruit):
     '''
@@ -132,7 +132,10 @@ def series3(fruit):
     print_list()
 
     while True:
-        for fruit in series3_fruit:
+        # revision made here
+        # used reverse here, if not all removes will skip the next in the list since the sequence has shifted
+        # another option would be to append all the "y" to a new list
+        for fruit in reversed(series3_fruit):
             choice = input("Do you like this fruit?..." + "'"+ fruit.lower() + "'" + ",  Enter ('y') or ('n'): ")
             if (choice.lower() == 'y'):
                 print(fruit.lower() + " *Saved On List*")
@@ -143,7 +146,6 @@ def series3(fruit):
                 print("Please Type ('y') or ('n') only")
         break
     print_list()
-    return None
 
 
 def series4(fruit):
@@ -176,7 +178,7 @@ def series4(fruit):
     print()
     print("Here is the original full list:")
     print(series4_fruit_original)
-    return None
+
 
 # run the script functions
 series2(fruit)
