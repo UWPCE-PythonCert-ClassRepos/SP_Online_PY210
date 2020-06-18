@@ -4,25 +4,25 @@ import os.path
 import pathlib
 
 
-#mailroom4.donors = mailroom4.donors()
+mailroom4.donors_data = mailroom4.donors()
 
 def test_donors():
     """ Test initial donors list and amounts """
-    donors_data = mailroom4.donors
+    donors_data = mailroom4.donors()
     assert donors_data['Leo Tolstoy'] == [150, 250, 100]
     assert donors_data['Alexander Pushkin'] == [200, 100, 340]
 
 
 def test_list_of_donors():
     """ Test all donor names are returned """
-    donors_list = (' Alexander Pushkin\n Mikhail Lermontov\n Leo Tolstoy\n Fyodor Dostoevsky\n Anton Chekhov\n Nikolai Gogol')
+    donors_list = ('Alexander Pushkin\nMikhail Lermontov\nLeo Tolstoy\nFyodor Dostoevsky\nAnton Chekhov\nNikolai Gogol')
     assert mailroom4.list_of_donors() == donors_list
 
 
 def test_donations():
     """ Test donor name and donation amount update """
     mailroom4.donations('Vladimir Mayakovsky', 300)
-    assert mailroom4.donors.get('Vladimir Mayakovsky') == [300]
+    assert mailroom4.donors_data.get('Vladimir Mayakovsky') == [300]
 
 
 def test_thank_you_message():

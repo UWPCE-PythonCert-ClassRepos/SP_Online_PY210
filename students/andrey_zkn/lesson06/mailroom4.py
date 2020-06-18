@@ -24,21 +24,21 @@ def menu_options():
 
 def thank_you_message(donor):
     message = (f'\nDear {donor},'
-               f'\n\nThank you for your generous donation of ${sum(donors.get(donor)):,.2f}.' 
+               f'\n\nThank you for your generous donation of ${sum(donors_data.get(donor)):,.2f}.' 
                '\nWe value your contribution and support.' 
                '\n\nSincerely,\n\nNew Horizon Charity Director\n')   
     return message
 
 def donations(donor, amount):
-    if donor not in donors:
-        donors[donor] = [amount]
+    if donor not in donors_data:
+        donors_data[donor] = [amount]
     else: 
-        donors[donor] += [amount]
+        donors_data[donor] += [amount]
 
 
 def list_of_donors():
     lod=[]
-    for name in donors:
+    for name in donors_data:
         lod.append(name) 
     return '\n'.join(lod)
 
@@ -59,7 +59,7 @@ def send_thank_you():
 
 
 def summation(arg):
-    return sum(donors.get(arg))
+    return sum(donors_data.get(arg))
 
 
 def create_report():
@@ -67,17 +67,17 @@ def create_report():
     print("Donation Report")
     print(header)
     print('-'*len(header))
-    donors_sorted = sorted(donors, key = summation, reverse = True)
+    donors_sorted = sorted(donors_data, key = summation, reverse = True)
     for donor in donors_sorted:
-        total = sum(donors.get(donor))
-        num = len(donors.get(donor))
+        total = sum(donors_data.get(donor))
+        num = len(donors_data.get(donor))
         avg = total/num
         print('{:<20} ${:>14,.2f}{:>14}  ${:>16,.2f}'.format(donor,total,num,avg))
     print('')    
     
     
 def send_letters_to_all():
-    for donor in donors:
+    for donor in donors_data:
         #print(entry)
         filename = donor + '.txt'
         with open(filename, 'w') as f:
@@ -100,5 +100,5 @@ def main():
 
 
 if __name__ == "__main__":
-    donors = donors()
+    donors_data = donors()
     main()  
