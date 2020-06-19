@@ -98,25 +98,25 @@ def send_ty_note():
     mailroom02(send_ty_note_reply,send_ty_note_action)
 
 def don01_letter():
-	print("Hello {name}, thank you for your generous donation of ${don} to support our cause.".format(**don01))
+	print(letter.format(**don01))
 
 
 def don02_letter():
-	print("Hello {name}, thank you for your generous donation of ${don} to support our cause.".format(**don02))
+	print(letter.format(**don02))
 
 def don03_letter():
-	print("Hello {name}, thank you for your generous donation of ${don} to support our cause.".format(**don03))
+	print(letter.format(**don03))
 
 def don04_letter():
-	print("Hello {name}, thank you for your generous donation of ${don} to support our cause.".format(**don04))
+	print(letter.format(**don04))
 
 def don05_letter():
-	print("Hello {name}, thank you for your generous donation of ${don} to support our cause.".format(**don05))
+	print(letter.format(**don05))
 
 def don06_letter():
-	print("Hello {name}, thank you for your generous donation of ${don} to support our cause.".format(**don06))
+	print(letter.format(**don06))
 
-
+letter = ("Hello {name}, thank you for your generous donation of ${don} to support our cause.")
 main_reply = ("\nChoose an action:\n"
                "\n"
 			   "1 - Send a Thank You note to a single donor.\n"
