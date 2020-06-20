@@ -82,6 +82,10 @@ def list_donor_names():
         print('{:10}'.format(str(value)))
 
 
+def print_error_message(message):
+    print('[ ERROR ]: ' + str(message))
+
+
 def print_menu_error():
     print('[ ERROR ]: Select item: 1, 2, 3 or 4.')
 
