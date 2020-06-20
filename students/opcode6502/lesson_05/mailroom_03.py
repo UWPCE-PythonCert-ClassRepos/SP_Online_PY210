@@ -14,8 +14,6 @@ def add_donation(donor_name, donation_amount):
         float_donantion_amount = float(donation_amount)
         donors_db[donor_name] = float_donantion_amount
     except:
-        #
-        # If no, print an error message and exit.
         print_error_message('try: float(donation_amount): Error!')
         return
 
