@@ -9,8 +9,16 @@ import tempfile
 
 
 def add_donation(donor_name, donation_amount):
-    # donors_db[donor_name] = donation_amount
-    donors_db[donor_name] = float('{:.2f}'.format(donation_amount))
+
+    try:
+        float_donantion_amount = float(donation_amount)
+        donors_db[donor_name] = float_donantion_amount
+    except:
+        #
+        # If no, print an error message and exit.
+        print_error_message('try: float(donation_amount): Error!')
+        return
+
 
 def add_to_dict(database, key, value):
     database[key] = value
@@ -31,7 +39,9 @@ def create_report():
     print('-'*66)
     #
     # Sort the donor list.
-    donors_db_sorted = dict(sorted(donors_db.items(), key=lambda item: item[1]))
+    donors_db_sorted = dict()
+    donors_db_sorted = sort_donors_db(donors_db)
+    # donors_db_sorted = dict(sorted(donors_db.items(), key=lambda item: item[1]))
     #
     # Print the sorted donors list.
     for key, value in donors_db_sorted.items():
@@ -139,7 +149,7 @@ def send_thank_you():
                 donation_amount = input('[ INPUT ]: Amount to add for {}: '.format(user_response))
                 #
                 # Add the donation.
-                add_donation(user_response, float(donation_amount))
+                add_donation(user_response, donation_amount)
                 #
                 # Print the thank you mail.
                 print(f'\n'
@@ -184,6 +194,11 @@ def sort_donor_name(donor_name):
     return dict(sorted(donors_db.items(), key=lambda item: item[0]))
 
 
+def sort_donors_db(donors_db):
+    donors_db_sorted = dict(sorted(donors_db.items(), key=lambda item: item[1]))
+    return donors_db_sorted
+
+
 if __name__=='__main__':
 
     # Create and populate 'donors_db'.
@@ -192,6 +207,7 @@ if __name__=='__main__':
     add_donation('Donor 02', float(200))
     add_donation('Donor 03', float(300))
     add_donation('Donor 01', float(100))
+    add_donation('Donor 01', 'z')
 
     # Create and populate 'main_menu'.
     main_menu = dict()
