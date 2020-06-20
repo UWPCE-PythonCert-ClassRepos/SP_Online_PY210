@@ -9,8 +9,8 @@ import tempfile
 
 
 def add_donation(donor_name, donation_amount):
-    donors_db[donor_name] = donation_amount
-
+    # donors_db[donor_name] = donation_amount
+    donors_db[donor_name] = float('{:.2f}'.format(donation_amount))
 
 def add_to_dict(database, key, value):
     database[key] = value
@@ -56,6 +56,36 @@ def debug_print_db():
         print('[ DEBUG ]: str(type(value))             : ' + str(type(value)))
 
 
+def display_main_menu():
+    while True:
+        #
+        user_response = ''
+        #
+        # Print the 'main_menu'.
+        for value in main_menu:
+            print(main_menu[value])
+        #
+        # Get 'user_response' and test input.
+        try:
+            user_response = int(input('[ INPUT ]: '))
+        except:
+            print_error_message('display_main_menu(): try: user_response: Error!')
+        #
+        # Check 'user_response'.
+        if user_response == 1:
+            send_thank_you()
+        elif user_response == 2:
+            create_report()
+        elif user_response == 3:
+            send_thank_you_global()
+        elif user_response == 4:
+            exit_script()
+        elif user_response == 5:
+            debug_print_db()
+        else:
+            print_error_message('Select item: 1, 2, 3 or 4.')
+
+
 def exit_script():
     sys.exit()
 
@@ -79,7 +109,7 @@ def list_donor_names():
     # Print the sorted donors database to the screen.
     for key, value in donors_db_sorted.items() :
         print('{:10}'.format(str(key)), end='')
-        print('{:10}'.format(str(value)))
+        print('{:10}'.format(str('{:.2f}'.format(value))))
 
 
 def print_error_message(message):
@@ -152,36 +182,6 @@ def sort_donation_amount(donation_amount):
 
 def sort_donor_name(donor_name):
     return dict(sorted(donors_db.items(), key=lambda item: item[0]))
-
-
-def display_main_menu():
-    while True:
-        #
-        user_response = ''
-        #
-        # Print the 'main_menu'.
-        for value in main_menu:
-            print(main_menu[value])
-        #
-        # Get 'user_response' and test input.
-        try:
-            user_response = int(input('[ INPUT ]: '))
-        except:
-            print_error_message('display_main_menu(): try: user_response: Error!')
-        #
-        # Check 'user_response'.
-        if user_response == 1:
-            send_thank_you()
-        elif user_response == 2:
-            create_report()
-        elif user_response == 3:
-            send_thank_you_global()
-        elif user_response == 4:
-            exit_script()
-        elif user_response == 5:
-            debug_print_db()
-        else:
-            print_error_message('Select item: 1, 2, 3 or 4.')
 
 
 if __name__=='__main__':
