@@ -124,6 +124,14 @@ def print_error_message(message):
     print('[ ERROR ]: ' + str(message))
 
 
+def print_thank_you_message(key, donation_amount):
+    print(f'\n'
+    'Dear {},\n\n'
+    'Thank you for your donation of ${}.\n\n'
+    '  Regards,\n'
+    '  - the Thank You bot\n'.format(key,(float(donation_amount))))
+
+
 def send_thank_you():
     while True:
         #
@@ -150,11 +158,12 @@ def send_thank_you():
                 add_donation(user_response, donation_amount)
                 #
                 # Print the thank you mail.
-                print(f'\n'
-                'Dear {},\n\n'
-                'Thank you for your donation of ${}.\n\n'
-                '  Regards,\n'
-                '  - the Thank You bot\n'.format(key,(float(donation_amount))))
+                print_thank_you_message(key, donation_amount)
+                # print(f'\n'
+                # 'Dear {},\n\n'
+                # 'Thank you for your donation of ${}.\n\n'
+                # '  Regards,\n'
+                # '  - the Thank You bot\n'.format(key,(float(donation_amount))))
                 #
                 # We have to break here.
                 break
