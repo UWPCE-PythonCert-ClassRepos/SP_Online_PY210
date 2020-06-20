@@ -6,7 +6,7 @@ def horizontal_grid(length):
 
 def vertical_grid(length):
     for i in range(length):
-        for i in range(2):
+        for j in range(2):
             print('|', end=' ')
             print('  ' * length, end='')
         print('|')
