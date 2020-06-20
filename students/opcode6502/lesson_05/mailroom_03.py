@@ -86,10 +86,6 @@ def print_error_message(message):
     print('[ ERROR ]: ' + str(message))
 
 
-def print_menu_error():
-    print('[ ERROR ]: Select item: 1, 2, 3 or 4.')
-
-
 def send_thank_you():
     while True:
         #
@@ -161,6 +157,8 @@ def sort_donor_name(donor_name):
 def display_main_menu():
     while True:
         #
+        user_response = ''
+        #
         # Print the 'main_menu'.
         for value in main_menu:
             print(main_menu[value])
@@ -169,7 +167,7 @@ def display_main_menu():
         try:
             user_response = int(input('[ INPUT ]: '))
         except:
-            print_menu_error()
+            print_error_message('display_main_menu(): try: user_response: Error!')
         #
         # Check 'user_response'.
         if user_response == 1:
@@ -183,7 +181,7 @@ def display_main_menu():
         elif user_response == 5:
             debug_print_db()
         else:
-            print_menu_error()
+            print_error_message('Select item: 1, 2, 3 or 4.')
 
 
 if __name__=='__main__':
