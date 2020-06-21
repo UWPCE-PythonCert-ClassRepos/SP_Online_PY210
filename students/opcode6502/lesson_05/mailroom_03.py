@@ -18,7 +18,12 @@ def add_donation(donor_name, donation_amount):
 
 
 def add_to_dict(database, key, value):
-    database[key] = value
+    try:
+        database[key] = value
+        return True
+    except:
+        print_error_message('try: add_to_dict(database, key, value): Error!')
+        return False
 
 
 def check_user_response(user_response):
@@ -220,8 +225,12 @@ def sort_donor_name(donor_name):
 
 
 def sort_database(database):
-    database_sorted = dict(sorted(database.items(), key=lambda item: item[1]))
-    return database_sorted
+    try:
+        database_sorted = dict(sorted(database.items(), key=lambda item: item[1]))
+        return database_sorted
+    except:
+        print_error_message('try: sort_database(database): Error!')
+        return False
 
 
 if __name__=='__main__':
