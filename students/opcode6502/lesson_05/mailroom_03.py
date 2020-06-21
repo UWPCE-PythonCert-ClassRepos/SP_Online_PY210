@@ -107,7 +107,7 @@ def display_main_menu():
         try:
             user_response = int(input('[ INPUT ]: '))
         except:
-            print_error_message('display_main_menu(): try: user_response: Error!')
+            print_error_message('try: user_response: Error!')
         #
         # Check 'user_response'.
         check_user_response(user_response)
@@ -130,11 +130,14 @@ def get_timestamp():
 
 def list_donor_names():
     #
-    # Sort 'donors_db'.
-    donors_db_sorted = dict(sorted(donors_db.items(), key=lambda item: item[1]))
+    # Initialize 'donors_db_sorted'.
+    donors_db_sorted = dict()
+    #
+    # Sort the donor list.
+    donors_db_sorted = sort_database(donors_db)
     #
     # Print the sorted donors database to the screen.
-    for key, value in donors_db_sorted.items() :
+    for key, value in donors_db_sorted.items():
         print('{:10}'.format(str(key)), end='')
         print('{:10.2f}'.format(value))
 
@@ -152,9 +155,9 @@ def print_error_message(message):
 def print_thank_you_message(key, donation_amount):
     print(f'\n'
     'Dear {},\n\n'
-    'Thank you for your donation of ${:.2f}.\n\n'
+    'Thank you for your donation of ${}.\n\n'
     '  Regards,\n'
-    '  - the Thank You bot\n'.format(key,float(donation_amount)))
+    '  - the Thank You bot\n'.format(key,donation_amount))
 
 
 def send_thank_you():
