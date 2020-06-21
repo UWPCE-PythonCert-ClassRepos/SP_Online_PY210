@@ -174,7 +174,7 @@ def print_thank_you_message(key, donation_amount):
     'Dear {},\n\n'
     'Thank you for your donation of ${}.\n\n'
     '  Regards,\n'
-    '  - the Thank You bot\n'.format(key,donation_amount))
+    '  - the Thank You bot\n'.format(key, donation_amount))
 
 
 def send_thank_you():
@@ -258,7 +258,7 @@ def sort_donor_name(donor_name):
 
 def sort_database(database):
     try:
-        database_sorted = dict(sorted(database.items(), key=lambda item: item[1]))
+        database_sorted = dict(sorted(database.items(), key=lambda item: item[1], reverse=True))
         return database_sorted
     except:
         print_error_message('sort_database(database): Error!')
