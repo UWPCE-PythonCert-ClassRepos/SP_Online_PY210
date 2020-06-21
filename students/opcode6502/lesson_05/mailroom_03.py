@@ -3,7 +3,6 @@
 
 
 import datetime
-import os
 import sys
 import tempfile
 
@@ -13,7 +12,7 @@ def add_donation(donor_name, donation_amount):
         donors_db[donor_name] = float(donation_amount)
         return True
     except:
-        print_error_message('try: float(donation_amount): Error!')
+        print_error_message('add_donation(donor_name, donation_amount): Error!')
         return False
 
 
@@ -22,7 +21,7 @@ def add_to_dict(database, key, value):
         database[key] = value
         return True
     except:
-        print_error_message('try: add_to_dict(database, key, value): Error!')
+        print_error_message('add_to_dict(database, key, value): Error!')
         return False
 
 
@@ -50,7 +49,7 @@ def create_donor(donor_name):
         donors_db[donor_name] = float(0.00)
         return True
     except:
-        print_error_message('try: create_donor(donor_name): Error!')
+        print_error_message('create_donor(donor_name): Error!')
         return False
 
 
@@ -86,7 +85,7 @@ def create_report():
 
 def debug_print_db():
     for key, value in donors_db.items():
-        print('[ ----- ]: ------------------------------------------------------- ')
+        print_debug_header_line()
         print('[ DEBUG ]: str(key)                     : ' + str(key))
         print('[ DEBUG ]: str(type(key))               : ' + str(type(key)))
         print('[ DEBUG ]: str(value)                   : ' + str(value))
@@ -106,14 +105,21 @@ def display_main_menu():
         # Get 'user_response' and test input.
         try:
             user_response = int(input('[ INPUT ]: '))
+        except KeyboardInterrupt:
+            exit_script_ctrl_c()
         except:
-            print_error_message('try: user_response: Error!')
+            print_error_message('display_main_menu(): Error!')
         #
         # Check 'user_response'.
         check_user_response(user_response)
 
 
 def exit_script():
+    sys.exit()
+
+
+def exit_script_ctrl_c():
+    print()
     sys.exit()
 
 
@@ -143,16 +149,27 @@ def list_donor_names():
 
 
 def print_debug_data(item):
-    print('[ ----- ]: ------------------------------------------------------- ')
+    print_debug_header_line()
     print('[ DEBUG ]: str(item)                        : ' + str(item))
     print('[ DEBUG ]: str(type(item))                  : ' + str(type(item)))
 
 
+def print_debug_header_line():
+    print('[ ----- ]: ------------------------------------------------------- ')
+
+
+def print_debug_message(message):
+    print_debug_header_line()
+    print('[ DEBUG ]: ' + str(message))
+
+
 def print_error_message(message):
+    print_debug_header_line()
     print('[ ERROR ]: ' + str(message))
 
 
 def print_thank_you_message(key, donation_amount):
+    print_debug_header_line()
     print(f'\n'
     'Dear {},\n\n'
     'Thank you for your donation of ${}.\n\n'
@@ -167,8 +184,17 @@ def send_thank_you():
         for value in send_thank_you_menu:
             print(send_thank_you_menu[value])
         #
+        # Initialize 'user_response'.
+        user_response = ''
+        #
         # Get user_response.
-        user_response = input('[ INPUT ]: ')
+        try:
+            user_response = input('[ INPUT ]: ')
+        except KeyboardInterrupt:
+            exit_script_ctrl_c()
+        except:
+            print_error_message('send_thank_you(): try: user_response: Error!')
+            break
         #
         # Check user_response.
         if user_response.lower() == 'list':
@@ -180,7 +206,13 @@ def send_thank_you():
             if user_response == key:
                 #
                 # Get the donation amount.
-                donation_amount = input('[ INPUT ]: Amount to add for {}: '.format(user_response))
+                try:
+                    donation_amount = input('[ INPUT ]: Amount to add for {}: '.format(user_response))
+                except KeyboardInterrupt:
+                    exit_script_ctrl_c()
+                except:
+                    print_error_message('send_thank_you(): try: donation_amount: Error!')
+                    break
                 #
                 # Add the donation.
                 if add_donation(user_response, donation_amount):
@@ -191,10 +223,7 @@ def send_thank_you():
                 # We have to break here.
                 break
         else:
-            if create_donor(user_response):
-                #
-                # Print the thank you mail.
-                print('user creation success!')
+            create_donor(user_response)
 
 
 def send_thank_you_global():
@@ -232,7 +261,7 @@ def sort_database(database):
         database_sorted = dict(sorted(database.items(), key=lambda item: item[1]))
         return database_sorted
     except:
-        print_error_message('try: sort_database(database): Error!')
+        print_error_message('sort_database(database): Error!')
         return False
 
 
