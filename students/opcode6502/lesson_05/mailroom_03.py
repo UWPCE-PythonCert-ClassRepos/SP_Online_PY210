@@ -109,9 +109,7 @@ def display_main_menu():
 
 
 def exit_script():
-    print('here!')
-    sys.exit(1)
-    print('here 2!')
+    sys.exit()
 
 
 def format_text(text):
