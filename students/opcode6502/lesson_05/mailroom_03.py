@@ -11,11 +11,11 @@ import tempfile
 def add_donation(donor_name, donation_amount):
 
     try:
-        float_donantion_amount = float(donation_amount)
-        donors_db[donor_name] = float_donantion_amount
+        donors_db[donor_name] = round(float(donation_amount), 2)
+        return True
     except:
         print_error_message('try: float(donation_amount): Error!')
-        return
+        return False
 
 
 def add_to_dict(database, key, value):
@@ -90,8 +90,10 @@ def display_main_menu():
             exit_script()
         elif user_response == 5:
             debug_print_db()
+        elif user_response == 6:
+            list_donor_names()
         else:
-            print_error_message('Select item: 1, 2, 3 or 4.')
+            print_error_message('Select item: [ 1 / 2 / 3 / 4 / 5 / 6 ].')
 
 
 def exit_script():
@@ -117,7 +119,7 @@ def list_donor_names():
     # Print the sorted donors database to the screen.
     for key, value in donors_db_sorted.items() :
         print('{:10}'.format(str(key)), end='')
-        print('{:10}'.format(str('{:.2f}'.format(value))))
+        print('{:10}'.format(str(value)))
 
 
 def print_error_message(message):
@@ -129,7 +131,7 @@ def print_thank_you_message(key, donation_amount):
     'Dear {},\n\n'
     'Thank you for your donation of ${}.\n\n'
     '  Regards,\n'
-    '  - the Thank You bot\n'.format(key,(float(donation_amount))))
+    '  - the Thank You bot\n'.format(key,(round(float(donation_amount), 2))))
 
 
 def send_thank_you():
@@ -155,15 +157,10 @@ def send_thank_you():
                 donation_amount = input('[ INPUT ]: Amount to add for {}: '.format(user_response))
                 #
                 # Add the donation.
-                add_donation(user_response, donation_amount)
-                #
-                # Print the thank you mail.
-                print_thank_you_message(key, donation_amount)
-                # print(f'\n'
-                # 'Dear {},\n\n'
-                # 'Thank you for your donation of ${}.\n\n'
-                # '  Regards,\n'
-                # '  - the Thank You bot\n'.format(key,(float(donation_amount))))
+                if add_donation(user_response, donation_amount):
+                    #
+                    # Print the thank you mail.
+                    print_thank_you_message(key, donation_amount)
                 #
                 # We have to break here.
                 break
@@ -225,7 +222,8 @@ if __name__=='__main__':
     add_to_dict(main_menu, '05', '[     2 ]: Create a Report.')
     add_to_dict(main_menu, '06', '[     3 ]: Send letters to all donors.')
     add_to_dict(main_menu, '07', '[     4 ]: Quit')
-    add_to_dict(main_menu, '08', '[     5 ]: [ DEBUG ]: Print database debug data to screen')
+    add_to_dict(main_menu, '08', '[     5 ]: [ DEBUG ]: debug_print_db()')
+    add_to_dict(main_menu, '09', '[     6 ]: [ DEBUG ]: list_donor_names()')
 
     # Create and populate 'send_thank_you_menu'.
     send_thank_you_menu = dict()
