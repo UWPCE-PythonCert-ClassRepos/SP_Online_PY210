@@ -10,7 +10,7 @@ import tempfile
 
 def add_donation(donor_name, donation_amount):
     try:
-        donors_db[donor_name] = round(float(donation_amount), 2)
+        donors_db[donor_name] = float(donation_amount)
         return True
     except:
         print_error_message('try: float(donation_amount): Error!')
@@ -41,7 +41,12 @@ def check_user_response(user_response):
 
 
 def create_donor(donor_name):
-    donors_db[donor_name] = float('{:.2f}'.format(0.00))
+    try:
+        donors_db[donor_name] = float(0.00)
+        return True
+    except:
+        print_error_message('try: create_donor(donor_name): Error!')
+        return False
 
 
 def create_report():
@@ -66,7 +71,7 @@ def create_report():
         donor_total = value
         number_of_gifts = 1 # len(donor[1])
         average_gift = float(donor_total) / float(number_of_gifts)
-        average_gift = donor_total / number_of_gifts
+        # average_gift = donor_total / number_of_gifts
         print('{:26} ${:>11.2f} {:>11}  ${:>12.2f}'.format(
               donor_name,
               donor_total,
@@ -128,7 +133,13 @@ def list_donor_names():
     # Print the sorted donors database to the screen.
     for key, value in donors_db_sorted.items() :
         print('{:10}'.format(str(key)), end='')
-        print('{:10}'.format(str((value))))
+        print('{:10.2f}'.format(value))
+
+
+def print_debug_data(item):
+    print('[ ----- ]: ------------------------------------------------------- ')
+    print('[ DEBUG ]: str(item)                        : ' + str(item))
+    print('[ DEBUG ]: str(type(item))                  : ' + str(type(item)))
 
 
 def print_error_message(message):
@@ -138,9 +149,9 @@ def print_error_message(message):
 def print_thank_you_message(key, donation_amount):
     print(f'\n'
     'Dear {},\n\n'
-    'Thank you for your donation of ${}.\n\n'
+    'Thank you for your donation of ${:.2f}.\n\n'
     '  Regards,\n'
-    '  - the Thank You bot\n'.format(key,(round(float(donation_amount), 2))))
+    '  - the Thank You bot\n'.format(key,float(donation_amount)))
 
 
 def send_thank_you():
@@ -174,7 +185,10 @@ def send_thank_you():
                 # We have to break here.
                 break
         else:
-            create_donor(user_response)
+            if create_donor(user_response):
+                #
+                # Print the thank you mail.
+                print('user creation success!')
 
 
 def send_thank_you_global():
