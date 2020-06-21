@@ -66,5 +66,5 @@ def print_grid2(grid_size, cell_size):
                 box = box + print_vRow2(grid_size, cell_size) + '\n'
     return box
 
-print(print_grid2(3,2))
+print(print_grid2(1,1))
 
