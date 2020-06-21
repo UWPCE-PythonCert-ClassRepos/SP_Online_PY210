@@ -9,7 +9,6 @@ import tempfile
 
 
 def add_donation(donor_name, donation_amount):
-
     try:
         donors_db[donor_name] = round(float(donation_amount), 2)
         return True
@@ -20,6 +19,25 @@ def add_donation(donor_name, donation_amount):
 
 def add_to_dict(database, key, value):
     database[key] = value
+
+
+def check_user_response(user_response):
+    #
+    # Check 'user_response'.
+    if user_response == 1:
+        send_thank_you()
+    elif user_response == 2:
+        create_report()
+    elif user_response == 3:
+        send_thank_you_global()
+    elif user_response == 4:
+        exit_script()
+    elif user_response == 5:
+        debug_print_db()
+    elif user_response == 6:
+        list_donor_names()
+    else:
+        print_error_message('Select item: [ 1 / 2 / 3 / 4 / 5 / 6 ].')
 
 
 def create_donor(donor_name):
@@ -36,10 +54,11 @@ def create_report():
         'Average Gift'))
     print('-'*66)
     #
-    # Sort the donor list.
+    # Initialize 'donors_db_sorted'.
     donors_db_sorted = dict()
-    donors_db_sorted = sort_donors_db(donors_db)
-    # donors_db_sorted = dict(sorted(donors_db.items(), key=lambda item: item[1]))
+    #
+    # Sort the donor list.
+    donors_db_sorted = sort_database(donors_db)
     #
     # Print the sorted donors list.
     for key, value in donors_db_sorted.items():
@@ -67,6 +86,7 @@ def debug_print_db():
 def display_main_menu():
     while True:
         #
+        # Initialize 'user_response'.
         user_response = ''
         #
         # Print the 'main_menu'.
@@ -80,24 +100,13 @@ def display_main_menu():
             print_error_message('display_main_menu(): try: user_response: Error!')
         #
         # Check 'user_response'.
-        if user_response == 1:
-            send_thank_you()
-        elif user_response == 2:
-            create_report()
-        elif user_response == 3:
-            send_thank_you_global()
-        elif user_response == 4:
-            exit_script()
-        elif user_response == 5:
-            debug_print_db()
-        elif user_response == 6:
-            list_donor_names()
-        else:
-            print_error_message('Select item: [ 1 / 2 / 3 / 4 / 5 / 6 ].')
+        check_user_response(user_response)
 
 
 def exit_script():
-    sys.exit()
+    print('here!')
+    sys.exit(1)
+    print('here 2!')
 
 
 def format_text(text):
@@ -119,7 +128,7 @@ def list_donor_names():
     # Print the sorted donors database to the screen.
     for key, value in donors_db_sorted.items() :
         print('{:10}'.format(str(key)), end='')
-        print('{:10}'.format(str(value)))
+        print('{:10}'.format(str((value))))
 
 
 def print_error_message(message):
@@ -198,19 +207,19 @@ def sort_donor_name(donor_name):
     return dict(sorted(donors_db.items(), key=lambda item: item[0]))
 
 
-def sort_donors_db(donors_db):
-    donors_db_sorted = dict(sorted(donors_db.items(), key=lambda item: item[1]))
-    return donors_db_sorted
+def sort_database(database):
+    database_sorted = dict(sorted(database.items(), key=lambda item: item[1]))
+    return database_sorted
 
 
 if __name__=='__main__':
 
     # Create and populate 'donors_db'.
     donors_db = dict()
-    add_donation('Donor 04', float(400))
-    add_donation('Donor 02', float(200))
-    add_donation('Donor 03', float(300))
-    add_donation('Donor 01', float(100))
+    add_donation('Donor 04', float(400.00))
+    add_donation('Donor 02', float(200.00))
+    add_donation('Donor 03', float(300.00))
+    add_donation('Donor 01', float(100.00))
     add_donation('Donor 01', 'z')
 
     # Create and populate 'main_menu'.
