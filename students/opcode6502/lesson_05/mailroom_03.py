@@ -10,6 +10,7 @@ import tempfile
 def add_donation(donor_name, donation_amount):
     try:
         donors_db[donor_name] = float(donation_amount)
+        print_debug_message('add_donation(donor_name, donation_amount): Success!')
         return True
     except:
         print_error_message('add_donation(donor_name, donation_amount): Error!')
@@ -36,17 +37,24 @@ def check_user_response(user_response):
         send_thank_you_global()
     elif user_response == 4:
         exit_script()
+    #
+    # DEBUG menu items.
     elif user_response == 5:
         debug_print_db()
     elif user_response == 6:
         list_donor_names()
+    elif user_response == 7:
+        add_donation('Donor 01', float(100.00))
+    elif user_response == 8:
+        test_comprehensions()
     else:
-        print_error_message('Select item: [ 1 / 2 / 3 / 4 / 5 / 6 ].')
+        print_error_message('Select item: [ 1 / 2 / 3 / 4 / 5 / 6 / 7 / 8 ].')
 
 
 def create_donor(donor_name):
     try:
         donors_db[donor_name] = float(0.00)
+        print_debug_message('create_donor(donor_name): ' + str(donor_name) + ': Success!')
         return True
     except:
         print_error_message('create_donor(donor_name): Error!')
@@ -84,6 +92,7 @@ def create_report():
 
 
 def debug_print_db():
+    # Note: This for loop just prints data; not a Comprehension candidate.
     for key, value in donors_db.items():
         print_debug_header_line()
         print('[ DEBUG ]: str(key)                     : ' + str(key))
@@ -99,6 +108,7 @@ def display_main_menu():
         user_response = ''
         #
         # Print the 'main_menu'.
+        # Note: This for loop just prints data; not a Comprehension candidate.
         for value in main_menu:
             print(main_menu[value])
         #
@@ -143,15 +153,10 @@ def list_donor_names():
     donors_db_sorted = sort_database(donors_db)
     #
     # Print the sorted donors database to the screen.
+    # Note: This for loop just prints data; not a Comprehension candidate.
     for key, value in donors_db_sorted.items():
         print('{:10}'.format(str(key)), end='')
         print('{:10.2f}'.format(value))
-
-
-def print_debug_data(item):
-    print_debug_header_line()
-    print('[ DEBUG ]: str(item)                        : ' + str(item))
-    print('[ DEBUG ]: str(type(item))                  : ' + str(type(item)))
 
 
 def print_debug_header_line():
@@ -181,6 +186,7 @@ def send_thank_you():
     while True:
         #
         # Print the 'send_thank_you_menu'.
+        # Note: This for loop just prints data; not a Comprehension candidate.
         for value in send_thank_you_menu:
             print(send_thank_you_menu[value])
         #
@@ -233,19 +239,25 @@ def send_thank_you_global():
     #
     # Get the location of 'tempdir'.
     file_path = tempfile.gettempdir()
+    print_debug_message('temp: ' + str(file_path))
     #
     # Iterate through each donor in the database.
     for key, value in donors_db.items():
         #
         # Format to keep things neat on disk.
         formatted_key = format_text(key)
-        formatted_file_path = file_path + '/' + str(formatted_key) + '_' + str(get_timestamp()) + '.txt'
+        formatted_file_name = str(formatted_key) + '_' + str(get_timestamp()) + '.txt'
+        formatted_file_path = file_path + '/' + formatted_file_name
         #
         # Format and write the files to disk.
-        with open(formatted_file_path,'w') as file:
-            thank_you_letter = thank_you_template.format(key,value)
-            file.write(thank_you_letter)
-            file.close()
+        try:
+            with open(formatted_file_path,'w') as file:
+                thank_you_letter = thank_you_template.format(key,value)
+                file.write(thank_you_letter)
+                file.close()
+                print_debug_message('file: ' + str(formatted_file_name) + ': Success!')
+        except:
+            print_error_message('file: ' + str(formatted_file_name) + ': Error!')
 
 
 def sort_donation_amount(donation_amount):
@@ -263,6 +275,30 @@ def sort_database(database):
     except:
         print_error_message('sort_database(database): Error!')
         return False
+
+
+def test_comprehensions():
+    print_debug_message('This is a test of comprehensions!')
+    #
+    # Try a list comprehension.
+    new_list_01 = [i for i in range(10)]
+    print_debug_message(new_list_01)
+    #
+    # Try comprehensions with items in our database.
+    new_dict_01 = { d.lower() : donors_db.get(d.lower(), 0) + donors_db.get(d.upper(), 0) for d in donors_db.keys() }
+    new_dict_02 = { d.upper() : donors_db.get(d.upper(), 0) + donors_db.get(d.lower(), 0) for d in donors_db.keys() }
+    print_debug_message(new_dict_01)
+    print_debug_message(new_dict_02)
+    #
+    # This really isn't what comprehensions are for but I wanted to test
+    # out comprehensions in deeper detail.
+    fizzbuzz = [
+        print('n: ' + str(n) + ' fizzbuzz') if n % 3 == 0 and n % 5 == 0
+        else print('n: ' + str(n) + ' fizz') if n % 3 == 0
+        else print('n: ' + str(n) + ' buzz') if n % 5 == 0
+        else print('n: ' + str(n))
+        for n in range(100)
+    ]
 
 
 if __name__=='__main__':
@@ -286,6 +322,8 @@ if __name__=='__main__':
     add_to_dict(main_menu, '07', '[     4 ]: Quit')
     add_to_dict(main_menu, '08', '[     5 ]: [ DEBUG ]: debug_print_db()')
     add_to_dict(main_menu, '09', '[     6 ]: [ DEBUG ]: list_donor_names()')
+    add_to_dict(main_menu, '10', '[     7 ]: [ DEBUG ]: add_donation(\'Donor 10\', float(100.00))')
+    add_to_dict(main_menu, '11', '[     8 ]: [ DEBUG ]: test_comprehensions()')
 
     # Create and populate 'send_thank_you_menu'.
     send_thank_you_menu = dict()
