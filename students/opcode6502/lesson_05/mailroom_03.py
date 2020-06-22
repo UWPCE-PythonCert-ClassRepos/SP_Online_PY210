@@ -261,11 +261,19 @@ def send_thank_you_global():
 
 
 def sort_donation_amount(donation_amount):
-    return dict(sorted(donors_db.items(), key=lambda item: item[1]))
+    try:
+        return dict(sorted(donors_db.items(), key=lambda item: item[1]))
+    except:
+        print_error_message('sort_donation_amount(donation_amount): Error!')
+        return False
 
 
 def sort_donor_name(donor_name):
-    return dict(sorted(donors_db.items(), key=lambda item: item[0]))
+    try:
+        return dict(sorted(donors_db.items(), key=lambda item: item[0]))
+    except:
+        print_error_message('sort_donor_name(donor_name): Error!')
+        return False
 
 
 def sort_database(database):
@@ -285,19 +293,20 @@ def test_comprehensions():
     print_debug_message(new_list_01)
     #
     # Try comprehensions with items in our database.
-    new_dict_01 = { d.lower() : donors_db.get(d.lower(), 0) + donors_db.get(d.upper(), 0) for d in donors_db.keys() }
-    new_dict_02 = { d.upper() : donors_db.get(d.upper(), 0) + donors_db.get(d.lower(), 0) for d in donors_db.keys() }
+    new_dict_01 = { d.lower() : donors_db.get(d.lower(), 0) for d in donors_db.keys() }
+    new_dict_02 = { d.upper() : donors_db.get(d.upper(), 0) for d in donors_db.keys() }
     print_debug_message(new_dict_01)
     print_debug_message(new_dict_02)
     #
     # This really isn't what comprehensions are for but I wanted to test
     # out comprehensions in deeper detail.
+    print_debug_header_line()
     fizzbuzz = [
-        print('n: ' + str(n) + ' fizzbuzz') if n % 3 == 0 and n % 5 == 0
-        else print('n: ' + str(n) + ' fizz') if n % 3 == 0
-        else print('n: ' + str(n) + ' buzz') if n % 5 == 0
-        else print('n: ' + str(n))
-        for n in range(100)
+        print('[  FIZZ ]: n: ' + str(n) + ' fizzbuzz') if n % 3 == 0 and n % 5 == 0
+        else print('[  FIZZ ]: n: ' + str(n) + ' fizz') if n % 3 == 0
+        else print('[  FIZZ ]: n: ' + str(n) + ' buzz') if n % 5 == 0
+        else print('[  FIZZ ]: n: ' + str(n))
+        for n in range(101)
     ]
 
 
@@ -305,10 +314,12 @@ if __name__=='__main__':
 
     # Create and populate 'donors_db'.
     donors_db = dict()
-    add_donation('Donor 04', float(400.00))
-    add_donation('Donor 02', float(200.00))
-    add_donation('Donor 03', float(300.00))
     add_donation('Donor 01', float(100.00))
+    add_donation('Donor 02', float(222.22))
+    add_donation('Donor 03', float(333.33))
+    add_donation('Donor 04', float(499.99))
+    #
+    # Smoke test: This _should_ generate an error in the console.
     add_donation('Donor 01', 'z')
 
     # Create and populate 'main_menu'.
