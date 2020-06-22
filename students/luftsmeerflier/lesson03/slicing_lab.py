@@ -65,34 +65,3 @@ assert elements_reversed((1,2,3)) == (3,2,1)
 
 print("All tests pass")
 
-
-# with every other item removed
-
-# def main():
-#     print(exchange_first_last("hello world")
-
-# if __name__ == "__main__":
-#     main()
-
-
-
-# switch first and last
-# first = _input[0]
-# last = _input[-1]
-# _list = [char for char in _input]
-# _list[-1] = first
-# _list[0] = last
-
-# exclude first and last four
-# output = [_input[i] for i in range(4, length - 4)]
-# print(''.join(output))
-
-# elements reversed
-# return seq[::-1]
-
-#midrange
-	# for i in range(length):
-	# 	index = int(len(_input)/3)
-		# return [_input[j] for j in range(index)]
-		# return [_input[-j] for j in range(index)]
-		# return [_input[j] for j in range(index, length-index)]
