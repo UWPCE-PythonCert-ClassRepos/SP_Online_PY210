@@ -63,7 +63,7 @@ assert elements_reversed("hello") == "olleh"
 assert elements_reversed((1,2,3)) == (3,2,1)
 
 
-
+print("All tests pass")
 
 
 # with every other item removed
