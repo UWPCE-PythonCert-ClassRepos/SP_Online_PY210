@@ -75,6 +75,7 @@ def thank_you():
         for i in donor_db:
             if donor_name == i[0]: #Use i[0] to handle tuple
                 donation_amount = input(prompt_amount)
+                donation_amount = float(donation_amount) #String to float
                 print('-'*60)
                 print(f"Dear {donor_name}, thank you for your generous donation of ${donation_amount}."
                 " Regards, the Club Owners")
@@ -83,8 +84,10 @@ def thank_you():
         else:
             print('-'*60)
             print(f"Adding new donor {donor_name}")
+            donation_amount = input(prompt_amount)
+            donation_amount = float(donation_amount) #String to float
             print('-'*60)
-            new_donor = (donor_name, [])
+            new_donor = (donor_name, [donation_amount])
             donor_db.append(new_donor)
             return
 
