@@ -7,6 +7,10 @@ import sys
 import tempfile
 
 
+def happy():
+    return True
+
+
 def add_donation(donor_name, donation_amount):
     try:
         donors_db[donor_name] = float(donation_amount)
@@ -42,11 +46,11 @@ def check_user_response(user_response):
     elif user_response == 5:
         debug_print_db()
     elif user_response == 6:
-        list_donor_names()
+        list_donor_names(donors_db)
     elif user_response == 7:
-        add_donation('Donor 01', float(100.00))
+        add_donation('Donor 10', float(100.00))
     elif user_response == 8:
-        test_comprehensions()
+        comprehensions_test()
     else:
         print_error_message('Select item: [ 1 / 2 / 3 / 4 / 5 / 6 / 7 / 8 ].')
 
@@ -144,13 +148,13 @@ def get_timestamp():
     return timestamp
 
 
-def list_donor_names():
+def list_donor_names(database):
     #
     # Initialize 'donors_db_sorted'.
     donors_db_sorted = dict()
     #
     # Sort the donor list.
-    donors_db_sorted = sort_database(donors_db)
+    donors_db_sorted = sort_database(database)
     #
     # Print the sorted donors database to the screen.
     # Note: This for loop just prints data; not a Comprehension candidate.
@@ -204,7 +208,7 @@ def send_thank_you():
         #
         # Check user_response.
         if user_response.lower() == 'list':
-            list_donor_names()
+            list_donor_names(donors_db)
             continue
         elif user_response.lower() == 'main':
             break
@@ -285,7 +289,7 @@ def sort_database(database):
         return False
 
 
-def test_comprehensions():
+def comprehensions_test():
     print_debug_message('This is a test of comprehensions!')
     #
     # Try a list comprehension.
@@ -332,9 +336,9 @@ if __name__=='__main__':
     add_to_dict(main_menu, '06', '[     3 ]: Send letters to all donors.')
     add_to_dict(main_menu, '07', '[     4 ]: Quit')
     add_to_dict(main_menu, '08', '[     5 ]: [ DEBUG ]: debug_print_db()')
-    add_to_dict(main_menu, '09', '[     6 ]: [ DEBUG ]: list_donor_names()')
+    add_to_dict(main_menu, '09', '[     6 ]: [ DEBUG ]: list_donor_names(donors_db)')
     add_to_dict(main_menu, '10', '[     7 ]: [ DEBUG ]: add_donation(\'Donor 10\', float(100.00))')
-    add_to_dict(main_menu, '11', '[     8 ]: [ DEBUG ]: test_comprehensions()')
+    add_to_dict(main_menu, '11', '[     8 ]: [ DEBUG ]: comprehensions_test()')
 
     # Create and populate 'send_thank_you_menu'.
     send_thank_you_menu = dict()
