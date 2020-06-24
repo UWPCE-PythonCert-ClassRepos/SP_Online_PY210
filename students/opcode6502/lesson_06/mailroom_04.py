@@ -7,10 +7,6 @@ import sys
 import tempfile
 
 
-def happy():
-    return True
-
-
 def add_donation(donor_name, donation_amount):
     try:
         donors_db[donor_name] = float(donation_amount)
