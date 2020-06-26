@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 import sys
 ##############################################################
-# 20200617    djm list lab series 4
-#
+# 20200617      djm list lab series 4
+# 20200623      djm list lab series redo
 # Duane McCollum Python self-paced winter 2020
 #
 # slice lab
