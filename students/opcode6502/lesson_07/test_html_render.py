@@ -265,3 +265,11 @@ def test_render_element():
 #     assert lines[1].startswith(Element.indent + "thi")
 #     assert lines[2] == "</html>"
 #     assert file_contents.endswith("</html>")
+
+def test_debug():
+    #
+    # Section for additional tests.
+    e = Element()
+    e = Element("test_debug(): called.")
+
+
