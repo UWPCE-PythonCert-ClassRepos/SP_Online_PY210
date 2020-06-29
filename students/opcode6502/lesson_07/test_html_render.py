@@ -185,6 +185,24 @@ def test_sub_element():
 
 # Add your tests here!
 
+def test_head():
+    e = Head("this is some text")
+    e.append("and this is some more text")
+
+    file_contents = render_result(e).strip()
+
+    assert("this is some text") in file_contents
+    assert("and this is some more text") in file_contents
+
+    assert file_contents.startswith("<head>")
+    assert file_contents.endswith("</head>")
+
+
+
+
+
+
+
 # #####################
 # # indentation testing
 # #  Uncomment for Step 9 -- adding indentation
