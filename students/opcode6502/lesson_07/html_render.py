@@ -22,18 +22,29 @@ class Element(object):
     def append(self, new_content):
         self.contents.append(new_content)
 
-    def render(self, out_file):
+    def _close_tag(self):
         #
-        # Opening <tag>.
-        open_tag = ["<{}".format(self.tag)]
+        # Closing <tag>.
+        close_tag = '</{}>'.format(self.tag)
+        return close_tag
+
+    def _open_tag(self):
         #
-        # Add the attributes.
+        # Open the opening <tag>.
+        open_tag = ['<{}'.format(self.tag)]
+        #
+        # Write attributes.
         for key, value in self.attributes.items():
             open_tag.append(' {}="{}"'.format(key, value))
         #
-        # Finish writing the opening <tag>.
-        open_tag.append(">\n")
-        out_file.write("".join(open_tag))
+        # Close the opening <tag>.
+        open_tag.append('>')
+        return "".join(open_tag)
+
+    def render(self, out_file):
+        #
+        # Opening <tag>.
+        out_file.write(self._open_tag() + '\n')
         #
         # Write the content.
         for content in self.contents:
@@ -43,7 +54,7 @@ class Element(object):
                 out_file.write(content +'\n')
         #
         # Closing </tag>.
-        out_file.write('</{}>\n'.format(self.tag))
+        out_file.write(self._close_tag())
 
 
 class Body(Element):
@@ -52,10 +63,6 @@ class Body(Element):
 
 class Head(Element):
     tag = 'head'
-
-
-class Hr(SelfClosingTag):
-    tag = 'hr'
 
 
 class Html(Element):
@@ -80,8 +87,22 @@ class P(Element):
 class SelfClosingTag(Element):
 
     def render(self, outfile):
-    # put rendering code here.
+        # loop through the list of contents:
+        out_file.write(self._open_tag())
+        out_file.write('\n')
+        for content in self.contents:
+            try:
+                content.render(out_file)
+            except AttributeError:
+                out_file.write(content)
+                out_file.write('\n')
+        out_file.write(self._close_tag())
+        out_file.write('\n')
 
 
 class Title(OneLineTag):
     tag = 'title'
+
+
+class Hr(SelfClosingTag):
+    tag = 'hr'
