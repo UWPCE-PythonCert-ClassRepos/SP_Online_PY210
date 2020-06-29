@@ -280,6 +280,12 @@ def test_append_content_in_br():
         br = Br()
         br.append("some content")
 
+def test_a():
+    a = A("http://google.com", "link to google")
+    file_contents = render_result(a).strip()
+    print(file_contents)
+    assert file_contents == '<a href="http://google.com">link to google</a>'
+
 
 # #####################
 # # indentation testing
