@@ -31,6 +31,11 @@ class Element(object):
         out_file.write('</html>')
 
 
+class Body(Element):
+
+    tag = 'body'
+
+
 class Html(Element):
 
     tag = 'html'
