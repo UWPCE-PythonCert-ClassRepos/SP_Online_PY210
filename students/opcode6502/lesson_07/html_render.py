@@ -129,6 +129,10 @@ class Li(Element):
     tag = "li"
 
 
+class Meta(SelfClosingTag):
+    tag = "meta"
+
+
 class P(Element):
     tag = 'p'
 
