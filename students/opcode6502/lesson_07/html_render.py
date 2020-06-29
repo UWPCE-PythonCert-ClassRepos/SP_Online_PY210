@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
-
+#
 # html_render.py
 # opcode6502: SP_Online_PY210
-
 """
 A class-based system for rendering html.
 """
@@ -55,6 +54,10 @@ class Head(Element):
     tag = 'head'
 
 
+class Hr(SelfClosingTag):
+    tag = 'hr'
+
+
 class Html(Element):
     tag = 'html'
 
@@ -74,5 +77,11 @@ class P(Element):
     tag = 'p'
 
 
+class SelfClosingTag(Element):
+
+    def render(self, outfile):
+    # put rendering code here.
+
+
 class Title(OneLineTag):
-    tag = "title"
+    tag = 'title'
