@@ -9,6 +9,7 @@
 # <06/18/2020>, Modified data struct to dicts, updated dict switch for users selections, &
 #               thank you letter to write to file
 # <06/22/2020>, Code clean-up, split off (report) sorting into a new function
+# <06/24/2020>, Added sort_key function, simplified report sort function
 # ---------------------------------------------------------------------------- #
 # imports
 import sys
@@ -74,8 +75,8 @@ def thank_you():
 
         else:
             donor_amount = int(input("Enter Amount of Donation: $"))
-            # if name is in dict append dollar amount to donors bucket
-            if donor_name in donor_info:
+            # if name is in dict append dollar amount to donors bucket, use get() to check for keys in dict
+            if donor_info.get(donor_name):
                 donor_info[donor_name].append(donor_amount)
                 print(f"'{donor_name}' is in registry added new donation amount!")
                 input("\nPress enter to continue to 'Thank You' letter:")
@@ -115,12 +116,8 @@ XYZ Nonprofit Agency Director
 ###############################################
 #   #2 Create a Report
 ###############################################
-def report_sorting(donor_data):  # added new report sorting removed from report function to clean-up code
-    ''' report_sorting: organizes and calculates data for report function'''
-    sorter = []
-    for keys, values in donor_data.items():
-        sorter.append([sum(values), keys, len(values), sum(values) / len(values)])
-    return sorted(sorter, reverse=True)
+def sort_key(item):
+    return sum(item[1])
 
 
 def report():
@@ -133,11 +130,12 @@ def report():
                  f" {heading_name[2].upper():<6s} {heading_name[3].upper():<14s}|"
         print(title)
         print(header)
-        # revised and split off sorting process into new report_sorting function
-        call_sorting = report_sorting(donor_info)
-        for i in range(0, len(call_sorting)):
-            print(f"| {call_sorting[i][1]:<18s} | ${call_sorting[i][0]:<10.2f} | {call_sorting[i][2]:^11d}"
-                  f" | ${call_sorting[i][3]:<10.2f} |")
+        sorted_donors = sorted(donor_info.items(), key=sort_key, reverse=True)
+        for donor, donations in sorted_donors:
+            totals = sum(donations)
+            numb_gifts = len(donations)
+            avg_gift = totals / numb_gifts
+            print(f"| {donor:<18s} | ${totals:<10,.2f} | {numb_gifts:^11d} | ${avg_gift:<10,.2f} |")
         print("________________________________________________________________")
         input("Press Enter to Continue")
         return
