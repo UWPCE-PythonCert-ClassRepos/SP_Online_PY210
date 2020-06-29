@@ -70,6 +70,26 @@ class SelfClosingTag(Element):
     def append(self, *args):
         raise TypeError("You can not add content to a SelfClosingTag")
 
+
+class OneLineTag(Element):
+
+    def render(self, out_file):
+        out_file.write('<{}>'.format(self.tag))
+        out_file.write(self.contents[0])
+        out_file.write('</{}>\n'.format(self.tag))
+
+    def append(self, content):
+        raise NotImplementedError
+
+
+class A(OneLineTag):
+    tag = 'a'
+
+    def __init__(self, link, content=None, **kwargs):
+        kwargs['href'] = link
+        super().__init__(content, **kwargs)
+
+
 class Body(Element):
     tag = 'body'
 
@@ -84,17 +104,6 @@ class Head(Element):
 
 class Html(Element):
     tag = 'html'
-
-
-class OneLineTag(Element):
-
-    def render(self, out_file):
-        out_file.write('<{}>'.format(self.tag))
-        out_file.write(self.contents[0])
-        out_file.write('</{}>\n'.format(self.tag))
-
-    def append(self, content):
-        raise NotImplementedError
 
 
 class P(Element):
