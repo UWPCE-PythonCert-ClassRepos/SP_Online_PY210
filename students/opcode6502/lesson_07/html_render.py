@@ -120,6 +120,9 @@ class Hr(SelfClosingTag):
 
 class Html(Element):
     tag = 'html'
+    def render(self, out_file):
+        out_file.write('<!DOCTYPE html>\n')
+        Element.render(self, out_file)
 
 
 class Li(Element):
