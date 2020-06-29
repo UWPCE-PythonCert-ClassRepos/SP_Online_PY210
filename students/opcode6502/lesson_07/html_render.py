@@ -13,11 +13,16 @@ class Element(object):
 
     tag = "html"
 
-    def __init__(self, content=None):
-        pass
+    def __init__(self, content=None, **kwargs):
+        self.attributes = kwargs
+        self.contents = content
+        if self.contents is None:
+            self.contents = []
+        else:
+            self.contents = [content]
 
     def append(self, new_content):
-        pass
+        self.contents.append(new_content)
 
     def render(self, out_file):
         out_file.write("<html>")
