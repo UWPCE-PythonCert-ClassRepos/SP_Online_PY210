@@ -74,8 +74,14 @@ class SelfClosingTag(Element):
 class OneLineTag(Element):
 
     def render(self, out_file):
-        out_file.write('<{}>'.format(self.tag))
+        #
+        # Opening <tag>.
+        out_file.write(self._open_tag())
+        #
+        # Write the content.
         out_file.write(self.contents[0])
+        #
+        # Closing </tag>.
         out_file.write('</{}>\n'.format(self.tag))
 
     def append(self, content):
