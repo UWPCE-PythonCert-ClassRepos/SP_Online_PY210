@@ -210,8 +210,6 @@ def test_title():
     assert "\n" not in file_contents
 
 
-
-
 # #####################
 # # indentation testing
 # #  Uncomment for Step 9 -- adding indentation
