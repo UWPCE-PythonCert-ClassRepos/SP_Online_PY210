@@ -263,6 +263,24 @@ def test_hr_attr():
     assert file_contents == '<hr width="400" />\n'
 
 
+def test_br():
+    br = Br()
+    file_contents = render_result(br)
+    print(file_contents)
+    assert file_contents == "<br />\n"
+
+
+def test_content_in_br():
+    with pytest.raises(TypeError):
+        br = Br("some content")
+
+
+def test_append_content_in_br():
+    with pytest.raises(TypeError):
+        br = Br()
+        br.append("some content")
+
+
 # #####################
 # # indentation testing
 # #  Uncomment for Step 9 -- adding indentation
