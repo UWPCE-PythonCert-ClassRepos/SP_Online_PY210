@@ -24,9 +24,15 @@ class Element(object):
         self.contents.append(new_content)
 
     def render(self, out_file):
-
+        #
         # Opening <tag>.
         open_tag = ["<{}".format(self.tag)]
+        #
+        # Add the attributes.
+        for key, value in self.attributes.items():
+            open_tag.append(' {}="{}"'.format(key, value))
+        #
+        # Finish writing the opening <tag>.
         open_tag.append(">\n")
         out_file.write("".join(open_tag))
         #
