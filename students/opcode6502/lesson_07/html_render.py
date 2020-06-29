@@ -62,6 +62,8 @@ class SelfClosingTag(Element):
         tag = self._open_tag()[:-1] + ' />\n'
         out_file.write(tag)
 
+    def append(self, *args):
+        raise TypeError("You can not add content to a SelfClosingTag")
 
 class Body(Element):
     tag = 'body'
