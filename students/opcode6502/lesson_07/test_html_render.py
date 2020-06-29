@@ -109,7 +109,6 @@ def test_render_element2():
     assert file_contents.endswith("</html>")
 
 
-
 # # ########
 # # # Step 2
 # # ########
@@ -176,8 +175,6 @@ def test_sub_element():
     assert "</p>" in file_contents
 
 
-
-
 ########
 # Step 3
 ########
@@ -218,6 +215,11 @@ def test_one_line_tag_append():
         e.append("some more content")
 
 
+########
+# Step 4
+########
+
+
 def test_attributes():
     e = P("A paragraph of text", style="text-align: center", id="intro")
 
@@ -245,6 +247,11 @@ def test_attributes():
     # # just to be sure -- there should be a closing bracket to the opening tag
     assert file_contents[:-1].index(">") > file_contents.index('id="intro"')
     assert file_contents[:file_contents.index(">")].count(" ") == 3
+
+
+########
+# Step 5
+########
 
 
 def test_hr():
@@ -280,11 +287,38 @@ def test_append_content_in_br():
         br = Br()
         br.append("some content")
 
+
+########
+# Step 6
+########
+
+
 def test_a():
-    a = A("http://google.com", "link to google")
+    a = A('http://google.com', 'link to google')
     file_contents = render_result(a).strip()
     print(file_contents)
     assert file_contents == '<a href="http://google.com">link to google</a>'
+
+
+########
+# Step 7
+########
+
+
+def test_li():
+    l = Li('list')
+    file_contents = render_result(l).strip()
+    assert file_contents.startswith('<li>')
+    assert 'list' in file_contents
+    assert file_contents.endswith('</li>')
+
+
+def test_ul():
+    e = Ul('ul')
+    file_contents = render_result(e).strip()
+    assert file_contents.startswith('<ul>')
+    assert 'ul' in file_contents
+    assert file_contents.endswith('</ul>')
 
 
 # #####################
