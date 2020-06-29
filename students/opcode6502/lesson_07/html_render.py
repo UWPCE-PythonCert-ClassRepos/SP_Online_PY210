@@ -40,3 +40,7 @@ class Body(Element):
 class Html(Element):
 
     tag = 'html'
+
+class P(Element):
+
+    tag = 'p'
