@@ -198,7 +198,16 @@ def test_head():
     assert file_contents.endswith("</head>")
 
 
+def test_title():
+    e = Title("This is a Title")
 
+    file_contents = render_result(e).strip()
+
+    assert("This is a Title") in file_contents
+    print(file_contents)
+    assert file_contents.startswith("<title>")
+    assert file_contents.endswith("</title>")
+    assert "\n" not in file_contents
 
 
 
