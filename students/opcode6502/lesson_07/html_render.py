@@ -25,8 +25,7 @@ class Element(object):
     def _close_tag(self):
         #
         # Closing <tag>.
-        close_tag = '</{}>'.format(self.tag)
-        return close_tag
+        return "</{}>".format(self.tag)
 
     def _open_tag(self):
         #
@@ -57,6 +56,13 @@ class Element(object):
         out_file.write(self._close_tag())
 
 
+class SelfClosingTag(Element):
+
+    def render(self, out_file):
+        tag = self._open_tag()[:-1] + ' />\n'
+        out_file.write(tag)
+
+
 class Body(Element):
     tag = 'body'
 
@@ -82,22 +88,6 @@ class OneLineTag(Element):
 
 class P(Element):
     tag = 'p'
-
-
-class SelfClosingTag(Element):
-
-    def render(self, outfile):
-        # loop through the list of contents:
-        out_file.write(self._open_tag())
-        out_file.write('\n')
-        for content in self.contents:
-            try:
-                content.render(out_file)
-            except AttributeError:
-                out_file.write(content)
-                out_file.write('\n')
-        out_file.write(self._close_tag())
-        out_file.write('\n')
 
 
 class Title(OneLineTag):
