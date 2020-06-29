@@ -67,6 +67,10 @@ class Body(Element):
     tag = 'body'
 
 
+class Br(SelfClosingTag):
+    tag = 'br'
+
+
 class Head(Element):
     tag = 'head'
 
