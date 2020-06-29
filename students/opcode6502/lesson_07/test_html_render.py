@@ -314,11 +314,19 @@ def test_li():
 
 
 def test_ul():
-    e = Ul('ul')
-    file_contents = render_result(e).strip()
+    u = Ul('ul')
+    file_contents = render_result(u).strip()
     assert file_contents.startswith('<ul>')
     assert 'ul' in file_contents
     assert file_contents.endswith('</ul>')
+
+
+def test_h():
+    h = H(1, 'h')
+    file_contents = render_result(h).strip()
+    assert file_contents.startswith('<h1>')
+    assert 'h' in file_contents
+    assert file_contents.endswith('</h1>')
 
 
 # #####################
