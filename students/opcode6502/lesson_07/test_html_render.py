@@ -342,6 +342,11 @@ def test_html():
     assert('h') in file_contents
     assert file_contents.endswith('</html>\n')
 
+def test_meta():
+    meta = Meta(charset="UTF-8")
+    file_contents = render_result(meta).strip()
+    assert file_contents == '<meta charset="UTF-8" />'
+
 
 # #####################
 # # indentation testing
