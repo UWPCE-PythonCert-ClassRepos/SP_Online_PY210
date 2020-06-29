@@ -329,6 +329,20 @@ def test_h():
     assert file_contents.endswith('</h1>')
 
 
+########
+# Step 8
+########
+
+
+def test_html():
+    h = Html('h')
+    # Have to remove .strip() in this case.
+    file_contents = render_result(h)
+    assert file_contents.startswith('<!DOCTYPE html>')
+    assert('h') in file_contents
+    assert file_contents.endswith('</html>\n')
+
+
 # #####################
 # # indentation testing
 # #  Uncomment for Step 9 -- adding indentation
