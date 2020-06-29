@@ -25,7 +25,7 @@ class Element(object):
     def _close_tag(self):
         #
         # Closing <tag>.
-        return "</{}>".format(self.tag)
+        return '</{}>'.format(self.tag)
 
     def _open_tag(self):
         #
@@ -53,7 +53,7 @@ class Element(object):
                 out_file.write(content +'\n')
         #
         # Closing </tag>.
-        out_file.write(self._close_tag())
+        out_file.write(self._close_tag() +'\n')
 
 
 class SelfClosingTag(Element):
