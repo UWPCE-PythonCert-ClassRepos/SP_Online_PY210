@@ -29,3 +29,8 @@ class Element(object):
         out_file.write('this is some text')
         out_file.write('and this is some more text')
         out_file.write('</html>')
+
+
+class Html(Element):
+
+    tag = 'html'
