@@ -27,8 +27,10 @@ class Element(object):
     def render(self, out_file):
         out_file.write('<{}>\n'.format(self.tag))
         for content in self.contents:
-            out_file.write(content)
-            out_file.write('\n')
+            try:
+                content.render(out_file)
+            except AttributeError:
+                out_file.write(content)
         out_file.write('</{}>\n'.format(self.tag))
 
 
