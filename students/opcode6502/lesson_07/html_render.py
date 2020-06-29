@@ -25,11 +25,11 @@ class Element(object):
         self.contents.append(new_content)
 
     def render(self, out_file):
+        out_file.write('<{}>\n'.format(self.tag))
         for content in self.contents:
-            out_file.write('<{}>'.format(self.tag))
             out_file.write(content)
             out_file.write('\n')
-            out_file.write('</{}>'.format(self.tag))
+        out_file.write('</{}>\n'.format(self.tag))
 
 
 class Body(Element):
