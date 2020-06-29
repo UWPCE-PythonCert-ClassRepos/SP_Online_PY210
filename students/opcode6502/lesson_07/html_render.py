@@ -10,7 +10,6 @@ A class-based system for rendering html.
 
 # This is the framework for the base class
 class Element(object):
-
     tag = 'html'
 
     def __init__(self, content=None, **kwargs):
@@ -35,14 +34,15 @@ class Element(object):
 
 
 class Body(Element):
-
     tag = 'body'
 
 
-class Html(Element):
+class Head(Element):
+    tag = 'head'
 
+
+class Html(Element):
     tag = 'html'
 
 class P(Element):
-
     tag = 'p'
