@@ -58,6 +58,11 @@ class Element(object):
 
 class SelfClosingTag(Element):
 
+    def __init__(self, content=None, **kwargs):
+        if content is not None:
+            raise TypeError("SelfClosingTag can not contain any content")
+        super().__init__(content=content, **kwargs)
+
     def render(self, out_file):
         tag = self._open_tag()[:-1] + ' />\n'
         out_file.write(tag)
