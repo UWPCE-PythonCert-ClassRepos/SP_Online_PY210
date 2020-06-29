@@ -430,7 +430,6 @@ def test_meta():
 #     assert file_contents.endswith("</html>")
 
 def test_debug():
-    #
     # Section for additional tests.
     e = Element()
     e = Element("test_debug(): called.")
