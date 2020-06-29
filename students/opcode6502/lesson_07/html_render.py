@@ -77,7 +77,7 @@ class SelfClosingTag(Element):
 
     def __init__(self, content=None, **kwargs):
         if content is not None:
-            raise TypeError("SelfClosingTag can not contain any content")
+            raise TypeError('SelfClosingTag can not contain any content')
         super().__init__(content=content, **kwargs)
 
     def render(self, out_file):
@@ -85,7 +85,7 @@ class SelfClosingTag(Element):
         out_file.write(tag)
 
     def append(self, *args):
-        raise TypeError("You can not add content to a SelfClosingTag")
+        raise TypeError('You can not add content to a SelfClosingTag')
 
 
 class A(OneLineTag):
