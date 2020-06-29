@@ -78,9 +78,9 @@ class Html(Element):
 class OneLineTag(Element):
 
     def render(self, out_file):
-        out_file.write("<{}>".format(self.tag))
+        out_file.write('<{}>'.format(self.tag))
         out_file.write(self.contents[0])
-        out_file.write("</{}>\n".format(self.tag))
+        out_file.write('</{}>\n'.format(self.tag))
 
     def append(self, content):
         raise NotImplementedError
