@@ -128,17 +128,17 @@ def test_html():
     assert file_contents.endswith("</html>")
 
 
-# def test_body():
-#     e = Body("this is some text")
-#     e.append("and this is some more text")
+def test_body():
+    e = Body("this is some text")
+    e.append("and this is some more text")
 
-#     file_contents = render_result(e).strip()
+    file_contents = render_result(e).strip()
 
-#     assert("this is some text") in file_contents
-#     assert("and this is some more text") in file_contents
+    assert("this is some text") in file_contents
+    assert("and this is some more text") in file_contents
 
-#     assert file_contents.startswith("<body>")
-#     assert file_contents.endswith("</body>")
+    assert file_contents.startswith("<body>")
+    assert file_contents.endswith("</body>")
 
 
 # def test_p():
