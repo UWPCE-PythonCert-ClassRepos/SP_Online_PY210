@@ -434,5 +434,3 @@ def test_debug():
     # Section for additional tests.
     e = Element()
     e = Element("test_debug(): called.")
-
-
