@@ -223,7 +223,7 @@ def test_attributes():
 
     file_contents = render_result(e).strip()
     print(file_contents)  # so we can see it if the test fails
-    # assert False
+
     # note: The previous tests should make sure that the tags are getting
     #       properly rendered, so we don't need to test that here.
     #       so using only a "P" tag is fine
@@ -245,6 +245,22 @@ def test_attributes():
     # # just to be sure -- there should be a closing bracket to the opening tag
     assert file_contents[:-1].index(">") > file_contents.index('id="intro"')
     assert file_contents[:file_contents.index(">")].count(" ") == 3
+
+
+def test_hr():
+    """a simple horizontal rule with no attributes"""
+    hr = Hr()
+    file_contents = render_result(hr)
+    print(file_contents)
+    assert file_contents == '<hr />\n'
+
+
+def test_hr_attr():
+    """a horizontal rule with an attribute"""
+    hr = Hr(width=400)
+    file_contents = render_result(hr)
+    print(file_contents)
+    assert file_contents == '<hr width="400" />\n'
 
 
 # #####################
