@@ -41,25 +41,28 @@ class Element(object):
         open_tag.append('>')
         return "".join(open_tag)
 
-    def render(self, out_file):
+    def render(self, out_file, cur_ind=""):
+        #
+        # Check indentation.
+        next_ind = cur_ind + self.indent
         #
         # Opening <tag>.
-        out_file.write(self._open_tag() + '\n')
+        out_file.write(cur_ind + self._open_tag() + '\n')
         #
         # Write the content.
         for content in self.contents:
             try:
-                content.render(out_file)
+                content.render(out_file, cur_ind = next_ind)
             except AttributeError:
-                out_file.write(content +'\n')
+                out_file.write(next_ind + content +'\n')
         #
         # Closing </tag>.
-        out_file.write(self._close_tag() +'\n')
+        out_file.write(cur_ind + self._close_tag() +'\n')
 
 
 class OneLineTag(Element):
 
-    def render(self, out_file):
+    def render(self, out_file, cur_ind=""):
         #
         # Opening <tag>.
         out_file.write(self._open_tag())
@@ -81,7 +84,7 @@ class SelfClosingTag(Element):
             raise TypeError('SelfClosingTag can not contain any content')
         super().__init__(content=content, **kwargs)
 
-    def render(self, out_file):
+    def render(self, out_file, cur_ind=''):
         tag = self._open_tag()[:-1] + ' />\n'
         out_file.write(tag)
 
@@ -121,9 +124,9 @@ class Hr(SelfClosingTag):
 
 class Html(Element):
     tag = 'html'
-    def render(self, out_file):
+    def render(self, out_file, cur_ind=''):
         out_file.write('<!DOCTYPE html>\n')
-        Element.render(self, out_file)
+        Element.render(self, out_file, cur_ind)
 
 
 class Li(Element):
