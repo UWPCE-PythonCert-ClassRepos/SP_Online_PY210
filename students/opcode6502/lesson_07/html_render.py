@@ -39,7 +39,7 @@ class Element(object):
         #
         # Close the opening <tag>.
         open_tag.append('>')
-        return "".join(open_tag)
+        return ''.join(open_tag)
 
     def render(self, out_file, cur_ind=''):
         #
@@ -132,11 +132,11 @@ class Html(Element):
 
 
 class Li(Element):
-    tag = "li"
+    tag = 'li'
 
 
 class Meta(SelfClosingTag):
-    tag = "meta"
+    tag = 'meta'
 
 
 class P(Element):
@@ -148,4 +148,4 @@ class Title(OneLineTag):
 
 
 class Ul(Element):
-    tag = "ul"
+    tag = 'ul'
