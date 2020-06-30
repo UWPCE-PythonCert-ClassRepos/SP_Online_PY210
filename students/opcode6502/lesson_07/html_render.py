@@ -10,7 +10,7 @@ A class-based system for rendering html.
 # This is the framework for the base class
 class Element(object):
     tag = 'html'
-    indent = "    "
+    indent = '    '
 
     def __init__(self, content=None, **kwargs):
         self.attributes = kwargs
@@ -41,7 +41,7 @@ class Element(object):
         open_tag.append('>')
         return "".join(open_tag)
 
-    def render(self, out_file, cur_ind=""):
+    def render(self, out_file, cur_ind=''):
         #
         # Check indentation.
         next_ind = cur_ind + self.indent
@@ -62,16 +62,16 @@ class Element(object):
 
 class OneLineTag(Element):
 
-    def render(self, out_file, cur_ind=""):
+    def render(self, out_file, cur_ind=''):
         #
         # Opening <tag>.
-        out_file.write(self._open_tag())
+        out_file.write(cur_ind + self._open_tag())
         #
         # Write the content.
         out_file.write(self.contents[0])
         #
         # Closing </tag>.
-        out_file.write('</{}>\n'.format(self.tag))
+        out_file.write(self._close_tag())
 
     def append(self, content):
         raise NotImplementedError
