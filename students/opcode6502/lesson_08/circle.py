@@ -12,6 +12,10 @@ class Circle():
     def area(self):
         return self.radius ** 2 * math.pi
 
+    @area.setter
+    def area(self, value):
+        raise AttributeError
+
     @property
     def diameter(self):
         return self.radius * 2
