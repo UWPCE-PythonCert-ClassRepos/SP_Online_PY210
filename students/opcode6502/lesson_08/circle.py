@@ -23,3 +23,9 @@ class Circle():
     @diameter.setter
     def diameter(self, value):
         self.radius = value / 2
+
+    def __add__(self, other):
+        return Circle(self.radius + other.radius)
+
+    def __eq__(self, other):
+        return self.radius == other.radius
