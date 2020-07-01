@@ -6,9 +6,10 @@ from circle import *
 
 
 def debug_print_attributes(c):
-    print("c.raidus:   " + str(c.radius))
-    print("c.diameter: " + str(c.diameter))
-    print("c.area:     " + str(c.area))
+    print('c:          ' + str(c))
+    print('c.raidus:   ' + str(c.radius))
+    print('c.diameter: ' + str(c.diameter))
+    print('c.area:     ' + str(c.area))
 
 
 def test_circle_radius():
@@ -71,20 +72,49 @@ def test_circle_area():
 
 
 def test_circle_area_setter():
+    #
+    # Test setup.
     c = Circle(2)
+    #
+    #
     try:
+        #
+        # Test setup.
         c.area = 5
         #
         # If this succeeds, assert False.
         debug_print_attributes(c)
+        #
+        # Assertion.
         assert False
     except AttributeError:
         #
         # Since we have an AttributeError, assert True.
+        #
+        # Assertion.
         assert True
     except Exception as e:
         #
         # Anything else, print the debug attributes and assert False.
         debug_print_attributes(c)
         print(e)
+        #
+        # Assertion.
         assert False
+
+
+def test_circle_add():
+    #
+    # Test setup.
+    c1 = Circle(2)
+    c2 = Circle(4)
+    result = c1 + c2
+    #
+    # Print debug statements (in case of failure).
+    print(str(result))
+    debug_print_attributes(c1)
+    debug_print_attributes(c2)
+    #
+    # Assertion
+    assert result == Circle(6)
+
