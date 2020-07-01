@@ -4,4 +4,5 @@
 from circle import *
 
 def test_circle():
-    pass
+    c = Circle(4)
+    assert c.radius == 4
