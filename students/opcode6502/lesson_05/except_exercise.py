@@ -50,5 +50,9 @@ langs = ['java', 'c', 'python']
 
 try:
     more_joke = more_fun(langs[0])
-except:
-    print('Error!')
+except IndexError:
+    more_joke = more_fun(langs[1])
+else:
+    more_joke = more_fun(langs[-1])
+finally:
+    last_fun()
