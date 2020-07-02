@@ -67,8 +67,8 @@ class Circle():
 class Sphere(Circle):
 
     def __repr__(self):
-        return 'Sphere: Radius: {}'.format(self.radius)
+        return 'Sphere({})'.format(self.radius)
 
     def __str__(self):
-        return 'Sphere with radius of {}'.format(self.radius)
+        return 'Sphere: Radius: {}'.format(self.radius)
 
