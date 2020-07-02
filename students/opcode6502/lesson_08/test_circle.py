@@ -147,16 +147,18 @@ def test_circle_compare_gt():
     assert (c2 > c1) is True
 
 
-    # #
-    # # Test setup.
-    # c1 < c2
-    # #
-    # # Print debug statements (in case of failure).
-    # debug_print_attributes(c1)
-    # debug_print_attributes(c2)
-    # #
-    # # Assertion.
-    # assert True
+def test_circle_compare_lt():
+    #
+    # Test setup.
+    c1 = Circle(2)
+    c2 = Circle(4)
+    #
+    # Print debug statements (in case of failure).
+    debug_print_attributes(c1)
+    debug_print_attributes(c2)
+    #
+    # Assertion.
+    assert (c1 < c2) is True
 
     # #
     # # Test setup.
