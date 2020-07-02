@@ -7,7 +7,7 @@ Date: 06/26/2020
 
 
 # Series 1
-# Creating a list that contains “Apples”, “Pears”, “Oranges” and “Peaches”.
+# Creating a list that contains 'Apples', 'Pears', 'Oranges' and 'Peaches'.
 series1_list = ['Apples', 'Pears', 'Oranges', 'Peaches']
 
 # Printing series one
