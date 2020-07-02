@@ -115,6 +115,50 @@ def test_circle_add():
     debug_print_attributes(c1)
     debug_print_attributes(c2)
     #
-    # Assertion
+    # Assertion.
     assert result == Circle(6)
 
+def test_circle_compare():
+    #
+    # Test setup.
+    c1 = Circle(2)
+    c2 = Circle(4)
+    c1 > c2
+    #
+    # Print debug statements (in case of failure).
+    debug_print_attributes(c1)
+    debug_print_attributes(c2)
+    #
+    # Assertion.
+    assert False
+    # #
+    # # Test setup.
+    # c1 < c2
+    # #
+    # # Print debug statements (in case of failure).
+    # debug_print_attributes(c1)
+    # debug_print_attributes(c2)
+    # #
+    # # Assertion.
+    # assert True
+    # #
+    # # Test setup.
+    # c1 == c2
+    # #
+    # # Print debug statements (in case of failure).
+    # debug_print_attributes(c1)
+    # debug_print_attributes(c2)
+    # #
+    # # Assertion.
+    # assert False
+    # #
+    # # Test setup.
+    # c3 = Circle(4)
+    # c2 == c3
+    # #
+    # # Print debug statements (in case of failure).
+    # debug_print_attributes(c1)
+    # debug_print_attributes(c2)
+    # #
+    # # Assertion.
+    # assert True
