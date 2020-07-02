@@ -118,19 +118,18 @@ def test_circle_add():
     # Assertion.
     assert result == Circle(6)
 
-def test_circle_compare():
+def test_circle_compare_gt():
     #
     # Test setup.
     c1 = Circle(2)
     c2 = Circle(4)
-    c1 > c2
     #
     # Print debug statements (in case of failure).
     debug_print_attributes(c1)
     debug_print_attributes(c2)
     #
     # Assertion.
-    assert False
+    assert (c2 > c1) is True
     # #
     # # Test setup.
     # c1 < c2
