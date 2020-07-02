@@ -146,8 +146,8 @@ def test_from_diameter():
     debug_print_attributes(c1)
     #
     # Assertion.
-    assert c.diameter == 4
-    assert c.radius == 2
+    assert c1.diameter == 4
+    assert c1.radius == 2
 
 
 def test_circle_ge():
@@ -241,3 +241,18 @@ def test_circle_sort_key():
     #
     # Assertion.
     assert circles == [Circle(1), Circle(2), Circle(3), Circle(4), Circle(5)]
+
+
+def test_sphere_radius():
+    #
+    # Test setup.
+    s1 = Sphere(2)
+    s2 = Sphere(4)
+    #
+    # Print debug statements (in case of failure).
+    debug_print_attributes(s1)
+    debug_print_attributes(s2)
+    #
+    # Assertion.
+    assert s1.radius == 2
+    assert s2.radius == 4
