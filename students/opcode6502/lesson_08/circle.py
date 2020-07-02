@@ -6,9 +6,11 @@ import math
 class Circle():
 
     def __init__(self, radius):
+        self._area = None
+        self._diameter = None
         self.radius = radius
 
-    @ property
+    @property
     def area(self):
         return self.radius ** 2 * math.pi
 
@@ -22,7 +24,11 @@ class Circle():
 
     @diameter.setter
     def diameter(self, value):
+        self._diameter = value
         self.radius = value / 2
+
+    def sort_key(self):
+        return self.radius
 
     def __add__(self, other):
         return Circle(self.radius + other.radius)
@@ -47,9 +53,6 @@ class Circle():
 
     def __repr__(self):
         return 'Circle({})'.format(self.radius)
-
-    def __rmul__(self, other):
-        return Circle(self.radius * other.radius)
 
     def __str__(self):
         return 'Circle: Radius: {}'.format(self.radius)
