@@ -119,7 +119,7 @@ def test_circle_add():
     assert result == Circle(6)
 
 
-def test_circle_compare_eq():
+def test_circle_eq_01():
     #
     # Test setup.
     c1 = Circle(2)
@@ -133,7 +133,7 @@ def test_circle_compare_eq():
     assert (c2 == c1) is True
 
 
-def test_circle_compare_eq_02():
+def test_circle_eq_02():
     #
     # Test setup.
     c1 = Circle(4)
@@ -148,7 +148,7 @@ def test_circle_compare_eq_02():
     assert (c1 == c2) is True
 
 
-def test_circle_compare_ge():
+def test_circle_ge():
     #
     # Test setup.
     c1 = Circle(2)
@@ -162,7 +162,7 @@ def test_circle_compare_ge():
     assert (c2 >= c1) is True
 
 
-def test_circle_compare_gt():
+def test_circle_gt():
     #
     # Test setup.
     c1 = Circle(2)
@@ -176,7 +176,7 @@ def test_circle_compare_gt():
     assert (c2 > c1) is True
 
 
-def test_circle_compare_le():
+def test_circle_le():
     #
     # Test setup.
     c1 = Circle(2)
@@ -190,8 +190,7 @@ def test_circle_compare_le():
     assert (c1 <= c2) is True
 
 
-
-def test_circle_compare_lt():
+def test_circle_lt():
     #
     # Test setup.
     c1 = Circle(2)
@@ -203,3 +202,17 @@ def test_circle_compare_lt():
     #
     # Assertion.
     assert (c1 < c2) is True
+
+
+def test_circle_sort_key():
+    #
+    # Test setup.
+    circles = [Circle(5), Circle(1), Circle(4), Circle(3), Circle(2)]
+    circles.sort(key=Circle.sort_key)
+    #
+    # Print debug statements (in case of failure).
+    print(circles)
+    #
+    # Assertion.
+    assert circles == [Circle(1), Circle(2), Circle(3), Circle(4), Circle(5)]
+
