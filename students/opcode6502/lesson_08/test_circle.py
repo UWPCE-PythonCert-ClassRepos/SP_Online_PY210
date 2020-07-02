@@ -130,7 +130,7 @@ def test_circle_eq_01():
     debug_print_attributes(c2)
     #
     # Assertion.
-    assert (c2 == c1) is True
+    assert (c1 == c2) is True
 
 
 def test_circle_eq_02():
@@ -202,6 +202,18 @@ def test_circle_lt():
     #
     # Assertion.
     assert (c1 < c2) is True
+
+
+def test_circle_mul():
+    #
+    # Test setup.
+    c1 = Circle(5)
+    #
+    # Print debug statements (in case of failure).
+    debug_print_attributes(c1)
+    #
+    # Assertion.
+    assert repr(c1 * 5) == repr(Circle(25))
 
 
 def test_circle_sort_key():
