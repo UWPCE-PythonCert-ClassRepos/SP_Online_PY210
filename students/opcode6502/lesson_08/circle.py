@@ -66,12 +66,16 @@ class Circle():
 
 class Sphere(Circle):
 
+    @property
+    def area(self):
+        return (4 * math.pi * self.radius ** 2)
+
+    @property
+    def volume(self):
+        return (4 / 3 * math.pi * self.radius ** 3)
+
     def __repr__(self):
         return 'Sphere({})'.format(self.radius)
 
     def __str__(self):
         return 'Sphere: Radius: {}'.format(self.radius)
-
-    @property
-    def volume(self):
-        return (4 / 3 * math.pi * self.radius ** 3)
