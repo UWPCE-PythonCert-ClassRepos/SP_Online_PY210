@@ -1,7 +1,9 @@
 # circle.py
 # opcode6502: SP_Online_PY210
 
+
 import math
+
 
 class Circle():
 
@@ -60,3 +62,9 @@ class Circle():
 
     def __str__(self):
         return 'Circle: Radius: {}'.format(self.radius)
+
+
+class Sphere(Circle):
+
+    def __repr__(self):
+        return 'Sphere: Radius: {}'.format(self.radius)
