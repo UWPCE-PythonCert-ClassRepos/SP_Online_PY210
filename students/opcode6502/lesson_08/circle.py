@@ -27,6 +27,10 @@ class Circle():
         self._diameter = value
         self.radius = value / 2
 
+    @classmethod
+    def from_diameter(cls, diameter):
+        return cls(diameter / 2)
+
     def sort_key(self):
         return self.radius
 
