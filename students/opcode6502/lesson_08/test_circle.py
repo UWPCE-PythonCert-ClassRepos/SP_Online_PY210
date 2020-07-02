@@ -134,17 +134,18 @@ def test_circle_compare_eq():
 
 
 def test_circle_compare_eq_02():
-    # #
-    # # Test setup.
-    # c3 = Circle(4)
-    # c2 == c3
-    # #
-    # # Print debug statements (in case of failure).
-    # debug_print_attributes(c1)
-    # debug_print_attributes(c2)
-    # #
-    # # Assertion.
-    # assert True
+    #
+    # Test setup.
+    c1 = Circle(4)
+    c2 = Circle(1)
+    c2 = c1
+    #
+    # Print debug statements (in case of failure).
+    debug_print_attributes(c1)
+    debug_print_attributes(c2)
+    #
+    # Assertion.
+    assert (c1 == c2) is True
 
 
 def test_circle_compare_gt():
