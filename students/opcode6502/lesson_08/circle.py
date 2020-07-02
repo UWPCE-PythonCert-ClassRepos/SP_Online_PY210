@@ -36,5 +36,8 @@ class Circle():
     def __gt__(self, other):
         return self.radius > other.radius
 
+    def __le__(self, other):
+        return self.radius <= other.radius
+
     def __lt__(self, other):
         return self.radius < other.radius
