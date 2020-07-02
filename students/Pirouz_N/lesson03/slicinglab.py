@@ -495,7 +495,7 @@ class TestSlicing(unittest.TestCase):
         self.assertRaisesRegex(ValueError, 'Minimum length of sequence is 3.', thirds_last_first_middle_deep, [1])
         self.assertRaisesRegex(ValueError, 'Minimum length of sequence is 3.', thirds_last_first_middle_deep, (1, 2))
         self.assertRaisesRegex(ValueError, 'Minimum length of sequence is 3.', thirds_last_first_middle_deep, '')
-        
+
 
 if __name__ == "__main__":
     # run some unit tests on everything
