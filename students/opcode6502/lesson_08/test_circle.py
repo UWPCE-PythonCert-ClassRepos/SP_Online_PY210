@@ -243,6 +243,22 @@ def test_circle_sort_key():
     assert circles == [Circle(1), Circle(2), Circle(3), Circle(4), Circle(5)]
 
 
+
+def test_sphere_diameter():
+    #
+    # Test setup.
+    s1 = Sphere(2)
+    s2 = Sphere(4)
+    #
+    # Print debug statements (in case of failure).
+    debug_print_attributes(s1)
+    debug_print_attributes(s2)
+    #
+    # Assertion.
+    assert s1.diameter == 4
+    assert s2.diameter == 8
+
+
 def test_sphere_radius():
     #
     # Test setup.
