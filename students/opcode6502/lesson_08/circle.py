@@ -41,3 +41,15 @@ class Circle():
 
     def __lt__(self, other):
         return self.radius < other.radius
+
+    def __mul__(self, other):
+        return Circle(self.radius * other.radius)
+
+    def __repr__(self):
+        return 'Circle({})'.format(self.radius)
+
+    def __rmul__(self, other):
+        return Circle(self.radius * other.radius)
+
+    def __str__(self):
+        return 'Circle: Radius: {}'.format(self.radius)
