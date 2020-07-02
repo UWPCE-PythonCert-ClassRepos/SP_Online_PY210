@@ -74,6 +74,12 @@ class Sphere(Circle):
     def volume(self):
         return (4 / 3 * math.pi * self.radius ** 3)
 
+    def __add__(self, other):
+        return Sphere(self.radius + other.radius)
+
+    def __mul__(self, other):
+        return Sphere(self.radius * other)
+
     def __repr__(self):
         return 'Sphere({})'.format(self.radius)
 
