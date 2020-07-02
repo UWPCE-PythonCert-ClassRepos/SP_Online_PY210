@@ -32,37 +32,37 @@ def test_circle_add():
 def test_circle_area():
     #
     # Test setup.
-    c = Circle(2)
+    c1 = Circle(2)
     #
     # Print debug statements (in case of failure).
-    debug_print_attributes(c)
+    debug_print_attributes(c1)
     #
     # Assertion.
-    assert c.area == 12.566370614359172
+    assert c1.area == 12.566370614359172
     #
     # Test setup.
-    c = Circle(5)
+    c1 = Circle(5)
     #
     # Print debug statements (in case of failure).
-    debug_print_attributes(c)
+    debug_print_attributes(c1)
     #
     # Assertion.
-    assert c.area == 78.53981633974483
+    assert c1.area == 78.53981633974483
 
 
 def test_circle_area_setter():
     #
     # Test setup.
-    c = Circle(2)
+    c1 = Circle(2)
     #
     #
     try:
         #
         # Test setup.
-        c.area = 5
+        c1.area = 5
         #
         # If this succeeds, assert False.
-        debug_print_attributes(c)
+        debug_print_attributes(c1)
         #
         # Assertion.
         assert False
@@ -75,7 +75,7 @@ def test_circle_area_setter():
     except Exception as e:
         #
         # Anything else, print the debug attributes and assert False.
-        debug_print_attributes(c)
+        debug_print_attributes(c1)
         print(e)
         #
         # Assertion.
@@ -85,27 +85,27 @@ def test_circle_area_setter():
 def test_circle_diameter():
     #
     # Test setup.
-    c = Circle(4)
+    c1 = Circle(4)
     #
     # Print debug statements (in case of failure).
-    debug_print_attributes(c)
+    debug_print_attributes(c1)
     #
     # Assertion.
-    assert c.diameter == 8
+    assert c1.diameter == 8
 
 
 def test_circle_diameter_setter():
     #
     # Test setup.
-    c = Circle(4)
-    c.diameter = 2
+    c1 = Circle(4)
+    c1.diameter = 2
     #
     # Print debug statements (in case of failure).
-    debug_print_attributes(c)
+    debug_print_attributes(c1)
     #
     # Assertion.
-    assert c.radius == 1
-    assert c.diameter == 2
+    assert c1.radius == 1
+    assert c1.diameter == 2
 
 
 def test_circle_eq_01():
@@ -221,13 +221,19 @@ def test_circle_mul():
 def test_circle_radius():
     #
     # Test setup.
-    c = Circle(4)
+    c1 = Circle(4)
     #
     # Print debug statements (in case of failure).
-    debug_print_attributes(c)
+    debug_print_attributes(c1)
     #
     # Assertion.
-    assert c.radius == 4
+    assert c1.radius == 4
+
+
+def test_circle_str():
+    #
+    # Assertion.
+    assert str(Circle(100)) == "Circle: Radius: 100"
 
 
 def test_circle_sort_key():
