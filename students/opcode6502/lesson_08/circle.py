@@ -49,7 +49,7 @@ class Circle():
         return self.radius < other.radius
 
     def __mul__(self, other):
-        return Circle(self.radius * other.radius)
+        return Circle(self.radius * other)
 
     def __repr__(self):
         return 'Circle({})'.format(self.radius)
