@@ -3,8 +3,9 @@
 
 class Donor:
 
-    def __init__(self, name):
+    def __init__(self, name, donations=[]):
         self.name = name
+        self.donations = donations
 
 class DonorCollection:
     pass
