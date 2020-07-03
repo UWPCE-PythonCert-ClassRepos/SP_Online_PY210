@@ -3,3 +3,6 @@
 
 class Donor:
     pass
+
+class DonorCollection:
+    pass
