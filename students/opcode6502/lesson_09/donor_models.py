@@ -2,7 +2,9 @@
 # opcode6502: SP_Online_PY210
 
 class Donor:
-    pass
+
+    def __init__(self, name):
+        self.name = name
 
 class DonorCollection:
     pass
