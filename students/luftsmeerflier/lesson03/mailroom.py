@@ -112,7 +112,7 @@ def lookup(first_name, last_name):
 			return donor
 		else:
 			print("That donor is not on the list")
-			send_thank_you()
+			main()
 
 
 #def create_report():
@@ -149,7 +149,7 @@ def create_report():
 		average_gift = round(total / num_gifts, 2)
 		donor_list.append([donor['first'], donor['last'], total, num_gifts, average_gift])
 	donor_list.sort(key = lambda donor_list: donor_list[2])
-	#print(donor_list[::-1])
+	donor_list = donor_list[::-1]
 
 	#print(donor_list[0].ljust(20) + donor_list[1].ljust(10) + donor_list[2].ljust(20) + donor_list[3].ljust(8))
 	# print(donor_list[0].ljust(20))
@@ -158,19 +158,23 @@ def create_report():
 
 	for donor in donor_list:
 		print(str((donor[0]) + ' ' + str(donor[1])).ljust(30) + '$'.ljust(2) + str(donor[2]).ljust(15) + str(donor[3]).ljust(10) + '$'.ljust(2) + str(donor[4]))
+	print("\n")
 
+	main()
 
 
 def main():
-	# select = input("Would you like to:\na: Send a Thank You\nb: Create a Report\nc: quit\n(Type either a, b, or c, then press enter)\n").lower()
-	# if select not in ['a', 'b', 'c']:
-	# 	print("Come again?\n")
-	# 	main()
+	select = input("Would you like to:\na: Send a Thank You\nb: Create a Report\nc: quit\n(Type either a, b, or c, then press enter)\n").lower()
+	if select not in ['a', 'b', 'c']:
+		print("Come again?\n")
+		main()
 
-	# if select == 'a':
-	# 	send_thank_you()
-	#print(total_amount("John", "Quigley"))
-	print(create_report())
+	if select == 'a':
+	 	send_thank_you()
+	elif select == 'b':
+		print(create_report())
+	elif select == 'c':
+		quit()
 
 
 	
