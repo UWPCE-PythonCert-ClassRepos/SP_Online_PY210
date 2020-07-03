@@ -8,6 +8,8 @@ import sys
 #               No space after print; whitespace around assignment operators;
 #
 #
+#
+#
 # slice lab
 # Write some functions that take a sequence as an argument, and return a copy of that sequence:
 #

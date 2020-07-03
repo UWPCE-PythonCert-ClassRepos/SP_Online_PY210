@@ -5,6 +5,7 @@ import sys
 # 20200623    djm list lab revised per comments from Natasha June 23, 2020
 # 20200701    djm list lab revised per comments email Mon 6/29/2020 5:22 PM
 #               No space after print; whitespace around assignment operators;
+# added
 #
 #
 # Duane McCollum Python self-paced winter 2020
