@@ -48,8 +48,11 @@ class Donor:
         """
         return sum(self.donations)
 
-    def thank_you_message(self, amount):
-        return ('Thank you: Donor: {} Amount: ${:.2f}'.format(self.name, amount))
+    def thank_you_message(self):
+        """
+        This property returns a thank you message.
+        """
+        return ('Thank you: Donor: {}: Amount: ${}').format(self.name, self.donations[-1])
 
 
 class DonorCollection:
