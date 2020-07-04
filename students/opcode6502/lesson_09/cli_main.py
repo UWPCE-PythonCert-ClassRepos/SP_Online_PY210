@@ -52,6 +52,19 @@ def create_main_menu():
         print_error_message('e: ' + str(e))
 
 
+
+def get_user_response():
+    # Get 'user_response' (any input) and test input.
+    try:
+        user_response = input('[ INPUT ]: ')
+        return user_response
+    except KeyboardInterrupt:
+        exit_script_ctrl_c()
+    except Exception as e:
+        print_error_message('get_user_response(): try: user_response: Error!')
+        print_error_message('e: ' + str(e))
+
+
 def get_user_response_integer():
     # Get 'user_response' (integer only) and test input.
     try:
@@ -62,8 +75,6 @@ def get_user_response_integer():
     except Exception as e:
         print_error_message('get_user_response_integer(): Error!')
         print_error_message('e: ' + str(e))
-
-
 
 
 def print_main_menu():
@@ -155,7 +166,7 @@ def print_send_thank_you_menu():
     try:
         send_thank_you_menu = dict()
     except Exception as e:
-        print_error_message('create_donors_db(): Error!')
+        print_error_message('print_send_thank_you_menu(): Error!')
         print_error_message('e: ' + str(e))
     #
     # Populate 'send_thank_you_menu'.

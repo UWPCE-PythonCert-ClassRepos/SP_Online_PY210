@@ -48,6 +48,9 @@ class Donor:
         """
         return sum(self.donations)
 
+    def thank_you_message(self, amount):
+        return ('Thank you: Donor: {} Amount: ${:.2f}'.format(self.name, amount))
+
 
 class DonorCollection:
     """
