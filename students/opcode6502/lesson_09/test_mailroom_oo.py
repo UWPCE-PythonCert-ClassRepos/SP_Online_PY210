@@ -157,8 +157,8 @@ def test_donor_collection_type():
     #
     # Docstring.
     """
-    This will test that new DonorCollection objects
-    are of type DonorCollection.
+    This will test that new DonorCollection objects are of type
+    DonorCollection.
     """
     #
     # Test setup.
