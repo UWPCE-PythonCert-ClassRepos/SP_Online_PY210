@@ -117,3 +117,22 @@ def test_sum_donations():
     #
     # Assertion.
     assert d.sum_donations == 902.34
+
+
+def test_thank_you_message():
+    #
+    # Docstring.
+    """
+    This will test creating a thank you message.
+    """
+    #
+    # Test setup.
+    d = Donor('Archie Adams', [123.45])
+    thank_you_message = 'Thank you: Donor: Archie Adams: Amount: $123.45'
+    # assert False
+    #
+    # Debug statement; print data if we fail the assert.
+    print_debug_statement(d)
+    #
+    # Assertion.
+    assert d.thank_you_message() == thank_you_message
