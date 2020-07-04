@@ -60,4 +60,10 @@ class DonorCollection:
     The DonorCollection() class represents a DonorCollection
     and all related functionality.
     """
-    pass
+
+    def __init__(self):
+        '''
+        This will initialize a DonorCollection object.
+        This will create a new list 'donors_db'.
+        '''
+        self.donors_db = []
