@@ -7,10 +7,11 @@ from donor_models import *
 
 
 def print_debug_statement(d):
-    print('d.name:            ' + str(d.name))
-    print('d.donations:       ' + str(d.donations))
-    print('d.num_donations:   ' + str(d.num_donations))
-    print('d.sum_donations:   ' + str(d.sum_donations))
+    print('d.name:                ' + str(d.name))
+    print('d.donations:           ' + str(d.donations))
+    print('d.average_donation:    ' + str(d.average_donation))
+    print('d.num_donations:       ' + str(d.num_donations))
+    print('d.sum_donations:       ' + str(d.sum_donations))
 
 
 def test_donor_init_donations():
@@ -65,6 +66,23 @@ def test_add_donation():
     #
     # Assertion.
     assert d.donations == [123.45]
+
+
+def test_average_donations():
+    #
+    # Docstring.
+    """
+    This will test the average amount of donations for a given Donor.
+    """
+    #
+    # Test setup.
+    d = Donor('Archie Adams', [150, 300, 450])
+    #
+    # Debug statement; print data if we fail the assert.
+    print_debug_statement(d)
+    #
+    # Assertion.
+    assert d.average_donation == 300
 
 
 def test_num_donations():
