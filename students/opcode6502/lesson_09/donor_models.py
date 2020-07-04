@@ -8,6 +8,9 @@ class Donor:
         self.name = name
         self.donations = donations
 
+    def add_donation(self, donation=[]):
+        self.donations.extend(donation)
+
 
 class DonorCollection:
     pass
