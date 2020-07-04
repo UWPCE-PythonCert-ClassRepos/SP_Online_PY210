@@ -152,3 +152,19 @@ def test_donor_type():
     #
     # Assertion.
     assert type(d) is Donor
+
+def test_donor_collection_type():
+    #
+    # Docstring.
+    """
+    This will test that new Donor objects are of type Donor.
+    """
+    #
+    # Test setup.
+    dc = DonorCollection()
+    #
+    # Debug statement; print data if we fail the assert.
+    print(dc)
+    #
+    # Assertion.
+    assert type(dc) is DonorCollection
