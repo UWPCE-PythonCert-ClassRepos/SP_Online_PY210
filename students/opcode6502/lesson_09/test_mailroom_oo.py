@@ -14,6 +14,41 @@ def print_debug_statement(d):
     print('d.sum_donations:       ' + str(d.sum_donations))
 
 
+def test_donor_add_donation():
+    #
+    # Docstring.
+    """
+    This will test adding a donation for a given Donor.
+    """
+    #
+    # Test setup.
+    d = Donor('Archie Adams')
+    d.add_donation([123.45])
+    #
+    # Debug statement; print data if we fail the assert.
+    print_debug_statement(d)
+    #
+    # Assertion.
+    assert d.donations == [123.45]
+
+
+def test_donor_average_donations():
+    #
+    # Docstring.
+    """
+    This will test the average amount of donations for a given Donor.
+    """
+    #
+    # Test setup.
+    d = Donor('Archie Adams', [150, 300, 450])
+    #
+    # Debug statement; print data if we fail the assert.
+    print_debug_statement(d)
+    #
+    # Assertion.
+    assert d.average_donation == 300
+
+
 def test_donor_init_donations():
     #
     # Docstring.
@@ -48,41 +83,6 @@ def test_donor_init_name():
     #
     # Assertion.
     assert d.name == 'Archie Adams'
-
-
-def test_donor_add_donation():
-    #
-    # Docstring.
-    """
-    This will test adding a donation for a given Donor.
-    """
-    #
-    # Test setup.
-    d = Donor('Archie Adams')
-    d.add_donation([123.45])
-    #
-    # Debug statement; print data if we fail the assert.
-    print_debug_statement(d)
-    #
-    # Assertion.
-    assert d.donations == [123.45]
-
-
-def test_donor_average_donations():
-    #
-    # Docstring.
-    """
-    This will test the average amount of donations for a given Donor.
-    """
-    #
-    # Test setup.
-    d = Donor('Archie Adams', [150, 300, 450])
-    #
-    # Debug statement; print data if we fail the assert.
-    print_debug_statement(d)
-    #
-    # Assertion.
-    assert d.average_donation == 300
 
 
 def test_donor_num_donations():
