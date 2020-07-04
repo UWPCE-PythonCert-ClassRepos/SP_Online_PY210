@@ -50,7 +50,7 @@ def test_donor_init_name():
     assert d.name == 'Archie Adams'
 
 
-def test_add_donation():
+def test_donor_add_donation():
     #
     # Docstring.
     """
@@ -68,7 +68,7 @@ def test_add_donation():
     assert d.donations == [123.45]
 
 
-def test_average_donations():
+def test_donor_average_donations():
     #
     # Docstring.
     """
@@ -85,7 +85,7 @@ def test_average_donations():
     assert d.average_donation == 300
 
 
-def test_num_donations():
+def test_donor_num_donations():
     #
     # Docstring.
     """
@@ -102,7 +102,7 @@ def test_num_donations():
     assert d.num_donations == 5
 
 
-def test_sum_donations():
+def test_donor_sum_donations():
     #
     # Docstring.
     """
@@ -119,7 +119,7 @@ def test_sum_donations():
     assert d.sum_donations == 902.34
 
 
-def test_thank_you_message():
+def test_donor_thank_you_message():
     #
     # Docstring.
     """
