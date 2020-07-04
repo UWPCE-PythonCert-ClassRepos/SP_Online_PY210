@@ -62,8 +62,8 @@ class DonorCollection:
     """
 
     def __init__(self):
-        '''
+        """
         This will initialize a DonorCollection object.
         This will create a new list 'donors_db'.
-        '''
+        """
         self.donors_db = []
