@@ -129,10 +129,26 @@ def test_donor_thank_you_message():
     # Test setup.
     d = Donor('Archie Adams', [123.45])
     thank_you_message = 'Thank you: Donor: Archie Adams: Amount: $123.45'
-    # assert False
     #
     # Debug statement; print data if we fail the assert.
     print_debug_statement(d)
     #
     # Assertion.
     assert d.thank_you_message() == thank_you_message
+
+
+def test_donor_type():
+    #
+    # Docstring.
+    """
+    This will test that new Donor objects are of type Donor.
+    """
+    #
+    # Test setup.
+    d = Donor('Archie Adams', [123.45])
+    #
+    # Debug statement; print data if we fail the assert.
+    print_debug_statement(d)
+    #
+    # Assertion.
+    assert type(d) is Donor
