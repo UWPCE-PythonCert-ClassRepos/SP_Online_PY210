@@ -14,10 +14,10 @@ def add_to_dict(database, key, value):
 
 
 def check_user_response(user_response):
-    # #
-    # # Check 'user_response'.
-    # if user_response == 1:
-    #     send_thank_you()
+    #
+    # Check 'user_response'.
+    if user_response == 1:
+        send_thank_you()
     # elif user_response == 2:
     #     create_report(donors_db)
     # elif user_response == 3:
@@ -33,8 +33,6 @@ def check_user_response(user_response):
     #     list_donor_names(donors_db)
     # elif user_response == 7:
     #     add_donation(donors_db, 'Donor 10', float(100.00))
-    # elif user_response == 8:
-    #     comprehensions_test()
     # #
     # # [ ERROR ]: message.
     # else:
@@ -84,7 +82,6 @@ def print_main_menu():
     add_to_dict(main_menu, '08', '[     5 ]: [ DEBUG ]: print_database(donors_db)')
     add_to_dict(main_menu, '09', '[     6 ]: [ DEBUG ]: list_donor_names(donors_db)')
     add_to_dict(main_menu, '10', '[     7 ]: [ DEBUG ]: add_donation(donors_db, \'Donor 10\', float(100.00))')
-    add_to_dict(main_menu, '11', '[     8 ]: [ DEBUG ]: comprehensions_test()')
     #
     # Print the 'main_menu'.
     # Note: This for loop just prints data; not a Comprehension candidate.
@@ -150,6 +147,73 @@ def print_error_message(message):
     # Debug message.
     print_debug_header_line()
     print('[ ERROR ]: ' + str(message))
+
+
+def print_send_thank_you_menu():
+    #
+    # Create 'send_thank_you_menu'.
+    try:
+        send_thank_you_menu = dict()
+    except Exception as e:
+        print_error_message('create_donors_db(): Error!')
+        print_error_message('e: ' + str(e))
+    #
+    # Populate 'send_thank_you_menu'.
+    add_to_dict(send_thank_you_menu, '01', '[ ----- ]: -------------------------------------------------------')
+    add_to_dict(send_thank_you_menu, '02', '[ DONOR ]: Select an option:')
+    add_to_dict(send_thank_you_menu, '03', '[ ----- ]: -------------------------------------------------------')
+    add_to_dict(send_thank_you_menu, '04', '[     1 ]: Type: \'list\'')
+    add_to_dict(send_thank_you_menu, '05', '[       ]:        Display a list of donors.')
+    add_to_dict(send_thank_you_menu, '06', '[     2 ]: Type: \'Existing Donor\'s Name\'')
+    add_to_dict(send_thank_you_menu, '07', '[       ]:        Add a new donation for a donor.')
+    add_to_dict(send_thank_you_menu, '08', '[     3 ]: Type: \'New Donor\'s Name\'')
+    add_to_dict(send_thank_you_menu, '09', '[       ]:        Create a new donor.')
+    add_to_dict(send_thank_you_menu, '10', '[     4 ]: Type: \'main\'')
+    add_to_dict(send_thank_you_menu, '11', '[       ]:        Return to the Main Menu.')
+    #
+    # Note: This for loop just prints data; not a Comprehension candidate.
+    for value in send_thank_you_menu:
+        print(send_thank_you_menu[value])
+
+
+def send_thank_you():
+    while True:
+        #
+        # Print the 'send_thank_you_menu'.
+        print_send_thank_you_menu()
+        #
+        # Get user_response.
+        user_response = get_user_response()
+        #
+        # Check user_response.
+        if user_response.lower() == 'list':
+            list_donor_names(donors_db)
+            continue
+        elif user_response.lower() == 'main':
+            break
+        for key, value in donors_db.items():
+            if user_response == key:
+                #
+                # Get the donation amount.
+                try:
+                    donation_amount = input('[ INPUT ]: Amount to add for {}: '.format(user_response))
+                except KeyboardInterrupt:
+                    exit_script_ctrl_c()
+                except Exception as e:
+                    print_error_message('send_thank_you(): try: donation_amount: Error!')
+                    print_error_message('e: ' + str(e))
+                    break
+                #
+                # Add the donation; check for success.
+                if add_donation(donors_db, user_response, donation_amount):
+                    #
+                    # If we succeeded, print the thank you mail.
+                    print_thank_you_message(key, donation_amount)
+                #
+                # We have to break here.
+                break
+        else:
+            create_donor(donors_db, user_response)
 
 
 if __name__=='__main__':
