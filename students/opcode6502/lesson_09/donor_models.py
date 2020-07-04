@@ -23,6 +23,13 @@ class Donor:
         self.donations.extend(donation)
 
     @property
+    def num_donations(self):
+        """
+        This property returns the total number of donations for a given donor.
+        """
+        return len(self.donations)
+
+    @property
     def sum_donations(self):
         """
         This property returns a sum of all donations for a given donor.
