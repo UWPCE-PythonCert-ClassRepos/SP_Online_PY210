@@ -9,6 +9,8 @@ from donor_models import *
 def print_debug_statement(d):
     print('d.name:            ' + str(d.name))
     print('d.donations:       ' + str(d.donations))
+    print('d.num_donations:   ' + str(d.num_donations))
+    print('d.sum_donations:   ' + str(d.sum_donations))
 
 
 def test_donor_init_donations():
@@ -63,6 +65,23 @@ def test_add_donation():
     #
     # Assertion.
     assert d.donations == [123.45]
+
+
+def test_num_donations():
+    #
+    # Docstring.
+    """
+    This will test how many donations there are for a given Donor.
+    """
+    #
+    # Test setup.
+    d = Donor('Archie Adams', [123.45, 678.90, 99.99, 100.01, 0.00])
+    #
+    # Debug statement; print data if we fail the assert.
+    print_debug_statement(d)
+    #
+    # Assertion.
+    assert d.num_donations == 5
 
 
 def test_sum_donations():
