@@ -23,6 +23,18 @@ class Donor:
         self.donations.extend(donation)
 
     @property
+    def average_donation(self):
+        """
+        This method returns the average donations for a given donor.
+        """
+        #
+        # We need to check for no donations to avoid a ZeroDivisionError.
+        if self.num_donations == 0:
+            return 0
+        else:
+            return self.sum_donations / self.num_donations
+
+    @property
     def num_donations(self):
         """
         This property returns the total number of donations for a given donor.
