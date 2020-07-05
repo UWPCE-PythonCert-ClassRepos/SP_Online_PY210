@@ -1,3 +1,6 @@
+# test_html_render.py
+# opcode6502: SP_Online_PY210
+
 """
 test code for html_render.py
 
@@ -40,7 +43,6 @@ def test_init():
     some content -- but it's a start
     """
     e = Element()
-
     e = Element("this is some text")
 
 
@@ -65,9 +67,8 @@ def test_render_element():
     e = Element("this is some text")
     e.append("and this is some more text")
 
-    # This uses the render_result utility above
+    # This uses the render_results utility above
     file_contents = render_result(e).strip()
-    print(file_contents)
 
     # making sure the content got in there.
     assert("this is some text") in file_contents
@@ -79,9 +80,6 @@ def test_render_element():
     # making sure the opening and closing tags are right.
     assert file_contents.startswith("<html>")
     assert file_contents.endswith("</html>")
-    
-    assert file_contents.count("<html>") == 1
-    assert file_contents.count("</html>") == 1 
 
 # Uncomment this one after you get the one above to pass
 # Does it pass right away?
@@ -111,10 +109,9 @@ def test_render_element2():
     assert file_contents.endswith("</html>")
 
 
-
-########
-# Step 2
-########
+# # ########
+# # # Step 2
+# # ########
 
 # tests for the new tags
 def test_html():
@@ -123,9 +120,8 @@ def test_html():
 
     file_contents = render_result(e).strip()
 
-    assert file_contents.startswith("<!DOCTYPE html>")
-    assert ("this is some text") in file_contents
-    assert ("and this is some more text") in file_contents
+    assert("this is some text") in file_contents
+    assert("and this is some more text") in file_contents
     print(file_contents)
     assert file_contents.endswith("</html>")
 
@@ -179,14 +175,12 @@ def test_sub_element():
     assert "</p>" in file_contents
 
 
-
-
 ########
 # Step 3
 ########
 
 # Add your tests here!
-# tests for new subclasses
+
 def test_head():
     e = Head("this is some text")
     e.append("and this is some more text")
@@ -198,7 +192,8 @@ def test_head():
 
     assert file_contents.startswith("<head>")
     assert file_contents.endswith("</head>")
-    
+
+
 def test_title():
     e = Title("This is a Title")
 
@@ -210,28 +205,27 @@ def test_title():
     assert file_contents.endswith("</title>")
     assert "\n" not in file_contents
 
+
 def test_one_line_tag_append():
-    """ You should not be able to append content to a OneLineTag.
+    """
+    You should not be able to append content to a OneLineTag
     """
     e = OneLineTag("the initial content")
     with pytest.raises(NotImplementedError):
         e.append("some more content")
-    
-    file_contents = render_result(e).strip()
-    print(file_contents)
-
 
 
 ########
 # Step 4
 ########
 
+
 def test_attributes():
     e = P("A paragraph of text", style="text-align: center", id="intro")
-    
+
     file_contents = render_result(e).strip()
-    print(file_contents) # so we can see it if the test fails
-    
+    print(file_contents)  # so we can see it if the test fails
+
     # note: The previous tests should make sure that the tags are getting
     #       properly rendered, so we don't need to test that here.
     #       so using only a "P" tag is fine
@@ -239,40 +233,42 @@ def test_attributes():
     # but make sure the embedded element's tags get rendered!
     # first test the end tag is there -- same as always:
     assert file_contents.endswith("</p>")
-    
+
     # but now the opening tag is far more complex
     # but it starts the same:
     assert file_contents.startswith("<p ") # make sure there's space after the p
-    
+
     # order of the tags is not important in html, so we need to
     # make sure not to test for that
     # but each attribute should be there:
     assert 'style="text-align: center"' in file_contents
     assert 'id="intro"' in file_contents
-    
-    # there should be a closing bracket to the opening tag
+
+    # # just to be sure -- there should be a closing bracket to the opening tag
     assert file_contents[:-1].index(">") > file_contents.index('id="intro"')
     assert file_contents[:file_contents.index(">")].count(" ") == 3
-
 
 
 ########
 # Step 5
 ########
 
+
 def test_hr():
-    """A simple horizontal rule with no attributes."""
+    """a simple horizontal rule with no attributes"""
     hr = Hr()
     file_contents = render_result(hr)
     print(file_contents)
     assert file_contents == '<hr />\n'
-   
+
+
 def test_hr_attr():
-    """A horizontal rule with an attribute."""
+    """a horizontal rule with an attribute"""
     hr = Hr(width=400)
     file_contents = render_result(hr)
     print(file_contents)
     assert file_contents == '<hr width="400" />\n'
+
 
 def test_br():
     br = Br()
@@ -280,9 +276,11 @@ def test_br():
     print(file_contents)
     assert file_contents == "<br />\n"
 
+
 def test_content_in_br():
     with pytest.raises(TypeError):
         br = Br("some content")
+
 
 def test_append_content_in_br():
     with pytest.raises(TypeError):
@@ -290,83 +288,70 @@ def test_append_content_in_br():
         br.append("some content")
 
 
-
 ########
 # Step 6
 ########
 
-def test_anchor():
-    a = A("http://google.com", "link to google")
-    file_contents = render_result(a)
-    print(file_contents)
-    assert file_contents.startswith('<a ')
 
+def test_a():
+    a = A('http://google.com', 'link to google')
+    file_contents = render_result(a).strip()
+    print(file_contents)
+    assert file_contents == '<a href="http://google.com">link to google</a>'
 
 
 ########
 # Step 7
 ########
 
-def test_Ul():
-    ul = Ul(id="TheList", style="line-height:200%")
-    file_contents = render_result(ul).strip()
-    print(file_contents)
-    
-    assert file_contents.startswith('<ul ')
-    assert file_contents.endswith('</ul>')
-    
-    assert ('id="TheList"') in file_contents
-    assert ('style="line-height:200%"') in file_contents  
-    
-def test_content_in_Li():
-    li = Li("The first item in a list")
-    
-    file_contents = render_result(li).strip()
-    print(file_contents)
-    
+
+def test_li():
+    l = Li('list')
+    file_contents = render_result(l).strip()
     assert file_contents.startswith('<li>')
+    assert 'list' in file_contents
     assert file_contents.endswith('</li>')
-    
-    assert ("The first item in a list") in file_contents
 
-def test_more_content_in_Li():
-    li = Li("This is the second item", style="color: red")
-    file_contents = render_result(li).strip()
-    print(file_contents)
-    
-    assert file_contents.startswith('<li ')
-    assert file_contents.endswith('</li>')
-    
-    assert ("This is the second item") in file_contents
-    assert ('style="color: red"') in file_contents
 
-def test_header():
-    h = H(2, "The text of the header")
-    file_contents = render_result(h)
-    print(file_contents)
-    
-    assert("The text of the header") in file_contents
-    assert file_contents.startswith("<h2>")
-    assert file_contents.endswith("</h2>\n")
+def test_ul():
+    u = Ul('ul')
+    file_contents = render_result(u).strip()
+    assert file_contents.startswith('<ul>')
+    assert 'ul' in file_contents
+    assert file_contents.endswith('</ul>')
 
+
+def test_h():
+    h = H(1, 'h')
+    file_contents = render_result(h).strip()
+    assert file_contents.startswith('<h1>')
+    assert 'h' in file_contents
+    assert file_contents.endswith('</h1>')
 
 
 ########
 # Step 8
 ########
 
+
+def test_html():
+    h = Html('h')
+    # Have to remove .strip() in this case.
+    file_contents = render_result(h)
+    assert file_contents.startswith('<!DOCTYPE html>')
+    assert('h') in file_contents
+    assert file_contents.endswith('</html>\n')
+
 def test_meta():
-    m = Meta()
-    file_contents = render_result(m)
-    print(file_contents)
-    assert file_contents == '<meta charset="UTF-8" />\n'
+    meta = Meta(charset="UTF-8")
+    file_contents = render_result(meta).strip()
+    assert file_contents == '<meta charset="UTF-8" />'
 
 
-
-#####################
-# indentation testing
-#  Uncomment for Step 9 -- adding indentation
-#####################
+# #####################
+# # indentation testing
+# #  Uncomment for Step 9 -- adding indentation
+# #####################
 
 
 def test_indent():
@@ -374,14 +359,13 @@ def test_indent():
     Tests that the indentation gets passed through to the renderer
     """
     html = Html("some content")
-    file_contents = render_result(html, ind="").rstrip()  #remove the end newline
+    file_contents = render_result(html, ind="   ").rstrip()  #remove the end newline
 
     print(file_contents)
     lines = file_contents.split("\n")
-    assert lines[0].startswith("<")
+    assert lines[0].startswith("   <")
     print(repr(lines[-1]))
-    assert lines[-1].startswith("<")
-    assert lines[-2].startswith("    ")
+    assert lines[-1].startswith("   <")
 
 
 def test_indent_contents():
@@ -423,7 +407,7 @@ def test_element_indent1():
 
     <html>
         this is some text
-    <\html>
+    <\\html>
 
     More complex indentation should be tested later.
     """
@@ -431,6 +415,7 @@ def test_element_indent1():
 
     # This uses the render_results utility above
     file_contents = render_result(e).strip()
+
     # making sure the content got in there.
     assert("this is some text") in file_contents
 
@@ -443,3 +428,10 @@ def test_element_indent1():
     assert lines[1].startswith(Element.indent + "thi")
     assert lines[2] == "</html>"
     assert file_contents.endswith("</html>")
+    print(file_contents)
+
+
+def test_debug():
+    # Section for additional tests.
+    e = Element()
+    e = Element("test_debug(): called.")
