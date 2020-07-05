@@ -1,8 +1,7 @@
-# test_mailroom.py
+# test_mailroom_oo.py
 # opcode6502: SP_Online_PY210
 
 
-import pytest
 from donor_models import *
 
 
@@ -14,6 +13,11 @@ def print_debug_statement(d):
     print('d.sum_donations:       ' + str(d.sum_donations))
 
 
+donors_db = {'Archie Adams': [123.45, 999.98],
+             'Billie Bobby': [987.65, 432.01]
+            }
+
+
 def test_donor_add_donation():
     #
     # Docstring.
@@ -22,14 +26,14 @@ def test_donor_add_donation():
     """
     #
     # Test setup.
-    d = Donor('Archie Adams')
-    d.add_donation([123.45])
+    d = Donor('Archie Adams', [123.45, 987.65, 999.99])
+    d.add_donation(123.45)
     #
     # Debug statement; print data if we fail the assert.
     print_debug_statement(d)
     #
     # Assertion.
-    assert d.donations == [123.45]
+    assert d.donations == [123.45, 987.65, 999.99, 123.45]
 
 
 def test_donor_average_donations():
@@ -128,7 +132,7 @@ def test_donor_thank_you_message():
     #
     # Test setup.
     d = Donor('Archie Adams', [123.45])
-    thank_you_message = 'Thank you: Donor: Archie Adams: Amount: $123.45'
+    thank_you_message = '[ THANK ]: Thank you: Donor: Archie Adams: Amount: $123.45'
     #
     # Debug statement; print data if we fail the assert.
     print_debug_statement(d)
@@ -152,20 +156,3 @@ def test_donor_type():
     #
     # Assertion.
     assert type(d) is Donor
-
-def test_donor_collection_type():
-    #
-    # Docstring.
-    """
-    This will test that new DonorCollection objects are of type
-    DonorCollection.
-    """
-    #
-    # Test setup.
-    dc = DonorCollection()
-    #
-    # Debug statement; print data if we fail the assert.
-    print(dc)
-    #
-    # Assertion.
-    assert type(dc) is DonorCollection
