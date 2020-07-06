@@ -40,12 +40,11 @@ def test_create_report():
     """Test expected donor data output after adding new donors and donations"""
     test = {'Ryan Doe': [2000, 2000], 'Jane Doe': [10000]}
     data = DonorCollection(**test)
-    expected_donor1 = 'Jane Doe             | 10000.00     |' + \
-                      ' 1          | 10000.00       '
-    expected_donor2 = 'Ryan Doe             | 4000.00      |' + \
-                      ' 2          | 2000.00        '
-    assert data.create_report()[0] == expected_donor1
-    assert data.create_report()[1] == expected_donor2
+    expected_donor = 'Jane Doe             | 10000.00     |' + \
+                     ' 1          | 10000.00       ' + '\n' + \
+                     'Ryan Doe             | 4000.00      |' + \
+                     ' 2          | 2000.00        '
+    assert '\n'.join(data.create_report()) == expected_donor
 
 
 def test_donation_count():
