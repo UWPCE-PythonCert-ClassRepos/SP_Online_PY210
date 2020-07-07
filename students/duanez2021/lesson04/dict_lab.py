@@ -5,8 +5,6 @@ import sys
 # 20200706    djm   Dictionary and Set Lab
 #
 #
-#
-#
 # https://uwpce-pythoncert.github.io/PythonCertDevel/exercises/dict_lab.html
 # #
 # # Dictionaries 1
@@ -73,8 +71,6 @@ print('Mango' in cakes.values())
 # #      "cake": 2
 # #     }
 # #
-
-
 
 cakes = {'name': 'Chris', 'city': 'Seattle', 'cake': 'Chocolate'}
 
@@ -156,5 +152,5 @@ print(s5.intersection(frz))
 
 
 
-
-
+x = tuple(range(1,11))
+print("{:d}\n{:d}\n{:d}\n{:d}\n{:d}\n{:d}\n{:d}\n{:d}\n{:d}\n{:d}".format(*x))
