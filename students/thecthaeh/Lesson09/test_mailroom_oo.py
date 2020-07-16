@@ -4,11 +4,11 @@
 
 """
 
+import os
 from donor_models import *
-import cli_main
 import pytest
 
-#tests for donor_models.py
+#tests for class Donor()
 def test_name():
     n = Donor("Harry Potter", 42)
     print(n.name)
@@ -69,13 +69,91 @@ def test_thank_you():
     
     assert t.thank_you == "Thank you, Harry Potter, for your generous donation of $42.00."
 
+
+#tests for class Donor_Collection()
+def test_donor_objects():
+    p = Donor("Harry Potter", 42)
+    g = Donor("Hermione Granger", 41)
+    w = Donor("Ron Weasley", 43)
+    trio = Donor_Collection(p, g, w)
+    
+    assert str(trio.donor_objects) == "{'Harry Potter': Donor(Harry Potter: [42]), 'Hermione Granger': Donor(Hermione Granger: [41]), 'Ron Weasley': Donor(Ron Weasley: [43])}"
+    
+def test_add_donor():
+    p = Donor("Harry Potter", 42)
+    g = Donor("Hermione Granger", 41)
+    w = Donor("Ron Weasley", 43)
+    trio = Donor_Collection(p, g, w)
+    print(trio.donor_objects)
+    
+    trio.add_donor_object(Donor("Draco Malfoy", 42))
+    print(trio.donor_objects)
+    
+    assert str(trio.donor_objects) == "{'Harry Potter': Donor(Harry Potter: [42]), 'Hermione Granger': Donor(Hermione Granger: [41]), 'Ron Weasley': Donor(Ron Weasley: [43]), 'Draco Malfoy': Donor(Draco Malfoy: [42])}"
+    
+def test_list_all_donors():
+    p = Donor("Harry Potter", 42)
+    g = Donor("Hermione Granger", 42)
+    w = Donor("Ron Weasley", 42)
+    trio = Donor_Collection(p, g, w)
+    
+    print(trio.list_all_donors())
+    
+    assert trio.list_all_donors() == "Harry Potter\nHermione Granger\nRon Weasley"
+
+def test_find_donor():
+    p = Donor("Harry Potter", 42)
+    g = Donor("Hermione Granger", 42)
+    w = Donor("Ron Weasley", 42)
+    trio = Donor_Collection(p, g, w)
+    
+    print(trio.donor_objects)
+    trio.find_donor("Draco Malfoy")
+    trio.find_donor("Harry Potter")
+    
+    print(trio.find_donor("Draco Malfoy"))
+    print(trio.find_donor("Harry Potter"))
+    
+    assert "Draco Malfoy" not in trio.donor_objects
+    assert trio.find_donor("Draco Malfoy") == "Draco Malfoy is not a current donor."
+    assert repr(trio.find_donor("Harry Potter")) == "Donor(Harry Potter: [42])"
+
+def test_donor_updates():
+    
+    p = Donor("Harry Potter", 42)
+    g = Donor("Hermione Granger", 41)
+    w = Donor("Ron Weasley", 43)
+    
+    trio = Donor_Collection(p, g, w)
+    trio.donor_letters()
+    
+    h_letter = os.path.exists(f"./{'Harry Potter'}.txt")
+    g_letter = os.path.exists(f"./{'Hermione Granger'}.txt")
+    
+    assert os.path.exists(h_letter)
+    assert os.path.exists(g_letter)
+
 def test_report():
     r = Donor("Harry Potter", 42)
     r.new_donation = 12
     r.new_donation = 5
     r.new_donation = 100
     
-    print(r.donor_info)
-    print(r.report)
+    g = Donor("Hermione Granger", 42)
+    g.new_donation = 20
     
-    assert r.report == 'Donor Name                     |         Total Given |      Num Gifts |       Average Gifts'
+    w = Donor("Ron Weasley", 42)
+    
+    trio = Donor_Collection(r, g, w)
+    print(trio.donor_objects)
+    
+    print(trio.report_header())
+    print(trio.report_data())
+    
+    test_header = f"{'Donor Name':30} |{'Total Given':>20} |{'Num Gifts':>15} |{'Avg Gifts':>20}"
+    test_header_border = '-' * len(test_header)
+    test_donor_objects = (f"{'Harry Potter':30}  ${159:>19,.2f}  {4:>15}  ${39.75:>19,.2f}\n"
+                        f"{'Hermione Granger':30}  ${62:>19,.2f}  {2:>15}  ${31.00:>19,.2f}\n"
+                        f"{'Ron Weasley':30}  ${42:>19,.2f}  {1:>15}  ${42.00:>19,.2f}")
+    
+    assert trio.report_data() == test_donor_objects
