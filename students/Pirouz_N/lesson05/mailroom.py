@@ -8,6 +8,7 @@ Date: 07/13/2020
 # imports
 import datetime
 import sys
+from collections import OrderedDict
 
 donor_db = {}
 
@@ -69,7 +70,7 @@ def create_report():
 
     # Sorting the list
     global donor_db
-    donor_db = dict(sort_donors(list(donor_db.items())))
+    donor_db = OrderedDict(sort_donors(list(donor_db.items())))
 
     # Printing table
     print('{:<30.30s}\t|{:^16.16s}\t|{:^12.12s}\t|{:^16.16s}'
@@ -133,8 +134,7 @@ def send_thank_you_after_donation():
             break
 
         else:
-            donor_names_list = [item for item in donor_db]
-            if option in donor_names_list:
+            if option in donor_db:
                 ask_donation_write_thank_you(option)
 
             else:
