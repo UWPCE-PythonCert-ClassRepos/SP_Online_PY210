@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
-Lesson 1: Computing the Fibonacci and Lucas Series
+Lesson 2: Computing the Fibonacci and Lucas Series
 Course: UW PY210
 Author: Jason Jenkins
 """

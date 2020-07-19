@@ -1,13 +1,30 @@
-# Lesson 1: Grid Printer Exercise
-# Course: UW PY210
-# Author: Jason Jenkins
+#!/usr/bin/env python3
+
+"""
+Lesson 2: Grid Printer Exercise
+Course: UW PY210
+Author: Jason Jenkins
+"""
 
 
-def print_grid(size = 8):
-    print_grid2(2, size // 2)
+def print_grid(totalsize = 8):
+    """
+    print a grid with length 8 and 2 columns
+
+    :param size=8: value of the total size
+    """
+
+    print_grid2(2, totalsize // 2)
 
 
 def print_grid2(rows, size):
+        """
+    print a grid based on the total rows and size
+
+    :param rows: total rows
+    :param size: size of rows
+    """
+
     for x in range(rows):
         printGridLine(rows, size)
         for y in range(size):
@@ -16,6 +33,10 @@ def print_grid2(rows, size):
 
 
 def printGridLine(rows, size):
+    """
+    print a line on the grid
+    """
+
     for x in range(rows):
         print("+", end=' ')
         for y in range(size):
@@ -24,6 +45,10 @@ def printGridLine(rows, size):
 
 
 def printGridSide(rows, size):
+        """
+    print a side on the grid
+    """
+
     for x in range(rows):
         print("|", end=' ')
         for y in range(size):
