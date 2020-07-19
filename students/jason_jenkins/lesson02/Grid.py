@@ -1,15 +1,9 @@
 # Lesson 1: Grid Printer Exercise
-# Couse: UW PY210
-# Auther: Jason Jenkins
-
-# Was hoping to overload function to enable all parts
-# Turns out overloading is not as simple in python
-
-def print_grid_Part1():
-    print_grid2(2, 4)
+# Course: UW PY210
+# Author: Jason Jenkins
 
 
-def print_grid(size):
+def print_grid(size = 8):
     print_grid2(2, size // 2)
 
 
