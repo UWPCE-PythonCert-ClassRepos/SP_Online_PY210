@@ -7,7 +7,7 @@ Author: Jason Jenkins
 """
 
 
-def print_grid(totalsize = 8):
+def print_grid(totalsize=8):
     """
     print a grid with length 8 and 2 columns
 
@@ -18,7 +18,7 @@ def print_grid(totalsize = 8):
 
 
 def print_grid2(rows, size):
-        """
+    """
     print a grid based on the total rows and size
 
     :param rows: total rows
@@ -45,7 +45,7 @@ def printGridLine(rows, size):
 
 
 def printGridSide(rows, size):
-        """
+    """
     print a side on the grid
     """
 
@@ -54,3 +54,14 @@ def printGridSide(rows, size):
         for y in range(size):
             print(end="  ")
     print("|")
+
+
+if __name__ == "__main__":
+    # tests print_grid
+    print_grid()
+    print_grid(3)
+    print_grid(15)
+
+    # tests print_grid2
+    print_grid2(3, 4)
+    print_grid2(5, 3)

@@ -6,6 +6,7 @@ Course: UW PY210
 Author: Jason Jenkins
 """
 
+
 def print_Fizz_Buzz():
     """
     Prints the numbers from 1 to 100 inclusive.
@@ -24,3 +25,8 @@ def print_Fizz_Buzz():
             print("Buzz")
         else:
             print(tmpNum)
+
+
+if __name__ == "__main__":
+    # tests print_Fizz_Buzz
+    print_Fizz_Buzz()
