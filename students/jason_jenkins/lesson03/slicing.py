@@ -14,7 +14,8 @@ def exchange_first_last(seq):
     :param seq: value to be changed
     """
 
-    pass
+    if(len(seq) > 0):
+        return seq[len(seq) - 1:] + seq[1:len(seq) - 1] + seq[:1]
 
 
 def remove_everyother_item(seq):
@@ -24,7 +25,7 @@ def remove_everyother_item(seq):
     :param seq: value to be changed
     """
 
-    pass
+    return seq[0::2]
 
 
 def mid_everyother_item(seq):
@@ -35,7 +36,7 @@ def mid_everyother_item(seq):
     :param seq: value to be changed
     """
 
-    pass
+    return seq[:4] + seq[-4:] + remove_everyother_item(seq[4:-4])
 
 
 def reverse_item(seq):
@@ -45,19 +46,20 @@ def reverse_item(seq):
     :param seq: value to be changed
     """
 
-    pass
+    return(seq[::-1])
 
 
 def last_first_mid_item(seq):
     """
-    Return copy of sew with the last third
-    then first third
+    Return the last third
+    then the first third
     then the middle third in the new order.
 
     :param seq: value to be changed
     """
+    aThird = len(seq)//3
 
-    pass
+    return seq[-aThird:] + seq[:aThird] + seq[aThird:-aThird]
 
 
 if __name__ == "__main__":
@@ -67,3 +69,15 @@ if __name__ == "__main__":
 
     assert exchange_first_last(a_string) == "ghis is a strint"
     assert exchange_first_last(a_tuple) == (32, 54, 13, 12, 5, 2)
+
+    assert remove_everyother_item(a_string) == "ti sasrn"
+    assert remove_everyother_item(a_tuple) == (2, 13, 5)
+
+    assert mid_everyother_item(a_string) == "thisring sas"
+    assert mid_everyother_item(a_tuple) == (2, 54, 13, 12, 13, 12, 5, 32)
+
+    assert reverse_item(a_string) == "gnirts a si siht"
+    assert reverse_item(a_tuple) == (32, 5, 12, 13, 54, 2)
+
+    assert last_first_mid_item(a_string) == "tringthis is a s"
+    assert last_first_mid_item(a_tuple) == (5, 32, 2, 54, 13, 12)
