@@ -46,6 +46,7 @@ def trigram_generator(text):
 		if len(trigrams[key]) == 0:
 			del trigrams[key]
 
+	print(trigrams)
 	return trigrams
 
 
@@ -156,7 +157,7 @@ def main():
 	trigrams = trigram_generator(words)
 
 	words_list = generate_random(trigrams, final_string = [])
-	print(' '.join(words_list))
+	#print(' '.join(words_list))
 	# words = "I wish I may I wish I might"
 	# trigrams = trigram_generator(words)
 
