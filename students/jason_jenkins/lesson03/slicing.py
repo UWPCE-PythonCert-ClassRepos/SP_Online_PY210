@@ -57,7 +57,7 @@ def last_first_mid_item(seq):
 
     :param seq: value to be changed
     """
-    aThird = len(seq)//3
+    aThird = len(seq) // 3
 
     return seq[-aThird:] + seq[:aThird] + seq[aThird:-aThird]
 
