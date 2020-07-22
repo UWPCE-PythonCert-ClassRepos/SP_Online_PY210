@@ -30,8 +30,17 @@ def main_menu():
             print('Please only type 1 or 2 or 3 and hit enter. Any other option will not be acceptable.')
 
 
+def sort_donors(db_list):
+    """"This function will sort donors according to their maximum historical donations."""
+    db_list.sort(key=lambda item: sum(item[1]), reverse=True)
+
+
 def create_report():
     """"This function will create a report."""
+
+    # Sort database first
+    sort_donors(donor_db)
+
     # Printing table
     print('{:<30.30s}\t|{:^16.16s}\t|{:^12.12s}\t|{:^16.16s}'
           .format('Donor Name', 'Total Given', 'Num Gifts', 'Average Gift'))
@@ -59,7 +68,7 @@ def print_list_of_donors():
     print('\n')
 
 
-def write_thank_you(donerindex):
+def ask_donation_write_thank_you(donerindex):
     """"This function will write a thank to a donor.
 
     Args:
@@ -110,11 +119,11 @@ def send_thank_you():
         else:
             donor_names_list = [item[0] for item in donor_db]
             if option in donor_names_list:
-                write_thank_you(donor_names_list.index(option))
+                ask_donation_write_thank_you(donor_names_list.index(option))
             else:
                 print('The new donor name you entered will be added to the donor table.')
                 donor_db.append((option, []))
-                write_thank_you(len(donor_names_list))
+                ask_donation_write_thank_you(len(donor_names_list))
             break
 
 
