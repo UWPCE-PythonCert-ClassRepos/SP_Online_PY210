@@ -3,18 +3,7 @@
 # with the first and last items exchanged
 
 def exchange_first_last(seq):	
-    def switch(input_):
-	    output = input_
-		reverse = input_[::-1]
-		if type(input_) == str:
-			return reverse[0:1] + output[1:-1] + reverse[0-1]
-		else:
-			output = list(output)
-			output[0:1] = reverse[0:1]
-			output[-1] = reverse[-1]
-			return tuple(output)
-
-	return switch(seq)
+	return seq[-1:] + seq[1:-1] + seq[:1]
 
 def every_other_removed(seq):
     return seq[::2]
