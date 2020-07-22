@@ -46,7 +46,6 @@ def trigram_generator(text):
 		if len(trigrams[key]) == 0:
 			del trigrams[key]
 
-	print(trigrams)
 	return trigrams
 
 
@@ -136,7 +135,7 @@ def regex(story):
 	# remove double quotes
 	content = content.replace('"', '')
 	content = content.replace(',', '')
-	return content[818:855]
+	return content[818:1160]
 
 def open_file(text):
 	with open(text, 'rt') as file:
@@ -154,12 +153,10 @@ def main():
 
 	story = open_file(filename)
 	words = regex(story)
-	trigrams = trigram_generator(words)
+	trigrams = trigram_generator(str(words))
 
 	words_list = generate_random(trigrams, final_string = [])
-	#print(' '.join(words_list))
-	# words = "I wish I may I wish I might"
-	# trigrams = trigram_generator(words)
+	print(' '.join(words_list))
 
 if __name__ == "__main__":
 
