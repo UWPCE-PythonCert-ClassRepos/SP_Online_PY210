@@ -7,6 +7,8 @@ Date: 07/07/2020
 
 # imports
 import datetime
+import sys
+from collections import OrderedDict
 
 donor_db = {}
 
@@ -36,16 +38,13 @@ def populate_db_from_file():
 
 def exit_loop():
     """"This function allows the user to exit main menu using global condition."""
-    global continue_loop
-    continue_loop = False
+    sys.exit()
 
 
 def main_menu():
     """"This function makes the menu portion of the program work."""
-    global continue_loop
-    continue_loop = True
     option_dict = {'1': send_thank_you_after_donation, '2': create_report, '3': send_thank_you_to_all, '4': exit_loop}
-    while continue_loop:
+    while True:
         option = input('Please select of the three options: Send a Thank You, Create a Report, send letters to all '
                        'donors, or Quit.\n'
                        'Type 1 and hit enter if you wish to Send a Thank You.\n'
@@ -56,11 +55,22 @@ def main_menu():
         try:
             option_dict[option]()
         except KeyError:
-            print('Please only type 1 or 2 or 3 or 4 and hit enter. Any other option will not be acceptable.')
+            print(f"Please choose from following options: {str([int(item) for item in list(option_dict)])[1:-1]}")
+
+
+def sort_donors(db_list):
+    """"This function will sort donors according to their maximum historical donations."""
+    db_list.sort(key=lambda item: sum(item[1]), reverse=True)
+    return db_list
 
 
 def create_report():
     """"This function will create a report."""
+
+    # Sorting the list
+    global donor_db
+    donor_db = OrderedDict(sort_donors(list(donor_db.items())))
+
     # Printing table
     print('{:<30.30s}\t|{:^16.16s}\t|{:^12.12s}\t|{:^16.16s}'
           .format('Donor Name', 'Total Given', 'Num Gifts', 'Average Gift'))
@@ -123,21 +133,20 @@ def send_thank_you_after_donation():
             break
 
         else:
-            donor_names_list = [item for item in donor_db]
-            if option in donor_names_list:
-                write_thank_you_with_donation(option)
+            if option in donor_db:
+                ask_donation_write_thank_you(option)
 
             else:
                 print('The new donor name you entered will be added to the donor table.')
                 donor_db[option] = []
-                write_thank_you_with_donation(option)
+                ask_donation_write_thank_you(option)
 
             # Updating the database
             write_db_to_file()
             break
 
 
-def write_thank_you_with_donation(donername):
+def ask_donation_write_thank_you(donername):
     """"This function will write a thank to a donor after a donation.
 
     Args:
@@ -171,9 +180,6 @@ def send_thank_you_to_all():
 
 
 if __name__ == "__main__":
-
-    # Global main loop condition
-    continue_loop = True
 
     # Populating the dictionary from database
     populate_db_from_file()

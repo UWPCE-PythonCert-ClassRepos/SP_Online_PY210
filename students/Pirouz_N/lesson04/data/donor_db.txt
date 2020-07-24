@@ -1,6 +1,6 @@
-William Gates, III: 653772.32, 12.17
-Jeff Bezos: 877.33
-Paul Allen: 663.23, 43.87, 1.32
+Paul Allen: 663.23, 43.87, 1.32, 100001010010.0, 10000000.0
+William Gates, III: 653772.32, 12.17, 1000000.0, 100000000000.0
+Jayz: 999.9, 121210212.0
 Mark Zuckerberg: 1663.23, 4300.87, 10432.0
-Jayz: 999.9
 Beyonce: 1000.0, 100.0
+Melinda Gates: 1000000000000.0

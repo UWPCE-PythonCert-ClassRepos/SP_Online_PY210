@@ -49,19 +49,16 @@ def exchange_first_last(seq):
     check_sequence(seq, 1)
 
     # Creating a shallow copy of the sequence.
-    # new_seq = lis(seq) would work the same way as a shallow copy
-    new_seq = seq[:]
+    # new_seq = lis(seq) would work the same way as a shallow copy but not necessary
+    # new_seq = seq[:] would work the same way as a shallow copy but not necessary
 
     # Sequence length one needs to be handled separately
-    if len(new_seq) == 1:
-        return new_seq
-
-    # Creating memory placeholders for for first and last elements
-    first = new_seq[0: 1]
-    last = new_seq[len(seq)-1: len(seq)]
+    if len(seq) == 1:
+        return seq
 
     # Returning corrected sequence
-    return last + new_seq[1: len(new_seq) - 1] + first
+    # return seq[-1] + seq[1: -1] + seq[0] "should also work"
+    return seq[-1:] + seq[1: -1] + seq[:1]
 
 
 def exchange_first_last_deep(seq):
@@ -95,6 +92,28 @@ def exchange_first_last_deep(seq):
 
     # Returning corrected sequence
     return last + new_seq[1: len(new_seq) - 1] + first
+
+
+def alternate_item(seq):
+    """"This function removes every other item starting with first element and returns a shallow copy.
+
+    Args:
+        seq: Is the sequence passed to the function to remove every other item.
+
+    Returns:
+        A shallow copy of sequence where every other item is removed.
+
+    Raises:
+        ValueError: If length of sequence is less than one.
+        TypeError: If None is passed instead of sequence.
+            If seq is not of type collection.Sequence.
+    """
+
+    # Protecting against bad inputs
+    check_sequence(seq, 1)
+
+    # Retuning alternate series
+    return seq[:: 2]
 
 
 def alternate_item_deep(seq):

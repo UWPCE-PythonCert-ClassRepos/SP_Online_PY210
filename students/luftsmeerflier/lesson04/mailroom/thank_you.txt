@@ -1,0 +1,9 @@
+Dear {first_name} {last_name},
+
+Thank you very much for your very kind donation of {amount}.
+
+It will be put to good use.
+
+Sincerely,
+
+-The Team

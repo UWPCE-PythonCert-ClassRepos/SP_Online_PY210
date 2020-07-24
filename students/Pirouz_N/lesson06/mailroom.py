@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Purpose: Mailroom Part 3 python certificate from UW
+Purpose: Mailroom Part 4 python certificate from UW
 Author: Pirouz Naghavi
 Date: 07/13/2020
 """
@@ -43,8 +43,8 @@ def exit_loop():
 
 def main_menu():
     """"This function makes the menu portion of the program work."""
-
     option_dict = {'1': send_thank_you_after_donation, '2': create_report, '3': send_thank_you_to_all, '4': exit_loop}
+
     while True:
         option = input('Please select of the three options: Send a Thank You, Create a Report, send letters to all '
                        'donors, or Quit.\n'
@@ -65,57 +65,133 @@ def sort_donors(db_list):
     return db_list
 
 
-def create_report():
-    """"This function will create a report."""
+def get_report():
+    """This function generates a report in the form of a list. Where every row is a list."""
 
-    # Sorting the list
+    # Sorting database
     global donor_db
     donor_db = OrderedDict(sort_donors(list(donor_db.items())))
 
-    # Printing table
-    print('{:<30.30s}\t|{:^16.16s}\t|{:^12.12s}\t|{:^16.16s}'
-          .format('Donor Name', 'Total Given', 'Num Gifts', 'Average Gift'))
-    print('------------------------------------------------------------------------------------------------')
-
-    # printing donor table
+    # Adding column row and separator to the list
+    report_list = [
+        '\n',
+        '{:<30.30s}\t|{:^16.16s}\t|{:^12.12s}\t|{:^16.16s}'
+        .format('Donor Name', 'Total Given', 'Num Gifts', 'Average Gift'),
+        '------------------------------------------------------------------------------------------------',
+    ]
+    # Adding donor rows
     for donor in donor_db:
-        # printing donor table
-        print(
+        # Adding donor row
+        report_list.append(
             '{:<30.30s}\t ${:>15.15s}\t{:>12.12s}\t ${:>15.15s}'
             .format(donor, format(float(sum(donor_db[donor])), '.2f'), str(len(donor_db[donor])),
                     format(float(sum(donor_db[donor]) / len(donor_db[donor])), '.2f')))
-    print('\n')
+
+    # Adding final separator
+    report_list.append('\n')
+    return report_list
+
+
+def create_report():
+    """"This function will print a report."""
+
+    # Printing donor table
+    for line in get_report():
+        # Printing donor row
+        print(line)
+
+
+def get_donors_list_report():
+    """"This function will generate a table formatted as list where each item is a row on the table is a str."""
+
+    # Adding heading to the report list
+    report_list = ['\n', '{:<30.30s}\t'.format('Donor Name'), '---------------------------------']
+
+    # printing donor na
+    for donor in donor_db:
+        # printing donor name
+        report_list.append('{:<30.30s}\t'.format(donor))
+    report_list.append('\n')
+
+    return report_list
 
 
 def print_list_of_donors():
     """"This function will print list of donors."""
-    print('{:<30.30s}\t'.format('Donor Name'))
-    print('---------------------------------')
 
-    # printing donor names
-    for donor in donor_db:
-        # printing donor name
-        print('{:<30.30s}\t'.format(donor))
-    print('\n')
+    # Printing donors table
+    for line in get_donors_list_report():
+        # Printing table row
+        print(line)
 
 
-def write_thank_you(donername):
+def write_thank_you(donorname):
     """"This function will write a thank to a donor.
 
     Args:
-        donername: Is the name of the donor thank you card will be written to.
+        donorname: Is the name of the donor thank you card will be written to.
+
+    Raises:
+        TypeError: If donor name is not of type str.
+        KeyError: If provided donor name is not amongst the keys in the dictionary.
 
     """
-    letter = 'Dear {},\n\n'.format(donername)
+
+    if not isinstance(donorname, str):
+        raise TypeError('Donor name must be of type str.')
+    if donorname not in donor_db:
+        raise KeyError('Provided donor name is not amongst the donors in the database.')
+
+    letter = 'Dear {},\n\n'.format(donorname)
     letter += 'Thank you for your latest donation of ${:0.2f}. With this donation your overall donation has reached'\
-        .format(donor_db[donername][len(donor_db[donername]) - 1])
+        .format(donor_db[donorname][len(donor_db[donorname]) - 1])
     letter += ' ${:0.2f}. We are very grateful for all your {} donations, and we appreciate all your support. '\
-        .format(float(sum(donor_db[donername])), len(donor_db[donername]))
+        .format(float(sum(donor_db[donorname])), len(donor_db[donorname]))
     letter += 'Please do not forget us in future we need because there is still more work that needs to be done and'
     letter += ' we need your help to accomplish them.\n\n'
     letter += 'Best Regards\n'
     letter += 'Pirouz Naghavi'
     return letter
+
+
+def update_donors(fullname):
+    """"This function will add to donor_db if fullname is not in amongst the keys.
+
+    Args:
+        fullname: Is the name of the donor inputted by the user.
+
+    Raises:
+        TypeError: If fullname is not a of type str
+    """
+    if not isinstance(fullname, str):
+        raise TypeError('Inputted value must be of type str.')
+
+    if fullname not in donor_db:
+        print('The new donor name you entered will be added to the donor table.')
+        donor_db[fullname] = []
+
+
+def add_donation(donorname, amount):
+    """"This function will add donation to donor_db if option is not in amongst the keys.
+
+    Args:
+        donorname: Is the name of the donor inputted by the user.
+        amount: Is the amount of money donor is donating.
+
+    Raises:
+        KeyError: If key is not available in the dictionary.
+        TypeError: If amount in not of type float.
+        ValueError: If amount is less than 0.0.
+
+    """
+    if not (isinstance(amount, float) or isinstance(donorname, str)):
+        raise TypeError('Provided amount must be of type float and provided donor name must be of type str.')
+    if donorname not in donor_db:
+        raise KeyError('Provided donor name does not exist.')
+    if amount <= 0.0:
+        raise ValueError('Zero or negative amount was entered.')
+
+    donor_db[donorname].append(amount)
 
 
 def send_thank_you_after_donation():
@@ -134,24 +210,22 @@ def send_thank_you_after_donation():
             break
 
         else:
-            if option in donor_db:
-                ask_donation_write_thank_you(option)
+            # Add new user if new user is present
+            update_donors(option)
 
-            else:
-                print('The new donor name you entered will be added to the donor table.')
-                donor_db[option] = []
-                ask_donation_write_thank_you(option)
+            # Write thank you with donation
+            write_thank_you_with_donation(option)
 
             # Updating the database
             write_db_to_file()
             break
 
 
-def ask_donation_write_thank_you(donername):
+def write_thank_you_with_donation(donorname):
     """"This function will write a thank to a donor after a donation.
 
     Args:
-        donername: Is the name of the donor thank you card will be written to.
+        donorname: Is the name of the donor thank you card will be written to.
     """
     while True:
 
@@ -163,17 +237,26 @@ def ask_donation_write_thank_you(donername):
         except TypeError as type_er:
             type_er.extra_info = 'Input value {} was not accepted and raised a type error when converting to float.'\
                 .format(amount)
-            print('Entered amount cannot be accepted. Please enter a number.')
+            print('Entered amount cannot be accepted. Please enter a number.', type_er.extra_info)
         except ValueError as value_er:
             value_er.extra_info = 'Input value {} was not accepted and raised a value error when converting to float.'\
                 .format(amount)
-            print('Entered value cannot be accepted. Please enter a number.')
+            print('Entered value cannot be accepted. Please enter a number.',  value_er.extra_info)
         except _ as er_unhandled:
             er_unhandled.extra_info = 'Unhandled exception occurred. Please investigate.'
             print('Entered value cannot be accepted. Please try again.')
         else:
-            donor_db[donername].append(amount_float)
-            print(write_thank_you(donername))
+
+            # Donation is negative
+            if amount_float <= 0.0:
+                print('Donations must be positive and larger than zero.')
+                continue
+
+            # Adding new donation to donor_db
+            add_donation(donorname, amount_float)
+
+            # Printing thank you to donor
+            print(write_thank_you(donorname))
             break
 
 
@@ -185,7 +268,13 @@ def send_thank_you_to_all():
             output_file.writelines(write_thank_you(db_key))
 
 
-if __name__ == "__main__":
+def main():
+    """"This is the main function.
+
+    The main function reads data from the database, runs the program, and shuts down the program to and updates the
+    database when doing so.
+
+    """
 
     # Populating the dictionary from database
     populate_db_from_file()
@@ -195,3 +284,8 @@ if __name__ == "__main__":
 
     # Updating the database
     write_db_to_file()
+
+
+if __name__ == "__main__":
+    # Running the main function
+    main()
