@@ -125,7 +125,7 @@ def formatString_6(*tmpTuple):
 
     print(result)
 
-    # Part 2
+    # Part 2 (Couldn't figure out how to do if using f"")
     print("".join(["{:5}"] * len(tmpTuple)).format(*tmpTuple))
 
 
@@ -151,6 +151,7 @@ if __name__ == "__main__":
     assert result == expected
 
     formatString_6(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+    formatString_6(1, 2, 3, 4)
 
     print()
     print("All Tests Pass")
