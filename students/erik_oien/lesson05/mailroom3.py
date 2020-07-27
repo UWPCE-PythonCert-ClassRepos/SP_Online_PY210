@@ -4,11 +4,11 @@ import sys
 import os
 
 donor_dict = {
-    "donor1": {"first_name": "Nathan", "last_name": "Explosion", "donations": [39595, 35081, 93295]}, 
-    "donor2": {"first_name": "Skwisgaar", "last_name": "Skwigelf", "donations": [37198]}, 
-    "donor3": {"first_name": "Toki", "last_name": "Wartooth", "donations": [20037, 32892, 99788]},
-    "donor4": {"first_name": "William", "last_name": "Murderface", "donations": [87470, 86870, 4397]},
-    "donor5": {"first_name": "Pickles", "last_name": "", "donations": [87838, 60282, 26653]},
+    "Nathan Explosion": [39595, 35081, 93295], 
+    "Skwisgaar Skwigelf": [37198], 
+    "Toki Wartooth": [20037, 32892, 99788],
+    "William Murderface": [87470, 86870, 4397],
+    "Pickles": [87838, 60282, 26653],
 }
 
 # main menu for program 
@@ -18,7 +18,7 @@ def menu():
         welcome_input = input(opening_promt)
         try:
             main_menu_switch[welcome_input]()
-        except(KeyError):
+        except KeyError:
             print("Invalid option, please choose a number from the list below:")
 
 # thank you menu
@@ -30,42 +30,33 @@ def thank_you():
             sub_menu_switch[donor_name.lower()]()
         elif donor_name.lower() == 'list':
             past_donor = False
-            for donor in donor_dict.items():
-                print(donor[1]["first_name"] + " " + donor[1]["last_name"])
+            for donor in donor_dict.keys():
+                print(donor)
         else:
-            try:
-                for donor in donor_dict.items():
-                    if donor_name.lower() == (donor[1]["first_name"].lower() + " " + donor[1]["last_name"].lower()).strip():
-                        past_donor = True
-                        donation_amount = input("How much was the most recent donation from {}? >>> ".format(donor_name))
-                        donor[1]["donations"].append(int(donation_amount))
-                if past_donor == False:
-                    print("Looks like this is a new donor, lets add them!")
-                    first_name, last_name = donor_name.split(" ", 1)
-                    donation_amount = input("How much did {} donate? >>> ".format(donor_name))
-                    new_donor = {"first_name": first_name, "last_name": last_name, "donations": [int(donation_amount)]}
-                    donor_dict[f"donor{len(donor_dict)+1}"] = new_donor
-                email = thank_you_email(donor_name, donation_amount)
-                print(email)
-                return False
-            except(ValueError):
-                print("Expecting first and last name, only one name entered")
-                
+            for donor in donor_dict:
+                if donor_name.lower() == donor.lower():
+                    past_donor = True
+                    donation_amount = input("How much was the most recent donation from {}? >>> ".format(donor_name))
+                    donor_dict[donor].append(int(donation_amount))
+            if past_donor == False:
+                print("Looks like this is a new donor, lets add them!")
+                donation_amount = input("How much did {} donate? >>> ".format(donor_name))
+                donor_dict[donor_name] = [int(donation_amount)]
+        email = thank_you_email(donor_name, donation_amount)
+        print(email)
+        return False
+   
 # create report menu
 
 def create_report():
-    while True:
-        donor_report = []
-        [donor_report.append(donor_info(donor)) for donor in donor_dict.items()]
-        donor_report_info = sorted(donor_report, key=sort_key, reverse=True)
-        table_header()
-        [row_formatter(donor) for donor in donor_report_info]
-        return_input = input(f"{sub_menu_prompt}")
-        if return_input in ["menu", "quit"]:
+    donor_info = sorted(donor_dict.items(), key=lambda x: sum(x[1]), reverse=True)
+    table_header()
+    for donor in donor_info:
+        row = [donor[0], sum(donor[1]), len(donor[1]), sum(donor[1])/len(donor[1])]
+        row_formatter(row)
+    return_input = input(f"{sub_menu_prompt}")
+    if return_input in ["menu", "quit"]:
             sub_menu_switch[return_input.lower()]()
-            return False
-        else:
-            print("please enter a valid option")
         
 # send letters to all donors
 
@@ -81,17 +72,17 @@ def thank_all_donors():
                 dir_path = wd + "/" + dir_name
                 os.mkdir(wd + "/" + dir_name)
                 for donor in donor_dict.items():
-                    donor_facts = donor_info(donor, all_donors=True)
+                    donor_facts = [donor[0], len(donor[1]), sum(donor[1])]
                     donor_letter = thank_you_letter(donor_facts, dir_path)
                 return False
-            except (FileExistsError):
+            except FileExistsError:
                 print("Please try a different file name")
 
 # helper functions
 
 # function to create email
 def thank_you_email(donor, amount):
-    email_text = "Dear {},\n\nThank you for your generous donation of ${}! As you certianly know, kittens\nand metal are awesome and your donation will insure that others will be able\nto enjoy kittens and metal.\n\nSincerely,\n\nKitten and Metal Charity \m/\n\n"
+    email_text = "Dear {},\n\nThank you for your generous donation of ${}! As you certianly know, kittens\nand metal are awesome and your donation will insure that others will be able\nto enjoy kittens and metal.\n\nThank you,\n\nKitten and Metal Charity \m/\n\n"
     return email_text.format(donor, amount)
 
 # function for table header
@@ -108,29 +99,12 @@ def quit_program():
     print("Bye!")
     sys.exit()  
 
-# sort key
-def sort_key(donor_report):
-        return donor_report[1]
-
-# donor info:
-
-def donor_info(donor, all_donors=False):
-    donor_name = donor[1]["first_name"] + " " + donor[1]["last_name"]
-    donor_sum = sum(donor[1]["donations"])
-    donor_length = len(donor[1]["donations"])
-    donor_average = donor_sum / donor_length
-    if all_donors:
-        return(donor_name, donor_length, donor_sum)
-    else:
-        return(donor_name, donor_sum, donor_length, donor_average)
-
 # thank you letter
 def thank_you_letter(text, dir_path):
-    letter_text = "Dear {},\n\n\tYou have made {} donations to the kittens and metal charity totaling ${}.\n\nSincerely,\n\n\tKitten and Metal Charity \m/".format(*text)
+    letter_text = "Dear {},\n\n\tYou have made {} donations to the kittens and metal charity totaling ${}.\n\nThank you,\n\n\tKitten and Metal Charity \m/".format(*text)
     file_name = dir_path + "/" + text[0] + ".txt"
-    letter = open(file_name, "w")
-    letter.write(letter_text)
-    letter.close()
+    with open(file_name, "w") as f:
+        f.write(letter_text)
 
 # using dictionary for switch
 
@@ -163,3 +137,4 @@ sub_menu_prompt = "\n".join(("If you would like to return to the menu type menu.
 
 if __name__ == "__main__": 
     menu()
+    

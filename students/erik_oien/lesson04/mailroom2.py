@@ -4,11 +4,11 @@ import sys
 import os
 
 donor_dict = {
-    "donor1": {"first_name": "Nathan", "last_name": "Explosion", "donations": [39595, 35081, 93295]}, 
-    "donor2": {"first_name": "Skwisgaar", "last_name": "Skwigelf", "donations": [37198]}, 
-    "donor3": {"first_name": "Toki", "last_name": "Wartooth", "donations": [20037, 32892, 99788]},
-    "donor4": {"first_name": "William", "last_name": "Murderface", "donations": [87470, 86870, 4397]},
-    "donor5": {"first_name": "Pickles", "last_name": "", "donations": [87838, 60282, 26653]},
+    "Nathan Explosion": [39595, 35081, 93295], 
+    "Skwisgaar Skwigelf": [37198], 
+    "Toki Wartooth": [20037, 32892, 99788],
+    "William Murderface": [87470, 86870, 4397],
+    "Pickles": [87838, 60282, 26653],
 }
 
 # main menu for program 
@@ -51,15 +51,14 @@ def thank_you():
 # create report menu
 
 def create_report():
-    donor_report = []
-    for donor in donor_dict.items():
-        donor_report.append(donor_info(donor))
-    donor_report_info = sorted(donor_report, key=sort_key, reverse=True)
+    donor_info = sorted(donor_dict.items(), key=lambda x: sum(x[1]), reverse=True)
     table_header()
-    for donor in donor_report_info:
-        row_formatter(donor)
-    return_input = input(f"{menu_quit_prompt}")
-    sub_menu_switch[return_input]()
+    for donor in donor_info:
+        row = [donor[0], sum(donor[1]), len(donor[1]), sum(donor[1])/len(donor[1])]
+        row_formatter(row)
+    return_input = input(f"{sub_menu_prompt}")
+    if return_input in ["menu", "quit"]:
+            sub_menu_switch[return_input.lower()]()
 
 # send letters to all donors
 
@@ -72,7 +71,7 @@ def thank_all_donors():
         dir_path = wd + "/" + dir_name
         os.mkdir(wd + "/" + dir_name)
         for donor in donor_dict.items():
-            donor_facts = donor_info(donor, all_donors=True)
+            donor_facts = [donor[0], len(donor[1]), sum(donor[1])]
             donor_letter = thank_you_letter(donor_facts, dir_path)
 
 # helper functions
@@ -95,22 +94,6 @@ def row_formatter(row):
 def quit_program():
     print("Bye!")
     sys.exit()  
-
-# sort key
-def sort_key(donor_report):
-        return donor_report[1]
-
-# donor info:
-
-def donor_info(donor, all_donors=False):
-    donor_name = donor[1]["first_name"] + " " + donor[1]["last_name"]
-    donor_sum = sum(donor[1]["donations"])
-    donor_length = len(donor[1]["donations"])
-    donor_average = donor_sum / donor_length
-    if all_donors:
-        return(donor_name, donor_length, donor_sum)
-    else:
-        return(donor_name, donor_sum, donor_length, donor_average)
 
 # thank you letter
 def thank_you_letter(text, dir_path):
