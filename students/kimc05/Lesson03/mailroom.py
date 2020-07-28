@@ -74,7 +74,7 @@ def report():
     print("-" * len(header))
 
     #sort by donation total
-    sorted_Giver = sorted(givetree, key = add, reverse = True)
+    sorted_Giver = sorted(givetree, key=add, reverse=True)
 
     #summarize value and print report content
     for person in sorted_Giver:
