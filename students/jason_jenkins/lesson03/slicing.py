@@ -57,9 +57,9 @@ def last_first_mid_item(seq):
 
     :param seq: value to be changed
     """
-    aThird = len(seq) // 3
+    a_third = len(seq) // 3
 
-    return seq[-aThird:] + seq[:aThird] + seq[aThird:-aThird]
+    return seq[-a_third:] + seq[:a_third] + seq[a_third:-a_third]
 
 
 if __name__ == "__main__":
@@ -81,3 +81,6 @@ if __name__ == "__main__":
 
     assert last_first_mid_item(a_string) == "tringthis is a s"
     assert last_first_mid_item(a_tuple) == (5, 32, 2, 54, 13, 12)
+
+    print()
+    print("All Tests Passed")
