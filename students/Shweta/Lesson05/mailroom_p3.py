@@ -48,12 +48,17 @@ def send_thankyou():
     if dname == 'list':
         create_report()
     else:
-        damt=float(input("Enter your donation amount in dollars --> "))
-        if donar_db.get(dname) == None:
-            donar_db[dname]=[damt]
+        try:
+            damt=float(input("Enter your donation amount in dollars --> "))
+        except ValueError:
+            print('\n Not a valid amount, try again')
         else:
-            donar_db.get(dname).append([damt])
-        input(mty_msg.format(dname,(damt)))
+            if donar_db.get(dname) == None:
+                donar_db[dname]=[damt]
+            else:
+                donor_db.get(dname).append(damt)
+
+        input(mty_msg.format(dname,damt))
 
 
 ##########send letter#################
