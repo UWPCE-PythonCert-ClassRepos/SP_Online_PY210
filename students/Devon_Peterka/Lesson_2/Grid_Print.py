@@ -42,4 +42,19 @@ print_grid(12)
 
 #Part 3 - Print square grid of arbitrary size and cells
 def print_grid2(c,n):
-    return none
+    for i in range (0,c*(n+1)+1):
+        for j in range(0,c*(n+1)+1):
+            if i%(1+n) == 0:
+                print(' +', end='') if j%(1+n) == 0 else print(' -', end='')
+            else:
+                print(' |', end='') if j%(1+n) == 0 else print('  ',end='')
+        print()
+
+print('\nPart 3 - Print square grid of user-defined cell size and number')
+print('\n3 square grid, 4 units/square')
+print_grid2(3,4)
+print('\n5 square grid, 3 units/square')
+print_grid2(5,3)
+print('\n4 square grid, 2 units/square')
+print_grid2(4,2)
+print()
