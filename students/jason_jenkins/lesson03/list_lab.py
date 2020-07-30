@@ -18,11 +18,11 @@ def series_1(list=[]):
     print()
     print("Starting series_1:")
     print()
-    Display_List(list)
+    display_list(list)
 
     # Add to list
     list.append(input("Input another fruit to the list: "))
-    Display_List(list)
+    display_list(list)
 
     # Find and output an item
     loc = input("Input fruit number to print (Starting at 1): ")
@@ -33,12 +33,12 @@ def series_1(list=[]):
     # Add to beginning of the list using "+" creating a local object
     response = input("Input another fruit to the list: ")
     list = [response] + list
-    Display_List(list)
+    display_list(list)
 
     # Add to beginning of the list using "insert"
     response = input("Input another fruit to the list: ")
     list.insert(0, response)
-    Display_List(list)
+    display_list(list)
 
     # Display all the fruits that begin with “P”, using a for loop
     for item in list:
@@ -59,19 +59,19 @@ def series_2(list=[]):
     print()
     print("Starting series_2:")
     print()
-    Display_List(list)
+    display_list(list)
 
     # Remove last item on list
     print("Removing last items")
     list.pop()
-    Display_List(list)
+    display_list(list)
 
     # Remove requested item from list
     loc = input("Input fruit number to remove (Starting at 1): ")
     loc = int(loc) - 1
     if (0 <= loc < len(list)):
         list.pop(loc)
-    Display_List(list)
+    display_list(list)
 
     return list
 
@@ -87,7 +87,7 @@ def series_3(list=[]):
     print()
     print("Starting series_3:")
     print()
-    Display_List(list)
+    display_list(list)
 
     # Make all items in list lowercase
     for i in range(len(list)):
@@ -108,7 +108,7 @@ def series_3(list=[]):
             elif(response.lower() == "no"):
                 break
 
-    Display_List(new_list)
+    display_list(new_list)
 
     return new_list
 
@@ -121,7 +121,7 @@ def series_4(list=[]):
     print()
     print("Starting series_4:")
     print()
-    Display_List(list)
+    display_list(list)
 
     # Make a copy of list
     list = list[:]
@@ -142,7 +142,7 @@ def series_4(list=[]):
     return new_list
 
 
-def Display_List(list=[]):
+def display_list(list=[]):
     """
     Print the list as a list
     """
