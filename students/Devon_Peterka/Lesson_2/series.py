@@ -84,12 +84,12 @@ if __name__ == '__main__':
     assert sum_series(3, 2, 1) == lucas(3)
     assert sum_series(4, 2, 1) == lucas(4)
 
-    #make some new series
-    assert sum_series(0,5,2) == 5   #user-specified values 2 and 1 in place of defaults
-    assert sum_series(1,5,2) == 2   #user-specified values 2 and 1 in place of defaults
-    assert sum_series(2,5,2) == 7   #user-specified values 2 and 1 in place of defaults
-    assert sum_series(3,5,2) == 9   #user-specified values 2 and 1 in place of defaults
-    assert sum_series(4,5,2) == 16   #user-specified values 2 and 1 in place of defaults
+    #make some new series - replace defaults with 5 and 2 because why not.
+    assert sum_series(0,5,2) == 5
+    assert sum_series(1,5,2) == 2
+    assert sum_series(2,5,2) == 7
+    assert sum_series(3,5,2) == 9
+    assert sum_series(4,5,2) == 16
 
     print('sum_series Tests Passed.')
     print('\nAll TESTS PASSED.\n')
