@@ -48,19 +48,12 @@ def send_thankyou():
     if dname == 'list':
         create_report()
     else:
-        i=0
-        for donars in donar_db:
-            if dname not in donars:
-                i +=1
-            else:
-                break
-        damt=input("Enter your donation amount in dollars --> ")
-        if i == len(donar_db):
-            donar_db.append((dname,[float(amt)]))
+        damt=float(input("Enter your donation amount in dollars --> "))
+        if donar_db.get(dname) == None:
+            donar_db[dname]=[damt]
         else:
-            donar_db[i][1].append(float(damt))
-
-        input(mty_msg.format(dname,float(damt)))
+            donar_db.get(dname).append([damt])
+        input(mty_msg.format(dname,(damt)))
 
 
 ##########send letter#################
@@ -79,8 +72,8 @@ def create_report():
     print(top)
     print('-'*100)
 
-    for donor in donar_db:
-        line='{:20} ${:>20.2f}   {:20}   ${:20.2f}'.format(donor[0],sum(donor[1]),len(donor[1]),(sum(donor[1])/len(donor[1])))
+    for key,value in donar_db.items():
+        line='{:20} ${:>20.2f}   {:20}   ${:20.2f}'.format(key,sum(value),len(value),(sum(value)/len(value)))
         print(line)
     print('')
 

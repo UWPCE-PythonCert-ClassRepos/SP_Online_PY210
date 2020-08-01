@@ -46,11 +46,11 @@ def thank_you():
             donor[1] += gift  # Total balance of donations
             donor[2] += 1  # Keeping track of donation history
             break  # If donor is in the list, break out
-    if name not in donor:
-        donor_list.append([name, gift, 1])
+    else:
+        if name not in donor:
+            donor_list.append([name, gift, 1])
     # Thank you email to the donor
     print(f"Thank you {name} for your generous donation of ${gift:.2f}, your kindness is very appreciated.", "\n")
-    main()
 
 # Show a list of current donor's in the list and sorted by total number of donations
 def report(seq):
@@ -63,7 +63,6 @@ def report(seq):
         report_list.append((item[0], item[1], item[2], item[1]/item[2]))
     for donor in report_list:
         print(f"{donor[0]:<20} $ {donor[1]:>11.2f} {donor[2]:>11} $ {donor[3]:>11.2f}")
-    main()
 
 # Sort the list by the 2nd position in a sequence
 def sort_list(seq):

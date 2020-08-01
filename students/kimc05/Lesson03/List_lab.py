@@ -14,7 +14,7 @@ fruits.append(input("Input a fruit to add to the list: "))
 print(fruits)
 
 #Request input from user for a number and display the number and corresponding fruit
-fruit_num = int(input("Input a number for a fruit to display: "))
+fruit_num = int(input("There are {} fruits in the list. Input a number for a fruit to display: ".format(len(fruits))))
 print(str(fruit_num) + ": " + fruits[(fruit_num - 1)])
 
 #Add to the beginning of the list with '+'
@@ -47,7 +47,7 @@ print(fruits2)
 #Request input for fruit to delete
 del_fruit = input("Input a fruit to remove from the list: ")
 if del_fruit in fruits2:
-    fruits2.remove(del_fruit.)
+    fruits2.remove(del_fruit)
 else:
     print("Entry not found.")
 
