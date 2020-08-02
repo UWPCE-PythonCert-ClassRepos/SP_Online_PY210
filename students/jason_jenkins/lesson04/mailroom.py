@@ -5,11 +5,12 @@ Lesson 3: Mail Room Part 1
 Course: UW PY210
 Author: Jason Jenkins
 """
+import pathlib
 
 
 # Global Variables
 run_program = True
-donor_list = []
+donor_dict = dict()
 
 
 def send_thanks():
@@ -17,7 +18,8 @@ def send_thanks():
     Method used to probt donor name or list out donors
     """
 
-    global donor_list
+    global donor_dict
+
     response = ""
 
     while(True):
@@ -26,20 +28,14 @@ def send_thanks():
         if(response.lower() == "exit"):
             break
         elif response.lower() == "list":
-            print_donor_list()
+            print_donor_dict()
             print()
         else:
             break
 
+    # For dict
     if(response != "exit"):
-        for donor in donor_list:
-            if donor[0] == response:
-                donate(donor)
-                break
-        else:
-            new_donor = [response]
-            donate(new_donor)
-            donor_list.append(new_donor)
+        donate(response)
 
 
 def thank_you_email(donor):
@@ -47,21 +43,21 @@ def thank_you_email(donor):
     Thank donor for donation
     """
 
-    print(f"Thank you {donor[0]} for your donation.")
+    print(f"Thank you {donor} for your donation.")
 
 
-def print_donor_list():
+def print_donor_dict():
     """
     Print out the donor list
     """
 
-    global donor_list
+    global donor_dict
 
     print("List of donors")
     print("--------------")
 
-    for donor in donor_list:
-        print(donor[0])
+    for k in donor_dict.keys():
+        print(k)
 
 
 def donate(donor):
@@ -70,17 +66,13 @@ def donate(donor):
     """
 
     response = float(input('Input amount to donate or "0" to exit: '))
+
     if(response != 0):
-        donor.append(response)
-        thank_you_email(donor)
-
-
-def sort_by_total(tmp_donor_list):
-    """
-    Used to sort donor list by total donations
-    """
-
-    return sum(tmp_donor_list[1:])
+        if donor in donor_dict:
+            donor_dict[donor].append(response)
+        else:
+            donor_dict.update({donor: [response]})
+    thank_you_email(donor)
 
 
 def create_report():
@@ -91,18 +83,21 @@ def create_report():
     Sorted by donation total
     """
 
-    global donor_list
+    global donor_dict
 
-    donor_list.sort(key=sort_by_total, reverse=True)
+    # Create new dict sorted by total donated
+    sorted_dict = dict(sorted(donor_dict.items(),
+                              key=lambda i: sum(i[1]),
+                              reverse=True))
 
     print(f"{'Donor Name':30}|{'Total Given':^16}|", end='')
     print(f"{'Num Gifts':^14}|{'Average Gift':^16}")
     print(f"{'-'*79}")
 
-    for donor in donor_list:
-        donor_name = donor[0]
-        donor_total = sum(donor[1:])
-        donar_count = len(donor) - 1
+    for k, v in sorted_dict.items():
+        donor_name = k
+        donor_total = sum(v)
+        donar_count = len(v)
         donor_ave = 0
 
         if donar_count != 0:
@@ -124,36 +119,64 @@ def quit_program():
     run_program = False
 
 
+def send_all_thanks():
+    """
+    Method used to print a letter to the donors
+    """
+
+    global donor_dict
+
+    p = pathlib.Path("emails/")
+    p.mkdir(parents=True, exist_ok=True)
+
+    for k, v in donor_dict.items():
+        dest = f"{p / k}.txt"
+        dest = dest.replace(" ", "_").replace(",", "")
+        with open(dest, 'w') as outfile:
+            outfile.write(f"Dear {k}\n")
+            outfile.write(f"\tThank you for your donation of ${sum(v):.2f}.\n")
+            outfile.write(f"\tIt will be put to very good use.\n")
+            outfile.write(f"Sincerely,\n")
+            outfile.write(f"-The Team\n")
+
+
 def startup_prompt():
     """
     Prombt user for action they what to take
     """
+    global menu_dict
 
     print()
     print("Do you want to:")
-    print('   "Send a thank you"')
-    print('   "Create a Report"')
-    print('   "quit"')
+    print('   1 - Send a Thank You to a single donor.')
+    print('   2 - Create a Report.')
+    print('   3 - Send letters to all donors.')
+    print('   4 - Quit.')
 
-    response = input("Input option you wish to do: ")
+    response = input("Input numbered option you wish to do: ")
 
-    if(response.lower() == "send a thank you"):
-        send_thanks()
-    elif(response.lower() == "create a report"):
-        create_report()
-    elif(response.lower() == "quit"):
-        quit_program()
+    if response in menu_dict:
+        menu_dict[response]()
     else:
         print(f"{response} is not a valid input.")
 
 
+# Dict used as similar to a switch statement
+menu_dict = {
+    "1": send_thanks,
+    "2": create_report,
+    "3": send_all_thanks,
+    "4": quit_program
+}
+
+
 if __name__ == "__main__":
     # Initial Setup
-    donor_list.append(["William Gates, III", 1345.462])
-    donor_list.append(["Mark Zuckerberg ", 12546.124, 13445.124])
-    donor_list.append(["Jeff Bezos", 1234.123, 12341431.12])
-    donor_list.append(["Paul Allen", 734.12, 124.41, 10000])
-    donor_list.append(["Jason Jenkins", 10, 20, 30, 40, 50, 60])
+    donor_dict.update({"William Gates, III": [1345.462]})
+    donor_dict.update({"Mark Zuckerberg": [12546.124, 13445.124]})
+    donor_dict.update({"Jeff Bezos": [1234.123, 12341431.12]})
+    donor_dict.update({"Paul Allen": [734.12, 124.41, 10000]})
+    donor_dict.update({"Jason Jenkins": [10, 20, 30, 40, 50, 60]})
 
     while(run_program):
         startup_prompt()
