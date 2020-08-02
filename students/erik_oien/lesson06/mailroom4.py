@@ -37,23 +37,23 @@ def thank_you():
                 if donor_name.lower() == donor.lower():
                     past_donor = True
                     donation_amount = input("How much was the most recent donation from {}? >>> ".format(donor_name))
-                    donor_dict[donor].append(int(donation_amount))
+                    donor_dict_update(donor, donation_amount)
             if past_donor == False:
                 print("Looks like this is a new donor, lets add them!")
                 donation_amount = input("How much did {} donate? >>> ".format(donor_name))
-                donor_dict[donor_name] = [int(donation_amount)]
-        email = thank_you_email(donor_name, donation_amount)
-        print(email)
+                donor_dict_update(donor_name, donation_amount, new_donor=True)
+        donor_info = [donor_name, donation_amount]
+        letter = thank_you_letter(donor_info)
+        print(letter)
         return False
    
 # create report menu
 
 def create_report():
-    donor_info = sorted(donor_dict.items(), key=lambda x: sum(x[1]), reverse=True)
-    table_header()
-    for donor in donor_info:
-        row = [donor[0], sum(donor[1]), len(donor[1]), sum(donor[1])/len(donor[1])]
-        row_formatter(row)
+    donor_dict_sorted = sorted(donor_dict.items(), key=lambda x: sum(x[1]), reverse=True)
+    print(table_header())
+    for donor in donor_dict_sorted:
+        print(row_formatter(donor_info(donor)))
     return_input = input(f"{sub_menu_prompt}")
     if return_input in ["menu", "quit"]:
             sub_menu_switch[return_input.lower()]()
@@ -62,49 +62,75 @@ def create_report():
 
 def thank_all_donors():
     while True:
-        wd = os.getcwd()
         dir_name = input(f"What would you like to call the directory?\n{sub_menu_prompt}")
         if dir_name.lower() in ["menu", "quit"]:
             sub_menu_switch[dir_name.lower()]()
             return False
         else:
             try:
-                dir_path = wd + "/" + dir_name
+                wd = os.getcwd()
                 os.mkdir(wd + "/" + dir_name)
                 for donor in donor_dict.items():
-                    donor_facts = [donor[0], len(donor[1]), sum(donor[1])]
-                    donor_letter = thank_you_letter(donor_facts, dir_path)
+                    donor_facts = donor_info(donor, letters=True)
+                    donor_letter = thank_you_letter(donor_facts, all_donors=True)
+                    write_to_file(donor_letter, dir_name, donor_facts[0])
                 return False
             except FileExistsError:
                 print("Please try a different file name")
 
-# helper functions
-
 # function to create email
-def thank_you_email(donor, amount):
-    email_text = "Dear {},\n\nThank you for your generous donation of ${}! As you certianly know, kittens\nand metal are awesome and your donation will insure that others will be able\nto enjoy kittens and metal.\n\nThank you,\n\nKitten and Metal Charity \m/\n\n"
-    return email_text.format(donor, amount)
+def thank_you_letter(donor_info, all_donors=False):
+    if all_donors:
+        letter_text = "Dear {},\n\n\tYou have made {} donations to the kittens and metal charity totaling ${}.\n\nThank you,\n\n\tKitten and Metal Charity"
+    else:
+        letter_text = "Dear {},\n\nThank you for your generous donation of ${}! As you certianly know, kittens\nand metal are awesome and your donation will insure that others will be able\nto enjoy kittens and metal.\n\nThank you,\n\nKitten and Metal Charity\n\n"
+    return letter_text.format(*donor_info)
 
 # function for table header
 def table_header():
-    print("{:25}|{:12}|{:10}|{:12}".format("Donor Name", "Total Given", "Num Gifts", "Average Gift"))
-    print("-" * 62)
+    return "\n".join(("{:25}|{:12}|{:10}|{:12}".format("Donor Name", "Total Given", "Num Gifts", "Average Gift"), "-" * 62))
 
 # function to format rows
 def row_formatter(row):
-    print("{:25}|${:11.2f}|{:10}|${:11.2f}".format(*row))
+    return "{:25}|${:11.2f}|{:10}|${:11.2f}".format(*row)
 
 # function to quit program
 def quit_program():
     print("Bye!")
     sys.exit()  
 
-# thank you letter
-def thank_you_letter(text, dir_path):
-    letter_text = "Dear {},\n\n\tYou have made {} donations to the kittens and metal charity totaling ${}.\n\nThank you,\n\n\tKitten and Metal Charity \m/".format(*text)
-    file_name = dir_path + "/" + text[0] + ".txt"
-    with open(file_name, "w") as f:
-        f.write(letter_text)
+# donor dict update
+
+def donor_dict_update(donor, donation_amount, new_donor=False, donor_dict=donor_dict):
+    if new_donor:
+        donor_dict[donor] = [int(donation_amount)]
+    else:
+        donor_dict[donor].append(int(donation_amount))
+
+# donor info
+
+def donor_info(donor, letters=False):
+    donor_name = donor[0]
+    donation_sum = sum(donor[1])
+    n_donotions = len(donor[1])
+    if letters:
+        return [donor_name, n_donotions, donation_sum]
+    else:
+        return [donor_name, donation_sum, n_donotions, donation_sum/n_donotions]
+
+# create directory
+
+def make_dir(dir_name):
+    wd = os.getcwd()
+    os.mkdir(wd + "/" + dir_name)
+
+# write files to directory
+
+def write_to_file(donor_letter, dir_name, file_name):
+    wd = os.getcwd()
+    file_path = wd + "/" + dir_name + "/" + file_name + ".txt"
+    with open(file_path, "w") as f:
+        f.write(donor_letter)
 
 # using dictionary for switch
 
