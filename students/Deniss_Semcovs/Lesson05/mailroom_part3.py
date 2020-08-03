@@ -9,7 +9,7 @@ def mailroom02(reply, action):
         resp = input(reply)
         if action[resp]()=="exit menu":
             break
-
+# Complerssed "list"
 def print_list():
     [print(i["name"]) for i in donor]
 
@@ -76,7 +76,7 @@ data = [
     ["Scarlett Johansson", 1500, 1000],
     ["Jennifer Aniston", 2000, 2000, 2000],
 ]
-# Generating dictionary from the list
+# Generating dictionary from the list - complressed
 donor = [{"name":i[0], "don":sum(i[1:])} for i in data]
 
 main_reply = ("\nChoose an action:\n"
