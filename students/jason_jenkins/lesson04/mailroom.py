@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
-Lesson 3: Mail Room Part 2
+Lesson 4: Mail Room Part 2
 Course: UW PY210
 Author: Jason Jenkins
 """

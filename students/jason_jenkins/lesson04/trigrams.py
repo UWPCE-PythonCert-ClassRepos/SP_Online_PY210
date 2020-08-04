@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
-Lesson 3: Trigram assignment
+Lesson 4: Trigram assignment
 Course: UW PY210
 Author: Jason Jenkins
 
