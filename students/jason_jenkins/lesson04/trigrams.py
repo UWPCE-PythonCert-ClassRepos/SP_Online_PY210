@@ -4,6 +4,13 @@
 Lesson 3: Trigram assignment
 Course: UW PY210
 Author: Jason Jenkins
+
+Notes:
+- Requires valid input (Error checking not implemented)
+- Future iteration should focus on formating input
+-- Strip out punctuation?
+-- Remove capitalization?
+-- Create paragraphs?
 """
 
 import random
