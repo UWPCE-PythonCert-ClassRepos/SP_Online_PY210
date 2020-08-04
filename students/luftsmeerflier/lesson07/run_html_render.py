@@ -62,7 +62,7 @@ render_page(page, "test_html_output1.html")
 
 # page.append(body)
 
-# render_pgae(pgae, "text_html_output2.html")
+# render_pgae(page, "text_html_output2.html")
 
 # # Step 3
 # ##########
