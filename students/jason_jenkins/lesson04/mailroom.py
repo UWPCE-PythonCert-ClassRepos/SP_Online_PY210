@@ -6,11 +6,7 @@ Course: UW PY210
 Author: Jason Jenkins
 """
 import pathlib
-
-
-# Global Variables
-run_program = True
-donor_dict = dict()
+import sys
 
 
 def send_thanks():
@@ -22,12 +18,12 @@ def send_thanks():
 
     response = ""
 
-    while(True):
-        response = input('Input donors full name, "list", or "exit": ')
+    while True:
+        response = input('Input donors name, "list", or "exit": ').lower()
 
-        if(response.lower() == "exit"):
+        if(response == "exit"):
             break
-        elif response.lower() == "list":
+        elif response == "list":
             print_donor_dict()
             print()
         else:
@@ -67,7 +63,7 @@ def donate(donor):
 
     response = float(input('Input amount to donate or "0" to exit: '))
 
-    if(response != 0):
+    if response != 0:
         if donor in donor_dict:
             donor_dict[donor].append(response)
         else:
@@ -115,8 +111,7 @@ def quit_program():
     Method used to quit the program
     """
 
-    global run_program
-    run_program = False
+    sys.exit()
 
 
 def send_all_thanks():
@@ -153,7 +148,7 @@ def startup_prompt():
     print('   3 - Send letters to all donors.')
     print('   4 - Quit.')
 
-    response = input("Input numbered option you wish to do: ")
+    response = input("Input numbered option you wish to do: ").strip()
 
     if response in menu_dict:
         menu_dict[response]()
@@ -161,7 +156,8 @@ def startup_prompt():
         print(f"{response} is not a valid input.")
 
 
-# Dict used as similar to a switch statement
+# Global Variables
+donor_dict = dict()
 menu_dict = {
     "1": send_thanks,
     "2": create_report,
@@ -172,11 +168,11 @@ menu_dict = {
 
 if __name__ == "__main__":
     # Initial Setup
-    donor_dict.update({"William Gates, III": [1345.462]})
-    donor_dict.update({"Mark Zuckerberg": [12546.124, 13445.124]})
-    donor_dict.update({"Jeff Bezos": [1234.123, 12341431.12]})
-    donor_dict.update({"Paul Allen": [734.12, 124.41, 10000]})
-    donor_dict.update({"Jason Jenkins": [10, 20, 30, 40, 50, 60]})
+    donor_dict.update({"william gates": [1345.462]})
+    donor_dict.update({"mark zuckerberg": [12546.124, 13445.124]})
+    donor_dict.update({"jeff bezos": [1234.123, 12341431.12]})
+    donor_dict.update({"paul allen": [734.12, 124.41, 10000]})
+    donor_dict.update({"jason jenkins": [10, 20, 30, 40, 50, 60]})
 
-    while(run_program):
+    while True:
         startup_prompt()
