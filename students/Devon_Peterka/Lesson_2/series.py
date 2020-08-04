@@ -6,7 +6,7 @@
  - add a function to produce the Lucas numbers - similar to the fibonacci series but starting with 2 and 1 in place of 0 and 1
  - create a function to create any variation of the Fibonacci and Lucas series defaulting to the Fibonacci, but allowing user-defined start points.
  
- - Finally, have the program test its functions by using assertions
+ - Finally, have the program test its functions by using assertions in an if __name__ == __main__ block
 '''
 
 #Define function for the Fibonacci Series
