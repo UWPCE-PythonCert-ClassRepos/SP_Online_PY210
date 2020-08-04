@@ -12,7 +12,7 @@ pth.absolute()
 #Christine Kim
 #Python210 Lesson 3 Mailroom Part 1
 
-#Donor dictionary created
+#Donor dictionary created 
 givetree = {("Rutherford", "Cullen"): (1500, 4200, 50000),
             ("Theirin", "Alistair"): (200, 80000, 1500000),
             ("Arainai", "Zevran"): (50,),
@@ -32,41 +32,30 @@ def menu(prompt, dispatch_dict):
     while True:
         #receive user input
         response = input(prompt)
-        if response not in ["1", "2", "3", "4"]:
-            print("Please choose from 1, 2, 3 or 4")
         #direct user to proper function
-        elif dispatch_dict[response]() == "exit menu":
-            #Quit Script
-            break
+        dispatch_dict[response]()
 
 #method for sending thank you to donor
 def thank_you():
     #receive user input donor full name
-    Giver = input("\nPlease enter the full name of the donor in 'first last' format,\n"
+    giver = input("\nPlease enter the full name of the donor in 'first last' format,\n"
                     "or type 'list' to display names on the record: ")
-    while Giver.lower() == "list":
+    while giver.lower() == "list":
         for last, first in givetree:
             print("{} {}".format(first, last))
-        Giver = input("\nPlease enter the full name of the donor in 'first last' format: ")
+        giver = input("\nPlease enter the full name of the donor in 'first last' format: ")
 
     #prompt for donation amount
     received = int(float(input("\nPlease enter the amount of donation: ")))
 
     #split first/last name
-    first_last = Giver.split(" ")
-    first_name = first_last[0]
-    last_name = first_last[1]
-
-    #capitalize name
-    if first_name[0].islower():
-        first_name = first_name.capitalize()
-    if last_name[0].islower():
-        last_name = last_name.capitalize()
+    first_last = giver.split(" ")
+    first_name = first_last[0].capitalize()
+    last_name = first_last[1].capitalize()
 
     #Update Existing donor
     if (last_name, first_name) in givetree:
-        donation_t = givetree.get((last_name, first_name))
-        new_entry = {(last_name, first_name): (donation_t) + (received,)}
+        new_entry = {(last_name, first_name): (givetree.get((last_name, first_name))) + (received,)}
         givetree.update(new_entry)
     #Add New donor
     else:
@@ -120,7 +109,7 @@ def email(first_name, last_name, amt):
 #quit the script
 def end():
     print("\nThank you for your patronage. Farewell!\n")
-    return "exit menu"
+    sys.exit()
 
 #main menu dictionary
 menu_dict = {"1": thank_you,
