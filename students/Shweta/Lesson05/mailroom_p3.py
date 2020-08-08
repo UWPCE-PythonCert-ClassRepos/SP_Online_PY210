@@ -58,7 +58,7 @@ def send_thankyou():
             else:
                 donor_db.get(dname).append(damt)
 
-        input(mty_msg.format(dname,damt))
+        print(mty_msg.format(dname,damt))
 
 
 ##########send letter#################
@@ -77,7 +77,7 @@ def create_report():
     print(top)
     print('-'*100)
 
-    for key,value in donar_db.items():
+    for key,value in sorted(donar_db.items()):
         line='{:20} ${:>20.2f}   {:20}   ${:20.2f}'.format(key,sum(value),len(value),(sum(value)/len(value)))
         print(line)
     print('')
@@ -91,21 +91,27 @@ def quit_pgm():
     sys.exit()
 
 
+#########main selection code###########
+
+def main_decision(answer):
+    try:
+        dict_options.get(int(answer))()
+    except (ValueError,NameError,TypeError):
+        print("Please do select between 1-4,try again")
+
+dict_options={
+    1: send_thankyou,
+    2: create_report,
+    3: send_letter,
+    4: quit_pgm
+    }
+
 ###########Main block##################
 def main():
     '''Main block of the code'''      
     while True:
-        response = input(prompt_msg)
-        if response == "1":
-            send_thankyou()
-        elif response == "2":
-            create_report()
-        elif response == "3":
-            send_letter()
-        elif response == "4":
-            quit_pgm()
-        else:
-            print("Please enter valid option!")
+        answer = input(prompt_msg)
+        main_decision(answer)
 
 if __name__ == "__main__":
     main()

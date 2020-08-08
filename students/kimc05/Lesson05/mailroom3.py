@@ -10,7 +10,7 @@ pth.is_dir()
 pth.absolute()
 
 #Christine Kim
-#Python210 Lesson 3 Mailroom Part 1
+#Python210 Lesson 5 Mailroom Part 3
 
 #Donor dictionary created 
 givetree = {("Rutherford", "Cullen"): (1500, 4200, 50000),
@@ -32,8 +32,12 @@ def menu(prompt, dispatch_dict):
     while True:
         #receive user input
         response = input(prompt)
-        #direct user to proper function
-        dispatch_dict[response]()
+        #Catch bad user input
+        try:
+            #direct user to proper function
+            dispatch_dict[response]()
+        except KeyError:
+            print("\nPlease choose from 1, 2, 3, or 4")
 
 #method for sending thank you to donor
 def thank_you():
@@ -44,14 +48,34 @@ def thank_you():
         for last, first in givetree:
             print("{} {}".format(first, last))
         giver = input("\nPlease enter the full name of the donor in 'first last' format: ")
+    #in case of not full name
+    while True:
+        try:
+            #split first/last name
+            first_last = giver.split()
+            first_name = first_last[0].capitalize()
+            last_name = first_last[1].capitalize()
+        #receive new info
+        except IndexError:
+            print("You've not entered a full name. Please enter the full name of the donor in 'first name' 'last name' format.")
+            giver = input("\nPlease enter the full name of the donor in 'first last' format,\n"
+                    "or type 'list' to display names on the record: ")
+            while giver.lower() == "list":
+                for last, first in givetree:
+                    print("{} {}".format(first, last))
+                giver = input("\nPlease enter the full name of the donor in 'first last' format: ")
+        else:
+            break
 
-    #prompt for donation amount
-    received = int(float(input("\nPlease enter the amount of donation: ")))
-
-    #split first/last name
-    first_last = giver.split(" ")
-    first_name = first_last[0].capitalize()
-    last_name = first_last[1].capitalize()
+    #catch bad user input
+    while True:
+        try:    
+            #prompt for donation amount
+            received = int(float(input("\nPlease enter the amount of donation: ")))
+        except ValueError:
+            print("\nPlease enter a numeric donation amount")
+        else:
+            break
 
     #Update Existing donor
     if (last_name, first_name) in givetree:
@@ -76,6 +100,7 @@ def report():
     sorted_Giver = sorted(givetree.items(), key=total_v, reverse=True)
 
     #summarize value and print report content
+    #comprehension cleanup possible?
     for person in sorted_Giver:
         #get name tuple
         last_first = person[:1][0]
@@ -91,14 +116,15 @@ def report():
 def total_v(info):
     return sum(info[1:][0])
 
+#create files of gratitude letters
+#comprehension cleanup possible?
 def letters():
     for l_name, f_name in givetree:
-        total = total_v(("empty", givetree.get((l_name, f_name))))
         with open(f"{f_name}_{l_name}.txt", "w") as dest:
-            dest.write(email(f_name, l_name, total))
+            dest.write(email(f_name, l_name, total_v(("empty", givetree.get((l_name, f_name))))))
 
+#Compose gratitude email
 def email(first_name, last_name, amt):
-    #Compose gratitude email
     thanks = (f"\nDear Ser {first_name} {last_name},\n"
     f"Thank you for your generous donation of ${amt:,d}\n"
     "We will make certain your goodwill is directed to aid those affected by the Fifth Blight.\n"
