@@ -12,4 +12,17 @@ def fibonacci(n):
             fib.append(x)
         return print(fib[n])
 
-fibonacci(7)
+def lucas(n):
+    if n == 0:
+        return print("2")
+    elif n == 1:
+        return print("1")
+    elif n > 1:
+        fib = [2, 1]
+        for x in range(2, n+1):
+            x = fib[x-1] + fib[x-2]
+            fib.append(x)
+        return print(fib[n])
+
+fibonacci(0)
+lucas(1)
