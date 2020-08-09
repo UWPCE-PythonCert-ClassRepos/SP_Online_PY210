@@ -59,24 +59,22 @@ def print_grid1(n):
     print(line)
 
 #CREATING A MULTIPLE INPUT FUNCTION
-"""
-def print_grid2(n):
+def print_grid2(n, m):
     #arbitrary values
-    x = 5
-    y = 2
+    x = math.ceil(n/2)
+    y = m
     #header to generate columns
     for t in range(y):
         line = ""
         #first row
-        for z in range(y*x): 
-            if z == 0:
-                line = line + "+"
-            elif z > 1 and x%z == 0:
-                line = line + " +"
-            else:
-                line = line + " -"
-        line = line + " +"
-        print(line)
+        for g in range(y):
+            for z in range(x): 
+                if z == 0:
+                    line = line + "+"
+                else:
+                    line = line + " -"
+            line = line + " "
+        print(line + "+")
 
         #Vertical Rows.
         for r in range(x-1):
@@ -97,12 +95,13 @@ def print_grid2(n):
     for z in range(y*x):
         if z == 0:
             line = line + "+"
-        elif z > 1 and x%z == 0:
+        elif z >= x and z%x == 0:
             line = line + " +"
         else:
             line = line + " -"
     line = line + " +"
     print(line)
-"""
+
 
 print_grid1(7)
+print_grid2(10, 5)
