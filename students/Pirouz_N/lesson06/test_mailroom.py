@@ -21,7 +21,6 @@ def mailroom_gen_db_seven_donors():
         'Beyonce': [1000.0, 100.0],
         'Melinda Gates': [10000000.0, 1000000.0, 1000020.0],
     }
-    mailroom.continue_loop = True
     return mailroom
 
 
