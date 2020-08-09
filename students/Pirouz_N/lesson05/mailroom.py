@@ -56,7 +56,7 @@ def main_menu():
         try:
             option_dict[option]()
         except KeyError:
-            print(f"Please choose from following options: {str([int(item) for item in list(option_dict)])[1:-1]}")
+            print(f"Please choose from following options: {' ,'.join(map(str, option_dict))}")
 
 
 def sort_donors(db_list):
