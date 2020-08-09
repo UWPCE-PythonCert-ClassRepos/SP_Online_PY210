@@ -5,8 +5,11 @@ def fibonacci(n):
         return print("0")
     elif n == 1:
         return print("1")
-    #elif n > 1:
-    #    for x in range(n):
-    #        if n 
+    elif n > 1:
+        fib = [0, 1]
+        for x in range(2, n+1):
+            x = fib[x-1] + fib[x-2]
+            fib.append(x)
+        return print(fib[n])
 
-fibonacci(1)
+fibonacci(7)
