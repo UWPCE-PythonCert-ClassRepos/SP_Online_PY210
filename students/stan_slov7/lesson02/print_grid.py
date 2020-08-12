@@ -86,3 +86,54 @@ print()
 print("2x2 grid with grid size param n=9: (identical to literal grid created with printGrid1, grid size 9)")
 printGrid2(9)
 print()
+
+#----------------------------Part 3----------------------------
+
+def line3(n,m):
+    print("+",("- " *m), end="")
+    
+def space3(n,m):
+    print("|", (" " *(2*m)), end="")
+
+
+def linerow3(n,m):
+    for i in range(n):
+        line3(n,m)
+    print("+")
+    
+def spacerow3(n,m):
+    for i in range(n):
+        space3(n,m)
+    print("|")
+
+
+def printRow3(n,m):
+    linerow3(n,m)
+    for i in range(m):
+        spacerow3(n,m)
+        
+    
+def printGrid3(n,m):
+#where param: n is number of cells
+#      param: m is grid cell width/length "unit" size 
+    for i in range(n):
+        printRow3(n,m)
+    linerow3(n,m)
+    
+
+#test3
+#where n number of rows/columns i.e. grids, and  m width/length of grid cell "unit" size
+print("test 3 using printGrid(n, m) function with 2 params, n as number of cells, m as the size of each cell within the grid.\n")
+
+print("3x3 grid with cell size m=4:")
+printGrid3(3,4)
+print()
+
+print("2x2 grid with cell size m=4:")
+printGrid3(2,4)
+print()
+
+print("2x2 grid with cell size m=8:")
+printGrid3(2,8)
+print()
+
