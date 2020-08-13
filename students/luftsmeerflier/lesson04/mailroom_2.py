@@ -28,8 +28,9 @@ def send_thank_you(first_name='', last_name=''):
 		date = list(donor.keys())[0]
 		write_letters(name, amount, date)
 	else:
-		print('Error')
-		send_thank_you()
+		amount = input("How much did {} donate?\n".format(name))
+		date = input("When was the donation? YYYY-MM-DD\n")
+		write_letters(name, amount, date)
 
 
 def write_letters(name, amount, date):	

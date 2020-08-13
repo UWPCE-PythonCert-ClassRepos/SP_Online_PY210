@@ -52,11 +52,9 @@ def thank_you():
         print(donor_list)
         thank_you()
     gift = float(input("Enter a donation amount: "))
-    for donor in donor_list:
-        if name in donor:  # if name is in the dictinoary
-            donor_list[name][0] += gift  # Total balance of donations
-            donor_list[name][1] += 1  # Keeping track of donation history
-            break  # If donor is in the list, break out
+    if name in donor_list.keys():  # check if name is in the dict
+        donor_list[name][0] += gift  # Total balance of donations
+        donor_list[name][1] += 1  # Keeping track of donation history
     else:
         donor_list.update({name: [gift, 1]})
     # Thank you email to the donor
