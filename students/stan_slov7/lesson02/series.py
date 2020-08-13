@@ -10,12 +10,30 @@ def fibonacci(n):
         return(fibonacci(n-1) + fibonacci(n-2))
 
 
-#test print
+def lucas(n):
+    """ compute the nth Lucas number """
+    if n<0:
+        return None
+    elif n==0:
+        return 2
+    elif n==1:
+        return 1
+    else:
+        return(lucas(n-1) + lucas(n-2))
+
+
+#test print for some n values
+print("Fibonacci(5): computing 5th Fibonacci number...\n")
 print(fibonacci(5))
+print()
+
+print("Lucas(5): computing 5th Lucas number...\n")
+print(lucas(5))
+print()
 
 
 if __name__ == "__main__":
-    # run some tests
+    # Fibonacci(n) asserts
     assert fibonacci(0) == 0
     assert fibonacci(1) == 1
     assert fibonacci(2) == 1
@@ -24,5 +42,10 @@ if __name__ == "__main__":
     assert fibonacci(5) == 5
     assert fibonacci(6) == 8
     assert fibonacci(7) == 13
+    # Lucas(n) asserts
+    assert lucas(0) == 2
+    assert lucas(1) == 1
+
+    assert lucas(4) == 7
 
     print("tests passed")
