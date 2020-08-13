@@ -42,10 +42,18 @@ list_series1 = prompt_list[:]    # copy prompt list so prompt remains unaltered
 print('Starting List: ', list_series1)    # print prompt list as requested
 list_series1.append(input('\nName a fruit to add: ').title())    # ask user for a fruit, add to end of list
 print('\n Now List is: ', list_series1)    # show the new list as requested
-show_num = int(input('Give an integer from 1-' + str(len(list_series1)) + ': '))
-while show_num not in range(1, len(list_series1)+1):    # protection from faulty user.  No protection from string input though...
+show_num = input('Give an integer from 1-' + str(len(list_series1)) + ': ')
+try:    # protection from faulty user... verify if value is an integer
+    int(show_num)
+except (ValueError):
+    show_num = -1    # set show_num to a known unacceptable integer if not an integer
+while show_num not in range(1, len(list_series1)+1):    # correct faulty user with a prompt & check loop
     print('Try again... Maybe follow instructions this time.')
     show_num = int(input('\nGive an integer from 1-' + str(len(list_series1)) + ': '))
+    try:    # protection from faulty user... verify if value is an integer
+        int(show_num)
+    except (ValueError):
+        show_num = -1    # set show_num to a known unacceptable integer if not an integer
 print('\nYou Picked: ', list_series1[show_num-1])    # display corresponding fruit from list
 list_series1 = [input('\nName another Fruit: ').title()] + list_series1    # ask for input, add to beginning of list with +
 print('\nUpdated List: ', list_series1)
@@ -72,7 +80,7 @@ list_series2B = 2 * list_series2[:]    # multiply the list by 2
 print('\nBONUS LIST: ', list_series2B)
 to_remove = input('\nName a fruit to remove from list: ')
 while to_remove not in list_series2B:    # protect from overly imaginative users
-    print('Invalid Input. Must be one of the following: ', list_series2)    # use original list so there are no doubles in user prompt
+    print('Invalid Input. Must be one of the following: ', list_series2)    # use original list b/c user doesn't need to see multiples of same option
     for i, fruit in enumerate(list_series2):
         print(fruit)
     to_remove = input('\nName a fruit to remove from list: ')
@@ -97,11 +105,11 @@ while list_series3[idx:idx+1]:    # Will be empty/falsy once list is done.
 print('\nSeries 3 Result: ', list_series3)
 
 # Series #4
-list_series4 = prompt_list[:]
+list_series4 = list_series1[:]
+print('\n              Original List: ', list_series4)
 for idx in range(len(list_series4)):
     new_item = list_series4 [idx][::-1]
     list_series4 [idx] = new_item
+print('          List Items Reversed: ', list_series4)
 del list_series4[-1]
-print('\nSeries #4')
-print('\n               Original List: ', prompt_list)
-print('\n  List after Series #4 Steps: ', list_series4)
+print('...and With Last Item Removed: ', list_series4)
