@@ -1,17 +1,21 @@
-def print_grid(n):
-    cellSize = n//2
-    PrintLine(cellSize)
-    for i in range(2):
-        PrintCell(cellSize)
-        PrintLine(cellSize)
+def PrintGrid(cells, size):
+    PrintLine(cells, size)
+    for i in range(cells):
+        PrintCell(cells, size)
+        PrintLine(cells, size)
     return True
     
-def PrintLine(width):
-    print('+','-'*width,'+','-'*width,'+')
+def PrintLine(cells, width):
+    for i in range(cells):
+        print('+', '-'*width, end = ' ')
+    print('+')
     return True
 
-def PrintCell(size):
+def PrintCell(cells, size):
     for i in range(size):
-        print('|',' '*size,'|',' '*size,'|')
-        
-print_grid(21)
+        for i in range(cells):
+            print('|', ' '*size, end = ' ')
+        print('|')
+    return True
+
+PrintGrid(10,1)
