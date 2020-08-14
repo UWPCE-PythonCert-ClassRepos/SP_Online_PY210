@@ -109,3 +109,29 @@ class CircleR2(Circle):
 
     def get_area(self):
         return Circle.get_area(self, self.radius*2)
+
+
+# Video 1 of 3: Class and Instance Attributes
+
+Class C:
+    this = 5
+    def __init__(self, that):
+        self.that = that
+
+c1 = C(10)
+c2 = C(20)
+
+c1.this
+c2.this
+
+c2.that
+c1.that
+
+c.this = 45
+
+#see the attributes in your class
+vars(c2)
+vars(c1)
+
+# Video 2 : Mutables in Keyword Arguments
+
