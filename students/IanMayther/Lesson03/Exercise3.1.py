@@ -26,6 +26,10 @@ def remove_every_other(seq):
 def FirstFour_LastFour_EveryOther(seq):
     return seq[4:-4:2]
 
+#4 - with the elements reversed (just with slicing).
+def reverse_it(seq):
+    return seq[::-1]
+
 if __name__ == "__main__":
     # run some tests
     a_string = "this is a string"
@@ -37,5 +41,7 @@ if __name__ == "__main__":
     print(remove_every_other(a_tuple))
     print(FirstFour_LastFour_EveryOther(a_string))
     print(FirstFour_LastFour_EveryOther(a_tuple))
+    print(reverse_it(a_string))
+    print(reverse_it(a_tuple))
     #assert swap_first_last(a_string) == "ghis is a strint"
     #assert swap_first_last(a_tuple) == (32, 54, 13, 12, 5, 2)
