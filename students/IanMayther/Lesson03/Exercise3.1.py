@@ -22,6 +22,10 @@ def swap_first_last(seq):
 def remove_every_other(seq):
     return seq[::2]
 
+#3 - with the first 4 and the last 4 items removed, and then every other item in the remaining sequence.
+def FirstFour_LastFour_EveryOther(seq):
+    return seq[4:-4:2]
+
 if __name__ == "__main__":
     # run some tests
     a_string = "this is a string"
@@ -31,5 +35,7 @@ if __name__ == "__main__":
     print(swap_first_last(a_tuple))
     print(remove_every_other(a_string))
     print(remove_every_other(a_tuple))
+    print(FirstFour_LastFour_EveryOther(a_string))
+    print(FirstFour_LastFour_EveryOther(a_tuple))
     #assert swap_first_last(a_string) == "ghis is a strint"
     #assert swap_first_last(a_tuple) == (32, 54, 13, 12, 5, 2)
