@@ -18,6 +18,9 @@ def swap_first_last(seq):
     last = seq[-1:]
     return last + middle + first
 
+#2 - with every other item removed.
+def remove_every_other(seq):
+    return seq[::2]
 
 if __name__ == "__main__":
     # run some tests
@@ -26,5 +29,7 @@ if __name__ == "__main__":
 
     print(swap_first_last(a_string))
     print(swap_first_last(a_tuple))
+    print(remove_every_other(a_string))
+    print(remove_every_other(a_tuple))
     #assert swap_first_last(a_string) == "ghis is a strint"
     #assert swap_first_last(a_tuple) == (32, 54, 13, 12, 5, 2)
