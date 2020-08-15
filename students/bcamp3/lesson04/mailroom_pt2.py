@@ -113,11 +113,11 @@ def quit_msg():
     return "exit menu"
 
 
-main_prompt = ('\nChoose one of the following options:\n'
-               '   1 - Send Thank You                 \n'
-               '   2 - Create a Report                \n'
-               '   3 - Send Thank You to all donors   \n'
-               '   4 - Quit                           \n'
+main_prompt = ('\nChoose one of the following options:   \n'
+               '   1 - Send Thank You to a single donor. \n'
+               '   2 - Create a Report.                  \n'
+               '   3 - Send letters to all donors.       \n'
+               '   4 - Quit                              \n'
                )
 
 main_dispatch = {'1': send_thank_you,
