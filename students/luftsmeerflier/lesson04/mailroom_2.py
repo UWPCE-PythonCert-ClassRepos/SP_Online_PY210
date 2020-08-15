@@ -23,7 +23,7 @@ def send_thank_you(first_name='', last_name=''):
 	name = input('What is the name of the donor?\n').title()
 	donor = donors.get(name)
 
-	if name in names_list:
+	if donor:
 		amount = list(donor.values())[0]
 		date = list(donor.keys())[0]
 		write_letters(name, amount, date)
@@ -43,7 +43,6 @@ def write_letters(name, amount, date):
 
 	with open("{}".format(letterhead), "w+") as thank_you:
 		thank_you.write(formatted)
-		thank_you.close()
 
 	print('\n')
 	print("Thank you letter has been created")
@@ -57,36 +56,33 @@ def create_report():
 	print("Donor Name".ljust(28) + '|'.ljust(2) + "Total Given" + '|'.rjust(2) + "Num Gifts".rjust(10) + "|".ljust(2) + "Average Gift")
 	print('-' * 70)
 
-	names_list = list(donors.keys())
-	#names_list.sort(key=)
+	# names_list = list(donors.keys())
+	# #names_list.sort(key=)
 
-	def total(name):
-		donor = donors.get(name)
-		total = 0
-		for donation in list(donor.values()):
-			total += donation
-		return total
+	# def total(name):
+	# 	donor = donors.get(name)
+	# 	total = 0
+	# 	for donation in list(donor.values()):
+	# 		total += donation
+	# 	return total
 
 
-	sorted_names = sorted(names_list,key=total, reverse=True)
+	# sorted_names = sorted(names_list,key=total, reverse=True)
 
-	for name in sorted_names:
-		index = sorted_names.index(name)
-		name = sorted_names[index]
-		donor = donors[name]
-		date = list(donors[name].keys())[0]
-		num_gifts = 0
-		total = 0
-		donations = list(donors[name].values())
-		for donation in donations:
-			total += donation
-			num_gifts += 1
-		average = int(total / num_gifts)
+	def key(item):
+		return sum(item[1].values())
 
-		name_length = len(name)
-			
+	# list of tuples
+	sorted_donors = sorted(donors.items(), key=key, reverse=True)
+
+	for donor in sorted_donors:
+		name = donor[0]
+		total = sum(list(donor[1].values()))
+		num_gifts = len(donor[1].values())
+		average = total / num_gifts
+		
 		print((name).ljust(30) + '$'.ljust(2) + str(total).ljust(15) + str(num_gifts).ljust(10) + '$'.ljust(2) + str(round(average, 2)))
-
+		
 	print('\n')
 
 
