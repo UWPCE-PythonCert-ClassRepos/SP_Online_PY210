@@ -48,3 +48,11 @@ for snack in fruit[:]:
         fruit.remove(snack)
 print(fruit)
 
+#Series 4
+fruit = series1[:]
+rev_fruit = []
+for snack in fruit:
+    rev_fruit.append(snack[::-1])
+fruit.pop()
+print(fruit)
+print(rev_fruit)
