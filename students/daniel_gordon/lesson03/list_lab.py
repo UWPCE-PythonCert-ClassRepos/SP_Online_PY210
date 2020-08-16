@@ -15,3 +15,13 @@ print(fruit)
 for snack in fruit:
     if snack.startswith("P"): print(snack)
 
+print(fruit)
+fruit.pop()
+print(fruit)
+delete = input("What should I remove?> ")
+if delete in fruit:
+    fruit.remove(delete)
+else:
+    print(f"{delete} not found")
+print(fruit)
+
