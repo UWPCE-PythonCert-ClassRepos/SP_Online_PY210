@@ -38,6 +38,30 @@ if __name__ == "__main__":
     #Eighth Bullet
     p_fruits = []
     for item in fruits:
-        if item[:1] == "P":
+        if item[:1] == "P" or item[:1] == "p":
             p_fruits.append(item)
-    print(p_fruits)
+    print(f"All the Fruits that begin with P: {p_fruits}")
+
+#Series 2
+    #First Bullet
+    print(fruits)
+
+    #Second Bullet
+    print("Removing Last Item.")
+    fruits.pop()
+    
+    #Third Bullet
+    print(f"New List: {fruits}")
+
+    #Fourth Bullet
+    fruits2 = fruits[:]
+    Not_In_List = False
+    while Not_In_List == False:
+        response = input(f"What Fruit should we remove? {fruits2}")
+        for i in range(len(fruits2)-1):
+            if response == fruits2[i]:
+                fruits2.pop(i)
+                Not_In_List = True
+        if Not_In_List == False:
+                print("Please select an Item in the list.")
+    print(f"Series 2 List: {fruits2}")        
