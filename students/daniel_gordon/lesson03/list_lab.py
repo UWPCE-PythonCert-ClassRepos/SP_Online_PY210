@@ -18,10 +18,16 @@ for snack in fruit:
 print(fruit)
 fruit.pop()
 print(fruit)
+fruit *= 2
+print(f"Mult by two {fruit}")
 delete = input("What should I remove?> ")
-if delete in fruit:
-    fruit.remove(delete)
-else:
+#keep asking until a valid value is chosen
+while delete not in fruit:
     print(f"{delete} not found")
+    print(fruit)
+    delete = input("What should I remove?> ")
+count = fruit.count(delete)
+for _ in range(count):
+    fruit.remove(delete)
 print(fruit)
 
