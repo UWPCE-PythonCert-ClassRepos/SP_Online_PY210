@@ -11,3 +11,7 @@ fruit = [response] + fruit
 print(fruit)
 fruit.insert(0, input("Add yet another fruit> "))
 print(fruit)
+
+for snack in fruit:
+    if snack.startswith("P"): print(snack)
+
