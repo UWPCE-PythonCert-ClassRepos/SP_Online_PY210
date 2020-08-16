@@ -20,8 +20,18 @@ if DEBUG: print(f"{option} is chosen")
 
 #Send a Thank You interface
 if option == 'S':
+    #Find out who to thank
     name = input("Enter Donors Full Name> ")
     while name == 'list':
         print(donors[::2])
         name = input("Enter Doners Full Name> ")
+    if name in donors:
+        send_to = donors.index(name)
+    else:
+        send_to = len(donors)
+        donors.append(name)
+        donors.append([])
+    #Enter ammount
+    money = input("Enter ammount donated> ")
+    donors[send_to+1].append(money)
     
