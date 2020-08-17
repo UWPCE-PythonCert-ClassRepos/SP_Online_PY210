@@ -3,7 +3,7 @@
 
 
 if __name__ == "__main__":
-# Series 1
+#Series 1
     #First Bullet
     fruits = ['Apples', 'Pears', 'Oranges', 'Peaches']
 
@@ -17,7 +17,7 @@ if __name__ == "__main__":
     #Fourth Bullet
     print(fruits)
 
-    #Fifit Bullet
+    #Fifth Bullet
     number = input(f"Please provide a number between 1 and {len(fruits)}?")
     if int(number) > len(fruits):
         print(f"Value too large, using {len(fruits)}")
@@ -58,10 +58,28 @@ if __name__ == "__main__":
     Not_In_List = False
     while Not_In_List == False:
         response = input(f"What Fruit should we remove? {fruits2}")
-        for i in range(len(fruits2)-1):
-            if response == fruits2[i]:
+        for i in range(len(fruits)):
+            if response == fruits[i]:
                 fruits2.pop(i)
                 Not_In_List = True
         if Not_In_List == False:
                 print("Please select an Item in the list.")
-    print(f"Series 2 List: {fruits2}")        
+    print(f"Series 2 List: {fruits2}")  
+
+#Series 3
+    fruits3 = []
+    print(f"Series 3 List: {fruits}")
+    for i, item in enumerate(fruits[:]):
+        definite = False
+        while definite == False:
+            response = input(f"Do you like {fruits[i].lower()}? Y/N - ")
+            if response == "Y":
+                definite = True
+                fruits3.append(fruits[i])                
+            elif response == 'N':
+                definite = True
+            else:
+                print("Please select Y or N") 
+                definite = False
+
+    print(fruits3)
