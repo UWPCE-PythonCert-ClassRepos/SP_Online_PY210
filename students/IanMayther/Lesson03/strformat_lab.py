@@ -18,22 +18,31 @@ if __name__ == "__main__":
         file_num = f"file_0{inputs[0]}"
     elif inputs[0] > 99:
         file_num = f"file_{inputs[0]}"  
+    deliv1 = file_num
     
     #Display (2) decimal places
     flo_num = str(inputs[1])
     output = ""
     Need_Decimal = False
-    while Need_Decimal == False:
-        count = 0
+    count = 0
+    while Need_Decimal == False:        
         for i, a in enumerate(flo_num):
             if a == ".":
                 count = i
-                output = flo_num[:i]
                 Need_Decimal = True
+    output = flo_num[(count+1):(count+4)]
+    number_sub1 = int(output[-1:])
+    number_sub2 = int(output[-2:-1])
+    if output.isnumeric():
+        if number_sub1 >= 5:
+            number_sub2 += 1
+    output = str(number_sub2)
+    deliv2 = flo_num[:(count+2)]+output
     
     #Display Scientific Information 2 decimal places
     place_holder = str(inputs[2])
     sci_num = f"{place_holder[:1]}.{place_holder[1:3]}e+0{len(place_holder)-1}"
+    deliv3 = sci_num
 
     #Display Flot Num as 2 decimal places
     place_holder = str(inputs[3])
@@ -46,10 +55,6 @@ if __name__ == "__main__":
                 mod_flo = f"{place_holder[:1]}.{place_holder[1:3]}e+0{i-1}"
                 output = place_holder[:i+3]
                 Need_Decimal = False
+    deliv4 = mod_flo
     
-
-
-    print(file_num)
-    print(output)
-    print(sci_num)
-    print(mod_flo)
+    print(f"{deliv1} :\t{deliv2}, {deliv3}, {deliv4}")
