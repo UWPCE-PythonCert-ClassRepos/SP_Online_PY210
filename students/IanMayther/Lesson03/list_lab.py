@@ -83,3 +83,12 @@ if __name__ == "__main__":
                 definite = False
 
     print(fruits3)
+
+#Series 4
+    fruits4 = fruits[:]
+    for i in range(len(fruits4)):
+        seq = fruits4[i]
+        fruits4[i] = seq[::-1]
+
+    print(f"Original List: {fruits}")
+    print(f"Reversed List: {fruits4}")
