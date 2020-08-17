@@ -50,24 +50,9 @@ def write_letters(name, amount, date):
 
 
 def create_report():
-	# print(donor_list[0].ljust(20) + donor_list[1].ljust(10) + donor_list[2].ljust(20) + donor_list[3].ljust(8))
-	# print(donor_list[0].ljust(20))
 	print('\n')
 	print("Donor Name".ljust(28) + '|'.ljust(2) + "Total Given" + '|'.rjust(2) + "Num Gifts".rjust(10) + "|".ljust(2) + "Average Gift")
 	print('-' * 70)
-
-	# names_list = list(donors.keys())
-	# #names_list.sort(key=)
-
-	# def total(name):
-	# 	donor = donors.get(name)
-	# 	total = 0
-	# 	for donation in list(donor.values()):
-	# 		total += donation
-	# 	return total
-
-
-	# sorted_names = sorted(names_list,key=total, reverse=True)
 
 	def key(item):
 		return sum(item[1].values())
@@ -82,7 +67,7 @@ def create_report():
 		average = total / num_gifts
 		
 		print((name).ljust(30) + '$'.ljust(2) + str(total).ljust(15) + str(num_gifts).ljust(10) + '$'.ljust(2) + str(round(average, 2)))
-		
+
 	print('\n')
 
 
@@ -111,7 +96,7 @@ prompt = "\n".join(("Please select from the following options:",
 	"2 - Create a Report",
 	"3 - Send letters to all donors.",
 	"4 - quit"
-	))
+))
 
 
 def main():
