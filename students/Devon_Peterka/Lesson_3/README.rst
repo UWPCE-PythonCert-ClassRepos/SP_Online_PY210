@@ -1,16 +1,13 @@
 LESSON 3
 
 slicing_lab:
-Experiment with manipulation of sequences by slicing.
-See file for further detail
+Exercise to practice manipulating sequences with slicing.
 
 list_lab:
-Experiment with list manipulation.
-See program file for further detail.
+Exercise to practice manipulating lists.
 
 strformat_lab:
-Experiment with string formatting and dynamic strings.
-See program file for further detail.
+Exercise to practice creating and manipulating formatted strings.
 
 Mailroom:
-Part 1 - somethinerother...
+Part 1 - program to store a list of donors and donation amounts.  Give user (3) options to either send thank you, print report, or quit.
