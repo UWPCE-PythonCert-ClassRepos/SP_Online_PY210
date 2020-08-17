@@ -7,6 +7,181 @@ import os
 from donor_models import *
 
 
+# Donor class tests
+def test_create_donor():
+    """Testing donor initializer populates the attributes."""
+    donor = Donor('John Smith', [1000.0, 2000.0])
+    assert donor.name != 'John Smithy'
+    assert donor.name == 'John Smith'
+    assert donor.donations != [1000.0, 2000.01]
+    assert donor.donations == [1000.0, 2000.0]
+
+
+def test_add_donation():
+    """Testing adding donation is functioning as intended."""
+    donor = Donor('John Smith', [1000.0, 2000.0])
+    assert donor.donations != [1000.0, 2000.01]
+    assert donor.donations == [1000.0, 2000.0]
+    donor.add_donation(3000.0)
+    assert donor.donations == [1000.0, 2000.0, 3000.0]
+    with pytest.raises(TypeError):
+        donor.add_donation(3000)
+    with pytest.raises(TypeError):
+        donor.add_donation('3000')
+    with pytest.raises(TypeError):
+        donor.add_donation([3000.0])
+    with pytest.raises(ValueError):
+        donor.add_donation(-10000.0)
+    with pytest.raises(ValueError):
+        donor.add_donation(0.0)
+    with pytest.raises(ValueError):
+        donor.add_donation(float('inf'))
+
+
+def test_all_properties_are_read_only():
+    """Testing four class properties are read only since based on current program flow there is no need for setters."""
+    donor = Donor('John Smith', [1000.0, 2000.0])
+    with pytest.raises(AttributeError):
+        donor.name = 'Jake Smith'
+    with pytest.raises(AttributeError):
+        donor.donations = [10000.0, 20000.0]
+    with pytest.raises(AttributeError):
+        donor.donations_sum = sum([10000.0, 20000.0])
+    with pytest.raises(AttributeError):
+        donor.donations_average = sum([10000.0, 20000.0]) / 2
+
+
+def test_check_name():
+    """Testing static method check name."""
+    donor = Donor('John Smith', [1000.0, 2000.0])
+    with pytest.raises(TypeError):
+        donor.check_name(10000)
+    with pytest.raises(TypeError):
+        donor.check_name(100.0)
+    with pytest.raises(TypeError):
+        donor.check_name(['Name'])
+    with pytest.raises(ValueError):
+        donor.check_name('')
+
+
+def test_check_donation():
+    """Testing static method check donation."""
+    donor = Donor('John Smith', [1000.0, 2000.0])
+    with pytest.raises(TypeError):
+        donor.check_donation(10000)
+    with pytest.raises(TypeError):
+        donor.check_donation('1110.0')
+    with pytest.raises(TypeError):
+        donor.check_donation([1000.00])
+    with pytest.raises(ValueError):
+        donor.check_donation(-10000.0)
+    with pytest.raises(ValueError):
+        donor.check_donation(0.0)
+    with pytest.raises(ValueError):
+        donor.check_donation(float('inf'))
+
+
+def test_check_donation_list():
+    """Testing method check donation list."""
+    with pytest.raises(TypeError):
+        Donor.check_donation_list(10000)
+    with pytest.raises(TypeError):
+        Donor.check_donation_list(10000)
+    with pytest.raises(TypeError):
+        Donor.check_donation_list(None)
+    with pytest.raises(TypeError):
+        Donor.check_donation_list([10000, 12222.9])
+    with pytest.raises(ValueError):
+        Donor.check_donation_list([-10000.0, 12222.9])
+    with pytest.raises(ValueError):
+        Donor.check_donation_list([0.0, 12222.9])
+    with pytest.raises(ValueError):
+        Donor.check_donation_list([float('inf'), 12222.9])
+
+
+def test_magic_method_equals():
+    """Testing method that checks magic method equals."""
+    donor = Donor('John Smith', [1000.0, 2000.0])
+    assert donor == Donor('John Smith', [1000.0, 2000.0])
+    assert donor != Donor('John Smith', [1000.0, 2000.01])
+    assert donor != Donor('John Smith', [1000.01, 2000.0])
+    assert donor != Donor('John Smith', [1000.0, 2000.0, 2003.0])
+    assert donor != Donor('John Smithy', [1000.0, 2000.0])
+    assert donor != Donor('John Smith', [1000.0])
+    with pytest.raises(TypeError):
+        donor == 1000
+    with pytest.raises(TypeError):
+        donor == 'testing'
+    with pytest.raises(TypeError):
+        donor == None
+    with pytest.raises(TypeError):
+        donor == ('John Smith', [1000.0, 2000.0])
+
+
+# DonorCollection class tests ones not specifically included in the functional testing section below
+def test_donor_collection_init():
+    """Testing donner collection init function."""
+    donor_db = [
+        ('William Gates, III', [653772.32, 12.17]),
+        ('Jeff Bezos', [877.33]),
+        ('Paul Allen', [663.234, 43.87, 1.32]),
+        ('Mark Zuckerberg', [1663.23, 4300.87, 10432.0]),
+        ('Jayz', [999.9, 100.0, 100.0]),
+        ('Beyonce', [1000.0, 100.0]),
+        ('Melinda Gates', [10000000.0, 1000000.0, 1000020.0]),
+    ]
+    donors = DonorCollection(donor_db)
+    assert donors.donors == [Donor('Melinda Gates', [10000000.0, 1000000.0, 1000020.0]),
+                             Donor('William Gates, III', [653772.32, 12.17]),
+                             Donor('Mark Zuckerberg', [1663.23, 4300.87, 10432.0]),
+                             Donor('Jayz', [999.9, 100.0, 100.0]),
+                             Donor('Beyonce', [1000.0, 100.0]),
+                             Donor('Jeff Bezos', [877.33]),
+                             Donor('Paul Allen', [663.234, 43.87, 1.32]),
+                             ]
+
+
+def test_create_table():
+    """Testing create table from donors collection method."""
+    donor_db = [
+        ('William Gates, III', [653772.32, 12.17]),
+        ('Jeff Bezos', [877.33]),
+        ('Paul Allen', [663.234, 43.87, 1.32]),
+        ('Mark Zuckerberg', [1663.23, 4300.87, 10432.0]),
+        ('Jayz', [999.9, 100.0, 100.0]),
+        ('Beyonce', [1000.0, 100.0]),
+        ('Melinda Gates', [10000000.0, 1000000.0, 1000020.0]),
+    ]
+    donors = DonorCollection(donor_db)
+    donors.add_donor_or_donation('John Smith', 100.0)
+    new_db = [('Melinda Gates', [10000000.0, 1000000.0, 1000020.0]),
+              ('William Gates, III', [653772.32, 12.17]),
+              ('Mark Zuckerberg', [1663.23, 4300.87, 10432.0]),
+              ('Jayz', [999.9, 100.0, 100.0]),
+              ('Beyonce', [1000.0, 100.0]),
+              ('Jeff Bezos', [877.33]),
+              ('Paul Allen', [663.234, 43.87, 1.32]),
+              ('John Smith', [100.0]),
+    ]
+    assert donors.create_donor_table() == new_db
+
+
+def test_thank_all_donors():
+    """Testing writing tank you to all donors is implemented correctly."""
+    donor_db = [
+        ('William Gates, III', [653772.32, 12.17]),
+        ('Jeff Bezos', [877.33]),
+        ('Paul Allen', [663.234, 43.87, 1.32]),
+        ('Mark Zuckerberg', [1663.23, 4300.87, 10432.0]),
+        ('Jayz', [999.9, 100.0, 100.0]),
+        ('Beyonce', [1000.0, 100.0]),
+        ('Melinda Gates', [10000000.0, 1000000.0, 1000020.0]),
+    ]
+    donors = DonorCollection(donor_db)
+    assert donors.thank_all_donors() == '\n'.join([donor.generate_letter() for donor in donors.donors]) + '\n'
+
+
+# Program functionality test
 @pytest.fixture
 def donors_collection():
     """Setting up donor collection."""

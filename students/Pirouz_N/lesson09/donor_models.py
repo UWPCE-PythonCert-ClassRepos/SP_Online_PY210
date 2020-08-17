@@ -35,12 +35,7 @@ class Donor:
             TypeError: If donation is not a float.
             ValueError: If Donation is negative zero or inf.
         """
-        if not isinstance(donation, float):
-            raise TypeError('Donation must be of type float.')
-        if donation <= 0:
-            raise ValueError('Donation must be larger than zero.')
-        if donation == float('inf'):
-            raise ValueError('Donation cannot be infinity.')
+        self.check_donation(donation)
         self._donations.append(donation)
 
     @property
@@ -106,10 +101,15 @@ class Donor:
             donation: Is the list of donations of a given donor.
 
         Raises:
-            TypeError: If a value in the list is not a float.
+            TypeError: If donation is not a float.
+            ValueError: If Donation is negative zero or inf.
         """
         if not isinstance(donation, float):
-            raise TypeError('Donations must be of type float.')
+            raise TypeError('Donation must be of type float.')
+        if donation <= 0:
+            raise ValueError('Donation must be larger than zero.')
+        if donation == float('inf'):
+            raise ValueError('Donation cannot be infinity.')
 
     @staticmethod
     def check_donation_list(donations_list):
@@ -127,8 +127,7 @@ class Donor:
         if not isinstance(donations_list, list):
             raise TypeError('Donations list must be a list.')
         for donation in donations_list:
-            if not isinstance(donation, float):
-                raise TypeError('Donations must be of type float.')
+            Donor.check_donation(donation)
 
     def __eq__(self, other):
         """Checks if donor is equal to another donor."""

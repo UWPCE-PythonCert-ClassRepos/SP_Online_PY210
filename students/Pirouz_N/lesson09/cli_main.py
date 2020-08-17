@@ -90,6 +90,12 @@ def send_thank_you(donors):
         elif option == '':
             print('Name is required for every donor.')
         else:
+            if option not in donors:
+                response = input("Entered name in not amongst the donors. Are you sure you want to add this donor to"
+                                 " the list of donors. If so please type yes and hit enter otherwise hit enter and the"
+                                 "program will return to previous state.\n")
+                if response != "yes":
+                    continue
             ask_donation_write_thank_you(option, donors)
             break
 
