@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 
 '''
-Create functions to take a sequence and create a copy except:
-1) with the first and last items exchanged
-2) with every other term removed
-3) with the first and last (4) terms removed
-4) with reversed elements
-5) with last 1/3, then first 1/3, then middle 1/3 in the new order
+# Create functions to take a sequence and create a copy except:
+# 1) with the first and last items exchanged
+# 2) with every other term removed
+# 3) with the first and last (4) terms removed
+# 4) with reversed elements
+# 5) with last 1/3, then first 1/3, then middle 1/3 in the new order
 '''
 
 # first and last terms swapped.
