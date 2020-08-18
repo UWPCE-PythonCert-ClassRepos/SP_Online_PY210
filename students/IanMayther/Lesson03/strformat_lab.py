@@ -78,3 +78,12 @@ if __name__ == "__main__":
     '''
     outcome = "0{3} {4} {2} 0{0} {1}".format(*t4_t)
     print(outcome)
+
+#Task Five
+    t5_input = ['oranges', 1.3, 'lemons', 1.1]
+    '''
+    Desire Outcome
+    The weight of an orange is 1.3 and the weight of a lemon is 1.1
+    '''
+    print(f"The weight of an {t5_input[0]} is {t5_input[1]} and the weight of a {t5_input[2]}  is {t5_input[3]}")
+    print(f"The weight of an {t5_input[0].upper()} is {t5_input[1] * 1.2} and the weight of a {t5_input[2].upper()}  is {t5_input[3] * 1.2}")
