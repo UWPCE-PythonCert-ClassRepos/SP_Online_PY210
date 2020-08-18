@@ -2,10 +2,10 @@
 import sys
 
 donors = {
-	"John Quigley": {"2019-02-04": 5000.00, "2019-02-04": 4250.00, "2019-02-04": 3000.00},
-	"Sara Smith": {"2020-04-02": 2000.00, "2019-02-04": 42000.00, "2019-02-04": 32000.00},
-	"Jacob van der Schmidt": {"2012-04-20": 20.00, "2019-02-04": 2000.00, "2019-02-04": 3400.00},
-	"Ogden Nash": {"2019-02-04": 5000000.00, "2019-02-04": 500000.00, "2019-02-04": 50000.00}
+	"John Quigley": {"2019-02-04": 5000.00, "2019-02-05": 4250.00, "2019-02-07": 3000.00},
+	"Sara Smith": {"2020-01-02": 2000.00, "2019-02-08": 42000.00, "2019-02-02": 32000.00},
+	"Jacob van der Schmidt": {"2012-01-20": 20.00, "2019-02-24": 2000.00, "2019-12-1": 3400.00},
+	"Ogden Nash": {"2019-06-04": 5000000.00, "2019-04-04": 500000.00, "2019-12-04": 50000.00}
 }
 
 def send_thank_you(first_name='', last_name=''):
@@ -50,24 +50,9 @@ def write_letters(name, amount, date):
 
 
 def create_report():
-	# print(donor_list[0].ljust(20) + donor_list[1].ljust(10) + donor_list[2].ljust(20) + donor_list[3].ljust(8))
-	# print(donor_list[0].ljust(20))
 	print('\n')
 	print("Donor Name".ljust(28) + '|'.ljust(2) + "Total Given" + '|'.rjust(2) + "Num Gifts".rjust(10) + "|".ljust(2) + "Average Gift")
 	print('-' * 70)
-
-	# names_list = list(donors.keys())
-	# #names_list.sort(key=)
-
-	# def total(name):
-	# 	donor = donors.get(name)
-	# 	total = 0
-	# 	for donation in list(donor.values()):
-	# 		total += donation
-	# 	return total
-
-
-	# sorted_names = sorted(names_list,key=total, reverse=True)
 
 	def key(item):
 		return sum(item[1].values())
@@ -87,8 +72,6 @@ def create_report():
 
 
 def send_letter_all():
-	text = "Dear {},\n Thank you very much for your very kind donation of ${}.\n It will be put to good use.\nSincerely,\n-The Team"
-
 	for donor in donors:
 		name = donor
 		amount = list(donors[name].values())[0]
