@@ -416,4 +416,3 @@ def sum67(nums):
 
 def has22(nums):
     return "22" in ''.join(str(char) for char in nums)
-    
