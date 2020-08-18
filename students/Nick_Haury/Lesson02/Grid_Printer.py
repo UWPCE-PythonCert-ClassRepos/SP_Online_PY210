@@ -44,6 +44,7 @@ def print_grid2(number, size):
     print_edge_row(number, size)    
 
 if __name__ == "__main__":
+    pass
     # testing grid printing
     # print_grid(3)
     # print_grid(9)
