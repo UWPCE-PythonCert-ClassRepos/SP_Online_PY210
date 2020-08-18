@@ -67,32 +67,4 @@ class Sphere(Circle):
 
 
 
-c=Circle(5)
-print(c.radius)
-print(c.diameter)
-
-c.diameter = int(20)
-print(c.radius)
-print(c.diameter)
-
-c=Circle(2)
-print(c.area)
-
-c=Circle.from_diameter(4)
-print(c.radius)
-print(c.diameter)
-
-c=Circle(4)
-print(c)
-
-print(repr(c))
-
-
-c1=Circle(4)
-c2=Circle(2)
-
-print(c1 + c2)
-print(c1 * 3)
-print(c1 > c2)
-print(c1 == c2)
 
