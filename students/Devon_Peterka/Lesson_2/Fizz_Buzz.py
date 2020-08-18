@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
-'''Fizz Buzz class exercise.  Count from 1 to 100, replace multiples of 3 with "Fizz", multiples of 5 with "Buzz", and multiples of 3 AND 5 with "FizzBuzz" '''
+'''
+Fizz Buzz class exercise.  Count from 1 to 100, replace multiples of 3 with "Fizz", multiples of 5 with "Buzz", and multiples of 3 AND 5 with "FizzBuzz"
+'''
 
 for i in range (1, 100 + 1):                     #count through loop from 1 to 100
     print_value=''                               #initialize print_value string as empty

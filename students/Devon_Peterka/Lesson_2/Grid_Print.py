@@ -16,17 +16,17 @@ print()
 #Part 2 - Print grid of arbitrary cell size using a function
 
 def print_grid(n):
-    for i in range (0,n+2):
+    for i in range(0,n+2):
         if i in [0,n//2+1,n+1]:
-            for j in range (0,2*n+3):
-                if j in [0,n+1,2*(n+1)]:
+            for j in range(0,2*n+3):
+                if j in [0, n+1, 2*(n+1)]:
                     print('+', end='')
                 elif j%2 != 0:
                     print(' ', end='')
                 else:
                     print('-', end='')
         else:
-            for j in range (0,2*n+3):
+            for j in range(0, 2*n+3):
                 print('|', end='') if j in [0,n+1,2*(n+1)] else print(' ', end='')
         print()
 
@@ -41,9 +41,9 @@ print_grid(12)
 
 
 #Part 3 - Print square grid of arbitrary size and cells
-def print_grid2(c,n):
-    for i in range (0,c*(n+1)+1):
-        for j in range(0,c*(n+1)+1):
+def print_grid2(c, n):
+    for i in range(0, c*(n+1)+1):
+        for j in range(0, c*(n+1)+1):
             if i%(1+n) == 0:
                 print(' +', end='') if j%(1+n) == 0 else print(' -', end='')
             else:
