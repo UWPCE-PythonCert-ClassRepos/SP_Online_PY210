@@ -58,3 +58,8 @@ if __name__ == "__main__":
     deliv4 = mod_flo
     
     print(f"{deliv1} :\t{deliv2}, {deliv3}, {deliv4}")
+
+#Task Two
+    print("{0}:    {1}, {2}, {3}".format(deliv1, deliv2, deliv3, deliv4))
+
+
