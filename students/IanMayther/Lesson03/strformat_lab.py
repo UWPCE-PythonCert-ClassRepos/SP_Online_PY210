@@ -67,7 +67,14 @@ if __name__ == "__main__":
     print("{0}:    {1}, {2}, {3}".format(deliv1, deliv2, deliv3, deliv4))
 
 #Task Three
-    t = (6,3,1,15, 100, 25, 96, 69)
-    print(formatter(t))
+    t3_t = (6,3,1,15, 100, 25, 96, 69)
+    print(formatter(t3_t))
 
 #Task Four
+    t4_t = ( 4, 30, 2017, 2, 27)
+    '''
+    Desired Outcome
+    '02 27 2017 04 30'
+    '''
+    outcome = "0{3} {4} {2} 0{0} {1}".format(*t4_t)
+    print(outcome)
