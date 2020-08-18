@@ -2,7 +2,8 @@
 def formatter(in_tuple):
     num = len(in_tuple)
     tups = in_tuple
-    return "The {0} numbers are: {1}, {2}, {3}".format(num, *tups)
+    message = "The %s numbers are: %s" % (num, tups)
+    return message
 
 if __name__ == "__main__":
 #Task One
@@ -66,5 +67,7 @@ if __name__ == "__main__":
     print("{0}:    {1}, {2}, {3}".format(deliv1, deliv2, deliv3, deliv4))
 
 #Task Three
-    t = (6,3,1,15)
+    t = (6,3,1,15, 100, 25, 96, 69)
     print(formatter(t))
+
+#Task Four
