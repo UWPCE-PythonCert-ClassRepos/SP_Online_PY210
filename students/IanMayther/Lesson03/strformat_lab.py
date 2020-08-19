@@ -87,3 +87,15 @@ if __name__ == "__main__":
     '''
     print(f"The weight of an {t5_input[0]} is {t5_input[1]} and the weight of a {t5_input[2]}  is {t5_input[3]}")
     print(f"The weight of an {t5_input[0].upper()} is {t5_input[1] * 1.2} and the weight of a {t5_input[2].upper()}  is {t5_input[3] * 1.2}")
+
+#Task Six
+    names = ['Ian', 'Jill', 'Spencer', 'Ryan', 'Dan']
+    ages = [12, 36, 57, 34, 39]
+    cost = [10.00, 1000.00, 0.00, 25.00, 6.00]
+
+    print("{0:>15s}{1:^15s}{2:>12s}".format("Name", "Age", "Cost"))
+
+    for name in range(len(names)):
+        print("{0:>15s}".format(names[name]), end=' ')
+        print("{0:^15}".format(ages[name]), end=' ')
+        print("{0:>10.2f}".format(cost[name]))
