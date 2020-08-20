@@ -64,3 +64,31 @@ print("--------------------------End of Task 4--------------------------")
 print()
 
 
+#-------------------------------Task 5-------------------------------
+
+lst5 = ['oranges', 1.3, 'lemons', 1.1]
+
+#write an f-string to display:
+#The weight of an orange is 1.3 and the weight of a lemon is 1.1
+
+fruit1 = lst5[0][:-1] 
+fruit2 = lst5[2][:-1]
+weight1 = lst5[1]
+weight2 = lst5[3]
+
+#pass these names to the fstrings and modify them however needed later
+fstr1 = f"The weight of an {fruit1} is {weight1} and the weight of a {fruit2} is {weight2}" 
+print(fstr1)
+print()
+
+print("Now change to display the fruits names in uppercase and their weights increased by 20%...")
+print()
+
+#f-strings allow to pass functions or do math within the { } in the template string itself
+fstr2 = f"The weight of an {fruit1.upper()} is {weight1*1.2} and the weight of a {fruit2.upper()} is {weight2*1.2}" 
+print(fstr2)
+
+print()
+print("--------------------------End of Task 5--------------------------")
+print()
+
