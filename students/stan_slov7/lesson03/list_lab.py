@@ -34,6 +34,58 @@ def series1(lst_orig):
 
 
 
+def series2(lst_orig):
+
+    lst = lst_orig[:]
+    #to start with copy of original list to be  
+    print("This is the Original list: \n", lst, "\n")
+    last_fruit = lst.pop()
+    print("The Original list with its last fruit: {:s} removed.\n".format(last_fruit), lst, "\n")
+    
+    idx = 0
+    while not idx:
+        ans = input("Enter a Fruit to delete from the list above:\n")
+        fruit = ans.lower().capitalize()
+        try:
+            idx = (lst.index(fruit) + 1) 
+            #returns index+1 as position if such string exists in list and breaks loop as a result  
+        except ValueError: #>>>ValueError: no such value in list      (TypeError for if int instead of string?) (NameError?)
+            print("ValueError: {:s} is not an exact string match for any of the Fruit values in the list above...\n".format(ans))
+    
+    lst.pop(idx-1)
+    #(lst.pop(idx-1) == fruit) --> True   #fruit found at index same value as specified by user
+    
+    print("Deleted the Fruit specified by the user: {:s}, found at position #{:d} of the list above.\n".format(fruit, idx))
+    print("Updated list consists of the following Fruit values: ", lst, "\n")
+    
+    lst_cpy = lst_orig[:]  #copy of initial list that will be multiplied x2 and used further
+    lst_2x = lst_cpy *2
+    print("Repeat the same task with the following 2x length list:\n", lst_2x, "\n")
+    
+    #use a loop that breaks when an existing string is found in list
+    match_found = False  #can use this flag to run the loop break proper input given then use to initiate delete of all instances
+    amt_deleted = 0
+    while not match_found:
+        ans2x = input("Enter a Fruit value to delete from the latest 2x list above.\n")
+        fruit2x = ans2x.lower().capitalize()
+        if fruit2x in lst_2x:
+            match_found = True   
+        else: 
+            print("{:s} was not found in list, please enter an actual Fruit value in the 2x list above...\n".format(ans2x))
+    while match_found:
+        if fruit2x in lst_2x:
+            lst_2x.remove(fruit2x)
+            amt_deleted += 1
+            print("Deleting instance #{:d} of Fruit: {:s}...\n".format(amt_deleted, fruit2x))
+        else:
+            match_found = False
+            print("No additional instances of Fruit: {:s} remain, ending procedure.\n".format(fruit2x))
+    print("Located and deleted {:d} total instance(s) of Fruit: {:s} specified by user, "
+          "for removal of any and all its occurances within the 2x list above.\n".format(amt_deleted, fruit2x))
+    print("Updated 2x list now consists of the following Fruit values:\n", lst_2x, "\n")
+    print("------------------------------End of Series2------------------------------\n")
+
+
 if __name__ == "__main__":
     
     #initialize the Original list used to begin each of the series scripts
@@ -43,5 +95,5 @@ if __name__ == "__main__":
     lst_original = ["Apples", "Pears", "Oranges", "Peaches"]
 
     series1(lst_original)
-    
+    series2(lst_original)
     
