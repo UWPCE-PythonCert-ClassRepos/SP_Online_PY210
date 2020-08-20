@@ -62,8 +62,33 @@ def series_2(the_list):
     print(the_list, end="\n\n")
 
 
+def series_3(the_list):
+    print("Almsot there, this is Series 3!")
+    for fruit in the_list[:]:
+        liked_response = None
+        while liked_response not in ["yes", "y", "no", "n"]:
+            liked_response_raw = input(f"Do you like {fruit}? yes or no: -> ")
+            liked_response = liked_response_raw.lower()
+    print("\nI guess this is what you like...hmmm, picky much?")
+    print(the_list, end="\n\n")
+
+
 if __name__ == "__main__":
-    mocked_responses = ["UserFruit", "3", "notinlist", "Pears"]
+    mocked_responses = [
+        "UserFruit",
+        "3",
+        "notinlist",
+        "Pears",
+        "stubbornNo",
+        "Yes",
+        "YES",
+        "NO",
+        "N",
+        "y",
+        "y",
+        "n",
+    ]
     mocked_resp_gen = response_generator(mocked_responses)
     series1_result = series_1()
     series_2(series1_result)
+    series_3(series1_result)
