@@ -22,6 +22,15 @@ def reversed_slice(seq):
     return new_seq
 
 
+def last_third_first(seq):
+    i = len(seq)//3
+    last = seq[i*2:]
+    first = seq[:i]
+    middle = seq[i:i*2]
+    new_seq = last + first + middle
+    return new_seq
+
+
 
 if __name__ == "__main__":
 
@@ -42,6 +51,12 @@ if __name__ == "__main__":
     print("sequence 2: ", exchange_first_last(a_tuple))
     print("sequence 3: ", exchange_first_last(a_second_tuple))
     print()
+    
+    print("every other element removed:\n")
+    print("sequence 1: ", every_other_removed(a_string))
+    print("sequence 2: ", every_other_removed(a_tuple))
+    print("sequence 3: ", every_other_removed(a_second_tuple))
+    print()
 
     print("every other element removed with first 4 and last 4 elements deleted:\n")
     print("sequence 1: ", every_other_short(a_string))
@@ -55,6 +70,12 @@ if __name__ == "__main__":
     print("sequence 3: ", reversed_slice(a_second_tuple))
     print()
     
+    print("last 1/3, first 1/3, mid 1/3:\n")
+    print("sequence 1: ", last_third_first(a_string))
+    print("sequence 2: ", last_third_first(a_tuple))
+    print("sequence 3: ", last_third_first(a_second_tuple))
+    print()
+
 
     #Now conduct some Assert tests for each function with the same 3 sequences.
 
@@ -86,3 +107,11 @@ if __name__ == "__main__":
     print("---tests for reversed_slice(seq) passed!---")
     print()
 
+    # tests for last_third_first(seq):
+    assert last_third_first(a_string) == "stringthis is a "
+    assert last_third_first(a_tuple) == (5, 32, 2, 54, 13, 12)
+    assert last_third_first(a_second_tuple) == (39, 45, 11, 9, 28, 5, 72, 13, 26, 89, 3, 17, 63)
+    print("---tests for last_third_first(seq) passed!---")
+    print()
+    
+    print("ALL Assert Tests Passed!")
