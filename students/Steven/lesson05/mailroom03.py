@@ -38,6 +38,8 @@ def main():
             switch_func_dict.get(choice)()
         except ValueError as error_message:
             print(error_message)
+        except TypeError:
+            print("Not a valid option, please select again.")
 
 # Menu of options for the user in the script
 def options():
@@ -51,18 +53,18 @@ def options():
 # Ask for a donor name and donation amount, send an email to that donor once completed
 def thank_you():
     name = input("Enter a first and last name: ").title()
+    if name.lower() == "list":
+        print(donor_list)
+        thank_you()
     try:
-        if name.lower() == "list":
-            print(donor_list)
-            thank_you()
         gift = float(input("Enter a donation amount: "))
-        if name in donor_list.keys():  # check if name is in the dict
-            donor_list[name][0] += gift  # Total balance of donations
-            donor_list[name][1] += 1  # Keeping track of donation history
-        else:
-            donor_list.update({name: [gift, 1]})
     except ValueError as error_message:  # Catch if the user doesn't input a number
         print(error_message)
+    if name in donor_list.keys():  # check if name is in the dict
+        donor_list[name][0] += gift  # Total balance of donations
+        donor_list[name][1] += 1  # Keeping track of donation history
+    else:
+        donor_list.update({name: [gift, 1]})
     # Thank you email to the donor
     print(f"Thank you {name} for your generous donation of ${gift:.2f}, your kindness is very appreciated.", "\n")
 
