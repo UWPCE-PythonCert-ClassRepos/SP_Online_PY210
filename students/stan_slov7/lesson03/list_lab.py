@@ -108,6 +108,30 @@ def series3(lst_orig):
 
 
 
+def series4(lst_orig):
+
+    lst = lst_orig[:]
+    lst_copy = lst[:]    
+    #intact Original, printed for reference only
+    print("The Original list defined initially:\n", lst, "\n")
+    print("Initializing list Copy of Original...\n")
+    print("Iterating over list Copy and reversing each individual member item in place...\n")
+    
+    print("idx : original : reversed ")
+    for idx, item in enumerate(lst_copy[:]):
+        print(" {:d}  :  {:s}  :  {:s}  ".format(idx, item, item[::-1]))
+        lst_copy[idx] = item[::-1]
+        
+    print("")
+    print("The Copy of the Original list with each of its individual items reversed:\n", lst_copy, "\n")
+    
+    last_item = lst.pop()
+    print("The Original list after removing its last item: {:s} from the "
+          "back of the initially defined list:\n".format(last_item), lst, "\n")
+    print("------------------------------End of Series4------------------------------\n")
+
+
+
 if __name__ == "__main__":
     
     #initialize the Original list used to begin each of the series scripts
@@ -119,6 +143,7 @@ if __name__ == "__main__":
     series1(lst_original)
     series2(lst_original)
     series3(lst_original)
+    series4(lst_original)
     
     
     
