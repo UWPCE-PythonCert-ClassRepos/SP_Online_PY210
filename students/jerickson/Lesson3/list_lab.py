@@ -1,6 +1,11 @@
 # windows4life
-def input(*args):  # Mocks input function
-    return "3"
+
+def response_generator(seq):
+    for item in seq:
+        yield item
+
+def input(prompt):  # Mocks input function
+    return mocked_resp_gen.__next__()
 
 
 def series_1():
@@ -26,4 +31,6 @@ def series_1():
 
 
 if __name__ == "__main__":
+    mocked_responses = ['PurpleFruit', '3']
+    mocked_resp_gen = response_generator(mocked_responses)
     series1_result = series_1()
