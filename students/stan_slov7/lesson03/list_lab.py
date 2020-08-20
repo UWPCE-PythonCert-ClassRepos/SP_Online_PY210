@@ -86,6 +86,28 @@ def series2(lst_orig):
     print("------------------------------End of Series2------------------------------\n")
 
 
+
+def series3(lst_orig):
+
+    lst = lst_orig[:]
+    print("The Original starting list is:\n", lst, "\n")
+    for fruit in lst[:]:  #iterate over a copy
+        while True: #input check for each value in the list till user chooses to keep or delete Fruit value 
+            ans = input("Do you like {:s}?\n".format(fruit.lower()))
+            if ans == "no":
+                lst.remove(fruit)
+                break
+            if ans == "yes":
+                break
+            else:   
+                print("Please give an answer in the form either 'yes' or 'no' only. "
+                      "No other form of input will allow the program script to continue.\n")
+    print("The resulting list of Fruit values remaining is based on the input given by user regarding "
+          "their 'yes'/'no' preference of each Fruit from the Original list:\n", lst, "\n")        
+    print("------------------------------End of Series3------------------------------\n")
+
+
+
 if __name__ == "__main__":
     
     #initialize the Original list used to begin each of the series scripts
@@ -96,4 +118,7 @@ if __name__ == "__main__":
 
     series1(lst_original)
     series2(lst_original)
+    series3(lst_original)
+    
+    
     
