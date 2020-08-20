@@ -33,3 +33,34 @@ print("--------------------------End of Task 2--------------------------")
 print()
 
 
+#-------------------------------Task 3-------------------------------
+
+#in simpler few lines using .join() method instead of loops or enumeration which would be less efficient
+def formatter(in_tup):
+   len_tup = len(in_tup)
+   fmtstr3 = "the {:d} numbers are: " + ", ".join(["{:d}"] *len_tup)
+   return fmtstr3.format(len_tup, *in_tup)
+
+#test formatter
+tup3 = (1, 2, 3, 4, 5, 6, 7)
+
+print(formatter(tup3))
+
+print()
+print("--------------------------End of Task 3--------------------------")
+print()
+
+
+#-------------------------------Task 4-------------------------------
+
+tup4 = (4, 30, 2017, 2, 27)
+
+#simplified changing the positions within the string itself while reading in the tuple in its usual order
+fmtstr4 = "{3:02d} {4:d} {2:d} {0:02d} {1:d}".format(*tup4)
+print(fmtstr4)
+
+print()
+print("--------------------------End of Task 4--------------------------")
+print()
+
+
