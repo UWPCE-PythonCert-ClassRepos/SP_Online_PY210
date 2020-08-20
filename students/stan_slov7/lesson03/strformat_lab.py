@@ -92,3 +92,48 @@ print()
 print("--------------------------End of Task 5--------------------------")
 print()
 
+
+#-------------------------------Task 6-------------------------------
+
+#print several rows of alligned collumns, each containing a name, age, cost 
+
+data = [("Joe", 33, 1800.89),
+        ("Rebecca", 27, 12000),
+        ("Kenny", 28, 9700.79),
+        ("Alexa", 31, 340000),
+        ("Rob", 37, 357.37)]
+
+hdr = "| Name:       |  Age:  |   Cost:    |"
+spr = "+" + ("-"*13) + "+" + ("-"*8) + "+" + ("-"*12) + "+"
+row = "| {name:<12s}|{age:^8d}|${cost:>10.2f} |".format
+
+print(spr)
+print(hdr)
+print(spr)
+for person in data:
+    print(row(name = person[0], age = person[1], cost = person[2]))
+print(spr)
+
+print()
+print("--------------------------End of Task 6--------------------------")
+print()
+
+
+#------------Extra Task------------ 
+
+nums = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+length = len(nums)
+border =  ("+" + ("-"*5)) * length + "+"
+
+#have two sets of { } brackets inside the {:d} containing the tuple values
+#so that they can be setup to be able to change the fill and width of the columns
+
+style = ("|{:^{fill}{width}d}" * length + "|").format
+
+print(border)
+print(style(*nums, fill = "", width = 5))
+print(border)
+
+print()
+print("--------------------------End of Extra Task--------------------------")
+print()
