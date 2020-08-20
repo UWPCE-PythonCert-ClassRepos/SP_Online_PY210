@@ -12,6 +12,16 @@ def every_other_removed(seq):
     return new_seq
 
 
+def every_other_short(seq):
+    new_seq = seq[4:-4:2] #slice incl index 4 until excluding index 4 from end of seq, with every other item removed
+    return new_seq
+
+
+def reversed_slice(seq):
+    new_seq = seq[::-1]  #copy of seq reversed
+    return new_seq
+
+
 
 if __name__ == "__main__":
 
@@ -33,6 +43,18 @@ if __name__ == "__main__":
     print("sequence 3: ", exchange_first_last(a_second_tuple))
     print()
 
+    print("every other element removed with first 4 and last 4 elements deleted:\n")
+    print("sequence 1: ", every_other_short(a_string))
+    print("sequence 2: ", every_other_short(a_tuple))
+    print("sequence 3: ", every_other_short(a_second_tuple))
+    print()
+    
+    print("reversed sequence:\n")
+    print("sequence 1: ", reversed_slice(a_string))
+    print("sequence 2: ", reversed_slice(a_tuple))
+    print("sequence 3: ", reversed_slice(a_second_tuple))
+    print()
+    
 
     #Now conduct some Assert tests for each function with the same 3 sequences.
 
@@ -49,3 +71,18 @@ if __name__ == "__main__":
     assert every_other_removed(a_second_tuple) == (5, 13, 89, 17, 39, 11, 28)
     print("---tests for every_other_removed(seq) passed!---")
     print()
+    
+    # tests for every_other_short(seq):
+    assert every_other_short(a_string) == " sas"
+    assert every_other_short(a_tuple) == ()
+    assert every_other_short(a_second_tuple) == (89, 17, 39)
+    print("---tests for every_other_short(seq) passed!---")
+    print()
+    
+    # tests for reversed_slice(seq):
+    assert reversed_slice(a_string) == "gnirts a si siht"
+    assert reversed_slice(a_tuple) == (32, 5, 12, 13, 54, 2)
+    assert reversed_slice(a_second_tuple) == (28, 9, 11, 45, 39, 63, 17, 3, 89, 26, 13, 72, 5)
+    print("---tests for reversed_slice(seq) passed!---")
+    print()
+
