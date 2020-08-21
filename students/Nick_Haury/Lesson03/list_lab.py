@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 '''
-
+This Script is meant to be a practice in manipulating lists.  It starts
+with a list of fruits, upon which copies are made, and modifications are
+made to either the original list, the copy, or even both.
 '''
 
 # Series 1
