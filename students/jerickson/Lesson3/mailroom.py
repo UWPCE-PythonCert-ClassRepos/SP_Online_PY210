@@ -1,10 +1,10 @@
 donation_data_header = ["Name", "Total Given", "Num Gifts", "Average Gift"]
 donation_data = [
-    ("Usama Black", 10101, 4),
-    ("Malachy Krause", 4242, 42),
+    ("Usama Black", 10101, 3),
+    ("Malachy Krause", 4242, 1),
     ("Kezia Hassan", 3023, 3),
     ("Lyla Moody", 580, 1),
-    ("Pamela Guerra", 32, 6),
+    ("Pamela Guerra", 32, 2),
     ("Bob Barker", 1, 1),
 ]
 
@@ -30,10 +30,9 @@ def report():
 
     # Print Donor Records
     for donor in donation_data:
-        print(report_break, end="")
+        print(report_break)
         donor_average = int(donor[1] / donor[2])
         donor_string = f"|{donor[0]:^16}| ${donor[1]:>12.2f}|{donor[2]:^13d}| ${donor_average:>13.2f}|"
-        print()
         print(donor_string)
     print(report_end)
 
