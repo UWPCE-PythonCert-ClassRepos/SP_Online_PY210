@@ -57,3 +57,14 @@ for fruit in fruits_copy:
         elif yes_no_input == "no":
             fruits.remove(fruit)
 print(fruits)
+
+# Series 4
+
+print("")
+print("Series 4")
+fruits_reversed = []
+for fruit in fruits:
+    fruits_reversed.append(fruit[::-1])
+fruits.pop()
+print(fruits)
+print(fruits_reversed)
