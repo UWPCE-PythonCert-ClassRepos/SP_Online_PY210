@@ -3,7 +3,7 @@ donation_data = [
     ["Usama Black", 22002, 3],
     ["Kezia Hassan", 3023, 3],
     ["Lyla Moody", 580, 1],
-    ["King Aruther", 400, 1],
+    ["King Arthur", 400, 1],
     ["Pamela Guerra", 32, 2],
     ["Malachy Krause", 4242, 1],
 ]
@@ -107,9 +107,10 @@ def thank_you():
 
 if __name__ == "__main__":
     print("\nBack to the grind in the mailroom.", end="\n\n")
-    are_you_mocking_me = True
+    are_you_mocking_me = int(input('Are you mocking me?? "0": no, "1": yes->: '))
 
     if are_you_mocking_me:
+        """Mocks input() to allow for automated list of user-inputs to be run"""
 
         def response_generator(seq):
             for item in seq:
@@ -122,16 +123,32 @@ if __name__ == "__main__":
             return response
 
         mocked_responses = [
+            "spam",
+            "create a report",
+            "send a thank you",
             "Bob Barker",
             "1",
+            "send a thank you",
             "list",
             "King Arthur",
             "400",
+            "create a report",
+            "quit",
         ]
         mocked_resp_gen = response_generator(mocked_responses)
 
-    report()
-    thank_you()
-    thank_you()
-    report()
-
+    quit_flag = False
+    while not quit_flag:
+        command = input(
+            "\nChoose: Say “Send a Thank You”, “Create a Report” or “Quit” ->: "
+        )
+        command = command.lower()
+        if command == "send a thank you":
+            thank_you()
+        elif command == "create a report":
+            report()
+        elif command == "quit":
+            quit_flag = True
+        else:
+            print(f"Unrecognized Command: {command}")
+    print("Fin")
