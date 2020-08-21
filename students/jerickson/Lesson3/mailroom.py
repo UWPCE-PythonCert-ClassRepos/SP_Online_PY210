@@ -55,12 +55,64 @@ def new_donation(donor_name, amount):
     donor_record = donor_existance(donor_name)
     donor_record[1] += amount
     donor_record[2] += 1
+    compose_email(donor_record, amount)
+
+
+def donor_list():
+    """Return a string of comma seperated donor names"""
+    all_names = []
+    for donor_record in donation_data:
+        all_names.append(donor_record[0])
+    format_string = " {}," * (len(all_names))
+    return format_string.format(*all_names)[:-1]  # Slice removes extra comma at end
+
+
+def compose_email(donor_record, amount):
+    """Print a thank-you email using the donor's historical information"""
+    time_s = "times" if donor_record[2] > 1 else "time"
+    email = f"Thank you {donor_record[0]} for your donation of ${amount:.2f}! You have donated {donor_record[2]} {time_s} for a total of ${donor_record[1]:.2f}."
+    print(email)
+
+
+def thank_you():
+    """Add new donation to the record and compose a thank you email for it"""
+    donor_name = None
+    while not donor_name:
+        donor_name = input("Who just made a donation? Full Name please. ->: ")
+        if donor_name == "list":
+            print("All Donors:" + donor_list())
+            donor_name = None
+    donor_amount = int(input("How much was the donation? ->: "))
+    new_donation(donor_name, donor_amount)
 
 
 if __name__ == "__main__":
     print("\nBack to the grind in the mailroom.", end="\n\n")
+    are_you_mocking_me = True
+
+    if are_you_mocking_me:
+
+        def response_generator(seq):
+            for item in seq:
+                yield item
+
+        def input(prompt):  # Mocks input function
+            print(prompt, end="")
+            response = mocked_resp_gen.__next__()
+            print(response)
+            return response
+
+        mocked_responses = [
+            "Bob Barker",
+            "1",
+            "list",
+            "King Arthur",
+            "400",
+        ]
+        mocked_resp_gen = response_generator(mocked_responses)
+
     report()
-    new_donation("Bob Barker", 1000)
-    new_donation("King Arthur", 400)
+    thank_you()
+    thank_you()
     report()
 
