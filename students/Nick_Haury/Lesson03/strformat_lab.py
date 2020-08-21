@@ -22,3 +22,8 @@ def formatter(input_tuple):
         formatter_string += f"{tup}, "
     formatter_string = formatter_string[:-1]
     return formatter_string
+
+# Task Four
+
+five_tuple = (4, 30, 2017, 2, 27)
+formatted_five_tuple = f"{five_tuple[3]:0>2} {five_tuple[4]} {five_tuple[2]} {five_tuple[0]:0>2} {five_tuple[1]}"
