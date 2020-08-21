@@ -28,7 +28,8 @@ print(temp_fruits)
 print("")
 print("Series 2")
 print(fruits)
-fruits.pop()
+fruits2 = fruits[:]
+fruits2.pop()
 print(fruits)
 found_fruit = False
 while not found_fruit:
@@ -39,4 +40,20 @@ while not found_fruit:
         found_fruit = True
     else:
         fruits = fruits * 2
+print(fruits)
+
+# Series 3
+
+print("")
+print("Series 3")
+yes_no_input = ""
+fruits_copy = fruits[:]
+for fruit in fruits_copy:
+    yes_no_input = ""
+    while yes_no_input not in ("yes", "no"):
+        yes_no_input = input("Do you like " + fruit.lower() + "?: ")
+        if yes_no_input not in ("yes", "no"):
+            print("answer must be 'yes' or 'no'")
+        elif yes_no_input == "no":
+            fruits.remove(fruit)
 print(fruits)
