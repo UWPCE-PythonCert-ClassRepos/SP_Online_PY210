@@ -1,11 +1,11 @@
 donation_data_header = ["Name", "Total Given", "Num Gifts", "Average Gift"]
 donation_data = [
-    ("Usama Black", 10101, 3),
-    ("Malachy Krause", 4242, 1),
-    ("Kezia Hassan", 3023, 3),
-    ("Lyla Moody", 580, 1),
-    ("Pamela Guerra", 32, 2),
-    ("Bob Barker", 1, 1),
+    ["Usama Black", 10101, 3],
+    ["Malachy Krause", 4242, 1],
+    ["Kezia Hassan", 3023, 3],
+    ["Lyla Moody", 580, 1],
+    ["Pamela Guerra", 32, 2],
+    ["Bob Barker", 1, 1],
 ]
 
 
@@ -37,6 +37,30 @@ def report():
     print(report_end)
 
 
+def donor_existance(donor_name):
+    """Returns a donor's record if it exists, else None"""
+    return_record = None
+    for donor_record in donation_data:
+        if donor_name in donor_record:
+            return_record = donor_record
+            break
+    else:
+        return_record = [donor_name, 0, 0]
+        donation_data.append(return_record)  # Create donor if not found
+    return return_record
+
+
+def new_donation(donor_name, amount):
+    """Adds a new donation to the donation record"""
+    donor_record = donor_existance(donor_name)
+    donor_record[1] += amount
+    donor_record[2] += 1
+
+
 if __name__ == "__main__":
     print("\nBack to the grind in the mailroom.", end="\n\n")
     report()
+    new_donation("Bob Barker", 1000)
+    new_donation("King Arthur", 400)
+    report()
+
