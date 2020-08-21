@@ -1,7 +1,7 @@
 donation_data_header = ["Name", "Total Given", "Num Gifts", "Average Gift"]
 donation_data = [
     ["Usama Black", 22002, 3],
-    ["Kezia Hassan", 3023, 3],
+    ["Kezia Hassan", 3023.23, 3],
     ["Lyla Moody", 580, 1],
     ["King Arthur", 400, 1],
     ["Pamela Guerra", 32, 2],
@@ -50,7 +50,7 @@ def report():
     # Print Donor Records
     for donor in donation_data:
         print(report_break)
-        donor_average = int(donor[1] / donor[2])
+        donor_average = float(donor[1] / donor[2])
         donor_string = f"|{donor[0]:^16}| ${donor[1]:>12.2f}|{donor[2]:^13d}| ${donor_average:>13.2f}|"
         print(donor_string)
     print(report_end)
@@ -60,7 +60,7 @@ def donor_existance(donor_name):
     """Returns a donor's record if it exists, else None"""
     return_record = None  # TODO Remove this
     for donor_record in donation_data:
-        if donor_name in donor_record:
+        if donor_name.lower() == donor_record[0].lower():
             return_record = donor_record
             break
     else:
@@ -101,7 +101,7 @@ def thank_you():
         if donor_name == "list":
             print("All Donors:" + donor_list())
             donor_name = None
-    donor_amount = int(input("How much was the donation? ->: "))
+    donor_amount = float(input("How much was the donation? ->: "))
     new_donation(donor_name, donor_amount)
 
 
@@ -130,8 +130,8 @@ if __name__ == "__main__":
             "1",
             "send a thank you",
             "list",
-            "King Arthur",
-            "400",
+            "King ArThur",
+            "400.2",
             "create a report",
             "quit",
         ]
