@@ -1,16 +1,35 @@
 donation_data_header = ["Name", "Total Given", "Num Gifts", "Average Gift"]
 donation_data = [
-    ["Usama Black", 10101, 3],
-    ["Malachy Krause", 4242, 1],
+    ["Usama Black", 22002, 3],
     ["Kezia Hassan", 3023, 3],
     ["Lyla Moody", 580, 1],
+    ["King Aruther", 400, 1],
     ["Pamela Guerra", 32, 2],
-    ["Bob Barker", 1, 1],
+    ["Malachy Krause", 4242, 1],
 ]
 
 
+def sort_donation_data():
+    """Sort the donation_data data-structure by Total-Given"""
+    global donation_data
+    sorted_data = []
+    for donor_record in donation_data[:]:
+        if not sorted_data:
+            sorted_data.insert(0, donor_record)
+        else:
+            for index_sorted, sorted_record in enumerate(sorted_data[:]):
+                if donor_record[1] >= sorted_record[1]:
+                    sorted_data.insert(index_sorted, donor_record)
+                    break
+            else:
+                sorted_data.append(donor_record)
+    donation_data = sorted_data
+
+
 def report():
+    """Print a report of the donation history."""
     # Format report lines
+    sort_donation_data()
     title = donation_data_header[:]
     report_header = f"|{title[0]:^16}|  {title[1]:^12}|{title[2]:^13}|  {title[3]:^13}|"
     report_break_list = []
@@ -39,7 +58,7 @@ def report():
 
 def donor_existance(donor_name):
     """Returns a donor's record if it exists, else None"""
-    return_record = None
+    return_record = None  # TODO Remove this
     for donor_record in donation_data:
         if donor_name in donor_record:
             return_record = donor_record
