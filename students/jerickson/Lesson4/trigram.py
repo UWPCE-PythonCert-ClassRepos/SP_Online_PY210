@@ -44,22 +44,42 @@ def generate_multi_grams(words, xgram_seq):
     return multi_gram_structures
 
 
-def generate_new_text(multi_grams, new_story_length=25):
-    # TODO add missing key error correction
-    # TODO search multiple x-grams
-    # new_story = ["im", "jester", "nice", "to"]
-    new_story = ["hello", "its", "me", "jester"]
+def generate_new_text(multi_grams, new_story_seed, new_story_length=25):
+    new_story = new_story_seed[:]
     new_words_to_gen = new_story_length - len(new_story)
 
-    xgram_size = 3
-    xgram_key_len = xgram_size - 1
     for _ in range(new_words_to_gen):
-        word_key = tuple(new_story[-xgram_key_len:])
+        all_xgram_matches = get_all_xgram_matches(new_story, multi_grams)
+        xgram_size = pick_xgram_size(all_xgram_matches)
+        word_key = all_xgram_matches[xgram_size]["word key"]
         new_word = random.choice(multi_grams[xgram_size][word_key])
+        #     word_key = tuple(new_story[-xgram_key_len:])
+        #     new_word = random.choice(multi_grams[xgram_size][word_key])
         new_story.append(new_word)
-        # print(multi_grams[xgram_size][word_key])
-        # print(new_word)
+    #     # print(multi_grams[xgram_size][word_key])
+    #     # print(new_word)
+
     print(" ".join(new_story))
+
+
+def get_all_xgram_matches(new_story, multi_grams):
+    all_xgram_matches = {}
+    for xgram_size in multi_grams:
+        xgram_key_len = xgram_size - 1
+        try:
+            word_key = tuple(new_story[-xgram_key_len:])
+            xfollowers = multi_grams[xgram_size][word_key]
+        except KeyError:
+            continue
+        all_xgram_matches[xgram_size] = {"word key": word_key, "count": len(xfollowers)}
+    return all_xgram_matches
+
+
+def pick_xgram_size(all_xgram_matches):
+    for xgram_size, xgram_data in all_xgram_matches.items():
+        if xgram_data["count"] > 3:
+            break
+    return xgram_size  # returns last xgram_size if none found to break loop
 
 
 if __name__ == "__main__":
@@ -67,13 +87,14 @@ if __name__ == "__main__":
     # TODO random generated seed story
     raw = get_material(speaker="LAURA")
     words = get_words(source_material=raw)
-    xgram_list = [2, 3, 4, 5, 6, 7, 8]
+    xgram_list = [2, 3, 4, 5, 6, 7, 8].sort(reverse=True)
     multi_grams = generate_multi_grams(words, xgram_list)
     # for k, v in multi_grams[8].items():
     #     if len(v) > 3:
     #         print(k, v)
+    story_seed = ["hi"]
     for i in range(10):
-        generate_new_text(multi_grams, new_story_length=25)
+        generate_new_text(multi_grams, new_story_seed=story_seed, new_story_length=25)
     # for gram_size, gram_structure in multi_grams.items():
     #     print(gram_size)
     #     for word_set, followers in gram_structure.items():
