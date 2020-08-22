@@ -18,9 +18,7 @@ def sort_donation_data():
     # Create sortable dictionary
     for name, record in donation_data.items():
         amount = record["total given"]
-        all_names = donation_data_sortable.get(amount, [])
-        all_names.append(name)
-        donation_data_sortable[amount] = all_names
+        donation_data_sortable.setdefault(amount, []).append(name)
 
     # Sort donors and place in list
     for amount in sorted(donation_data_sortable, reverse=True):
@@ -60,40 +58,27 @@ def report():
     print(report_end)
 
 
-def donor_existance(donor_name):
-    """Returns a donor's record if it exists, else None"""
-    return_record = None  # TODO Remove this
-    for donor_record in donation_data:
-        if donor_name.lower() == donor_record[0].lower():
-            return_record = donor_record
-            break
-    else:
-        return_record = [donor_name, 0, 0]
-        donation_data.append(return_record)  # Create donor if not found
-    return return_record
-
-
 def new_donation(donor_name, amount):
     """Adds a new donation to the donation record"""
-    donor_record = donor_existance(donor_name)
-    donor_record[1] += amount
-    donor_record[2] += 1
-    compose_email(donor_record, amount)
+    donor_record = donation_data.setdefault(
+        donor_name, {"total given": 0, "num gifts": 0}
+    )
+    donor_record["total given"] += amount
+    donor_record["num gifts"] += 1
+    compose_email(donor_name, donor_record, amount)
 
 
 def donor_list():
     """Return a string of comma seperated donor names"""
-    all_names = []
-    for donor_record in donation_data:
-        all_names.append(donor_record[0])
+    all_names = sort_donation_data()
     format_string = " {}," * (len(all_names))
     return format_string.format(*all_names)[:-1]  # Slice removes extra comma at end
 
 
-def compose_email(donor_record, amount):
+def compose_email(donor_name, donor_record, amount):
     """Print a thank-you email using the donor's historical information"""
-    time_s = "times" if donor_record[2] > 1 else "time"
-    email = f"Thank you {donor_record[0]} for your donation of ${amount:.2f}! You have donated {donor_record[2]} {time_s} for a total of ${donor_record[1]:.2f}."
+    time_s = "times" if donor_record["num gifts"] > 1 else "time"
+    email = f"Thank you {donor_name} for your donation of ${amount:.2f}! You have donated {donor_record['num gifts']} {time_s} for a total of ${donor_record['total given']:.2f}."
     print(email)
 
 
@@ -112,49 +97,48 @@ def thank_you():
 if __name__ == "__main__":
     print("\nBack to the grind in the mailroom.", end="\n\n")
 
-    report()
-    # are_you_mocking_me = int(input('Are you mocking me?? "0": no, "1": yes->: '))
+    are_you_mocking_me = int(input('Are you mocking me?? "0": no, "1": yes->: '))
 
-    # if are_you_mocking_me:
-    #     """Mocks input() to allow for automated list of user-inputs to be run"""
+    if are_you_mocking_me:
+        """Mocks input() to allow for automated list of user-inputs to be run"""
 
-    #     def response_generator(seq):
-    #         for item in seq:
-    #             yield item
+        def response_generator(seq):
+            for item in seq:
+                yield item
 
-    #     def input(prompt):  # Mocks input function
-    #         print(prompt, end="")
-    #         response = mocked_resp_gen.__next__()
-    #         print(response)
-    #         return response
+        def input(prompt):  # Mocks input function
+            print(prompt, end="")
+            response = mocked_resp_gen.__next__()
+            print(response)
+            return response
 
-    #     mocked_responses = [
-    #         "spam",
-    #         "create a report",
-    #         "send a thank you",
-    #         "Bob Barker",
-    #         "1",
-    #         "send a thank you",
-    #         "list",
-    #         "King ArThur",
-    #         "400.2",
-    #         "create a report",
-    #         "quit",
-    #     ]
-    #     mocked_resp_gen = response_generator(mocked_responses)
+        mocked_responses = [
+            "spam",
+            "create a report",
+            "send a thank you",
+            "Bob Barker",
+            "1",
+            "send a thank you",
+            "list",
+            "King Arthur",
+            "400.2",
+            "create a report",
+            "quit",
+        ]
+        mocked_resp_gen = response_generator(mocked_responses)
 
-    # quit_flag = False
-    # while not quit_flag:
-    #     command = input(
-    #         "\nChoose: Say “Send a Thank You”, “Create a Report” or “Quit” ->: "
-    #     )
-    #     command = command.lower()
-    #     if command == "send a thank you":
-    #         thank_you()
-    #     elif command == "create a report":
-    #         report()
-    #     elif command == "quit":
-    #         quit_flag = True
-    #     else:
-    #         print(f"Unrecognized Command: {command}")
-    # print("Fin")
+    quit_flag = False
+    while not quit_flag:
+        command = input(
+            "\nChoose: Say “Send a Thank You”, “Create a Report” or “Quit” ->: "
+        )
+        command = command.lower()
+        if command == "send a thank you":
+            thank_you()
+        elif command == "create a report":
+            report()
+        elif command == "quit":
+            quit_flag = True
+        else:
+            print(f"Unrecognized Command: {command}")
+    print("Fin")
