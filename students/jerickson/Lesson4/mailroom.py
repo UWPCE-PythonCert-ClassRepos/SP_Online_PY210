@@ -65,7 +65,7 @@ def new_donation(donor_name, amount):
     )
     donor_record["total given"] += amount
     donor_record["num gifts"] += 1
-    compose_email(donor_name, donor_record, amount)
+    compose_new_donation_email(donor_name, donor_record, amount)
 
 
 def donor_list():
@@ -75,11 +75,27 @@ def donor_list():
     return format_string.format(*all_names)[:-1]  # Slice removes extra comma at end
 
 
-def compose_email(donor_name, donor_record, amount):
-    """Print a thank-you email using the donor's historical information"""
+def compose_new_donation_email(donor_name, donor_record, amount):
+    """Print a new-donation thank-you email using the donor's historical information"""
     time_s = "times" if donor_record["num gifts"] > 1 else "time"
     email = f"Thank you {donor_name} for your donation of ${amount:.2f}! You have donated {donor_record['num gifts']} {time_s} for a total of ${donor_record['total given']:.2f}."
     print(email)
+
+
+def compose_all_donors_emails():
+    """Write to disk a thank-you email using the donor's historical information"""
+    file_id = 0
+    for donor_name, donor_record in donation_data.items():
+        time_s = (
+            f"{donor_record['num gifts']:d} donations"
+            if donor_record["num gifts"] > 1
+            else "donation"
+        )  # Grammer correction of donation vs # donations
+        email = f"Thank you {donor_name},\n\nYour {time_s} totaling ${donor_record['total given']:.2f} will help us.\n\n{'':>40}Best Regards,\n{'':>40}Jacob Erickson"
+        file_name = f"Donor{file_id:03d}_{donor_name}_gitnore.txt"
+        with open(file_name, "w") as file:
+            file.write(email)
+        file_id += 1
 
 
 def thank_you():
@@ -127,6 +143,7 @@ if __name__ == "__main__":
             "King Arthur",
             "400.2",
             "create a report",
+            "send letters to everyone",
             "quit",
         ]
         mocked_resp_gen = response_generator(mocked_responses)
@@ -135,11 +152,12 @@ if __name__ == "__main__":
     command_dispatch = {
         "send a thank you": thank_you,
         "create a report": report,
+        "send letters to everyone": compose_all_donors_emails,
         "quit": quit_interface,
     }
     while not quit_flag:  # Dispatch loop
         command = input(
-            "\nChoose: “Send a Thank You”, “Create a Report” or “Quit” ->: "
+            "\nChoose: “Send a Thank You”, “Create a Report” “Send Letters to Everyone” or “Quit” ->: "
         )
         command = command.lower()
         try:
