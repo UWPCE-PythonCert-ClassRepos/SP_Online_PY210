@@ -1,7 +1,7 @@
 import re
 
 
-def source_material(short=True):
+def get_material(short=True):
     original_short = "I wish I may I wish I might"
     # Critical Role
     original_long = """
@@ -76,12 +76,12 @@ def source_material(short=True):
         return original_long
 
 
-original = source_material(False)
-processed = re.sub(r"[^a-zA-Z ]+", "", original)  # strip all but letters
-original_sep = processed.split()
+def get_words(source_material):
+    processed = re.sub(r"[^a-zA-Z ]+", "", source_material)  # strip all but letters
+    return processed.split()
 
 
-def generate_xgram_strucutre(xgram_size=3):
+def generate_xgram_strucutre(words, xgram_size=3):
     """
     Build up the Xgrams dict from the list of words. X being variable length.
 
@@ -93,16 +93,29 @@ def generate_xgram_strucutre(xgram_size=3):
     """
     xgram_key_len = xgram_size - 1
     xgram_structure = {}
-    for i in range(0, len(original_sep) - xgram_key_len):
-        xgram_list = original_sep[i : i + xgram_key_len]
+    for i in range(0, len(words) - xgram_key_len):
+        xgram_list = words[i : i + xgram_key_len]
         i_xgram = xgram_structure.setdefault(tuple(xgram_list), [])
-        i_xgram.append(original_sep[i + xgram_key_len])
+        i_xgram.append(words[i + xgram_key_len])
     return xgram_structure
 
 
-di_gram_structure = generate_xgram_strucutre(xgram_size=2)
-tri_gram_structure = generate_xgram_strucutre(xgram_size=3)
-quad_gram_structure = generate_xgram_strucutre(xgram_size=4)
+def generate_multi_grams(words, xgram_seq):
+    multi_gram_structures = {}
+    for xgram_size in xgram_seq:
+        multi_gram_structures[xgram_size] = generate_xgram_strucutre(
+            words=words, xgram_size=xgram_size,
+        )
+    return multi_gram_structures
 
-for k, v in tri_gram_structure.items():
-    print(k, v)
+
+if __name__ == "__main__":
+    raw = get_material(False)
+    words = get_words(source_material=raw)
+    xgram_list = [2, 3, 4, 5]
+    multi_grams = generate_multi_grams(words, xgram_list)
+    for gram_size, gram_structure in multi_grams.items():
+        print(gram_size)
+        for word_set, followers in gram_structure.items():
+            print(word_set, followers)
+
