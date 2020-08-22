@@ -2,7 +2,7 @@
 import math
 
 
-def printGrid():
+def print_grid():
     plus = '+'
     minus = '-'
 
@@ -10,7 +10,7 @@ def printGrid():
     plusLine = '+ ' + dashes
     wholePlusLine = plusLine + plusLine + '+'
 
-    spaces = '    ' * 4
+    spaces = '  ' * 4
     barLine = '| ' + spaces
     wholeBarLine = barLine + barLine + '|'
 
@@ -34,12 +34,12 @@ def printGrid():
 def print_grid2(n):
 
     numberOfDashes = math.floor(n/2)
-#    print(numberOfDashes)
+    #  print(numberOfDashes)
     dashes = '- ' * numberOfDashes
     plusLine = '+ ' + dashes
     wholePlusLine = plusLine + plusLine + '+'
 
-    spaces = '    ' * numberOfDashes
+    spaces = '  ' * numberOfDashes
     barLine = '| ' + spaces
     wholeBarLine = barLine + barLine + '|'
 
@@ -68,7 +68,7 @@ def print_grid3(columns_rows, width):
     plusLine = '+ ' + dashes
     wholePlusLine = (plusLine * columns_rows) + '+'
 
-    spaces = '    ' * width
+    spaces = '  ' * width
     barLine = '| ' + spaces
     wholeBarLine = (barLine * columns_rows) + '|'
 
@@ -84,7 +84,7 @@ def print_grid3(columns_rows, width):
         p += 1
 
 
-printGrid()
+print_grid()
 
 print_grid2(3)
 print_grid2(9)
@@ -92,4 +92,3 @@ print_grid2(15)
 
 print_grid3(3, 4)
 print_grid3(5, 3)
-
