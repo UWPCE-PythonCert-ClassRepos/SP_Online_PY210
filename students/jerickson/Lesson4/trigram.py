@@ -1,4 +1,5 @@
 import re
+import random
 
 
 def get_material(short=True):
@@ -78,6 +79,7 @@ def get_material(short=True):
 
 def get_words(source_material):
     processed = re.sub(r"[^a-zA-Z ]+", "", source_material)  # strip all but letters
+    processed = processed.lower()  # remove capitlization
     return processed.split()
 
 
@@ -109,13 +111,31 @@ def generate_multi_grams(words, xgram_seq):
     return multi_gram_structures
 
 
+def generate_new_text(multi_grams):
+    # TODO add missing key error correction
+    # TODO search multiple x-grams
+    new_story = ["of", "the"]
+    new_words_to_gen = 80
+
+    xgram_size = 3
+    xgram_key_len = xgram_size - 1
+    for _ in range(new_words_to_gen):
+        word_key = tuple(new_story[-xgram_key_len:])
+        new_word = random.choice(multi_grams[xgram_size][word_key])
+        new_story.append(new_word)
+        print(multi_grams[xgram_size][word_key])
+        print(new_word)
+    print(" ".join(new_story))
+
+
 if __name__ == "__main__":
     raw = get_material(False)
     words = get_words(source_material=raw)
     xgram_list = [2, 3, 4, 5]
     multi_grams = generate_multi_grams(words, xgram_list)
-    for gram_size, gram_structure in multi_grams.items():
-        print(gram_size)
-        for word_set, followers in gram_structure.items():
-            print(word_set, followers)
+    generate_new_text(multi_grams)
+    # for gram_size, gram_structure in multi_grams.items():
+    #     print(gram_size)
+    #     for word_set, followers in gram_structure.items():
+    #         print(word_set, followers)
 
