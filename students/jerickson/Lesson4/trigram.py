@@ -82,19 +82,26 @@ def pick_xgram_size(all_xgram_matches):
     return xgram_size  # returns last xgram_size if none found to break loop
 
 
+def pick_random_seed(multi_grams):
+    random_seed_x_gram = random.choice(xgram_list)
+    random_story_seed = list(
+        random.choice(list(multi_grams[random_seed_x_gram].keys()))
+    )
+    return random_story_seed
+
+
 if __name__ == "__main__":
     # TODO user generated seed story
     # TODO random generated seed story
     raw = get_material(speaker="LAURA")
     words = get_words(source_material=raw)
-    xgram_list = [2, 3, 4, 5, 6, 7, 8].sort(reverse=True)
+    xgram_list = [2, 3, 4, 5, 6, 7, 8]
+    xgram_list.sort(reverse=True)
     multi_grams = generate_multi_grams(words, xgram_list)
-    # for k, v in multi_grams[8].items():
-    #     if len(v) > 3:
-    #         print(k, v)
-    story_seed = ["hi"]
-    for i in range(10):
-        generate_new_text(multi_grams, new_story_seed=story_seed, new_story_length=25)
+    random_story_seed = pick_random_seed(multi_grams)
+    generate_new_text(
+        multi_grams, new_story_seed=random_story_seed, new_story_length=25
+    )
     # for gram_size, gram_structure in multi_grams.items():
     #     print(gram_size)
     #     for word_set, followers in gram_structure.items():
