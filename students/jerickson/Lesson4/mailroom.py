@@ -1,35 +1,37 @@
 donation_data_header = ["Name", "Total Given", "Num Gifts", "Average Gift"]
-donation_data = [
-    ["Usama Black", 22002, 3],
-    ["Kezia Hassan", 3023.23, 3],
-    ["Lyla Moody", 580, 1],
-    ["King Arthur", 400, 1],
-    ["Pamela Guerra", 32, 2],
-    ["Malachy Krause", 4242, 1],
-]
+donation_data = {
+    "Usama Black": {"total given": 22002, "num gifts": 3},
+    "Kezia Hassan": {"total given": 3023.23, "num gifts": 3},
+    "Lyla Moody": {"total given": 580, "num gifts": 1},
+    "King Arthur": {"total given": 400, "num gifts": 1},
+    "Twin Arthur": {"total given": 400, "num gifts": 2},
+    "Pamela Guerra": {"total given": 32, "num gifts": 2},
+    "Malachy Krause": {"total given": 4242, "num gifts": 1},
+}
 
 
 def sort_donation_data():
-    """Sort the donation_data data-structure by Total-Given"""
-    global donation_data
-    sorted_data = []
-    for donor_record in donation_data[:]:
-        if not sorted_data:
-            sorted_data.insert(0, donor_record)
-        else:
-            for index_sorted, sorted_record in enumerate(sorted_data[:]):
-                if donor_record[1] >= sorted_record[1]:
-                    sorted_data.insert(index_sorted, donor_record)
-                    break
-            else:
-                sorted_data.append(donor_record)
-    donation_data = sorted_data
+    """Return list of sorted donors by Total-Given"""
+    donation_data_sortable = {}
+    sorted_donors = []
+
+    # Create sortable dictionary
+    for name, record in donation_data.items():
+        amount = record["total given"]
+        all_names = donation_data_sortable.get(amount, [])
+        all_names.append(name)
+        donation_data_sortable[amount] = all_names
+
+    # Sort donors and place in list
+    for amount in sorted(donation_data_sortable, reverse=True):
+        sorted_donors.extend(donation_data_sortable[amount])
+    return sorted_donors
 
 
 def report():
     """Print a report of the donation history."""
     # Format report lines
-    sort_donation_data()
+    sorted_donors = sort_donation_data()
     title = donation_data_header[:]
     report_header = f"|{title[0]:^16}|  {title[1]:^12}|{title[2]:^13}|  {title[3]:^13}|"
     report_break_list = []
@@ -48,10 +50,12 @@ def report():
     print(report_header)
 
     # Print Donor Records
-    for donor in donation_data:
+    for name in sorted_donors:
         print(report_break)
-        donor_average = float(donor[1] / donor[2])
-        donor_string = f"|{donor[0]:^16}| ${donor[1]:>12.2f}|{donor[2]:^13d}| ${donor_average:>13.2f}|"
+        total_given = donation_data[name]["total given"]
+        num_gifts = donation_data[name]["num gifts"]
+        donor_average = float(total_given / num_gifts)
+        donor_string = f"|{name:^16}| ${total_given:>12.2f}|{num_gifts:^13d}| ${donor_average:>13.2f}|"
         print(donor_string)
     print(report_end)
 
@@ -107,48 +111,50 @@ def thank_you():
 
 if __name__ == "__main__":
     print("\nBack to the grind in the mailroom.", end="\n\n")
-    are_you_mocking_me = int(input('Are you mocking me?? "0": no, "1": yes->: '))
 
-    if are_you_mocking_me:
-        """Mocks input() to allow for automated list of user-inputs to be run"""
+    report()
+    # are_you_mocking_me = int(input('Are you mocking me?? "0": no, "1": yes->: '))
 
-        def response_generator(seq):
-            for item in seq:
-                yield item
+    # if are_you_mocking_me:
+    #     """Mocks input() to allow for automated list of user-inputs to be run"""
 
-        def input(prompt):  # Mocks input function
-            print(prompt, end="")
-            response = mocked_resp_gen.__next__()
-            print(response)
-            return response
+    #     def response_generator(seq):
+    #         for item in seq:
+    #             yield item
 
-        mocked_responses = [
-            "spam",
-            "create a report",
-            "send a thank you",
-            "Bob Barker",
-            "1",
-            "send a thank you",
-            "list",
-            "King ArThur",
-            "400.2",
-            "create a report",
-            "quit",
-        ]
-        mocked_resp_gen = response_generator(mocked_responses)
+    #     def input(prompt):  # Mocks input function
+    #         print(prompt, end="")
+    #         response = mocked_resp_gen.__next__()
+    #         print(response)
+    #         return response
 
-    quit_flag = False
-    while not quit_flag:
-        command = input(
-            "\nChoose: Say “Send a Thank You”, “Create a Report” or “Quit” ->: "
-        )
-        command = command.lower()
-        if command == "send a thank you":
-            thank_you()
-        elif command == "create a report":
-            report()
-        elif command == "quit":
-            quit_flag = True
-        else:
-            print(f"Unrecognized Command: {command}")
-    print("Fin")
+    #     mocked_responses = [
+    #         "spam",
+    #         "create a report",
+    #         "send a thank you",
+    #         "Bob Barker",
+    #         "1",
+    #         "send a thank you",
+    #         "list",
+    #         "King ArThur",
+    #         "400.2",
+    #         "create a report",
+    #         "quit",
+    #     ]
+    #     mocked_resp_gen = response_generator(mocked_responses)
+
+    # quit_flag = False
+    # while not quit_flag:
+    #     command = input(
+    #         "\nChoose: Say “Send a Thank You”, “Create a Report” or “Quit” ->: "
+    #     )
+    #     command = command.lower()
+    #     if command == "send a thank you":
+    #         thank_you()
+    #     elif command == "create a report":
+    #         report()
+    #     elif command == "quit":
+    #         quit_flag = True
+    #     else:
+    #         print(f"Unrecognized Command: {command}")
+    # print("Fin")
