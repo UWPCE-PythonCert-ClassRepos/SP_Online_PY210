@@ -9,22 +9,25 @@ donors = [("Morgan Stanely", [0.01, 20.00]),
 
 
 #Send Thank You
-def send_thank_you():
-    option = input("List or New:")
-    option.lower()
-    if option == "list":
+def receiver(giver):
+    name = giver
+    #Determine Previous Donor
+    if giver == "list":
         for i in range(len(donors)):
-            print(donors[i][0])
-    elif option == "new":
-        print("They didn't give anything!")
-    recipient = input("Who would you like to send a Thank You to?")
-    name = recipient
-    for i in range(len(donors)):
-        if name == donors[i][0]:
-            name = donors[i][0]
+            print(f"[{i+1}] " + donors[i][0])
+        existing = False
+        while existing:
+            num = input("Please select the corresponding number for existing donor? ")
+            if (int(num)-1) in range(len(donors)):
+                print(f"You selected: {donors[int(num)-1]}")
+                existing = True
+    else:
+        new = input("Is this a new donor; [Y] or [N]?")
+        if new.upper() == "Y":
+            name = new
         else:
-            name = ""
-    pass
+            print("My mistake")
+    return name
 
 #Create Report
 
@@ -33,13 +36,14 @@ if __name__ == '__main__':
     #Initial Menu
     real_response = False
     while real_response == False:
-        directive = input("What would you like to do; [1]Send Thank you, [2]Create Report, [3]Quit:")
+        directive = input("What would you like to do; [1]Send Thank you, [2]Create Report, [3]Quit: ")
         if directive == "1" or directive == "2" or directive == "3":
             if directive == "1":
                 #Launch Send Thank you
                 print("Send Thank You")
-                send_thank_you()
-                
+                grat = input("Who would you like to send a Thank You to? Enter 'list' for a list of previous donors.  ")
+                receiver(grat.lower())
+                print(grat)
                 real_response = True
             elif directive == "2":
                 #Launch Create Report
