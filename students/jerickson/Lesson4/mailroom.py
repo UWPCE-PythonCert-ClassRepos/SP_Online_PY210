@@ -94,6 +94,10 @@ def thank_you():
     new_donation(donor_name, donor_amount)
 
 
+def quit_interface():
+    return "quit"
+
+
 if __name__ == "__main__":
     print("\nBack to the grind in the mailroom.", end="\n\n")
 
@@ -128,17 +132,21 @@ if __name__ == "__main__":
         mocked_resp_gen = response_generator(mocked_responses)
 
     quit_flag = False
-    while not quit_flag:
+    command_dispatch = {
+        "send a thank you": thank_you,
+        "create a report": report,
+        "quit": quit_interface,
+    }
+    while not quit_flag:  # Dispatch loop
         command = input(
-            "\nChoose: Say “Send a Thank You”, “Create a Report” or “Quit” ->: "
+            "\nChoose: “Send a Thank You”, “Create a Report” or “Quit” ->: "
         )
         command = command.lower()
-        if command == "send a thank you":
-            thank_you()
-        elif command == "create a report":
-            report()
-        elif command == "quit":
-            quit_flag = True
-        else:
+        try:
+            if (
+                command_dispatch[command]() == "quit"
+            ):  # Runs command and gets checks if quit is returned
+                break
+        except KeyError:
             print(f"Unrecognized Command: {command}")
     print("Fin")
