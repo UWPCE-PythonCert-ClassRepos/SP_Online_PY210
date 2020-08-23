@@ -35,16 +35,16 @@ def generate_xgram_strucutre(words, xgram_size=3):
     return xgram_structure
 
 
-def generate_multi_grams(words, xgram_seq):
+def generate_multi_grams(words):
     multi_gram_structures = {}
-    for xgram_size in xgram_seq:
+    for xgram_size in xgram_list:
         multi_gram_structures[xgram_size] = generate_xgram_strucutre(
             words=words, xgram_size=xgram_size,
         )
     return multi_gram_structures
 
 
-def generate_new_text(multi_grams, new_story_seed, new_story_length=25):
+def generate_new_text(new_story_seed, new_story_length=25):
     new_story = new_story_seed[:]
     new_words_to_gen = new_story_length - len(new_story)
 
@@ -82,28 +82,90 @@ def pick_xgram_size(all_xgram_matches):
     return xgram_size  # returns last xgram_size if none found to break loop
 
 
-def pick_random_seed(multi_grams):
+def x_gram_settings(speaker):
+    global xgram_list
+    global multi_grams
+    raw = get_material(speaker)
+    words = get_words(source_material=raw)
+    xgram_list = [2, 3, 4, 5, 6, 7, 8]
+    xgram_list.sort(reverse=True)
+    multi_grams = generate_multi_grams(words)
+
+
+def pick_random_seed():
+    x_gram_settings(speaker="Laura")
     random_seed_x_gram = random.choice(xgram_list)
     random_story_seed = list(
         random.choice(list(multi_grams[random_seed_x_gram].keys()))
     )
-    return random_story_seed
+    generate_new_text(new_story_seed=random_story_seed, new_story_length=25)
+
+
+def pick_manual_seed():
+    valid_speakers = [
+        "MATT",
+        "LAURA",
+        "LIAM",
+        "SAM",
+        "TRAVIS",
+        "ASHLEY",
+        "MARISHA",
+        "TALIESIN",
+    ]
+    while True:
+        speaker = input("Which Critical Role model do you want to emulate? ->: ")
+        if speaker.upper() in valid_speakers:
+            break
+        else:
+            print(f"Speaker {speaker} not found, try again.")
+    x_gram_settings(speaker=speaker)
+    while True:
+        story_length_raw = input(
+            "How many words long do you want the story? Type a whole number. ->:"
+        )
+        try:
+            manual_story_length = int(story_length_raw)
+            break
+        except ValueError:
+            print(f"Unrecognized whole number: {story_length_raw}. Try again.")
+    while True:
+        seed_words = input("How do you want to start this story? ->: ")
+        try:
+            seed_word_list = get_words(seed_words)
+            generate_new_text(
+                new_story_seed=seed_word_list, new_story_length=manual_story_length,
+            )
+            break
+        except UnboundLocalError:
+            print(f"Unrecognized word '{seed_word_list[-1]}'. Try again. ")
+
+
+def menu_selection(prompt, dispatch_dict):
+    while True:
+        command = input(prompt).lower()
+        try:
+            if (
+                dispatch_dict[command]() == "quit"
+            ):  # Runs command and gets checks if quit is returned
+                break
+        except KeyError:
+            print(f"Unrecognized Command: {command}")
+
+
+def quit_interface():
+    print(
+        "That's were we will end things tonight. Until next time, is it Thursday yet?"
+    )
+    return "quit"
 
 
 if __name__ == "__main__":
-    # TODO user generated seed story
-    # TODO random generated seed story
-    raw = get_material(speaker="LAURA")
-    words = get_words(source_material=raw)
-    xgram_list = [2, 3, 4, 5, 6, 7, 8]
-    xgram_list.sort(reverse=True)
-    multi_grams = generate_multi_grams(words, xgram_list)
-    random_story_seed = pick_random_seed(multi_grams)
-    generate_new_text(
-        multi_grams, new_story_seed=random_story_seed, new_story_length=25
-    )
-    # for gram_size, gram_structure in multi_grams.items():
-    #     print(gram_size)
-    #     for word_set, followers in gram_structure.items():
-    #         print(word_set, followers)
+    main_command_dispatch = {
+        "random": pick_random_seed,
+        "manual": pick_manual_seed,
+        "quit": quit_interface,
+    }
 
+    menu_selection(
+        "\nHow do you want to do this? Random, Manual, Quit->: ", main_command_dispatch
+    )
