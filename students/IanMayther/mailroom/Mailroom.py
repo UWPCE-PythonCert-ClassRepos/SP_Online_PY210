@@ -26,6 +26,7 @@ def receiver(giver):
         name = giver
     return name
 
+#Donor Verification
 def ver_don(giver):
     exist = False
     for i in range(len(donors)):
@@ -63,6 +64,23 @@ Founder and C.E.O. of Derek Zoolander Charity for Ants Who Can't Read Good (DZCA
 
 
 #Create Report
+def print_report(my_List = []):
+    #Header
+    print("{0:<25s}|{1:^15s}|{2:^15s}|{3:>12s}".format("Donor Name", "Total Given", "# of Gifts","Avg. Gift"))
+    print("-" * 70)
+    #Table Data
+    for i in range(len(my_List)):
+        #Print Name
+        print("{0:<25s}".format(my_List[i][0]), end=' ')
+        #Sum Total
+        col = my_List[i][1]
+        total = sum(col)
+        print("${0:>14.2f}".format(total, end=' '))
+        #Count Total
+        No_Gifts = len(my_List[i][1])
+        print("{0:^15d}".format(No_Gifts, end=' '))
+        #Calc Average
+    return
 
 #Main Exicutable
 if __name__ == '__main__':
@@ -92,6 +110,7 @@ if __name__ == '__main__':
             elif directive == "2":
                 #Launch Create Report
                 print("Create Report")
+                print_report(donors1)
                 real_response = True
             elif directive == "3":
                 #Quit
