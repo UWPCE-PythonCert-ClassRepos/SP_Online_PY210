@@ -53,6 +53,7 @@ def thank_you():
     Return to main prompt after.
     '''
 
+    print()
     while True:
         ty_input = input('Type "list" to display a list of donor names. '
         'Otherwise enter a name you would like to add a donation for:\n>>')
@@ -90,10 +91,11 @@ def add_donation(donor_name, donation_amount):
     donor_names = [i[0] for i in donors]
 
     if donor_name in donor_names:
-        donor_index = donor_name.index(donor_name)
-        donors[donor_index][1].append(donation_amount)
+        donor_index = donor_names.index(donor_name)
+        donors[donor_index][1].append(float(donation_amount))
+        print("", end="")
     else:
-        donors.append((donor_name, [donation_amount]))
+        donors.append((donor_name, [float(donation_amount)]))
 
 def create_report():
     '''
@@ -111,8 +113,8 @@ def create_report():
         donor_sum = sum(donor[1])
         donor_count = len(donor[1])
         donor_average = donor_sum/donor_count
-        print(f"{donor_name:26}${donor_sum:13,.2f}{donor_count:12}  "
-        f"${donor_average:15,.2f}")
+        print(f"{donor_name:26}${donor_sum:14,.2f}{donor_count:11}  "
+        f"${donor_average:16,.2f}")
     print()
 
 def sort_key(donor):
