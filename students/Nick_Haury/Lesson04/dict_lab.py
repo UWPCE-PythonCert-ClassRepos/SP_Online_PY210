@@ -30,3 +30,24 @@ dict_t = dict()
 for key in my_dict:
     dict_t[key] = my_dict[key].count("t")
 print(dict_t)
+
+# Sets 1
+
+print("\nSets 1:\n")
+
+s1, s2, s3, s4 = set(), set(), set(), set()
+for i in range(20):
+    s1.add(i)
+
+for key in s1:
+    if key % 2 == 0:
+        s2.add(key)
+    if key % 3 == 0:
+        s3.add(key)
+    if key % 4 == 0:
+        s4.add(key)
+
+print("s1: ", s1, "\ns2: ", s2, "\ns3: ", s3, "\ns4: ", s4, sep="")
+
+print("Is s3 a subset of s2?: " + str(s3.issubset(s2)))
+print("Is s4 a subset of s2?: " + str(s4.issubset(s2)))
