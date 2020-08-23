@@ -67,19 +67,20 @@ Founder and C.E.O. of Derek Zoolander Charity for Ants Who Can't Read Good (DZCA
 def print_report(my_List = []):
     #Header
     print("{0:<25s}|{1:^15s}|{2:^15s}|{3:>12s}".format("Donor Name", "Total Given", "# of Gifts","Avg. Gift"))
-    print("-" * 70)
+    print("-" * 72)
     #Table Data
     for i in range(len(my_List)):
-        #Print Name
-        print("{0:<25s}".format(my_List[i][0]), end=' ')
-        #Sum Total
+        #Process Data
+        #Donor
         col = my_List[i][1]
+        #Sum Total 
         total = sum(col)
-        print("${0:>14.2f}".format(total, end=' '))
-        #Count Total
+        #Gift Count  
         No_Gifts = len(my_List[i][1])
-        print("{0:^15d}".format(No_Gifts, end=' '))
         #Calc Average
+        Ave_Gift = total / No_Gifts
+        #Print Table
+        print("{0:<25s}${1:>14.2f}{2:>17d}  ${3:>11.2f}".format(my_List[i][0],total, No_Gifts, Ave_Gift, end =''))    
     return
 
 #Main Exicutable
