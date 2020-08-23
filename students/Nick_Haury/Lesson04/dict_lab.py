@@ -51,3 +51,17 @@ print("s1: ", s1, "\ns2: ", s2, "\ns3: ", s3, "\ns4: ", s4, sep="")
 
 print("Is s3 a subset of s2?: " + str(s3.issubset(s2)))
 print("Is s4 a subset of s2?: " + str(s4.issubset(s2)))
+
+# Sets 2
+
+print("\nSets 2:\n")
+
+p_set = set("Python")
+p_set.add("i")
+print("p_set is:", p_set)
+
+f_set = frozenset("marathon")
+print("f_set is:", f_set)
+
+print("The union of p_set and f_set is: " + str(p_set.union(f_set)))
+print("The intersection of p_set and f_set is: " + str(p_set.intersection(f_set)))
