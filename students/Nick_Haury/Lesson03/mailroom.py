@@ -41,8 +41,6 @@ def main():
             print(str(choice) + " is an invalid selection, "
             "please make a valid selection \n")
 
-
-
 def thank_you():
     '''
     prompts the user for a full name.  If the user types "list", then print
@@ -60,14 +58,14 @@ def thank_you():
         'Otherwise enter a name you would like to add a donation for:\n>>')
 
         if ty_input == "list":
-            print_names()
+            print_donors()
         else:
             donation_amount = input("Please enter donation amount:\n>>")
             add_donation(ty_input, donation_amount)
             print_email(ty_input, donation_amount)
             break
 
-def print_names():
+def print_donors():
     print("\nCurrent Donors: ")
     for donor in donors:
         print(donor[0])
@@ -87,7 +85,15 @@ def print_email(donor_name, donation_amount):
     "X" + ("_"* 20) + "\n")
 
 def add_donation(donor_name, donation_amount):
-    pass
+
+    # get list of donor names
+    donor_names = [i[0] for i in donors]
+
+    if donor_name in donor_names:
+        donor_index = donor_name.index(donor_name)
+        donors[donor_index][1].append(donation_amount)
+    else:
+        donors.append((donor_name, [donation_amount]))
 
 def create_report():
     '''
