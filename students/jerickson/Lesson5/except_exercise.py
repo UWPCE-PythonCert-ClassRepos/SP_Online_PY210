@@ -1,4 +1,5 @@
-#!/usr/bin/python
+# Windows4Life!
+# GiveCleeseHisCheese
 
 """
 An exercise in playing with Exceptions.
@@ -12,15 +13,20 @@ from except_test import fun, more_fun, last_fun
 
 # Figure out what the exception is, catch it and while still
 # in that catch block, try again with the second item in the list
-first_try = ['spam', 'cheese', 'mr death']
+first_try = ["spam", "cheese", "mr death"]
 
-joke = fun(first_try[0])
+try:
+    joke = fun(first_try[0])  # pylint:disable=invalid-name
+except NameError:
+    joke = fun(first_try[1])  # pylint:disable=invalid-name
 
 # Here is a try/except block. Add an else that prints not_joke
 try:
-    not_joke = fun(first_try[2])
+    not_joke = fun(first_try[2])  # pylint:disable=invalid-name
 except SyntaxError:
-    print('Run Away!')
+    print("Run Away!")
+else:
+    print(not_joke)
 
 # What did that do? You can think of else in this context, as well as in
 # loops as meaning: "else if nothing went wrong"
@@ -38,6 +44,16 @@ except SyntaxError:
 # there were any exceptions, call the function last_fun with no
 # parameters. (pun intended)
 
-langs = ['java', 'c', 'python']
+langs = ["java", "c", "python"]
 
-more_joke = more_fun(langs[0])
+try:
+    more_joke = more_fun(langs[0])  # pylint:disable=assignment-from-no-return
+except IndexError:
+    try:
+        more_joke = more_fun(langs[1])  # pylint:disable=assignment-from-no-return
+    except Exception as ex:
+        raise ex
+    else:
+        more_fun(langs[2])
+finally:
+    last_fun()
