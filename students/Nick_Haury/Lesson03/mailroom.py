@@ -1,7 +1,14 @@
 #!/usr/bin/env python3
 
 '''
-
+Program starts with a list of donors toupled with a list of amounts they have
+donated in the past.  The program gives a user the option to add new donations
+from previous donors to the list.  It also gives the option to add a new donor
+along with their first donation.  After a donation amount is recorded, a 
+template 'thank you' email is automatically generated.  A user also has the 
+option to create a report showing details about all donors.  This report 
+contains names, sum of donations, number of donations, and average donation 
+amount; donors sorted by largest donation sum to smallest.
 '''
 
 # create initial donor list
@@ -86,6 +93,10 @@ def print_email(donor_name, donation_amount):
     "X" + ("_"* 20) + "\n")
 
 def add_donation(donor_name, donation_amount):
+    '''
+    Adds donation amount to donor's list of donations.  If donor does not exist
+    yet, they are created and added to the donor list.
+    '''
 
     # get list of donor names
     donor_names = [i[0] for i in donors]
@@ -93,7 +104,6 @@ def add_donation(donor_name, donation_amount):
     if donor_name in donor_names:
         donor_index = donor_names.index(donor_name)
         donors[donor_index][1].append(float(donation_amount))
-        print("", end="")
     else:
         donors.append((donor_name, [float(donation_amount)]))
 
