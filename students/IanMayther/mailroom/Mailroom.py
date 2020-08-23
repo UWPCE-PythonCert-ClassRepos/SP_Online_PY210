@@ -18,7 +18,10 @@ def receiver(giver):
         existing = True
         while existing:
             num = input("Please select the corresponding number for existing donor? ")
-            if (int(num)-1) in range(len(donors)):
+            if num.lower() == 'quit':
+                name = 'quit'
+                existing = False
+            elif (int(num)-1) in range(len(donors)):
                 print(f"You selected: {donors[int(num)-1][0]}")
                 existing = False
                 name = donors[int(num)-1][0]  
@@ -41,7 +44,7 @@ def gift():
     while True:
         try:
             value = float(input("What is the value of the donation: "))
-            break
+            break      
         except ValueError:
             print("Not a valid donation value")
     return value
@@ -94,9 +97,16 @@ if __name__ == '__main__':
             if directive == "1":
                 #Launch Send Thank you
                 grat = input("Who would you like to send a Thank You to? Enter 'list' for a list of previous donors.  ")
+                #Quit Code
+                if grat.lower() == "quit":
+                    continue
                 recipient = receiver(grat)
+                if recipient.lower() == "quit":
+                    continue
                 ver_don(recipient)
                 contr = gift()
+                if contr == "quit":
+                    continue
                 if not ver_don:
                     new_donor = [recipient[:-1], (contr)]
                     donors1.append(new_donor)
@@ -107,12 +117,10 @@ if __name__ == '__main__':
                             donors[i][1].append(contr)
                             print(donors)
                     print(email(recipient, contr))
-                real_response = True
             elif directive == "2":
                 #Launch Create Report
                 print("Create Report")
                 print_report(donors1)
-                real_response = True
             elif directive == "3":
                 #Quit
                 print("Quitter")
