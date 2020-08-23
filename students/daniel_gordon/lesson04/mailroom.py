@@ -75,18 +75,5 @@ main_menu = {'S' : send_thank_you,
 main_prompt = "(S)end a Thank you | (C)reate a Report | (Q)uit >"
 
 if __name__ == "__main__":
-    #I try to avoid while true
-    option = ''
-    while option != 'Q':
-        #Promt user to select action
-        menu = "(S)end a Thank You | (C)reate a Report | (Q)uit > "
-        actions = ['S', 'C', 'Q']
-        option = input(menu).upper()
-        #catch unrecognized actions
-        if DEBUG: print(f"{option} is chosen")
-
-        if option == 'S':
-            send_thank_you()
-        elif option == 'C':
-            create_a_report()
+    menu_dispatch(main_prompt, main_menu)
         
