@@ -68,7 +68,10 @@ def thank_you():
             break
 
 def print_names():
-    pass
+    print("\nCurrent Donors: ")
+    for donor in donors:
+        print(donor[0])
+    print()
 
 def print_email(donor_name, donation_amount):
     '''
