@@ -102,6 +102,22 @@ def create_report():
     and average donation amount.  
     '''
 
+    donors_by_total = sorted(donors, key=sort_key, reverse=True)
+
+    print("Donor Name" + " "*15 + "|  Total Given  | Num Gifts |   Average Gift")
+    print("- "*36)
+    for donor in donors_by_total:
+        donor_name = donor[0]
+        donor_sum = sum(donor[1])
+        donor_count = len(donor[1])
+        donor_average = donor_sum/donor_count
+        print(f"{donor_name:26}${donor_sum:13,.2f}{donor_count:12}  "
+        f"${donor_average:15,.2f}")
+    print()
+
+def sort_key(donor):
+    return sum(donor[1])
+
 if __name__ == "__main__":
     '''
     run main prompt
