@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 '''
-
+Practice script for creating and manipulating dictionaries and sets
 '''
 
 # Dictionaries 1
