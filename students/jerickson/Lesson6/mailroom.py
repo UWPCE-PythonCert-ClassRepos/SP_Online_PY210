@@ -80,7 +80,7 @@ def new_donation(donor_name, amount):
     ----------
     donor_name : str
         The string of the donor's full name
-    amount : float|str
+    amount : float
         The amount of a new donation
 
     Returns
