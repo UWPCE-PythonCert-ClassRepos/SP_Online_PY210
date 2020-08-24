@@ -17,19 +17,12 @@ amount; donors sorted by largest donation sum to smallest.
 '''
 
 # create initial donor dictionary
-# donors = {
-#     "William Gates, III": [653772.32, 12.17],
-#     "Mark Zuckerberg": [1663.23, 4300.87, 10432.0],
-#     "Jeff Bezos": [877.33],
-#     "Paul Allen": [663.23, 43.87, 1.32]
-# }
-
-donors = [
-    ("William Gates, III", [653772.32, 12.17]),
-    ("Mark Zuckerberg", [1663.23, 4300.87, 10432.0]),
-    ("Jeff Bezos", [877.33]),
-    ("Paul Allen", [663.23, 43.87, 1.32])
-]
+donors = {
+    "William Gates, III": [653772.32, 12.17],
+    "Mark Zuckerberg": [1663.23, 4300.87, 10432.0],
+    "Jeff Bezos": [877.33],
+    "Paul Allen": [663.23, 43.87, 1.32]
+}
 
 def quit():
     print("Closing mailroom... Goodbye")
@@ -42,6 +35,7 @@ def main():
     totals and averages.  The user can also quit.
     '''
 
+    # functions for users to choose from
     choice_dict = {
     "1":thank_you,
     "2":create_report,
@@ -131,21 +125,22 @@ def create_report():
     and average donation amount.  
     '''
 
-    donors_by_total = sorted(donors, key=sort_key, reverse=True)
+    def sort_key(donor):
+        # sorting by the sum of donations
+        return sum(donors[donor])
+        
+    donor_keys_by_total = sorted(donors, key=sort_key, reverse=True)
 
     print("Donor Name" + " "*15 + "|  Total Given  | Num Gifts |   Average Gift")
     print("- "*36)
-    for donor in donors_by_total:
-        donor_name = donor[0]
-        donor_sum = sum(donor[1])
-        donor_count = len(donor[1])
+    for key in donor_keys_by_total:
+        donor_name = key
+        donor_sum = sum(donors[key])
+        donor_count = len(donors[key])
         donor_average = donor_sum/donor_count
         print(f"{donor_name:26}${donor_sum:14,.2f}{donor_count:11}  "
         f"${donor_average:16,.2f}")
     print()
-
-def sort_key(donor):
-    return sum(donor[1])
 
 if __name__ == "__main__":
     '''
