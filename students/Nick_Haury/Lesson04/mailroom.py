@@ -110,10 +110,7 @@ def add_donation(donor_name, donation_amount):
     Adds donation amount to donor's list of donations.  If donor does not exist
     yet, they are created and added to the donor dictionary.
     '''
-    if donor_name in donors:
-        donors[donor_name].append(float(donation_amount))
-    else:
-        donors[donor_name] = [float(donation_amount)]
+    donors.setdefault(donor_name, []).append(float(donation_amount))
 
 def create_report():
     '''
