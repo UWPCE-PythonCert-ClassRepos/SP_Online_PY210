@@ -13,13 +13,13 @@ contains names, sum of donations, number of donations, and average donation
 amount; donors sorted by largest donation sum to smallest.
 '''
 
-# create initial donor list
-donors = [
-    ("William Gates, III", [653772.32, 12.17]),
-    ("Mark Zuckerberg", [1663.23, 4300.87, 10432.0]),
-    ("Jeff Bezos", [877.33]),
-    ("Paul Allen", [663.23, 43.87, 1.32])
-    ]
+# create initial donor dictionary
+donors = {
+    "William Gates, III": [653772.32, 12.17]),
+    "Mark Zuckerberg": [1663.23, 4300.87, 10432.0]),
+    "Jeff Bezos": [877.33]),
+    "Paul Allen": [663.23, 43.87, 1.32])
+}
 
 def main():
     '''
