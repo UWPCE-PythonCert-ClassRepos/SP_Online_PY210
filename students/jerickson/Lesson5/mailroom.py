@@ -17,9 +17,9 @@ donation_data = {
 def sort_donation_data():
     """Return list of sorted donors by Total-Given"""
 
-    donation_data_sortable = [
+    donation_data_sortable = (
         [record["total given"], name] for name, record in donation_data.items()
-    ]
+    )  # Generator Expression
     sorted_donors = [name for _, name in sorted(donation_data_sortable, reverse=True)]
 
     return sorted_donors
@@ -170,15 +170,10 @@ if __name__ == "__main__":
         are_you_mocking_me
     ):  # Mocks input() to allow for automated list of user-inputs to be run
 
-        def response_generator(seq):
-            # TODO comprehension
-            for item in seq:
-                yield item
-
         def input(prompt):  # pylint: disable=redefined-builtin
             """Mocks input function for automated receipe running"""
             print(prompt, end="")
-            response = mocked_resp_gen.__next__()
+            response = next(mocked_resp_gen)
             print(response)
             return response
 
@@ -196,7 +191,7 @@ if __name__ == "__main__":
             "send letters to everyone",
             "quit",
         ]
-        mocked_resp_gen = response_generator(mocked_responses)
+        mocked_resp_gen = (mocked_response for mocked_response in mocked_responses)
 
     main()
     print("Fin")
