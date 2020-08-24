@@ -39,15 +39,17 @@ def main():
     choice_dict = {
     "1":thank_you,
     "2":create_report,
-    "3":quit
+    "3":write_letters,
+    "4":quit
     }
     
     print("Welcome to the mailroom program")
     prompt = "\n".join((
         "Please choose a function from the below options:",
-        "1 - Send a Thank You",
-        "2 - Create a Report",
-        "3 - Quit",
+        "1 - Send a Thank You to a single donor.",
+        "2 - Create a Report.",
+        "3 - Write letters to all donors to file.",
+        "4 - Quit",
         ">> "
         ))
 
@@ -81,7 +83,7 @@ def thank_you():
         else:
             donation_amount = input("Please enter donation amount:\n>>")
             add_donation(ty_input, donation_amount)
-            print_email(ty_input, donation_amount)
+            print("\n", print_email(ty_input, donation_amount), sep="")
             break
 
 def print_donors():
@@ -96,7 +98,7 @@ def print_email(donor_name, donation_amount):
     an email template thanking them for their donation
     '''
 
-    print(f"\nDear {donor_name},\n\n"
+    return(f"Dear {donor_name},\n\n"
     f"It is with incredible gratitude that we accept your wonderfully generous "
     f"donation of ${float(donation_amount):,.2f}.  Your contribution will truly "
     "make a difference in the path forward towards funding our common goal."
@@ -135,6 +137,12 @@ def create_report():
         donor_average = donor_sum/donor_count
         print(f"{donor_name:26}${donor_sum:14,.2f}{donor_count:11}  "
         f"${donor_average:16,.2f}")
+    print()
+
+def write_letters():
+    for key in donors:
+        with open(f'{key}.txt', 'w') as f:
+            f.write(print_email(key, donors[key][-1]))
     print()
 
 if __name__ == "__main__":
