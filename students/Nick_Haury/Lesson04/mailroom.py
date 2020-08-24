@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
+import sys # importing for script exit functionality
 
 '''
-This is the Lesson04 rendition of the mailroom program.
+This is the Lesson04 rendition of the mailroom program.  Copying the original
+mailroom program, but then attempting to replace functionality with dictionaries
+wherever sensible to do so.
 
 Program starts with a list of donors toupled with a list of amounts they have
 donated in the past.  The program gives a user the option to add new donations
@@ -14,12 +17,23 @@ amount; donors sorted by largest donation sum to smallest.
 '''
 
 # create initial donor dictionary
-donors = {
-    "William Gates, III": [653772.32, 12.17]),
-    "Mark Zuckerberg": [1663.23, 4300.87, 10432.0]),
-    "Jeff Bezos": [877.33]),
-    "Paul Allen": [663.23, 43.87, 1.32])
-}
+# donors = {
+#     "William Gates, III": [653772.32, 12.17],
+#     "Mark Zuckerberg": [1663.23, 4300.87, 10432.0],
+#     "Jeff Bezos": [877.33],
+#     "Paul Allen": [663.23, 43.87, 1.32]
+# }
+
+donors = [
+    ("William Gates, III", [653772.32, 12.17]),
+    ("Mark Zuckerberg", [1663.23, 4300.87, 10432.0]),
+    ("Jeff Bezos", [877.33]),
+    ("Paul Allen", [663.23, 43.87, 1.32])
+]
+
+def quit():
+    print("Closing mailroom... Goodbye")
+    sys.exit() # exit the script
 
 def main():
     '''
@@ -27,6 +41,12 @@ def main():
     create a report to display all the current donors and respective donation
     totals and averages.  The user can also quit.
     '''
+
+    choice_dict = {
+    "1":thank_you,
+    "2":create_report,
+    "3":quit
+    }
     
     print("Welcome to the mailroom program")
     prompt = "\n".join((
@@ -39,13 +59,8 @@ def main():
 
     while True:
         choice = input(prompt)
-        if choice == "1":
-            thank_you()
-        elif choice == "2":
-            create_report()
-        elif choice == "3":
-            print("Closing mailroom... Goodbye")
-            break
+        if choice in choice_dict:
+            choice_dict[choice]()
         else:
             print(str(choice) + " is an invalid selection, "
             "please make a valid selection \n")
