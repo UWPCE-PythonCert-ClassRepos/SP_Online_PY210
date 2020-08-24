@@ -29,3 +29,29 @@ for key in person.keys():
     people[key] = count_t(person[key])
 
 print(people)
+
+#Sets 1
+#Initialize sets
+s2 = set()
+s3 = set()
+s4 = set()
+
+#Populate sets
+for i in range(21):
+    if i % 2 == 0:
+        s2.add(i)
+    if i % 3 == 0:
+        s3.add(i)
+    if i % 4 == 0:
+        s4.add(i)
+
+#Display sets
+print(s2)
+print(s3)
+print(s4)
+
+#Confirm sub-sets
+print(f"Is s3 a subset of s2? {s2.issuperset(s3)}")
+print(f"Is s4 a subset of s2? {s2.issuperset(s4)}")
+
+#Sets 2
