@@ -1,3 +1,5 @@
+"""Automate the mailroom workflow."""
+
 donation_data_header = ["Name", "Total Given", "Num Gifts", "Average Gift"]
 donation_data = {
     "Usama Black": {"total given": 22002, "num gifts": 3},
@@ -12,17 +14,12 @@ donation_data = {
 
 def sort_donation_data():
     """Return list of sorted donors by Total-Given"""
-    donation_data_sortable = {}
-    sorted_donors = []
 
-    # Create sortable dictionary
-    for name, record in donation_data.items():
-        amount = record["total given"]
-        donation_data_sortable.setdefault(amount, []).append(name)
+    donation_data_sortable = [
+        [record["total given"], name] for name, record in donation_data.items()
+    ]
+    sorted_donors = [name for _, name in sorted(donation_data_sortable, reverse=True)]
 
-    # Sort donors and place in list
-    for amount in sorted(donation_data_sortable, reverse=True):
-        sorted_donors.extend(donation_data_sortable[amount])
     return sorted_donors
 
 
