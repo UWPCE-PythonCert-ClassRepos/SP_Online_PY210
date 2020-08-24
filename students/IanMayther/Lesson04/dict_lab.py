@@ -22,10 +22,10 @@ person.update({'cake': "Chocolate"})
 
 #count 't's
 def count_t(string):
-    return string.count('t')
+    return int(string.count('t'))
 
 people = dict({})
-for keys in person.keys():
-    people.update({person[keys]: count_t(person[value])})
+for key in person.keys():
+    people[key] = count_t(person[key])
 
 print(people)
