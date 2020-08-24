@@ -1,123 +1,95 @@
-#!/usr/bin/env python3
-#https://uwpce-pythoncert.github.io/PythonCertDevel/exercises/string_formatting.html
-#https://startlearning.uw.edu/courses/course-v1:UW+PYTHON210+2019_Winter/courseware/ff548d5d7b4c460fa2a9cca69f3c0332/28904f1864f84c62bc2a3443f5ae5da6/
+# !/usr/bin/env python3
 
-def task0(input):
-  theList = list(input)
-
-  fileName = "file_" + str(input[0]). zfill(3)
-  field1 = str(round(input[1],2))
-  field2 = "{:.2e}".format(input[2])
-  field3 = "{:.2e}".format(input[3])
-
-  output0 = fileName + " :  " + field1 + ", " + field2  + ", " + field3  
-  return output0
 
 def task1(input):
-  theList = list(input)
+    # First element is used to generate filename to help with sorting
+    the_list = list(input)
 
-  fileName = str(input[0]). zfill(3)
-  field1 = str(round(input[1],2))
-  field2 = "{:.2e}".format(input[2])
-  field3 = "{:.2e}".format(input[3])
+    # pad filename numbers with zeros to get the right sort order.
+    file_name = str(input[0]). zfill(3)
+    # floating number in. Display 2 decimal places
+    field1 = str(round(input[1], 2))
+    #  integer in. Display scientific notation, 2 decimal places.
+    field2 = "{:.2e}".format(input[2])
+    # float in. Display scientific notation with 3 significant
+    field3 = "{:.2e}".format(input[3])
 
-  txt = "file_{0}  :  {1}, {2}, {3}"
-  formattedString = txt.format(fileName,field1,field2,field3)
-  return formattedString
+    txt = "file_{0} : {1}, {2}, {3}"
+    formatted_string = txt.format(file_name, field1, field2, field3)
+    return formatted_string
 
-def task1b(input):
-  theList = list(input)
-
-  txt = "file_{fn}  :  {f1}, {f2}, {f3}"
-  formattedString = txt.format(fn=str(input[0]). zfill(3),f1=str(round(input[1],2)),f2="{:.2e}".format(input[2]),f3="{:.2e}".format(input[3]))
-  return formattedString
 
 def task2(input):
-  print("task2")
-  theList = list(input)
+    # same input as task1 but use different formatting method
+    the_list = list(input)
 
-  fileName = str(input[0]). zfill(3)
-  field1 = str(round(input[1],2))
-  field2 = "{:.2e}".format(input[2])
-  field3 = "{:.2e}".format(input[3])
+    file_name = str(input[0]). zfill(3)
+    field1 = str(round(input[1], 2))
+    field2 = "{:.2e}".format(input[2])
+    field3 = "{:.2e}".format(input[3])
 
-  return f"file_{fileName}  :  {field1}, {field2}, {field3}"
+    return f"file_{file_name} : {field1}, {field2}, {field3}"
+
 
 def formatter_task3(*in_tuple):
-  
-  form_string = "the {:d} numbers are: ".format(len(in_tuple))+ "{:d}, "  * (len(in_tuple)-1) +  "{:d}"
-  formattedStr=((form_string).format(*in_tuple))
-  
-  return formattedStr
 
-def task4(input):
-  print("task4: ", input)
-  
-  return "{:02d} {:d} {:d} {:02d} {:d}".format(input[3],input[4],input[2],input[0],input[1])
+    ll = len(in_tuple)
+    ll_2 = len(in_tuple)-1
+    # dynamically build format string to accommodate length of tuple
+    form_string = "the {} numbers: ".format(ll) + "{:d}, " * (ll_2) + "{:d}"
+    formatted_string = ((form_string).format(*in_tuple))
 
-def task5a(input):
-  fruit1 = input[0] 
-  fruit2 = input[2] 
-  return f'The weight of an {fruit1[:-1]} is {input[1]} and the weight of a {fruit2[:-1]} is {input[3]}'
-
-def task5b(input):
-  fruit1 = input[0] 
-  fruit2 = input[2] 
-  return f'The weight of an {(fruit1[:-1]).upper()} is {(input[1]*1.2)} and the weight of a {(fruit2[:-1].upper())} is {(input[3]*1.2)}'
-
-def task6a(input):
-    return '{:20}{:10}{:20}{:8}'.format('First', '$99.01', 'Second', '$88.09')
-
-def task6b(input):
-  name = input[0]
-  age = input[1]
-  cost = input[2]
-  return '{:15}{:5}{:8}'.format(name, age, cost)
-
-def task6c(input):
-  field1 = input[0]
-  field2 = input[1]
-  field3 = input[2]
-  return field1
-
-#print(task6b(['bob jones', 15, 1.1]))
-print(task6c([('bob jones', 15, 1.1), 'bob jones', 15, 1.1, 'anthony peterson', 33, 1004003, 'jane jphnson', 45, 10425.5]))
+    return formatted_string
 
 
+def task4(ff):
+    print("task4: ", ff)
+    # given a tuple, use index numbers to specify positions
+    return f'{ff[3]:02d} {ff[4]:d} {ff[2]:d} {ff[0]:02d} {ff[1]:d}'
+    # "{:02d} {:d} {:d} {:02d} {:d}".format(ff[3], ff[4], ff[2], ff[0], ff[1])
 
-def task6xxx(input):
-#    return '{:<30}'.format('left aligned')
-#    return '{:>30}'.format('right aligned')
-#    return '{:^30}'.format('centered')
-#    return '{:*^30}'.format('centered')
-#    return '{:+f}; {:+f}'.format(3.14, -3.14)  # show it always
-     return '{: f}; {: f}'.format(3.14, -3.14)  # show a space for positive numbers
-#    return '{:-f}; {:-f}'.format(3.14, -3.14)  # show only the minus -- same as '{:f}; {:f}'
-#    return '{:,}'.format(1234567890) #  Using the comma as a thousands separator
-#    return 'Correct answers: {:.2%}'.format(points/total) # Expressing a percentage
-#    return xx
-#    return xx
 
-    
- #'02 27 2017 04 30'
-#input = ( 2, 123.4567, 10000, 12345.67)
-#output1 = task1(input)
-#print((output1))
+def task5(input):
+    print("task5: ", input)
+    f1 = input[0]
+    f2 = input[2]
+    f3 = input[3]
+    txt = "he weight of"
+    return f'T{txt} an {f1[:-1]} is {input[1]} and t{txt} a {f2[:-1]} is {f3}'
 
-#output1b = task1b(input)
-#print((output1b))
 
-#output2 = task2(input)
-#print((output2))
+def task6(input):
+    print("task6: ", input)
+    # print table of several rows, with name, age and cost
+    # Make some costs in hundreds and thousands to test alignment specifiers.
+    len_list = [max(len(str(x)) for x in line) for line in zip(*arr)]
+    print(len_list)
+    name_len = len_list[0] + 3
+    age_len = len_list[0] + 4
+    cost_len = str(len_list[0] + 3) + "," + ".2f"
+    print(name_len)
 
-#print(formatter_task3(2,3,5))
-#print(formatter_task3(2,3,5,7,9))
+    for row in input:
+        print(f'{row[0]:{name_len}}{row[1]:{age_len}}{row[2]:{cost_len}}')
 
-#task4_input = ( 4, 30, 2017, 2, 27)
-#print(task4(task4_input))
-#print(task4((4, 30, 2017, 2, 27)))
 
-#print(task5a(['oranges', 1.3, 'lemons', 1.1]))
-#print(task5b(['oranges', 1.3, 'lemons', 1.1]))
+# This it to be contents in tuple '02 27 2017 04 30'
+in_tuple = (2, 123.4567, 10000, 12345.67)
+output1 = task1(in_tuple)
+print((output1))
 
-#print(task6a(['oranges', 1.3, 'lemons', 1.1]))
+output2 = task2(in_tuple)
+print((output2))
+
+print(formatter_task3(2, 3, 5))
+print(formatter_task3(2, 3, 5, 7, 9))
+
+task4_input = (4, 30, 2017, 2, 27)
+print(task4(task4_input))
+
+print(task5(['oranges', 1.3, 'lemons', 1.1]))
+
+arr = [['Ann', 14, 1023.01], ['Elizabeth', 37, 106310.23], ['Jackson', 52, 30]]
+# max length of each column
+# print([max(len(str(x)) for x in line) for line in zip(*arr)])
+task6(arr)
