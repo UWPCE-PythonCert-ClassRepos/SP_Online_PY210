@@ -87,7 +87,7 @@ def thank_you():
 def print_donors():
     print("\nCurrent Donors: ")
     for donor in donors:
-        print(donor[0])
+        print(donor)
     print()
 
 def print_email(donor_name, donation_amount):
@@ -106,17 +106,12 @@ def print_email(donor_name, donation_amount):
 def add_donation(donor_name, donation_amount):
     '''
     Adds donation amount to donor's list of donations.  If donor does not exist
-    yet, they are created and added to the donor list.
+    yet, they are created and added to the donor dictionary.
     '''
-
-    # get list of donor names
-    donor_names = [i[0] for i in donors]
-
-    if donor_name in donor_names:
-        donor_index = donor_names.index(donor_name)
-        donors[donor_index][1].append(float(donation_amount))
+    if donor_name in donors:
+        donors[donor_name].append(float(donation_amount))
     else:
-        donors.append((donor_name, [float(donation_amount)]))
+        donors[donor_name] = [float(donation_amount)]
 
 def create_report():
     '''
