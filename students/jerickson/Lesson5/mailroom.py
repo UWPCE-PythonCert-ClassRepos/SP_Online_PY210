@@ -1,5 +1,7 @@
 """Automate the mailroom workflow."""
 
+# pylint: disable=line-too-long
+
 donation_data_header = ["Name", "Total Given", "Num Gifts", "Average Gift"]
 donation_data = {
     "Usama Black": {"total given": 22002, "num gifts": 3},
@@ -108,7 +110,55 @@ def thank_you():
 
 
 def quit_interface():
+    """Return the string "quit" to exit a menu-level"""
     return "quit"
+
+
+def menu_selection(prompt, dispatch_dict):
+    """
+    Creates a CLI for users to interact with.
+
+    Manages the flow of the CLI using the parameters. The
+    dispatch dictionary controls the function that will be
+    called as the result of the user's input. Unrecognized
+    commands print an error message to the user and prompts
+    them to try again.
+
+    A function that returns 'quit' string will cause the
+    loop to break.
+
+    Parameters
+    ----------
+    prompt : str
+        The prompt the user will see in the terminal
+    dispatch_dict : dict
+        The dictionary where values are callable functions
+
+    Returns
+    -------
+    None
+    """
+    while True:
+        command = input(prompt).lower()
+        try:
+            if (
+                dispatch_dict[command]() == "quit"
+            ):  # Runs command and gets checks if quit is returned
+                break
+        except KeyError:
+            print(f"Unrecognized Command: {command}")
+
+
+def main():
+    """Main function to run user-interace of the mailroom program."""
+    command_dispatch = {
+        "send a thank you": thank_you,
+        "create a report": report,
+        "send letters to everyone": compose_all_donors_emails,
+        "quit": quit_interface,
+    }
+    prompt = "Choose: “Send a Thank You”, “Create a Report” “Send Letters to Everyone” or “Quit” ->: "
+    menu_selection(prompt, command_dispatch)
 
 
 if __name__ == "__main__":
@@ -116,14 +166,17 @@ if __name__ == "__main__":
 
     are_you_mocking_me = int(input('Are you mocking me?? "0": no, "1": yes->: '))
 
-    if are_you_mocking_me:
-        """Mocks input() to allow for automated list of user-inputs to be run"""
+    if (
+        are_you_mocking_me
+    ):  # Mocks input() to allow for automated list of user-inputs to be run
 
         def response_generator(seq):
+            # TODO comprehension
             for item in seq:
                 yield item
 
-        def input(prompt):  # Mocks input function
+        def input(prompt):  # pylint: disable=redefined-builtin
+            """Mocks input function for automated receipe running"""
             print(prompt, end="")
             response = mocked_resp_gen.__next__()
             print(response)
@@ -145,23 +198,5 @@ if __name__ == "__main__":
         ]
         mocked_resp_gen = response_generator(mocked_responses)
 
-    quit_flag = False
-    command_dispatch = {
-        "send a thank you": thank_you,
-        "create a report": report,
-        "send letters to everyone": compose_all_donors_emails,
-        "quit": quit_interface,
-    }
-    while not quit_flag:  # Dispatch loop
-        command = input(
-            "\nChoose: “Send a Thank You”, “Create a Report” “Send Letters to Everyone” or “Quit” ->: "
-        )
-        command = command.lower()
-        try:
-            if (
-                command_dispatch[command]() == "quit"
-            ):  # Runs command and gets checks if quit is returned
-                break
-        except KeyError:
-            print(f"Unrecognized Command: {command}")
+    main()
     print("Fin")
