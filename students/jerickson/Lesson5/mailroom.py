@@ -98,14 +98,32 @@ def compose_all_donors_emails():
 
 
 def thank_you():
-    """Add new donation to the record and compose a thank you email for it"""
+    """Add new donation to the record and compose a thank you email for it
+
+    quit is safe, doesn't add donor if no amount is entered.
+    """
     donor_name = None
+
     while not donor_name:
-        donor_name = input("Who just made a donation? Full Name please. ->: ")
-        if donor_name == "list":
+        donor_name = input(
+            "Who just made a donation? Full Name please, or 'list' to show existing donors. ->: "
+        )
+        if donor_name.lower() == "list":
             print("All Donors:" + donor_list())
             donor_name = None
-    donor_amount = float(input("How much was the donation? ->: "))
+        elif donor_name.lower() == "quit":
+            return
+
+    while True:
+        try:
+            donor_amount = input("How much was the donation? ->: ")
+            donor_amount = float(donor_amount)
+            break
+        except ValueError:
+            if donor_amount == "quit":
+                return
+            print(f"Unrecognized number: {donor_amount}. Try again.")
+
     new_donation(donor_name, donor_amount)
 
 
@@ -157,12 +175,12 @@ def main():
         "send letters to everyone": compose_all_donors_emails,
         "quit": quit_interface,
     }
-    prompt = "Choose: “Send a Thank You”, “Create a Report” “Send Letters to Everyone” or “Quit” ->: "
+    prompt = "\nChoose: “Send a Thank You”, “Create a Report” “Send Letters to Everyone” or “Quit” ->: "
     menu_selection(prompt, command_dispatch)
 
 
 if __name__ == "__main__":
-    print("\nBack to the grind in the mailroom.", end="\n\n")
+    print("\nBack to the grind in the mailroom.")
 
     are_you_mocking_me = int(input('Are you mocking me?? "0": no, "1": yes->: '))
 
@@ -185,12 +203,19 @@ if __name__ == "__main__":
             "1",
             "send a thank you",
             "list",
+            "quit",
+            "send a thank you",
             "King Arthur",
+            "not a number",
             "400.2",
+            "send a thank you",
+            "didn't donate",
+            "quit",
             "create a report",
             "send letters to everyone",
             "quit",
         ]
+
         mocked_resp_gen = (mocked_response for mocked_response in mocked_responses)
 
     main()
