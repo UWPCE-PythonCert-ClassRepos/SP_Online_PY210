@@ -1,8 +1,13 @@
-"""Automate the mailroom workflow."""
+"""Automate the mailroom workflow.
+
+Run as __main__ to have interface start.
+    Can 'mock' the input() function to run through automated 'user' responses
+Run as imported module then run main() to start interface.
+"""
 
 # pylint: disable=line-too-long
 
-donation_data_header = ["Name", "Total Given", "Num Gifts", "Average Gift"]
+DONATION_DATA_HEADER = ["Name", "Total Given", "Num Gifts", "Average Gift"]
 donation_data = {
     "Usama Black": {"total given": 22002, "num gifts": 3},
     "Kezia Hassan": {"total given": 3023.23, "num gifts": 3},
@@ -15,7 +20,14 @@ donation_data = {
 
 
 def sort_donation_data():
-    """Return list of sorted donors by Total-Given"""
+    """
+    Return list of sorted donors by Total-Given
+
+    Returns
+    -------
+    list
+        Sorted donor full-names
+    """
 
     donation_data_sortable = (
         [record["total given"], name] for name, record in donation_data.items()
@@ -29,7 +41,7 @@ def report():
     """Print a report of the donation history."""
     # Format report lines
     sorted_donors = sort_donation_data()
-    title = donation_data_header[:]
+    title = DONATION_DATA_HEADER[:]
     report_header = f"|{title[0]:^16}|  {title[1]:^12}|{title[2]:^13}|  {title[3]:^13}|"
     report_break_list = []
     for char in report_header[:]:
@@ -58,31 +70,73 @@ def report():
 
 
 def new_donation(donor_name, amount):
-    """Adds a new donation to the donation record"""
+    """
+    Add a new donation to the donation record.
+
+    If the donor doesn't exist, they are added.
+    The number of gifts and total given update in the donation-data structure
+
+    Parameters
+    ----------
+    donor_name : str
+        The string of the donor's full name
+    amount : float|str
+        The amount of a new donation
+
+    Returns
+    -------
+    None
+    """
     donor_record = donation_data.setdefault(
         donor_name, {"total given": 0, "num gifts": 0}
     )
     donor_record["total given"] += amount
     donor_record["num gifts"] += 1
-    compose_new_donation_email(donor_name, donor_record, amount)
 
 
 def donor_list():
-    """Return a string of comma seperated donor names"""
+    """
+    Return a string of comma seperated donor names
+
+    Returns
+    -------
+    str
+        Donor names, comma seperated
+    """
     all_names = sort_donation_data()
     format_string = " {}," * (len(all_names))
     return format_string.format(*all_names)[:-1]  # Slice removes extra comma at end
 
 
-def compose_new_donation_email(donor_name, donor_record, amount):
-    """Print a new-donation thank-you email using the donor's historical information"""
+def compose_new_donation_email(donor_name, amount):
+    """
+    Return a new-donation thank-you email using the donor's historical information.
+
+    Details include the name, new-donation amount, historical number of gifts,
+    and the total amount they have donated.
+
+    Parameters
+    ----------
+    donor_name : str
+        The string of the donor's full name
+    donor_record : dict
+        The summary info of a donor's data
+    amount : float|str
+        The amount of a new donation, will be called out in the email separately
+
+    Returns
+    -------
+    email : str
+        The composed email
+    """
+    donor_record = donation_data[donor_name]
     time_s = "times" if donor_record["num gifts"] > 1 else "time"
     email = f"Thank you {donor_name} for your donation of ${amount:.2f}! You have donated {donor_record['num gifts']} {time_s} for a total of ${donor_record['total given']:.2f}."
-    print(email)
+    return email
 
 
 def compose_all_donors_emails():
-    """Write to disk a thank-you email using the donor's historical information"""
+    """Write to disk thank-you emails using each donors' historical information"""
     file_id = 0
     for donor_name, donor_record in donation_data.items():
         time_s = (
@@ -98,9 +152,15 @@ def compose_all_donors_emails():
 
 
 def thank_you():
-    """Add new donation to the record and compose a thank you email for it
+    """
+    Add new donation to the record and compose a thank you email to that donor
 
-    quit is safe, doesn't add donor if no amount is entered.
+    User input of donor-name and donor-amount, not case-sensitive
+        donor-name input: 'list' will show all existing donors
+        donor-name input: 'quit' will exit to the main interface and cancel the donation
+        donor-amount input: 'quit' will exit to the main interface and cancel the donation
+    The donation is recorded in the donation-data structure, new donor names are added (using case on input).
+    Print the thank-you email to the donor in the terminal. Includes historical and recent donation data.
     """
     donor_name = None
 
@@ -125,9 +185,11 @@ def thank_you():
             print(f"Unrecognized number: {donor_amount}. Try again.")
 
     new_donation(donor_name, donor_amount)
+    email = compose_new_donation_email(donor_name, donor_amount)
+    print(email)
 
 
-def quit_interface():
+def quit_menu():
     """Return the string "quit" to exit a menu-level"""
     return "quit"
 
@@ -173,7 +235,7 @@ def main():
         "send a thank you": thank_you,
         "create a report": report,
         "send letters to everyone": compose_all_donors_emails,
-        "quit": quit_interface,
+        "quit": quit_menu,
     }
     prompt = "\nChoose: “Send a Thank You”, “Create a Report” “Send Letters to Everyone” or “Quit” ->: "
     menu_selection(prompt, command_dispatch)
@@ -189,7 +251,7 @@ if __name__ == "__main__":
     ):  # Mocks input() to allow for automated list of user-inputs to be run
 
         def input(prompt):  # pylint: disable=redefined-builtin
-            """Mocks input function for automated receipe running"""
+            """Mocks input function for automated recipe running"""
             print(prompt, end="")
             response = next(mocked_resp_gen)
             print(response)
