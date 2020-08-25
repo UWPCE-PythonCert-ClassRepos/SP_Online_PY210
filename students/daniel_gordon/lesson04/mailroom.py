@@ -1,5 +1,7 @@
 #!/bin/user/env python3
 
+import pathlib
+
 DEBUG = False
 
 def menu_dispatch(prompt, menu):
@@ -57,6 +59,18 @@ def create_a_report():
         print(f"{donor[0]:<25} $ {total:>11.2f} {num:>11} $ {average:>12.2f}")
     return True
 
+def send_letters():
+    """Creates a letter for each donor thanking them for there latest donation"""
+    path = pathlib.Path('./letters')
+    if not path.exists(): path.mkdir()
+    for donor in donors:
+        with open(f"./letters/{donor}.txt", "w") as file:
+            file.write(f"Dear {donor},\n\n")
+            file.write(f"\tThank you for your donation of {donors[donor][-1]}\n\n")
+            file.write("\tSincerly,\n")
+            file.write("\t\tThe Team")
+    return True
+
 def exit_menu():
     return "quit"
 
@@ -70,9 +84,10 @@ donors = {"Nick Esen" : [1800, 720],
 
 main_menu = {'S' : send_thank_you,
              'C' : create_a_report,
+             'L' : send_letters,
              'Q' : exit_menu}
 
-main_prompt = "(S)end a Thank you | (C)reate a Report | (Q)uit >"
+main_prompt = "(S)end a Thank you | (C)reate a Report | Send (L)etters to all donors | (Q)uit >"
 
 if __name__ == "__main__":
     menu_dispatch(main_prompt, main_menu)
