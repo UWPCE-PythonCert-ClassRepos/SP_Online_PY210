@@ -58,3 +58,23 @@ class Test_New_Donation:
         assert mailroom.donation_data == {
             name: {"total given": total_amount, "num gifts": total_gifts}
         }
+
+
+class Test_Donor_List:
+    """
+    Tests the mailroom.donor_list function.
+
+    sort_donation_data(function) is mocked to provide an isolated state for each test
+    """
+
+    @pytest.mark.parametrize(
+        "name_list, goal",
+        [
+            pytest.param(["a", "b", "c"], " a, b, c", id="non-empty"),
+            pytest.param([], "", id="empty"),
+        ],
+    )
+    def test_new_donation_donor_list_positive(self, mocker, name_list, goal):
+        """donor_list, positive-test-cases"""
+        mocker.patch.object(mailroom, "sort_donation_data", return_value=name_list)
+        assert mailroom.donor_list() == goal

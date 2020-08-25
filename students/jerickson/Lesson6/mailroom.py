@@ -103,6 +103,8 @@ def donor_list():
     str
         Donor names, comma seperated
     """
+    # TODO refactor to remove sort_donation_data and use donation_data structure
+    # TODO make this handle empty list
     all_names = sort_donation_data()
     format_string = " {}," * (len(all_names))
     return format_string.format(*all_names)[:-1]  # Slice removes extra comma at end
