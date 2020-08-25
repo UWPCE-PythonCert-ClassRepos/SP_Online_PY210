@@ -76,7 +76,7 @@ def view_report():
         if sav_file in bail_outs:
             break
         sav_file = True if 'y' in sav_file else False
-        # making sav_file a bool so it doesn't need to be re-evaluated
+        # Making sav_file a bool so it doesn't need to be re-evaluated
         # at each call (one of which occurs inside a proper loop)
         if sav_file:
             mkdir('Mailroom_Reports')
@@ -85,38 +85,38 @@ def view_report():
             unique_id = str(unique_id).translate(transtable)
             outfile = open('Mailroom_Reports/Report_' + unique_id + '.txt', 'w')
 
-        # print table header on terminal for viewing
+        # Print table header on terminal for viewing
         header = 'Donor Name          |  Total Given  | # of Gifts |  Average Gift  |'
         linebreak = ('-' * 20 + '|' + '-' * 15 + '|' + '-' * 12 + '|' + '-' * 16 + '|')
         print()
         print(header)
         print(linebreak)
 
-        # create same header in .txt file if user is saving report
+        # Create same header in .txt file if user is saving report
         if sav_file:
             outfile.write(header + '\n')
             outfile.write(linebreak + '\n')
 
         # Break out donor info into separate lists
-        net_dons = []    # initialize an empty list for donation sums
-        don_names = []    # initialize list of donor names
-        num_dons = []    # initialize # donations/donor
+        net_dons = []    # Initialize an empty list for donation sums
+        don_names = []    # Initialize list of donor names
+        num_dons = []    # Initialize # donations/donor
         for name, dons in donors.items():
-            don_names.append(name)    # populate list of donors
+            don_names.append(name)    # Populate list of donors
             total = 0
-            num_dons.append(len(dons))    # populate list of # of donations
-            for i in dons:    # calculate the sum of each donor's gifts
+            num_dons.append(len(dons))    # Populate list of # of donations
+            for i in dons:    # Calculate the sum of each donor's gifts
                 total += i
-            net_dons.append(total)    # populate net_don list for each donor
+            net_dons.append(total)    # Populate net_don list for each donor
 
-        # break out names, # donations, and total donations into lists
+        # Break out names, # donations, and total donations into lists
         while len(net_dons) > 0:
             name = don_names.pop(net_dons.index(max(net_dons)))
             times = num_dons.pop(net_dons.index(max(net_dons)))
             total_gift = net_dons.pop(net_dons.index(max(net_dons)))
             new_line = f'{name:.<20}|${total_gift:>13,.2f} | {times:^10d} | $ {total_gift/times:12,.2f} |'
-            print(new_line)    # print for terminal viewing
-            if sav_file:    # add same line to output file if writing
+            print(new_line)    # Print for terminal viewing
+            if sav_file:    # Add same line to output file if writing
                 outfile.write(new_line + '\n')
         if sav_file:
             outfile.close()    # Close it if ya opened it
@@ -159,17 +159,17 @@ def write_thanks():
         who_from = input('Whom Shall We Thank?: ')
         who_from = 'back' if who_from.lower() in bail_outs else who_from.title()
         if who_from == 'back':
-            return 'quit'    # exit and return to main menu
+            return 'quit'    # Exit and return to main menu
         how_much = input(f'How much did {who_from} donate?: $')
         if str(how_much).lower() in bail_outs:
-            return 'quit'    # exit and return to main menu
+            return 'quit'    # Exit and return to main menu
         how_much = float(how_much)
         
-        # output message to terminal screen
+        # Output message to terminal screen
         print('Message Reads:')
         print(thanks_generator(who_from, how_much) + '\n')
 
-        # user asked if the information is correct and to be recorded
+        # User asked if the information is correct and to be recorded
         count = str(input('Shall we record this donation? (yes/no): ')).lower()
         if count in bail_outs:
             return 'quit'
@@ -185,11 +185,11 @@ def write_thanks():
         letter = str(input(f'Would you like to draft a letter to {who_from}? (yes/no): ')).lower()
         if letter in bail_outs:
             return 'quit'
-        if 'y' in letter:    # writes thank you message to file.
+        if 'y' in letter:    # Writes thank you message to file.
             write_letter(who_from, how_much)
             print('All letters saved in the ' + os.getcwd() + '/Thank_Yous directory.')
-        break   # only need to loop if user made a mistake
-    return 'quit'    # return to main menu, not 'Send Thanks' sub-menu
+        break   # Only need to loop if user made a mistake
+    return 'quit'    # Return to main menu, not 'Send Thanks' sub-menu
 
 def thanks_generator(to_whom, how_much):
     '''
@@ -235,7 +235,7 @@ def donor_list():
 
 def letters2all():
     '''
-    drafts letters as text files for all donors.  Can be toggled
+    Drafts letters as text files for all donors.  Can be toggled
     by user to thank them for their last donation, or for the total
     sum of their donations.
     
@@ -262,14 +262,12 @@ def letters2all():
         break
 
 def back_out():
-    '''
-    returns Ye Olde Magic 'quit' response
-    '''
+    ''' Returns Ye Olde Magic 'quit' response '''
     return 'quit'
 
 def mkdir(dir_name):
     '''
-    creates a new directory in cwd with the prescribed name if not
+    Creates a new directory in cwd with the prescribed name if not
     already present there.
     '''
     try:
