@@ -148,7 +148,9 @@ def compose_all_donors_emails():
         )  # Grammer correction of donation vs # donations
         email = f"Thank you {donor_name},\n\nYour {time_s} totaling ${donor_record['total given']:.2f} will help us.\n\n{'':>40}Best Regards,\n{'':>40}Jacob Erickson"
         file_name = f"Donor{file_id:03d}_{donor_name}_gitnore.txt"
-        with open(file_name, "w") as file:
+        with open(
+            file_name, "w"
+        ) as file:  # TODO remove from here, and return email instead
             file.write(email)
         file_id += 1
 

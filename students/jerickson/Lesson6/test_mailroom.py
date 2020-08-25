@@ -11,6 +11,37 @@ from pytest_mock import mocker  # pylint: disable=unused-import
 import mailroom
 
 
+class Test_Sort_Donation_Data:
+    """
+    Tests the mailroom.sort_donation_data function.
+
+    donation_data(dict) is mocked to provide an isolated state for each test
+    """
+
+    @pytest.mark.parametrize(
+        "name_list, amount_list, goal",
+        [
+            pytest.param(
+                ["a", "d", "c", "b"],
+                [9001, 1, 42, 300.2],
+                ["a", "b", "c", "d"],
+                id="non-empty",
+            ),
+            pytest.param([], [], [], id="empty"),
+        ],
+    )
+    def test_sort_donation_data_positive(self, mocker, name_list, amount_list, goal):
+        """Sort Donation Data, positive-test-cases"""
+        existing_record = {}
+        for name, amount in zip(name_list, amount_list):
+            existing_record[name] = {"total given": amount}
+
+        mocker.patch.object(mailroom, "donation_data", new=existing_record)
+        actual_list = mailroom.sort_donation_data()
+
+        assert actual_list == goal
+
+
 class Test_New_Donation:
     """
     Tests the mailroom.new_donation function.
@@ -78,3 +109,69 @@ class Test_Donor_List:
         """donor_list, positive-test-cases"""
         mocker.patch.object(mailroom, "sort_donation_data", return_value=name_list)
         assert mailroom.donor_list() == goal
+
+
+class Test_Compose_All_Donors_Emails:
+    """
+    Tests the mailroom.compose_all_donors_emails function.
+
+    donation_data(dict) is mocked to provide an isolated state for each test
+    open() is mocked to allow intercept of email file
+    """
+
+    def test_compose_all_donors_emails_positive(self, mocker):
+        """Compose All Donors Emails, positive-test-cases
+
+        Ensures that all required data is in the email; name, new-amount, #gifts, total-amount
+        """
+        name = "Donor Name"
+        gifts = 42
+        total_amount = 400.2
+        record = {name: {"total given": total_amount, "num gifts": gifts}}
+        email_components = f"{name} {gifts} {total_amount:.2f}".split()
+
+        class mock_file:
+            def write(self, string):
+                """Mocks the write to allow access to what was written to assert against"""
+                self.written = string  # pylint: disable=attribute-defined-outside-init
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *args):
+                return self
+
+        mocked_file = mock_file()
+
+        mocker.patch.object(mailroom, "donation_data", new=record)
+        mocker.patch.object(mailroom, "open", return_value=mocked_file)
+
+        mailroom.compose_all_donors_emails()
+        for email_component in email_components:
+            assert email_component in mocked_file.written
+
+
+class Test_Compose_New_Donation_Email:
+    """
+    Tests the mailroom.compose_new_donation_email function.
+
+    donation_data(dict) is mocked to provide an isolated state for each test
+    """
+
+    def test_compose_new_donation_email_positive(self, mocker):
+        """Compose New Donation Email, positive-test-cases
+
+        Ensures that all required data is in the email; name, new-amount, #gifts, total-amount
+        """
+        name = "New Donation"
+        new_amount = 30
+        gifts = 42
+        total_amount = 400.2
+        record = {name: {"total given": total_amount, "num gifts": gifts}}
+        email_components = f"{name} {new_amount:.2f} {gifts} {total_amount:.2f}".split()
+
+        mocker.patch.object(mailroom, "donation_data", new=record)
+        actual_email = mailroom.compose_new_donation_email(name, new_amount)
+
+        for email_component in email_components:
+            assert email_component in actual_email
