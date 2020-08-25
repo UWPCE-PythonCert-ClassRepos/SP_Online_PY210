@@ -1,120 +1,168 @@
 #!/usr/bin/env python3
 """Done except for the bonus """
 
-def askUser(question):
-  response = input(question)
-  return response
 
-def addFruit(fruits,newFruit):
-  newFruits = list(fruits)
-  newFruits.append(newFruit)
-  return newFruits
-  
-def askForNumber():
-  response = int(0)
-  response = input("Enter a number less than 6 > ")
-  return response
-
-def addFruitWithPlus(listOfFruit,fruit):
-  listOfFruit = [fruit] + listOfFruit
-  return listOfFruit
-  
-def addFruitWithInsert(listOfFruit,fruit):
-  listOfFruit.insert(0, fruit)
-  return listOfFruit
-
-def displayFruitsStartingWith(listOfFruit,startingLetter):
-  print("Fruits starting with letter ",startingLetter)
-  for item in listOfFruit:
-    if(item[0] == startingLetter):
-      print(item)
-
-def series1(fruitList):
-  print('Starting List: ', fruitList)
-  newFruit =  askUser("Enter name of fruit to add > ")
-  userUpdatedFruit = addFruit(fruitList,newFruit)
-  print('Updated List: ', userUpdatedFruit)
-
-  usersNumber = askForNumber()
-  thedisplay   = "Fruit number {thenumber} is {thefruit}".format(thenumber = usersNumber, thefruit = userUpdatedFruit[(int(usersNumber)-1)])
-  print("Back to user: " ,thedisplay)
-  myUpdatedFruit = addFruitWithPlus(userUpdatedFruit,'Lemons')
-  withInsertedFruit = addFruitWithInsert(myUpdatedFruit,'Mango')
-  displayFruitsStartingWith(withInsertedFruit,'P')
-  print('Final List: ', withInsertedFruit)
-  return withInsertedFruit
-
-def doSeries2Bonus(doubledList):
-  print('doSeries2Bonus Starting List: ', doubledList)
-  deleteFruit =  askUser("Enter name of fruit to delete for Bonus > ")
-  print('doSeries2Bonus delete fruit: ', deleteFruit)
-  if deleteFruit in theList:
-    print(deleteFruit, " was found in List")
-#    theList.remove(deleteFruit)
-  else:
-    print(deleteFruit, " was not found in List")
-
-def series2(theList):
-  print('Series 2 Starting List: ', theList)
-  theList.pop()
-  print('After removing the last fruit: ', theList)
-  deleteFruit =  askUser("Enter name of fruit to delete > ")
-  print('Series 2 delete fruit: ', deleteFruit)
-  if deleteFruit in theList :
-    print(deleteFruit, " was found in List")
-    theList.remove(deleteFruit)
-  else:
-    print(deleteFruit, " was not found in List")
-  return theList
-
-def series3(theList):
-#  print('Series 3 Starting List: ', theList)
-  for fruit in reversed(theList):
-#    print('Ask if they like ', fruit)
-    question = "Do you like "+ fruit +" (y or n) > "
-    answer =  askUser(question)
-    if not (answer=='n') or (answer=='y'):
-      valid = False
-      while not valid:
-        question = "Do you like "+ fruit +" (y or n) > "
-        answer =  askUser(question)
-        if (answer=='n') or (answer=='y'):
-          valid = True
-          break
-    else:    
-      if(answer=='n'):
-        print('Delete ', fruit)
-        theList.remove(fruit)
-      else:
-        continue
-      
-  return theList
-
-def series4(theList):
-#  print('Series 4 Starting List: ', theList)
-  newList = []
-  for fruit in theList:
-#    print('fruit: ', fruit [::-1])
-    newList.append(fruit [::-1])
-  theList.pop()
-  print('Original List: ', theList)
-  return newList
+def ask_user(question):
+    print('question asked is ', question)
+    response = input(question)
+    return response
 
 
-fruit_tuple = ('Apples', 'Pears', 'Oranges' , 'Peaches')
-fruits_list = ['Apples', 'Pears', 'Oranges' , 'Peaches']
-fruits_set = {'Apples', 'Pears', 'Oranges' , 'Peaches'}
+def add_fruit(fruits, new_fruit):
+    new_fruits = list(fruits)
+    new_fruits.append(new_fruit)
+    return new_fruits
 
-series1List = series1(fruit_tuple)
-print('series1List: ', series1List)
 
-#series2List = series2(series1List)
-#print('series2List: ', series2List)
-##doSeries2Bonus(series2List*2)
+def get_number(length):
+    response = int(0)
+    updated_q = "Enter a number less than " + str(length) + " > "
+    response = input(updated_q)
+    # belarson text this and check the number entered
+    return response
 
-#series3List = series3(series1List)
-#print('series3List: ', series3List)
 
-series4List = series4(series1List)
-print('series4List: ', series4List)
+def add_fruit_with_insert(fruit_list, fruit):
+    fruit_list.insert(0, fruit)
+    return fruit_list
 
+
+def display_fruits_starting_with(fruit_list, starting_letter):
+    print("Fruits starting with letter ", starting_letter)
+    for item in fruit_list:
+        if(item[0] == starting_letter):
+            print(item)
+
+
+def series1(fruit_list):
+    print("+++++++++++++++++++++++++++++++++++++++++++++++++")
+    print('1 series1 starting List: ', fruit_list)
+
+    """Ask  user for another fruit and add it to the end of the list."""
+    new_fruit = ask_user("Enter name of fruit to add > ")
+    updated_fruit = add_fruit(fruit_list, new_fruit)
+
+    """Display the list."""
+    # print('2 Updated List: ', updated_fruit)
+
+    """Ask  user for a number """
+    """Display number and fruit for  number"""
+    num_in = get_number(len(updated_fruit))
+    while int(num_in) > len(updated_fruit):
+        num_in = get_number(len(updated_fruit))
+
+    text = "Fruit number {num} is {fruit}"
+    the_display = text.format(num=num_in, fruit=updated_fruit[(int(num_in)-1)])
+    print(the_display)
+
+    """Add another fruit to beginning of list using “+” . Display list."""
+    updated_with_plus = ['Lemons'] + updated_fruit
+    # print("4")
+    # print(updated_with_plus)
+
+    """Add another fruit to beginning of list using insert(). Display list"""
+    updated_with_insert = add_fruit_with_insert(updated_with_plus, 'Mango')
+    # print("5")
+    # print(updated_with_insert)
+
+    """Display all fruits that begin with “P”, using a for loop"""
+    display_fruits_starting_with(updated_with_insert, 'P')
+    print('Final List: ', updated_with_insert)
+    return updated_with_insert
+
+
+def do_series2_bonus(doubledList):
+    print('do_series2_bonus Starting List: ', doubledList)
+    deleteFruit = ask_user("Enter name of fruit to delete for Bonus > ")
+    print('do_series2_bonus delete fruit: ', deleteFruit)
+    if deleteFruit in the_list:
+        print(deleteFruit, " was found in List")
+#        the_list.remove(deleteFruit)
+    else:
+        print(deleteFruit, " was not found in List")
+
+
+def series2(the_list):
+    print("+++++++++++++++++++++++++++++++++++++++++++++++++")
+    print('Series 2 Starting List: ', the_list)
+    '''Remove last fruit from list.  Display updated list'''
+    new_list = the_list.copy()
+    new_list.pop()
+    print('After removing the last fruit: ', new_list)
+
+    '''Ask user for fruit to delete, find and delete it.'''
+    deleteFruit = ask_user("Enter name of fruit to delete > ")
+    print('Series 2 delete fruit: ', deleteFruit)
+    if deleteFruit in new_list:
+        print(deleteFruit, " was found in list and deleted")
+        new_list.remove(deleteFruit)
+    else:
+        print(deleteFruit, " was not found in List")
+    return new_list
+
+
+def series3(the_list):
+    print("+++++++++++++++++++++++++++++++++++++++++++++++++")
+    print('Series 3 Starting List: ', the_list)
+    '''Ask user if they like each fruit (in lowercase)'''
+    cnt = len(the_list)
+    # print('cnt ', cnt)
+
+    new_list = the_list.copy()
+
+    for fruit in reversed(new_list):
+        print('fruit ', fruit)
+        question = "1 Do you like " + fruit.lower() + " (y or n) > "
+        # print(lower(fruit))
+        answer = ask_user(question)
+        # print('++++++++++++++++== answer ', answer)
+        # For any answer that is not “yes” or “no”,
+        #    prompt user to answer with one of those two values
+        if not ((answer.lower() == 'n') or (answer.lower() == 'y')):
+            valid = False
+            while not valid:
+                question = "Do you like " + fruit.lower() + " (y or n) > "
+                answer = ask_user(question)
+                if (answer == 'n') or (answer == 'y'):
+                    valid = True
+                    break
+        else:
+            # if they don't like, delete from list
+            if(answer == 'n'):
+                print('Delete ', fruit)
+                new_list.remove(fruit)
+            else:
+                continue
+
+    return new_list
+
+
+def series4(the_list):
+    print("+++++++++++++++++++++++++++++++++++++++++++++++++")
+    print('Series 4 Starting List: ', the_list)
+    new_list = []
+    for fruit in the_list:
+        # print('fruit: ', fruit [::-1])
+        new_list.append(fruit[::-1])
+    the_list.pop()
+    print('Original List: ', the_list)
+    return new_list
+
+
+fruit_tuple = ('Apples', 'Pears', 'Oranges', 'Peaches')
+fruits_list = ['Apples', 'Pears', 'Oranges', 'Peaches']
+fruits_set = {'Apples', 'Pears', 'Oranges', 'Peaches'}
+print(fruits_list)
+
+series1_list = series1(fruit_tuple)
+print('series1_list: ', series1_list)
+
+series2_list = series2(series1_list)
+print('series2_list: ', series2_list)
+# #do_series2_bonus(series2_list*2)
+
+series3_list = series3(series1_list)
+print('series3_list: ', series3_list)
+
+series4_list = series4(series1_list)
+print('series4_list: ', series4_list)
