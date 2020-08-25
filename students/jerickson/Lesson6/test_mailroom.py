@@ -175,3 +175,63 @@ class Test_Compose_New_Donation_Email:
 
         for email_component in email_components:
             assert email_component in actual_email
+
+
+class Test_Quit_Menu:
+    """Tests the mailroom.quit_menu function."""
+
+    def test_quit_menu(self):
+        "The quite quiet quit test."
+        assert mailroom.quit_menu() == "quit"
+
+
+class Test_Menu_Selection:
+    """
+    Tests the mailroom.menu_selection function.
+
+    dispatch_dict(dict) is mocked to provide an isolated state for each test
+    """
+
+    def test_menu_selection_positive(self, mocker):
+        """Menu Selection, positive-test-cases
+
+        Ensures that the menu selection loop runs as expected
+        Mocks input() to simulate user-interaction
+        """
+        called_once = mocker.MagicMock()
+        called_twice = mocker.MagicMock()
+        called_quit = mocker.MagicMock(return_value="quit")
+
+        command_dispatch = {
+            "1": called_once,
+            "2": called_twice,
+            "3": called_quit,
+        }
+
+        mocked_input_list = (n for n in ["unrecognized", "1", "2", "2", "3", "3"])
+
+        def mocked_input(*_):
+            return next(mocked_input_list)
+
+        mocker.patch.object(mailroom, "input", new=mocked_input)
+        mailroom.menu_selection("", dispatch_dict=command_dispatch)
+
+        assert called_once.call_count == 1
+        assert called_twice.call_count == 2
+        assert called_quit.call_count == 1
+
+
+class Test_Main:
+    """
+    Tests the mailroom.main function.
+
+    menu_selection(func) is mocked to provide an isolated state for each test
+    """
+
+    def test_main(self, mocker):
+        """Main, positive-test-cases"""
+
+        mocker.patch.object(mailroom, "menu_selection")
+        mailroom.main()
+
+        assert mailroom.menu_selection.call_count == 1  # pylint: disable=no-member
