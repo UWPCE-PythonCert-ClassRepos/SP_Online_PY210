@@ -246,7 +246,7 @@ def main():
         "4": quit_menu,
         "quit": quit_menu,
     }
-    prompt = "\nChoose: “Send a Thank You”, “Create a Report” “Send Letters to Everyone” or “Quit” ->: "
+    prompt = "\nChoose: “1”: Send a Thank You, “2”: Create a Report “3”: Send Letters to Everyone or “4”: Quit ->: "
     menu_selection(prompt, command_dispatch)
 
 
