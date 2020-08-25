@@ -21,8 +21,6 @@ def clean_inp(prompt, menu_dict):
     Allows greater user input flexibility by comparing the user
     input against a list of acceptable inputs for each program response.
     Then returns the exact response the program is looking for.
-
-    User does not need to type responses EXACTLY as provided in prompts.
     '''
     usr_input = str(input(prompt))
     for key, value in menu_dict.items():
@@ -39,26 +37,30 @@ def send_thanks():
 
 def view_report():
     '''
+    Prints the report to terminal and to a .txt file if directed to by
+    user.
+    
     User is first asked if they want to save the report (to a .txt file)
     The timing is odd, but it makes everything easier this way... for
     me at least.
 
     If user selects 'yes' then a directory for the reports is created
-    and the program outputs text to both the terminal screen and a
-    new .txt file.  The .txt file is made unique by adding an ASCI time
-    stamp to the file name (with spaces replaced with '_') so that
-    multiple report print outs can be done without having to purge the
-    Mailroom_Reports directory every time.
+    in the cwd if not already present and the program outputs text to
+    both the terminal screen and a new .txt file.  The .txt file is
+    made unique by adding an ASCI time stamp to the file name (with
+    spaces replaced with '_') so that multiple report print outs can be
+    done without having to purge the Mailroom_Reports directory every
+    time.
     
     The donors dictionary is broken out into (3) lists for the names
     of the donors, # of donations from each, and total donations of
     each donor.  The lists are built so the indices all pull data for
     the same donor.  The output table is then built by "popping" the
     data corresponding to the index for the highest donation total
-    from all (3) lists (the donation total list being "popped" last),
-    then repeated with the new, shorter lists until the lists are all
-    empty.  This results in a table that is sorted by donation amount,
-    from largest to smallest.
+    from all (3) lists (the donation total list being "popped" last
+    so we don't get a "moving target"), then repeated with the new,
+    shorter lists until the lists are all empty.  This results in a
+    table that is sorted by donation amount, from largest to smallest.
     
     Finally, the user is asked if they would like to send letters to
     all donors, for which a 'yes' response will result in a series of
@@ -75,7 +77,7 @@ def view_report():
             break
         sav_file = True if 'y' in sav_file else False
         # making sav_file a bool so it doesn't need to be re-evaluated
-        # at each call (one of which occurs inside a loop)
+        # at each call (one of which occurs inside a proper loop)
         if sav_file:
             mkdir('Mailroom_Reports')
             transtable = str.maketrans(' ', '_')
@@ -114,10 +116,12 @@ def view_report():
             total_gift = net_dons.pop(net_dons.index(max(net_dons)))
             new_line = f'{name:.<20}|${total_gift:>13,.2f} | {times:^10d} | $ {total_gift/times:12,.2f} |'
             print(new_line)    # print for terminal viewing
-            if sav_file:    # add same line to output file if user desired
+            if sav_file:    # add same line to output file if writing
                 outfile.write(new_line + '\n')
         if sav_file:
             outfile.close()    # Close it if ya opened it
+        
+        # Ask user if they would like to send letters to all donors
         send_letters = str(input('\nShall we send letters to the donors? (yes/no): ')).lower()
         if send_letters in bail_outs:
             break
@@ -127,22 +131,28 @@ def view_report():
 
 def write_thanks():
     '''
+    Asks for and records new donation information (who and how much)
+    then outputs a thank you message to the terminal screen and a .txt
+    file if directed to do so by user.
+    
     User is prompted to give a name of the donor (recipient of the
     thank you) then an amount to thank them for.  A message is then
     drafted and output to the terminal screen.
 
     The user is asked if the donation is to be recorded for which a
     'yes' answer will result in the donor/amount being added to the
-    global donors dictionary.  If they say no (if they mispelled the
+    global donors dictionary.  If they say 'no' (if they mispelled the
     name, for example) the transaction is deleted and the user is given
     another prompt for a name.
 
     The user is also asked if they would like to draft a letter to the
     donor.  A 'yes' answer will result in a .txt file being generated
-    with the message displayed in the terminal window.  A 'no' answer
-    results in the function terminating without further action.
+    with the message displayed in the terminal window and saved to the
+    "Thank_Yous" directory in the cwd (which is created if not
+    present).  A 'no' answer results in the function terminating
+    without further action.
 
-    User can type any of the 'bail_out' words to any prompt to return
+    User can type any of the 'bail_out' terms to any prompt to return
     to main menu.
     '''
     while True:
@@ -154,15 +164,24 @@ def write_thanks():
         if str(how_much).lower() in bail_outs:
             return 'quit'    # exit and return to main menu
         how_much = float(how_much)
+        
+        # output message to terminal screen
         print('Message Reads:')
         print(thanks_generator(who_from, how_much) + '\n')
+
+        # user asked if the information is correct and to be recorded
         count = str(input('Shall we record this donation? (yes/no): ')).lower()
         if count in bail_outs:
             return 'quit'
         if 'n' in count:    # if user made a mistake, they can abort here
             print('new donation record deleted.')
             continue    # stay in 'Send Thanks' sub-menu
+        # Record donation information to global donors dictionary
         donors.setdefault(who_from, []).append(how_much)
+
+        # User is asked if they would like the message output to a
+        # .txt file.  If 'yes' one is created in a Thank_Yous directory
+        # in the cwd.
         letter = str(input(f'Would you like to draft a letter to {who_from}? (yes/no): ')).lower()
         if letter in bail_outs:
             return 'quit'
