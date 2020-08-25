@@ -2,10 +2,10 @@
 import sys
 
 donors = {
-	"John Quigley": {"2019-02-04": 5000.00, "2019-02-04": 4250.00, "2019-02-04": 3000.00},
-	"Sara Smith": {"2020-04-02": 2000.00, "2019-02-04": 42000.00, "2019-02-04": 32000.00},
-	"Jacob van der Schmidt": {"2012-04-20": 20.00, "2019-02-04": 2000.00, "2019-02-04": 3400.00},
-	"Ogden Nash": {"2019-02-04": 5000000.00, "2019-02-04": 500000.00, "2019-02-04": 50000.00}
+	"John Quigley": {"2019-02-04": 5000.00, "2019-02-05": 4250.00, "2019-02-07": 3000.00},
+	"Sara Smith": {"2020-01-02": 2000.00, "2019-02-08": 42000.00, "2019-02-02": 32000.00},
+	"Jacob van der Schmidt": {"2012-01-20": 20.00, "2019-02-24": 2000.00, "2019-12-1": 3400.00},
+	"Ogden Nash": {"2019-06-04": 5000000.00, "2019-04-04": 500000.00, "2019-12-04": 50000.00}
 }
 
 def send_thank_you(first_name='', last_name=''):
@@ -72,8 +72,6 @@ def create_report():
 
 
 def send_letter_all():
-	text = "Dear {},\n Thank you very much for your very kind donation of ${}.\n It will be put to good use.\nSincerely,\n-The Team"
-
 	for donor in donors:
 		name = donor
 		amount = list(donors[name].values())[0]
