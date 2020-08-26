@@ -67,7 +67,7 @@ class Test_Report:
             pytest.param([], [], [], [], id="empty"),
         ],
     )
-    def test_sort_donation_data_positive(
+    def test_report(
         self, mocker, name_list, amount_list, num_gifts_list, sorted_name_goal
     ):
         """Sort Donation Data, positive-test-cases"""
@@ -89,7 +89,7 @@ class Test_Report:
         actual_report_gen = (line for line in actual_report_list)
 
         # Assert
-        for name in sorted_name_goal:
+        for name in sorted_name_goal:  # Test all rows are in sorted order
             while True:
                 report_line = next(actual_report_gen)
                 if name not in report_line:  # Skip ASCII format-lines and headers
@@ -98,6 +98,9 @@ class Test_Report:
                     assert report_component in report_line
                 else:
                     break
+        assert all(
+            [len(row) == len(actual_report_list[0]) for row in actual_report_list]
+        )  # Test the rows are all the same length
 
 
 class Test_Sort_Donation_Data:
@@ -149,6 +152,7 @@ class Test_New_Donation:
             pytest.param("Spam Eggs", 42, id="2words_int"),
             pytest.param("Cheese", 42.42, id="1word_float"),
             pytest.param(23.3, 42.42, id="number_float"),
+            pytest.param("Still Adds", -42.42, id="negative_donation"),
         ],
     )
     def test_new_donation_new_donor_positive(self, mocker, name, amount):
@@ -160,7 +164,9 @@ class Test_New_Donation:
         mailroom.new_donation(name, amount)
 
         # Assert
-        assert mailroom.donation_data == {name: {"total given": amount, "num gifts": 1}}
+        assert mailroom.donation_data == {
+            name: {"total given": abs(amount), "num gifts": 1}
+        }
 
     def test_new_donation_new_donor_negative(self, mocker):
         """Negative-test-case, amount can't be string"""
@@ -202,20 +208,23 @@ class Test_Donor_List:
     """
     Tests the mailroom.donor_list function.
 
-    sort_donation_data(function) is mocked to provide an isolated state for each test
+    donation_data(dict) is mocked to provide an isolated state for each test
     """
 
     @pytest.mark.parametrize(
         "name_list, goal",
         [
-            pytest.param(["a", "b", "c"], " a, b, c", id="non-empty"),
+            pytest.param(["a", "b", "c"], "a, b, c", id="non-empty"),
             pytest.param([], "", id="empty"),
         ],
     )
     def test_new_donation_donor_list_positive(self, mocker, name_list, goal):
         """donor_list, positive-test-cases"""
+        # Setup
+        mocked_donation_data = {name: None for name in name_list}
+
         # Mock
-        mocker.patch.object(mailroom, "sort_donation_data", return_value=name_list)
+        mocker.patch.object(mailroom, "donation_data", new=mocked_donation_data)
 
         # Execute & Assert
         assert mailroom.donor_list() == goal
@@ -376,6 +385,7 @@ class Test_Thank_You_CLI:
         Mocks input() to simulate user-interaction
         Mocks print() to simulate user-interaction
         """
+        # TODO Test the return of print during 'list'?
         # Mock
         mocked_input_list = (n for n in command_list)
 

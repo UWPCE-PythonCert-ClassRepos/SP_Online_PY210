@@ -93,13 +93,14 @@ def new_donation(donor_name, amount):
     Add a new donation to the donation record.
 
     If the donor doesn't exist, they are added.
-    The number of gifts and total given update in the donation-data structure
+    The number of gifts and total given update in the donation-data structure.
+    The donation amount gets abs() applied to remove negative numbers, no take backs.
 
     Parameters
     ----------
     donor_name : str
         The string of the donor's full name
-    amount : float
+    amount : float|int
         The amount of a new donation
 
     Returns
@@ -109,25 +110,21 @@ def new_donation(donor_name, amount):
     donor_record = donation_data.setdefault(
         donor_name, {"total given": 0, "num gifts": 0}
     )
-    donor_record["total given"] += amount
+    donor_record["total given"] += abs(amount)
     donor_record["num gifts"] += 1
 
 
 def donor_list():
     """
-    Return a string of comma seperated donor names
+    Return a string of comma seperated donor full-names
 
+    Empty donor-list returns empty string
     Returns
     -------
     str
         Donor names, comma seperated
     """
-    # TODO refactor to remove sort_donation_data and use donation_data structure
-    # TODO make this handle empty list
-    # TODO refactor to use .join
-    all_names = sort_donation_data()
-    format_string = " {}," * (len(all_names))
-    return format_string.format(*all_names)[:-1]  # Slice removes extra comma at end
+    return ", ".join(donation_data.keys())
 
 
 def compose_new_donation_email(donor_name, amount):
@@ -207,13 +204,12 @@ def thank_you_cli():
             "Who just made a donation? Full Name please, or 'list' to show existing donors. ->: "
         )
         if donor_name.lower() == "list":
-            print("All Donors:" + donor_list())
+            print("All Donors: " + donor_list())
         elif donor_name.lower() == "quit":
             return
         else:
             break  # pragma: no cover (un-testable due to cPython optimization)
 
-    # TODO handle negative values
     while True:
         try:
             donor_amount = input("How much was the donation? ->: ")
