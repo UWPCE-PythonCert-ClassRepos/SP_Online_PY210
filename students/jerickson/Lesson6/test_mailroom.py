@@ -11,6 +11,87 @@ from pytest_mock import mocker  # pylint: disable=unused-import
 import mailroom
 
 
+class Test_Report_CLI:
+    """
+    Tests the mailroom.menu_selection function.
+
+    Mocks print() to simulate user-interaction
+    """
+
+    @pytest.mark.parametrize(
+        "list_len",
+        [
+            pytest.param(0, id="empty"),
+            pytest.param(1, id="one"),
+            pytest.param(10, id="ten"),
+        ],
+    )
+    def test_report_cli(self, mocker, list_len):
+        """
+        Report CLI, positive-test-cases
+
+        report(func) is mocked to provide an isolated state for each test
+        """
+
+        mocked_print = mocker.MagicMock()
+        mocked_report_list = [0] * list_len
+
+        mocker.patch.object(mailroom, "print", new=mocked_print)
+        mocker.patch.object(mailroom, "report", return_value=mocked_report_list)
+
+        mailroom.report_cli()
+
+        assert mocked_print.call_count == list_len
+
+
+class Test_Report:
+    """
+    Tests the mailroom.report function.
+
+    donation_data(dict) is mocked to provide an isolated state for each test
+    """
+
+    @pytest.mark.parametrize(
+        "name_list, amount_list, num_gifts_list, sorted_name_goal",
+        [
+            pytest.param(
+                ["aaa", "ddd", "ccc", "bbb"],
+                [9001, 1, 42, 300.2],
+                [42, 1, 9, 1000],
+                ["aaa", "bbb", "ccc", "ddd"],
+                id="non-empty",
+            ),
+            pytest.param([], [], [], [], id="empty"),
+        ],
+    )
+    def test_sort_donation_data_positive(
+        self, mocker, name_list, amount_list, num_gifts_list, sorted_name_goal
+    ):
+        """Sort Donation Data, positive-test-cases"""
+        existing_record = {}
+        report_components = {}
+        for name, amount, num_gifts in zip(name_list, amount_list, num_gifts_list):
+            existing_record[name] = {"total given": amount, "num gifts": num_gifts}
+            average_computed = float(amount / num_gifts)
+            report_components[
+                name
+            ] = f"{name} {num_gifts} {amount:.2f} {average_computed:.2f}".split()
+
+        mocker.patch.object(mailroom, "donation_data", new=existing_record)
+        actual_report_list = mailroom.report()
+        actual_report_gen = (line for line in actual_report_list)
+
+        for name in sorted_name_goal:
+            while True:
+                report_line = next(actual_report_gen)
+                if name not in report_line:  # Skip ASCII format-lines and headers
+                    continue
+                for report_component in report_components[name]:
+                    assert report_component in report_line
+                else:
+                    break
+
+
 class Test_Sort_Donation_Data:
     """
     Tests the mailroom.sort_donation_data function.
@@ -130,6 +211,27 @@ class Test_Compose_All_Donors_Emails:
         record = {name: {"total given": total_amount, "num gifts": gifts}}
         email_components = f"{name} {gifts} {total_amount:.2f}".split()
 
+        mocker.patch.object(mailroom, "donation_data", new=record)
+
+        emails = mailroom.compose_all_donors_emails()
+        for file_name, email_contents in emails.items():
+            assert name in file_name
+            for email_component in email_components:
+                assert email_component in email_contents
+
+
+class Test_Save_All_Donors_Emails:
+    """
+    Tests the mailroom.save_all_donor_emails function.
+
+    compose_all_donors_emails(func) is mocked to provide an isolated state for each test
+    open() is mocked to allow intercept of email file
+    """
+
+    def test_save_all_donors_emails_positive(self, mocker):
+        """Save All Donors Emails, positive-test-cases"""
+        file_contents = "contents"
+
         class mock_file:
             def write(self, string):
                 """Mocks the write to allow access to what was written to assert against"""
@@ -143,12 +245,15 @@ class Test_Compose_All_Donors_Emails:
 
         mocked_file = mock_file()
 
-        mocker.patch.object(mailroom, "donation_data", new=record)
+        mocker.patch.object(
+            mailroom,
+            "compose_all_donors_emails",
+            return_value={"file_name": file_contents},
+        )
         mocker.patch.object(mailroom, "open", return_value=mocked_file)
+        mailroom.save_all_donor_emails()
 
-        mailroom.compose_all_donors_emails()
-        for email_component in email_components:
-            assert email_component in mocked_file.written
+        assert file_contents == mocked_file.written
 
 
 class Test_Compose_New_Donation_Email:
@@ -175,6 +280,123 @@ class Test_Compose_New_Donation_Email:
 
         for email_component in email_components:
             assert email_component in actual_email
+
+
+class Test_Thank_You_CLI:
+    """
+    Tests the mailroom.thank_you_cli function.
+    """
+
+    @pytest.mark.parametrize(
+        "command_list",
+        [
+            pytest.param(["A Name", "42.2"], id="name_float"),
+            pytest.param(["A Name", "42"], id="name_int"),
+        ],
+    )
+    def test_thank_you_cli_name_number(self, mocker, command_list):
+        """Thank You CLI, positive-test-cases
+
+        Ensures that the user selection loop runs as expected
+        Mocks input() to simulate user-interaction
+        Mocks print() to simulate user-interaction
+        """
+
+        mocked_input_list = (n for n in command_list)
+
+        def mocked_input(*_):
+            return next(mocked_input_list)
+
+        mocker.patch.object(mailroom, "input", new=mocked_input)
+        mocker.patch.object(mailroom, "print")
+        mocked_thank_you = mocker.patch.object(mailroom, "thank_you")
+
+        mailroom.thank_you_cli()
+
+        mocked_thank_you.assert_called_with(command_list[0], float(command_list[1]))
+        assert mailroom.print.call_count == 1  # pylint: disable=no-member
+        with pytest.raises(StopIteration):
+            mocked_input()
+
+    @pytest.mark.parametrize(
+        "command_list",
+        [
+            pytest.param(["list", "quit"], id="list_quit"),
+            pytest.param(["list", "name", "quit"], id="list_name_quit"),
+        ],
+    )
+    def test_thank_you_cli_list_quit(self, mocker, command_list):
+        """Thank You CLI, positive-test-cases
+
+        Ensures that the user selection loop runs as expected
+        Mocks input() to simulate user-interaction
+        Mocks print() to simulate user-interaction
+        """
+
+        mocked_input_list = (n for n in command_list)
+
+        def mocked_input(*_):
+            return next(mocked_input_list)
+
+        mocker.patch.object(mailroom, "input", new=mocked_input)
+        mocker.patch.object(mailroom, "print")
+        mocker.patch.object(mailroom, "donor_list")
+        mocked_thank_you = mocker.patch.object(mailroom, "thank_you")
+
+        mailroom.thank_you_cli()
+
+        assert mocked_thank_you.call_count == 0
+        assert mailroom.donor_list.call_count == 1  # pylint: disable=no-member
+        assert mailroom.print.call_count == 1  # pylint: disable=no-member
+        with pytest.raises(StopIteration):
+            mocked_input()
+
+    @pytest.mark.parametrize(
+        "command_list",
+        [pytest.param(["name", "non-number", "quit"], id="name_non-number"),],
+    )
+    def test_thank_you_cli_non_number(self, mocker, command_list):
+        """Thank You CLI, positive-test-cases
+
+        Ensures that the user selection loop runs as expected
+        Mocks input() to simulate user-interaction
+        Mocks print() to simulate user-interaction
+        """
+
+        mocked_input_list = (n for n in command_list)
+
+        def mocked_input(*_):
+            return next(mocked_input_list)
+
+        mocker.patch.object(mailroom, "input", new=mocked_input)
+        mocker.patch.object(mailroom, "print")
+        mocked_thank_you = mocker.patch.object(mailroom, "thank_you")
+
+        mailroom.thank_you_cli()
+
+        assert mocked_thank_you.call_count == 0
+        assert mailroom.print.call_count == 1  # pylint: disable=no-member
+        with pytest.raises(StopIteration):
+            mocked_input()
+
+
+class Test_Thank_You:
+    """
+    Tests the mailroom.thank_you function.
+
+    new_donation(func) is mocked to provide an isolated state for each test
+    compose_new_donation_email(func) is mocked to provide an isolated state for each test
+    """
+
+    def test_sort_donation_data_positive(self, mocker):
+        """Sort Donation Data, positive-test-cases"""
+
+        email = "email"
+        mocker.patch.object(mailroom, "new_donation")
+        mocker.patch.object(mailroom, "compose_new_donation_email", return_value=email)
+        thank_you_email = mailroom.thank_you("1", "2")
+
+        assert thank_you_email == email
 
 
 class Test_Quit_Menu:
@@ -208,7 +430,7 @@ class Test_Menu_Selection:
             "3": called_quit,
         }
 
-        mocked_input_list = (n for n in ["unrecognized", "1", "2", "2", "3", "3"])
+        mocked_input_list = (n for n in ["unrecognized", "1", "2", "2", "3"])
 
         def mocked_input(*_):
             return next(mocked_input_list)
@@ -219,6 +441,8 @@ class Test_Menu_Selection:
         assert called_once.call_count == 1
         assert called_twice.call_count == 2
         assert called_quit.call_count == 1
+        with pytest.raises(StopIteration):
+            mocked_input()
 
 
 class Test_Main:

@@ -40,10 +40,27 @@ def sort_donation_data():
     return sorted_donors
 
 
-def report():
+def report_cli():
     """Print a report of the donation history."""
+    for line in report():
+        print(line)
+
+
+def report():
+    """
+    Return a list of string-rows of a formatted report of the donation history.
+
+    Donors are sorted in the report in decending order according to total-given amount.
+    Produces a 'pretty' ASCII formatted table
+
+    Returns
+    -------
+    list
+        ASCII formatted table rows for the report
+    """
+    report_list = []
+
     # Format report lines
-    sorted_donors = sort_donation_data()
     title = DONATION_DATA_HEADER[:]
     report_header = f"|{title[0]:^16}|  {title[1]:^12}|{title[2]:^13}|  {title[3]:^13}|"
     report_break_list = []
@@ -56,20 +73,19 @@ def report():
     report_title = "|{{:^{:d}}}|".format(report_length - 2).format("Donor Report")
 
     # Print report Title and Header
-    print(report_end)
-    print(report_title)
-    print(report_break)
-    print(report_header)
+    report_list.extend([report_end, report_title, report_break, report_header])
 
-    # Print Donor Records
-    for name in sorted_donors:
-        print(report_break)
+    # Print Sorted Donor Records
+    for name in sort_donation_data():
         total_given = donation_data[name]["total given"]
         num_gifts = donation_data[name]["num gifts"]
         donor_average = float(total_given / num_gifts)
         donor_string = f"|{name:^16}| ${total_given:>12.2f}|{num_gifts:^13d}| ${donor_average:>13.2f}|"
-        print(donor_string)
-    print(report_end)
+
+        report_list.extend([report_break, donor_string])
+
+    report_list.append(report_end)
+    return report_list
 
 
 def new_donation(donor_name, amount):
@@ -108,6 +124,7 @@ def donor_list():
     """
     # TODO refactor to remove sort_donation_data and use donation_data structure
     # TODO make this handle empty list
+    # TODO refactor to use .join
     all_names = sort_donation_data()
     format_string = " {}," * (len(all_names))
     return format_string.format(*all_names)[:-1]  # Slice removes extra comma at end
@@ -141,8 +158,16 @@ def compose_new_donation_email(donor_name, amount):
 
 
 def compose_all_donors_emails():
-    """Write to disk thank-you emails using each donors' historical information"""
+    """
+    Creates thank-you emails using each donors' historical information
+
+    Returns
+    -------
+    dict
+        All donor emails in {file_name: contents} pairs
+    """
     file_id = 0
+    emails = {}
     for donor_name, donor_record in donation_data.items():
         time_s = (
             f"{donor_record['num gifts']:d} donations"
@@ -151,37 +176,44 @@ def compose_all_donors_emails():
         )  # Grammer correction of donation vs # donations
         email = f"Thank you {donor_name},\n\nYour {time_s} totaling ${donor_record['total given']:.2f} will help us.\n\n{'':>40}Best Regards,\n{'':>40}Jacob Erickson"
         file_name = f"Donor{file_id:03d}_{donor_name}_gitnore.txt"
-
-        path = os.path.dirname(os.path.realpath(__file__))
-
-        with open(path + "\\" + file_name, "w") as file:  # TODO remove from here
-            file.write(email)
         file_id += 1
 
+        emails[file_name] = email
+    return emails
 
-def thank_you():
+
+def save_all_donor_emails():
+    """Write to disk thank-you emails for each donor"""
+    emails = compose_all_donors_emails()
+    for file_name, email in emails.items():
+        path = os.path.dirname(os.path.realpath(__file__))
+
+        with open(path + "\\" + file_name, "w") as file:
+            file.write(email)
+
+
+def thank_you_cli():
     """
-    Add new donation to the record and compose a thank you email to that donor
+    Mangages the command-line-interface for the thank_you function inputs
 
     User input of donor-name and donor-amount, not case-sensitive
         donor-name input: 'list' will show all existing donors
         donor-name input: 'quit' will exit to the main interface and cancel the donation
         donor-amount input: 'quit' will exit to the main interface and cancel the donation
-    The donation is recorded in the donation-data structure, new donor names are added (using case on input).
-    Print the thank-you email to the donor in the terminal. Includes historical and recent donation data.
+    Print the thank-you email in the terminal
     """
-    donor_name = None
-
-    while not donor_name:
+    while True:
         donor_name = input(
             "Who just made a donation? Full Name please, or 'list' to show existing donors. ->: "
         )
         if donor_name.lower() == "list":
             print("All Donors:" + donor_list())
-            donor_name = None
         elif donor_name.lower() == "quit":
             return
+        else:
+            break  # pragma: no cover (un-testable due to cPython optimization)
 
+    # TODO handle negative values
     while True:
         try:
             donor_amount = input("How much was the donation? ->: ")
@@ -192,9 +224,21 @@ def thank_you():
                 return
             print(f"Unrecognized number: {donor_amount}. Try again.")
 
+    print(thank_you(donor_name, donor_amount))
+
+
+def thank_you(donor_name, donor_amount):
+    """
+    Add new donation to the record and compose a thank you email to that donor
+
+    Returns
+    -------
+    email : str
+        The thank-you email to the donor, includes historical and recent doncation data.
+    """
     new_donation(donor_name, donor_amount)
     email = compose_new_donation_email(donor_name, donor_amount)
-    print(email)
+    return email
 
 
 def quit_menu():
@@ -240,9 +284,9 @@ def menu_selection(prompt, dispatch_dict):
 def main():
     """Main function to run user-interace of the mailroom program."""
     command_dispatch = {
-        "1": thank_you,
-        "2": report,
-        "3": compose_all_donors_emails,
+        "1": thank_you_cli,
+        "2": report_cli,
+        "3": save_all_donor_emails,
         "4": quit_menu,
         "quit": quit_menu,
     }
@@ -251,6 +295,7 @@ def main():
 
 
 if __name__ == "__main__":
+    # TODO remove 'mocking'
     print("\nBack to the grind in the mailroom.")
 
     are_you_mocking_me = int(input('Are you mocking me?? "0": no, "1": yes->: '))
