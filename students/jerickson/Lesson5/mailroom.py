@@ -7,6 +7,9 @@ Run as imported module then run main() to start interface.
 
 # pylint: disable=line-too-long
 
+import os
+
+
 DONATION_DATA_HEADER = ["Name", "Total Given", "Num Gifts", "Average Gift"]
 donation_data = {
     "Usama Black": {"total given": 22002, "num gifts": 3},
@@ -146,7 +149,10 @@ def compose_all_donors_emails():
         )  # Grammer correction of donation vs # donations
         email = f"Thank you {donor_name},\n\nYour {time_s} totaling ${donor_record['total given']:.2f} will help us.\n\n{'':>40}Best Regards,\n{'':>40}Jacob Erickson"
         file_name = f"Donor{file_id:03d}_{donor_name}_gitnore.txt"
-        with open(file_name, "w") as file:
+
+        path = os.path.dirname(os.path.realpath(__file__))
+
+        with open(path + "\\" + file_name, "w") as file:
             file.write(email)
         file_id += 1
 
@@ -232,12 +238,14 @@ def menu_selection(prompt, dispatch_dict):
 def main():
     """Main function to run user-interace of the mailroom program."""
     command_dispatch = {
-        "send a thank you": thank_you,
-        "create a report": report,
-        "send letters to everyone": compose_all_donors_emails,
+        "1": thank_you,
+        "2": report,
+        "3": compose_all_donors_emails,
+        "4": quit_menu,
         "quit": quit_menu,
     }
-    prompt = "\nChoose: “Send a Thank You”, “Create a Report” “Send Letters to Everyone” or “Quit” ->: "
+
+    prompt = "\nChoose: “1”: Send a Thank You, “2”: Create a Report “3”: Send Letters to Everyone or “4”: Quit ->: "
     menu_selection(prompt, command_dispatch)
 
 
@@ -259,23 +267,23 @@ if __name__ == "__main__":
 
         mocked_responses = [
             "spam",
-            "create a report",
-            "send a thank you",
+            "2",
+            "1",
             "Bob Barker",
             "1",
-            "send a thank you",
+            "1",
             "list",
             "quit",
-            "send a thank you",
+            "1",
             "King Arthur",
             "not a number",
             "400.2",
-            "send a thank you",
+            "1",
             "didn't donate",
             "quit",
-            "create a report",
-            "send letters to everyone",
-            "quit",
+            "2",
+            "3",
+            "4",
         ]
 
         mocked_resp_gen = (mocked_response for mocked_response in mocked_responses)

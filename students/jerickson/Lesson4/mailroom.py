@@ -1,3 +1,5 @@
+import os
+
 donation_data_header = ["Name", "Total Given", "Num Gifts", "Average Gift"]
 donation_data = {
     "Usama Black": {"total given": 22002, "num gifts": 3},
@@ -93,7 +95,10 @@ def compose_all_donors_emails():
         )  # Grammer correction of donation vs # donations
         email = f"Thank you {donor_name},\n\nYour {time_s} totaling ${donor_record['total given']:.2f} will help us.\n\n{'':>40}Best Regards,\n{'':>40}Jacob Erickson"
         file_name = f"Donor{file_id:03d}_{donor_name}_gitnore.txt"
-        with open(file_name, "w") as file:
+
+        path = os.path.dirname(os.path.realpath(__file__))
+
+        with open(path + "\\" + file_name, "w") as file:
             file.write(email)
         file_id += 1
 
@@ -134,30 +139,30 @@ if __name__ == "__main__":
 
         mocked_responses = [
             "spam",
-            "create a report",
-            "send a thank you",
+            "2",
+            "1",
             "Bob Barker",
             "1",
-            "send a thank you",
+            "1",
             "list",
             "King Arthur",
             "400.2",
-            "create a report",
-            "send letters to everyone",
-            "quit",
+            "2",
+            "3",
+            "4",
         ]
         mocked_resp_gen = response_generator(mocked_responses)
 
-    quit_flag = False
     command_dispatch = {
-        "send a thank you": thank_you,
-        "create a report": report,
-        "send letters to everyone": compose_all_donors_emails,
+        "1": thank_you,
+        "2": report,
+        "3": compose_all_donors_emails,
+        "4": quit_interface,
         "quit": quit_interface,
     }
-    while not quit_flag:  # Dispatch loop
+    while True:  # Dispatch loop
         command = input(
-            "\nChoose: “Send a Thank You”, “Create a Report” “Send Letters to Everyone” or “Quit” ->: "
+            "\nChoose: “1”: Send a Thank You, “2”: Create a Report “3”: Send Letters to Everyone or “4”: Quit ->: "
         )
         command = command.lower()
         try:
