@@ -294,45 +294,5 @@ def main():
     menu_selection(prompt, command_dispatch)
 
 
-if __name__ == "__main__":
-    # TODO remove 'mocking'
-    print("\nBack to the grind in the mailroom.")
-
-    are_you_mocking_me = int(input('Are you mocking me?? "0": no, "1": yes->: '))
-
-    if (
-        are_you_mocking_me
-    ):  # Mocks input() to allow for automated list of user-inputs to be run
-
-        def input(prompt):  # pylint: disable=redefined-builtin
-            """Mocks input function for automated recipe running"""
-            print(prompt, end="")
-            response = next(mocked_resp_gen)
-            print(response)
-            return response
-
-        mocked_responses = [
-            "spam",
-            "2",
-            "1",
-            "Bob Barker",
-            "1",
-            "1",
-            "list",
-            "quit",
-            "1",
-            "King Arthur",
-            "not a number",
-            "400.2",
-            "1",
-            "didn't donate",
-            "quit",
-            "2",
-            "3",
-            "4",
-        ]
-
-        mocked_resp_gen = (mocked_response for mocked_response in mocked_responses)
-
+if __name__ == "__main__":  # pragma: no cover
     main()
-    print("Fin")

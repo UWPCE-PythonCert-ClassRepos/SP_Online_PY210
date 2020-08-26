@@ -3,8 +3,10 @@
 # pylint: disable=redefined-outer-name
 # pylint: disable=invalid-name
 # pylint: disable=no-self-use
-# pylint: disable=missing-class-docstring
 # pylint: disable=too-few-public-methods
+# pylint: disable=too-many-locals
+# pylint: disable=too-many-arguments
+
 import pytest
 from pytest_mock import mocker  # pylint: disable=unused-import
 
@@ -32,15 +34,16 @@ class Test_Report_CLI:
 
         report(func) is mocked to provide an isolated state for each test
         """
-
-        mocked_print = mocker.MagicMock()
+        # Mock
         mocked_report_list = [0] * list_len
-
+        mocked_print = mocker.MagicMock()
         mocker.patch.object(mailroom, "print", new=mocked_print)
         mocker.patch.object(mailroom, "report", return_value=mocked_report_list)
 
+        # Execute
         mailroom.report_cli()
 
+        # Assert
         assert mocked_print.call_count == list_len
 
 
@@ -68,6 +71,7 @@ class Test_Report:
         self, mocker, name_list, amount_list, num_gifts_list, sorted_name_goal
     ):
         """Sort Donation Data, positive-test-cases"""
+        # Setup
         existing_record = {}
         report_components = {}
         for name, amount, num_gifts in zip(name_list, amount_list, num_gifts_list):
@@ -77,10 +81,14 @@ class Test_Report:
                 name
             ] = f"{name} {num_gifts} {amount:.2f} {average_computed:.2f}".split()
 
+        # Mock
         mocker.patch.object(mailroom, "donation_data", new=existing_record)
+
+        # Execute
         actual_report_list = mailroom.report()
         actual_report_gen = (line for line in actual_report_list)
 
+        # Assert
         for name in sorted_name_goal:
             while True:
                 report_line = next(actual_report_gen)
@@ -113,13 +121,18 @@ class Test_Sort_Donation_Data:
     )
     def test_sort_donation_data_positive(self, mocker, name_list, amount_list, goal):
         """Sort Donation Data, positive-test-cases"""
+        # Setup
         existing_record = {}
         for name, amount in zip(name_list, amount_list):
             existing_record[name] = {"total given": amount}
 
+        # Mock
         mocker.patch.object(mailroom, "donation_data", new=existing_record)
+
+        # Execute
         actual_list = mailroom.sort_donation_data()
 
+        # Assert
         assert actual_list == goal
 
 
@@ -140,13 +153,21 @@ class Test_New_Donation:
     )
     def test_new_donation_new_donor_positive(self, mocker, name, amount):
         """New Donor, positive-test-cases"""
+        # Mock
         mocker.patch.object(mailroom, "donation_data", new={})
+
+        # Execute
         mailroom.new_donation(name, amount)
+
+        # Assert
         assert mailroom.donation_data == {name: {"total given": amount, "num gifts": 1}}
 
     def test_new_donation_new_donor_negative(self, mocker):
         """Negative-test-case, amount can't be string"""
+        # Mock
         mocker.patch.object(mailroom, "donation_data", new={})
+
+        # Assert
         with pytest.raises(TypeError):
             mailroom.new_donation(donor_name="spam", amount="eggs")
 
@@ -155,18 +176,23 @@ class Test_New_Donation:
     )
     def test_new_donation_existing_donor_existing(self, mocker, new_amount):
         """Existing Donor, positive-test-cases"""
+        # Setup
         name = "Existing Donor"
         existing_amount = 1
         existing_gifts = 3
         total_amount = existing_amount + new_amount
         total_gifts = existing_gifts + 1
+
+        # Mock
         existing_record = {
             name: {"total given": existing_amount, "num gifts": existing_gifts}
         }
-
         mocker.patch.object(mailroom, "donation_data", new=existing_record)
+
+        # Execute
         mailroom.new_donation(name, new_amount)
 
+        # Assert
         assert mailroom.donation_data == {
             name: {"total given": total_amount, "num gifts": total_gifts}
         }
@@ -188,7 +214,10 @@ class Test_Donor_List:
     )
     def test_new_donation_donor_list_positive(self, mocker, name_list, goal):
         """donor_list, positive-test-cases"""
+        # Mock
         mocker.patch.object(mailroom, "sort_donation_data", return_value=name_list)
+
+        # Execute & Assert
         assert mailroom.donor_list() == goal
 
 
@@ -205,15 +234,20 @@ class Test_Compose_All_Donors_Emails:
 
         Ensures that all required data is in the email; name, new-amount, #gifts, total-amount
         """
+        # Setup
         name = "Donor Name"
         gifts = 42
         total_amount = 400.2
-        record = {name: {"total given": total_amount, "num gifts": gifts}}
         email_components = f"{name} {gifts} {total_amount:.2f}".split()
 
+        # Mock
+        record = {name: {"total given": total_amount, "num gifts": gifts}}
         mocker.patch.object(mailroom, "donation_data", new=record)
 
+        # Execute
         emails = mailroom.compose_all_donors_emails()
+
+        # Assert
         for file_name, email_contents in emails.items():
             assert name in file_name
             for email_component in email_components:
@@ -230,8 +264,10 @@ class Test_Save_All_Donors_Emails:
 
     def test_save_all_donors_emails_positive(self, mocker):
         """Save All Donors Emails, positive-test-cases"""
+        # Setup
         file_contents = "contents"
 
+        # Mock
         class mock_file:
             def write(self, string):
                 """Mocks the write to allow access to what was written to assert against"""
@@ -244,15 +280,17 @@ class Test_Save_All_Donors_Emails:
                 return self
 
         mocked_file = mock_file()
-
         mocker.patch.object(
             mailroom,
             "compose_all_donors_emails",
             return_value={"file_name": file_contents},
         )
         mocker.patch.object(mailroom, "open", return_value=mocked_file)
+
+        # Execute
         mailroom.save_all_donor_emails()
 
+        # Assert
         assert file_contents == mocked_file.written
 
 
@@ -264,28 +302,32 @@ class Test_Compose_New_Donation_Email:
     """
 
     def test_compose_new_donation_email_positive(self, mocker):
-        """Compose New Donation Email, positive-test-cases
+        """
+        Compose New Donation Email, positive-test-cases
 
         Ensures that all required data is in the email; name, new-amount, #gifts, total-amount
         """
+        # Setup
         name = "New Donation"
         new_amount = 30
         gifts = 42
         total_amount = 400.2
-        record = {name: {"total given": total_amount, "num gifts": gifts}}
         email_components = f"{name} {new_amount:.2f} {gifts} {total_amount:.2f}".split()
 
+        # Mock
+        record = {name: {"total given": total_amount, "num gifts": gifts}}
         mocker.patch.object(mailroom, "donation_data", new=record)
+
+        # Execute
         actual_email = mailroom.compose_new_donation_email(name, new_amount)
 
+        # Assert
         for email_component in email_components:
             assert email_component in actual_email
 
 
 class Test_Thank_You_CLI:
-    """
-    Tests the mailroom.thank_you_cli function.
-    """
+    """Tests the mailroom.thank_you_cli function."""
 
     @pytest.mark.parametrize(
         "command_list",
@@ -301,7 +343,7 @@ class Test_Thank_You_CLI:
         Mocks input() to simulate user-interaction
         Mocks print() to simulate user-interaction
         """
-
+        # Mock
         mocked_input_list = (n for n in command_list)
 
         def mocked_input(*_):
@@ -311,8 +353,10 @@ class Test_Thank_You_CLI:
         mocker.patch.object(mailroom, "print")
         mocked_thank_you = mocker.patch.object(mailroom, "thank_you")
 
+        # Execute
         mailroom.thank_you_cli()
 
+        # Assert
         mocked_thank_you.assert_called_with(command_list[0], float(command_list[1]))
         assert mailroom.print.call_count == 1  # pylint: disable=no-member
         with pytest.raises(StopIteration):
@@ -332,7 +376,7 @@ class Test_Thank_You_CLI:
         Mocks input() to simulate user-interaction
         Mocks print() to simulate user-interaction
         """
-
+        # Mock
         mocked_input_list = (n for n in command_list)
 
         def mocked_input(*_):
@@ -343,8 +387,10 @@ class Test_Thank_You_CLI:
         mocker.patch.object(mailroom, "donor_list")
         mocked_thank_you = mocker.patch.object(mailroom, "thank_you")
 
+        # Execute
         mailroom.thank_you_cli()
 
+        # Assert
         assert mocked_thank_you.call_count == 0
         assert mailroom.donor_list.call_count == 1  # pylint: disable=no-member
         assert mailroom.print.call_count == 1  # pylint: disable=no-member
@@ -362,7 +408,7 @@ class Test_Thank_You_CLI:
         Mocks input() to simulate user-interaction
         Mocks print() to simulate user-interaction
         """
-
+        # Mock
         mocked_input_list = (n for n in command_list)
 
         def mocked_input(*_):
@@ -372,8 +418,10 @@ class Test_Thank_You_CLI:
         mocker.patch.object(mailroom, "print")
         mocked_thank_you = mocker.patch.object(mailroom, "thank_you")
 
+        # Execute
         mailroom.thank_you_cli()
 
+        # Assert
         assert mocked_thank_you.call_count == 0
         assert mailroom.print.call_count == 1  # pylint: disable=no-member
         with pytest.raises(StopIteration):
@@ -390,12 +438,17 @@ class Test_Thank_You:
 
     def test_sort_donation_data_positive(self, mocker):
         """Sort Donation Data, positive-test-cases"""
-
+        # Setup
         email = "email"
+
+        # Mock
         mocker.patch.object(mailroom, "new_donation")
         mocker.patch.object(mailroom, "compose_new_donation_email", return_value=email)
+
+        # Execute
         thank_you_email = mailroom.thank_you("1", "2")
 
+        # Assert
         assert thank_you_email == email
 
 
@@ -404,6 +457,7 @@ class Test_Quit_Menu:
 
     def test_quit_menu(self):
         "The quite quiet quit test."
+        # Assert
         assert mailroom.quit_menu() == "quit"
 
 
@@ -420,10 +474,10 @@ class Test_Menu_Selection:
         Ensures that the menu selection loop runs as expected
         Mocks input() to simulate user-interaction
         """
+        # Mock
         called_once = mocker.MagicMock()
         called_twice = mocker.MagicMock()
         called_quit = mocker.MagicMock(return_value="quit")
-
         command_dispatch = {
             "1": called_once,
             "2": called_twice,
@@ -436,8 +490,11 @@ class Test_Menu_Selection:
             return next(mocked_input_list)
 
         mocker.patch.object(mailroom, "input", new=mocked_input)
+
+        # Execute
         mailroom.menu_selection("", dispatch_dict=command_dispatch)
 
+        # Assert
         assert called_once.call_count == 1
         assert called_twice.call_count == 2
         assert called_quit.call_count == 1
@@ -454,8 +511,11 @@ class Test_Main:
 
     def test_main(self, mocker):
         """Main, positive-test-cases"""
-
+        # Mock
         mocker.patch.object(mailroom, "menu_selection")
+
+        # Execute
         mailroom.main()
 
+        # Assert
         assert mailroom.menu_selection.call_count == 1  # pylint: disable=no-member
