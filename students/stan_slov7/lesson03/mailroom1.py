@@ -34,7 +34,6 @@ main_prompt = "\n".join(("Welcome to the Mailbox part 1.",
 
           
 def send_thank_you():
-
     prompt_name = "\n".join(("Please enter the full name of a donor currently in the database.",
                 "Otherwise, enter a new full name to add a new (donor, donations[]) entry in that name.",
                 "(You may type 'list' to see all the current donor names in the database)",
@@ -48,7 +47,6 @@ def send_thank_you():
             return    #If user wants to return to main prompt during sending thank you email
         else:
             break
-    #Add function defs next:
     check_name(donor_name)
     new_donation = get_amount()
     add_donation(donor_name, new_donation)
@@ -62,15 +60,37 @@ def view_donor_names():
 
 
 def check_name(name_input):
-    pass
-    
-    
+    name_exists = False
+    for donor_tup in donor_data:
+        if donor_tup[0] == name_input.title():
+            name_exists = True
+    #If name doesnt exist:
+    if not name_exists:
+        donor_data.append((name_input.title(), []))
+        print(f"Created new donor entry for the name: {name_input.title()}")
+        #create new entry for input name and initialize donations to an empty list
+
+
 def get_amount():
-    pass
-    
+    prompt_amount = "Please enter a $ amount for the associated donation: \n" + ">>> "
+    new_amount = float(input(prompt_amount))
+    while True:
+        if new_amount <= 0:
+            print("Donation must be nonzero positive dollar amount, please enter an appropriate value.\n")
+            new_amount = float(input(prompt_amount))  
+        else:
+            break
+    return new_amount
+
     
 def add_donation(d_name, n_donation):
-    pass
+    #adding donation happens after its been checked whether input name is in db 
+    #(which an entry for name and an empty donation list is instantiated so that adding the amount is the same either way)
+    for d_tup in donor_data:
+        if d_tup[0] == d_name.title():
+            d_tup[1].append(n_donation)
+            print("New donation amount of: ${:.2f} has been recorded in the donor database, "
+                  "under the associated donor name: {:s}.\n".format(n_donation, d_name.title()))
 
 
 def print_email(new_donor, new_donation):
@@ -86,7 +106,7 @@ def sort_key(hist_tup):
 def quit_program():
     print("Thank you, this program will now terminate.")
     sys.exit()
-    
+
 
 def main():
     #Loop collecting user input
