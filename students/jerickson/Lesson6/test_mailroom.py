@@ -1,4 +1,9 @@
-"""Unit Tests for rfb_station.scale_reader module"""
+"""Unit Tests for rfb_station.scale_reader module
+
+Test Cases:
+    Positive: Case that runs without errors
+    Negative: Case that raises unhandled errors
+"""
 
 # pylint: disable=redefined-outer-name
 # pylint: disable=invalid-name
@@ -17,7 +22,7 @@ class Test_Report_CLI:
     """
     Tests the mailroom.menu_selection function.
 
-    __builtin__.print() is mocked to simulate user-interaction
+    __builtins__.print() is mocked to simulate user-interaction
     mailroom.report() is mocked to provide an isolated state for each test
     """
 
@@ -30,7 +35,7 @@ class Test_Report_CLI:
         ],
     )
     def test_report_cli(self, mocker, list_len):
-        """Positive-test-cases"""
+        """Positive-Test-Cases"""
         # Mock
         mocked_report_list = range(1, list_len + 1)
         mocked_print = mocker.patch.object(mailroom, "print")
@@ -67,7 +72,7 @@ class Test_Report:
         ],
     )
     def test_report(self, mocker, name_list, amount_list, num_gifts_list):
-        """positive-test-cases"""
+        """Positive-Test-Cases"""
         # Setup
         mocked_donation_data = {}
         report_components = {}
@@ -105,7 +110,7 @@ class Test_Sort_Donation_Data:
     """
     Tests the mailroom.sort_donation_data function.
 
-    donation_data(dict) is mocked to provide an isolated state for each test
+    mailroom.donation_data is mocked to provide an isolated state for each test
     """
 
     @pytest.mark.parametrize(
@@ -120,15 +125,16 @@ class Test_Sort_Donation_Data:
             pytest.param([], [], [], id="empty"),
         ],
     )
-    def test_sort_donation_data_positive(self, mocker, name_list, amount_list, goal):
-        """Sort Donation Data, positive-test-cases"""
+    def test_sort_donation_data(self, mocker, name_list, amount_list, goal):
+        """Positive-Test-Cases"""
         # Setup
-        existing_record = {}
-        for name, amount in zip(name_list, amount_list):
-            existing_record[name] = {"total given": amount}
+        mocked_donation_data = {
+            name: {"total given": amount}
+            for name, amount in zip(name_list, amount_list)
+        }
 
         # Mock
-        mocker.patch.object(mailroom, "donation_data", new=existing_record)
+        mocker.patch.object(mailroom, "donation_data", new=mocked_donation_data)
 
         # Execute
         actual_list = mailroom.sort_donation_data()
@@ -141,7 +147,7 @@ class Test_New_Donation:
     """
     Tests the mailroom.new_donation function.
 
-    donation_data(dict) is mocked to provide an isolated state for each test
+    mailroom.donation_data is mocked to provide an isolated state for each test
     """
 
     @pytest.mark.parametrize(
@@ -154,7 +160,7 @@ class Test_New_Donation:
         ],
     )
     def test_new_donation_new_donor_positive(self, mocker, name, amount):
-        """New Donor, positive-test-cases"""
+        """New Donor, Positive-Test-Cases"""
         # Mock
         mocker.patch.object(mailroom, "donation_data", new={})
 
@@ -166,32 +172,37 @@ class Test_New_Donation:
             name: {"total given": abs(amount), "num gifts": 1}
         }
 
-    def test_new_donation_new_donor_negative(self, mocker):
-        """Negative-test-case, amount can't be string"""
-        # Mock
-        mocker.patch.object(mailroom, "donation_data", new={})
-
+    @pytest.mark.parametrize(
+        "amount",
+        [
+            pytest.param([42], id="list"),
+            pytest.param((42,), id="tuple"),
+            pytest.param("42", id="string"),
+        ],
+    )
+    def test_new_donation_new_donor_negative(self, amount):
+        """New Donor, Negative-Test-Cases"""
         # Assert
         with pytest.raises(TypeError):
-            mailroom.new_donation(donor_name="spam", amount="eggs")
+            mailroom.new_donation(donor_name="spam", amount=amount)
 
     @pytest.mark.parametrize(
-        "new_amount", [pytest.param(42, id="int"), pytest.param(42.42, id="float"),],
+        "new_amount", [pytest.param(42, id="int"), pytest.param(42.42, id="float")],
     )
-    def test_new_donation_existing_donor_existing(self, mocker, new_amount):
-        """Existing Donor, positive-test-cases"""
+    def test_new_donation_existing_donor(self, mocker, new_amount):
+        """Existing Donor, Positive-Test-Cases"""
         # Setup
         name = "Existing Donor"
         existing_amount = 1
         existing_gifts = 3
         total_amount = existing_amount + new_amount
         total_gifts = existing_gifts + 1
-
-        # Mock
-        existing_record = {
+        mocked_donation_data = {
             name: {"total given": existing_amount, "num gifts": existing_gifts}
         }
-        mocker.patch.object(mailroom, "donation_data", new=existing_record)
+
+        # Mock
+        mocker.patch.object(mailroom, "donation_data", new=mocked_donation_data)
 
         # Execute
         mailroom.new_donation(name, new_amount)
@@ -206,7 +217,7 @@ class Test_Donor_List:
     """
     Tests the mailroom.donor_list function.
 
-    donation_data(dict) is mocked to provide an isolated state for each test
+    mailroom.donation_data is mocked to provide an isolated state for each test
     """
 
     @pytest.mark.parametrize(
@@ -216,8 +227,8 @@ class Test_Donor_List:
             pytest.param([], "", id="empty"),
         ],
     )
-    def test_new_donation_donor_list_positive(self, mocker, name_list, goal):
-        """donor_list, positive-test-cases"""
+    def test_donor_list(self, mocker, name_list, goal):
+        """Positive-Test-Cases"""
         # Setup
         mocked_donation_data = {name: None for name in name_list}
 
@@ -232,85 +243,76 @@ class Test_Compose_All_Donors_Emails:
     """
     Tests the mailroom.compose_all_donors_emails function.
 
-    donation_data(dict) is mocked to provide an isolated state for each test
-    open() is mocked to allow intercept of email file
+    Ensures that all required data is in the email; name, new-amount, #gifts, total-amount
+
+    mailroom.donation_data is mocked to provide an isolated state for each test
     """
 
-    def test_compose_all_donors_emails_positive(self, mocker):
-        """Compose All Donors Emails, positive-test-cases
-
-        Ensures that all required data is in the email; name, new-amount, #gifts, total-amount
-        """
+    def test_compose_all_donors_emails(self, mocker):
+        """Positive-Test-Cases"""
         # Setup
         name = "Donor Name"
         gifts = 42
         total_amount = 400.2
         email_components = f"{name} {gifts} {total_amount:.2f}".split()
+        mocked_donation_data = {name: {"total given": total_amount, "num gifts": gifts}}
 
         # Mock
-        record = {name: {"total given": total_amount, "num gifts": gifts}}
-        mocker.patch.object(mailroom, "donation_data", new=record)
+        mocker.patch.object(mailroom, "donation_data", new=mocked_donation_data)
 
         # Execute
         emails = mailroom.compose_all_donors_emails()
 
         # Assert
         for file_name, email_contents in emails.items():
-            assert name in file_name
+            assert name in file_name  # Donor Name in the file_name
             for email_component in email_components:
-                assert email_component in email_contents
+                assert email_component in email_contents  # Donor details in the email
 
 
 class Test_Save_All_Donors_Emails:
     """
     Tests the mailroom.save_all_donor_emails function.
 
-    compose_all_donors_emails(func) is mocked to provide an isolated state for each test
-    open() is mocked to allow intercept of email file
+    mailroom.compose_all_donors_emails() is mocked to provide an isolated state for each test
+    __builtins__.open() is mocked to allow intercept of email file
+        mocked_file created as context manager to get file.write() arguments
     """
 
-    def test_save_all_donors_emails_positive(self, mocker):
-        """Save All Donors Emails, positive-test-cases"""
+    def test_save_all_donors_emails(self, mocker):
+        """Positive-Test-Cases"""
         # Setup
-        file_contents = "contents"
+        all_files = {"spam": "eggs", "foo": "bar"}
 
         # Mock
-        class mock_file:
-            def write(self, string):
-                """Mocks the write to allow access to what was written to assert against"""
-                self.written = string  # pylint: disable=attribute-defined-outside-init
-
-            def __enter__(self):
-                return self
-
-            def __exit__(self, *args):
-                return self
-
-        mocked_file = mock_file()
+        mocked_file = mocker.MagicMock()
+        mocked_file.__enter__.return_value = mocked_file  # Context Manager Mock
         mocker.patch.object(
-            mailroom,
-            "compose_all_donors_emails",
-            return_value={"file_name": file_contents},
+            mailroom, "compose_all_donors_emails", return_value=all_files,
         )
-        mocker.patch.object(mailroom, "open", return_value=mocked_file)
+        mocked_open = mocker.patch.object(mailroom, "open", return_value=mocked_file)
 
         # Execute
         mailroom.save_all_donor_emails()
 
         # Assert
-        assert file_contents == mocked_file.written
+        assert mocked_open.call_count == len(all_files)
+
+        for i, (file_name, file_contents) in enumerate(all_files.items()):
+            assert file_name in mocked_open.call_args_list[i].args[0]
+            assert file_contents == mocked_file.write.call_args_list[i].args[0]
 
 
 class Test_Compose_New_Donation_Email:
     """
     Tests the mailroom.compose_new_donation_email function.
 
-    donation_data(dict) is mocked to provide an isolated state for each test
+    mailroom.donation_data is mocked to provide an isolated state for each test
     """
 
-    def test_compose_new_donation_email_positive(self, mocker):
+    def test_compose_new_donation_email(self, mocker):
         """
-        Compose New Donation Email, positive-test-cases
+        Compose New Donation Email, Positive-Test-Cases
 
         Ensures that all required data is in the email; name, new-amount, #gifts, total-amount
         """
@@ -334,7 +336,12 @@ class Test_Compose_New_Donation_Email:
 
 
 class Test_Thank_You_CLI:
-    """Tests the mailroom.thank_you_cli function."""
+    """Tests the mailroom.thank_you_cli function.
+
+    Ensures that the user selection loop runs as expected
+    __builtins__.input() is mocked to simulate user-interaction
+    __builtins__.print() is mocked to simulate user-interaction
+    """
 
     @pytest.mark.parametrize(
         "command_list",
@@ -344,12 +351,7 @@ class Test_Thank_You_CLI:
         ],
     )
     def test_thank_you_cli_name_number(self, mocker, command_list):
-        """Thank You CLI, positive-test-cases
-
-        Ensures that the user selection loop runs as expected
-        Mocks input() to simulate user-interaction
-        Mocks print() to simulate user-interaction
-        """
+        """Positive-Test-Cases"""
         # Mock
         mocked_input_list = (n for n in command_list)
 
@@ -377,12 +379,7 @@ class Test_Thank_You_CLI:
         ],
     )
     def test_thank_you_cli_list_quit(self, mocker, command_list):
-        """Thank You CLI, positive-test-cases
-
-        Ensures that the user selection loop runs as expected
-        Mocks input() to simulate user-interaction
-        Mocks print() to simulate user-interaction
-        """
+        """Positive-Test-Cases"""
         # TODO Test the return of print during 'list'?
         # Mock
         mocked_input_list = (n for n in command_list)
@@ -410,12 +407,7 @@ class Test_Thank_You_CLI:
         [pytest.param(["name", "non-number", "quit"], id="name_non-number"),],
     )
     def test_thank_you_cli_non_number(self, mocker, command_list):
-        """Thank You CLI, positive-test-cases
-
-        Ensures that the user selection loop runs as expected
-        Mocks input() to simulate user-interaction
-        Mocks print() to simulate user-interaction
-        """
+        """Positive-Test-Cases"""
         # Mock
         mocked_input_list = (n for n in command_list)
 
@@ -440,12 +432,12 @@ class Test_Thank_You:
     """
     Tests the mailroom.thank_you function.
 
-    new_donation(func) is mocked to provide an isolated state for each test
-    compose_new_donation_email(func) is mocked to provide an isolated state for each test
+    mailroom.new_donation() is mocked to provide an isolated state for each test
+    mailroom.compose_new_donation_email() is mocked to provide an isolated state for each test
     """
 
-    def test_sort_donation_data_positive(self, mocker):
-        """Sort Donation Data, positive-test-cases"""
+    def test_sort_donation_data(self, mocker):
+        """Positive-Test-Cases"""
         # Setup
         email = "email"
 
@@ -473,14 +465,13 @@ class Test_Menu_Selection:
     """
     Tests the mailroom.menu_selection function.
 
-    dispatch_dict(dict) is mocked to provide an isolated state for each test
+    mailroom.dispatch_dict is mocked to provide an isolated state for each test
     """
 
     def test_menu_selection_positive(self, mocker):
-        """Menu Selection, positive-test-cases
-
-        Ensures that the menu selection loop runs as expected
-        Mocks input() to simulate user-interaction
+        """Positive-Test-Cases
+        
+        __builtins__.input() is mocked to simulate user-interaction
         """
         # Mock
         called_once = mocker.MagicMock()
@@ -514,11 +505,11 @@ class Test_Main:
     """
     Tests the mailroom.main function.
 
-    menu_selection(func) is mocked to provide an isolated state for each test
+    mailroom.menu_selection() is mocked to provide an isolated state for each test
     """
 
     def test_main(self, mocker):
-        """Main, positive-test-cases"""
+        """Positive-Test-Cases"""
         # Mock
         mocker.patch.object(mailroom, "menu_selection")
 
