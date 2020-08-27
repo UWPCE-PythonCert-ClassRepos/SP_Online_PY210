@@ -36,10 +36,12 @@ class Test_Report_CLI:
     )
     def test_report_cli(self, mocker, list_len):
         """Positive-Test-Cases"""
+        # Setup
+        report_list = range(1, list_len + 1)
+
         # Mock
-        mocked_report_list = range(1, list_len + 1)
         mocked_print = mocker.patch.object(mailroom, "print")
-        mocker.patch.object(mailroom, "report", return_value=mocked_report_list)
+        mocker.patch.object(mailroom, "report", return_value=report_list)
 
         # Execute
         mailroom.report_cli()
@@ -47,7 +49,7 @@ class Test_Report_CLI:
         # Assert
         for _call in mocked_print.call_args_list:  # Report printed in order
             _call_arg = _call.args[0]  # Argument print was called with
-            assert _call_arg == mocked_report_list[_call_arg - 1]
+            assert _call_arg == report_list[_call_arg - 1]
 
 
 class Test_Report:
@@ -307,25 +309,23 @@ class Test_Compose_New_Donation_Email:
     """
     Tests the mailroom.compose_new_donation_email function.
 
+    Ensures that all required data is in the email; name, new-amount, #gifts, total-amount
+
     mailroom.donation_data is mocked to provide an isolated state for each test
     """
 
     def test_compose_new_donation_email(self, mocker):
-        """
-        Compose New Donation Email, Positive-Test-Cases
-
-        Ensures that all required data is in the email; name, new-amount, #gifts, total-amount
-        """
+        """Positive-Test-Cases"""
         # Setup
         name = "New Donation"
         new_amount = 30
         gifts = 42
         total_amount = 400.2
         email_components = f"{name} {new_amount:.2f} {gifts} {total_amount:.2f}".split()
+        mocked_donation_data = {name: {"total given": total_amount, "num gifts": gifts}}
 
         # Mock
-        record = {name: {"total given": total_amount, "num gifts": gifts}}
-        mocker.patch.object(mailroom, "donation_data", new=record)
+        mocker.patch.object(mailroom, "donation_data", new=mocked_donation_data)
 
         # Execute
         actual_email = mailroom.compose_new_donation_email(name, new_amount)
@@ -352,23 +352,28 @@ class Test_Thank_You_CLI:
     )
     def test_thank_you_cli_name_number(self, mocker, command_list):
         """Positive-Test-Cases"""
-        # Mock
+        # Setup
         mocked_input_list = (n for n in command_list)
+        print_argument = "Spam & Eggs"
 
+        # Mock
         def mocked_input(*_):
             return next(mocked_input_list)
 
         mocker.patch.object(mailroom, "input", new=mocked_input)
-        mocker.patch.object(mailroom, "print")
-        mocked_thank_you = mocker.patch.object(mailroom, "thank_you")
+        mocked_print = mocker.patch.object(mailroom, "print")
+        mocked_thank_you = mocker.patch.object(
+            mailroom, "thank_you", return_value=print_argument
+        )
 
         # Execute
         mailroom.thank_you_cli()
 
         # Assert
         mocked_thank_you.assert_called_with(command_list[0], float(command_list[1]))
-        assert mailroom.print.call_count == 1  # pylint: disable=no-member
-        with pytest.raises(StopIteration):
+        assert mocked_print.call_count == 1
+        assert mocked_print.call_args.args[0] == print_argument
+        with pytest.raises(StopIteration):  # Assert command list was emptied
             mocked_input()
 
     @pytest.mark.parametrize(
@@ -380,16 +385,20 @@ class Test_Thank_You_CLI:
     )
     def test_thank_you_cli_list_quit(self, mocker, command_list):
         """Positive-Test-Cases"""
-        # TODO Test the return of print during 'list'?
-        # Mock
+        # Setup
         mocked_input_list = (n for n in command_list)
+        donor_list_returned = "aa, bb, cc"
+        donor_list = ["aa", "bb", "cc"]
 
+        # Mock
         def mocked_input(*_):
             return next(mocked_input_list)
 
         mocker.patch.object(mailroom, "input", new=mocked_input)
-        mocker.patch.object(mailroom, "print")
-        mocker.patch.object(mailroom, "donor_list")
+        mocked_print = mocker.patch.object(mailroom, "print")
+        mocked_donor_list = mocker.patch.object(
+            mailroom, "donor_list", return_value=donor_list_returned
+        )
         mocked_thank_you = mocker.patch.object(mailroom, "thank_you")
 
         # Execute
@@ -397,17 +406,19 @@ class Test_Thank_You_CLI:
 
         # Assert
         assert mocked_thank_you.call_count == 0
-        assert mailroom.donor_list.call_count == 1  # pylint: disable=no-member
-        assert mailroom.print.call_count == 1  # pylint: disable=no-member
-        with pytest.raises(StopIteration):
+        assert mocked_donor_list.call_count == 1
+        assert mocked_print.call_count == 1
+        print_argument = mocked_print.call_args.args[0]
+        for donor in donor_list:  # Assert all donor names are printed
+            assert donor in print_argument
+        with pytest.raises(StopIteration):  # Assert command list was emptied
             mocked_input()
 
-    @pytest.mark.parametrize(
-        "command_list",
-        [pytest.param(["name", "non-number", "quit"], id="name_non-number"),],
-    )
-    def test_thank_you_cli_non_number(self, mocker, command_list):
+    def test_thank_you_cli_non_number(self, mocker):
         """Positive-Test-Cases"""
+        # Setup
+        command_list = ["name", "non-number", "quit"]
+
         # Mock
         mocked_input_list = (n for n in command_list)
 
@@ -415,7 +426,7 @@ class Test_Thank_You_CLI:
             return next(mocked_input_list)
 
         mocker.patch.object(mailroom, "input", new=mocked_input)
-        mocker.patch.object(mailroom, "print")
+        mocked_print = mocker.patch.object(mailroom, "print")
         mocked_thank_you = mocker.patch.object(mailroom, "thank_you")
 
         # Execute
@@ -423,8 +434,13 @@ class Test_Thank_You_CLI:
 
         # Assert
         assert mocked_thank_you.call_count == 0
-        assert mailroom.print.call_count == 1  # pylint: disable=no-member
-        with pytest.raises(StopIteration):
+        assert mocked_print.call_count == 1
+        for argument_string in [
+            "Unrecognized",
+            command_list[1],
+        ]:  # Assert contents of error message printed
+            assert argument_string in mocked_print.call_args.args[0]
+        with pytest.raises(StopIteration):  # Assert command list was emptied
             mocked_input()
 
 
@@ -442,13 +458,14 @@ class Test_Thank_You:
         email = "email"
 
         # Mock
-        mocker.patch.object(mailroom, "new_donation")
+        mocked_new_donation = mocker.patch.object(mailroom, "new_donation")
         mocker.patch.object(mailroom, "compose_new_donation_email", return_value=email)
 
         # Execute
         thank_you_email = mailroom.thank_you("1", "2")
 
         # Assert
+        assert mocked_new_donation.call_count == 1
         assert thank_you_email == email
 
 
@@ -465,15 +482,20 @@ class Test_Menu_Selection:
     """
     Tests the mailroom.menu_selection function.
 
-    mailroom.dispatch_dict is mocked to provide an isolated state for each test
+    __builtins__.input() is mocked to simulate user-interaction
+    __builtins__.print() is mocked to simulate user-interaction
     """
 
-    def test_menu_selection_positive(self, mocker):
-        """Positive-Test-Cases
-        
-        __builtins__.input() is mocked to simulate user-interaction
-        """
+    def test_menu_selection(self, mocker):
+        """Positive-Test-Cases"""
+        # Setup
+        command_list = ["spam", "1", "2", "2", "3"]
+        input_list = (n for n in command_list)
+
         # Mock
+        def mocked_input(*_):
+            return next(input_list)
+
         called_once = mocker.MagicMock()
         called_twice = mocker.MagicMock()
         called_quit = mocker.MagicMock(return_value="quit")
@@ -483,11 +505,7 @@ class Test_Menu_Selection:
             "3": called_quit,
         }
 
-        mocked_input_list = (n for n in ["unrecognized", "1", "2", "2", "3"])
-
-        def mocked_input(*_):
-            return next(mocked_input_list)
-
+        mocked_print = mocker.patch.object(mailroom, "print")
         mocker.patch.object(mailroom, "input", new=mocked_input)
 
         # Execute
@@ -497,7 +515,12 @@ class Test_Menu_Selection:
         assert called_once.call_count == 1
         assert called_twice.call_count == 2
         assert called_quit.call_count == 1
-        with pytest.raises(StopIteration):
+        for argument_string in [
+            "Unrecognized",
+            command_list[0],
+        ]:  # Assert contents of error message printed
+            assert argument_string in mocked_print.call_args.args[0]
+        with pytest.raises(StopIteration):  # Assert command list was emptied
             mocked_input()
 
 
@@ -511,10 +534,10 @@ class Test_Main:
     def test_main(self, mocker):
         """Positive-Test-Cases"""
         # Mock
-        mocker.patch.object(mailroom, "menu_selection")
+        mocked_menu_selection = mocker.patch.object(mailroom, "menu_selection")
 
         # Execute
         mailroom.main()
 
         # Assert
-        assert mailroom.menu_selection.call_count == 1  # pylint: disable=no-member
+        assert mocked_menu_selection.call_count == 1
