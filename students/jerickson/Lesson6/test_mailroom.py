@@ -30,7 +30,7 @@ class Test_Report_CLI:
         ],
     )
     def test_report_cli(self, mocker, list_len):
-        """Report CLI, positive-test-cases"""
+        """Positive-test-cases"""
         # Mock
         mocked_report_list = range(1, list_len + 1)
         mocked_print = mocker.patch.object(mailroom, "print")
@@ -49,52 +49,45 @@ class Test_Report:
     """
     Tests the mailroom.report function.
 
-    donation_data(dict) is mocked to provide an isolated state for each test
+    mailroom.donation_data is mocked to provide an isolated state for each test
+    mailroom.sort_donation_data() is mocked to remove testing dependency
     """
 
     @pytest.mark.parametrize(
-        "name_list, amount_list, num_gifts_list, sorted_name_goal",
+        "name_list, amount_list, num_gifts_list",
         [
             pytest.param(
                 ["aaa", "ddd", "ccc", "bbb"],
                 [9001, 1, 42, 300.2],
                 [42, 1, 9, 1000],
-                ["aaa", "bbb", "ccc", "ddd"],
                 id="non-empty",
             ),
-            pytest.param([], [], [], [], id="empty"),
-            pytest.param(
-                ["Long" * 10, "short"],
-                [3, 2],
-                [3, 2],
-                ["Long" * 10, "short"],
-                id="LongNameFormat",
-            ),
+            pytest.param([], [], [], id="empty"),
+            pytest.param(["Long" * 10, "short"], [3, 2], [3, 2], id="LongNameFormat",),
         ],
     )
-    def test_report(
-        self, mocker, name_list, amount_list, num_gifts_list, sorted_name_goal
-    ):
-        """Sort Donation Data, positive-test-cases"""
+    def test_report(self, mocker, name_list, amount_list, num_gifts_list):
+        """positive-test-cases"""
         # Setup
-        existing_record = {}
+        mocked_donation_data = {}
         report_components = {}
         for name, amount, num_gifts in zip(name_list, amount_list, num_gifts_list):
-            existing_record[name] = {"total given": amount, "num gifts": num_gifts}
+            mocked_donation_data[name] = {"total given": amount, "num gifts": num_gifts}
             average_computed = float(amount / num_gifts)
             report_components[
                 name
             ] = f"{name} {num_gifts} {amount:.2f} {average_computed:.2f}".split()
 
         # Mock
-        mocker.patch.object(mailroom, "donation_data", new=existing_record)
+        mocker.patch.object(mailroom, "sort_donation_data", return_value=name_list)
+        mocker.patch.object(mailroom, "donation_data", new=mocked_donation_data)
 
         # Execute
         actual_report_list = mailroom.report()
         actual_report_gen = (line for line in actual_report_list)
 
         # Assert
-        for name in sorted_name_goal:  # Test all rows are in sorted order
+        for name in name_list:  # Test all rows are in order
             while True:
                 report_line = next(actual_report_gen)
                 if name not in report_line:  # Skip ASCII format-lines and headers

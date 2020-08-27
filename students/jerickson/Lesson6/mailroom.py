@@ -88,7 +88,7 @@ def report():
     report_list.extend([report_end, report_title, report_break, report_header])
 
     # Print Sorted Donor Records
-    for name in sort_donation_data():
+    for name in sorted_donor_names:
         total_given = donation_data[name]["total given"]
         num_gifts = donation_data[name]["num gifts"]
         donor_average = float(total_given / num_gifts)
