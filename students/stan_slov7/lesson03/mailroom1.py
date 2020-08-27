@@ -98,6 +98,32 @@ def print_email(new_donor, new_donation):
           "You will forever hold a place in our hearts, have a wonderful day!\n".format(new_donor.title(), new_donation))
 
 
+def create_report():
+    donor_history = []
+    for d_tuple in donor_data:  
+        name = d_tuple[0]
+        total = sum(d_tuple[1])
+        count = len(d_tuple[1])
+        avg = total/count
+        donor_history.append((name.title(), total, count, avg))
+        
+    donor_history = sorted(donor_history, key=sort_key, reverse=True) #reverse=True param sorts by highest to lowest total
+    #Set the donor_history to it after having the sorted function applied 
+    #sort by 2nd item in tuples i.e. by the total donation amt (couldve also use itemgetter(1))
+    
+    hdrfmt = "| {:<25s}|{:^18s}|{:^15s}|{:^18s}|".format("Donor Name:", "Total Donated:", "# Donations:", "Donation Avg:")
+    divider = "-"*len(hdrfmt) 
+    rowfmt = "| {d_name:<25s}|${d_total:^17.2f}|{d_count:^15d}|${d_avg:^17.2f}|".format
+    #this uses format as a function to create formatting for each entry
+    
+    print(divider)
+    print(hdrfmt) 
+    print(divider)
+    for d_entry in donor_history:
+        print(rowfmt(d_name=d_entry[0], d_total=d_entry[1], d_count=d_entry[2], d_avg=d_entry[3]))
+    print(divider, "\n")
+
+
 def sort_key(hist_tup):
     return hist_tup[1]   
     #to sort by total (historical) donation amount
@@ -125,3 +151,4 @@ def main():
 if __name__ == "__main__":
     # don't forget this block to guard against your code running automatically if this module is imported
     main()
+    
