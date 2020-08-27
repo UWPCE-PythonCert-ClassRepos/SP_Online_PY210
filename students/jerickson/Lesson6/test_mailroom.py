@@ -17,34 +17,32 @@ class Test_Report_CLI:
     """
     Tests the mailroom.menu_selection function.
 
-    Mocks print() to simulate user-interaction
+    __builtin__.print() is mocked to simulate user-interaction
+    mailroom.report() is mocked to provide an isolated state for each test
     """
 
     @pytest.mark.parametrize(
         "list_len",
         [
-            pytest.param(0, id="empty"),
-            pytest.param(1, id="one"),
-            pytest.param(10, id="ten"),
+            pytest.param(0, id="empty_report"),
+            pytest.param(1, id="one_line"),
+            pytest.param(10, id="ten_lines"),
         ],
     )
     def test_report_cli(self, mocker, list_len):
-        """
-        Report CLI, positive-test-cases
-
-        report(func) is mocked to provide an isolated state for each test
-        """
+        """Report CLI, positive-test-cases"""
         # Mock
-        mocked_report_list = [0] * list_len
-        mocked_print = mocker.MagicMock()
-        mocker.patch.object(mailroom, "print", new=mocked_print)
+        mocked_report_list = range(1, list_len + 1)
+        mocked_print = mocker.patch.object(mailroom, "print")
         mocker.patch.object(mailroom, "report", return_value=mocked_report_list)
 
         # Execute
         mailroom.report_cli()
 
         # Assert
-        assert mocked_print.call_count == list_len
+        for _call in mocked_print.call_args_list:  # Report printed in order
+            _call_arg = _call.args[0]  # Argument print was called with
+            assert _call_arg == mocked_report_list[_call_arg - 1]
 
 
 class Test_Report:
