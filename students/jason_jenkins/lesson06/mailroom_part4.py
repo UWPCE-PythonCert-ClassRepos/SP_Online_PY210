@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
-Lesson 4: Mail Room Part 4
+Lesson 6: Mail Room Part 4
 Course: UW PY210
 Author: Jason Jenkins
 """
@@ -39,7 +39,10 @@ def thank_you_email(donor):
     Thank donor for donation
     """
 
-    print(f"Thank you {donor} for your donation.")
+    text = f"Thank you {donor} for your donation."
+    print(text)
+
+    return text
 
 
 def print_donor_dict():
@@ -49,11 +52,23 @@ def print_donor_dict():
 
     global donor_dict
 
-    print("List of donors")
-    print("--------------")
+    text = "List of donors\n"
+    text += "--------------\n"
 
     for k in donor_dict.keys():
-        print(k)
+        text += f"{k}\n"
+
+    print(text)
+    return text
+
+
+def update_donor_list(donor, amount):
+    if amount > 0:
+        if donor in donor_dict:
+            donor_dict[donor].append(amount)
+        else:
+            donor_dict.update({donor: [amount]})
+        thank_you_email(donor)
 
 
 def donate(donor):
@@ -68,15 +83,10 @@ def donate(donor):
     except ValueError:
         print("Must input a valid float")
     else:
-        if response > 0:
-            if donor in donor_dict:
-                donor_dict[donor].append(response)
-            else:
-                donor_dict.update({donor: [response]})
-            thank_you_email(donor)
+        update_donor_list(donor, response)
 
 
-def create_report():
+def get_report():
     """
     Create a table like view of donors
     Includes donor name, donation total, total gifts, average gift amount
@@ -91,24 +101,29 @@ def create_report():
                               key=lambda i: sum(i[1]),
                               reverse=True))
 
-    print(f"{'Donor Name':30}|{'Total Given':^16}|", end='')
-    print(f"{'Num Gifts':^14}|{'Average Gift':^16}")
-    print(f"{'-'*79}")
+    sorted_tuple = []
 
     for k, v in sorted_dict.items():
         donor_name = k
-        donor_total = sum(v)
+        donor_total = round(sum(v), 2)
         donar_count = len(v)
         donor_ave = 0
 
         if donar_count != 0:
-            donor_ave = donor_total / donar_count
+            donor_ave = round(donor_total / donar_count, 2)
 
-        donor_output = f"{donor_name:30}"
-        donor_output += f" ${donor_total:15.2f}"
-        donor_output += f"{donar_count:15}"
-        donor_output += f" ${donor_ave:15.2f}"
-        print(donor_output)
+        sorted_tuple.append([donor_name, donor_total, donar_count, donor_ave])
+
+    return sorted_tuple
+
+
+def display_report():
+    print(f"{'Donor Name':30}|{'Total Given':^16}|", end='')
+    print(f"{'Num Gifts':^14}|{'Average Gift':^16}")
+    print(f"{'-'*79}")
+
+    for row in get_report():
+        print(f"{row[0]:30} ${row[1]:15.2f}{row[2]:15} ${row[3]:15.2f}")
 
 
 def quit_program():
@@ -119,6 +134,23 @@ def quit_program():
     sys.exit()
 
 
+def get_letter_text(name):
+    """Get letter text for file content"""
+
+    global donor_dict
+
+    k = name
+    v = donor_dict.get(name)
+
+    text = f"Dear {k}\n"
+    text += f"\tThank you for your donation of ${sum(v):.2f}.\n"
+    text += f"\tIt will be put to very good use.\n"
+    text += f"Sincerely,\n"
+    text += f"-The Team\n"
+
+    return text
+
+
 def send_all_thanks():
     """
     Method used to print a letter to the donors
@@ -127,20 +159,16 @@ def send_all_thanks():
     global donor_dict
 
     p = pathlib.Path("emails/")
+
     try:
         p.mkdir(parents=True, exist_ok=True)
-    except NameError:
-        print("Director not found")
-    else:
-        for k, v in donor_dict.items():
+        for k in donor_dict.keys():
             dest = f"{p / k}.txt"
             dest = dest.replace(" ", "_").replace(",", "")
             with open(dest, 'w') as outfile:
-                outfile.write(f"Dear {k}\n")
-                outfile.write(f"\tThank you for your donation of ${sum(v):.2f}.\n")
-                outfile.write(f"\tIt will be put to very good use.\n")
-                outfile.write(f"Sincerely,\n")
-                outfile.write(f"-The Team\n")
+                outfile.write(get_letter_text(k))
+    except NameError:
+        print("Director not found")
 
 
 def startup_prompt():
@@ -158,9 +186,9 @@ def startup_prompt():
 
     response = input("Input numbered option you wish to do: ").strip()
 
-    if response in menu_dict:
+    try:
         menu_dict[response]()
-    else:
+    except KeyError:
         print(f"{response} is not a valid input.")
 
 
@@ -168,7 +196,7 @@ def startup_prompt():
 donor_dict = dict()
 menu_dict = {
     "1": send_thanks,
-    "2": create_report,
+    "2": display_report,
     "3": send_all_thanks,
     "4": quit_program
 }
