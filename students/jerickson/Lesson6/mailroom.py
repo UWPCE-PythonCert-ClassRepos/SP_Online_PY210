@@ -52,6 +52,8 @@ def report():
 
     Donors are sorted in the report in decending order according to total-given amount.
     Produces a 'pretty' ASCII formatted table
+    Uses double braces "{{}}" in format strings to dynamically update name field to
+    accommodate long donor names without breaking report format.
 
     Returns
     -------
@@ -60,9 +62,19 @@ def report():
     """
     report_list = []
 
+    longest_name = len("Name")
+    sorted_donor_names = sort_donation_data()
+
+    # Get Longest Donor Name
+    for name in sorted_donor_names:
+        longest_name = max(longest_name, len(name))
+
     # Format report lines
     title = DONATION_DATA_HEADER[:]
-    report_header = f"|{title[0]:^16}|  {title[1]:^12}|{title[2]:^13}|  {title[3]:^13}|"
+    name_field_dynamic = "{{:^{:d}}}".format(longest_name + 2)
+    report_header = "|{}|  {{:^12}}|{{:^13}}|  {{:^13}}|".format(
+        name_field_dynamic
+    ).format(*title)
     report_break_list = []
     for char in report_header[:]:
         break_char = "+" if char == "|" else "-"
@@ -80,7 +92,9 @@ def report():
         total_given = donation_data[name]["total given"]
         num_gifts = donation_data[name]["num gifts"]
         donor_average = float(total_given / num_gifts)
-        donor_string = f"|{name:^16}| ${total_given:>12.2f}|{num_gifts:^13d}| ${donor_average:>13.2f}|"
+        donor_string = "|{}| ${{:>12.2f}}|{{:^13d}}| ${{:>13.2f}}|".format(
+            name_field_dynamic
+        ).format(name, total_given, num_gifts, donor_average)
 
         report_list.extend([report_break, donor_string])
 

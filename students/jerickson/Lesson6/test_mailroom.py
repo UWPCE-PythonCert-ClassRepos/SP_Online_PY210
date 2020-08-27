@@ -65,6 +65,13 @@ class Test_Report:
                 id="non-empty",
             ),
             pytest.param([], [], [], [], id="empty"),
+            pytest.param(
+                ["Long" * 10, "short"],
+                [3, 2],
+                [3, 2],
+                ["Long" * 10, "short"],
+                id="LongNameFormat",
+            ),
         ],
     )
     def test_report(
