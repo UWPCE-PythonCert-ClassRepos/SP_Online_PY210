@@ -87,10 +87,19 @@ def thank_you():
         else:
             try:
                 donation_amount = float(input("Please enter donation amount:"
-                                              "\n>>"))  # try this
-                add_donation(ty_input, donation_amount)
-                print("\n", create_email(ty_input, donation_amount), sep="")
-            break
+                                              "\n>>"))
+            except ValueError:
+                print("Please only enter a single number for donation"
+                      " amount\n")
+            else:
+                if donation_amount > 0:
+                    add_donation(ty_input, donation_amount)
+                    print(
+                        "\n", create_email(ty_input, donation_amount), sep=""
+                        )
+                    break
+                else:
+                    print("Please enter a positive number\n")
 
 
 def print_donors():
