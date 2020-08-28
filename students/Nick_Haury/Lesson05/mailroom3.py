@@ -154,8 +154,7 @@ def create_report():
         donor_count = len(donors[key])
         donor_average = donor_sum/donor_count
         print(f"{donor_name:26}${donor_sum:14,.2f}{donor_count:11}  "
-              f"${donor_average:16,.2f}")
-    print()
+              f"${donor_average:16,.2f}\n")
 
 
 def write_letters():
