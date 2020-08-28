@@ -1,11 +1,20 @@
 #!/usr/bin/env python3
 
+#DELIVERABLES
+'''
+Use dicts where appropriate.
+See if you can use a dict to switch between the user’s selections.
+See if you can use a dict to switch between the users selections. see Using a Dictionary to switch for what this means.
+Convert your main donor data structure to be a dict. - Complete
+Try to use a dict and the .format() method to produce the letter as one big template, rather than building up a big string that produces the letter in parts.
+'''
+
 #Donors
-donors = [("Morgan Stanely", [0.01, 20.00]),
-            ("Cornelius Vanderbilt", [800, 15, 10.00]),
-            ("John D. Rockefeller", [7000, 150.00, 25]),
-            ("Stephen Girard", [60000]),
-            ("Andrew Carnegie", [0.04, 999.99])]
+donors = {"Morgan Stanely": [0.01, 20.00],
+            "Cornelius Vanderbilt": [800, 15, 10.00],
+            "John D. Rockefeller": [7000, 150.00, 25],
+            "Stephen Girard": [60000],
+            "Andrew Carnegie": [0.04, 999.99]}
 
 
 #Send Thank You
