@@ -82,7 +82,7 @@ def thank_you():
                          'Otherwise enter a name you would like to add a '
                          'donation for:\n>>')
 
-        if ty_input == "list":
+        if ty_input.lower() == "list":
             print_donors()
         else:
             try:
