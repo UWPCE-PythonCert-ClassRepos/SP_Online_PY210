@@ -10,15 +10,15 @@ Run as imported module then run main() to start interface.
 import os
 
 
-DONATION_DATA_HEADER = ["Name", "Total Given", "Num Gifts", "Average Gift"]
+DONATION_DATA_HEADER = ["Name", "Total Given", "# Gifts", "Average Gift"]
 donation_data = {
-    "Usama Black": {"total given": 22002, "num gifts": 3},
-    "Kezia Hassan": {"total given": 3023.23, "num gifts": 3},
-    "Lyla Moody": {"total given": 580, "num gifts": 1},
-    "King Arthur": {"total given": 400, "num gifts": 1},
-    "Twin Arthur": {"total given": 400, "num gifts": 2},
-    "Pamela Guerra": {"total given": 32, "num gifts": 2},
-    "Malachy Krause": {"total given": 4242, "num gifts": 1},
+    "Usama Black": {"totalGiven": 22002, "numGifts": 3},
+    "Kezia Hassan": {"totalGiven": 3023.23, "numGifts": 3},
+    "Lyla Moody": {"totalGiven": 580, "numGifts": 1},
+    "King Arthur": {"totalGiven": 400, "numGifts": 1},
+    "Twin Arthur": {"totalGiven": 400, "numGifts": 2},
+    "Pamela Guerra": {"totalGiven": 32, "numGifts": 2},
+    "Malachy Krause": {"totalGiven": 4242, "numGifts": 1},
 }
 
 
@@ -32,11 +32,13 @@ def sort_donation_data():
         Sorted donor full-names
     """
 
-    donation_data_sortable = (
-        [record["total given"], name] for name, record in donation_data.items()
-    )  # Generator Expression
-    sorted_donors = [name for _, name in sorted(donation_data_sortable, reverse=True)]
+    def sort_donor_key(item):
+        return item[1]["totalGiven"]
 
+    sorted_donors = [
+        name
+        for name, _ in sorted(donation_data.items(), key=sort_donor_key, reverse=True)
+    ]
     return sorted_donors
 
 
@@ -64,8 +66,8 @@ def report():
     # Print Donor Records
     for name in sorted_donors:
         print(report_break)
-        total_given = donation_data[name]["total given"]
-        num_gifts = donation_data[name]["num gifts"]
+        total_given = donation_data[name]["totalGiven"]
+        num_gifts = donation_data[name]["numGifts"]
         donor_average = float(total_given / num_gifts)
         donor_string = f"|{name:^16}| ${total_given:>12.2f}|{num_gifts:^13d}| ${donor_average:>13.2f}|"
         print(donor_string)
@@ -91,10 +93,10 @@ def new_donation(donor_name, amount):
     None
     """
     donor_record = donation_data.setdefault(
-        donor_name, {"total given": 0, "num gifts": 0}
+        donor_name, {"totalGiven": 0, "numGifts": 0}
     )
-    donor_record["total given"] += amount
-    donor_record["num gifts"] += 1
+    donor_record["totalGiven"] += amount
+    donor_record["numGifts"] += 1
 
 
 def donor_list():
@@ -133,8 +135,8 @@ def compose_new_donation_email(donor_name, amount):
         The composed email
     """
     donor_record = donation_data[donor_name]
-    time_s = "times" if donor_record["num gifts"] > 1 else "time"
-    email = f"Thank you {donor_name} for your donation of ${amount:.2f}! You have donated {donor_record['num gifts']} {time_s} for a total of ${donor_record['total given']:.2f}."
+    time_s = "times" if donor_record["numGifts"] > 1 else "time"
+    email = f"Thank you {donor_name} for your donation of ${amount:.2f}! You have donated {donor_record['numGifts']} {time_s} for a total of ${donor_record['totalGiven']:.2f}."
     return email
 
 
@@ -143,11 +145,11 @@ def compose_all_donors_emails():
     file_id = 0
     for donor_name, donor_record in donation_data.items():
         time_s = (
-            f"{donor_record['num gifts']:d} donations"
-            if donor_record["num gifts"] > 1
+            f"{donor_record['numGifts']:d} donations"
+            if donor_record["numGifts"] > 1
             else "donation"
         )  # Grammer correction of donation vs # donations
-        email = f"Thank you {donor_name},\n\nYour {time_s} totaling ${donor_record['total given']:.2f} will help us.\n\n{'':>40}Best Regards,\n{'':>40}Jacob Erickson"
+        email = f"Thank you {donor_name},\n\nYour {time_s} totaling ${donor_record['totalGiven']:.2f} will help us.\n\n{'':>40}Best Regards,\n{'':>40}Jacob Erickson"
         file_name = f"Donor{file_id:03d}_{donor_name}_gitnore.txt"
 
         path = os.path.dirname(os.path.realpath(__file__))
