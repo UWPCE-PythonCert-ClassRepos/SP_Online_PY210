@@ -55,3 +55,15 @@ print(f"Is s3 a subset of s2? {s2.issuperset(s3)}")
 print(f"Is s4 a subset of s2? {s2.issuperset(s4)}")
 
 #Sets 2
+p = set('python')
+m = frozenset('marathon')
+
+p.add('i')
+
+u = p.union(m)
+inter = p.intersection(m)
+
+print(f"P = {p}")
+print(f"M = {m}")
+print(f"Union = {u}")
+print(f"Intersection = {inter}")
