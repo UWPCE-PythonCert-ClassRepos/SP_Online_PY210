@@ -16,11 +16,17 @@ donors = {"Morgan Stanely": [0.01, 20.00],
             "Stephen Girard": [60000],
             "Andrew Carnegie": [0.04, 999.99]}
 
-
-#Send Thank You
-def receiver(giver):
-    name = giver.lower()
+#Single Thank You
+def receiver():
     #Determine Previous Donor
+    i = 1
+    for key in donors:
+        print(f"[{i}] - {key}")
+        i += 1
+
+    donor_name = input("Who gave the donation [#]? ")
+
+    '''
     if name == "list":
         for i in range(len(donors)):
             print(f"[{i+1}] " + donors[i][0])
@@ -36,7 +42,9 @@ def receiver(giver):
                 name = donors[int(num)-1][0]  
     else: #Verify not existing Donor
         name = giver
+    '''
     return name
+
 
 #Donor Verification
 def ver_don(giver):
@@ -95,12 +103,40 @@ def print_report(my_List = []):
         print("{0:<25s}${1:>14.2f}{2:>17d}  ${3:>11.2f}".format(my_List[i][0],total, No_Gifts, Ave_Gift, end =''))    
     return
 
+#Send Letter
+def send_letter():
+    print("Sending Letter")
+    pass
+
+def quit():
+    print("Quitting, Thank you.")
+    return "quit"
+
+#Main Menu Options
+def main_menu(prompt, dict_choice):
+    while True:
+        choice = input(prompt)
+        if dict_choice[choice]() == "quit":
+            break
+
+choice_menu = ("Choose an Action:\n"
+            "\n"
+            "1 - Send Thank You to Single Donor.\n"
+            "2 - Create Report.\n"
+            "3 - Send Letters to ALL Donor.\n"
+            "4 - Quit.\n")
+
+main_selections = {"1" : receiver,
+                    "2" : print_report,
+                    "3" : send_letter,
+                    "4" : quit,
+                    }
+    
+
 #Main Exicutable
 if __name__ == '__main__':
-    #Initial Menu
-    real_response = False
-    donors1 = donors
-    while real_response == False:
+    main_menu(choice_menu, main_selections)
+'''
         directive = input("What would you like to do; [1]Send Thank you, [2]Create Report, [3]Quit: ")
         if directive == "1" or directive == "2" or directive == "3":
             if directive == "1":
@@ -118,7 +154,7 @@ if __name__ == '__main__':
                     continue
                 if not ver_don:
                     new_donor = [recipient[:-1], (contr)]
-                    donors1.append(new_donor)
+                    #donors1.append(new_donor)
                     print(email(new_donor[0][0],new_donor[0][1]))
                 else:
                     for i in range(len(donors)):
@@ -136,3 +172,4 @@ if __name__ == '__main__':
                 real_response = True
         else:
             print("Please select one of the options above")
+'''
