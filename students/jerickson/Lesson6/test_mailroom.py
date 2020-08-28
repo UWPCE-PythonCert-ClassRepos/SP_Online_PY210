@@ -79,7 +79,7 @@ class Test_Report:
         mocked_donation_data = {}
         report_components = {}
         for name, amount, num_gifts in zip(name_list, amount_list, num_gifts_list):
-            mocked_donation_data[name] = {"total given": amount, "num gifts": num_gifts}
+            mocked_donation_data[name] = {"totalGiven": amount, "numGifts": num_gifts}
             average_computed = float(amount / num_gifts)
             report_components[
                 name
@@ -131,8 +131,7 @@ class Test_Sort_Donation_Data:
         """Positive-Test-Cases"""
         # Setup
         mocked_donation_data = {
-            name: {"total given": amount}
-            for name, amount in zip(name_list, amount_list)
+            name: {"totalGiven": amount} for name, amount in zip(name_list, amount_list)
         }
 
         # Mock
@@ -171,7 +170,7 @@ class Test_New_Donation:
 
         # Assert
         assert mailroom.donation_data == {
-            name: {"total given": abs(amount), "num gifts": 1}
+            name: {"totalGiven": abs(amount), "numGifts": 1}
         }
 
     @pytest.mark.parametrize(
@@ -200,7 +199,7 @@ class Test_New_Donation:
         total_amount = existing_amount + new_amount
         total_gifts = existing_gifts + 1
         mocked_donation_data = {
-            name: {"total given": existing_amount, "num gifts": existing_gifts}
+            name: {"totalGiven": existing_amount, "numGifts": existing_gifts}
         }
 
         # Mock
@@ -211,7 +210,7 @@ class Test_New_Donation:
 
         # Assert
         assert mailroom.donation_data == {
-            name: {"total given": total_amount, "num gifts": total_gifts}
+            name: {"totalGiven": total_amount, "numGifts": total_gifts}
         }
 
 
@@ -257,7 +256,7 @@ class Test_Compose_All_Donors_Emails:
         gifts = 42
         total_amount = 400.2
         email_components = f"{name} {gifts} {total_amount:.2f}".split()
-        mocked_donation_data = {name: {"total given": total_amount, "num gifts": gifts}}
+        mocked_donation_data = {name: {"totalGiven": total_amount, "numGifts": gifts}}
 
         # Mock
         mocker.patch.object(mailroom, "donation_data", new=mocked_donation_data)
@@ -322,7 +321,7 @@ class Test_Compose_New_Donation_Email:
         gifts = 42
         total_amount = 400.2
         email_components = f"{name} {new_amount:.2f} {gifts} {total_amount:.2f}".split()
-        mocked_donation_data = {name: {"total given": total_amount, "num gifts": gifts}}
+        mocked_donation_data = {name: {"totalGiven": total_amount, "numGifts": gifts}}
 
         # Mock
         mocker.patch.object(mailroom, "donation_data", new=mocked_donation_data)
