@@ -152,3 +152,23 @@ class A(OneLineTag):  # pylint: disable=invalid-name
 
     def __init__(self, link="", content=None, **kwargs):
         super().__init__(content=content, href=link, **kwargs)
+
+
+class Li(OneLineTag):
+    """li "list" tagged HTML element"""
+
+    tag = "li"
+
+
+class Ul(Element):
+    """ul "Unordered List" tagged HTML element"""
+
+    tag = "ul"
+
+
+class H(OneLineTag):  # pylint: disable=invalid-name
+    """h# "header" tagged HTML element"""
+
+    def __init__(self, h_number=1, content=None, **kwargs):
+        self.tag = f"h{h_number:d}"
+        super().__init__(content=content, **kwargs)

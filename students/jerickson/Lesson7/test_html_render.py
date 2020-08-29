@@ -341,10 +341,40 @@ def test_br():
 
 
 def test_anchor():
-    """Test the extended kwargs functionality of Element"""
+    """Test a element"""
     elem = hr.A(link="google.com", content="some spam", style="eggs")
 
     assert get_opening_line(elem) == '<a href="google.com" style="eggs">some spam</a>'
+
+
+########
+# Step 7
+########
+
+
+def test_li():
+    """Test li element"""
+    elem = hr.Li("some spam", style="eggs")
+
+    assert get_opening_line(elem) == '<li style="eggs">some spam</li>'
+
+
+def test_ul():
+    """Test ul element"""
+    elem = hr.Ul("some spam", style="eggs")
+
+    assert get_opening_line(elem) == '<ul style="eggs">'
+
+
+def test_h():
+    """Test h element"""
+    for h_number in [1, 2, 3]:
+        elem = hr.H(h_number, "some spam", style="eggs")
+
+        assert (
+            get_opening_line(elem)
+            == f'<h{h_number:d} style="eggs">some spam</h{h_number:d}>'
+        )
 
 
 # #####################
