@@ -497,3 +497,16 @@ def test_adjust_indent():
         assert lines[i + 1].startswith(i * (" " * hr.Element.indent) + "<")
 
     assert lines[4].startswith(3 * (" " * hr.Element.indent) + "some")
+
+
+#####################
+# Extra Tags
+#####################
+
+
+def test_img():
+    """Test img element"""
+    elem = hr.Img(src="eggs")
+    elem.set_attributes(alt="spam")
+
+    assert get_opening_line(elem) == '<img src="eggs" alt="spam" />'

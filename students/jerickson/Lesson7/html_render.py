@@ -187,3 +187,16 @@ class Meta(SelfClosingTag):
     """meta "Metadata" tagged HTML element"""
 
     tag = "meta"
+
+
+## EXTRA TAGS ##
+
+
+class Img(SelfClosingTag):
+    """img "Image" tagged HTML element"""
+
+    tag = "img"
+
+    def __init__(self, src="", **kwargs):
+        kwargs["src"] = src
+        super().__init__(**kwargs)
