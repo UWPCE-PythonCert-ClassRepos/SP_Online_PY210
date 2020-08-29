@@ -19,31 +19,45 @@ donors = {"Morgan Stanely": [0.01, 20.00],
 #Single Thank You
 def receiver():
     #Determine Previous Donor
-    i = 1
-    for key in donors:
-        print(f"[{i}] - {key}")
-        i += 1
+    new_vs_ex = input("New Donor [Y/N]? ")
 
-    donor_name = input("Who gave the donation [#]? ")
+    if new_vs_ex.lower() == "y":
+        name = new_donor()
+    elif new_vs_ex.lower() == "quit":
+        name = "quit"
+    else:
+        i = 1
+        temp_list = []
+        for key in sorted(donors):
+            print(f"[{i}] - {key}")
+            i += 1
+            temp_list.append(key)
 
-    '''
-    if name == "list":
-        for i in range(len(donors)):
-            print(f"[{i+1}] " + donors[i][0])
-        existing = True
-        while existing:
-            num = input("Please select the corresponding number for existing donor? ")
-            if num.lower() == 'quit':
-                name = 'quit'
-                existing = False
-            elif (int(num)-1) in range(len(donors)):
-                print(f"You selected: {donors[int(num)-1][0]}")
-                existing = False
-                name = donors[int(num)-1][0]  
-    else: #Verify not existing Donor
-        name = giver
-    '''
+        donor_name = input("Who gave the donation [#]? ")
+
+        if donor_name.lower() == "quit":
+            name = "quit"
+
+        name = temp_list[int(donor_name)-1]
+
+    don_val = 0
+
+    for k, v in donors.items():
+        if k == name:
+            don_val = sum(v)
+    
+    print("\n" + email(name, don_val))
+
     return name
+
+
+#New Donor
+def new_donor():
+    name_of_new = input("What is the New Donor's Name: ")
+    if name_of_new not in donors:
+        dol_val = gift()
+        donors[name_of_new] = [dol_val]
+    return name_of_new
 
 
 #Donor Verification
@@ -68,8 +82,8 @@ def gift():
 
 
 #Print Email
-def email(TO, gift_amount):
-    name = TO
+def email(to_donor, gift_amount):
+    name = to_donor
     donation = gift_amount
     body = f"""Greetings {name}\n
 \n
