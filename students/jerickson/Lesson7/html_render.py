@@ -10,11 +10,31 @@ class Element:
     tag = "html"
     content_join = "\n"
 
-    def __init__(self, content=None):
+    def __init__(self, content=None, **kwargs):
         if content:
             self.content = [content]
         else:
             self.content = []
+        self.attributes = {}
+        self.set_attributes(**kwargs)
+
+    def set_attributes(self, **kwargs):
+        """Processes HTML attributes and add them to the element"""
+        new_attributes = kwargs
+        for alternate_class_key in ["clas", "_class", "_clas"]:  # cspell:disable-line
+            try:
+                new_attributes["class"] = new_attributes.pop(alternate_class_key)
+                break
+            except KeyError:
+                pass
+        self.attributes.update(**new_attributes)
+
+    def open_tag(self):
+        """Generates the opening tag of the element"""
+        attributes_text = [
+            f' {attribute}="{value}"' for attribute, value in self.attributes.items()
+        ]
+        return f"<{self.tag}{''.join(attributes_text)}>"
 
     def append(self, new_content):
         """
@@ -36,7 +56,7 @@ class Element:
         out_file : file-like-object
             The file where the content gets written to.
         """
-        out_file.write(f"<{self.tag}>")
+        out_file.write(self.open_tag())
         out_file.write(self.content_join)
         for sub_content in self.content:
             try:

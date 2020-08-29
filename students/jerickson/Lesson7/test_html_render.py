@@ -232,6 +232,68 @@ def test_title():  # pylint: disable=missing-function-docstring
     assert file_contents_lines[1] == ""
 
 
+########
+# Step 4
+########
+
+
+def get_opening_tag(element):
+    """Gets only the opening tag of a potentially nested element"""
+    return render_result(element).split("\n")[0]
+
+
+def test_extended_init():
+    """Test the extended kwargs functionality of Element"""
+    elem = hr.Element("this is some text", id="spam", style="eggs")
+
+    assert get_opening_tag(elem) == '<html id="spam" style="eggs">'
+
+
+def test_class_attributes():
+    """Test the ability to assign the html-class using various methods"""
+
+    string_class_dict = {"class": "spam"}
+    string_class = hr.Element("this is some text", **string_class_dict)
+    assert get_opening_tag(string_class) == '<html class="spam">'
+
+    clas = hr.Element("this is some text", clas="spam")  # cspell:disable-line
+    assert get_opening_tag(clas) == '<html class="spam">'  # cspell:disable-line
+
+    _clas = hr.Element("this is some text", _clas="spam")  # cspell:disable-line
+    assert get_opening_tag(_clas) == '<html class="spam">'  # cspell:disable-line
+
+    _class = hr.Element("this is some text", _class="spam")  # cspell:disable-line
+    assert get_opening_tag(_class) == '<html class="spam">'  # cspell:disable-line
+
+
+def test_set_attribute():
+    """Test that attributes can be assigned before and after init"""
+    elem = hr.Element("this is some text", id="spam", style="eggs")
+    elem.set_attributes(holy="grail", answer=42)
+
+    assert (
+        get_opening_tag(elem)
+        == '<html id="spam" style="eggs" holy="grail" answer="42">'
+    )
+
+
+def test_set_attribute_override():
+    """Test that attributes can be overridden after init, including alternate class spellings"""
+    elem = hr.Element(
+        "this is some text",
+        style="cheese",
+        answer=1,
+        clas="spam",  # cspell:disable-line
+    )
+    elem.set_attributes(holy="grail", answer=42, _clas="eggs")  # cspell:disable-line
+
+    opening_tag = get_opening_tag(elem)
+    assert 'style="cheese"' in opening_tag
+    assert 'answer="42"' in opening_tag
+    assert 'class="eggs"' in opening_tag
+    assert 'holy="grail"' in opening_tag
+
+
 # #####################
 # # indentation testing
 # #  Uncomment for Step 9 -- adding indentation
