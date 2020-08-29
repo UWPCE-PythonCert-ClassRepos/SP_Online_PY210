@@ -9,6 +9,7 @@ class Element:
 
     tag = "html"
     content_join = "\n"
+    indent = 4
 
     def __init__(self, content=None, **kwargs):
         if content:
@@ -29,16 +30,17 @@ class Element:
                 pass
         self.attributes.update(**new_attributes)
 
-    def open_tag(self):
+    def open_tag(self, cur_ind=0):
         """Generates the opening tag of the element"""
         attributes_text = [
             f' {attribute}="{value}"' for attribute, value in self.attributes.items()
         ]
-        return f"<{self.tag}{''.join(attributes_text)}>"
+        return " " * cur_ind + f"<{self.tag}{''.join(attributes_text)}>"
 
-    def close_tag(self):
+    def close_tag(self, cur_ind=0):
         """Generates the opening tag of the element"""
-        return f"</{self.tag}>"
+        closing_indent = cur_ind if self.content_join else 0
+        return " " * closing_indent + f"</{self.tag}>"
 
     def append(self, new_content):
         """
@@ -51,7 +53,7 @@ class Element:
         """
         self.content.append(new_content)
 
-    def render(self, out_file):
+    def render(self, out_file, cur_ind=0):
         """
         Writes the Element contents to the file
 
@@ -60,15 +62,17 @@ class Element:
         out_file : file-like-object
             The file where the content gets written to.
         """
-        out_file.write(self.open_tag())
+        out_file.write(self.open_tag(cur_ind))
         out_file.write(self.content_join)
         for sub_content in self.content:
             try:
-                sub_content.render(out_file)
+                sub_content.render(out_file, cur_ind + self.indent)
             except AttributeError:
+                if self.content_join:
+                    out_file.write(" " * (cur_ind + self.indent))
                 out_file.write(sub_content)
                 out_file.write(self.content_join)
-        out_file.write(self.close_tag())
+        out_file.write(self.close_tag(cur_ind))
         out_file.write("\n")
 
 
@@ -77,9 +81,10 @@ class Html(Element):
 
     tag = "html"
 
-    def render(self, out_file):
+    def render(self, out_file, cur_ind=0):
+        out_file.write(" " * cur_ind)
         out_file.write("<!DOCTYPE html>\n")
-        super().render(out_file)
+        super().render(out_file, cur_ind)
 
 
 class Body(Element):
@@ -124,11 +129,11 @@ class SelfClosingTag(OneLineTag):
             raise TypeError
         super().set_attributes(**kwargs)
 
-    def open_tag(self):
+    def open_tag(self, cur_ind=0):
         """Generates the open/close tag of the element"""
-        return super().open_tag().replace(">", " />")
+        return super().open_tag(cur_ind).replace(">", " />")
 
-    def close_tag(self):
+    def close_tag(self, cur_ind=0):
         """No close tag for this element type."""
         return ""
 
@@ -158,7 +163,7 @@ class A(OneLineTag):  # pylint: disable=invalid-name
         super().__init__(content=content, href=link, **kwargs)
 
 
-class Li(OneLineTag):
+class Li(Element):
     """li "list" tagged HTML element"""
 
     tag = "li"

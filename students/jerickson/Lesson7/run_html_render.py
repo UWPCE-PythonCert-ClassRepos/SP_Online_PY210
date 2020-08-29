@@ -252,19 +252,19 @@ body.append(
 
 body.append(hr.Hr())
 
-list = hr.Ul(id="TheList", style="line-height:200%")
+_list = hr.Ul(id="TheList", style="line-height:200%")
 
-list.append(hr.Li("The first item in a list"))
-list.append(hr.Li("This is the second item", style="color: red"))
+_list.append(hr.Li("The first item in a list"))
+_list.append(hr.Li("This is the second item", style="color: red"))
 
 item = hr.Li()
 item.append("And this is a ")
 item.append(hr.A("http://google.com", "link"))
 item.append("to google")
 
-list.append(item)
+_list.append(item)
 
-body.append(list)
+body.append(_list)
 
 page.append(body)
 
