@@ -77,6 +77,10 @@ class Html(Element):
 
     tag = "html"
 
+    def render(self, out_file):
+        out_file.write("<!DOCTYPE html>\n")
+        super().render(out_file)
+
 
 class Body(Element):
     """body tagged element"""
@@ -172,3 +176,9 @@ class H(OneLineTag):  # pylint: disable=invalid-name
     def __init__(self, h_number=1, content=None, **kwargs):
         self.tag = f"h{h_number:d}"
         super().__init__(content=content, **kwargs)
+
+
+class Meta(SelfClosingTag):
+    """meta "Metadata" tagged HTML element"""
+
+    tag = "meta"

@@ -377,6 +377,26 @@ def test_h():
         )
 
 
+########
+# Step 8
+# ########
+
+
+def test_html_doctype():
+    """Test html element adds 'doctype' at the top"""
+    elem = hr.Html("some spam", style="eggs")
+
+    assert get_opening_line(elem) == "<!DOCTYPE html>"
+
+
+def test_meta():
+    """Test meta element"""
+    elem = hr.Meta(style="eggs")
+    elem.set_attributes(id="spam")
+
+    assert get_opening_line(elem) == '<meta style="eggs" id="spam" />'
+
+
 # #####################
 # # indentation testing
 # #  Uncomment for Step 9 -- adding indentation
