@@ -180,6 +180,58 @@ def test_sub_element():
 
 # Add your tests here!
 
+
+def test_head():  # pylint: disable=missing-function-docstring
+    elem = hr.Head("this is some text")
+    elem.append("and this is some more text")
+
+    file_contents = render_result(elem).strip()
+
+    assert "this is some text" in file_contents
+    assert "and this is some more text" in file_contents
+
+    assert file_contents.startswith("<head>")
+    assert file_contents.endswith("</head>")
+
+
+def test_onelinetag():  # pylint: disable=missing-function-docstring
+    elem = hr.OneLineTag("this is some text")
+    elem.append("and this is some more text")
+
+    file_contents_raw = render_result(elem)
+    file_contents = file_contents_raw.strip()
+    file_contents_lines = file_contents_raw.split("\n")
+
+    assert "this is some text" in file_contents
+    assert "and this is some more text" in file_contents
+
+    assert file_contents.startswith("<html>")
+    assert file_contents.endswith("</html>")
+
+    # 1 line with content, 1 line empty (end of line, newline), 2 lines total
+    assert len(file_contents_lines) == 2
+    assert file_contents_lines[1] == ""
+
+
+def test_title():  # pylint: disable=missing-function-docstring
+    elem = hr.Title("this is some text")
+    elem.append("and this is some more text")
+
+    file_contents_raw = render_result(elem)
+    file_contents = file_contents_raw.strip()
+    file_contents_lines = file_contents_raw.split("\n")
+
+    assert "this is some text" in file_contents
+    assert "and this is some more text" in file_contents
+
+    assert file_contents.startswith("<title>")
+    assert file_contents.endswith("</title>")
+
+    # 1 line with content, 1 line empty (end of line, newline), 2 lines total
+    assert len(file_contents_lines) == 2
+    assert file_contents_lines[1] == ""
+
+
 # #####################
 # # indentation testing
 # #  Uncomment for Step 9 -- adding indentation

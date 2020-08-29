@@ -8,6 +8,7 @@ class Element:
     """HTML Base Element that has tags & contains other elements inside its content"""
 
     tag = "html"
+    content_join = "\n"
 
     def __init__(self, content=None):
         if content:
@@ -35,14 +36,16 @@ class Element:
         out_file : file-like-object
             The file where the content gets written to.
         """
-        out_file.write(f"\n<{self.tag}>")
+        out_file.write(f"<{self.tag}>")
+        out_file.write(self.content_join)
         for sub_content in self.content:
             try:
                 sub_content.render(out_file)
             except AttributeError:
-                out_file.write("\n")
                 out_file.write(sub_content)
-        out_file.write(f"\n</{self.tag}>")
+                out_file.write(self.content_join)
+        out_file.write(f"</{self.tag}>")
+        out_file.write("\n")
 
 
 class Html(Element):
@@ -61,3 +64,22 @@ class P(Element):  # pylint: disable=invalid-name
     """p "paragraph" tagged element"""
 
     tag = "p"
+
+
+class Head(Element):
+    """head tagged element"""
+
+    tag = "head"
+
+
+class OneLineTag(Element):
+    """Element sub-class for elements that should be printed in one line."""
+
+    content_join = ""
+
+
+class Title(OneLineTag):
+    """title tagged element that prints on one line"""
+
+    tag = "title"
+
