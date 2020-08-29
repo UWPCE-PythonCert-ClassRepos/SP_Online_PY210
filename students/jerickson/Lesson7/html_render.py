@@ -36,6 +36,10 @@ class Element:
         ]
         return f"<{self.tag}{''.join(attributes_text)}>"
 
+    def close_tag(self):
+        """Generates the opening tag of the element"""
+        return f"</{self.tag}>"
+
     def append(self, new_content):
         """
         Appends the new internal content to be contained within this element
@@ -64,7 +68,7 @@ class Element:
             except AttributeError:
                 out_file.write(sub_content)
                 out_file.write(self.content_join)
-        out_file.write(f"</{self.tag}>")
+        out_file.write(self.close_tag())
         out_file.write("\n")
 
 
@@ -103,3 +107,39 @@ class Title(OneLineTag):
 
     tag = "title"
 
+
+class SelfClosingTag(OneLineTag):
+    """Element sub-class for elements that self-close. Contains no content."""
+
+    def __init__(self, **kwargs):
+        super().__init__(content=None, **kwargs)
+
+    def set_attributes(self, **kwargs):
+        """Processes HTML attributes and add them to the element, forces no "content"."""
+        if "content" in kwargs:
+            raise TypeError
+        super().set_attributes(**kwargs)
+
+    def open_tag(self):
+        """Generates the open/close tag of the element"""
+        return super().open_tag().replace(">", " />")
+
+    def close_tag(self):
+        """No close tag for this element type."""
+        return ""
+
+    def append(self, *args, **kwargs):
+        """Cannot append in a self-closing-tag"""
+        raise TypeError("Cannot append content in a self-closing-tag")
+
+
+class Hr(SelfClosingTag):
+    """Hr "horizontal Line" tagged HTML element"""
+
+    tag = "hr"
+
+
+class Br(SelfClosingTag):
+    """br "Break" tagged HTML element"""
+
+    tag = "br"

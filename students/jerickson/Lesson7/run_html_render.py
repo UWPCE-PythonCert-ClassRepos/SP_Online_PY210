@@ -124,27 +124,32 @@ page.append(body)
 
 render_page(page, "test_html_output4.html")
 
-# # Step 5
-# #########
+# Step 5
+#########
+print("\n" + "Step 5".center(40, "-"))
 
-# page = hr.Html()
+page = hr.Html()
 
-# head = hr.Head()
-# head.append(hr.Title("PythonClass = Revision 1087:"))
+head = hr.Head()
+head.append(hr.Title("PythonClass = Revision 1087:"))
 
-# page.append(head)
+page.append(head)
 
-# body = hr.Body()
+body = hr.Body()
 
-# body.append(hr.P("Here is a paragraph of text -- there could be more of them, "
-#                  "but this is enough  to show that we can do some text",
-#               style="text-align: center; font-style: oblique;"))
+body.append(
+    hr.P(
+        "Here is a paragraph of text -- there could be more of them, "
+        "but this is enough  to show that we can do some text",
+        style="text-align: center; font-style: oblique;",
+    )
+)
 
-# body.append(hr.Hr())
+body.append(hr.Hr())
 
-# page.append(body)
+page.append(body)
 
-# render_page(page, "test_html_output5.html")
+render_page(page, "test_html_output5.html")
 
 # # Step 6
 # #########

@@ -294,6 +294,47 @@ def test_set_attribute_override():
     assert 'holy="grail"' in opening_tag
 
 
+########
+# Step 5
+########
+
+
+def test_self_closing():
+    """Test the extended kwargs functionality of Element"""
+    elem = hr.SelfClosingTag(style="eggs")
+
+    assert get_opening_tag(elem) == '<html style="eggs" />'
+
+
+def test_self_closing_content_errors():
+    """Test that self-closing-tags cannot accept content"""
+    with pytest.raises(TypeError):
+        elem = hr.SelfClosingTag(  # pylint: disable=too-many-function-args
+            "spam", style="eggs"
+        )
+    with pytest.raises(TypeError):
+        elem = hr.SelfClosingTag(content="spam", style="eggs")
+    with pytest.raises(TypeError):
+        elem = hr.SelfClosingTag(style="eggs")
+        elem.append("spam")
+
+
+def test_hr():
+    """Test hr element"""
+    elem = hr.Hr(style="eggs")
+    elem.set_attributes(id="spam")
+
+    assert get_opening_tag(elem) == '<hr style="eggs" id="spam" />'
+
+
+def test_br():
+    """Test br element"""
+    elem = hr.Br(style="eggs")
+    elem.set_attributes(id="spam")
+
+    assert get_opening_tag(elem) == '<br style="eggs" id="spam" />'
+
+
 # #####################
 # # indentation testing
 # #  Uncomment for Step 9 -- adding indentation
