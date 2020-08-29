@@ -13,7 +13,7 @@ import html_render as hr
 
 
 # writing the file out:
-def render_page(page, filename, indent=None):
+def render_page(page, filename, indent=None):  # pylint: disable=redefined-outer-name
     """
     render the tree of elements
 
@@ -21,7 +21,7 @@ def render_page(page, filename, indent=None):
     write to file -- very handy!
     """
 
-    f = StringIO()
+    f = StringIO()  # pylint: disable=invalid-name
     if indent is None:
         page.render(f)
     else:
@@ -35,7 +35,7 @@ def render_page(page, filename, indent=None):
 
 # Step 1
 #########
-
+print("\n" + "Step 1".center(40, "-"))
 page = hr.Element()
 
 page.append(
@@ -50,21 +50,27 @@ render_page(page, "test_html_output1.html")
 # The rest of the steps have been commented out.
 #  Uncomment them as you move along with the assignment.
 
-# ## Step 2
-# ##########
+## Step 2
+##########
+print("\n" + "Step 2".center(40, "-"))
+page = hr.Html()
 
-# page = hr.Html()
+body = hr.Body()
 
-# body = hr.Body()
+body.append(
+    hr.P(
+        "Here is a paragraph of text -- there could be more of them, "
+        "but this is enough  to show that we can do some text"
+    )
+)
 
-# body.append(hr.P("Here is a paragraph of text -- there could be more of them, "
-#                  "but this is enough  to show that we can do some text"))
+body.append(
+    hr.P("And here is another piece of text -- you should be able to add any number")
+)
 
-# body.append(hr.P("And here is another piece of text -- you should be able to add any number"))
+page.append(body)
 
-# page.append(body)
-
-# render_page(page, "test_html_output2.html")
+render_page(page, "test_html_output2.html")
 
 # # Step 3
 # ##########
