@@ -237,7 +237,7 @@ def test_title():  # pylint: disable=missing-function-docstring
 ########
 
 
-def get_opening_tag(element):
+def get_opening_line(element):
     """Gets only the opening tag of a potentially nested element"""
     return render_result(element).split("\n")[0]
 
@@ -246,7 +246,7 @@ def test_extended_init():
     """Test the extended kwargs functionality of Element"""
     elem = hr.Element("this is some text", id="spam", style="eggs")
 
-    assert get_opening_tag(elem) == '<html id="spam" style="eggs">'
+    assert get_opening_line(elem) == '<html id="spam" style="eggs">'
 
 
 def test_class_attributes():
@@ -254,16 +254,16 @@ def test_class_attributes():
 
     string_class_dict = {"class": "spam"}
     string_class = hr.Element("this is some text", **string_class_dict)
-    assert get_opening_tag(string_class) == '<html class="spam">'
+    assert get_opening_line(string_class) == '<html class="spam">'
 
     clas = hr.Element("this is some text", clas="spam")  # cspell:disable-line
-    assert get_opening_tag(clas) == '<html class="spam">'  # cspell:disable-line
+    assert get_opening_line(clas) == '<html class="spam">'  # cspell:disable-line
 
     _clas = hr.Element("this is some text", _clas="spam")  # cspell:disable-line
-    assert get_opening_tag(_clas) == '<html class="spam">'  # cspell:disable-line
+    assert get_opening_line(_clas) == '<html class="spam">'  # cspell:disable-line
 
     _class = hr.Element("this is some text", _class="spam")  # cspell:disable-line
-    assert get_opening_tag(_class) == '<html class="spam">'  # cspell:disable-line
+    assert get_opening_line(_class) == '<html class="spam">'  # cspell:disable-line
 
 
 def test_set_attribute():
@@ -272,7 +272,7 @@ def test_set_attribute():
     elem.set_attributes(holy="grail", answer=42)
 
     assert (
-        get_opening_tag(elem)
+        get_opening_line(elem)
         == '<html id="spam" style="eggs" holy="grail" answer="42">'
     )
 
@@ -287,7 +287,7 @@ def test_set_attribute_override():
     )
     elem.set_attributes(holy="grail", answer=42, _clas="eggs")  # cspell:disable-line
 
-    opening_tag = get_opening_tag(elem)
+    opening_tag = get_opening_line(elem)
     assert 'style="cheese"' in opening_tag
     assert 'answer="42"' in opening_tag
     assert 'class="eggs"' in opening_tag
@@ -303,7 +303,7 @@ def test_self_closing():
     """Test the extended kwargs functionality of Element"""
     elem = hr.SelfClosingTag(style="eggs")
 
-    assert get_opening_tag(elem) == '<html style="eggs" />'
+    assert get_opening_line(elem) == '<html style="eggs" />'
 
 
 def test_self_closing_content_errors():
@@ -324,7 +324,7 @@ def test_hr():
     elem = hr.Hr(style="eggs")
     elem.set_attributes(id="spam")
 
-    assert get_opening_tag(elem) == '<hr style="eggs" id="spam" />'
+    assert get_opening_line(elem) == '<hr style="eggs" id="spam" />'
 
 
 def test_br():
@@ -332,7 +332,19 @@ def test_br():
     elem = hr.Br(style="eggs")
     elem.set_attributes(id="spam")
 
-    assert get_opening_tag(elem) == '<br style="eggs" id="spam" />'
+    assert get_opening_line(elem) == '<br style="eggs" id="spam" />'
+
+
+########
+# Step 6
+########
+
+
+def test_anchor():
+    """Test the extended kwargs functionality of Element"""
+    elem = hr.A(link="google.com", content="some spam", style="eggs")
+
+    assert get_opening_line(elem) == '<a href="google.com" style="eggs">some spam</a>'
 
 
 # #####################

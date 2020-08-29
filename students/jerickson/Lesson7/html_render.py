@@ -143,3 +143,12 @@ class Br(SelfClosingTag):
     """br "Break" tagged HTML element"""
 
     tag = "br"
+
+
+class A(OneLineTag):  # pylint: disable=invalid-name
+    """a "Anchor" tagged HTML element"""
+
+    tag = "a"
+
+    def __init__(self, link="", content=None, **kwargs):
+        super().__init__(content=content, href=link, **kwargs)
