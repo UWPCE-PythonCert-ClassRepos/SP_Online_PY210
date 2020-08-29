@@ -93,28 +93,28 @@ With your gift of ${donation}, means (10) or (20) more schools can be built to h
 \n
 Sincerely,\n
 Derek Zoolander\n
-Founder and C.E.O. of Derek Zoolander Charity for Ants Who Can't Read Good (DZCAWCRG)"""
+Founder and C.E.O. of Derek Zoolander Charity for Ants Who Can't Read Good (DZCAWCRG)\n"""
     return body
 
 
 #Create Report
-def print_report(my_List = []):
+def print_report(my_List = {}):
     #Header
+    print("\n")
     print("{0:<25s}|{1:^15s}|{2:^15s}|{3:>12s}".format("Donor Name", "Total Given", "# of Gifts","Avg. Gift"))
     print("-" * 72)
+    
     #Table Data
-    for i in range(len(my_List)):
-        #Process Data
-        #Donor
-        col = my_List[i][1]
-        #Sum Total 
-        total = sum(col)
+    for k, v in sorted(donors.items(), key=lambda t: sum(t[1]), reverse=True):
+        #Process Data 
+        total = sum(v)
         #Gift Count  
-        No_Gifts = len(my_List[i][1])
+        No_Gifts = len(v)
         #Calc Average
         Ave_Gift = total / No_Gifts
         #Print Table
-        print("{0:<25s}${1:>14.2f}{2:>17d}  ${3:>11.2f}".format(my_List[i][0],total, No_Gifts, Ave_Gift, end =''))    
+        print("{0:<25s}${1:>14.2f}{2:>17d}  ${3:>11.2f}".format(k, total, No_Gifts, Ave_Gift, end =''))
+    print("\n") 
     return
 
 #Send Letter
