@@ -87,17 +87,17 @@ def thank_you():
             print_donors()
         else:
             try:
-                donation_amount = float(input("Please enter donation amount:"
+                donation_amount = float(input("\nPlease enter donation amount:"
                                               "\n>>"))
                 if donation_amount <= 0:
                     raise ValueError
             except ValueError:
-                print("Please only enter a single positive number for donation"
-                      " amount\n")
+                print("\nPlease only enter a single positive number for "
+                      "donation amount\n")
             else:
                 add_donation(ty_input, donation_amount)
                 print(
-                    "\n", create_email(ty_input, donation_amount), sep=""
+                    "\n", create_email_text(ty_input, donation_amount), sep=""
                     )
                 break
 
@@ -109,7 +109,7 @@ def print_donors():
     print()
 
 
-def create_email(donor_name, donation_amount):
+def create_email_text(donor_name, donation_amount):
     '''
     Takes a donor's name and donation amount as parameters, and then creates
     an email template thanking them for their donation
@@ -138,24 +138,23 @@ def create_report():
     amount.  Includes donor name, total donated, number of donations,
     and average donation amount.
     '''
+    print("\nDonor Name" + " "*15 + "|  Total Given  | Num Gifts |   "
+          "Average Gift")
+    print("- "*36)
+    for row in get_report_text():
+        print(row)
+    print()
+
+
+def get_report_text():
 
     def sort_key(donor):
         # sorting by the sum of donations
         return sum(donors[donor])
 
-    donor_keys_by_total = sorted(donors, key=sort_key, reverse=True)
-
-    print("\nDonor Name" + " "*15 + "|  Total Given  | Num Gifts |   "
-          "Average Gift")
-    print("- "*36)
-    for row in get_report_text(donor_keys_by_total):
-        print(row)
-    print()
-
-
-def get_report_text(keys):
+    keys_by_sum = sorted(donors, key=sort_key, reverse=True)
     text_list = []
-    for key in keys:
+    for key in keys_by_sum:
         donor_name = key
         donor_sum = sum(donors[key])
         donor_count = len(donors[key])
@@ -168,7 +167,7 @@ def get_report_text(keys):
 def write_letters():
     for key in donors:
         with open(f'{key}.txt', 'w') as f:
-            f.write(create_email(key, donors[key][-1]))
+            f.write(create_email_text(key, donors[key][-1]))
     print()
 
 # Run unit tests
@@ -178,7 +177,11 @@ def test_add_donation():
     print(donors)
 
 
-def test_create_email():
+def test_get_report_text():
+    pass
+
+
+def test_create_email_text():
     text = ("Dear Donor,\n\n"
             "It is with incredible gratitude that we accept your wonderfully "
             "generous donation of $1,000.00.  Your "
@@ -186,7 +189,7 @@ def test_create_email():
             "towards funding our common goal."
             "\n\nEver Greatefully Yours,\n\n"
             "X" + ("_" * 20) + "\n")
-    assert create_email("Donor", 1000) == text
+    assert create_email_text("Donor", 1000) == text
 
 
 if __name__ == "__main__":
