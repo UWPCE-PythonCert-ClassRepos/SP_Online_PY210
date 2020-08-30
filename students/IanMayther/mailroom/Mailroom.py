@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+import pathlib
+import io
+
 #DELIVERABLES
 '''
 Use dicts where appropriate.
@@ -119,9 +122,17 @@ def print_report(my_List = {}):
 
 #Send Letter
 def send_letter():
-    print("Sending Letter")
+    path = pathlib.Path.cwd()
+    for k, v in donors.items():
+        file_name = k + '_Thank you Letter.txt'
+        with open(file_name, 'w') as l:
+            l.write(email(k, sum(v)))
+    print(f"Sending Letters to disk: {path}\n")
     pass
 
+
+
+#Quit
 def quit():
     print("Quitting, Thank you.")
     return "quit"
