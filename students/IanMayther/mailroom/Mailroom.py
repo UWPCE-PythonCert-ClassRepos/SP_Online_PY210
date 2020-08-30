@@ -8,7 +8,7 @@ import io
 Use dicts where appropriate.
 See if you can use a dict to switch between the user’s selections.
 See if you can use a dict to switch between the users selections. see Using a Dictionary to switch for what this means.
-Convert your main donor data structure to be a dict. - Complete
+Convert your main donor data structure to be a dict.
 Try to use a dict and the .format() method to produce the letter as one big template, rather than building up a big string that produces the letter in parts.
 '''
 

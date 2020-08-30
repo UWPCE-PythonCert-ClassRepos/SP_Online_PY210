@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-words = "I wish I may I wish I might"
+words = "I wish I may I wish I might".split()
 
 def build_trigrams(words):
     """
@@ -12,7 +12,15 @@ def build_trigrams(words):
     """
     trigrams = {}
 
-    # build up the dict here!
+    for i in range(len(words)-2):
+        temp_list = []
+        pair = tuple(words[i:i+2])
+        follower = words[i+2]
+        temp_list.append(follower)
+        if pair not in trigrams:
+            trigrams[pair] = temp_list
+        else:
+            trigrams[pair].append(follower)
 
     return trigrams
 
