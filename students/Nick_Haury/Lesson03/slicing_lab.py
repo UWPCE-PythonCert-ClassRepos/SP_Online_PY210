@@ -5,6 +5,7 @@ in Python.  The functions will take a sequence as an argument, and then
 return a copy of that sequence with some change made to the sequence.
 '''
 
+
 def exchange_first_last(sequence):
     '''
     Takes a sequence (string, etc.) as an argument, and then returns
@@ -13,6 +14,7 @@ def exchange_first_last(sequence):
 
     return sequence[-1:] + sequence[1:-1] + sequence[:1]
 
+
 def remove_every_other(sequence):
     '''
     Takes a sequence as an argument, and then returns a copy of that
@@ -20,6 +22,7 @@ def remove_every_other(sequence):
     '''
 
     return sequence[::2]
+
 
 def remove_first_last_four_then_every_other(sequence):
     '''
@@ -31,6 +34,7 @@ def remove_first_last_four_then_every_other(sequence):
 
     return sequence[4:-4:2]
 
+
 def reverse(sequence):
     '''
     Takes a sequence as an argument, and then returns a copy of that
@@ -39,15 +43,17 @@ def reverse(sequence):
 
     return sequence[::-1]
 
+
 def swap_thirds(sequence):
     '''
     Takes a sequence as an argument, and then returns a copy of that
     sequence with the following change: take the sequence and break it
-    into thirds.  Change the order to be the last third, the first 
+    into thirds.  Change the order to be the last third, the first
     third, and then the middle third.
     '''
 
     return sequence[len(sequence)//3:] + sequence[:len(sequence)//3]
+
 
 if __name__ == "__main__":
     # create sequences to test
@@ -61,7 +67,7 @@ if __name__ == "__main__":
     assert exchange_first_last(a_string) == "ghis is a strint"
     assert exchange_first_last(a_tuple) == (32, 54, 13, 12, 5, 2)
     assert exchange_first_last(a_list) == [10, 2, 3, 4, 5, 6, 1]
-    
+
     assert remove_every_other(a_string) == "ti sasrn"
     assert remove_every_other(a_tuple) == (2, 13, 5)
     assert remove_every_other(a_list) == [1, 3, 5, 10]
