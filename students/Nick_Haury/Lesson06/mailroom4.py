@@ -124,7 +124,7 @@ def create_email_text(donor_name, donation_amount):
            "X" + ("_" * 20) + "\n")
 
 
-def add_donation(donor_name, donation_amount):
+def add_donation(donor_name, donation_amount, donors=donors):
     '''
     Adds donation amount to donor's list of donations.  If donor does not exist
     yet, they are created and added to the donor dictionary.
@@ -200,8 +200,33 @@ def test_get_donor_list_3():
     assert get_donor_list(donors) == expected_list
 
 
-def test_add_donation():
-    print(donors)
+def test_add_donation_1():
+    # adds single donor and donation as expected
+    donors = {
+              "William Gates, III": [653772.32, 12.17],
+              "Mark Zuckerberg": [1663.23, 4300.87, 10432.0],
+              "Jeff Bezos": [877.33],
+              "Paul Allen": [663.23, 43.87, 1.32]
+    }
+    donor_name = "The Dude"
+    donation_amount = 100.00
+    expected_dict = {
+              "William Gates, III": [653772.32, 12.17],
+              "Mark Zuckerberg": [1663.23, 4300.87, 10432.0],
+              "Jeff Bezos": [877.33],
+              "Paul Allen": [663.23, 43.87, 1.32],
+              "The Dude": [100.0]
+    }
+    add_donation(donor_name, donation_amount, donors)
+    assert donors == expected_dict
+
+
+def test_add_donation_2():
+    # correctly adds donation if donor already in dict
+    donors = {"William Gates, III": [653772.32, 12.17]}
+    expected_dict = {"William Gates, III": [653772.32, 12.17, 100.0]}
+    add_donation("William Gates, III", 100.00, donors)
+    assert donors == expected_dict
 
 
 def test_get_report_text_1():
