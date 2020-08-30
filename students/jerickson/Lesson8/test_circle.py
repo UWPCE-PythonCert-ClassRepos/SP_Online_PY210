@@ -174,3 +174,64 @@ def test_circle_div_augmented():
     inst1 = circle.Circle(42)
     inst1 /= 2
     assert repr(inst1) == "Circle(21.00)"
+
+
+########
+# Step 9
+########
+
+
+def test_sphere_init():
+    """Tests the Sphere init"""
+    inst = circle.Sphere(42)
+    assert inst.radius == 42
+
+
+def test_sphere_str():
+    """Tests the str(Circle) return value"""
+    inst = circle.Sphere(42)
+    assert str(inst) == "Sphere with radius: 42.00"
+
+
+def test_sphere_repr():
+    """Tests the repr(Circle) return value"""
+    inst = circle.Sphere(42)
+    assert repr(inst) == "Sphere(42.00)"
+
+
+def test_sphere_vol_get():
+    """Tests the sphere volume can be retrieved"""
+    inst = circle.Sphere(42)
+    assert inst.volume == (4 / 3) * math.pi * (inst.radius ** 3)
+
+
+def test_sphere_vol_set():
+    """Tests that volume can not be set"""
+    inst = circle.Sphere(42)
+    with pytest.raises(AttributeError):
+        inst.volume = 42
+
+
+def test_sphere_area_get():
+    """Tests that area can not be retrieved"""
+    inst = circle.Sphere(42)
+    with pytest.raises(NotImplementedError):
+        print(inst.area)
+
+
+def test_sphere_surface_area_get():
+    """Tests the sphere surface area can be retrieved"""
+    inst = circle.Sphere(42)
+    assert inst.surface_area == 4 * math.pi * (inst.radius ** 2)
+
+
+def test_sphere_cross_area_get():
+    """Tests that cross-sectional area can be retrieved"""
+    inst = circle.Sphere(42)
+    assert inst.cross_area == math.pi * (inst.radius ** 2)
+
+
+def test_sphere_alt_construct_from_diameter():
+    """Tests that a circle can be constructed from the diameter"""
+    inst = circle.Sphere.from_diameter(42)
+    assert inst.radius == 21

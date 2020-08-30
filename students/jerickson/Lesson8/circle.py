@@ -1,4 +1,4 @@
-"""Implements the Circle class"""
+"""Implements the Circle & Circle classes"""
 
 import math
 
@@ -79,3 +79,32 @@ class Circle:
         return self.__class__(radius=radius)
 
     __rmul__ = __mul__
+
+
+class Sphere(Circle):
+    """Add a dimension to a circle."""
+
+    def __str__(self):
+        return super().__str__().replace("Circle", "Sphere")
+
+    def __repr__(self):
+        return super().__repr__().replace("Circle", "Sphere")
+
+    @property
+    def volume(self):
+        """Gets the volume"""
+        return 4 / 3 * math.pi * self.radius ** 3
+
+    @property
+    def area(self):
+        raise NotImplementedError("Area is ambiguous, use surface_area or cross_area")
+
+    @property
+    def cross_area(self):
+        """Gets the cross-sectional area"""
+        return super().area
+
+    @property
+    def surface_area(self):
+        """Gets the surface area"""
+        return 4 * math.pi * self.radius ** 2
