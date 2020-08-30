@@ -57,9 +57,9 @@ def main():
 
     while True:
         choice = input(prompt)
-        if choice in choice_dict:
+        try:
             choice_dict[choice]()
-        else:
+        except KeyError:
             print(str(choice) + " is an invalid selection, "
                   "please make a valid selection \n")
 
