@@ -84,7 +84,10 @@ def thank_you():
                          'donation for:\n>>')
 
         if ty_input.lower() == "list":
-            print_donors()
+            print("\nCurrent Donors: ")
+            for row in get_donor_list():
+                print(row)
+            print()
         else:
             try:
                 donation_amount = float(input("\nPlease enter donation amount:"
@@ -102,11 +105,8 @@ def thank_you():
                 break
 
 
-def print_donors():
-    print("\nCurrent Donors: ")
-    for donor in donors:
-        print(donor)
-    print()
+def get_donor_list(donors=donors):
+    return list(donors.keys())
 
 
 def create_email_text(donor_name, donation_amount):
