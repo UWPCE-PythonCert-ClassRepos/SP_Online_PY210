@@ -164,7 +164,7 @@ def get_report_text(donors=donors):
     return text_list
 
 
-def write_letters():
+def write_letters(donors=donors):
     for key in donors:
         with open(f'{key}.txt', 'w') as f:
             f.write(create_email_text(key, donors[key][-1]))
@@ -285,6 +285,17 @@ def test_get_report_text_4():
         "          236.14"
     ]
     assert get_report_text(donors) == expected_list
+
+
+def test_write_letters():
+    # files are created in directory
+    donors = {
+            "test1": [663.23, 43.87, 1.32],
+            "test2": [877.33]
+    }
+    write_letters(donors)
+    for donor in donors:
+        assert path.exists(f"{donor}.txt")
 
 
 def test_create_email_text():
