@@ -2,9 +2,9 @@
 import sys  # importing for script exit functionality
 
 '''
-This is the Lesson04 rendition of the mailroom program.  Copying the original
+This is the Lesson05 rendition of the mailroom program.  Copying the dictionary
 mailroom program, but then attempting to replace functionality with
-dictionaries wherever sensible to do so.
+exceptions and comprehensions wherever sensible to do so.
 
 Program starts with a list of donors toupled with a list of amounts they have
 donated in the past.  The program gives a user the option to add new donations
@@ -82,13 +82,24 @@ def thank_you():
                          'Otherwise enter a name you would like to add a '
                          'donation for:\n>>')
 
-        if ty_input == "list":
+        if ty_input.lower() == "list":
             print_donors()
         else:
-            donation_amount = input("Please enter donation amount:\n>>")
-            add_donation(ty_input, donation_amount)
-            print("\n", print_email(ty_input, donation_amount), sep="")
-            break
+            try:
+                donation_amount = float(input("Please enter donation amount:"
+                                              "\n>>"))
+            except ValueError:
+                print("Please only enter a single number for donation"
+                      " amount\n")
+            else:
+                if donation_amount > 0:
+                    add_donation(ty_input, donation_amount)
+                    print(
+                        "\n", create_email(ty_input, donation_amount), sep=""
+                        )
+                    break
+                else:
+                    print("Please enter a positive number\n")
 
 
 def print_donors():
@@ -98,7 +109,7 @@ def print_donors():
     print()
 
 
-def print_email(donor_name, donation_amount):
+def create_email(donor_name, donation_amount):
     '''
     Takes a donor's name and donation amount as parameters, and then creates
     an email template thanking them for their donation
@@ -106,7 +117,7 @@ def print_email(donor_name, donation_amount):
 
     return(f"Dear {donor_name},\n\n"
            f"It is with incredible gratitude that we accept your wonderfully "
-           f"generous donation of ${float(donation_amount):,.2f}.  Your "
+           f"generous donation of ${donation_amount:,.2f}.  Your "
            "contribution will truly make a difference in the path forward "
            "towards funding our common goal."
            "\n\nEver Greatefully Yours,\n\n"
@@ -118,7 +129,7 @@ def add_donation(donor_name, donation_amount):
     Adds donation amount to donor's list of donations.  If donor does not exist
     yet, they are created and added to the donor dictionary.
     '''
-    donors.setdefault(donor_name, []).append(float(donation_amount))
+    donors.setdefault(donor_name, []).append(donation_amount)
 
 
 def create_report():
@@ -143,14 +154,13 @@ def create_report():
         donor_count = len(donors[key])
         donor_average = donor_sum/donor_count
         print(f"{donor_name:26}${donor_sum:14,.2f}{donor_count:11}  "
-              f"${donor_average:16,.2f}")
-    print()
+              f"${donor_average:16,.2f}\n")
 
 
 def write_letters():
     for key in donors:
         with open(f'{key}.txt', 'w') as f:
-            f.write(print_email(key, donors[key][-1]))
+            f.write(create_email(key, donors[key][-1]))
     print()
 
 
