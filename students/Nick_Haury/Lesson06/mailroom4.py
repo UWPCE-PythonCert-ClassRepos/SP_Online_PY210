@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import sys  # importing for script exit functionality
+import os.path as path  # for testing file creation
 
 '''
 This is the Lesson05 rendition of the mailroom program.  Copying the dictionary
@@ -144,16 +145,24 @@ def create_report():
 
     donor_keys_by_total = sorted(donors, key=sort_key, reverse=True)
 
-    print("Donor Name" + " "*15 + "|  Total Given  | Num Gifts |   "
+    print("\nDonor Name" + " "*15 + "|  Total Given  | Num Gifts |   "
           "Average Gift")
     print("- "*36)
-    for key in donor_keys_by_total:
+    for row in get_report_text(donor_keys_by_total):
+        print(row)
+    print()
+
+
+def get_report_text(keys):
+    text_list = []
+    for key in keys:
         donor_name = key
         donor_sum = sum(donors[key])
         donor_count = len(donors[key])
         donor_average = donor_sum/donor_count
-        print(f"{donor_name:26}${donor_sum:14,.2f}{donor_count:11}  "
-              f"${donor_average:16,.2f}\n")
+        text_list.append(f"{donor_name:26}${donor_sum:14,.2f}{donor_count:11}"
+                         f"  ${donor_average:16,.2f}")
+    return text_list
 
 
 def write_letters():
@@ -162,20 +171,23 @@ def write_letters():
             f.write(create_email(key, donors[key][-1]))
     print()
 
-# Run tests
+# Run unit tests
+
 
 def test_add_donation():
     print(donors)
 
+
 def test_create_email():
     text = ("Dear Donor,\n\n"
-        "It is with incredible gratitude that we accept your wonderfully "
-        "generous donation of $1,000.00.  Your "
-        "contribution will truly make a difference in the path forward "
-        "towards funding our common goal."
-        "\n\nEver Greatefully Yours,\n\n"
-        "X" + ("_" * 20) + "\n")
+            "It is with incredible gratitude that we accept your wonderfully "
+            "generous donation of $1,000.00.  Your "
+            "contribution will truly make a difference in the path forward "
+            "towards funding our common goal."
+            "\n\nEver Greatefully Yours,\n\n"
+            "X" + ("_" * 20) + "\n")
     assert create_email("Donor", 1000) == text
+
 
 if __name__ == "__main__":
     '''
