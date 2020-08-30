@@ -146,7 +146,7 @@ def create_report():
     print()
 
 
-def get_report_text():
+def get_report_text(donors=donors):
 
     def sort_key(donor):
         # sorting by the sum of donations
@@ -177,8 +177,62 @@ def test_add_donation():
     print(donors)
 
 
-def test_get_report_text():
-    pass
+def test_get_report_text_1():
+    # works with default donor dict
+    donors = {
+              "William Gates, III": [653772.32, 12.17],
+              "Mark Zuckerberg": [1663.23, 4300.87, 10432.0],
+              "Jeff Bezos": [877.33],
+              "Paul Allen": [663.23, 43.87, 1.32]
+    }
+    expected_list = [
+        "William Gates, III        $    653,784.49          2  $"
+        "      326,892.24",
+        "Mark Zuckerberg           $     16,396.10          3  $"
+        "        5,465.37",
+        "Jeff Bezos                $        877.33          1  $"
+        "          877.33",
+        "Paul Allen                $        708.42          3  $"
+        "          236.14"
+    ]
+    assert get_report_text(donors) == expected_list
+
+
+def test_get_report_text_2():
+    # works with 1 donor in dict
+    donors = {"William Gates, III": [653772.32, 12.17]}
+    expected_list = [
+        "William Gates, III        $    653,784.49          2  $"
+        "      326,892.24"]
+    assert get_report_text(donors) == expected_list
+
+
+def test_get_report_text_3():
+    # works with empty donor dict
+    donors = {}
+    expected_list = []
+    assert get_report_text(donors) == expected_list
+
+
+def test_get_report_text_4():
+    # works with initial dict in backwards summation order
+    donors = {
+            "Paul Allen": [663.23, 43.87, 1.32],
+            "Jeff Bezos": [877.33],
+            "Mark Zuckerberg": [1663.23, 4300.87, 10432.0],
+            "William Gates, III": [653772.32, 12.17]
+    }
+    expected_list = [
+        "William Gates, III        $    653,784.49          2  $"
+        "      326,892.24",
+        "Mark Zuckerberg           $     16,396.10          3  $"
+        "        5,465.37",
+        "Jeff Bezos                $        877.33          1  $"
+        "          877.33",
+        "Paul Allen                $        708.42          3  $"
+        "          236.14"
+    ]
+    assert get_report_text(donors) == expected_list
 
 
 def test_create_email_text():
