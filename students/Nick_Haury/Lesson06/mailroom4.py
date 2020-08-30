@@ -173,6 +173,33 @@ def write_letters():
 # Run unit tests
 
 
+def test_get_donor_list_1():
+    # works with default donor dict
+    donors = {
+              "William Gates, III": [653772.32, 12.17],
+              "Mark Zuckerberg": [1663.23, 4300.87, 10432.0],
+              "Jeff Bezos": [877.33],
+              "Paul Allen": [663.23, 43.87, 1.32]
+    }
+    expected_list = ["William Gates, III", "Mark Zuckerberg", "Jeff Bezos",
+                     "Paul Allen"]
+    assert get_donor_list(donors) == expected_list
+
+
+def test_get_donor_list_2():
+    # works with single donor
+    donors = {"William Gates, III": [653772.32, 12.17]}
+    expected_list = ["William Gates, III"]
+    assert get_donor_list(donors) == expected_list
+
+
+def test_get_donor_list_3():
+    # works with empty donor dict
+    donors = {}
+    expected_list = []
+    assert get_donor_list(donors) == expected_list
+
+
 def test_add_donation():
     print(donors)
 
