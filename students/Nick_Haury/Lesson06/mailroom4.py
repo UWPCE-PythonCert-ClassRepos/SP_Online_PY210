@@ -57,9 +57,9 @@ def main():
 
     while True:
         choice = input(prompt)
-        if choice in choice_dict:
+        try:
             choice_dict[choice]()
-        else:
+        except KeyError:
             print(str(choice) + " is an invalid selection, "
                   "please make a valid selection \n")
 
@@ -88,18 +88,17 @@ def thank_you():
             try:
                 donation_amount = float(input("Please enter donation amount:"
                                               "\n>>"))
+                if donation_amount <= 0:
+                    raise ValueError
             except ValueError:
-                print("Please only enter a single number for donation"
+                print("Please only enter a single positive number for donation"
                       " amount\n")
             else:
-                if donation_amount > 0:
-                    add_donation(ty_input, donation_amount)
-                    print(
-                        "\n", create_email(ty_input, donation_amount), sep=""
-                        )
-                    break
-                else:
-                    print("Please enter a positive number\n")
+                add_donation(ty_input, donation_amount)
+                print(
+                    "\n", create_email(ty_input, donation_amount), sep=""
+                    )
+                break
 
 
 def print_donors():
@@ -163,6 +162,20 @@ def write_letters():
             f.write(create_email(key, donors[key][-1]))
     print()
 
+# Run tests
+
+def test_add_donation():
+    print(donors)
+
+def test_create_email():
+    text = ("Dear Donor,\n\n"
+        "It is with incredible gratitude that we accept your wonderfully "
+        "generous donation of $1,000.00.  Your "
+        "contribution will truly make a difference in the path forward "
+        "towards funding our common goal."
+        "\n\nEver Greatefully Yours,\n\n"
+        "X" + ("_" * 20) + "\n")
+    assert create_email("Donor", 1000) == text
 
 if __name__ == "__main__":
     '''
