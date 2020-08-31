@@ -57,6 +57,11 @@ def Series2():
 		Series3
 	"""
 def Series3():
+	""" Ask the user "do you like Apples?" for every
+	item in the list. 
+	For each no delete the item from the list.
+	For any answer that is not "yes" or "no". prompt the user
+	to answer with one of those two values."""
 	list3 = ["Apples", "Pears", "Oranges", "Peaches"]
 	list3_copy = list3[0:]
 	for i in list3:
@@ -70,12 +75,16 @@ def Series3():
 				list3_copy.remove(i)
 				break
 			else:
+				print("Answer with one of the two values 'yes' or 'no'")
 				pass
 	print(list3_copy)
 
 def Series4():
 	list4 = ["Apples", "Pears", "Oranges", "Peaches"]
+	#Make a list with the contents of the original,
+	#but, with all the letters in each item reversed.
 	list4_new = [i[::-1] for i in list4]
+	#Delete the last item of the original list.
 	list4.pop()
 	print(list4)
 	print(list4_new)
