@@ -1,0 +1,6 @@
+simple_classes.py
+__pycache__/
+.vscode
+*.txt
+walnut_party.py
+test_walnut_party.py
