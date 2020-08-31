@@ -73,8 +73,13 @@ class Donor:
         -------
         text: str
             Thank you message
+
+        Raises
+        ------
+        IndexError, subclass of LookupError
+            If donor has not made any donations
         """
-        last_donation = self.donations[-1]
+        last_donation = self.donations[-1]  # Raises LookupError(IndexError) if empty
         time_s = "times" if self.total_gifts > 1 else "time"
         text = (
             f"Thank you {self.name}"
@@ -85,7 +90,19 @@ class Donor:
         return text
 
     def thank_you_overall(self):
+        """
+        Return a personalized thank-you message to the donor for their overall donations.
 
+        Returns
+        -------
+        text: str
+            Thank you message
+
+        Raises
+        ------
+        LookupError
+            If donor has not made any donations
+        """
         if not self.donations:
             raise LookupError("Donor has not made any donations.")
         time_s = (
@@ -98,3 +115,37 @@ class Donor:
             f"{'':>40}Best Regards,\n{'':>40}Jacob Erickson"
         )
         return text
+
+
+class Record:
+    """Holds all donation data for the charity"""
+
+    def __init__(self):
+        self.donors = {}
+
+    def add_donor(self, new_donor):
+        """
+        Adds a donor to the charity's record.
+
+        Stores donors in dict{name: Donor Object}
+
+        Parameters
+        ----------
+        new_donor : Donor
+            Donor data
+        """
+        self.donors[new_donor.name] = new_donor
+
+    @property
+    def donor_list(self):
+        """
+        Return the list of donor names in record, sorted by decending total_given.
+
+        Returns
+        -------
+        list
+            All Donor names sorted decending by donor's total_given
+        """
+        return sorted(
+            self.donors, key=lambda name: self.donors[name].total_given, reverse=True
+        )
