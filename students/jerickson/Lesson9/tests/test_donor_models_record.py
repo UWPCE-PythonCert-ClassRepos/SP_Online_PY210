@@ -7,6 +7,7 @@ Test Cases:
 # pylint: disable=invalid-name
 # pylint: disable=no-self-use
 # pylint: disable=redefined-outer-name
+# pylint: disable=too-few-public-methods
 
 import pytest
 
@@ -49,7 +50,7 @@ class Test_Record_Init:
             )
 
 
-class Test_Donor_Add_Donor:
+class Test_Record_Add_Donor:
     """Tests the mailroom.donor_models.Record.add_donor method."""
 
     @pytest.mark.parametrize(
@@ -61,7 +62,7 @@ class Test_Donor_Add_Donor:
             pytest.param(42, id="Numeric"),
         ],
     )
-    def test_donor_add_donor(self, DonorMock, name):
+    def test_record_add_donor(self, DonorMock, name):
         """Positive-Test-Cases"""
         # Setup
         record = donor_models.Record()
@@ -76,10 +77,10 @@ class Test_Donor_Add_Donor:
         assert name in record.donors
 
 
-class Test_Donor_Donor_List:
+class Test_Record_Donor_List:
     """Tests the mailroom.donor_models.Record.donor_list property."""
 
-    def test_donor_donor_list(self, DonorMock):
+    def test_record_donor_list(self, DonorMock):
         """Positive-Test-Cases"""
         # Setup
         donor_data = [
@@ -107,3 +108,77 @@ class Test_Donor_Donor_List:
             this_donor_amount = record.donors[donor].total_given
             assert this_donor_amount >= last_donor_amount
             last_donor_amount = this_donor_amount
+
+
+class Test_Record_Compose_Report:
+    """Tests the mailroom.donor_models.Record.compose_report method."""
+
+    @pytest.mark.parametrize(
+        "name_list, amount_list, num_gifts_list",
+        [
+            pytest.param(
+                ["aaa", "ddd", "ccc", "bbb", "eee"],
+                [9001, 1, 42, 300.2, 0],
+                [42, 1, 9, 1000, 1],  # 1 gift for zero donor, avoids ZeroDivisionError
+                id="non-empty",
+            ),
+            pytest.param([], [], [], id="empty"),
+            pytest.param(["Long" * 10, "short"], [3, 2], [3, 2], id="LongNameFormat",),
+        ],
+    )
+    def test_record_compose_report(
+        self, DonorMock, name_list, amount_list, num_gifts_list
+    ):  # pylint: disable=too-many-locals
+        """Positive-Test-Cases"""
+        # Setup
+        record = donor_models.Record()
+        report_components = {}
+        name_list_goal = []
+
+        # Mock
+        for name, amount, num_gifts in zip(name_list, amount_list, num_gifts_list):
+            name_list_goal.append((name, amount))
+            average_computed = float(amount / num_gifts)
+            report_components[
+                name
+            ] = f"{name} {num_gifts} {amount:.2f} {average_computed:.2f}".split()
+            donor = DonorMock(name=name)
+            donor.total_given = amount
+            donor.total_gifts = num_gifts
+            record.add_donor(donor)
+
+        name_list_goal_sorted = [
+            (name, amount)
+            for amount, name in sorted(zip(amount_list, name_list), reverse=True)
+        ]
+
+        # Execute
+        actual_report_list = record.compose_report()
+        actual_report_gen = (
+            line for line in actual_report_list
+        )  # Generator to test order
+
+        # Assert
+        for name, amount in name_list_goal_sorted:  # Test all rows are in order
+            if not amount:  # Skip donors with $0
+                continue
+            print(name)
+            while True:
+                report_line = next(actual_report_gen)
+                print(report_line)
+                if name not in report_line:  # Skip ASCII format-lines and headers
+                    continue
+                for report_component in report_components[name]:
+                    assert report_component in report_line
+                else:
+                    break
+
+        assert all(
+            [len(row) == len(actual_report_list[0]) for row in actual_report_list]
+        )  # Test the rows are all the same length
+
+        for (name, amount,) in name_list_goal_sorted:  # Test donors with $0 excluded
+            if amount:  # Skip donors with total_given != 0
+                continue
+            for report_line in actual_report_list:
+                assert name not in report_line

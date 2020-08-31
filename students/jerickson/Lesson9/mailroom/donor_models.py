@@ -1,5 +1,7 @@
 """Contains the DonationData and Donor classes"""
 
+import re
+
 
 class Donor:
     """Holds specific donor data"""
@@ -149,3 +151,49 @@ class Record:
         return sorted(
             self.donors, key=lambda name: self.donors[name].total_given, reverse=True
         )
+
+    def compose_report(self):
+        """
+        Return pretty-formatted report of all the donors.
+
+        If no donors, return is empty formatted table.
+
+        Returns
+        -------
+        report_list : list of str
+            List of strings for each row of the report.
+        """
+        header_columns = ["Name", "Total Given", "# Gifts", "Average Gift"]
+        report_list = []
+
+        # Create Name Field Dynamically
+        longest_name = max(self.donor_list + ["Name"], key=len)
+        name_field_dynamic = "{{:^{:d}}}".format(len(longest_name) + 2)
+
+        # Format report lines
+        report_header = "|{}|  {{:^12}}|{{:^13}}|  {{:^13}}|"
+        report_header = report_header.format(name_field_dynamic).format(*header_columns)
+
+        report_length = len(report_header)
+        report_break = re.sub("[^|]", "-", report_header).replace("|", "+")
+        report_end = "-" * report_length
+        report_title = "|{{:^{:d}}}|".format(report_length - 2).format("Donor Report")
+
+        # Print report Title and Header
+        report_list.extend([report_end, report_title, report_break, report_header])
+
+        # Print Sorted Donor Records
+        for name in self.donor_list:
+            total_given = self.donors[name].total_given
+            if not total_given:  # Exclude donors with 0 given
+                continue
+            num_gifts = self.donors[name].total_gifts
+            donor_average = float(total_given / num_gifts)
+            donor_string = "|{}| ${{:>12.2f}}|{{:^13d}}| ${{:>13.2f}}|".format(
+                name_field_dynamic
+            ).format(name, total_given, num_gifts, donor_average)
+
+            report_list.extend([report_break, donor_string])
+
+        report_list.append(report_end)
+        return report_list
