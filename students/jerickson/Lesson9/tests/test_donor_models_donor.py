@@ -1,4 +1,4 @@
-"""Unit Tests for mailroom.donor_models module
+"""Unit Tests for mailroom.donor_models module's Donor Class
 
 Test Cases:
     Positive: Case that runs without errors
