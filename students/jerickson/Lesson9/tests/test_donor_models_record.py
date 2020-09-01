@@ -11,7 +11,7 @@ Test Cases:
 
 import pytest
 
-# from pytest_mock import mocker  # pylint: disable=unused-import
+from pytest_mock import mocker  # pylint: disable=unused-import
 
 from mailroom import donor_models
 
@@ -26,6 +26,14 @@ def DonorMock():  # pylint: disable=invalid-name
         def __init__(self, name=""):
             self.name = name
             self.donations = []
+
+        def thank_you_overall(self):
+            """
+            Mocked method to support unit testing.
+
+            Will only run when attribute thank_you_message set within a test.
+            """
+            return self.thank_you_message  # pylint: disable=no-member
 
     return DonorMock
 
@@ -182,3 +190,44 @@ class Test_Record_Compose_Report:
                 continue
             for report_line in actual_report_list:
                 assert name not in report_line
+
+
+class Test_Record_Save_All_Donors_Emails:
+    """
+    Tests the mailroom.save_all_donor_emails method.
+
+    __builtins__.open() is mocked to allow intercept of email file
+        mocked_file created as context manager to get file.write() arguments
+    """
+
+    def test_record_save_all_donors_emails(self, mocker, DonorMock):  # , mocker):
+        """Positive-Test-Cases"""
+        # Setup
+        record = donor_models.Record()
+        donors_data = [("spam", "eggs"), ("foo", "bar")]
+
+        # Mock
+        for donor_name, message in donors_data:
+            donor = DonorMock(donor_name)
+            donor.thank_you_message = message
+            record.add_donor(donor)
+        zero_donor = DonorMock("zero_donor")  # Donor with $0 causes LookupError
+        mocker.patch.object(zero_donor, "thank_you_overall", side_effect=LookupError)
+        record.add_donor(zero_donor)
+
+        mocked_file = mocker.MagicMock()
+        mocked_file.__enter__.return_value = mocked_file  # Context Manager Mock
+        mocked_open = mocker.patch.object(
+            donor_models, "open", return_value=mocked_file
+        )
+
+        # Execute
+        record.save_all_donor_emails()
+
+        # Assert
+        assert mocked_open.call_count == len(donors_data)  # Correct # of open() calls
+        for i, (donor_name, message) in enumerate(donors_data):  # Correct call args
+            assert donor_name in mocked_open.call_args_list[i].args[0]
+            assert message == mocked_file.write.call_args_list[i].args[0]
+        for file_name in mocked_open.call_args_list:  # Assert $0 Donor is excluded
+            assert zero_donor not in file_name

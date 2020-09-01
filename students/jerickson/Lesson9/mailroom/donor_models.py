@@ -1,5 +1,6 @@
 """Contains the DonationData and Donor classes"""
 
+import os
 import re
 
 
@@ -156,7 +157,11 @@ class Record:
         """
         Return pretty-formatted report of all the donors.
 
+        Produces a 'pretty' ASCII formatted table
         If no donors, return is empty formatted table.
+        Donors are sorted in the report in decending order according to total-given amount.
+        Uses double braces "{{}}" in format strings to dynamically update name field to
+        accommodate long donor names without breaking report format.
 
         Returns
         -------
@@ -179,10 +184,10 @@ class Record:
         report_end = "-" * report_length
         report_title = "|{{:^{:d}}}|".format(report_length - 2).format("Donor Report")
 
-        # Print report Title and Header
+        # Append Report Title and Header
         report_list.extend([report_end, report_title, report_break, report_header])
 
-        # Print Sorted Donor Records
+        # Append Sorted Donor Records
         for name in self.donor_list:
             total_given = self.donors[name].total_given
             if not total_given:  # Exclude donors with 0 given
@@ -197,3 +202,18 @@ class Record:
 
         report_list.append(report_end)
         return report_list
+
+    def save_all_donor_emails(self):
+        """Write to disk thank-you emails for each donor."""
+        path = os.path.dirname(os.path.realpath(__file__))
+        file_id = 0
+        for donor_name, donor_data in self.donors.items():
+            try:
+                thank_you_message = donor_data.thank_you_overall()
+            except LookupError:  # Skips donors with $0 donated
+                continue
+
+            file_name = f"Donor{file_id:03d}_{donor_name}_gitnore.txt"
+            file_id += 1
+            with open(path + "\\" + file_name, "w") as file:
+                file.write(thank_you_message)
