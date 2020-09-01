@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import sys
 import random
 import string
 
@@ -32,41 +33,17 @@ def write_text(my_dict):
     word_pair = random.randint(0, len(words)-1)
     first = words[word_pair]
     second = words[word_pair + 1]
-    list_of_words = [first, second]
-    print(list_of_words[-1])
-    print(list_of_words[-2])
-    for k in range(len(my_dict.items())-2):
-        ans_opt = len(my_dict[(list_of_words[-2], list_of_words[-1])])
-        ran_num = random.randint(0, ans_opt)
-        print(ran_num)
-        list_of_words.append(my_dict[(list_of_words[-2], list_of_words[-1])][random.randint(0, ans_opt-1)])
-        print(f"{list_of_words} / {k}")
-
-
-
-
-
-        '''
-        if k == 0:
-            if len(my_dict[(starter)]) > 1:
-                
-            else:
-                ran_num = 0
-            list_of_words.append(my_dict[starter][ran_num])
-            
+    list_of_words = [first, second]    
+    sen_start = tuple(list_of_words)
+    sen_len = random.randint(5,20)
+    #for k in range(15):
+    while len(list_of_words) < sen_len:
+        if sen_start in my_dict.keys():
+            list_of_words.append(random.choice(list(my_dict[(list_of_words[-2], list_of_words[-1])])))
         else:
-            pair = (list_of_words[len(list_of_words)-1], list_of_words[len(list_of_words)])
-            print(pair)
-            if pair not in my_dict.keys():
-                if len(my_dict[pair]) > 1:
-                    ran_num = random.randint(0, len(my_dict[pair]))
-                else:
-                    ran_num = 0
-            list_of_words.append(my_dict[pair][ran_num])
-            print(f"{list_of_words} / {k}")
-        '''
-
-    return list_of_words
+            list_of_words.append(random.choice(list(my_dict)))
+        
+    return " ".join(list_of_words).capitalize()
 
 
 #Main Exicutable

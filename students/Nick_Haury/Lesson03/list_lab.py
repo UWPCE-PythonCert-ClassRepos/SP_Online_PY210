@@ -13,7 +13,8 @@ print(fruits)
 new_fruit = input("Please enter a fruit to add to the end of the list: ")
 fruits.append(new_fruit)
 print(fruits)
-fruit_index = int(input("Please enter the number place of a fruit in the list: "))
+fruit_index = int(input("Please enter the number place of a fruit in the "
+                        "list: "))
 print(str(fruit_index) + ": " + fruits[fruit_index - 1])
 fruits = ["Mangoes"] + fruits
 print(fruits)
