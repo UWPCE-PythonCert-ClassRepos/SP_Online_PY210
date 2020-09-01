@@ -4,8 +4,8 @@ import sys
 import random
 import string
 
-#words = "I wish I may I wish I might".split()
-words = "It was the best of times it was the worst of times".split()
+words = "I wish I may I wish I might".split()
+#words = "It was the best of times it was the worst of times".split()
 
 def build_trigrams(words):
     """
@@ -30,18 +30,18 @@ def build_trigrams(words):
     return trigrams
 
 def write_text(my_dict):
-    word_pair = random.randint(0, len(words)-1)
+    word_pair = random.randint(0, len(words)-2)
     first = words[word_pair]
     second = words[word_pair + 1]
     list_of_words = [first, second]    
-    sen_start = tuple(list_of_words)
     sen_len = random.randint(5,20)
     #for k in range(15):
     while len(list_of_words) < sen_len:
-        if sen_start in my_dict.keys():
+        new_start = tuple(list_of_words[-2:])
+        if new_start in my_dict.keys():
             list_of_words.append(random.choice(list(my_dict[(list_of_words[-2], list_of_words[-1])])))
         else:
-            list_of_words.append(random.choice(list(my_dict)))
+            list_of_words.append(random.choice(list(my_dict.values())))
         
     return " ".join(list_of_words).capitalize()
 
