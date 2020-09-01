@@ -1,4 +1,4 @@
-"""Unit Tests for mailroom.donor_models module's Donor Class
+"""Unit Tests for mailroom.donor_models module's Record Class
 
 Test Cases:
     Positive: Case that runs without errors
@@ -39,7 +39,7 @@ def DonorMock():  # pylint: disable=invalid-name
 
 
 class Test_Record_Init:
-    """Tests the mailroom.donor_models.Record.__init__ function."""
+    """Tests the mailroom.donor_models.Record.__init__ method."""
 
     def test_record_init(self):
         """Positive-Test-Cases"""

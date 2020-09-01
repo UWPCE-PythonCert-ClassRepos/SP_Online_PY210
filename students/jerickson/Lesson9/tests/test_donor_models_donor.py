@@ -15,7 +15,7 @@ from mailroom import donor_models
 
 
 class Test_Donor_Init:
-    """Tests the mailroom.donor_models.Donor.__init__ function."""
+    """Tests the mailroom.donor_models.Donor.__init__ method."""
 
     @pytest.mark.parametrize(
         "name",
