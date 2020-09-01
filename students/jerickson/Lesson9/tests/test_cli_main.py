@@ -16,6 +16,27 @@ from pytest_mock import mocker  # pylint: disable=unused-import
 from mailroom import cli_main
 
 
+def generate_mocked_input(command_list):
+    """
+    Return a mocked input() that will run through command_list once.
+
+    Use by calling mocker.patch.object(obj,method,new=mocked_input)
+    """
+    input_list = (n for n in command_list)
+
+    # Mock
+    def mocked_input(*_):
+        return next(input_list)
+
+    return mocked_input
+
+
+@pytest.fixture
+def mocked_print(mocker):
+    """Mocked version of print to simulate user interaction."""
+    return mocker.patch.object(cli_main, "print")
+
+
 class Test_Cli_Main_Cli_Init:
     """Tests the mailroom.cli_main.Cli.__init__ method."""
 
@@ -103,40 +124,125 @@ class Test_Cli_Main_Cli_Run_Menu:
     __builtins__.print() is mocked to simulate user-interaction
     """
 
-    def test_cli_main_cli_run_menu(self, mocker):
-        """Positive-Test-Cases"""
-        # Setup
-        command_list = ["spam", "1", "2", "2", "3"]
-        input_list = (n for n in command_list)
-        inst = cli_main.Cli()
-
-        # Mock
-        def mocked_input(*_):
-            return next(input_list)
-
+    @pytest.fixture
+    def command_dispatch(self, mocker):
+        """Dispatch Menu Fixture"""
         called_once = mocker.MagicMock()
         called_twice = mocker.MagicMock()
         called_quit = mocker.MagicMock(return_value="quit")
         command_dispatch = {
             "1": called_once,
             "2": called_twice,
-            "3": called_quit,
+            "q": called_quit,
         }
+        return command_dispatch
 
-        mocked_print = mocker.patch.object(cli_main, "print")
-        mocker.patch.object(cli_main, "input", new=mocked_input)
+    def test_cli_main_cli_run_menu_custom(self, mocker, command_dispatch):
+        """Positive-Test-Cases, custom menu and prompt"""
+        # Setup
+        command_list = ["1", "2", "2", "q"]
+        inst = cli_main.Cli()
+
+        # Mock
+        mocked_input = generate_mocked_input(command_list)
+        mocked_input = mocker.patch.object(cli_main, "input", new=mocked_input)
 
         # Execute
-        inst.run_menu(menu_model=command_dispatch)
+        inst.run_menu(menu_prompt="spam", menu_model=command_dispatch)
 
         # Assert
-        assert called_once.call_count == 1
-        assert called_twice.call_count == 2
-        assert called_quit.call_count == 1
-        for argument_string in [
-            "Unrecognized",
-            command_list[0],
-        ]:  # Assert contents of error message printed
+        for command in set(command_list):  # Every command called correct # of times
+            assert command_dispatch[command].call_count == command_list.count(command)
+        with pytest.raises(StopIteration):  # Assert command list was emptied
+            mocked_input()
+
+    @pytest.mark.parametrize(
+        "command_list",
+        [
+            pytest.param(["", "q"], id="empty_quit"),
+            pytest.param(["spam", "q"], id="unrecognized_quit"),
+        ],
+    )
+    def test_cli_main_cli_run_menu_invalid_inputs(
+        self, mocker, command_dispatch, mocked_print, command_list
+    ):
+        """Positive-Test-Cases, invalid inputs"""
+        # Setup
+        inst = cli_main.Cli()
+
+        # Mock
+        mocked_input = generate_mocked_input(command_list)
+        mocked_input = mocker.patch.object(cli_main, "input", new=mocked_input)
+
+        # Execute
+        inst.run_menu(menu_prompt="spam", menu_model=command_dispatch)
+
+        # Assert
+        assert command_dispatch["q"].call_count == 1  # quit called once
+        # Assert contents of error message printed
+        for argument_string in ["Unrecognized", command_list[0]]:
             assert argument_string in mocked_print.call_args.args[0]
+        with pytest.raises(StopIteration):  # Assert command list was emptied
+            mocked_input()
+
+    def test_cli_main_cli_run_menu_main_menu(self, mocker, command_dispatch):
+        """Positive-Test-Cases, use main_menu attributes first reassigning them."""
+
+        # Setup
+        command_list = ["q"]
+        inst = cli_main.Cli()
+        inst.main_menu_model = command_dispatch
+        inst.main_menu_prompt = "spam"
+
+        # Mock
+        mocked_input = generate_mocked_input(command_list)
+        mocked_input = mocker.patch.object(cli_main, "input", new=mocked_input)
+
+        # Execute
+        inst.run_menu()  # No args passed to use main_menu_x
+
+        # Assert
+        assert command_dispatch["q"].call_count == 1  # quit called once
+        with pytest.raises(StopIteration):  # Assert command list was emptied
+            mocked_input()
+
+    @pytest.mark.parametrize(
+        "queue_len",
+        [
+            pytest.param(0, id="run_zero"),
+            pytest.param(1, id="run_once"),
+            pytest.param(2, id="run_twice"),
+        ],
+    )
+    def test_cli_main_cli_run_menu_queue(self, mocker, command_dispatch, queue_len):
+        """
+        Positive-Test-Cases, menu can return a queue of callables.
+
+        Overrides command "1" to return a queue of commands to run next without
+        requiring user input. Assert these commands are called the correct number
+        of times without having to put them into the command_list that gets put into
+        mocked_input to simulate user entry.
+        """
+
+        # Setup
+        command_list = ["1"]
+        inst = cli_main.Cli()
+
+        command_2 = command_dispatch["2"]
+        command_quit = command_dispatch["q"]
+        queue_input = [command_2] * queue_len + [command_quit]
+        command_dispatch["1"] = mocker.MagicMock(return_value=queue_input)
+
+        # Mock
+        mocked_input = generate_mocked_input(command_list)
+        mocked_input = mocker.patch.object(cli_main, "input", new=mocked_input)
+
+        # Execute
+        inst.run_menu(menu_prompt="spam", menu_model=command_dispatch)
+
+        # Assert
+        assert command_dispatch["1"].call_count == 1
+        assert command_dispatch["2"].call_count == queue_len
+        assert command_dispatch["q"].call_count == 1
         with pytest.raises(StopIteration):  # Assert command list was emptied
             mocked_input()

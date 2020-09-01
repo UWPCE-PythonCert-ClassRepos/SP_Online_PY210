@@ -1,6 +1,6 @@
 """Contains the Command Line Interface (CLI) for the mailroom package."""
 
-from mailroom import donor_models
+from mailroom import donor_models  # pylint: disable=import-error
 
 
 class Cli:
@@ -51,18 +51,46 @@ class Cli:
         return "quit"
 
     def run_menu(self, menu_prompt="", menu_model=None):
-        # TODO DOCSTRING
+        """
+        Runs a CLI menu selection code with a prompt, and target functions.
+
+        Default for menu_prompt and/or menu_model will use the instance attributes of
+        self.main_menu_prompt and self.main_menu_model. Assumes it is being called as
+        the main menu for the CLI.
+
+        Gets a command from the user or a command_queue that was the result of a prior
+        command's execution.
+        Processes the result from the command, if it is 'quit' it exits the current
+        menu-level, if it is a list it will add them to the command_queue to be used
+        automatically without prompting the user.
+
+        Parameters
+        ----------
+        menu_prompt : str, optional
+            Prompt that will be seen by user, by default ""
+        menu_model : dict {str: callable}, optional
+            Dictionary that selects target callable from user input str, by default None
+        """
         if not menu_prompt:
             menu_prompt = self.main_menu_prompt
         if not menu_model:
             menu_model = self.main_menu_model
 
+        command_queue = []
         while True:
-            command = input(menu_prompt).lower()
             try:
-                if (
-                    menu_model[command]() == "quit"
-                ):  # Runs command and gets checks if quit is returned
+                # Get Command
+                if command_queue:
+                    command = command_queue.pop(0)
+                    result = command()
+                else:
+                    command = input(menu_prompt).lower()
+                    result = menu_model[command]()
+
+                # Process Result
+                if result == "quit":  # checks if quit is returned
                     break
+                if isinstance(result, list):
+                    command_queue.extend(result)
             except KeyError:
-                print(f"Unrecognized Command: {command}")
+                print(f"Unrecognized Command: “{command}”")
