@@ -9,6 +9,7 @@ class Cli:
     def __init__(self):
         self.record = donor_models.Record()
         self._define_menus()  # Construct menu defaults
+        self._thank_you_donor = ""
 
     def _define_menus(self):
         """
@@ -17,7 +18,7 @@ class Cli:
         Call using __init__(). Calling again resets attributes.
         """
         self.main_menu_model = {
-            "1": "thank_you_cli",
+            "1": self.thank_you,
             "2": self.report,
             "3": "save_all_donor_emails",
             "0": self.quit_menu,
@@ -29,6 +30,7 @@ class Cli:
         )
         self.thank_you_menu_model = {
             "1": self.donor_list,
+            "new_donor": "self.new_donor",
             "0": self.quit_menu,
         }
 
@@ -41,6 +43,18 @@ class Cli:
         """Print a report of the donation history."""
         for line in self.record.compose_report():
             print(line)
+
+    def thank_you(self):
+        """
+        Enters the thank_you sub-menu.
+
+        Gets user input of donor name and donation amount.
+        """
+        self.run_menu(
+            menu_prompt=self.thank_you_menu_prompt,
+            menu_model=self.thank_you_menu_model,
+            menu_key_error=self.thank_you_input,
+        )
 
     def donor_list(self):
         """
@@ -56,12 +70,62 @@ class Cli:
         for i, donor in enumerate(self.record.donor_list):
             print(f"    “D{i:d}”: {donor}")
 
+    def find_donor(self, name_entered):
+        """
+        Attempts to find a donor based on the user input.
+
+        Parameters
+        ----------
+        name_entered : str
+            User input string to find a match of
+
+        Returns
+        -------
+        name_found : str
+            Donor name found
+        result : str
+            The string that helps the calling function dispatch the next behavior.
+        """
+        if name_entered in self.record.donor_list:
+            name_found = name_entered
+            result = "quit"
+        else:
+            name_found = name_entered
+            result = "new_donor"
+        return name_found, result
+
     @staticmethod
     def quit_menu():
         """Return the string "quit" to exit a menu-level"""
         return "quit"
 
-    def menu_key_error(self, command):
+    def thank_you_input(self, command):
+        """
+        Called when the thank-you-menu receives an unrecognized command.
+
+        This happens when adding a new donor, using existing donor, donor id.
+        Also happens when called with empty command
+
+        Parameters
+        ----------
+        command : str
+            The user-input command string to parse.
+        """
+        try:  # Check to see if input is a donor_id: "D#"
+            donor_id = int(command[1:])
+            donor_id -= 1  # Translate 1-index to 0-index
+            self._thank_you_donor = self.record.donor_list[donor_id]
+            return "quit"
+        except IndexError:  # Unrecognized Donor ID
+            self.unrecognized_command(command)
+            self._thank_you_donor = ""
+            return
+        except ValueError:  # Not a donor_id, set as donor name
+            self._thank_you_donor = command
+            return "quit"
+
+    @staticmethod
+    def unrecognized_command(command):
         """Default behavior when a menu receives an unrecognized command."""
         print(f"Unrecognized Command: “{command}”")
 
@@ -74,7 +138,7 @@ class Cli:
         the main menu for the CLI.
 
         An unrecognized command creates a key_error which is dispatched to the
-        menu_key_error argument or if None, then defaults to self.menu_key_error.
+        menu_key_error argument or if None, then defaults to self.unrecognized_command.
 
         Gets a command from the user or a command_queue that was the result of a prior
         command's execution.
@@ -94,7 +158,7 @@ class Cli:
         if not menu_model:
             menu_model = self.main_menu_model
         if not menu_key_error:
-            menu_key_error = self.menu_key_error
+            menu_key_error = self.unrecognized_command
 
         command_queue = []
         while True:
@@ -105,6 +169,7 @@ class Cli:
                     result = command()
                 else:
                     command = input(menu_prompt).lower()
+                    # TODO check empty command here?
                     result = menu_model[command]()
 
                 # Process Result
@@ -115,6 +180,7 @@ class Cli:
             except KeyError:
                 if menu_key_error(command) == "quit":
                     break
+            # TODO process result in finally statement
 
 
 def main():

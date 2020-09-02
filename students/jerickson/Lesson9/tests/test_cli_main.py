@@ -111,8 +111,8 @@ class Test_Cli_Main_Cli_Report:
             assert mocked_print.call_args_list[i].args[0] == line
 
 
-class Test_Cli_Main_cli_quit_Menu:
-    """Tests the cli_main.Cli.quit_menu function."""
+class Test_Cli_Main_cli_Quit_Menu:
+    """Tests the cli_main.Cli.quit_menu method."""
 
     def test_cli_main_cli_quit_menu(self):
         "The quite quiet quit test."
@@ -121,6 +121,36 @@ class Test_Cli_Main_cli_quit_Menu:
 
         # Assert
         assert inst.quit_menu() == "quit"
+
+
+class Test_Cli_Main_cli_Unrecognized_Command:
+    """Tests the cli_main.Cli.unrecognized_command method."""
+
+    @pytest.mark.parametrize(
+        "command, goal",
+        [
+            pytest.param("", "“”", id="empty"),
+            pytest.param("spam", "“spam”", id="non-empty"),
+        ],
+    )
+    def test_cli_main_cli_unrecognized_command(
+        self, mocker, mocked_print, command, goal
+    ):
+        """Positive-Test-Cases"""
+
+        # Setup
+        inst = cli_main.Cli()
+
+        # Mock
+        mocked_print = mocker.patch.object(cli_main, "print")
+
+        # Execute
+        inst.unrecognized_command(command)
+
+        # Assert
+        assert mocked_print.call_count == 1
+        printed_item = mocked_print.call_args[0][0]
+        assert goal in printed_item
 
 
 class Test_Cli_Main_Cli_Run_Menu:
@@ -171,7 +201,7 @@ class Test_Cli_Main_Cli_Run_Menu:
         ],
     )
     def test_cli_main_cli_run_menu_invalid_inputs(
-        self, mocker, command_dispatch, mocked_print, command_list
+        self, mocker, command_dispatch, command_list
     ):
         """Positive-Test-Cases, invalid inputs"""
         # Setup
@@ -180,15 +210,15 @@ class Test_Cli_Main_Cli_Run_Menu:
         # Mock
         mocked_input = generate_mocked_input(command_list)
         mocked_input = mocker.patch.object(cli_main, "input", new=mocked_input)
+        inst.unrecognized_command = mocker.MagicMock()
 
         # Execute
         inst.run_menu(menu_prompt="spam", menu_model=command_dispatch)
 
         # Assert
         assert command_dispatch["0"].call_count == 1  # quit called once
-        # Assert contents of error message printed
-        for argument_string in ["Unrecognized", command_list[0]]:
-            assert argument_string in mocked_print.call_args.args[0]
+        assert inst.unrecognized_command.call_count == 1
+        assert inst.unrecognized_command.call_args[0][0] == command_list[0]
         with pytest.raises(StopIteration):  # Assert command list was emptied
             mocked_input()
 
@@ -281,7 +311,7 @@ class Test_Cli_Main_Cli_Run_Menu:
                 menu_key_error=mocked_menu_key_error,
             )
         elif arg_default == "default":  # Run as default
-            inst.menu_key_error = mocked_menu_key_error
+            inst.unrecognized_command = mocked_menu_key_error
             inst.run_menu(
                 menu_prompt="spam", menu_model=command_dispatch,
             )
@@ -331,9 +361,142 @@ class Test_Cli_Main_Cli_Donor_List:
             assert "No donors" in printed_item
 
 
+class Test_Cli_Main_Cli_Thank_You:
+    """Tests the cli_main.Cli.thank_you method."""
+
+    # @pytest.mark.parametrize(
+    #     "command_list",
+    #     [
+    #         pytest.param(["", "0"], id="empty_quit"),
+    #         pytest.param(["spam", "0"], id="unrecognized_quit"),
+    #     ],
+    # )
+    def test_cli_main_cli_thank_you(self, mocker):
+        """Positive-Test-Cases, invalid inputs"""
+        # Setup
+        inst = cli_main.Cli()
+
+        # Mock
+        inst.run_menu = mocker.MagicMock()
+        # mocked_input = generate_mocked_input(command_list)
+        # mocked_input = mocker.patch.object(cli_main, "input", new=mocked_input)
+
+        # Execute
+        inst.thank_you()
+
+        # Assert
+        assert inst.run_menu.call_count == 1
+        # assert command_dispatch["0"].call_count == 1  # quit called once
+        # # Assert contents of error message printed
+        # for argument_string in ["Unrecognized", command_list[0]]:
+        #     assert argument_string in mocked_print.call_args.args[0]
+        # with pytest.raises(StopIteration):  # Assert command list was emptied
+        #     mocked_input()
+
+
+class Test_Cli_Main_Cli_Thank_You_Input:
+    """Tests the cli_main.Cli.thank_you_input method."""
+
+    # pylint: disable=protected-access
+
+    def test_cli_main_cli_thank_you_input_new_donor(self):
+        """Positive-Test-Cases, new donor"""
+        # Setup
+        command = "spam"
+        inst = cli_main.Cli()
+
+        # Mock
+        # inst.run_menu = mocker.MagicMock()
+        # mocked_input = generate_mocked_input(command_list)
+        # mocked_input = mocker.patch.object(cli_main, "input", new=mocked_input)
+
+        # Execute
+        first_value = inst._thank_you_donor
+        inst.thank_you_input(command)
+        second_value = inst._thank_you_donor
+
+        # Assert
+        assert first_value == ""
+        assert second_value == command
+
+    @pytest.mark.parametrize(
+        "command", [pytest.param("D1", id="Donor1"), pytest.param("D2", id="Donor2"),],
+    )
+    def test_cli_main_cli_thank_you_input_valid_donor_id(self, mocker, command):
+        """Positive-Test-Cases, valid donor_id"""
+        # Setup
+        donor_list = ["spam", "eggs"]
+        inst = cli_main.Cli()
+        donor_id = int(command[1:]) - 1
+
+        # Mock
+        inst.record = mocker.MagicMock()
+        inst.record.donor_list = donor_list
+
+        # Execute
+        first_value = inst._thank_you_donor
+        inst.thank_you_input(command)
+        second_value = inst._thank_you_donor
+
+        # Assert
+        assert first_value == ""
+        assert second_value == donor_list[donor_id]
+
+    def test_cli_main_cli_thank_you_input_invalid_donor_id(self, mocker):
+        """Positive-Test-Cases, invalid donor_id"""
+        # Setup
+        command = "D3"
+        donor_list = ["spam", "eggs"]
+        inst = cli_main.Cli()
+
+        # Mock
+        inst.record = mocker.MagicMock()
+        inst.record.donor_list = donor_list
+        inst.unrecognized_command = mocker.MagicMock()
+
+        # Execute
+        inst.thank_you_input(command)
+
+        # Assert
+        assert inst._thank_you_donor == ""
+        assert inst.unrecognized_command.call_count == 1
+        assert inst.unrecognized_command.call_args[0][0] == command
+
+
+class Test_Cli_Main_Find_Donor:
+    """Tests the cli_main.Cli.find_donor method."""
+
+    @pytest.mark.parametrize(
+        "donor_entered",
+        [
+            pytest.param("spam", id="existing1"),
+            pytest.param("eggs", id="existing2"),
+            pytest.param("cheese", id="new"),
+        ],
+    )
+    def test_cli_main_donor_find_donor(self, mocker, donor_entered):
+        """Positive-Test-Cases"""
+        donor_list = ["spam", "eggs"]
+        inst = cli_main.Cli()
+
+        # Mock
+        inst.record = mocker.MagicMock()
+        inst.record.donor_list = donor_list
+
+        # Execute
+        donor_name, result = inst.find_donor(donor_entered)
+
+        # Assert
+        assert donor_name == donor_entered
+        if donor_entered in donor_list:
+            assert result == "quit"
+        else:
+            assert result == "new_donor"
+
+
 class Test_Cli_Main_Main:
     """
-    Tests the cli_main.main function.
+    Tests the cli_main.main method.
 
     cli_main.main() is mocked to provide an isolated state for each test
     """
