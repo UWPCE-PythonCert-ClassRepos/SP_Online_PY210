@@ -246,3 +246,61 @@ class Test_Cli_Main_Cli_Run_Menu:
         assert command_dispatch["q"].call_count == 1
         with pytest.raises(StopIteration):  # Assert command list was emptied
             mocked_input()
+
+    @pytest.mark.parametrize(
+        "arg_default",
+        [pytest.param("arg", id="argument"), pytest.param("default", id="default"),],
+    )
+    def test_cli_main_cli_run_menu_key_error(
+        self, mocker, command_dispatch, arg_default
+    ):
+        """Positive-Test-Cases, custom menu and prompt"""
+        # Setup
+        unrecognized_command = "spam"
+        command_list = [unrecognized_command]
+        inst = cli_main.Cli()
+
+        # Mock
+        mocked_menu_key_error = mocker.MagicMock(return_value="quit")
+        mocked_input = generate_mocked_input(command_list)
+        mocked_input = mocker.patch.object(cli_main, "input", new=mocked_input)
+        mocked_menu_key_error = mocker.MagicMock(return_value="quit")
+
+        # Execute
+        if arg_default == "arg":  # Run as argument
+            inst.run_menu(
+                menu_prompt="spam",
+                menu_model=command_dispatch,
+                menu_key_error=mocked_menu_key_error,
+            )
+        elif arg_default == "default":  # Run as default
+            inst.menu_key_error = mocked_menu_key_error
+            inst.run_menu(
+                menu_prompt="spam", menu_model=command_dispatch,
+            )
+
+        # Assert
+        assert mocked_menu_key_error.call_count == 1
+        assert mocked_menu_key_error.call_args[0][0] == unrecognized_command
+        with pytest.raises(StopIteration):  # Assert command list was emptied
+            mocked_input()
+
+
+class Test_Cli_Main_Main:
+    """
+    Tests the cli_main.main function.
+
+    cli_main.main() is mocked to provide an isolated state for each test
+    """
+
+    def test_cli_main_main(self, mocker):
+        """Positive-Test-Cases"""
+        # Mock
+        mocked_cli_instance = mocker.MagicMock()
+        mocker.patch.object(cli_main, "Cli", return_value=mocked_cli_instance)
+
+        # Execute
+        cli_main.main()
+
+        # Assert
+        assert mocked_cli_instance.run_menu.call_count == 1

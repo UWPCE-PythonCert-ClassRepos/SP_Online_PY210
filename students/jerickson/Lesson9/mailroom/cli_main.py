@@ -25,10 +25,10 @@ class Cli:
         if not new_menu_model:
             new_menu_model = {
                 "1": "thank_you_cli",
-                "2": "report_cli",
+                "2": self.report,
                 "3": "save_all_donor_emails",
-                "4": "quit_menu",
-                "quit": "quit_menu",
+                "4": self.quit_menu,
+                "q": self.quit_menu,
             }
 
         if not new_menu_prompt:
@@ -50,13 +50,20 @@ class Cli:
         """Return the string "quit" to exit a menu-level"""
         return "quit"
 
-    def run_menu(self, menu_prompt="", menu_model=None):
+    def menu_key_error(self, command):
+        """Default behavior when a menu receives an unrecognized command."""
+        print(f"Unrecognized Command: “{command}”")
+
+    def run_menu(self, menu_prompt="", menu_model=None, menu_key_error=None):
         """
         Runs a CLI menu selection code with a prompt, and target functions.
 
-        Default for menu_prompt and/or menu_model will use the instance attributes of
-        self.main_menu_prompt and self.main_menu_model. Assumes it is being called as
+        Default for menu_prompt, menu_model, menu_key_error will use the instance attributes
+        of self.main_menu_prompt and self.main_menu_model. Assumes it is being called as
         the main menu for the CLI.
+
+        An unrecognized command creates a key_error which is dispatched to the
+        menu_key_error argument or if None, then defaults to self.menu_key_error.
 
         Gets a command from the user or a command_queue that was the result of a prior
         command's execution.
@@ -75,6 +82,8 @@ class Cli:
             menu_prompt = self.main_menu_prompt
         if not menu_model:
             menu_model = self.main_menu_model
+        if not menu_key_error:
+            menu_key_error = self.menu_key_error
 
         command_queue = []
         while True:
@@ -93,4 +102,11 @@ class Cli:
                 if isinstance(result, list):
                     command_queue.extend(result)
             except KeyError:
-                print(f"Unrecognized Command: “{command}”")
+                if menu_key_error(command) == "quit":
+                    break
+
+
+def main():
+    """Generates a CLI instance and runs the main_menu."""
+    cli_instance = Cli()
+    cli_instance.run_menu()
