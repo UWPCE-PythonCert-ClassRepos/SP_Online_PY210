@@ -20,19 +20,41 @@ class Cli:
             "1": "thank_you_cli",
             "2": self.report,
             "3": "save_all_donor_emails",
-            "4": self.quit_menu,
-            "q": self.quit_menu,
+            "0": self.quit_menu,
         }
 
         self.main_menu_prompt = (
             "\nChoose: “1”: Send a Thank You, “2”: Create a Report"
-            " “3”: Send Letters to Everyone or “4”: Quit ->: "
+            " “3”: Send Letters to Everyone or “0”: Quit ->: "
+        )
+        self.thank_you_menu_model = {
+            "1": self.donor_list,
+            "0": self.quit_menu,
+        }
+
+        self.thank_you_menu_prompt = (
+            "\nChoose: “1”: Get list of prior donors, “0”: Quit, or "
+            "enter a donor's full name ->: "
         )
 
     def report(self):
         """Print a report of the donation history."""
         for line in self.record.compose_report():
             print(line)
+
+    def donor_list(self):
+        """
+        Print list of all donors or No-Donor message.
+
+        Prints the list of donors with D#, # is position in list of donor 1-indexed
+        Prints a No-Donor message if there are no donors.
+        """
+        donors = self.record.donor_list
+        if not donors:
+            print("No donors, please create a new donor.")
+            return
+        for i, donor in enumerate(self.record.donor_list):
+            print(f"    “D{i:d}”: {donor}")
 
     @staticmethod
     def quit_menu():

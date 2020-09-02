@@ -60,7 +60,12 @@ class Test_Cli_Main_Cli_Define_Menus:
         inst = cli_main.Cli()
 
         # Execute/Assert
-        menu_attributes = ["main_menu_model", "main_menu_prompt"]
+        menu_attributes = [
+            "main_menu_model",
+            "main_menu_prompt",
+            "thank_you_menu_model",
+            "thank_you_menu_prompt",
+        ]
         for menu_attribute in menu_attributes:
             first = getattr(inst, menu_attribute)  # Capture original value
             setattr(inst, menu_attribute, 1)  # Change value
@@ -135,14 +140,14 @@ class Test_Cli_Main_Cli_Run_Menu:
         command_dispatch = {
             "1": called_once,
             "2": called_twice,
-            "q": called_quit,
+            "0": called_quit,
         }
         return command_dispatch
 
     def test_cli_main_cli_run_menu_custom(self, mocker, command_dispatch):
         """Positive-Test-Cases, custom menu and prompt"""
         # Setup
-        command_list = ["1", "2", "2", "q"]
+        command_list = ["1", "2", "2", "0"]
         inst = cli_main.Cli()
 
         # Mock
@@ -161,8 +166,8 @@ class Test_Cli_Main_Cli_Run_Menu:
     @pytest.mark.parametrize(
         "command_list",
         [
-            pytest.param(["", "q"], id="empty_quit"),
-            pytest.param(["spam", "q"], id="unrecognized_quit"),
+            pytest.param(["", "0"], id="empty_quit"),
+            pytest.param(["spam", "0"], id="unrecognized_quit"),
         ],
     )
     def test_cli_main_cli_run_menu_invalid_inputs(
@@ -180,7 +185,7 @@ class Test_Cli_Main_Cli_Run_Menu:
         inst.run_menu(menu_prompt="spam", menu_model=command_dispatch)
 
         # Assert
-        assert command_dispatch["q"].call_count == 1  # quit called once
+        assert command_dispatch["0"].call_count == 1  # quit called once
         # Assert contents of error message printed
         for argument_string in ["Unrecognized", command_list[0]]:
             assert argument_string in mocked_print.call_args.args[0]
@@ -191,7 +196,7 @@ class Test_Cli_Main_Cli_Run_Menu:
         """Positive-Test-Cases, use main_menu attributes first reassigning them."""
 
         # Setup
-        command_list = ["q"]
+        command_list = ["0"]
         inst = cli_main.Cli()
         inst.main_menu_model = command_dispatch
         inst.main_menu_prompt = "spam"
@@ -204,7 +209,7 @@ class Test_Cli_Main_Cli_Run_Menu:
         inst.run_menu()  # No args passed to use main_menu_x
 
         # Assert
-        assert command_dispatch["q"].call_count == 1  # quit called once
+        assert command_dispatch["0"].call_count == 1  # quit called once
         with pytest.raises(StopIteration):  # Assert command list was emptied
             mocked_input()
 
@@ -231,7 +236,7 @@ class Test_Cli_Main_Cli_Run_Menu:
         inst = cli_main.Cli()
 
         command_2 = command_dispatch["2"]
-        command_quit = command_dispatch["q"]
+        command_quit = command_dispatch["0"]
         queue_input = [command_2] * queue_len + [command_quit]
         command_dispatch["1"] = mocker.MagicMock(return_value=queue_input)
 
@@ -245,7 +250,7 @@ class Test_Cli_Main_Cli_Run_Menu:
         # Assert
         assert command_dispatch["1"].call_count == 1
         assert command_dispatch["2"].call_count == queue_len
-        assert command_dispatch["q"].call_count == 1
+        assert command_dispatch["0"].call_count == 1
         with pytest.raises(StopIteration):  # Assert command list was emptied
             mocked_input()
 
@@ -286,6 +291,44 @@ class Test_Cli_Main_Cli_Run_Menu:
         assert mocked_menu_key_error.call_args[0][0] == unrecognized_command
         with pytest.raises(StopIteration):  # Assert command list was emptied
             mocked_input()
+
+
+class Test_Cli_Main_Cli_Donor_List:
+    """
+    Tests the cli_main.Cli.donor_list method.
+
+    __builtins__.print() is mocked to simulate user-interaction
+    inst.record.donor_list is mocked to provide an isolated state for each test
+    """
+
+    @pytest.mark.parametrize(
+        "donor_list",
+        [
+            pytest.param(["aaa", "bbb", "ccc"], id="non-empty"),
+            pytest.param([], id="empty"),
+        ],
+    )
+    def test_cli_main_cli_donor_list(self, mocker, donor_list):
+        """Positive-Test-Cases"""
+        # Setup
+        inst = cli_main.Cli()
+
+        # Mock
+        inst.record = mocker.MagicMock()
+        inst.record.donor_list = donor_list
+        mocked_print = mocker.patch.object(cli_main, "print")
+
+        # Execute
+        inst.donor_list()
+
+        # Assert
+        for i, donor in enumerate(donor_list):  # List printed in order
+            printed_item = mocked_print.call_args_list[i].args[0]
+            assert f"{i:d}" in printed_item
+            assert donor in printed_item
+        if not donor_list:  # Empty List prints special message
+            printed_item = mocked_print.call_args[0][0]
+            assert "No donors" in printed_item
 
 
 class Test_Cli_Main_Main:
