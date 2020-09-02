@@ -132,19 +132,21 @@ class Cli:
     def run_menu(self, menu_prompt="", menu_model=None, menu_key_error=None):
         """
         Runs a CLI menu selection code with a prompt, and target functions.
-
+        
+        No args assumes it is being called as the main menu for the CLI:
         Default for menu_prompt, menu_model, menu_key_error will use the instance attributes
-        of self.main_menu_prompt and self.main_menu_model. Assumes it is being called as
-        the main menu for the CLI.
+        of self.main_menu_prompt, self.main_menu_model, self.unrecognized_command.
 
         An unrecognized command creates a key_error which is dispatched to the
         menu_key_error argument or if None, then defaults to self.unrecognized_command.
 
         Gets a command from the user or a command_queue that was the result of a prior
         command's execution.
-        Processes the result from the command, if it is 'quit' it exits the current
-        menu-level, if it is a list it will add them to the command_queue to be used
-        automatically without prompting the user.
+
+        Processes the result from the command or menu_key_error method:
+            If it is 'quit' it exits the current menu-level
+            If it is a list it will add them to the command_queue to be used automatically
+            without prompting the user. This list must be a list of callables.
 
         Parameters
         ----------
@@ -171,16 +173,13 @@ class Cli:
                     command = input(menu_prompt).lower()
                     # TODO check empty command here?
                     result = menu_model[command]()
-
-                # Process Result
-                if result == "quit":  # checks if quit is returned
-                    break
-                if isinstance(result, list):
-                    command_queue.extend(result)
             except KeyError:
-                if menu_key_error(command) == "quit":
-                    break
-            # TODO process result in finally statement
+                result = menu_key_error(command)
+            # Process Result
+            if result == "quit":  # checks if quit is returned
+                break
+            if isinstance(result, list):
+                command_queue.extend(result)
 
 
 def main():

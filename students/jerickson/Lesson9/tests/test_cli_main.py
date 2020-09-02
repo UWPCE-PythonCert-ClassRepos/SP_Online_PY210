@@ -265,12 +265,12 @@ class Test_Cli_Main_Cli_Run_Menu:
         command_list = ["1"]
         inst = cli_main.Cli()
 
+        # Mock
         command_2 = command_dispatch["2"]
         command_quit = command_dispatch["0"]
         queue_input = [command_2] * queue_len + [command_quit]
         command_dispatch["1"] = mocker.MagicMock(return_value=queue_input)
 
-        # Mock
         mocked_input = generate_mocked_input(command_list)
         mocked_input = mocker.patch.object(cli_main, "input", new=mocked_input)
 
@@ -284,13 +284,7 @@ class Test_Cli_Main_Cli_Run_Menu:
         with pytest.raises(StopIteration):  # Assert command list was emptied
             mocked_input()
 
-    @pytest.mark.parametrize(
-        "arg_default",
-        [pytest.param("arg", id="argument"), pytest.param("default", id="default"),],
-    )
-    def test_cli_main_cli_run_menu_key_error(
-        self, mocker, command_dispatch, arg_default
-    ):
+    def test_cli_main_cli_run_menu_key_error_default(self, mocker, command_dispatch):
         """Positive-Test-Cases, custom menu and prompt"""
         # Setup
         unrecognized_command = "spam"
@@ -298,27 +292,87 @@ class Test_Cli_Main_Cli_Run_Menu:
         inst = cli_main.Cli()
 
         # Mock
-        mocked_menu_key_error = mocker.MagicMock(return_value="quit")
+        mocked_input = generate_mocked_input(command_list)
+        mocked_input = mocker.patch.object(cli_main, "input", new=mocked_input)
+        inst.unrecognized_command = mocker.MagicMock(return_value="quit")
+
+        # Execute
+        inst.menu_prompt = "spam"
+        inst.menu_model = command_dispatch
+        inst.run_menu()
+
+        # Assert
+        assert inst.unrecognized_command.call_count == 1
+        assert inst.unrecognized_command.call_args[0][0] == unrecognized_command
+        with pytest.raises(StopIteration):  # Assert command list was emptied
+            mocked_input()
+
+    def test_cli_main_cli_run_menu_key_error_argument(self, mocker, command_dispatch):
+        """Positive-Test-Cases, custom menu and prompt"""
+        # Setup
+        unrecognized_command = "spam"
+        command_list = [unrecognized_command]
+        inst = cli_main.Cli()
+
+        # Mock
         mocked_input = generate_mocked_input(command_list)
         mocked_input = mocker.patch.object(cli_main, "input", new=mocked_input)
         mocked_menu_key_error = mocker.MagicMock(return_value="quit")
 
         # Execute
-        if arg_default == "arg":  # Run as argument
-            inst.run_menu(
-                menu_prompt="spam",
-                menu_model=command_dispatch,
-                menu_key_error=mocked_menu_key_error,
-            )
-        elif arg_default == "default":  # Run as default
-            inst.unrecognized_command = mocked_menu_key_error
-            inst.run_menu(
-                menu_prompt="spam", menu_model=command_dispatch,
-            )
+        inst.run_menu(
+            menu_prompt="spam",
+            menu_model=command_dispatch,
+            menu_key_error=mocked_menu_key_error,
+        )
 
         # Assert
         assert mocked_menu_key_error.call_count == 1
         assert mocked_menu_key_error.call_args[0][0] == unrecognized_command
+        with pytest.raises(StopIteration):  # Assert command list was emptied
+            mocked_input()
+
+    @pytest.mark.parametrize(
+        "queue_len",
+        [
+            pytest.param(0, id="run_zero"),
+            pytest.param(1, id="run_once"),
+            pytest.param(2, id="run_twice"),
+        ],
+    )
+    def test_cli_main_cli_run_menu_key_error_queue(
+        self, mocker, command_dispatch, queue_len
+    ):
+        """
+        Positive-Test-Cases, menu_key_error can return a queue of callables.
+
+        Overrides the unrecognized command to send a queue of commands to be run by the
+        parent menu.
+        """
+
+        # Setup
+        command_list = ["1", "eggs", "0"]
+        inst = cli_main.Cli()
+
+        # Mock
+        queue_list = [command_dispatch["2"]] * queue_len
+
+        mocked_input = generate_mocked_input(command_list)
+        mocked_input = mocker.patch.object(cli_main, "input", new=mocked_input)
+        mocked_menu_key_error = mocker.MagicMock(return_value=queue_list)
+
+        # Execute
+        inst.run_menu(
+            menu_prompt="spam",
+            menu_model=command_dispatch,
+            menu_key_error=mocked_menu_key_error,
+        )
+
+        # Assert
+        assert command_dispatch["1"].call_count == 1
+        assert "2" not in command_list  # Assert test-case is setup properly
+        assert command_dispatch["2"].call_count == queue_len
+        assert command_dispatch["0"].call_count == 1
         with pytest.raises(StopIteration):  # Assert command list was emptied
             mocked_input()
 
