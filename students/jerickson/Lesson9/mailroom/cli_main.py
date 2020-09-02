@@ -8,37 +8,26 @@ class Cli:
 
     def __init__(self):
         self.record = donor_models.Record()
-        self.define_main_menu()
+        self._define_menus()  # Construct menu defaults
 
-    def define_main_menu(self, new_menu_prompt="", new_menu_model=""):
+    def _define_menus(self):
         """
-        Creates the main_dispatch model for the main menu of the CLI.
+        Create the default menus of the CLI.
 
-        Parameters
-        ----------
-        new_menu_prompt : str, optional
-            New Prompt String, by default None creates standard prompt
-        new_menu_model : dict, optional
-            New Menu Model, by default Nonecreates standard menu
-
+        Call using __init__(). Calling again resets attributes.
         """
-        if not new_menu_model:
-            new_menu_model = {
-                "1": "thank_you_cli",
-                "2": self.report,
-                "3": "save_all_donor_emails",
-                "4": self.quit_menu,
-                "q": self.quit_menu,
-            }
+        self.main_menu_model = {
+            "1": "thank_you_cli",
+            "2": self.report,
+            "3": "save_all_donor_emails",
+            "4": self.quit_menu,
+            "q": self.quit_menu,
+        }
 
-        if not new_menu_prompt:
-            new_menu_prompt = (
-                "\nChoose: “1”: Send a Thank You, “2”: Create a Report"
-                " “3”: Send Letters to Everyone or “4”: Quit ->: "
-            )
-
-        self.main_menu_model = new_menu_model
-        self.main_menu_prompt = new_menu_prompt
+        self.main_menu_prompt = (
+            "\nChoose: “1”: Send a Thank You, “2”: Create a Report"
+            " “3”: Send Letters to Everyone or “4”: Quit ->: "
+        )
 
     def report(self):
         """Print a report of the donation history."""

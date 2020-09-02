@@ -51,23 +51,25 @@ class Test_Cli_Main_Cli_Init:
         assert inst.main_menu_prompt
 
 
-class Test_Cli_Main_Cli_Define_Main_Menu:
-    """Tests the mailroom.cli_main.Cli.define_main_menu method."""
+class Test_Cli_Main_Cli_Define_Menus:
+    """Tests the mailroom.cli_main.Cli._define_menus method."""
 
-    def test_cli_main_cli_define_main_menu(self):
+    def test_cli_main_cli_define_menus(self):
         """Positive-Test-Cases"""
         # Setup
-        new_menu = {"spam": "eggs"}
-        new_prompt = "spam"
         inst = cli_main.Cli()
-        inst2 = cli_main.Cli()
-        inst2.define_main_menu(new_menu_model=new_menu, new_menu_prompt=new_prompt)
 
-        # Assert
-        assert len(inst.main_menu_model) > 1  # Menu is defaulted to a standard model
-        assert len(inst.main_menu_prompt) > 1  # Prompt is defaulted to a standard model
-        assert inst2.main_menu_model == new_menu  # Menu is updated to new model
-        assert inst2.main_menu_prompt == new_prompt  # Prompt updated to new model
+        # Execute/Assert
+        menu_attributes = ["main_menu_model", "main_menu_prompt"]
+        for menu_attribute in menu_attributes:
+            first = getattr(inst, menu_attribute)  # Capture original value
+            setattr(inst, menu_attribute, 1)  # Change value
+            second = getattr(inst, menu_attribute)  # Capture second value
+            inst._define_menus()  # Reset values. pylint: disable=protected-access
+            third = getattr(inst, menu_attribute)  # Capture third value
+
+            assert second != first  # Assert changed
+            assert third == first  # Assert reset
 
 
 class Test_Cli_Main_Cli_Report:
