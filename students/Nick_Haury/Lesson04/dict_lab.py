@@ -8,9 +8,9 @@ Practice script for creating and manipulating dictionaries and sets
 print("Dictionaries 1:\n")
 
 my_dict = {
-    "name":"Chris", 
-    "city":"Seattle", 
-    "cake":"Chocolate"
+    "name": "Chris",
+    "city": "Seattle",
+    "cake": "Chocolate"
     }
 
 print(my_dict)
@@ -20,7 +20,8 @@ my_dict["fruit"] = "Mango"
 print(my_dict.keys())
 print(my_dict.values())
 print("Is 'cake' a key in the dictionary?: " + str(("cake" in my_dict)))
-print("Is 'Mango' a value in the dictionary?: " + str(("Mango" in my_dict.values())))
+print("Is 'Mango' a value in the dictionary?: " +
+      str(("Mango" in my_dict.values())))
 
 # Dictionaries 2
 
@@ -64,4 +65,5 @@ f_set = frozenset("marathon")
 print("f_set is:", f_set)
 
 print("The union of p_set and f_set is: " + str(p_set.union(f_set)))
-print("The intersection of p_set and f_set is: " + str(p_set.intersection(f_set)))
+print("The intersection of p_set and f_set is: " +
+      str(p_set.intersection(f_set)))
