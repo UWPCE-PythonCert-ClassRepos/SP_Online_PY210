@@ -8,37 +8,6 @@ class Cli:
 
     def __init__(self):
         self.record = donor_models.Record()
-        self.define_main_menu()
-
-    def define_main_menu(self, new_menu_prompt="", new_menu_model=""):
-        """
-        Creates the main_dispatch model for the main menu of the CLI.
-
-        Parameters
-        ----------
-        new_menu_prompt : str, optional
-            New Prompt String, by default None creates standard prompt
-        new_menu_model : dict, optional
-            New Menu Model, by default Nonecreates standard menu
-
-        """
-        if not new_menu_model:
-            new_menu_model = {
-                "1": "thank_you_cli",
-                "2": self.report,
-                "3": "save_all_donor_emails",
-                "4": self.quit_menu,
-                "q": self.quit_menu,
-            }
-
-        if not new_menu_prompt:
-            new_menu_prompt = (
-                "\nChoose: “1”: Send a Thank You, “2”: Create a Report"
-                " “3”: Send Letters to Everyone or “4”: Quit ->: "
-            )
-
-        self.main_menu_model = new_menu_model
-        self.main_menu_prompt = new_menu_prompt
 
     def report(self):
         """Print a report of the donation history."""
@@ -50,7 +19,8 @@ class Cli:
         """Return the string "quit" to exit a menu-level"""
         return "quit"
 
-    def menu_key_error(self, command):
+    @staticmethod
+    def menu_key_error(command):
         """Default behavior when a menu receives an unrecognized command."""
         print(f"Unrecognized Command: “{command}”")
 
@@ -104,6 +74,20 @@ class Cli:
             except KeyError:
                 if menu_key_error(command) == "quit":
                     break
+
+    # Class Attributes
+    main_menu_model = {
+        "1": "thank_you_cli",
+        "2": report,
+        "3": "save_all_donor_emails",
+        "4": quit_menu,
+        "q": quit_menu,
+    }
+
+    main_menu_prompt = (
+        "\nChoose: “1”: Send a Thank You, “2”: Create a Report"
+        " “3”: Send Letters to Everyone or “4”: Quit ->: "
+    )
 
 
 def main():

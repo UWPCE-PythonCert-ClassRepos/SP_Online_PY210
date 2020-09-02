@@ -47,27 +47,8 @@ class Test_Cli_Main_Cli_Init:
 
         # Assert
         assert inst.record
-        assert inst.main_menu_model
         assert inst.main_menu_prompt
-
-
-class Test_Cli_Main_Cli_Define_Main_Menu:
-    """Tests the mailroom.cli_main.Cli.define_main_menu method."""
-
-    def test_cli_main_cli_define_main_menu(self):
-        """Positive-Test-Cases"""
-        # Setup
-        new_menu = {"spam": "eggs"}
-        new_prompt = "spam"
-        inst = cli_main.Cli()
-        inst2 = cli_main.Cli()
-        inst2.define_main_menu(new_menu_model=new_menu, new_menu_prompt=new_prompt)
-
-        # Assert
-        assert len(inst.main_menu_model) > 1  # Menu is defaulted to a standard model
-        assert len(inst.main_menu_prompt) > 1  # Prompt is defaulted to a standard model
-        assert inst2.main_menu_model == new_menu  # Menu is updated to new model
-        assert inst2.main_menu_prompt == new_prompt  # Prompt updated to new model
+        assert inst.main_menu_model
 
 
 class Test_Cli_Main_Cli_Report:
