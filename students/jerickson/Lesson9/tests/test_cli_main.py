@@ -436,13 +436,6 @@ class Test_Cli_Main_Cli_Donor_List:
 class Test_Cli_Main_Cli_Thank_You:
     """Tests the cli_main.Cli.thank_you method."""
 
-    # @pytest.mark.parametrize(
-    #     "command_list",
-    #     [
-    #         pytest.param(["", "0"], id="empty_quit"),
-    #         pytest.param(["spam", "0"], id="unrecognized_quit"),
-    #     ],
-    # )
     def test_cli_main_cli_thank_you(self, mocker):
         """Positive-Test-Cases, invalid inputs"""
         # Setup
@@ -450,20 +443,12 @@ class Test_Cli_Main_Cli_Thank_You:
 
         # Mock
         inst.run_menu = mocker.MagicMock()
-        # mocked_input = generate_mocked_input(command_list)
-        # mocked_input = mocker.patch.object(cli_main, "input", new=mocked_input)
 
         # Execute
         inst.thank_you()
 
         # Assert
         assert inst.run_menu.call_count == 1
-        # assert command_dispatch["0"].call_count == 1  # quit called once
-        # # Assert contents of error message printed
-        # for argument_string in ["Unrecognized", command_list[0]]:
-        #     assert argument_string in mocked_print.call_args.args[0]
-        # with pytest.raises(StopIteration):  # Assert command list was emptied
-        #     mocked_input()
 
 
 class Test_Cli_Main_Cli_Thank_You_Input:
@@ -471,25 +456,28 @@ class Test_Cli_Main_Cli_Thank_You_Input:
 
     # pylint: disable=protected-access
 
-    def test_cli_main_cli_thank_you_input_new_donor(self):
-        """Positive-Test-Cases, new donor"""
+    @pytest.mark.parametrize(
+        "result_goal",
+        [pytest.param("quit", id="existing"), pytest.param("new_donor", id="new"),],
+    )
+    def test_cli_main_cli_thank_you_input_name(self, mocker, result_goal):
+        """Positive-Test-Cases, name entered"""
         # Setup
         command = "spam"
         inst = cli_main.Cli()
 
         # Mock
-        # inst.run_menu = mocker.MagicMock()
-        # mocked_input = generate_mocked_input(command_list)
-        # mocked_input = mocker.patch.object(cli_main, "input", new=mocked_input)
+        inst.find_donor = mocker.MagicMock(return_value=(command, result_goal))
 
         # Execute
         first_value = inst._thank_you_donor
-        inst.thank_you_input(command)
+        result = inst.thank_you_input(command)
         second_value = inst._thank_you_donor
 
         # Assert
         assert first_value == ""
         assert second_value == command
+        assert result == result_goal
 
     @pytest.mark.parametrize(
         "command", [pytest.param("D1", id="Donor1"), pytest.param("D2", id="Donor2"),],
@@ -507,10 +495,11 @@ class Test_Cli_Main_Cli_Thank_You_Input:
 
         # Execute
         first_value = inst._thank_you_donor
-        inst.thank_you_input(command)
+        result = inst.thank_you_input(command)
         second_value = inst._thank_you_donor
 
         # Assert
+        assert result == "quit"
         assert first_value == ""
         assert second_value == donor_list[donor_id]
 
@@ -527,10 +516,11 @@ class Test_Cli_Main_Cli_Thank_You_Input:
         inst.unrecognized_command = mocker.MagicMock()
 
         # Execute
-        inst.thank_you_input(command)
+        result = inst.thank_you_input(command)
 
         # Assert
         assert inst._thank_you_donor == ""
+        assert result == ""
         assert inst.unrecognized_command.call_count == 1
         assert inst.unrecognized_command.call_args[0][0] == command
 
@@ -564,6 +554,31 @@ class Test_Cli_Main_Find_Donor:
             assert result == "quit"
         else:
             assert result == "new_donor"
+
+
+class Test_Cli_Main_Add_Donor:
+    """Tests the cli_main.Cli.add_donor method."""
+
+    def test_cli_main_donor_add_donor(self, mocker):
+        """Positive-Test-Cases"""
+        donor_entered = "spam"
+        inst = cli_main.Cli()
+
+        # Mock
+        inst.record = mocker.MagicMock()
+        inst.record.donor_list = []
+
+        def mocked_add_donor(name):
+            """Mocks the record.add_donor method"""
+            inst.record.donor_list.append(name)
+
+        inst.record.add_donor = mocked_add_donor
+
+        # Execute
+        inst.add_donor(donor_entered)
+
+        # Assert
+        assert donor_entered in inst.record.donor_list
 
 
 class Test_Cli_Main_Main:

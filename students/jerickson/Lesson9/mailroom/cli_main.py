@@ -30,7 +30,7 @@ class Cli:
         )
         self.thank_you_menu_model = {
             "1": self.donor_list,
-            "new_donor": "self.new_donor",
+            "new_donor": self.add_donor,
             "0": self.quit_menu,
         }
 
@@ -94,6 +94,17 @@ class Cli:
             result = "new_donor"
         return name_found, result
 
+    def add_donor(self, name):
+        """
+        Adds a new donor to the donation record.
+
+        Parameters
+        ----------
+        name : str
+            Donor's name.
+        """
+        self.record.add_donor(name)
+
     @staticmethod
     def quit_menu():
         """Return the string "quit" to exit a menu-level"""
@@ -118,10 +129,11 @@ class Cli:
         except IndexError:  # Unrecognized Donor ID
             self.unrecognized_command(command)
             self._thank_you_donor = ""
-            return
+            return ""
         except ValueError:  # Not a donor_id, set as donor name
-            self._thank_you_donor = command
-            return "quit"
+            donor_name, result = self.find_donor(command)
+            self._thank_you_donor = donor_name
+            return result
 
     @staticmethod
     def unrecognized_command(command):
