@@ -104,7 +104,6 @@ class Cli:
         Called when the thank-you-menu receives an unrecognized command.
 
         This happens when adding a new donor, using existing donor, donor id.
-        Also happens when called with empty command
 
         Parameters
         ----------
@@ -132,7 +131,7 @@ class Cli:
     def run_menu(self, menu_prompt="", menu_model=None, menu_key_error=None):
         """
         Runs a CLI menu selection code with a prompt, and target functions.
-        
+
         No args assumes it is being called as the main menu for the CLI:
         Default for menu_prompt, menu_model, menu_key_error will use the instance attributes
         of self.main_menu_prompt, self.main_menu_model, self.unrecognized_command.
@@ -142,6 +141,8 @@ class Cli:
 
         Gets a command from the user or a command_queue that was the result of a prior
         command's execution.
+
+        If the user does not enter an input, they are reprompted.
 
         Processes the result from the command or menu_key_error method:
             If it is 'quit' it exits the current menu-level
@@ -163,6 +164,7 @@ class Cli:
             menu_key_error = self.unrecognized_command
 
         command_queue = []
+
         while True:
             try:
                 # Get Command
@@ -171,7 +173,8 @@ class Cli:
                     result = command()
                 else:
                     command = input(menu_prompt).lower()
-                    # TODO check empty command here?
+                    if not command:  # Re-prompt if nothing entered
+                        continue
                     result = menu_model[command]()
             except KeyError:
                 result = menu_key_error(command)

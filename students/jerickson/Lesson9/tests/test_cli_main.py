@@ -193,19 +193,13 @@ class Test_Cli_Main_Cli_Run_Menu:
         with pytest.raises(StopIteration):  # Assert command list was emptied
             mocked_input()
 
-    @pytest.mark.parametrize(
-        "command_list",
-        [
-            pytest.param(["", "0"], id="empty_quit"),
-            pytest.param(["spam", "0"], id="unrecognized_quit"),
-        ],
-    )
-    def test_cli_main_cli_run_menu_invalid_inputs(
-        self, mocker, command_dispatch, command_list
+    def test_cli_main_cli_run_menu_invalid_input_unrecognized(
+        self, mocker, command_dispatch,
     ):
-        """Positive-Test-Cases, invalid inputs"""
+        """Positive-Test-Cases, invalid input: unrecognized command"""
         # Setup
         inst = cli_main.Cli()
+        command_list = ["spam", "0"]
 
         # Mock
         mocked_input = generate_mocked_input(command_list)
@@ -219,6 +213,30 @@ class Test_Cli_Main_Cli_Run_Menu:
         assert command_dispatch["0"].call_count == 1  # quit called once
         assert inst.unrecognized_command.call_count == 1
         assert inst.unrecognized_command.call_args[0][0] == command_list[0]
+        with pytest.raises(StopIteration):  # Assert command list was emptied
+            mocked_input()
+
+    def test_cli_main_cli_run_menu_invalid_input_empty(self, mocker, command_dispatch):
+        """
+        Positive-Test-Cases, invalid input: empty command
+
+        Empty command (user just pressed enter) re-prompts, doesn't call menu_key_error
+        """
+        # Setup
+        inst = cli_main.Cli()
+        command_list = ["", "0"]
+
+        # Mock
+        mocked_input = generate_mocked_input(command_list)
+        mocked_input = mocker.patch.object(cli_main, "input", new=mocked_input)
+        inst.unrecognized_command = mocker.MagicMock()
+
+        # Execute
+        inst.run_menu(menu_prompt="spam", menu_model=command_dispatch)
+
+        # Assert
+        assert command_dispatch["0"].call_count == 1  # quit called once
+        assert inst.unrecognized_command.call_count == 0
         with pytest.raises(StopIteration):  # Assert command list was emptied
             mocked_input()
 
