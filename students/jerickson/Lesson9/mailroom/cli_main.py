@@ -159,7 +159,7 @@ class Cli:
         try:  # Try to add donation
             # TODO Remove currency symbols
             amount = float(command)
-            donor_data = self.record._donors[self._thank_you_donor]
+            donor_data = self.record.donors[self._thank_you_donor]
             donor_data.add_donation(amount)
             print(f"Donor “{self._thank_you_donor}” donated: ${amount:0.2f}")
             return "quit"

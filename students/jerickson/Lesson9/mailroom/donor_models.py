@@ -124,7 +124,7 @@ class Record:
     """Holds all donation data for the charity"""
 
     def __init__(self):
-        self._donors = {}
+        self.donors = {}
 
     def add_donor(self, new_donor_name):
         """
@@ -137,7 +137,7 @@ class Record:
         new_donor_name : str
             Name of new donor
         """
-        self._donors[new_donor_name] = Donor(name=new_donor_name)
+        self.donors[new_donor_name] = Donor(name=new_donor_name)
 
     @property
     def donor_list(self):
@@ -150,7 +150,7 @@ class Record:
             All Donor names sorted decending by donor's total_given
         """
         return sorted(
-            self._donors, key=lambda name: self._donors[name].total_given, reverse=True
+            self.donors, key=lambda name: self.donors[name].total_given, reverse=True
         )
 
     def compose_report(self):
@@ -189,10 +189,10 @@ class Record:
 
         # Append Sorted Donor Records
         for name in self.donor_list:
-            total_given = self._donors[name].total_given
+            total_given = self.donors[name].total_given
             if not total_given:  # Exclude donors with 0 given
                 continue
-            num_gifts = self._donors[name].total_gifts
+            num_gifts = self.donors[name].total_gifts
             donor_average = float(total_given / num_gifts)
             donor_string = "|{}| ${{:>12.2f}}|{{:^13d}}| ${{:>13.2f}}|".format(
                 name_field_dynamic
@@ -207,7 +207,7 @@ class Record:
         """Write to disk thank-you emails for each donor."""
         path = os.path.dirname(os.path.realpath(__file__))
         file_id = 0
-        for donor_name, donor_data in self._donors.items():
+        for donor_name, donor_data in self.donors.items():
             try:
                 thank_you_message = donor_data.thank_you_overall()
             except LookupError:  # Skips donors with $0 donated

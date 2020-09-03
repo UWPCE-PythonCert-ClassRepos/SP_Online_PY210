@@ -47,7 +47,7 @@ class Test_Record_Init:
         record = donor_models.Record()
 
         # Assert
-        assert record._donors == {}  # pylint: disable=protected-access
+        assert record.donors == {}  # pylint: disable=protected-access
 
     def test_donor_init_negative_invalid_name(self):
         """Negative-Test-Cases"""
@@ -83,7 +83,7 @@ class Test_Record_Add_Donor:
         record.add_donor(name)
 
         # Assert
-        assert record._donors[name].name == name  # pylint: disable=protected-access
+        assert record.donors[name].name == name  # pylint: disable=protected-access
 
 
 class Test_Record_Donor_List:
@@ -107,7 +107,7 @@ class Test_Record_Donor_List:
         for name, given in donor_data:
             donor = DonorMock(name=name)
             donor.total_given = given
-            record._donors[donor.name] = donor
+            record.donors[donor.name] = donor
 
         # Execute
         donor_list_sorted = record.donor_list
@@ -115,7 +115,7 @@ class Test_Record_Donor_List:
         # Assert
         last_donor_amount = 0
         for donor in donor_list_sorted[::-1]:
-            this_donor_amount = record._donors[donor].total_given
+            this_donor_amount = record.donors[donor].total_given
             assert this_donor_amount >= last_donor_amount
             last_donor_amount = this_donor_amount
 
@@ -155,7 +155,7 @@ class Test_Record_Compose_Report:
             donor = DonorMock(name=name)
             donor.total_given = amount
             donor.total_gifts = num_gifts
-            record._donors[donor.name] = donor  # pylint: disable=protected-access
+            record.donors[donor.name] = donor  # pylint: disable=protected-access
 
         name_list_goal_sorted = [
             (name, amount)
@@ -213,10 +213,10 @@ class Test_Record_Save_All_Donors_Emails:
         for donor_name, message in donors_data:
             donor = DonorMock(donor_name)
             donor.thank_you_message = message
-            record._donors[donor.name] = donor
+            record.donors[donor.name] = donor
         zero_donor = DonorMock("zero_donor")  # Donor with $0 causes LookupError
         mocker.patch.object(zero_donor, "thank_you_overall", side_effect=LookupError)
-        record._donors[zero_donor.name] = zero_donor
+        record.donors[zero_donor.name] = zero_donor
 
         mocked_file = mocker.MagicMock()
         mocked_file.__enter__.return_value = mocked_file  # Context Manager Mock

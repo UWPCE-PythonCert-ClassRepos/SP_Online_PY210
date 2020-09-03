@@ -603,7 +603,7 @@ class Test_Cli_Main_Cli_Amount_Menu_Input:
         mocked_donor = mocker.MagicMock()
         mocked_donor.donations = []
         inst.record = mocker.MagicMock()
-        inst.record._donors = {donor_entered: mocked_donor}
+        inst.record.donors = {donor_entered: mocked_donor}
         inst._thank_you_donor = donor_entered
 
         def mocked_add_donation(amount):
@@ -619,7 +619,7 @@ class Test_Cli_Main_Cli_Amount_Menu_Input:
             donations_float.append(float(donation_entry))
 
         # Assert
-        assert inst.record._donors[donor_entered].donations == donations_float
+        assert inst.record.donors[donor_entered].donations == donations_float
         assert all(res == "quit" for res in result_list)
 
     def test_cli_main_cli_amount_menu_input_unrecognized(self, mocker):
