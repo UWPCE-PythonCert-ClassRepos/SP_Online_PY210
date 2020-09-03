@@ -24,15 +24,18 @@ class Element(object):
         # Loop through list of contents, having tags on front and back
         out_file.write(f"<{self.tag}>\n")
         for content in self.contents:
-            out_file.write(content)
-            out_file.write("\n")
+            # out_file.write(content)
+            try:
+                content.render(out_file)
+            except AttributeError:
+                out_file.write(content)
+                out_file.write("\n")
         out_file.write(f"</{self.tag}>\n")
 
 
 class Body(Element):
 
     tag = "body"
-
 
 class P(Element):
 
@@ -42,3 +45,24 @@ class Html(Element):
 
     tag = "html"
 
+class Head(Element):
+
+    tag = "head"
+
+class OneLineTag(Element):
+
+    def render(self, out_file):
+        out_file.write(f"<{self.tag}>")
+        for content in self.contents:
+            try:
+                content.render(out_file)
+            except AttributeError:
+                out_file.write(content)
+        out_file.write(f"</{self.tag}>\n")
+
+class Title(OneLineTag):
+
+    tag = "title"
+
+if __name__ == "__main__":
+    pass
