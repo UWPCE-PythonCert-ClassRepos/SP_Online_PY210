@@ -63,8 +63,8 @@ class Test_Cli_Main_Cli_Define_Menus:
         menu_attributes = [
             "main_menu_model",
             "main_menu_prompt",
-            "thank_you_menu_model",
-            "thank_you_menu_prompt",
+            "name_menu_model",
+            "name_menu_prompt",
             "amount_menu_model",
             "amount_menu_prompt",
         ]
@@ -448,8 +448,8 @@ class Test_Cli_Main_Cli_Thank_You:
         assert inst.run_menu.call_count == 1
 
 
-class Test_Cli_Main_Cli_Thank_You_Input:
-    """Tests the cli_main.Cli.thank_you_input method."""
+class Test_Cli_Main_Cli_Name_Menu_Input:
+    """Tests the cli_main.Cli.name_menu_input method."""
 
     # pylint: disable=protected-access
 
@@ -457,7 +457,7 @@ class Test_Cli_Main_Cli_Thank_You_Input:
         "result_goal",
         [pytest.param("quit", id="existing"), pytest.param("new_donor", id="new"),],
     )
-    def test_cli_main_cli_thank_you_input_name(self, mocker, result_goal):
+    def test_cli_main_cli_name_menu_input_name(self, mocker, result_goal):
         """Positive-Test-Cases, name entered"""
         # Setup
         command = "spam"
@@ -468,7 +468,7 @@ class Test_Cli_Main_Cli_Thank_You_Input:
 
         # Execute
         first_value = inst._thank_you_donor
-        result = inst.thank_you_input(command)
+        result = inst.name_menu_input(command)
         second_value = inst._thank_you_donor
 
         # Assert
@@ -479,7 +479,7 @@ class Test_Cli_Main_Cli_Thank_You_Input:
     @pytest.mark.parametrize(
         "command", [pytest.param("D1", id="Donor1"), pytest.param("D2", id="Donor2"),],
     )
-    def test_cli_main_cli_thank_you_input_valid_donor_id(self, mocker, command):
+    def test_cli_main_cli_name_menu_input_valid_donor_id(self, mocker, command):
         """Positive-Test-Cases, valid donor_id"""
         # Setup
         donor_list = ["spam", "eggs"]
@@ -492,7 +492,7 @@ class Test_Cli_Main_Cli_Thank_You_Input:
 
         # Execute
         first_value = inst._thank_you_donor
-        result = inst.thank_you_input(command)
+        result = inst.name_menu_input(command)
         second_value = inst._thank_you_donor
 
         # Assert
@@ -500,7 +500,7 @@ class Test_Cli_Main_Cli_Thank_You_Input:
         assert first_value == ""
         assert second_value == donor_list[donor_id]
 
-    def test_cli_main_cli_thank_you_input_invalid_donor_id(self, mocker):
+    def test_cli_main_cli_name_menu_input_invalid_donor_id(self, mocker):
         """Positive-Test-Cases, invalid donor_id"""
         # Setup
         command = "D3"
@@ -513,7 +513,7 @@ class Test_Cli_Main_Cli_Thank_You_Input:
         inst.unrecognized_command = mocker.MagicMock()
 
         # Execute
-        result = inst.thank_you_input(command)
+        result = inst.name_menu_input(command)
 
         # Assert
         assert inst._thank_you_donor == ""

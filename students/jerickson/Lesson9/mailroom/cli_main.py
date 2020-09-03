@@ -1,4 +1,5 @@
 """Contains the Command Line Interface (CLI) for the mailroom package."""
+# pylint: disable=attribute-defined-outside-init
 
 from mailroom import donor_models  # pylint: disable=import-error
 
@@ -30,14 +31,14 @@ class Cli:
             "\nChoose: “1”: Send a Thank You, “2”: Create a Report"
             " “3”: Send Letters to Everyone or “0”: Quit ->: "
         )
-        self.thank_you_menu_model = {
+        self.name_menu_model = {
             "1": self.donor_list,
             "new_donor": self.add_donor,
             "0": self.quit_menu,
             "quit": self.quit_menu,
         }
 
-        self.thank_you_menu_prompt = (
+        self.name_menu_prompt = (
             "\nChoose: “1”: Get list of prior donors, “0”: Quit, or "
             "enter a donor's full name ->: "
         )
@@ -65,9 +66,9 @@ class Cli:
         Gets user input of donor name and donation amount.
         """
         self.run_menu(
-            menu_prompt=self.thank_you_menu_prompt,
-            menu_model=self.thank_you_menu_model,
-            menu_key_error=self.thank_you_input,
+            menu_prompt=self.name_menu_prompt,
+            menu_model=self.name_menu_model,
+            menu_key_error=self.name_menu_input,
         )
 
     def donor_list(self):
@@ -110,7 +111,6 @@ class Cli:
 
     def add_donor(self):
         """Adds a new donor to the donation record."""
-        # TODO remove and put in find_donor??
         self.record.add_donor(self._thank_you_donor)
         print(f"Added donor “{self._thank_you_donor}”")
         return "quit"
@@ -120,7 +120,7 @@ class Cli:
         """Return the string "quit" to exit a menu-level"""
         return "quit"
 
-    def thank_you_input(self, command):  # TODO RENAME
+    def name_menu_input(self, command):
         """
         Called when the thank-you-menu receives an unrecognized command.
 
@@ -134,16 +134,16 @@ class Cli:
         try:  # Check to see if input is a donor_id: "D#"
             donor_id = int(command[1:])
             donor_id -= 1  # Translate 1-index to 0-index
-            self._thank_you_donor = self.record.donor_list[donor_id]
-            return "quit"
+            donor_name = self.record.donor_list[donor_id]
+            result = "quit"
         except IndexError:  # Unrecognized Donor ID
             self.unrecognized_command(command)
-            self._thank_you_donor = ""
-            return ""
+            donor_name = ""
+            result = ""
         except ValueError:  # Not a donor_id, set as donor name
             donor_name, result = self.find_donor(command)
-            self._thank_you_donor = donor_name
-            return result
+        self._thank_you_donor = donor_name
+        return result
 
     def amount_menu_input(self, command):
         """
@@ -157,7 +157,6 @@ class Cli:
             The user-input command string to parse.
         """
         try:  # Try to add donation
-            # TODO Remove currency symbols
             amount = float(command)
             donor_data = self.record.donors[self._thank_you_donor]
             donor_data.add_donation(amount)
