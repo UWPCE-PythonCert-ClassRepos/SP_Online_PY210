@@ -23,14 +23,14 @@ class Cli:
         self.main_menu_model = {
             "1": self.thank_you,
             "2": self.report,
-            "3": "save_all_donor_emails",
+            "3": self.save_all_donor_emails,
             "0": self.quit_menu,
             "quit": self.quit_menu,
         }
 
         self.main_menu_prompt = (
             "\nChoose: “1”: Send a Thank You, “2”: Create a Report"
-            " “3”: Send Letters to Everyone or “0”: Quit ->: "
+            " “3”: Send Letters to Everyone, “0”: Quit ->: "
         )
         self.name_menu_model = {
             "1": self.donor_list,
@@ -40,10 +40,9 @@ class Cli:
         }
 
         self.name_menu_prompt = (
-            "\nChoose: “1”: Get list of prior donors, “0”: Quit, or "
-            "enter a donor's full name ->: "
+            "\nEnter donor's full name: (Or choose: “1”: List"
+            " prior donors, “0”: Quit) ->: "
         )
-
         self.amount_menu_model = {
             "help": self.amount_menu_help,
             "0": self.quit_menu,
@@ -51,14 +50,17 @@ class Cli:
         }
 
         self.amount_menu_prompt = (
-            "\nChoose: “help”: for information, “0”: Quit, or "
-            "enter how much was donated. ->: "
+            "\nEnter how much was donated: (Or choose: “0”: Quit, “help”: Info) ->: "
         )
 
     def report(self):
         """Print a report of the donation history."""
         for line in self.record.compose_report():
             print(line)
+
+    def save_all_donor_emails(self):
+        """Save all donor thank-you-overall emails"""
+        self.record.save_all_donor_emails()
 
     def thank_you(self):
         """

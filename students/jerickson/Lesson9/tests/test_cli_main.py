@@ -736,6 +736,30 @@ class Test_Cli_Main_Cli_Amount_Menu_Help:
         assert "help" in mocked_print.call_args[0][0].lower()
 
 
+class Test_Cli_Main_Cli_Save_Emails:
+    """
+    Tests the cli_main.Cli.save_emails method.
+
+    __builtins__.print() is mocked to simulate user-interaction
+    __builtins__.open() is mocked to simulate user-interaction and saving files
+    inst.record.save_all_donor_emails() is mocked to provide an isolated state for each test
+    """
+
+    def test_cli_main_cli_save_emails(self, mocker):
+        """Positive-Test-Cases"""
+        # Setup
+        inst = cli_main.Cli()
+
+        # Mock
+        inst.record = mocker.MagicMock()
+
+        # Execute
+        inst.save_all_donor_emails()
+
+        # Assert
+        assert inst.record.save_all_donor_emails.call_count == 1
+
+
 class Test_Cli_Main_Main:
     """
     Tests the cli_main.main method.
