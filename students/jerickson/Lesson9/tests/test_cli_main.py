@@ -433,19 +433,46 @@ class Test_Cli_Main_Cli_Donor_List:
 class Test_Cli_Main_Cli_Thank_You:
     """Tests the cli_main.Cli.thank_you method."""
 
-    def test_cli_main_cli_thank_you(self, mocker):
-        """Positive-Test-Cases, invalid inputs"""
+    def test_cli_main_cli_thank_you_no_print(self, mocker, mocked_print):
+        """Positive-Test-Cases, no print thank-you"""
         # Setup
         inst = cli_main.Cli()
 
         # Mock
+        mocked_print = mocker.patch.object(cli_main, "print")
         inst.run_menu = mocker.MagicMock()
 
         # Execute
         inst.thank_you()
 
         # Assert
-        assert inst.run_menu.call_count == 1
+        assert inst.run_menu.call_count == 2
+        assert mocked_print.call_count == 0
+
+    def test_cli_main_cli_thank_you_print(self, mocker, mocked_print):
+        """Positive-Test-Cases, print thank-you"""
+        # Setup
+        donor_name = "spam"
+        message = "eggs"
+        inst = cli_main.Cli()
+
+        # Mock
+        inst._thank_you_donor = donor_name  # pylint: disable=protected-access
+        inst.record = mocker.MagicMock()
+        mocked_donor = mocker.MagicMock()
+        mocked_donor.thank_you_latest = mocker.MagicMock(return_value=message)
+        inst.record.donors = {donor_name: mocked_donor}
+
+        mocked_print = mocker.patch.object(cli_main, "print")
+        inst.run_menu = mocker.MagicMock()
+
+        # Execute
+        inst.thank_you()
+
+        # Assert
+        assert inst.run_menu.call_count == 2
+        assert mocked_print.call_count == 1
+        assert mocked_print.call_args[0][0] == message
 
 
 class Test_Cli_Main_Cli_Name_Menu_Input:

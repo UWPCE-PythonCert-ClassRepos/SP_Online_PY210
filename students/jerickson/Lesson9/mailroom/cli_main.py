@@ -51,7 +51,7 @@ class Cli:
 
         self.amount_menu_prompt = (
             "\nChoose: “help”: for information, “0”: Quit, or "
-            f"enter how much {self._thank_you_donor} donated. ->: "
+            "enter how much was donated. ->: "
         )
 
     def report(self):
@@ -70,6 +70,16 @@ class Cli:
             menu_model=self.name_menu_model,
             menu_key_error=self.name_menu_input,
         )
+        self.run_menu(
+            menu_prompt=self.amount_menu_prompt,
+            menu_model=self.amount_menu_model,
+            menu_key_error=self.amount_menu_input,
+        )
+        try:
+            message = self.record.donors[self._thank_you_donor].thank_you_latest()
+            print(message)
+        except LookupError:  # Donation was not made
+            pass
 
     def donor_list(self):
         """
@@ -99,7 +109,7 @@ class Cli:
         name_found : str
             Donor name found
         result : str
-            The string that helps the calling function dispatch the next behavior.
+            Result message to send to menu dispatch
         """
         if name_entered in self.record.donor_list:
             name_found = name_entered
@@ -110,10 +120,18 @@ class Cli:
         return name_found, result
 
     def add_donor(self):
-        """Adds a new donor to the donation record."""
+        """
+        Adds a new donor to the donation record.
+
+        Returns
+        -------
+        result : str
+            Result message to send to menu dispatch
+        """
         self.record.add_donor(self._thank_you_donor)
         print(f"Added donor “{self._thank_you_donor}”")
-        return "quit"
+        result = "quit"
+        return result
 
     @staticmethod
     def quit_menu():
@@ -130,11 +148,18 @@ class Cli:
         ----------
         command : str
             The user-input command string to parse.
+
+        Returns
+        -------
+        result : str
+            Result message to send to menu dispatch
         """
         try:  # Check to see if input is a donor_id: "D#"
-            donor_id = int(command[1:])
+            donor_id = command.lower().replace("d", "", 1)
+            donor_id = int(donor_id)
             donor_id -= 1  # Translate 1-index to 0-index
             donor_name = self.record.donor_list[donor_id]
+            print(f"Selected donor: “{donor_name}”")
             result = "quit"
         except IndexError:  # Unrecognized Donor ID
             self.unrecognized_command(command)
@@ -161,11 +186,11 @@ class Cli:
             donor_data = self.record.donors[self._thank_you_donor]
             donor_data.add_donation(amount)
             print(f"Donor “{self._thank_you_donor}” donated: ${amount:0.2f}")
-            return "quit"
+            result = "quit"
         except ValueError:  # Unrecognized Command
             self.unrecognized_command(command)
-            self._thank_you_donor = ""
-            return ""
+            result = ""
+        return result
 
     @staticmethod
     def unrecognized_command(command):
