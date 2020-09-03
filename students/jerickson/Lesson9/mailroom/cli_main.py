@@ -1,6 +1,7 @@
 """Contains the Command Line Interface (CLI) for the mailroom package."""
 # pylint: disable=attribute-defined-outside-init
 
+import regex
 from mailroom import donor_models  # pylint: disable=import-error
 
 
@@ -182,10 +183,11 @@ class Cli:
             The user-input command string to parse.
         """
         try:  # Try to add donation
+            command = regex.sub("\\p{Currency_Symbol}", "", command)  # Strip symbols
             amount = float(command)
             donor_data = self.record.donors[self._thank_you_donor]
             donor_data.add_donation(amount)
-            print(f"Donor “{self._thank_you_donor}” donated: ${amount:0.2f}")
+            print(f"Donor “{self._thank_you_donor}” donated: {amount:0.2f}")
             result = "quit"
         except ValueError:  # Unrecognized Command
             self.unrecognized_command(command)

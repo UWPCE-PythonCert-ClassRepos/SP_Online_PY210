@@ -9,6 +9,7 @@ Test Cases:
 # pylint: disable=redefined-outer-name
 # pylint: disable=too-few-public-methods
 
+import regex
 import pytest
 
 from pytest_mock import mocker  # pylint: disable=unused-import
@@ -614,7 +615,8 @@ class Test_Cli_Main_Cli_Amount_Menu_Input:
         [
             pytest.param(["42", "42"], id="multiple_int"),
             pytest.param(["42.42", "42.42"], id="multiple_float"),
-            pytest.param(["42", "42.42"], id="multiple_mixed"),  # Add currency
+            pytest.param(["42", "42.42"], id="multiple_mixed"),
+            pytest.param(["$42", "42.42€"], id="currency"),
         ],
     )
     def test_cli_main_cli_amount_menu_input(self, mocker, donation_entries):
@@ -643,7 +645,9 @@ class Test_Cli_Main_Cli_Amount_Menu_Input:
         for donation_entry in donation_entries:
             result = inst.amount_menu_input(donation_entry)
             result_list.append(result)
-            donations_float.append(float(donation_entry))
+
+            currency_stripped = regex.sub("\\p{Currency_Symbol}", "", donation_entry)
+            donations_float.append(float(currency_stripped))
 
         # Assert
         assert inst.record.donors[donor_entered].donations == donations_float
@@ -657,6 +661,43 @@ class Test_Cli_Main_Cli_Amount_Menu_Input:
 
         # Mock
         inst.record = mocker.MagicMock()
+        inst.unrecognized_command = mocker.MagicMock()
+
+        # Execute
+        result = inst.amount_menu_input(command)
+
+        # Assert
+        assert result == ""
+        assert inst.unrecognized_command.call_count == 1
+        assert inst.unrecognized_command.call_args[0][0] == command
+
+    @pytest.mark.parametrize(
+        "command",
+        [
+            pytest.param("-42.42", id="negative_float"),
+            pytest.param("-42", id="negative_int"),
+            pytest.param("eggs", id="letters"),
+            pytest.param("D0D", id="close_to_id"),
+        ],
+    )
+    def test_cli_main_cli_amount_menu_input_invalid(self, mocker, command):
+        """Positive-Test-Cases"""
+        # Setup
+        donor_entered = "spam"
+        inst = cli_main.Cli()
+
+        # Mock
+        def mocked_add_donation(amount):
+            if amount <= 0:
+                raise ValueError
+
+        mocked_donor = mocker.MagicMock()
+        mocked_donor.donations = []
+        mocked_donor.add_donation = mocked_add_donation
+        inst.record = mocker.MagicMock()
+        inst.record.donors = {donor_entered: mocked_donor}
+        inst._thank_you_donor = donor_entered  # pylint: disable=protected-access
+
         inst.unrecognized_command = mocker.MagicMock()
 
         # Execute
