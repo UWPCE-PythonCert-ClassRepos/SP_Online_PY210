@@ -65,6 +65,8 @@ class Test_Cli_Main_Cli_Define_Menus:
             "main_menu_prompt",
             "thank_you_menu_model",
             "thank_you_menu_prompt",
+            "amount_menu_model",
+            "amount_menu_prompt",
         ]
         for menu_attribute in menu_attributes:
             first = getattr(inst, menu_attribute)  # Capture original value
@@ -262,14 +264,14 @@ class Test_Cli_Main_Cli_Run_Menu:
             mocked_input()
 
     @pytest.mark.parametrize(
-        "queue_len",
+        "queue_input",
         [
-            pytest.param(0, id="run_zero"),
-            pytest.param(1, id="run_once"),
-            pytest.param(2, id="run_twice"),
+            pytest.param(["0"], id="run_zero"),
+            pytest.param(["2", "2", "0"], id="run_2_twice"),
+            pytest.param("0", id="run_zero_string"),
         ],
     )
-    def test_cli_main_cli_run_menu_queue(self, mocker, command_dispatch, queue_len):
+    def test_cli_main_cli_run_menu_queue(self, mocker, command_dispatch, queue_input):
         """
         Positive-Test-Cases, menu can return a queue of callables.
 
@@ -284,9 +286,6 @@ class Test_Cli_Main_Cli_Run_Menu:
         inst = cli_main.Cli()
 
         # Mock
-        command_2 = command_dispatch["2"]
-        command_quit = command_dispatch["0"]
-        queue_input = [command_2] * queue_len + [command_quit]
         command_dispatch["1"] = mocker.MagicMock(return_value=queue_input)
 
         mocked_input = generate_mocked_input(command_list)
@@ -297,7 +296,7 @@ class Test_Cli_Main_Cli_Run_Menu:
 
         # Assert
         assert command_dispatch["1"].call_count == 1
-        assert command_dispatch["2"].call_count == queue_len
+        assert command_dispatch["2"].call_count == queue_input.count("2")
         assert command_dispatch["0"].call_count == 1
         with pytest.raises(StopIteration):  # Assert command list was emptied
             mocked_input()
@@ -351,15 +350,15 @@ class Test_Cli_Main_Cli_Run_Menu:
             mocked_input()
 
     @pytest.mark.parametrize(
-        "queue_len",
+        "queue_input",
         [
-            pytest.param(0, id="run_zero"),
-            pytest.param(1, id="run_once"),
-            pytest.param(2, id="run_twice"),
+            pytest.param("", id="empty_queue"),
+            pytest.param(["2", "2"], id="run_2_twice"),
+            pytest.param("2", id="run_2_string"),
         ],
     )
     def test_cli_main_cli_run_menu_key_error_queue(
-        self, mocker, command_dispatch, queue_len
+        self, mocker, command_dispatch, queue_input
     ):
         """
         Positive-Test-Cases, menu_key_error can return a queue of callables.
@@ -373,11 +372,9 @@ class Test_Cli_Main_Cli_Run_Menu:
         inst = cli_main.Cli()
 
         # Mock
-        queue_list = [command_dispatch["2"]] * queue_len
-
         mocked_input = generate_mocked_input(command_list)
         mocked_input = mocker.patch.object(cli_main, "input", new=mocked_input)
-        mocked_menu_key_error = mocker.MagicMock(return_value=queue_list)
+        mocked_menu_key_error = mocker.MagicMock(return_value=queue_input)
 
         # Execute
         inst.run_menu(
@@ -389,7 +386,7 @@ class Test_Cli_Main_Cli_Run_Menu:
         # Assert
         assert command_dispatch["1"].call_count == 1
         assert "2" not in command_list  # Assert test-case is setup properly
-        assert command_dispatch["2"].call_count == queue_len
+        assert command_dispatch["2"].call_count == queue_input.count("2")
         assert command_dispatch["0"].call_count == 1
         with pytest.raises(StopIteration):  # Assert command list was emptied
             mocked_input()
@@ -525,7 +522,7 @@ class Test_Cli_Main_Cli_Thank_You_Input:
         assert inst.unrecognized_command.call_args[0][0] == command
 
 
-class Test_Cli_Main_Find_Donor:
+class Test_Cli_Main_Cli_Find_Donor:
     """Tests the cli_main.Cli.find_donor method."""
 
     @pytest.mark.parametrize(
@@ -536,7 +533,7 @@ class Test_Cli_Main_Find_Donor:
             pytest.param("cheese", id="new"),
         ],
     )
-    def test_cli_main_donor_find_donor(self, mocker, donor_entered):
+    def test_cli_main_cli_find_donor(self, mocker, donor_entered):
         """Positive-Test-Cases"""
         donor_list = ["spam", "eggs"]
         inst = cli_main.Cli()
@@ -556,10 +553,10 @@ class Test_Cli_Main_Find_Donor:
             assert result == "new_donor"
 
 
-class Test_Cli_Main_Add_Donor:
+class Test_Cli_Main_Cli_Add_Donor:
     """Tests the cli_main.Cli.add_donor method."""
 
-    def test_cli_main_donor_add_donor(self, mocker):
+    def test_cli_main_Cli_add_donor(self, mocker):
         """Positive-Test-Cases"""
         donor_entered = "spam"
         inst = cli_main.Cli()
@@ -567,6 +564,7 @@ class Test_Cli_Main_Add_Donor:
         # Mock
         inst.record = mocker.MagicMock()
         inst.record.donor_list = []
+        inst._thank_you_donor = donor_entered  # pylint: disable=protected-access
 
         def mocked_add_donor(name):
             """Mocks the record.add_donor method"""
@@ -575,10 +573,72 @@ class Test_Cli_Main_Add_Donor:
         inst.record.add_donor = mocked_add_donor
 
         # Execute
-        inst.add_donor(donor_entered)
+        inst.add_donor()
 
         # Assert
         assert donor_entered in inst.record.donor_list
+
+
+class Test_Cli_Main_Cli_Amount_Menu_Input:
+    """Tests the cli_main.Cli.amount_menu_input method."""
+
+    @pytest.mark.parametrize(
+        "donation_entries",
+        [
+            pytest.param(["42", "42"], id="multiple_int"),
+            pytest.param(["42.42", "42.42"], id="multiple_float"),
+            pytest.param(["42", "42.42"], id="multiple_mixed"),  # Add currency
+        ],
+    )
+    def test_cli_main_cli_amount_menu_input(self, mocker, donation_entries):
+        """Positive-Test-Cases"""
+        # pylint: disable=protected-access
+        # Setup
+        donor_entered = "spam"
+        inst = cli_main.Cli()
+        donations_float = []
+        result_list = []
+
+        # Mock
+        mocked_donor = mocker.MagicMock()
+        mocked_donor.donations = []
+        inst.record = mocker.MagicMock()
+        inst.record._donors = {donor_entered: mocked_donor}
+        inst._thank_you_donor = donor_entered
+
+        def mocked_add_donation(amount):
+            """Mocks the record.add_donor method"""
+            mocked_donor.donations.append(amount)
+
+        mocked_donor.add_donation = mocked_add_donation
+
+        # Execute
+        for donation_entry in donation_entries:
+            result = inst.amount_menu_input(donation_entry)
+            result_list.append(result)
+            donations_float.append(float(donation_entry))
+
+        # Assert
+        assert inst.record._donors[donor_entered].donations == donations_float
+        assert all(res == "quit" for res in result_list)
+
+    def test_cli_main_cli_amount_menu_input_unrecognized(self, mocker):
+        """Positive-Test-Cases"""
+        # Setup
+        command = "spam"
+        inst = cli_main.Cli()
+
+        # Mock
+        inst.record = mocker.MagicMock()
+        inst.unrecognized_command = mocker.MagicMock()
+
+        # Execute
+        result = inst.amount_menu_input(command)
+
+        # Assert
+        assert result == ""
+        assert inst.unrecognized_command.call_count == 1
+        assert inst.unrecognized_command.call_args[0][0] == command
 
 
 class Test_Cli_Main_Main:

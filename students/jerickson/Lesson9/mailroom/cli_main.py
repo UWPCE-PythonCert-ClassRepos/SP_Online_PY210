@@ -9,7 +9,6 @@ class Cli:
     def __init__(self):
         self.record = donor_models.Record()
         self._define_menus()  # Construct menu defaults
-        self._thank_you_donor = ""
 
     def _define_menus(self):
         """
@@ -17,11 +16,14 @@ class Cli:
 
         Call using __init__(). Calling again resets attributes.
         """
+        self._thank_you_donor = ""
+
         self.main_menu_model = {
             "1": self.thank_you,
             "2": self.report,
             "3": "save_all_donor_emails",
             "0": self.quit_menu,
+            "quit": self.quit_menu,
         }
 
         self.main_menu_prompt = (
@@ -32,11 +34,23 @@ class Cli:
             "1": self.donor_list,
             "new_donor": self.add_donor,
             "0": self.quit_menu,
+            "quit": self.quit_menu,
         }
 
         self.thank_you_menu_prompt = (
             "\nChoose: “1”: Get list of prior donors, “0”: Quit, or "
             "enter a donor's full name ->: "
+        )
+
+        self.amount_menu_model = {
+            "help": "help",  # TODO add help function describing amount entering guide
+            "0": self.quit_menu,
+            "quit": self.quit_menu,
+        }
+
+        self.amount_menu_prompt = (
+            "\nChoose: “help”: for information, “0”: Quit, or "
+            f"enter how much {self._thank_you_donor} donated. ->: "
         )
 
     def report(self):
@@ -94,23 +108,19 @@ class Cli:
             result = "new_donor"
         return name_found, result
 
-    def add_donor(self, name):
-        """
-        Adds a new donor to the donation record.
-
-        Parameters
-        ----------
-        name : str
-            Donor's name.
-        """
-        self.record.add_donor(name)
+    def add_donor(self):
+        """Adds a new donor to the donation record."""
+        # TODO remove and put in find_donor??
+        self.record.add_donor(self._thank_you_donor)
+        print(f"Added donor “{self._thank_you_donor}”")
+        return "quit"
 
     @staticmethod
     def quit_menu():
         """Return the string "quit" to exit a menu-level"""
         return "quit"
 
-    def thank_you_input(self, command):
+    def thank_you_input(self, command):  # TODO RENAME
         """
         Called when the thank-you-menu receives an unrecognized command.
 
@@ -134,6 +144,29 @@ class Cli:
             donor_name, result = self.find_donor(command)
             self._thank_you_donor = donor_name
             return result
+
+    def amount_menu_input(self, command):
+        """
+        Called when the new-donation-amount-menu receives an unrecognized command.
+
+        This happens when adding an amount or other unrecognized command.
+
+        Parameters
+        ----------
+        command : str
+            The user-input command string to parse.
+        """
+        try:  # Try to add donation
+            # TODO Remove currency symbols
+            amount = float(command)
+            donor_data = self.record._donors[self._thank_you_donor]
+            donor_data.add_donation(amount)
+            print(f"Donor “{self._thank_you_donor}” donated: ${amount:0.2f}")
+            return "quit"
+        except ValueError:  # Unrecognized Command
+            self.unrecognized_command(command)
+            self._thank_you_donor = ""
+            return ""
 
     @staticmethod
     def unrecognized_command(command):
@@ -159,7 +192,7 @@ class Cli:
         Processes the result from the command or menu_key_error method:
             If it is 'quit' it exits the current menu-level
             If it is a list it will add them to the command_queue to be used automatically
-            without prompting the user. This list must be a list of callables.
+            without prompting the user. This list must be a list of strings.
 
         Parameters
         ----------
@@ -181,19 +214,24 @@ class Cli:
             try:
                 # Get Command
                 if command_queue:
-                    command = command_queue.pop(0)
-                    result = command()
+                    command = command_queue.pop(0)  # Dequeue command
                 else:
                     command = input(menu_prompt).lower()
                     if not command:  # Re-prompt if nothing entered
                         continue
-                    result = menu_model[command]()
-            except KeyError:
+
+                # Run Command
+                result = menu_model[command]()
+
+            except KeyError:  # Run command through menu_key_error
                 result = menu_key_error(command)
+
             # Process Result
-            if result == "quit":  # checks if quit is returned
+            if result == "quit":  # Exits the menu-level if 'quit' is result
                 break
-            if isinstance(result, list):
+            if result:  # Any other non-empty response goes into the queue
+                if isinstance(result, str):  # Turn strings into list to allow .extend()
+                    result = [result]
                 command_queue.extend(result)
 
 
