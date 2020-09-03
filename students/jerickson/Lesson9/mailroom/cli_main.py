@@ -23,7 +23,7 @@ class Cli:
         self.main_menu_model = {
             "1": self.thank_you,
             "2": self.report,
-            "3": self.save_all_donor_emails,
+            "3": self.save_emails,
             "0": self.quit_menu,
             "quit": self.quit_menu,
         }
@@ -58,9 +58,10 @@ class Cli:
         for line in self.record.compose_report():
             print(line)
 
-    def save_all_donor_emails(self):
+    def save_emails(self):
         """Save all donor thank-you-overall emails"""
         self.record.save_all_donor_emails()
+        print("All Donor emails saved.")
 
     def thank_you(self):
         """
@@ -68,16 +69,18 @@ class Cli:
 
         Gets user input of donor name and donation amount.
         """
+        self._thank_you_donor = ""
         self.run_menu(
             menu_prompt=self.name_menu_prompt,
             menu_model=self.name_menu_model,
             menu_key_error=self.name_menu_input,
         )
-        self.run_menu(
-            menu_prompt=self.amount_menu_prompt,
-            menu_model=self.amount_menu_model,
-            menu_key_error=self.amount_menu_input,
-        )
+        if self._thank_you_donor:
+            self.run_menu(
+                menu_prompt=self.amount_menu_prompt,
+                menu_model=self.amount_menu_model,
+                menu_key_error=self.amount_menu_input,
+            )
         try:
             message = self.record.donors[self._thank_you_donor].thank_you_latest()
             print(message)
@@ -237,7 +240,7 @@ class Cli:
         menu_model : dict {str: callable}, optional
             Dictionary that selects target callable from user input str, by default None
         """
-        if not menu_prompt:
+        if not menu_prompt:  # TODO Delete defaults
             menu_prompt = self.main_menu_prompt
         if not menu_model:
             menu_model = self.main_menu_model

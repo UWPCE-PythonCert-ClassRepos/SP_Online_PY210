@@ -447,7 +447,7 @@ class Test_Cli_Main_Cli_Thank_You:
         inst.thank_you()
 
         # Assert
-        assert inst.run_menu.call_count == 2
+        assert inst.run_menu.call_count == 1
         assert mocked_print.call_count == 0
 
     def test_cli_main_cli_thank_you_print(self, mocker, mocked_print):
@@ -458,14 +458,16 @@ class Test_Cli_Main_Cli_Thank_You:
         inst = cli_main.Cli()
 
         # Mock
-        inst._thank_you_donor = donor_name  # pylint: disable=protected-access
+        def mock_set_donor_name(**kwargs):
+            inst._thank_you_donor = donor_name  # pylint: disable=protected-access
+
         inst.record = mocker.MagicMock()
         mocked_donor = mocker.MagicMock()
         mocked_donor.thank_you_latest = mocker.MagicMock(return_value=message)
         inst.record.donors = {donor_name: mocked_donor}
 
         mocked_print = mocker.patch.object(cli_main, "print")
-        inst.run_menu = mocker.MagicMock()
+        inst.run_menu = mocker.MagicMock(side_effect=mock_set_donor_name)
 
         # Execute
         inst.thank_you()
@@ -745,19 +747,22 @@ class Test_Cli_Main_Cli_Save_Emails:
     inst.record.save_all_donor_emails() is mocked to provide an isolated state for each test
     """
 
-    def test_cli_main_cli_save_emails(self, mocker):
+    def test_cli_main_cli_save_emails(self, mocker, mocked_print):
         """Positive-Test-Cases"""
         # Setup
         inst = cli_main.Cli()
 
         # Mock
+        mocked_print = mocker.patch.object(cli_main, "print")
         inst.record = mocker.MagicMock()
 
         # Execute
-        inst.save_all_donor_emails()
+        inst.save_emails()
 
         # Assert
         assert inst.record.save_all_donor_emails.call_count == 1
+        assert mocked_print.call_count == 1
+        assert "saved" in mocked_print.call_args[0][0]
 
 
 class Test_Cli_Main_Main:
