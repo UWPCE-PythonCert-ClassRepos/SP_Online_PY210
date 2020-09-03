@@ -45,7 +45,7 @@ class Cli:
         )
 
         self.amount_menu_model = {
-            "help": "help",  # TODO add help function describing amount entering guide
+            "help": self.amount_menu_help,
             "0": self.quit_menu,
             "quit": self.quit_menu,
         }
@@ -158,7 +158,7 @@ class Cli:
         try:  # Check to see if input is a donor_id: "D#"
             donor_id = command.lower().replace("d", "", 1)
             donor_id = int(donor_id)
-            donor_id -= 1  # Translate 1-index to 0-index
+            donor_id -= 1  # Translate 1-index to 0-index #TODO GOES TO -1
             donor_name = self.record.donor_list[donor_id]
             print(f"Selected donor: “{donor_name}”")
             result = "quit"
@@ -184,6 +184,7 @@ class Cli:
         """
         try:  # Try to add donation
             command = regex.sub("\\p{Currency_Symbol}", "", command)  # Strip symbols
+            command = regex.sub(",", "", command)  # Strip commas
             amount = float(command)
             donor_data = self.record.donors[self._thank_you_donor]
             donor_data.add_donation(amount)
@@ -193,6 +194,14 @@ class Cli:
             self.unrecognized_command(command)
             result = ""
         return result
+
+    @staticmethod
+    def amount_menu_help():
+        """Display a message to the user to guide in entering in an amount."""
+        print(
+            "Help: Enter a number greater than 0. Commas and some currency symbols"
+            " are ok to use."
+        )
 
     @staticmethod
     def unrecognized_command(command):

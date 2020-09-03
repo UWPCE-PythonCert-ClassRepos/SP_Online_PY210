@@ -528,7 +528,9 @@ class Test_Cli_Main_Cli_Name_Menu_Input:
         assert first_value == ""
         assert second_value == donor_list[donor_id]
 
-    def test_cli_main_cli_name_menu_input_invalid_donor_id(self, mocker):
+    def test_cli_main_cli_name_menu_input_invalid_donor_id(
+        self, mocker
+    ):  # TODO ADD D0 case
         """Positive-Test-Cases, invalid donor_id"""
         # Setup
         command = "D3"
@@ -616,6 +618,7 @@ class Test_Cli_Main_Cli_Amount_Menu_Input:
             pytest.param(["42", "42"], id="multiple_int"),
             pytest.param(["42.42", "42.42"], id="multiple_float"),
             pytest.param(["42", "42.42"], id="multiple_mixed"),
+            pytest.param(["42,420", "4,242.42"], id="multiple_commas"),
             pytest.param(["$42", "42.42€"], id="currency"),
         ],
     )
@@ -646,8 +649,10 @@ class Test_Cli_Main_Cli_Amount_Menu_Input:
             result = inst.amount_menu_input(donation_entry)
             result_list.append(result)
 
-            currency_stripped = regex.sub("\\p{Currency_Symbol}", "", donation_entry)
-            donations_float.append(float(currency_stripped))
+            # Strip currency symbols and commas from amount
+            donation_entry = regex.sub("\\p{Currency_Symbol}", "", donation_entry)
+            donation_entry = regex.sub(",", "", donation_entry)
+            donations_float.append(float(donation_entry))
 
         # Assert
         assert inst.record.donors[donor_entered].donations == donations_float
@@ -707,6 +712,25 @@ class Test_Cli_Main_Cli_Amount_Menu_Input:
         assert result == ""
         assert inst.unrecognized_command.call_count == 1
         assert inst.unrecognized_command.call_args[0][0] == command
+
+
+class Test_Cli_Main_Cli_Amount_Menu_Help:
+    """Tests the cli_main.Cli.amount_menu_help method."""
+
+    def test_cli_main_cli_amount_menu_help(self, mocker, mocked_print):
+        """Positive-Test-Cases, no print thank-you"""
+        # Setup
+        inst = cli_main.Cli()
+
+        # Mock
+        mocked_print = mocker.patch.object(cli_main, "print")
+
+        # Execute
+        inst.amount_menu_help()
+
+        # Assert
+        assert mocked_print.call_count == 1
+        assert "help" in mocked_print.call_args[0][0].lower()
 
 
 class Test_Cli_Main_Main:
