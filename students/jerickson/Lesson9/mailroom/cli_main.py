@@ -157,8 +157,7 @@ class Cli:
         """
         try:  # Check to see if input is a donor_id: "D#"
             donor_id = command.lower().replace("d", "", 1)
-            donor_id = int(donor_id)
-            donor_id -= 1  # Translate 1-index to 0-index #TODO GOES TO -1
+            donor_id = abs(int(donor_id))
             donor_name = self.record.donor_list[donor_id]
             print(f"Selected donor: “{donor_name}”")
             result = "quit"

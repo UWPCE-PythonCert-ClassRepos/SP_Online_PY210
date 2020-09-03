@@ -505,14 +505,19 @@ class Test_Cli_Main_Cli_Name_Menu_Input:
         assert result == result_goal
 
     @pytest.mark.parametrize(
-        "command", [pytest.param("D1", id="Donor1"), pytest.param("D2", id="Donor2"),],
+        "command",
+        [
+            pytest.param("D0", id="zero"),
+            pytest.param("D1", id="positive"),
+            pytest.param("D-1", id="negative"),
+        ],
     )
     def test_cli_main_cli_name_menu_input_valid_donor_id(self, mocker, command):
         """Positive-Test-Cases, valid donor_id"""
         # Setup
         donor_list = ["spam", "eggs"]
         inst = cli_main.Cli()
-        donor_id = int(command[1:]) - 1
+        donor_id = abs(int(command[1:]))
 
         # Mock
         inst.record = mocker.MagicMock()
@@ -528,9 +533,7 @@ class Test_Cli_Main_Cli_Name_Menu_Input:
         assert first_value == ""
         assert second_value == donor_list[donor_id]
 
-    def test_cli_main_cli_name_menu_input_invalid_donor_id(
-        self, mocker
-    ):  # TODO ADD D0 case
+    def test_cli_main_cli_name_menu_input_invalid_donor_id(self, mocker):
         """Positive-Test-Cases, invalid donor_id"""
         # Setup
         command = "D3"
