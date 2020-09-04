@@ -312,14 +312,15 @@ class Test_Cli_Main_Cli_Run_Menu:
         # Mock
         mocked_input = generate_mocked_input(command_list)
         mocked_input = mocker.patch.object(cli_main, "input", new=mocked_input)
-        inst.main_menu["_key_error"] = mocker.MagicMock(return_value="quit")
+        inst.unrecognized_command = mocker.MagicMock(return_value="quit")
+        inst._define_menus()  # redefine menu reference to mocked command pylint: disable=protected-access
 
         # Execute
         inst.run_menu()
 
         # Assert
-        assert inst.main_menu["_key_error"].call_count == 1
-        assert inst.main_menu["_key_error"].call_args[0][0] == unrecognized_command
+        assert inst.unrecognized_command.call_count == 1
+        assert inst.unrecognized_command.call_args[0][0] == unrecognized_command
         with pytest.raises(StopIteration):  # Assert command list was emptied
             mocked_input()
 
@@ -487,7 +488,7 @@ class Test_Cli_Main_Cli_Thank_You:
         inst = cli_main.Cli()
 
         # Mock
-        def mock_set_donor_name(*args, **kwargs):
+        def mock_set_donor_name(*args, **kwargs):  # pylint: disable=unused-argument
             inst._thank_you_donor = donor_name  # pylint: disable=protected-access
 
         inst.record = mocker.MagicMock()
@@ -514,7 +515,7 @@ class Test_Cli_Main_Cli_Name_Menu_Input:
 
     @pytest.mark.parametrize(
         "result_goal",
-        [pytest.param("quit", id="existing"), pytest.param("new_donor", id="new"),],
+        [pytest.param("quit", id="existing"), pytest.param("new_donor", id="new")],
     )
     def test_cli_main_cli_name_menu_input_name(self, mocker, result_goal):
         """Positive-Test-Cases, name entered"""
