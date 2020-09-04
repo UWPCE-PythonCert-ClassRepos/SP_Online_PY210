@@ -157,6 +157,7 @@ class Test_Mailroom_Thank_You:
         command_list = [
             "1",  # thank_you_menu
             "D0",  # name_menu enter donor_id
+            "0",  # quit amount_menu
             "0",  # quit name_menu
             "0",  # quit
         ]
@@ -235,8 +236,9 @@ class Test_Mailroom_Thank_You:
             "1",  # thank_you
             "foo",  # name_menu
             "not-money",  # amount_menu invalid-entry
-            "0",  # quit
-            "0",  # quit
+            "0",  # quit amount_menu
+            "0",  # quit name_menu
+            "0",  # quit main_menu
         ]
         inst = cli_main.Cli()
 
@@ -262,7 +264,8 @@ class Test_Mailroom_Thank_You:
             "1",  # thank_you
             "foo",  # name_menu
             "help",  # amount_menu invalid-entry
-            "0",  # quit
+            "0",  # quit amount_menu
+            "0",  # quit name_menu
             "0",  # quit
         ]
         inst = cli_main.Cli()

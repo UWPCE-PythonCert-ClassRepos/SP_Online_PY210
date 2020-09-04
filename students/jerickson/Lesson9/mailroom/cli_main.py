@@ -2,6 +2,7 @@
 # pylint: disable=attribute-defined-outside-init
 
 import regex
+from functools import partial
 from mailroom import donor_models  # pylint: disable=import-error
 
 
@@ -34,19 +35,6 @@ class Cli:
             "_key_error": self.unrecognized_command,
         }
 
-        name_menu_prompt = (
-            "\nEnter donor's full name: (Or choose: “1”: List"
-            " prior donors, “0”: Quit) ->: "
-        )
-        self.name_menu = {
-            "1": self.donor_list,
-            "new_donor": self.add_donor,
-            "0": self.quit_menu,
-            "quit": self.quit_menu,
-            "_prompt": name_menu_prompt,
-            "_key_error": self.name_menu_input,
-        }
-
         amount_menu_prompt = (
             "\nEnter how much was donated: (Or choose: “0”: Quit, “help”: Info) ->: "
         )
@@ -56,6 +44,22 @@ class Cli:
             "quit": self.quit_menu,
             "_prompt": amount_menu_prompt,
             "_key_error": self.amount_menu_input,
+        }
+
+        amount_menu_partial = partial(self.run_menu, self.amount_menu)
+        name_menu_prompt = (
+            "\nEnter donor's full name: (Or choose: “1”: List"
+            " prior donors, “0”: Quit) ->: "
+        )
+        self.name_menu = {
+            "1": self.donor_list,
+            "new_donor": self.add_donor,
+            "amount_menu": amount_menu_partial,
+            "thank_donor": self.print_thanks,
+            "0": self.quit_menu,
+            "quit": self.quit_menu,
+            "_prompt": name_menu_prompt,
+            "_key_error": self.name_menu_input,
         }
 
     def report(self):
@@ -74,15 +78,7 @@ class Cli:
 
         Gets user input of donor name and donation amount.
         """
-        self._thank_you_donor = ""
         self.run_menu(self.name_menu)
-        if self._thank_you_donor:
-            self.run_menu(self.amount_menu)
-        try:
-            message = self.record.donors[self._thank_you_donor].thank_you_latest()
-            print(message)
-        except LookupError:  # Donation was not made
-            pass
 
     def donor_list(self):
         """
@@ -116,7 +112,7 @@ class Cli:
         """
         if name_entered in self.record.donor_list:
             name_found = name_entered
-            result = "quit"
+            result = "amount_menu"
         else:
             name_found = name_entered
             result = "new_donor"
@@ -133,6 +129,13 @@ class Cli:
         """
         self.record.add_donor(self._thank_you_donor)
         print(f"Added donor “{self._thank_you_donor}”")
+        result = "amount_menu"
+        return result
+
+    def print_thanks(self):
+        """Print the thank you message to the terminal."""
+        message = self.record.donors[self._thank_you_donor].thank_you_latest()
+        print(message)
         result = "quit"
         return result
 
@@ -158,11 +161,13 @@ class Cli:
             Result message to send to menu dispatch
         """
         try:  # Check to see if input is a donor_id: "D#"
+            # TODO doesn't ensure that it does start with "D", would work just as "1"
+            # TODO maybe just remove the "D" and have any number input work?
             donor_id = command.lower().replace("d", "", 1)
             donor_id = abs(int(donor_id))
             donor_name = self.record.donor_list[donor_id]
             print(f"Selected donor: “{donor_name}”")
-            result = "quit"
+            result = "amount_menu"
         except IndexError:  # Unrecognized Donor ID
             self.unrecognized_command(command)
             donor_name = ""
@@ -190,7 +195,7 @@ class Cli:
             donor_data = self.record.donors[self._thank_you_donor]
             donor_data.add_donation(amount)
             print(f"Donor “{self._thank_you_donor}” donated: {amount:0.2f}")
-            result = "quit"
+            result = ["quit", "thank_donor"]
         except ValueError:  # Unrecognized Command
             self.unrecognized_command(command)
             result = ""
@@ -240,7 +245,7 @@ class Cli:
         command_queue = []
 
         while True:
-            try:
+            try:  #  TODO Reduce Scope of try
                 # Get Command
                 if command_queue:
                     command = command_queue.pop(0)  # Dequeue command

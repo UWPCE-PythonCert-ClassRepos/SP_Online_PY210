@@ -74,8 +74,9 @@ class Test_Cli_Main_Cli_Define_Menus:
             inst._define_menus()  # Reset values. pylint: disable=protected-access
             third = getattr(inst, menu_attribute)  # Capture third value
 
-            assert second != first  # Assert changed
-            assert third == first  # Assert reset
+            assert isinstance(first, dict)
+            assert isinstance(second, int)
+            assert isinstance(third, dict)
 
 
 class Test_Cli_Main_Cli_Report:
@@ -480,33 +481,6 @@ class Test_Cli_Main_Cli_Thank_You:
         assert inst.run_menu.call_count == 1
         assert mocked_print.call_count == 0
 
-    def test_cli_main_cli_thank_you_print(self, mocker, mocked_print):
-        """Positive-Test-Cases, print thank-you"""
-        # Setup
-        donor_name = "spam"
-        message = "eggs"
-        inst = cli_main.Cli()
-
-        # Mock
-        def mock_set_donor_name(*args, **kwargs):  # pylint: disable=unused-argument
-            inst._thank_you_donor = donor_name  # pylint: disable=protected-access
-
-        inst.record = mocker.MagicMock()
-        mocked_donor = mocker.MagicMock()
-        mocked_donor.thank_you_latest = mocker.MagicMock(return_value=message)
-        inst.record.donors = {donor_name: mocked_donor}
-
-        mocked_print = mocker.patch.object(cli_main, "print")
-        inst.run_menu = mocker.MagicMock(side_effect=mock_set_donor_name)
-
-        # Execute
-        inst.thank_you()
-
-        # Assert
-        assert inst.run_menu.call_count == 2
-        assert mocked_print.call_count == 1
-        assert mocked_print.call_args[0][0] == message
-
 
 class Test_Cli_Main_Cli_Name_Menu_Input:
     """Tests the cli_main.Cli.name_menu_input method."""
@@ -561,7 +535,7 @@ class Test_Cli_Main_Cli_Name_Menu_Input:
         second_value = inst._thank_you_donor
 
         # Assert
-        assert result == "quit"
+        assert result == "amount_menu"
         assert first_value == ""
         assert second_value == donor_list[donor_id]
 
@@ -613,7 +587,7 @@ class Test_Cli_Main_Cli_Find_Donor:
         # Assert
         assert donor_name == donor_entered
         if donor_entered in donor_list:
-            assert result == "quit"
+            assert result == "amount_menu"
         else:
             assert result == "new_donor"
 
@@ -691,7 +665,7 @@ class Test_Cli_Main_Cli_Amount_Menu_Input:
 
         # Assert
         assert inst.record.donors[donor_entered].donations == donations_float
-        assert all(res == "quit" for res in result_list)
+        assert all(("quit" in result_item) for result_item in result_list)
 
     def test_cli_main_cli_amount_menu_input_unrecognized(self, mocker):
         """Positive-Test-Cases"""
@@ -793,6 +767,38 @@ class Test_Cli_Main_Cli_Save_Emails:
         assert inst.record.save_all_donor_emails.call_count == 1
         assert mocked_print.call_count == 1
         assert "saved" in mocked_print.call_args[0][0]
+
+
+class Test_Cli_Main_Cli_Print_Thanks:
+    """
+    Tests the cli_main.Cli.report method.
+
+    __builtins__.print() is mocked to simulate user-interaction
+    inst.record.compose_report() is mocked to provide an isolated state for each test
+    """
+
+    def test_cli_main_cli_print_thanks(self, mocker, mocked_print):
+        """Positive-Test-Cases, print thank-you"""
+        # Setup
+        donor_name = "spam"
+        message = "eggs"
+        inst = cli_main.Cli()
+
+        # Mock
+        inst.record = mocker.MagicMock()
+        mocked_donor = mocker.MagicMock()
+        mocked_donor.thank_you_latest = mocker.MagicMock(return_value=message)
+        inst.record.donors = {donor_name: mocked_donor}
+        inst._thank_you_donor = donor_name
+
+        mocked_print = mocker.patch.object(cli_main, "print")
+
+        # Execute
+        inst.print_thanks()
+
+        # Assert
+        assert mocked_print.call_count == 1
+        assert mocked_print.call_args[0][0] == message
 
 
 class Test_Cli_Main_Main:
