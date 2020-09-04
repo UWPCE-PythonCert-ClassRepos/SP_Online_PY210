@@ -20,38 +20,43 @@ class Cli:
         """
         self._thank_you_donor = ""
 
-        self.main_menu_model = {
+        main_menu_prompt = (
+            "\nChoose: “1”: Send a Thank You, “2”: Create a Report"
+            " “3”: Send Letters to Everyone, “0”: Quit ->: "
+        )
+        self.main_menu = {
             "1": self.thank_you,
             "2": self.report,
             "3": self.save_emails,
             "0": self.quit_menu,
             "quit": self.quit_menu,
+            "_prompt": main_menu_prompt,
+            "_key_error": self.unrecognized_command,
         }
 
-        self.main_menu_prompt = (
-            "\nChoose: “1”: Send a Thank You, “2”: Create a Report"
-            " “3”: Send Letters to Everyone, “0”: Quit ->: "
+        name_menu_prompt = (
+            "\nEnter donor's full name: (Or choose: “1”: List"
+            " prior donors, “0”: Quit) ->: "
         )
-        self.name_menu_model = {
+        self.name_menu = {
             "1": self.donor_list,
             "new_donor": self.add_donor,
             "0": self.quit_menu,
             "quit": self.quit_menu,
+            "_prompt": name_menu_prompt,
+            "_key_error": self.name_menu_input,
         }
 
-        self.name_menu_prompt = (
-            "\nEnter donor's full name: (Or choose: “1”: List"
-            " prior donors, “0”: Quit) ->: "
+        amount_menu_prompt = (
+            "\nEnter how much was donated: (Or choose: “0”: Quit, “help”: Info) ->: "
         )
-        self.amount_menu_model = {
+        self.amount_menu = {
             "help": self.amount_menu_help,
             "0": self.quit_menu,
             "quit": self.quit_menu,
+            "_prompt": amount_menu_prompt,
+            "_key_error": self.amount_menu_input,
         }
-
-        self.amount_menu_prompt = (
-            "\nEnter how much was donated: (Or choose: “0”: Quit, “help”: Info) ->: "
-        )
 
     def report(self):
         """Print a report of the donation history."""
@@ -70,17 +75,9 @@ class Cli:
         Gets user input of donor name and donation amount.
         """
         self._thank_you_donor = ""
-        self.run_menu(
-            menu_prompt=self.name_menu_prompt,
-            menu_model=self.name_menu_model,
-            menu_key_error=self.name_menu_input,
-        )
+        self.run_menu(self.name_menu)
         if self._thank_you_donor:
-            self.run_menu(
-                menu_prompt=self.amount_menu_prompt,
-                menu_model=self.amount_menu_model,
-                menu_key_error=self.amount_menu_input,
-            )
+            self.run_menu(self.amount_menu)
         try:
             message = self.record.donors[self._thank_you_donor].thank_you_latest()
             print(message)
@@ -212,16 +209,15 @@ class Cli:
         """Default behavior when a menu receives an unrecognized command."""
         print(f"Unrecognized Command: “{command}”")
 
-    def run_menu(self, menu_prompt="", menu_model=None, menu_key_error=None):
+    def run_menu(self, menu=None):
         """
         Runs a CLI menu selection code with a prompt, and target functions.
 
         No args assumes it is being called as the main menu for the CLI:
-        Default for menu_prompt, menu_model, menu_key_error will use the instance attributes
-        of self.main_menu_prompt, self.main_menu_model, self.unrecognized_command.
+        Default for menu is self.main_menu.
 
         An unrecognized command creates a key_error which is dispatched to the
-        menu_key_error argument or if None, then defaults to self.unrecognized_command.
+        _key_error key.
 
         Gets a command from the user or a command_queue that was the result of a prior
         command's execution.
@@ -235,17 +231,11 @@ class Cli:
 
         Parameters
         ----------
-        menu_prompt : str, optional
-            Prompt that will be seen by user, by default ""
-        menu_model : dict {str: callable}, optional
-            Dictionary that selects target callable from user input str, by default None
+        menu : dict {str: callable}, optional
+            Dictionary that selects target callable from user input str, default main_menu
         """
-        if not menu_prompt:  # TODO Delete defaults
-            menu_prompt = self.main_menu_prompt
-        if not menu_model:
-            menu_model = self.main_menu_model
-        if not menu_key_error:
-            menu_key_error = self.unrecognized_command
+        if not menu:
+            menu = self.main_menu
 
         command_queue = []
 
@@ -255,15 +245,15 @@ class Cli:
                 if command_queue:
                     command = command_queue.pop(0)  # Dequeue command
                 else:
-                    command = input(menu_prompt).lower()
+                    command = input(menu["_prompt"]).lower()
                     if not command:  # Re-prompt if nothing entered
                         continue
 
                 # Run Command
-                result = menu_model[command]()
+                result = menu[command]()
 
             except KeyError:  # Run command through menu_key_error
-                result = menu_key_error(command)
+                result = menu["_key_error"](command)
 
             # Process Result
             if result == "quit":  # Exits the menu-level if 'quit' is result
