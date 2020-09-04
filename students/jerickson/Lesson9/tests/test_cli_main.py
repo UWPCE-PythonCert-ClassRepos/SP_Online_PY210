@@ -382,6 +382,45 @@ class Test_Cli_Main_Cli_Run_Menu:
         with pytest.raises(StopIteration):  # Assert command list was emptied
             mocked_input()
 
+    @pytest.mark.parametrize(
+        "queue_input",
+        [
+            pytest.param(["quit"], id="quit_queue_empty"),
+            pytest.param(["quit", "spam"], id="quit_command"),
+            pytest.param(["quit", "quit"], id="quit_quit"),
+        ],
+    )
+    def test_cli_main_cli_run_menu_quit_queue(
+        self, mocker, command_dispatch, queue_input
+    ):
+        """
+        Positive-Test-Cases, menu can return a queue of callables after quit-command.
+
+        Overrides command "1" to return a queue of commands to run next without
+        requiring user input. Assert these commands are called the correct number
+        of times without having to put them into the command_list that gets put into
+        mocked_input to simulate user entry.
+        """
+
+        # Setup
+        command_list = ["1"]
+        inst = cli_main.Cli()
+
+        # Mock
+        command_dispatch["1"] = mocker.MagicMock(return_value=queue_input)
+
+        mocked_input = generate_mocked_input(command_list)
+        mocked_input = mocker.patch.object(cli_main, "input", new=mocked_input)
+
+        # Execute
+        returned_queue = inst.run_menu(menu=command_dispatch)
+
+        # Assert
+        assert command_dispatch["1"].call_count == 1
+        assert returned_queue == queue_input[1:]
+        with pytest.raises(StopIteration):  # Assert command list was emptied
+            mocked_input()
+
 
 class Test_Cli_Main_Cli_Donor_List:
     """

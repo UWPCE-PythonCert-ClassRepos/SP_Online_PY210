@@ -256,12 +256,13 @@ class Cli:
                 result = menu["_key_error"](command)
 
             # Process Result
-            if result == "quit":  # Exits the menu-level if 'quit' is result
-                break
-            if result:  # Any other non-empty response goes into the queue
-                if isinstance(result, str):  # Turn strings into list to allow .extend()
-                    result = [result]
-                command_queue.extend(result)
+            if not result:  # If no-result, re-prompt
+                continue
+            if isinstance(result, str):  # Turn strings into list to allow .extend()
+                result = [result]
+            if result[0] == "quit":  # Exits the menu-level if 'quit' is result
+                return result[1:]
+            command_queue.extend(result)
 
 
 def main():
