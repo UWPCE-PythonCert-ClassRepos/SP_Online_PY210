@@ -21,20 +21,6 @@ class Cli:
         """
         self._thank_you_donor = ""
 
-        main_menu_prompt = (
-            "\nChoose: “1”: Send a Thank You, “2”: Create a Report"
-            " “3”: Send Letters to Everyone, “0”: Quit ->: "
-        )
-        self.main_menu = {
-            "1": self.thank_you,
-            "2": self.report,
-            "3": self.save_emails,
-            "0": self.quit_menu,
-            "quit": self.quit_menu,
-            "_prompt": main_menu_prompt,
-            "_key_error": self.unrecognized_command,
-        }
-
         amount_menu_prompt = (
             "\nEnter how much was donated: (Or choose: “0”: Quit, “help”: Info) ->: "
         )
@@ -45,21 +31,36 @@ class Cli:
             "_prompt": amount_menu_prompt,
             "_key_error": self.amount_menu_input,
         }
-
         amount_menu_partial = partial(self.run_menu, self.amount_menu)
-        name_menu_prompt = (
+
+        thanks_menu_prompt = (
             "\nEnter donor's full name: (Or choose: “1”: List"
             " prior donors, “0”: Quit) ->: "
         )
-        self.name_menu = {
+        self.thanks_menu = {
             "1": self.donor_list,
             "new_donor": self.add_donor,
             "amount_menu": amount_menu_partial,
             "thank_donor": self.print_thanks,
             "0": self.quit_menu,
             "quit": self.quit_menu,
-            "_prompt": name_menu_prompt,
-            "_key_error": self.name_menu_input,
+            "_prompt": thanks_menu_prompt,
+            "_key_error": self.thanks_menu_input,
+        }
+        thanks_menu_partial = partial(self.run_menu, self.thanks_menu)
+
+        main_menu_prompt = (
+            "\nChoose: “1”: Send a Thank You, “2”: Create a Report"
+            " “3”: Send Letters to Everyone, “0”: Quit ->: "
+        )
+        self.main_menu = {
+            "1": thanks_menu_partial,
+            "2": self.report,
+            "3": self.save_emails,
+            "0": self.quit_menu,
+            "quit": self.quit_menu,
+            "_prompt": main_menu_prompt,
+            "_key_error": self.unrecognized_command,
         }
 
     def report(self):
@@ -71,14 +72,6 @@ class Cli:
         """Save all donor thank-you-overall emails"""
         self.record.save_all_donor_emails()
         print("All Donor emails saved.")
-
-    def thank_you(self):
-        """
-        Enters the thank_you sub-menu.
-
-        Gets user input of donor name and donation amount.
-        """
-        self.run_menu(self.name_menu)
 
     def donor_list(self):
         """
@@ -144,7 +137,7 @@ class Cli:
         """Return the string "quit" to exit a menu-level"""
         return "quit"
 
-    def name_menu_input(self, command):
+    def thanks_menu_input(self, command):
         """
         Called when the thank-you-menu receives an unrecognized command.
 
