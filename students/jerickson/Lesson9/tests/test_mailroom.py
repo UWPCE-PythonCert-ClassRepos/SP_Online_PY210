@@ -31,6 +31,15 @@ def generate_mocked_input(command_list):
     return mocked_input
 
 
+def count_empty_donors(inst):
+    """Return number of donors with donations in the record."""
+    non_empty_donors = 0
+    for donor, data in inst.record.donors.items():
+        if data.total_given:
+            non_empty_donors += 1
+    return non_empty_donors
+
+
 @pytest.fixture
 def mocked_print(mocker):
     """Mocked version of print to simulate user interaction."""
@@ -45,6 +54,8 @@ def inst_populated():
     inst.record.add_donor("eggs")
     inst.record.donors["spam"].add_donation(4242)
     inst.record.donors["eggs"].add_donation(42)
+
+    inst.record.add_donor("cheese")  # Empty Donor
     return inst
 
 
@@ -71,8 +82,8 @@ class Test_Mailroom_Main_Menu:
             mocked_input()
 
 
-class Test_Mailroom_Thank_You:
-    """Tests the cli_main.thank_you method"""
+class Test_Mailroom_Thanks_Menu:
+    """Tests the cli_main thanks menu"""
 
     def test_mailroom_add_single_donor(self, mocker):
         """Positive-Test-Cases"""
@@ -82,7 +93,7 @@ class Test_Mailroom_Thank_You:
         donor_amount = "42"
 
         command_list = [
-            "1",  # thank_you
+            "1",  # thanks
             donor_name,  # donor name
             donor_amount,  # donor amount
             "0",  # quit
@@ -111,10 +122,10 @@ class Test_Mailroom_Thank_You:
         donor_amount = "42"
 
         command_list = [
-            "1",  # thank_you
+            "1",  # thanks
             donor_names[0],  # donor name
             donor_amount,  # donor amount
-            "1",  # thank_you
+            "1",  # thanks
             donor_names[1],  # donor name
             donor_amount,  # donor amount
             "0",  # quit
@@ -136,7 +147,7 @@ class Test_Mailroom_Thank_You:
         with pytest.raises(StopIteration):  # Assert command list was emptied
             mocked_input()
 
-    def test_mailroom_thank_you_quits(self, mocker):
+    def test_mailroom_thanks_quits(self, mocker):
         """Positive-Test-Cases"""
         # Setup
         inst = cli_main.Cli()
@@ -144,13 +155,13 @@ class Test_Mailroom_Thank_You:
         donor_amount = "42"
 
         command_list = [
-            "1",  # thank_you_menu
+            "1",  # thanks_menu
             "1",  # thanks_menu
             "0",  # quit thanks_menu
-            "1",  # thank_you_menu
+            "1",  # thanks_menu
             donor_name,  # thanks_menu
             "0",  # quit amount_menu
-            "1",  # thank_you_menu
+            "1",  # thanks_menu
             donor_name,  # thanks_menu
             donor_amount,  # amount_menu
             "0",  # quit main_menu
@@ -171,14 +182,14 @@ class Test_Mailroom_Thank_You:
         with pytest.raises(StopIteration):  # Assert command list was emptied
             mocked_input()
 
-    def test_mailroom_thank_you_donor_id_valid(self, mocker, inst_populated):
+    def test_mailroom_thanks_donor_id_valid(self, mocker, mocked_print, inst_populated):
         """Positive-Test-Cases"""
         # Setup
         inst = inst_populated
         donor_0 = inst.record.donor_list[0]
 
         command_list = [
-            "1",  # thank_you_menu
+            "1",  # thanks_menu
             "D0",  # thanks_menu enter donor_id
             "0",  # quit amount_menu
             "0",  # quit thanks_menu
@@ -188,7 +199,6 @@ class Test_Mailroom_Thank_You:
         # Mock
         mocked_input = generate_mocked_input(command_list)
         mocked_input = mocker.patch.object(cli_main, "input", new=mocked_input)
-        mocked_print = mocker.patch.object(cli_main, "print")
 
         # Execute
         inst.run_menu()
@@ -199,13 +209,15 @@ class Test_Mailroom_Thank_You:
         with pytest.raises(StopIteration):  # Assert command list was emptied
             mocked_input()
 
-    def test_mailroom_thank_you_donor_id_invalid(self, mocker, inst_populated):
+    def test_mailroom_thanks_donor_id_invalid(
+        self, mocker, mocked_print, inst_populated
+    ):
         """Positive-Test-Cases"""
         # Setup
         inst = inst_populated
 
         command_list = [
-            "1",  # thank_you_menu
+            "1",  # thanks_menu
             "D10",  # thanks_menu enter donor_id that is invalid
             "0",  # quit thanks_menu
             "0",  # quit
@@ -214,7 +226,6 @@ class Test_Mailroom_Thank_You:
         # Mock
         mocked_input = generate_mocked_input(command_list)
         mocked_input = mocker.patch.object(cli_main, "input", new=mocked_input)
-        mocked_print = mocker.patch.object(cli_main, "print")
 
         # Execute
         inst.run_menu()
@@ -225,13 +236,13 @@ class Test_Mailroom_Thank_You:
         with pytest.raises(StopIteration):  # Assert command list was emptied
             mocked_input()
 
-    def test_mailroom_thank_you_donor_list(self, mocker, inst_populated):
+    def test_mailroom_thanks_donor_list(self, mocker, mocked_print, inst_populated):
         """Positive-Test-Cases"""
         # Setup
         inst = inst_populated
 
         command_list = [
-            "1",  # thank_you_menu
+            "1",  # thanks_menu
             "1",  # thanks_menu list
             "0",  # quit thanks_menu
             "0",  # quit
@@ -240,7 +251,6 @@ class Test_Mailroom_Thank_You:
         # Mock
         mocked_input = generate_mocked_input(command_list)
         mocked_input = mocker.patch.object(cli_main, "input", new=mocked_input)
-        mocked_print = mocker.patch.object(cli_main, "print")
 
         # Execute
         inst.run_menu()
@@ -250,13 +260,13 @@ class Test_Mailroom_Thank_You:
         with pytest.raises(StopIteration):  # Assert command list was emptied
             mocked_input()
 
-    def test_mailroom_add_donation_invalid(self, mocker, inst_populated):
+    def test_mailroom_add_donation_invalid(self, mocker, mocked_print, inst_populated):
         """Positive-Test-Cases"""
         # Setup
         inst = inst_populated
 
         command_list = [
-            "1",  # thank_you
+            "1",  # thanks
             "foo",  # thanks_menu
             "not-money",  # amount_menu invalid-entry
             "0",  # quit amount_menu
@@ -268,7 +278,6 @@ class Test_Mailroom_Thank_You:
         # Mock
         mocked_input = generate_mocked_input(command_list)
         mocked_input = mocker.patch.object(cli_main, "input", new=mocked_input)
-        mocked_print = mocker.patch.object(cli_main, "print")
 
         # Execute
         inst.run_menu()
@@ -278,13 +287,13 @@ class Test_Mailroom_Thank_You:
         with pytest.raises(StopIteration):  # Assert command list was emptied
             mocked_input()
 
-    def test_mailroom_add_donation_help(self, mocker, inst_populated):
+    def test_mailroom_add_donation_help(self, mocker, mocked_print, inst_populated):
         """Positive-Test-Cases"""
         # Setup
         inst = inst_populated
 
         command_list = [
-            "1",  # thank_you
+            "1",  # thanks
             "foo",  # thanks_menu
             "help",  # amount_menu invalid-entry
             "0",  # quit amount_menu
@@ -296,7 +305,6 @@ class Test_Mailroom_Thank_You:
         # Mock
         mocked_input = generate_mocked_input(command_list)
         mocked_input = mocker.patch.object(cli_main, "input", new=mocked_input)
-        mocked_print = mocker.patch.object(cli_main, "print")
 
         # Execute
         inst.run_menu()
@@ -308,7 +316,7 @@ class Test_Mailroom_Thank_You:
 
 
 class Test_Mailroom_Report:
-    """Tests the cli_main.report method"""
+    """Tests the cli_main report menu"""
 
     def test_mailroom_report_empty(self, mocker, mocked_print):
         """Positive-Test-Cases"""
@@ -336,9 +344,9 @@ class Test_Mailroom_Report:
         """Positive-Test-Cases"""
         # Setup
         inst = inst_populated
-        num_donors = len(inst.record.donors)
+        non_empty_donors = count_empty_donors(inst)
         report_general_rows = 5
-        report_donor_rows = num_donors * 2
+        report_donor_rows = non_empty_donors * 2
         command_list = [
             "2",  # report
             "0",  # quit
@@ -360,29 +368,6 @@ class Test_Mailroom_Report:
 class Test_Mailroom_Save_Emails:
     """Tests the cli_main.save_emails method"""
 
-    def test_mailroom_save_emails_empty(self, mocker, mocked_print):
-        """Positive-Test-Cases"""
-        # Setup
-        inst = cli_main.Cli()
-        command_list = [
-            "3",  # save_emails
-            "0",  # quit
-        ]
-
-        # Mock
-        mocked_input = generate_mocked_input(command_list)
-        mocked_input = mocker.patch.object(cli_main, "input", new=mocked_input)
-        mocked_open = mocker.patch.object(cli_main.donor_models, "open")
-
-        # Execute
-        inst.run_menu()
-
-        # Assert
-        assert mocked_print.call_count == 1
-        assert mocked_open.call_count == 0
-        with pytest.raises(StopIteration):  # Assert command list was emptied
-            mocked_input()
-
     def test_mailroom_save_emails_populated(self, mocker, mocked_print, inst_populated):
         """Positive-Test-Cases"""
         # Setup
@@ -391,6 +376,7 @@ class Test_Mailroom_Save_Emails:
             "3",  # save_emails
             "0",  # quit
         ]
+        non_empty_donors = count_empty_donors(inst)
 
         # Mock
         mocked_input = generate_mocked_input(command_list)
@@ -402,6 +388,35 @@ class Test_Mailroom_Save_Emails:
 
         # Assert
         assert mocked_print.call_count == 1
-        assert mocked_open.call_count == len(inst.record.donors)
+        assert mocked_open.call_count == non_empty_donors
         with pytest.raises(StopIteration):  # Assert command list was emptied
             mocked_input()
+
+
+class Test_Mailroom_Donor_Misc:
+    """Tests the Donor interactions not covered by CLI interaction above"""
+
+    def test_mailroom_donor_negative_unrecognized(self, mocked_print, inst_populated):
+        """Positive-Test-Cases"""
+        # Setup
+        inst = inst_populated
+        donor_0 = inst.record.donor_list[0]
+        initial_amount = inst.record.donors[donor_0].total_given
+        inst._thank_you_donor = donor_0  # pylint: disable=protected-access
+
+        # Execute
+        inst.amount_menu_input("-42")
+        final_amount = inst.record.donors[donor_0].total_given
+
+        assert mocked_print.call_count == 1
+        assert "Unrecognized" in mocked_print.call_args[0][0]
+        assert initial_amount == final_amount
+
+    def test_mailroom_donor_no_donor_name(self, inst_populated):
+        """Positive-Test-Cases"""
+        # Setup
+        inst = inst_populated
+
+        # Execute/Assert
+        with pytest.raises(ValueError):
+            inst.add_donor()
