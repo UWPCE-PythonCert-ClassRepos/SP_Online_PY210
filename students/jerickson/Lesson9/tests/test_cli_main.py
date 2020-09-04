@@ -491,12 +491,7 @@ class Test_Cli_Main_Cli_Thanks_Menu_Input:
         assert result == result_goal
 
     @pytest.mark.parametrize(
-        "command",
-        [
-            pytest.param("D0", id="zero"),
-            pytest.param("D1", id="positive"),
-            pytest.param("D-1", id="negative"),
-        ],
+        "command", [pytest.param("D0", id="zero"), pytest.param("D1", id="positive"),],
     )
     def test_cli_main_cli_thanks_menu_input_valid_donor_id(self, mocker, command):
         """Positive-Test-Cases, valid donor_id"""
@@ -519,10 +514,20 @@ class Test_Cli_Main_Cli_Thanks_Menu_Input:
         assert first_value == ""
         assert second_value == donor_list[donor_id]
 
-    def test_cli_main_cli_thanks_menu_input_invalid_donor_id(self, mocker):
-        """Positive-Test-Cases, invalid donor_id"""
+    @pytest.mark.parametrize(
+        "command, result_goal, name_goal",
+        [
+            pytest.param("D3", "", "", id="exceeds_donors"),
+            pytest.param("D1.0", "new_donor", "D1.0", id="float"),
+            pytest.param("D-1", "new_donor", "D-1", id="negative"),
+        ],
+    )
+    def test_cli_main_cli_thanks_menu_input_invalid_donor_id(
+        self, mocker, command, result_goal, name_goal
+    ):
+        """Positive-Test-Cases, invalid donor_id, things a new donor is being added"""
+        # TODO should it recognize a donor_id was attempted?
         # Setup
-        command = "D3"
         donor_list = ["spam", "eggs"]
         inst = cli_main.Cli()
 
@@ -535,10 +540,8 @@ class Test_Cli_Main_Cli_Thanks_Menu_Input:
         result = inst.thanks_menu_input(command)
 
         # Assert
-        assert inst._thank_you_donor == ""
-        assert result == ""
-        assert inst.unrecognized_command.call_count == 1
-        assert inst.unrecognized_command.call_args[0][0] == command
+        assert inst._thank_you_donor == name_goal
+        assert result == result_goal
 
 
 class Test_Cli_Main_Cli_Find_Donor:

@@ -154,10 +154,8 @@ class Cli:
             Result message to send to menu dispatch
         """
         try:  # Check to see if input is a donor_id: "D#"
-            # TODO doesn't ensure that it does start with "D", would work just as "1"
-            # TODO maybe just remove the "D" and have any number input work?
-            donor_id = command.lower().replace("d", "", 1)
-            donor_id = abs(int(donor_id))
+            donor_id = regex.search("^[dD]\\d*$", command)
+            donor_id = abs(int(donor_id.group()[1:]))
             donor_name = self.record.donor_list[donor_id]
             print(f"Selected donor: “{donor_name}”")
             result = "amount_menu"
@@ -165,7 +163,7 @@ class Cli:
             self.unrecognized_command(command)
             donor_name = ""
             result = ""
-        except ValueError:  # Not a donor_id, set as donor name
+        except AttributeError:  # Not a donor_id, set as donor name
             donor_name, result = self.find_donor(command)
         self._thank_you_donor = donor_name
         return result
