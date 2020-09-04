@@ -7,7 +7,7 @@ import re
 class Donor:
     """Holds specific donor data"""
 
-    def __init__(self, name=""):
+    def __init__(self, name=""):  # TODO remove KWARG
         """
         Creates a new donor
 

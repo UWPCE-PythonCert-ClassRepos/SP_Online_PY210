@@ -48,6 +48,29 @@ def inst_populated():
     return inst
 
 
+class Test_Mailroom_Main_Menu:
+    """Tests the cli_main.cli.main_menu"""
+
+    def test_mailroom_main_menu_empty(self, mocker):
+        """Positive-Test-Cases"""
+        # Setup
+        command_list = [
+            "",  # empty
+            "0",  # quit
+        ]
+
+        # Mock
+        mocked_input = generate_mocked_input(command_list)
+        mocked_input = mocker.patch.object(cli_main, "input", new=mocked_input)
+
+        # Execute
+        cli_main.main()
+
+        # # Assert
+        with pytest.raises(StopIteration):  # Assert command list was emptied
+            mocked_input()
+
+
 class Test_Mailroom_Thank_You:
     """Tests the cli_main.thank_you method"""
 
@@ -330,5 +353,55 @@ class Test_Mailroom_Report:
 
         # Assert
         assert mocked_print.call_count == report_general_rows + report_donor_rows
+        with pytest.raises(StopIteration):  # Assert command list was emptied
+            mocked_input()
+
+
+class Test_Mailroom_Save_Emails:
+    """Tests the cli_main.save_emails method"""
+
+    def test_mailroom_save_emails_empty(self, mocker, mocked_print):
+        """Positive-Test-Cases"""
+        # Setup
+        inst = cli_main.Cli()
+        command_list = [
+            "3",  # save_emails
+            "0",  # quit
+        ]
+
+        # Mock
+        mocked_input = generate_mocked_input(command_list)
+        mocked_input = mocker.patch.object(cli_main, "input", new=mocked_input)
+        mocked_open = mocker.patch.object(cli_main.donor_models, "open")
+
+        # Execute
+        inst.run_menu()
+
+        # Assert
+        assert mocked_print.call_count == 1
+        assert mocked_open.call_count == 0
+        with pytest.raises(StopIteration):  # Assert command list was emptied
+            mocked_input()
+
+    def test_mailroom_save_emails_populated(self, mocker, mocked_print, inst_populated):
+        """Positive-Test-Cases"""
+        # Setup
+        inst = inst_populated
+        command_list = [
+            "3",  # save_emails
+            "0",  # quit
+        ]
+
+        # Mock
+        mocked_input = generate_mocked_input(command_list)
+        mocked_input = mocker.patch.object(cli_main, "input", new=mocked_input)
+        mocked_open = mocker.patch.object(cli_main.donor_models, "open")
+
+        # Execute
+        inst.run_menu()
+
+        # Assert
+        assert mocked_print.call_count == 1
+        assert mocked_open.call_count == len(inst.record.donors)
         with pytest.raises(StopIteration):  # Assert command list was emptied
             mocked_input()
