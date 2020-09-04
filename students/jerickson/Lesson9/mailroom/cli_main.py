@@ -244,6 +244,8 @@ class Cli:
                 # Get Command
                 if command_queue:
                     command = command_queue.pop(0)  # Dequeue command
+                    if command == "quit":  # Exits the menu-level if 'quit'
+                        return command_queue  # Pass the rest of the queue upwards
                 else:
                     command = input(menu["_prompt"]).lower()
                     if not command:  # Re-prompt if nothing entered
@@ -260,9 +262,7 @@ class Cli:
                 continue
             if isinstance(result, str):  # Turn strings into list to allow .extend()
                 result = [result]
-            if result[0] == "quit":  # Exits the menu-level if 'quit' is result
-                return result[1:]
-            command_queue.extend(result)
+            command_queue.extend(result)  # Add result to queue
 
 
 def main():
