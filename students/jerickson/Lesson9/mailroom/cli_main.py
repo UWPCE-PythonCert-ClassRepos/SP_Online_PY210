@@ -25,9 +25,9 @@ class Cli:
             "\nEnter how much was donated: (Or choose: “0”: Quit, “help”: Info) ->: "
         )
         self.amount_menu = {
-            "help": self.amount_menu_help,
-            "0": self.quit_menu,
             "quit": self.quit_menu,
+            "0": self.quit_menu,
+            "help": self.amount_menu_help,
             "_prompt": amount_menu_prompt,
             "_key_error": self.amount_menu_input,
         }
@@ -38,12 +38,12 @@ class Cli:
             " prior donors, “0”: Quit) ->: "
         )
         self.thanks_menu = {
+            "quit": self.quit_menu,
+            "0": self.quit_menu,
             "1": self.donor_list,
             "new_donor": self.add_donor,
             "amount_menu": amount_menu_partial,
             "thank_donor": self.print_thanks,
-            "0": self.quit_menu,
-            "quit": self.quit_menu,
             "_prompt": thanks_menu_prompt,
             "_key_error": self.thanks_menu_input,
         }
@@ -54,11 +54,11 @@ class Cli:
             " “3”: Send Letters to Everyone, “0”: Quit ->: "
         )
         self.main_menu = {
+            "quit": self.quit_menu,
+            "0": self.quit_menu,
             "1": thanks_menu_partial,
             "2": self.report,
             "3": self.save_emails,
-            "0": self.quit_menu,
-            "quit": self.quit_menu,
             "_prompt": main_menu_prompt,
             "_key_error": self.unrecognized_command,
         }
@@ -236,21 +236,20 @@ class Cli:
         command_queue = []
 
         while True:
-            try:  #  TODO Reduce Scope of try
-                # Get Command
-                if command_queue:
-                    command = command_queue.pop(0)  # Dequeue command
-                    if command == "quit":  # Exits the menu-level if 'quit'
-                        return command_queue  # Pass the rest of the queue upwards
-                else:
-                    command = input(menu["_prompt"]).lower()
-                    if not command:  # Re-prompt if nothing entered
-                        continue
+            # Get Command
+            if command_queue:
+                command = command_queue.pop(0)  # Dequeue command
+                if command == "quit":  # Exits the menu-level if 'quit'
+                    return command_queue  # Pass the rest of the queue upwards
+            else:
+                command = input(menu["_prompt"]).lower()
+                if not command:  # Re-prompt if nothing entered
+                    continue
 
-                # Run Command
+            # Run command through menu or menu_key_error
+            try:
                 result = menu[command]()
-
-            except KeyError:  # Run command through menu_key_error
+            except KeyError:
                 result = menu["_key_error"](command)
 
             # Process Result
