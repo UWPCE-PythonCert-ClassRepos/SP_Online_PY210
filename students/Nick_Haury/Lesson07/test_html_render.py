@@ -174,13 +174,69 @@ def test_sub_element():
     assert "</p>" in file_contents
 
 
-
-
 ########
 # Step 3
 ########
 
-# Add your tests here!
+def test_head():
+    e = Head("this is some text")
+    e.append("and this is some more text")
+
+    file_contents = render_result(e).strip()
+
+    assert("this is some text") in file_contents
+    assert("and this is some more text") in file_contents
+
+    assert file_contents.startswith("<head>")
+    assert file_contents.endswith("</head>")
+
+def test_title():
+    e = Title("this is a title")
+
+    file_contents = render_result(e).strip()
+
+    assert("this is a title") in file_contents
+
+    assert file_contents.startswith("<title>")
+    assert file_contents.endswith("</title>")
+
+    assert "\n" not in file_contents
+
+def test_one_line_tag_append():
+    # should not be using append with one line tags
+
+    e = OneLineTag("initial content")
+    with pytest.raises(NotImplementedError):
+        e.append("appended content as well")
+
+    file_contents = render_result(e).strip()
+    print(file_contents)
+
+########
+# Step 4
+########
+
+def test_attributes():
+    e = P("paragraph with some attributes", style="block", id="p1")
+    e2 = OneLineTag("single line with attributes", style="s1", id="l1")
+
+    file_contents = render_result(e).strip()
+    print(file_contents)  # prints if test fails
+
+    assert "paragraph with some attributes" in file_contents
+    assert file_contents.endswith("</p>")
+    assert file_contents.startswith("<p ")
+    assert 'style="block"' in file_contents
+    assert 'id="p1"' in file_contents
+    assert file_contents[:file_contents.index(">")].count(" ") == 2
+
+    file_contents = render_result(e2).strip()
+    print(file_contents)
+
+    assert 'style="s1"' in file_contents
+    assert 'id="l1"' in file_contents
+    assert file_contents[:file_contents.index(">")].count(" ") == 2
+
 
 # #####################
 # # indentation testing
