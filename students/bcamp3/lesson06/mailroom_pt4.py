@@ -16,7 +16,7 @@ This script accepts user input to perform donation database tasks:
 donors = [['Katherine Elmhurst', 'David Anderson', 'Edward Harvik',
            'Rebecca Manriquez', 'Callum Fuller'],
           [[1000., 1500., 1900.], [10865., 5750.], [200., 200., 200.],
-          [1750., 1500.], [130.75]]]
+          [1750., 1500.], [101.]]]
 # creating dictionary database 'db' from nested list database 'donors'
 #
 # using a for loop:
@@ -49,7 +49,7 @@ def get_letter_text(name, tmp=thank_you_tmp):
     return tmp.format(**msg_vars(name))
 
 
-def msg_vars(name, db=db):
+def msg_vars(name):
     """Get letter message variables from database for given donor."""
     return {'name': name,
             'donation_amt': db[name][-1],
@@ -57,7 +57,7 @@ def msg_vars(name, db=db):
             'donation_sum': sum(db[name])}
 
 
-def list_of_donors(db=db):
+def list_of_donors():
     """Print an alphabetically sorted list of donor names."""
     sorted_donor_list = [x for x in db]
     sorted_donor_list.sort()
@@ -67,7 +67,7 @@ def list_of_donors(db=db):
     return donor_list_out
 
 
-def check_name(name, db=db):
+def add_donor(name):
     """Check if name is in database. If name not in database, add it."""
     proper_name = ' '.join([word.capitalize() for word in name.split(" ")])
     if proper_name not in db:
@@ -78,7 +78,7 @@ def check_name(name, db=db):
     return proper_name, msg_txt
 
 
-def add_donation(name, amt, db=db):
+def add_donation(name, amt):
     """Add donation amount to specified donor's donation history."""
     if amt > 0:
         # if non-zero donation amount provided, add amount to donor donations
@@ -86,7 +86,7 @@ def add_donation(name, amt, db=db):
         msg_txt = '\nEMAIL MESSAGE :\n'+get_letter_text(name)
     else:
         # zero donation amount provided, return to main menu
-        msg_txt = ('\nZero or negative donation amount provided.'
+        msg_txt = ('\nZero or negative donation amount provided. '
                    'Returning to menu...')
         # removing new dnor if no donation amount provided
         if not db[name]:
@@ -94,7 +94,7 @@ def add_donation(name, amt, db=db):
     return msg_txt
 
 
-def get_report(db=db):
+def get_report():
     """Generate report summary of donations by donor."""
     total_donation = []
     for name, donations in db.items():
@@ -121,7 +121,7 @@ def send_thank_you():
     elif name in ['quit', 'q']:
         return None
     else:
-        proper_name, msg = check_name(name)
+        proper_name, msg = add_donor(name)
         print(msg)
         amt = input('\nEnter a donation amount > $ ')
         while True:
