@@ -237,6 +237,36 @@ def test_attributes():
     assert 'id="l1"' in file_contents
     assert file_contents[:file_contents.index(">")].count(" ") == 2
 
+########
+# Step 5
+########
+
+def test_hr():
+    hr = Hr()
+    file_contents = render_result(hr)
+    print(file_contents)
+    assert file_contents == "<hr>\n"
+
+def test_hr_attributes():
+    hr = Hr(width=400)
+    file_contents = render_result(hr)
+    print(file_contents)
+    assert file_contents == '<hr width="400">\n'
+
+def test_br():
+    br = Br()
+    file_contents = render_result(br)
+    print(file_contents)
+    assert file_contents == "<br>\n"
+
+def test_br_content():
+    with pytest.raises(TypeError):
+        br = Br("should not allow content")
+
+def test_br_append():
+    with pytest.raises(TypeError):
+        br = Br()
+        br.append("should not allow appending")
 
 # #####################
 # # indentation testing
