@@ -4,3 +4,4 @@ __pycache__/
 *.txt
 walnut_party.py
 test_walnut_party.py
+/Lesson07/*output*
