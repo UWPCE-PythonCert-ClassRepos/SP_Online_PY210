@@ -245,19 +245,19 @@ def test_hr():
     hr = Hr()
     file_contents = render_result(hr)
     print(file_contents)
-    assert file_contents == "<hr>\n"
+    assert file_contents == "<hr />\n"
 
 def test_hr_attributes():
     hr = Hr(width=400)
     file_contents = render_result(hr)
     print(file_contents)
-    assert file_contents == '<hr width="400">\n'
+    assert file_contents == '<hr width="400" />\n'
 
 def test_br():
     br = Br()
     file_contents = render_result(br)
     print(file_contents)
-    assert file_contents == "<br>\n"
+    assert file_contents == "<br />\n"
 
 def test_br_content():
     with pytest.raises(TypeError):
@@ -279,7 +279,43 @@ def test_a():
     assert file_contents == ('<a href="http://google.com">link to google '
                              'homepage</a>\n')
     
-    
+########
+# Step 7
+########
+
+def test_ul():
+    ul = Ul()
+    file_contents = render_result(ul)
+    print(file_contents)
+    assert file_contents.startswith('<ul')
+    assert file_contents.endswith('</ul>\n')
+
+def test_li():
+    li = Li()
+    file_contents = render_result(li)
+    print(file_contents)
+    assert file_contents.startswith('<li')
+    assert file_contents.endswith('</li>\n')
+
+def test_header():
+    h2 = H(2, "here is a header")
+    file_contents = render_result(h2)
+    print(file_contents)
+    assert file_contents.startswith('<h2')
+    assert file_contents.endswith('</h2>\n')
+
+def test_header_no_level():
+    h = H(content="here is a header")
+    file_contents = render_result(h)
+    print(file_contents)
+    assert file_contents == '<h>here is a header</h>\n'
+
+def test_header_bad_level():
+    hbad = H("bad", "should remove bad level input")
+    file_contents = render_result(hbad)
+    print(file_contents)
+    assert file_contents == '<h>should remove bad level input</h>\n'
+    assert False
 
 # #####################
 # # indentation testing

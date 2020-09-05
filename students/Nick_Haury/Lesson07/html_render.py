@@ -110,6 +110,35 @@ class A(OneLineTag):
         kwargs['href'] = link
         super().__init__(content, **kwargs)
 
+class Ul(Element):
+
+    tag = "ul"
+
+class Li(Element):
+
+    tag = "li"
+
+class H(OneLineTag):
+
+    tag = "h"
+    header_level = ""
+
+    def __init__(self, header_level="", content=None, **kwargs):
+        try:
+            int(header_level)
+            self.header_level = header_level
+        except ValueError:
+            if header_level != "":
+                print("header_level must be blank or an integer."
+                      " Defaulting to blank.")
+                self.header_level = ""
+        super().__init__(content, **kwargs)
+    
+    def _open_tag(self):
+        return f"<{self.tag}{self.header_level}"
+
+    def _close_tag(self):
+        return f"</{self.tag}{self.header_level}>\n"
 
 if __name__ == "__main__":
     pass
