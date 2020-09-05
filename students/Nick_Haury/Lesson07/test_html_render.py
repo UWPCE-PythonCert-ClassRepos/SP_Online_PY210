@@ -268,6 +268,19 @@ def test_br_append():
         br = Br()
         br.append("should not allow appending")
 
+########
+# Step 6
+########
+
+def test_a():
+    a = A("http://google.com", "link to google homepage")
+    file_contents = render_result(a)
+    print(file_contents)
+    assert file_contents == ('<a href="http://google.com">link to google '
+                             'homepage</a>\n')
+    
+    
+
 # #####################
 # # indentation testing
 # #  Uncomment for Step 9 -- adding indentation

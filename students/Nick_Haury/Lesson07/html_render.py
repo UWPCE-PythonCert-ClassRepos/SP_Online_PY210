@@ -89,7 +89,7 @@ class SelfClosingTag(Element):
     def render(self, out_file):
         out_file.write(self._open_tag())
         self.render_attributes(out_file)
-        out_file.write(">\n")
+        out_file.write(" />\n")
 
     def append(self, *args):
         raise TypeError("SelfClosingTag cannot have content added")
@@ -102,12 +102,14 @@ class Br(SelfClosingTag):
 
     tag = "br"
 
-class A(Element):
+class A(OneLineTag):
 
     tag = "a"
 
-    def __init__(self, link=None, content=None):
-        pass
+    def __init__(self, link=None, content=None, **kwargs):
+        kwargs['href'] = link
+        super().__init__(content, **kwargs)
+
 
 if __name__ == "__main__":
     pass
