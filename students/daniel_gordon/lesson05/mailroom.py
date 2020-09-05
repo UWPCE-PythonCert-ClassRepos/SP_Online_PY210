@@ -4,15 +4,19 @@ import pathlib
 
 DEBUG = False
 
+#I focused on Exceptions surrounding user input and writing to a file
+#I did not find any cases to use Comprehensions
+#Please let me know if I missed any opportunities to practice these skills
+
 def menu_dispatch(prompt, menu):
     """prints prompt and uses response to call functions from a dictionary"""
     while True: 
-        response = input(prompt).upper()
-        while response not in menu:
-            print(f"{response} is not an option")
+        try:
             response = input(prompt).upper()
-        if menu[response]() == "quit":
-            break
+            if menu[response]() == "quit":
+                break
+        except KeyError:
+            print(f"{response} is not an option")
 
 def get_total(items):
     """Adds together all of the elements of a list stored in a tuple"""
@@ -26,23 +30,30 @@ def get_total(items):
 def send_thank_you():
     """Records a new donation and thanks the donor"""
     #Find out who to thank
-    name = input("Enter Donors Full Name> ").title()
-    if DEBUG: print(f"name: {name}")
+    name = 'List'
     while name == 'List':
         print(list(donors.keys()))
         #Ensure correct capitalization
-        name = input("Enter Doners Full Name> ").title()
-        if DEBUG: print(f"name: {name}")
+        while True:
+            try:
+                name = input("Enter Doners Full Name> ").title()
+                if DEBUG: print(f"name: {name}")
+                break
+            except EOFError:
+                #If this happens, the user may be trying to quit
+                print("End of file detected, leaving program")
+                return False
     #Allow user to leave mid task
     if name == 'Q': return False
     #Enter ammount
-    money = input("Enter ammount donated> ")
-    #Allow user to leave mid task
-    if money.upper() == 'Q': return False
-    #Setup empty list for new donor
-    if name not in donors: donors[name] = []
+    while True:
+        try:
+            money = float(input("Enter ammount donated> "))
+            break
+        except ValueError:
+            print("Please enter a number")
     #Add donation to records
-    donors[name].append(float(money))
+    donors.setdefault(name,[]).append(money)
     #Send thank you
     print(f"Thank you {name} for your generous donation of {money}")
     return True
@@ -52,17 +63,22 @@ def create_a_report():
     title_str = f"{'Donor Name':<25} | Total Given | Num Gifts | Average Gift"
     print(title_str)
     print('-'*len(title_str))
+    #I could have used Comprehensions here to make the list of sorted keys
+    #However useing the prexisting sorted() makes more sense
     for donor in sorted(donors.items(), key = get_total, reverse = True):
         total = get_total(donor)
         num = len(donor[1])
         average = total / num
-        print(f"{donor[0]:<25} $ {total:>11.2f} {num:>11} $ {average:>12.2f}")
+        print(f"{donor[0]:<25}  ${total:>11.2f} {num:>11}  ${average:>12.2f}")
     return True
 
 def send_letters():
     """Creates a letter for each donor thanking them for there latest donation"""
     path = pathlib.Path('./letters')
-    if not path.exists(): path.mkdir()
+    #Asking for permission (not forgivness) makes more sense in this case
+    #It's simpler and more readable to add a one line check before the loop
+    #Rather than a nested loop that by definition can only run for the first donor
+    if not path.exists(): path.mkdir() 
     for donor in donors:
         with open(f"./letters/{donor}.txt", "w") as file:
             file.write(f"Dear {donor},\n\n")
@@ -76,16 +92,16 @@ def exit_menu():
 
 
 #Generate list of donors
-donors = {"Nick Esen" : [1800, 720],
-          "Sabina" : [1500],
-          "Marceline Theodosia" : [30000, 500000, 100],
-          "Rafat Rein" : [1500000],
-          "Kevin Both" : [150, 1200, 750]}
+donors = {"Nick Esen": [1800, 720],
+          "Sabina": [1500],
+          "Marceline Theodosia": [30000, 500000, 100],
+          "Rafat Rein": [1500000],
+          "Kevin Both": [150, 1200, 750]}
 
-main_menu = {'S' : send_thank_you,
-             'C' : create_a_report,
-             'L' : send_letters,
-             'Q' : exit_menu}
+main_menu = {'S': send_thank_you,
+             'C': create_a_report,
+             'L': send_letters,
+             'Q': exit_menu}
 
 main_prompt = "(S)end a Thank you | (C)reate a Report | Send (L)etters to all donors | (Q)uit >"
 
