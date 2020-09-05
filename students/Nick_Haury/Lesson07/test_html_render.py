@@ -315,7 +315,16 @@ def test_header_bad_level():
     file_contents = render_result(hbad)
     print(file_contents)
     assert file_contents == '<h>should remove bad level input</h>\n'
-    assert False
+
+########
+# Step 8
+########
+
+def test_html_head():
+    html = Html()
+    file_contents = render_result(html)
+    print(file_contents)
+    assert file_contents.startswith('<!DOCTYPE html>')
 
 # #####################
 # # indentation testing

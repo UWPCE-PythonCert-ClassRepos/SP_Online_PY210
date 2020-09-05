@@ -9,6 +9,7 @@ A class-based system for rendering html.
 class Element(object):
 
     tag = "html"
+    indent = 4
 
     # **kwargs are keyword value pairs for HTML style attributes
     def __init__(self, content=None, **kwargs):
@@ -59,6 +60,11 @@ class Html(Element):
 
     tag = "html"
 
+    def render(self, out_file):
+        out_file.write('<!DOCTYPE html>\n')
+        super().render(out_file)
+
+
 class Head(Element):
 
     tag = "head"
@@ -101,6 +107,10 @@ class Hr(SelfClosingTag):
 class Br(SelfClosingTag):
 
     tag = "br"
+
+class Meta(SelfClosingTag):
+
+    tag = "meta"
 
 class A(OneLineTag):
 
