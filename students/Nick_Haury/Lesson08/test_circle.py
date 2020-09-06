@@ -21,8 +21,10 @@ def test_change_r_d():
     # test if you can change the circle properties
     c = Circle(5)
     c.radius = 10
+    print(c.diameter)
     assert c.diameter == 20
     c.diameter = 30
+    print(c.radius)
     assert c.radius == 15.0
 
 def test_area():
@@ -31,6 +33,12 @@ def test_area():
     to set area directly
     """
     c = Circle(5)
+    print(c.area)
     assert math.isclose(78.54, c.area, abs_tol=0.001)
     with pytest.raises(AttributeError):
         c.area = 100
+
+def test_dia_alternate_constructor():
+    c = Circle.from_diameter(10)
+    assert c.radius == 5.0
+    assert c.diameter == 10.0

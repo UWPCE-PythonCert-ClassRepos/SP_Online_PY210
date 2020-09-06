@@ -15,7 +15,6 @@ class Circle:
     
     def __init__(self, radius):
         self._radius = float(radius)
-        # self._diameter = 2 * radius
 
     @property
     def radius(self):
@@ -23,7 +22,6 @@ class Circle:
     @radius.setter
     def radius(self, new_radius):
         self._radius = new_radius
-        # self._diameter = 2 * new_radius
     
     @property
     def diameter(self):
@@ -35,6 +33,10 @@ class Circle:
     @property
     def area(self):
         return math.pi * self.radius**2
+
+    @classmethod
+    def from_diameter(cls, dia):
+        return cls(dia / 2)
     
     def __repr__(self):
         return str(self.radius)
