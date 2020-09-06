@@ -32,5 +32,9 @@ class Circle:
     def diameter(self, new_diameter):
         self.radius = new_diameter / 2
 
+    @property
+    def area(self):
+        return math.pi * self.radius**2
+    
     def __repr__(self):
         return str(self.radius)

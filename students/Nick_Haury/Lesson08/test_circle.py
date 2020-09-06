@@ -24,3 +24,13 @@ def test_change_r_d():
     assert c.diameter == 20
     c.diameter = 30
     assert c.radius == 15.0
+
+def test_area():
+    """
+    test if area is set properly, and test if AttributeError raised when trying
+    to set area directly
+    """
+    c = Circle(5)
+    assert math.isclose(78.54, c.area, abs_tol=0.001)
+    with pytest.raises(AttributeError):
+        c.area = 100
