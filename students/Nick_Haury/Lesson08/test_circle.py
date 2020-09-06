@@ -51,3 +51,20 @@ def test_print():
     print(repr(c))
     assert repr(c) == "Circle(5.000)"
     assert str(c) == "Circle with radius: 5.000"
+
+def test_add():
+    c1 = Circle(1)
+    c2 = Circle(2)
+    c3 = c1 + c2
+    print(c3)
+    # assert c3.radius == 3.0
+    assert repr(c3) == 'Circle(3.000)'
+
+def test_mul():
+    c1 = Circle(2)
+    c2 = c1 * 3
+    print(c2)
+    assert repr(c2) == 'Circle(6.000)'
+    c2 = 3 * c1
+    print(c2)
+    assert repr(c2) == 'Circle(6.000)'

@@ -43,3 +43,12 @@ class Circle:
 
     def __str__(self):
         return f"Circle with radius: {self.radius:.3f}"
+
+    def __add__(self, other):
+        return Circle(self.radius + other.radius)
+
+    def __mul__(self, other):
+        return Circle(self.radius * other)
+    
+    # allow for multiplication if int or float called first
+    __rmul__ = __mul__
