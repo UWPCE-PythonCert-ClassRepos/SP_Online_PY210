@@ -17,19 +17,25 @@ from pytest_mock import mocker  # pylint: disable=unused-import
 from mailroom import cli_main
 
 
-def generate_mocked_input(command_list):
+@pytest.fixture
+def generate_mocked_input(mocker):
     """
     Return a mocked input() that will run through command_list once.
 
-    Use by calling mocker.patch.object(obj,method,new=mocked_input)
+    Use as a fixture and by calling generate_mocked_input(module, command_list)
     """
-    input_list = (n for n in command_list)
 
-    # Mock
-    def mocked_input(*_):
-        return next(input_list)
+    def _generate_mocked_input(module, command_list):
+        """Wrapped generate_mocked_input. This allows 'fixture' to take arguments."""
+        input_list = (n for n in command_list)
 
-    return mocked_input
+        # Mock
+        def mocked_input(*_):
+            return next(input_list)
+
+        return mocker.patch.object(module, "input", new=mocked_input)
+
+    return _generate_mocked_input
 
 
 @pytest.fixture
@@ -174,15 +180,16 @@ class Test_Cli_Main_Cli_Run_Menu:
         }
         return command_dispatch
 
-    def test_cli_main_cli_run_menu_custom(self, mocker, command_dispatch):
+    def test_cli_main_cli_run_menu_custom(
+        self, generate_mocked_input, command_dispatch
+    ):
         """Positive-Test-Cases, custom menu and prompt"""
         # Setup
         command_list = ["1", "2", "2", "0"]
         inst = cli_main.Cli()
 
         # Mock
-        mocked_input = generate_mocked_input(command_list)
-        mocked_input = mocker.patch.object(cli_main, "input", new=mocked_input)
+        mocked_input = generate_mocked_input(cli_main, command_list)
 
         # Execute
         inst.run_menu(menu=command_dispatch)
@@ -194,7 +201,7 @@ class Test_Cli_Main_Cli_Run_Menu:
             mocked_input()
 
     def test_cli_main_cli_run_menu_invalid_input_unrecognized(
-        self, mocker, command_dispatch,
+        self, mocker, generate_mocked_input, command_dispatch,
     ):
         """Positive-Test-Cases, invalid input: unrecognized command"""
         # Setup
@@ -202,8 +209,7 @@ class Test_Cli_Main_Cli_Run_Menu:
         command_list = ["spam", "0"]
 
         # Mock
-        mocked_input = generate_mocked_input(command_list)
-        mocked_input = mocker.patch.object(cli_main, "input", new=mocked_input)
+        mocked_input = generate_mocked_input(cli_main, command_list)
         command_dispatch["_key_error"] = mocker.MagicMock()
 
         # Execute
@@ -216,7 +222,9 @@ class Test_Cli_Main_Cli_Run_Menu:
         with pytest.raises(StopIteration):  # Assert command list was emptied
             mocked_input()
 
-    def test_cli_main_cli_run_menu_invalid_input_empty(self, mocker, command_dispatch):
+    def test_cli_main_cli_run_menu_invalid_input_empty(
+        self, mocker, generate_mocked_input, command_dispatch
+    ):
         """
         Positive-Test-Cases, invalid input: empty command
 
@@ -227,8 +235,7 @@ class Test_Cli_Main_Cli_Run_Menu:
         command_list = ["", "0"]
 
         # Mock
-        mocked_input = generate_mocked_input(command_list)
-        mocked_input = mocker.patch.object(cli_main, "input", new=mocked_input)
+        mocked_input = generate_mocked_input(cli_main, command_list)
         inst.unrecognized_command = mocker.MagicMock()
 
         # Execute
@@ -240,7 +247,9 @@ class Test_Cli_Main_Cli_Run_Menu:
         with pytest.raises(StopIteration):  # Assert command list was emptied
             mocked_input()
 
-    def test_cli_main_cli_run_menu_main_menu(self, mocker, command_dispatch):
+    def test_cli_main_cli_run_menu_main_menu(
+        self, generate_mocked_input, command_dispatch
+    ):
         """Positive-Test-Cases, use main_menu attributes first reassigning them."""
 
         # Setup
@@ -249,8 +258,7 @@ class Test_Cli_Main_Cli_Run_Menu:
         inst.main_menu = command_dispatch
 
         # Mock
-        mocked_input = generate_mocked_input(command_list)
-        mocked_input = mocker.patch.object(cli_main, "input", new=mocked_input)
+        mocked_input = generate_mocked_input(cli_main, command_list)
 
         # Execute
         inst.run_menu()  # No args passed to use main_menu_x
@@ -268,7 +276,9 @@ class Test_Cli_Main_Cli_Run_Menu:
             pytest.param("0", id="run_zero_string"),
         ],
     )
-    def test_cli_main_cli_run_menu_queue(self, mocker, command_dispatch, queue_input):
+    def test_cli_main_cli_run_menu_queue(
+        self, mocker, generate_mocked_input, command_dispatch, queue_input
+    ):
         """
         Positive-Test-Cases, menu can return a queue of callables.
 
@@ -285,8 +295,7 @@ class Test_Cli_Main_Cli_Run_Menu:
         # Mock
         command_dispatch["1"] = mocker.MagicMock(return_value=queue_input)
 
-        mocked_input = generate_mocked_input(command_list)
-        mocked_input = mocker.patch.object(cli_main, "input", new=mocked_input)
+        mocked_input = generate_mocked_input(cli_main, command_list)
 
         # Execute
         inst.run_menu(menu=command_dispatch)
@@ -298,7 +307,9 @@ class Test_Cli_Main_Cli_Run_Menu:
         with pytest.raises(StopIteration):  # Assert command list was emptied
             mocked_input()
 
-    def test_cli_main_cli_run_menu_key_error_main_menu(self, mocker):
+    def test_cli_main_cli_run_menu_key_error_main_menu(
+        self, mocker, generate_mocked_input
+    ):
         """Positive-Test-Cases, custom menu and prompt"""
         # Setup
         unrecognized_command = "spam"
@@ -306,8 +317,7 @@ class Test_Cli_Main_Cli_Run_Menu:
         inst = cli_main.Cli()
 
         # Mock
-        mocked_input = generate_mocked_input(command_list)
-        mocked_input = mocker.patch.object(cli_main, "input", new=mocked_input)
+        mocked_input = generate_mocked_input(cli_main, command_list)
         inst.unrecognized_command = mocker.MagicMock(return_value="quit")
         inst._define_menus()  # redefine menu reference to mocked command pylint: disable=protected-access
 
@@ -320,7 +330,9 @@ class Test_Cli_Main_Cli_Run_Menu:
         with pytest.raises(StopIteration):  # Assert command list was emptied
             mocked_input()
 
-    def test_cli_main_cli_run_menu_key_error_quit(self, mocker, command_dispatch):
+    def test_cli_main_cli_run_menu_key_error_quit(
+        self, mocker, generate_mocked_input, command_dispatch
+    ):
         """Positive-Test-Cases, custom menu and prompt"""
         # Setup
         unrecognized_command = "spam"
@@ -328,8 +340,7 @@ class Test_Cli_Main_Cli_Run_Menu:
         inst = cli_main.Cli()
 
         # Mock
-        mocked_input = generate_mocked_input(command_list)
-        mocked_input = mocker.patch.object(cli_main, "input", new=mocked_input)
+        mocked_input = generate_mocked_input(cli_main, command_list)
         command_dispatch["_key_error"] = mocker.MagicMock(return_value="quit")
 
         # Execute
@@ -350,7 +361,7 @@ class Test_Cli_Main_Cli_Run_Menu:
         ],
     )
     def test_cli_main_cli_run_menu_key_error_queue(
-        self, mocker, command_dispatch, queue_input
+        self, mocker, generate_mocked_input, command_dispatch, queue_input
     ):
         """
         Positive-Test-Cases, menu_key_error can return a queue of callables.
@@ -364,8 +375,7 @@ class Test_Cli_Main_Cli_Run_Menu:
         inst = cli_main.Cli()
 
         # Mock
-        mocked_input = generate_mocked_input(command_list)
-        mocked_input = mocker.patch.object(cli_main, "input", new=mocked_input)
+        mocked_input = generate_mocked_input(cli_main, command_list)
         command_dispatch["_key_error"] = mocker.MagicMock(return_value=queue_input)
 
         # Execute
@@ -388,7 +398,7 @@ class Test_Cli_Main_Cli_Run_Menu:
         ],
     )
     def test_cli_main_cli_run_menu_quit_queue(
-        self, mocker, command_dispatch, queue_input
+        self, mocker, generate_mocked_input, command_dispatch, queue_input
     ):
         """
         Positive-Test-Cases, menu can return a queue of callables after quit-command.
@@ -406,8 +416,7 @@ class Test_Cli_Main_Cli_Run_Menu:
         # Mock
         command_dispatch["1"] = mocker.MagicMock(return_value=queue_input)
 
-        mocked_input = generate_mocked_input(command_list)
-        mocked_input = mocker.patch.object(cli_main, "input", new=mocked_input)
+        mocked_input = generate_mocked_input(cli_main, command_list)
 
         # Execute
         returned_queue = inst.run_menu(menu=command_dispatch)
