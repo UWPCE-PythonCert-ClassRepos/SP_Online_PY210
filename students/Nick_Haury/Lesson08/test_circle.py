@@ -40,5 +40,14 @@ def test_area():
 
 def test_dia_alternate_constructor():
     c = Circle.from_diameter(10)
+    print(c.radius)
     assert c.radius == 5.0
+    print(c.diameter)
     assert c.diameter == 10.0
+
+def test_print():
+    c = Circle(5)
+    print(c)
+    print(repr(c))
+    assert repr(c) == "Circle(5.000)"
+    assert str(c) == "Circle with radius: 5.000"

@@ -39,4 +39,7 @@ class Circle:
         return cls(dia / 2)
     
     def __repr__(self):
-        return str(self.radius)
+        return f"Circle({self.radius:.3f})"
+
+    def __str__(self):
+        return f"Circle with radius: {self.radius:.3f}"
