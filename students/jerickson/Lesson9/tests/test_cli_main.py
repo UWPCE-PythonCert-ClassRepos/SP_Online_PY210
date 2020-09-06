@@ -95,14 +95,13 @@ class Test_Cli_Main_Cli_Report:
             pytest.param(10, id="ten_lines"),
         ],
     )
-    def test_cli_main_cli_report(self, mocker, report_len):
+    def test_cli_main_cli_report(self, mocker, mocked_print, report_len):
         """Positive-Test-Cases"""
         # Setup
         report_list = range(1, report_len + 1)
         inst = cli_main.Cli()
 
         # Mock
-        mocked_print = mocker.patch.object(cli_main, "print")
         mocker.patch.object(inst.record, "compose_report", return_value=report_list)
 
         # Execute
@@ -139,12 +138,8 @@ class Test_Cli_Main_cli_Unrecognized_Command:
         self, mocker, mocked_print, command, goal
     ):
         """Positive-Test-Cases"""
-
         # Setup
         inst = cli_main.Cli()
-
-        # Mock
-        mocked_print = mocker.patch.object(cli_main, "print")
 
         # Execute
         inst.unrecognized_command(command)
@@ -439,7 +434,7 @@ class Test_Cli_Main_Cli_Donor_List:
             pytest.param([], id="empty"),
         ],
     )
-    def test_cli_main_cli_donor_list(self, mocker, donor_list):
+    def test_cli_main_cli_donor_list(self, mocker, mocked_print, donor_list):
         """Positive-Test-Cases"""
         # Setup
         inst = cli_main.Cli()
@@ -447,7 +442,6 @@ class Test_Cli_Main_Cli_Donor_List:
         # Mock
         inst.record = mocker.MagicMock()
         inst.record.donor_list = donor_list
-        mocked_print = mocker.patch.object(cli_main, "print")
 
         # Execute
         inst.donor_list()
@@ -714,9 +708,6 @@ class Test_Cli_Main_Cli_Amount_Menu_Help:
         # Setup
         inst = cli_main.Cli()
 
-        # Mock
-        mocked_print = mocker.patch.object(cli_main, "print")
-
         # Execute
         inst.amount_menu_help()
 
@@ -740,7 +731,6 @@ class Test_Cli_Main_Cli_Save_Emails:
         inst = cli_main.Cli()
 
         # Mock
-        mocked_print = mocker.patch.object(cli_main, "print")
         inst.record = mocker.MagicMock()
 
         # Execute
@@ -773,8 +763,6 @@ class Test_Cli_Main_Cli_Print_Thanks:
         mocked_donor.thank_you_latest = mocker.MagicMock(return_value=message)
         inst.record.donors = {donor_name: mocked_donor}
         inst._thank_you_donor = donor_name
-
-        mocked_print = mocker.patch.object(cli_main, "print")
 
         # Execute
         inst.print_thanks()
