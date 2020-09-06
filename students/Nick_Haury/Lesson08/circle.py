@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import math
+from functools import total_ordering
 
 """
 Lesson08 assignment; creating a class to represent
@@ -11,6 +12,7 @@ a circle.  The class should be capable of the following:
 - compare if circles are equal
 """
 
+@total_ordering
 class Circle:
     
     def __init__(self, radius):
@@ -52,3 +54,10 @@ class Circle:
     
     # allow for multiplication if int or float called first
     __rmul__ = __mul__
+
+    def __lt__(self, other):
+        return self.radius < other.radius
+
+    def __eq__(self, other):
+        # need to define this or else will not equate properly
+        return math.isclose(self.radius, other.radius)

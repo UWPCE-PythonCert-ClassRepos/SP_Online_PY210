@@ -34,7 +34,7 @@ def test_area():
     """
     c = Circle(5)
     print(c.area)
-    assert math.isclose(78.54, c.area, abs_tol=0.001)
+    assert math.isclose(78.5398, c.area, abs_tol=0.0001)
     with pytest.raises(AttributeError):
         c.area = 100
 
@@ -68,3 +68,14 @@ def test_mul():
     c2 = 3 * c1
     print(c2)
     assert repr(c2) == 'Circle(6.000)'
+
+def test_lt():
+    c1 = Circle(2)
+    c2 = Circle(3)
+    c3 = Circle(2)
+
+    assert c1 < c2
+    assert c2 > c3
+    assert c1 == c3
+    assert c1 >= c3
+    assert c1 <= c3
