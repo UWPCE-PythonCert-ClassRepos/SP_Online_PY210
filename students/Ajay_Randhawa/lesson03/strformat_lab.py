@@ -45,3 +45,15 @@ def formatter(in_tuple):
 		a = a-1
 	#return string with tuple values
 	return format_string.format(*in_tuple)
+
+def task4(in_tuple):
+	#Task4
+	#convert tuple to a list to modify it
+	list1 = list(in_tuple)
+	#modify the 2 values to add zero paddding
+	list1[0] = f'{in_tuple[0]:02d}'
+	list1[3] = f'{in_tuple[3]:02d}'
+	#rearrange the values per the assignemnt in a string
+	string1 = "{} {} {} {} {}".format(list1[3], list1[4], list1[2], list1[0], list1[1])
+	#print the string
+	print(string1)
