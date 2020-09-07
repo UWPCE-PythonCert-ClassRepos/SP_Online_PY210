@@ -80,3 +80,11 @@ def task6():
 	print(string2)
 	string3 = '{:20}{:10}{:>8}'.format(list1_3[0], list1_3[1], list1_3[2])
 	print(string3)
+
+def extraTask():
+	#extra Task
+	#Create a tuple of 10 consecutive integers
+	tup = (1,2,3,4,5,6,7,8,9,10)
+	#Format string to create a table of 5 characters wide
+	string1 ="{:5}{:5}{:5}{:5}{:5}\n{:5}{:5}{:5}{:5}{:5}".format(tup[0],tup[1],tup[2],tup[3],tup[4],tup[5],tup[6],tup[7],tup[8],tup[9])
+	print(string1)
