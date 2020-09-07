@@ -57,3 +57,13 @@ def task4(in_tuple):
 	string1 = "{} {} {} {} {}".format(list1[3], list1[4], list1[2], list1[0], list1[1])
 	#print the string
 	print(string1)
+def task5():
+	#Task 5
+	#Create a list
+	list1 = ['oranges', 1.3, 'lemons', 1.1]
+	#Format string and make the fruits singular
+	string1 = f'The weight of an {list1[0][:-1]} is {list1[1]} and the weight of a {list1[2][:-1]} is {list1[3]}'
+	print(string1)
+	#Format string to captitalize fruits and increase weight by 20%
+	string2 = f'The weight of an {list1[0][:-1].upper()} is {list1[1]*1.2} and the weight of a {list1[2][:-1].upper()} is {list1[3]*1.2}'
+	print(string2)
