@@ -28,7 +28,8 @@ def print_donor_list():
         print(donor[0])
     print("***********************************")
 
-def print_email(name,amount):
+
+def print_email(name, amount):
     #  print email
     email_text = 'Thank you for your generous donation of'
     print(f"\n\nDear {name},\n\n{email_text} ${amount:.2f}.\n\nBecky\n")
@@ -39,28 +40,27 @@ def send_thank_you_new():
     response = ""
 
     while(True):
-        response = input("""Please enter Full name or 'list' to see names or 'exit': """)
+        response = input("""Enter Full name or 'ist to see names or exit: """)
         if(response == 'exit'):
             break
         elif response.lower() == "list":
             print_donor_list()
         else:
             break
-    
+
     if(response != "exit"):
         for donor in donor_db:
             if donor[0] == response.title():
                 prompted_donation = input("Please enter an amount to donate >")
                 donor[1].append(float(prompted_donation))
-                print_email(response.title(),int(prompted_donation))
+                print_email(response.title(), int(prompted_donation))
                 break
             else:
                 prompted_donation = input("Please enter an amount to donate >")
                 new_donor = (response.title(), [float(prompted_donation)])
                 donor_db.append(new_donor)
-                print_email(response.title(),int(prompted_donation))
+                print_email(response.title(), int(prompted_donation))
                 break
-
 
 
 def sort_total_donations(donations):
@@ -78,7 +78,7 @@ def write_report():
     col4 = 'Average Gift'
     print(f'{col1:25} | {col2:13} | {col3:11} | {col4:13}')
     print('-'*70)
-    
+
     donor_db.sort(key=sort_total_donations, reverse=True)
 
     for donor in donor_db:
