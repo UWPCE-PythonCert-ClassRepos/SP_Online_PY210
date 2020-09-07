@@ -67,3 +67,16 @@ def task5():
 	#Format string to captitalize fruits and increase weight by 20%
 	string2 = f'The weight of an {list1[0][:-1].upper()} is {list1[1]*1.2} and the weight of a {list1[2][:-1].upper()} is {list1[3]*1.2}'
 	print(string2)
+
+def task6():
+	list1 = ['first', '85', '90000.25','second', '55', '8000.75','third', '25', '500.98']
+	list1_1 = list1[:3]
+	list1_2 = list1[3:6]
+	list1_3 = list1[6:]
+	print(list1_1)
+	string1 = '{:20}{:10}{:>8}'.format(list1_1[0], list1_1[1], list1_1[2])
+	print(string1)
+	string2= '{:20}{:10}{:>8}'.format(list1_2[0], list1_2[1], list1_2[2])
+	print(string2)
+	string3 = '{:20}{:10}{:>8}'.format(list1_3[0], list1_3[1], list1_3[2])
+	print(string3)
