@@ -19,7 +19,7 @@ def task2(a,b,c,d):
 	#Task2
 	#use f-string to pad integer with 0s
 	A = f'{a:03d}'
-	print(A)
+	print("file_" +A)
 	#use f-string to format float to 2 decimal places
 	B = f'{b:.2f}'
 	print(B)
