@@ -2,6 +2,7 @@
 
 import pytest
 from circle import *
+import random
 
 """
 Unit tests for Circle.py
@@ -79,3 +80,18 @@ def test_lt():
     assert c1 == c3
     assert c1 >= c3
     assert c1 <= c3
+    assert c2 != c3 and c1 != c2
+
+def test_sort():
+    circles_random = [Circle(i) for i in random.sample(range(10), 10)]
+    print(circles_random)
+    circles_ordered = [Circle(j) for j in range(10)]
+    print(circles_ordered)
+    assert sorted(circles_random) == circles_ordered
+
+def test_reflected_numerics():
+    c1 = Circle(2)
+    print(c1 * 3)
+    print(3 * c1)
+    assert c1 * 3 == 3 * c1
+
