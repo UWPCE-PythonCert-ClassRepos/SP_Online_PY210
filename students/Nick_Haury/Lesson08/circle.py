@@ -55,6 +55,9 @@ class Circle:
     # allow for multiplication if int or float called first
     __rmul__ = __mul__
 
+    def __truediv__(self, other):
+        return Circle(self.radius / other)
+
     def __lt__(self, other):
         return self.radius < other.radius
 

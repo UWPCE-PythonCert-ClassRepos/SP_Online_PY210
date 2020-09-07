@@ -95,3 +95,7 @@ def test_reflected_numerics():
     print(3 * c1)
     assert c1 * 3 == 3 * c1
 
+def test_div():
+    c = Circle(4)
+    print(c / 2)
+    assert repr(c / 2) == "Circle(2.000)"
