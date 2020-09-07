@@ -64,3 +64,19 @@ class Circle:
     def __eq__(self, other):
         # need to define this or else will not equate properly
         return math.isclose(self.radius, other.radius)
+
+class Sphere(Circle):
+
+    def __repr__(self):
+        return f"Sphere({self.radius:.3f})"
+    
+    def __str__(self):
+        return f"Sphere with radius: {self.radius:.3f}"
+
+    @property
+    def volume(self):
+        return (4 / 3) * math.pi * self.radius**3
+    
+    @property
+    def area(self):
+        return 4 * math.pi * self.radius**2

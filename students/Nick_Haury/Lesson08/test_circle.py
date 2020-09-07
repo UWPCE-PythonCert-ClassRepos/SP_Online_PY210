@@ -99,3 +99,15 @@ def test_div():
     c = Circle(4)
     print(c / 2)
     assert repr(c / 2) == "Circle(2.000)"
+
+def test_sphere():
+    s1 = Sphere(5)
+    s2 = Sphere.from_diameter(10)
+    print(s1)
+    print(s2)
+    assert repr(s1) == "Sphere(5.000)"
+    assert repr(s1) == repr(s2)
+    print(s1.area)
+    print(s1.volume)
+    assert math.isclose(s1.area, 314.16, abs_tol=0.01)
+    assert math.isclose(s1.volume, 523.6, abs_tol=0.01)
