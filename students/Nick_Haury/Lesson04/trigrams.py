@@ -9,6 +9,7 @@ parse along the file to create a trigram of the words.  The int argument
 is used to build up a new text, with wordcount equal to the provided int.
 '''
 
+
 def build_trigrams(words):
     '''
     build up the trigrams dict from the list of words
@@ -24,18 +25,20 @@ def build_trigrams(words):
 
     return trigrams
 
+
 def read_file(file_name):
     text = ""
     with open(file_name) as f:
         text = f.read().replace('\n', ' ')
     return text
 
+
 def build_text(trigram, text_length):
 
     def random_key():
         # get a random key from the dictionary
         return random.choice(list(trigram.keys()))
-    
+
     text = list(random_key())
     for i in range(text_length - 2):
         next_key = (text[i], text[i + 1])
@@ -45,6 +48,7 @@ def build_text(trigram, text_length):
         text.append(random.choice(next_word_list))
     return " ".join(text)
 
+
 if __name__ == "__main__":
     # get the filename from the command line
     try:
@@ -52,8 +56,9 @@ if __name__ == "__main__":
         length = sys.argv[2]
     except IndexError:
         print("You must pass in a filename argument in the form of "
-        "'filename.txt' along with an int argument for the number of pages "
-        "you'd like the created text to be.  ex: trigrams.py text.txt 100")
+              "'filename.txt' along with an int argument for the number of "
+              "pages you'd like the created text to be. "
+              "ex: trigrams.py text.txt 100")
         sys.exit(1)
     words = read_file(file_name)
     trigrams = build_trigrams(words.split())

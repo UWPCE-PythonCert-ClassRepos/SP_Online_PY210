@@ -4,10 +4,10 @@
 Program starts with a list of donors toupled with a list of amounts they have
 donated in the past.  The program gives a user the option to add new donations
 from previous donors to the list.  It also gives the option to add a new donor
-along with their first donation.  After a donation amount is recorded, a 
-template 'thank you' email is automatically generated.  A user also has the 
-option to create a report showing details about all donors.  This report 
-contains names, sum of donations, number of donations, and average donation 
+along with their first donation.  After a donation amount is recorded, a
+template 'thank you' email is automatically generated.  A user also has the
+option to create a report showing details about all donors.  This report
+contains names, sum of donations, number of donations, and average donation
 amount; donors sorted by largest donation sum to smallest.
 '''
 
@@ -19,13 +19,14 @@ donors = [
     ("Paul Allen", [663.23, 43.87, 1.32])
     ]
 
+
 def main():
     '''
     Prompt the user for input.  Current choices are to send a thank you or to
     create a report to display all the current donors and respective donation
     totals and averages.  The user can also quit.
     '''
-    
+
     print("Welcome to the mailroom program")
     prompt = "\n".join((
         "Please choose a function from the below options:",
@@ -46,7 +47,8 @@ def main():
             break
         else:
             print(str(choice) + " is an invalid selection, "
-            "please make a valid selection \n")
+                                "please make a valid selection \n")
+
 
 def thank_you():
     '''
@@ -63,7 +65,8 @@ def thank_you():
     print()
     while True:
         ty_input = input('Type "list" to display a list of donor names. '
-        'Otherwise enter a name you would like to add a donation for:\n>>')
+                         'Otherwise enter a name you would like to add a '
+                         'donation for:\n>>')
 
         if ty_input == "list":
             print_donors()
@@ -73,11 +76,13 @@ def thank_you():
             print_email(ty_input, donation_amount)
             break
 
+
 def print_donors():
     print("\nCurrent Donors: ")
     for donor in donors:
         print(donor[0])
     print()
+
 
 def print_email(donor_name, donation_amount):
     '''
@@ -85,12 +90,14 @@ def print_email(donor_name, donation_amount):
     an email template thanking them for their donation
     '''
 
-    print(f"\nDear {donor_name},\n\n"
-    f"It is with incredible gratitude that we accept your wonderfully generous "
-    f"donation of ${float(donation_amount):,.2f}.  Your contribution will truly "
-    "make a difference in the path forward towards funding our common goal."
-    "\n\nEver Greatefully Yours,\n\n"
-    "X" + ("_"* 20) + "\n")
+    print(
+        f"\nDear {donor_name},\n\n"
+        f"It is with incredible gratitude that we accept your wonderfully "
+        f"generous donation of ${float(donation_amount):,.2f}.  Your "
+        "contribution will truly make a difference in the path forward towards"
+        " funding our common goal.\n\nEver Greatefully Yours,\n\n"
+        "X" + ("_" * 20) + "\n")
+
 
 def add_donation(donor_name, donation_amount):
     '''
@@ -107,16 +114,19 @@ def add_donation(donor_name, donation_amount):
     else:
         donors.append((donor_name, [float(donation_amount)]))
 
+
 def create_report():
     '''
     Prints a list of donors, sorted by total historical donation
     amount.  Includes donor name, total donated, number of donations,
-    and average donation amount.  
+    and average donation amount.
     '''
 
     donors_by_total = sorted(donors, key=sort_key, reverse=True)
 
-    print("Donor Name" + " "*15 + "|  Total Given  | Num Gifts |   Average Gift")
+    print(
+        "Donor Name" + " "*15 + "|  Total Given  | Num Gifts |   Average Gift"
+        )
     print("- "*36)
     for donor in donors_by_total:
         donor_name = donor[0]
@@ -124,11 +134,13 @@ def create_report():
         donor_count = len(donor[1])
         donor_average = donor_sum/donor_count
         print(f"{donor_name:26}${donor_sum:14,.2f}{donor_count:11}  "
-        f"${donor_average:16,.2f}")
+              f"${donor_average:16,.2f}")
     print()
+
 
 def sort_key(donor):
     return sum(donor[1])
+
 
 if __name__ == "__main__":
     '''
