@@ -55,12 +55,11 @@ def send_thank_you_new():
                 donor[1].append(float(prompted_donation))
                 print_email(response.title(), int(prompted_donation))
                 break
-            else:
-                prompted_donation = input("Please enter an amount to donate >")
-                new_donor = (response.title(), [float(prompted_donation)])
-                donor_db.append(new_donor)
-                print_email(response.title(), int(prompted_donation))
-                break
+        else:
+            prompted_donation = input("Please enter an amount to donate >")
+            new_donor = (response.title(), [float(prompted_donation)])
+            donor_db.append(new_donor)
+            print_email(response.title(), int(prompted_donation))
 
 
 def sort_total_donations(donations):
