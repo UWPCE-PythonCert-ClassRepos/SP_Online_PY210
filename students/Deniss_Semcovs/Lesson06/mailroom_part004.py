@@ -19,7 +19,8 @@ def mailroom04(reply, action):
 
 # Complerssed "list"
 def print_list():
-    [print(i["name"]) for i in sort_donor]
+    sorted_donor = sorted_db()
+    [print(i["name"]) for i in sorted_donor]
 
 # add_donation() input function
 def add_donation():
@@ -74,8 +75,8 @@ def create_report():
     report_data()
 
 def report_data():
-    sort_donor = sorted_db()
-    for i in sort_donor:
+    sorted_donor = sorted_db()
+    for i in sorted_donor:
         data2 = (i["name"], sum(i["don"]), len(i["don"]), (sum(i["don"]))/(len(i["don"])))
         print("{:20s} $ {:10d}   {:10d}  $ {:.2f}".format(*data2))
 
