@@ -5,16 +5,9 @@ from cli_main import *
 
 class Donor(object):
 
-    def __init__(self, var, **kwargs):
+    def __init__(self, var):
         self.var = var
-        self.kwargs = (kwargs)
 
-
-    # adding donations method
-    def adding_donation(self):
-        (self.var).append(kwargs)
-        print()
-        print("Donation has been submitted! You can see new donation total in the report.")
 
     def ty_note(self):
         c_data = donor_db
@@ -47,12 +40,10 @@ class Donor(object):
                         return
                 else:
                     add = new_donor()
-                    
                     donor_db.append({"name":self.var, "don":[add]})
                     print()
-                    print("New donor has been added to the data base.")
+                    print("New donor has been added to the data base, please see report for more information.")
                     print()
-
         except ValueError:
             valueerror()
         except KeyboardInterrupt:

@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
 
-#To Send a Thank You Note enter "1"
-#To create a report enter "2"
-#To quit enter "3":
-
 from donor_models import * 
 
 def mailroom04(reply, action):
@@ -31,14 +27,12 @@ def n_don():
     return don
 
 def new_donor():
-#    n = full_name
     print()
     new_don = int(input("No matches found, if this is a new donor please enter the donation amount or 'q' to exit: "))
     if new_don == "q":
         return
     else:
         return new_don
-#    Donor.add_n_don(n, new_don)
 
 def send_ty_note():
     try:

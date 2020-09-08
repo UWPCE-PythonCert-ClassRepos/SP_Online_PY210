@@ -1,6 +1,5 @@
 
 import pytest
-import io
 from donor_models import *
 
 
@@ -40,28 +39,6 @@ def test_report(capfd):
 def test_new_donation(capfd):
     a = Donor("Tom Hanks")
     a.new_donation()
-#    Donor.new_donation.n_don = 300
     captured = capfd.readouterr()
     assert "Please enter the donation amount: " in captured.out
     assert "The donation amount has been incorrect or not entered" in captured.out
-
-
-
-
-"""
-
-    a = Donor("Tom Hanks")
-    f = a.ty_note()
-    captured = capfd.readouterr()
-    assert captured.out ==
-
-"""
-
-
-
-
-
-
-
-
-
