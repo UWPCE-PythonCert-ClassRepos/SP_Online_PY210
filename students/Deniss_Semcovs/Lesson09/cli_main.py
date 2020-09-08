@@ -26,26 +26,19 @@ def add_donor():
     dn.new_donation()
 
 def n_don():
-    don = int(input("Please enter the donation amount: "))
-
-    
-
-
-    return don
-#    print(var, don)
-#    try:
-#        dn = Donor(var, don)
-#        dn.up_donor()
-#    except NameError:
-#        pass
-#        dn.up_donor()
-#    up_donor(var, don)
-
-def new_donor(full_name):
-    n = full_name
     print()
-    new_don = int(input("No matches found, if you would like to add it please enter the donation amount or 'q' to exit: "))
-    Donor.add_n_don(n, new_don)
+    don = int(input("Please enter the donation amount: "))
+    return don
+
+def new_donor():
+#    n = full_name
+    print()
+    new_don = int(input("No matches found, if this is a new donor please enter the donation amount or 'q' to exit: "))
+    if new_don == "q":
+        return
+    else:
+        return new_don
+#    Donor.add_n_don(n, new_don)
 
 def send_ty_note():
     try:
