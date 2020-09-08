@@ -2,10 +2,10 @@
 import sys
 
 donors = {
-	"John Quigley": {"2019-02-04": 5000.00, "2019-02-04": 4250.00, "2019-02-04": 3000.00},
-	"Sara Smith": {"2020-04-02": 2000.00, "2019-02-04": 42000.00, "2019-02-04": 32000.00},
-	"Jacob van der Schmidt": {"2012-04-20": 20.00, "2019-02-04": 2000.00, "2019-02-04": 3400.00},
-	"Ogden Nash": {"2019-02-04": 5000000.00, "2019-02-04": 500000.00, "2019-02-04": 50000.00}
+	"John Quigley": {"2019-02-04": 5000.00, "2019-02-05": 4250.00, "2019-02-07": 3000.00},
+	"Sara Smith": {"2020-01-02": 2000.00, "2019-02-08": 42000.00, "2019-02-02": 32000.00},
+	"Jacob van der Schmidt": {"2012-01-20": 20.00, "2019-02-24": 2000.00, "2019-12-1": 3400.00},
+	"Ogden Nash": {"2019-06-04": 5000000.00, "2019-04-04": 500000.00, "2019-12-04": 50000.00}
 }
 
 def send_thank_you(first_name='', last_name=''):
@@ -20,7 +20,7 @@ def send_thank_you(first_name='', last_name=''):
 	else:
 		pass
 
-	name = input('What is the name of the donor?\n').title()
+	name = input('What is the name of the donor? (First and Last i.e. "John Quigley"\n').title()
 	donor = donors.get(name)
 
 	if donor:
@@ -28,9 +28,19 @@ def send_thank_you(first_name='', last_name=''):
 		date = list(donor.keys())[0]
 		write_letters(name, amount, date)
 	else:
+		
 		amount = input("How much did {} donate?\n".format(name))
 		date = input("When was the donation? YYYY-MM-DD\n")
-		write_letters(name, amount, date)
+		try:
+			if amount > 0:
+				print("That is an invalid donation amount")
+				return 1
+			else:
+				write_letters(name, amount, date)
+		except TypeError:
+			print("Please input respones")
+			print("\n")
+			return 1
 
 
 def write_letters(name, amount, date):	
@@ -67,13 +77,11 @@ def create_report():
 		average = total / num_gifts
 		
 		print((name).ljust(30) + '$'.ljust(2) + str(total).ljust(15) + str(num_gifts).ljust(10) + '$'.ljust(2) + str(round(average, 2)))
-
+		
 	print('\n')
 
 
 def send_letter_all():
-	text = "Dear {},\n Thank you very much for your very kind donation of ${}.\n It will be put to good use.\nSincerely,\n-The Team"
-
 	for donor in donors:
 		name = donor
 		amount = list(donors[name].values())[0]
@@ -96,14 +104,19 @@ prompt = "\n".join(("Please select from the following options:",
 	"2 - Create a Report",
 	"3 - Send letters to all donors.",
 	"4 - quit"
-))
+	))
 
 
 def main():
 	while True:
-		response = int(input(prompt + "\n")) # continuously colelct user selection
-		# now redirect to feature functions based on the user selection
-		arg_dict.get(response)()
+		response = int(input(prompt + "\n")) # continuously collect user selection
+		if response >0 and response < 5:
+			#now redirect to feature functions based on the user selection
+			arg_dict.get(response)()
+		else:
+			print("Please input a valid selection")
+			return 1
+			
 
 
 if __name__ == "__main__":
