@@ -8,6 +8,8 @@ import sys
 #               No space after print; whitespace around assignment operators;
 #
 #
+#
+#
 # slice lab
 # Write some functions that take a sequence as an argument, and return a copy of that sequence:
 #
@@ -24,17 +26,13 @@ s = "I can't tell the difference between Whizzo butter and this dead crab."
 
 
 #     with the first and last items exchanged.
-
-
 def swap_first_and_last(seq):
     seq[0], seq[-1] = seq[-1], seq[0]
     return seq
 
 
 # it's a list
-
 print(fruit)
-
 print(swap_first_and_last(fruit))
 
 
