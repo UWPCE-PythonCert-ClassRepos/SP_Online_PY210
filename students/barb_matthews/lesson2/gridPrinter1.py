@@ -2,12 +2,14 @@
 ## By: B. Matthews
 ## 9/8/2020
 
+#import math
 plus = '+ '
 minus = '- '
 pipe = '|'
 
 count = 4
-grid = count/2
+#grid = math.sqrt(count)
+grid = 2
 
 print (plus + minus*count + plus, end='') 
 print (minus*count + plus)
