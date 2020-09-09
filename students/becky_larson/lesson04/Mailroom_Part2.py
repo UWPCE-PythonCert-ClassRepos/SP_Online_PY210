@@ -3,7 +3,7 @@ import sys
 from datetime import date
 today = date.today()
 
-"""Mailroom"""
+"""Mailroom Part 2"""
 
 # Prompt user to choose from menu of 3 actions:
 # Send a Thank You, Create a Report, Send thanks to all donors or quit.
@@ -30,7 +30,7 @@ def list_donors(donors):
     return (donors)
 
 
-def enter_donation(donors, donator):
+def add_donation(donors, donator):
     """      Add donation to donor
     """
     prompt = "Please enter an amount to donate >"
@@ -43,7 +43,7 @@ def enter_donation(donors, donator):
 
 def create_card(donator, amount):
     """
-    Create thank you note
+    Create thank you note for passed user
     """
 
     donation_dict = {}
@@ -60,7 +60,7 @@ def create_card(donator, amount):
     with open('./cards/' + donation_dict['name'] + fn, 'w+') as f:
         f.write(ty_text)
 
-    print(ty_text)
+    print("Thank you card written!")
     return True
 
 
@@ -79,20 +79,20 @@ def send_ty(donors):
     if response.lower() == 'list':
         list_donors(donors)
     elif response in donors:
-        donation = enter_donation(donors, response)
+        donation = add_donation(donors, response)
         create_card(response, donation)
     else:
         donors[response] = []
-        donation = enter_donation(donors, response)
+        donation = add_donation(donors, response)
         create_card(response, donation)
 
     return donors
 
 
 def create_report(donors):
-    print('create_report')
     """
     Print formatted report of donors and donations
+    Sort report by total donations
     """
 
     print("** You've selected to create a report.  **\n")
@@ -113,6 +113,9 @@ def create_report(donors):
 
 
 def send_all_ty(donors):
+    '''
+    Create cards for all donor in dictionary
+    '''
 
     for donor, donations in donors.items():
         donation_current = donations[-1]
