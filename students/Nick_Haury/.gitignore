@@ -1,0 +1,11 @@
+simple_classes.py
+__pycache__/
+.vscode
+*.txt
+walnut_party.py
+test_walnut_party.py
+/Lesson07/*output*
+/Lesson08/prop*
+/Lesson08/quad*
+/Lesson08/sort*
+/Lesson08/spar*
