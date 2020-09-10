@@ -2,29 +2,55 @@
 
 '''
 Classes for the object oriented version of the mailroom program.
+
+Defines the Donor and DonorCollection Classes.  Donor tracks a donor's name,
+along with a list of their donations.  DonorCollection collects the donors into
+a dictionary.
 '''
 
 class Donor:
+    """
+    Donor keeps track of a donor's name and a list of previous donation amounts
+    they have donated in the past.
+
+    Parameters
+    ----------
+    donor_name : str
+        Name of donor
+    donations   :   list
+        list of ints or floats that are donations made by donor
+    """
     
     def __init__(self, donor_name, donations = []):
-        self._donor_name = donor_name
+        self._name = donor_name
         self._donations = donations
 
     @property
-    def donor_name(self):
-        return self._donor_name
+    def name(self):
+        return self._name
     
     @property
     def donations(self):
         return self._donations
-    
+
+    def add_donation(self, donation_amount):
+        if isinstance(donation_amount, (int, float)):
+            self.donations.append(donation_amount)
+        else:
+            raise TypeError('donation must be of type int or float')
+
+    def __str__(self):
+        return f'Donor named {self._name} with {len(self.donations)} donations.'
+
+    def __repr__(self):
+        return f'Donor("{self._name}", {self.donations})'
+
 
 class DonorCollection:
 
-    def __init__(self, donor = None):
-        self.donor_dict["donor.name"]
+    def __init__(self, donor_dict_input = {}):
+        self.donor_dict = donor_dict_input
 
-    pass
 
 if __name__ == "__main__":
     pass
