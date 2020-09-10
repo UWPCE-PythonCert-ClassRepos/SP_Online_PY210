@@ -20,6 +20,8 @@ def test_create_donor():
 def test_add_donation():
     with pytest.raises(TypeError):
         d1.add_donation("hello")
+    with pytest.raises(ValueError):
+        d1.add_donation(-200)
     d1.add_donation(10)
     d1.add_donation(20.0)
     assert d1.donations == [10, 20.0]
