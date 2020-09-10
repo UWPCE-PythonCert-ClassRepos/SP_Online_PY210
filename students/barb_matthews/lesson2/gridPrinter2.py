@@ -1,34 +1,43 @@
-## Lesson 2 Assignment Grid Printer
+## Lesson 2 Assignment Grid Printer, Part 2
 ## By: B. Matthews
 ## 9/8/2020
 
 #import math
-plus = '+ '
-minus = '- '
-pipe = '|'
 
-count = 4
-#grid = math.sqrt(count)
-grid = 2
+def print_grid(n):
 
-print (plus + minus*count + plus, end='') 
-print (minus*count + plus)
+	if n<=0:
+		print("sorry, it's so small you can't see it.")
+		return None
 
-while grid:
+	plus = '+ '
+	minus = '- '
+	pipe = '|'
 
-	i=count
-	while i>0 :
-		cell = pipe + ' '*count*2 + ' '
-		print (cell*3)
-		#print()
-		i-=1
+	count = n
+	#grid = math.sqrt(count)
+	grid = 2
 
-	print (plus + minus*count + plus, end='')
+	print (plus + minus*count + plus, end='') 
 	print (minus*count + plus)
+
+	while grid:
+
+		i=count
+
+		while i>0 :
+			cell = pipe + ' '*count*2 + ' '
+			print (cell*3)
+			#print()
+			i-=1
+
+		print (plus + minus*count + plus, end='')
+		print (minus*count + plus)
 	
-	grid-=1
+		grid-=1
 
-#def print_grid(n):
+	print ('Done!!')
 
+print_grid(12)
 
 
