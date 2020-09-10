@@ -1,11 +1,20 @@
 #!/usr/bin/env python """
 import sys
+import tempfile
+import os
+
 from datetime import date
 today = date.today()
 
 """Mailroom Part 2"""
+""" Updates from Part 1
+1. Ask user for temp folder to write notes
+2. New option to send cards to all users
+3. Tech revision: using dictionary
+"""
 
-# Prompt user to choose from menu of 3 actions:
+
+# Prompt user to choose from menu of 4 actions:
 # Send a Thank You, Create a Report, Send thanks to all donors or quit.
 
 donor_db = {"Cher": [1000.00, 245.00],
@@ -14,6 +23,8 @@ donor_db = {"Cher": [1000.00, 245.00],
             "Jack Black": [256.00, 752.50, 10101.00],
             "Sam Smith": [5500.00, 24.00],
             }
+
+default_folder = "thank_you_cards"
 
 
 def sort_key(donors):
@@ -41,7 +52,7 @@ def add_donation(donors, donator):
     return donation
 
 
-def create_card(donator, amount):
+def create_card(donator, amount, fldr):
     """
     Create thank you note for passed user
     """
@@ -55,12 +66,12 @@ def create_card(donator, amount):
     \n\n\tIt will be put to very good use.\n\n\t\t\tSincerely,\
     \n\t\t\t   -The Team'.format(**donation_dict)
 
-    fn = '_' + today.strftime("%b_%d_%Y") + '.txt'
+    file_name = donation_dict['name'].replace(' ', '_') + '.txt'
+    file_path = os.path.join(fldr, file_name)
 
-    with open('./cards/' + donation_dict['name'] + fn, 'w+') as f:
+    with open(file_path, 'w+') as f:
         f.write(ty_text)
 
-    print("Thank you card written!")
     return True
 
 
@@ -80,11 +91,11 @@ def send_ty(donors):
         list_donors(donors)
     elif response in donors:
         donation = add_donation(donors, response)
-        create_card(response, donation)
+        create_card(response, donation, write_path)
     else:
         donors[response] = []
         donation = add_donation(donors, response)
-        create_card(response, donation)
+        create_card(response, donation, write_path)
 
     return donors
 
@@ -112,14 +123,37 @@ def create_report(donors):
     return
 
 
+def ask_for_folder():
+    global user_folder
+
+    text = "\n".join(("\n\n\nEnter folder Name or hit enter for default",
+                        " >"))
+    prompt = input(text)
+
+    if prompt:
+        user_folder = prompt.replace(" ", "_")
+    else:
+        user_folder = default_folder
+
+    temp_path = tempfile.gettempdir()
+    folder_name = user_folder + '_' + today.strftime("%b_%d_%Y")
+
+    folder_path = os.path.join(temp_path, folder_name)
+
+    if not os.path.exists(folder_path):
+        os.makedirs(folder_path)
+
+    return folder_path
+
+
 def send_all_ty(donors):
     '''
     Create cards for all donor in dictionary
     '''
-
+    
     for donor, donations in donors.items():
         donation_current = donations[-1]
-        create_card(donor, donation_current)
+        create_card(donor, donation_current, write_path)
     return donors
 
 
@@ -135,16 +169,19 @@ def get_selection():
                         "       2: Create a Report",
                         "       3: Thanks to All Donors",
                         "       4: Quit",
+                        f"       (Folder: {user_folder})",
                         "       Please enter your choice:"
                         " > "))
 
     response = input(prompt)
+    
     return response
 
 
 if __name__ == '__main__':
 
     response = ''
+    write_path = ask_for_folder()    
 
     switch_func_dict = {
         '1': send_ty,
@@ -155,4 +192,7 @@ if __name__ == '__main__':
 
     while True:
         response = get_selection()
-        switch_func_dict.get(response, "nothing")(donor_db)
+        if response in switch_func_dict:
+            switch_func_dict.get(response, "nothing")(donor_db)
+        else:
+            print("Please enter valid option")
