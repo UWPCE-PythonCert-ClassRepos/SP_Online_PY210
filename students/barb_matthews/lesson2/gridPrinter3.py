@@ -1,43 +1,25 @@
-## Lesson 2 Assignment Grid Printer, Part 2
+## Lesson 2 Assignment Grid Printer, Part 3
 ## By: B. Matthews
-## 9/8/2020
+## 9/9/2020
 
-#import math
+def print_grid(rowsandcol,units):
 
-def print_grid(n):
-
-	if n<=0:
+	if rowsandcol<=0 or units<=0:
 		print("sorry, it's so small you can't see it.")
 		return None
 
 	plus = '+ '
 	minus = '- '
-	pipe = '|'
+	pipe = '| '
 
-	count = n
-	#grid = math.sqrt(count)
-	grid = 2
+	for i in range(rowsandcol):
+		print ((plus + minus * units) * rowsandcol + plus)
+		for i in range(units):
+			print ((pipe + ' ' * units * 2) * rowsandcol + pipe)
 
-	print (plus + minus*count + plus, end='') 
-	print (minus*count + plus)
-
-	while grid:
-
-		i=count
-
-		while i>0 :
-			cell = pipe + ' '*count*2 + ' '
-			print (cell*3)
-			#print()
-			i-=1
-
-		print (plus + minus*count + plus, end='')
-		print (minus*count + plus)
-	
-		grid-=1
-
+	print ((plus + minus * units) * rowsandcol + plus)
 	print ('Done!!')
 
-print_grid(12)
+print_grid(6,3)
 
 
