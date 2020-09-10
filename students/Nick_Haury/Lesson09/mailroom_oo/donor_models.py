@@ -34,10 +34,18 @@ class Donor:
         return self._donations
 
     def add_donation(self, donation_amount):
+        '''add a donation to the donor's list,
+        must be positive type int or float
+        '''
         if isinstance(donation_amount, (int, float)):
-            self.donations.append(donation_amount)
+            if donation_amount > 0:
+                self.donations.append(donation_amount)
+            else:
+                raise ValueError("donation must be a positive value")
         else:
             raise TypeError('donation must be of type int or float')
+    
+
 
     def __str__(self):
         return f'Donor named {self._name} with {len(self.donations)} donations.'
