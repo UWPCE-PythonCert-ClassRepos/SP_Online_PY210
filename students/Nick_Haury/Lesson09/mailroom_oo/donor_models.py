@@ -22,7 +22,7 @@ class Donor:
     """
     
     def __init__(self, donor_name, donations = []):
-        self._name = donor_name
+        self._name = donor_name.lower()
         self._donations = donations
 
     @property
@@ -44,8 +44,6 @@ class Donor:
                 raise ValueError("donation must be a positive value")
         else:
             raise TypeError('donation must be of type int or float')
-    
-
 
     def __str__(self):
         return f'Donor named {self._name} with {len(self.donations)} donations.'
@@ -57,7 +55,22 @@ class Donor:
 class DonorCollection:
 
     def __init__(self, donor_dict_input = {}):
-        self.donor_dict = donor_dict_input
+        if isinstance(donor_dict_input, dict):
+            self.donors = donor_dict_input
+        else:
+            raise TypeError("donor_dict_input must be a dictionary")
+
+    def add_donor(self, donor):
+        if isinstance(donor, Donor):
+            self.donors[donor.name] = donor
+        else:
+            raise TypeError("donor must be of Class Donor")
+
+    def get_names(self):
+        return list(self.donors.keys())
+
+    def report(self):
+        pass
 
 
 if __name__ == "__main__":
