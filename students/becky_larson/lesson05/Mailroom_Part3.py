@@ -41,6 +41,7 @@ def list_donors(donors):
 
     '''
     Note: revised code to use comprehension in Mailroom Part 3
+    Keeping commented code
     for donor, donations in donors.items():
         print(f'\t{donor}')
     '''
