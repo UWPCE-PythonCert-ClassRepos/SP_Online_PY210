@@ -39,7 +39,9 @@ def print_name(donor):
 def list_donors(donors):
     print(f'\nNumber of Donors found: {len(donors)}\n\n')
 
+    '''
     Note: revised code to use comprehension in Mailroom Part 3
+    '''
     [print(f'\t{donor}') for donor, donations in donors.items()]
     '''
     for donor, donations in donors.items():
