@@ -66,11 +66,18 @@ class DonorCollection:
         else:
             raise TypeError("donor must be of Class Donor")
 
-    def get_names(self):
+    @property
+    def names(self):
         return list(self.donors.keys())
 
     def report(self):
         pass
+
+    def add_donation(self, donor_name, donation):
+        if donor_name in self.names:
+            self.donors[donor_name].add_donation(donation)
+        else:
+            self.donors[donor_name] = Donor(donor_name, [donation])
 
 
 if __name__ == "__main__":
