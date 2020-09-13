@@ -11,7 +11,7 @@ def fibonacci(n):
 # fibonacci(10)
 
 
-def lucasNumbers(n):
+def lucas_numbers(n):
     i = 0
     while i <= 10:
         print(n)
@@ -30,7 +30,7 @@ def sum_series(n, *x):
     if option == '' or option == 1:
         fibonacci(n)
     else:
-        lucasNumbers(n)
+        lucas_numbers(n)
 
 
 sum_series(10)
