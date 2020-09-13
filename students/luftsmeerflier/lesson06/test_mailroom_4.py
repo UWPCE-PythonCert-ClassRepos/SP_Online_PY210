@@ -29,7 +29,6 @@ def test_send_letter_all():a
 	with open('Ogden_Nash.txt', 'r') as f:
 		assert "Ogden Nash" in f.read()
 
-#tests for create_report
 test_write_letters()
 test_send_letter_all()
 
