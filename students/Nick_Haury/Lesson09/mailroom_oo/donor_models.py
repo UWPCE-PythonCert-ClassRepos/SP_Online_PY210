@@ -20,9 +20,17 @@ class Donor:
     donations   :   list
         list of ints or floats that are donations made by donor
     """
+
+    email_template_string = ("Dear {},\n\n"
+           "It is with incredible gratitude that we accept your wonderfully "
+           "generous donation of ${:,.2f}.  Your "
+           "contribution will truly make a difference in the path forward "
+           "towards funding our common goal."
+           "\n\nEver Greatefully Yours,\n\n"
+           "X" + ("_" * 20) + "\n")
     
     def __init__(self, donor_name, donations = []):
-        self._name = donor_name.lower()
+        self._name = donor_name
         self._donations = donations
 
     @property
@@ -32,6 +40,14 @@ class Donor:
     @property
     def donations(self):
         return self._donations
+
+    def email_text(self, donation_index):
+        try:
+            return self.email_template_string.format(
+                self.name, self.donations[donation_index])
+        except IndexError:
+            return None
+
 
     def add_donation(self, donation_amount):
         '''add a donation to the donor's list,
