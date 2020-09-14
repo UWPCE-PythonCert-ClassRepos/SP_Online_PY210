@@ -6,10 +6,9 @@ import os
 from datetime import date
 today = date.today()
 
-"""Mailroom Part 3"""
-""" Updates from Part 2
-1. Add exception handling
-2. Add comprehension
+"""Mailroom Part 4"""
+""" Updates from Part 3
+1. Refactored for testing
 """
 
 
@@ -64,7 +63,7 @@ def get_letter_text(donation_dict):
     """Get letter text for file content"""
 
     formatted = 'Dear {name},\
-    \n\n\tThank you for your very kind donation of ${donation:.2f}.\
+    \n\n\tThank you for your very kind donation of ${donation:,.2f}.\
     \n\n\tIt will be put to very good use.\n\n\t\t\tSincerely,\
     \n\t\t\t   -The Team'.format(**donation_dict)
 
@@ -84,8 +83,13 @@ def create_card(donator, amount, fldr):
     file_name = donation_dict['name'].replace(' ', '_') + '.txt'
     file_path = os.path.join(fldr, file_name)
 
-    with open(file_path, 'w+') as f:
-        f.write(ty_text)
+    try:
+        with open(file_path, 'w+') as f:
+            f.write(ty_text)
+    except IOError:
+        print(f"IOError: Error writing to file: {write_path}")
+
+    print(f"\n** Thank you note to {donation_dict['name']} for ${donation_dict['donation']:,.2f} written to {write_path}.  **\n")
 
 def get_donor_name():
     donor_prompt = "\n".join(("\nEnter Full name of donor",
@@ -96,7 +100,8 @@ def get_donor_name():
     in_name = get_input(donor_prompt)
     return in_name.title()
 
-def send_ty():
+
+def send_ty(donors):
     ''' Send thank you to selected donor '''
 
     donation = []
@@ -145,7 +150,7 @@ def get_donation():
         try:
             donation = float(donation)
         except ValueError:
-            continue
+            print('ValueError: Please enter a numeric value')
         else:
             if donation > 0:
                 break
@@ -154,6 +159,7 @@ def get_donation():
 
     return donation
 
+
 def get_report(data_passed):
     report = []
     sorted_donors = dict(sorted(data_passed.items(), key=sort_key, reverse=True))
@@ -161,10 +167,10 @@ def get_report(data_passed):
         count = len(donor[1])
         total = sum(donor[1])
         avg = total/count
-        write_row = ('{:25}  ${:13.2f}   {:11}  ${:12.2f}'.format(
+        write_row = ('{:25}  ${:13,.2f}   {:11}  ${:12,.2f}'.format(
             donor[0], total, count, avg))
 # belarsonQ:  how to get this format converted to string
-#        write_row = ('f'{donor:25}  ${total:13.2f}   {count:11}  ${avg:12.2f}')
+#        write_row = ('f'{donor:25}  ${total:13,.2f}   {count:11}  ${avg:12,.2f}')
         report.append(write_row)
 
     return report
@@ -174,25 +180,41 @@ def display_report():
         print(row)
 
 def display_report_header():
+    header = []
     col1 = 'Donor Name'
     col2 = 'Total Given'
     col3 = 'Num Gifts'
     col4 = 'Average Gift'
-    print(f'{col1:25} | {col2:13} | {col3:11} | {col4:13}')
-    print('-'*70)
+    # print(f'{col1:25} | {col2:13} | {col3:11} | {col4:13}')
+    # print('-'*70)
+    header.append(f'{col1:25} | {col2:13} | {col3:11} | {col4:13}')
+    header.append('-'*70)
+    return header
 
-def create_report():
+def create_report(donors):
     """
     Print formatted report of donors and donations
     Sort report by total donations
     """
+    report = []
 
-    display_report_header()
-    display_report()
+    for row in get_report(donor_db):
+        print(row)
+    report_header = [display_report_header()]
+    report_body = [display_report()]
+    print(report_header)
+    print(report_body)
 
 
 def ask_for_folder():
     global user_folder
+
+    # as creating folders is platform specific, end if not Windows. 
+    import platform
+    
+    if not platform.system().lower() == 'windows':
+        print(f'Sorry, future development requested but not currently enabled for {platform.system()} platform')
+        exit_program(0)
 
     text = "\n".join(("\n\n\nEnter folder Name or hit enter for default",
                         " >"))
@@ -214,7 +236,7 @@ def ask_for_folder():
     return folder_path
 
 
-def send_all_ty():
+def send_all_ty(donors):
     '''
     Create cards for all donor in dictionary
     Note: revised code to use comprehension in Mailroom Part 3
@@ -229,7 +251,7 @@ def send_all_ty():
     return
 
 
-def exit_program():
+def exit_program(donors):
     print('Thank you')
     sys.exit()
 
@@ -252,20 +274,30 @@ def get_selection():
 
 if __name__ == '__main__':
 
-    in_select = ''
-    write_path = ask_for_folder()
-    print(f'writing to file: {write_path}')
+    try:
+        response = ''
+        write_path = ask_for_folder()
+        print(f'writing to file: {write_path}')
+    
+        switch_func_dict = {
+            '1': send_ty,
+            '2': create_report,
+            '3': send_all_ty,
+            '4': exit_program
+        }
 
-    switch_func_dict = {
-        '1': send_ty,
-        '2': create_report,
-        '3': send_all_ty,
-        '4': exit_program
-    }
-
-    while True:
-        in_select = get_selection()
-        if in_select in switch_func_dict:
-            switch_func_dict.get(in_select, "nothing")()
-        else:
-            print("Please enter valid option")
+        while True:
+            response = get_selection()
+            try:
+                # if response in switch_func_dict:
+                # switch_func_dict.get(response, "nothing")()
+                #switch_func_dict.get(response, "nothing")(donor_db)
+                switch_func_dict[response](donor_db)
+                # else:
+                #    print("Please enter valid option")
+            except KeyError:
+                print('Please select a value 1-4')
+        
+    except KeyboardInterrupt:
+        print('\n\nKeyboardInterrupt: Interrupted and Exiting')
+        sys.exit(0)
