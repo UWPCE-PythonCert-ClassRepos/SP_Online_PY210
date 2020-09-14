@@ -10,7 +10,7 @@ an object oriented approach.
 
 # create initial DonorCollection class to use throughout program
 donors = dm.DonorCollection({
-    'William Gates':dm.Donor("William Gates, III", [653772.32, 12.17]),
+    'William Gates, III':dm.Donor("William Gates, III", [653772.32, 12.17]),
     "Mark Zuckerberg":dm.Donor("Mark Zuckerberg", [1663.23, 4300.87, 10432.0]),
     "Jeff Bezos":dm.Donor("Jeff Bezos", [877.33]),
     "Paul Allen":dm.Donor("Paul Allen", [663.23, 43.87, 1.32])
@@ -77,39 +77,28 @@ def thank_you():
 
         if ty_input.lower() == "list":
             print("\nCurrent Donors: ")
-            for name in [name.capitalize() for name in donors.names]:
+            for name in donors.names:
                 print(name)
             print()
         else:
-            if ty_input.lower() not in donors.names:
+            if ty_input.lower() not in [name.lower() for name in donors.names]:
                 while True:
                     yn_input = input(
                         f'{ty_input} was not found.  Would you like to add'
-                        ' them to the donor list?').lower()
+                        ' them to the donor list?\n>>').lower()
                     if yn_input == 'n' or yn_input == 'no':
+                        print()
                         break
                     elif yn_input == 'y' or yn_input == 'yes':
                         donation_prompt(ty_input)
                         break
                     else:
                         print("Please answer (y)es or (n)o")
+                break  # break out of upper while loop
             else:
                 donation_prompt(ty_input)
                 break
-                # try:
-                #     donation_amount = float(input("\nPlease enter donation amount:"
-                #                                 "\n>>"))
-                #     if donation_amount <= 0:
-                #         raise ValueError("Donation amount must be positive")
-                # except ValueError:
-                #     print("\nPlease only enter a single positive number for "
-                #         "donation amount\n")
-                # else:
-                #     add_donation(ty_input, donation_amount)
-                #     print(
-                #         "\n", create_email_text(ty_input, donation_amount), sep=""
-                #         )
-                #     break
+
 
 def donation_prompt(name_input):
     while True:
@@ -124,16 +113,11 @@ def donation_prompt(name_input):
         else:
             donors.add_donation(name_input, donation_amount)
             print(
-                "\n", create_email_text(ty_input, donation_amount), sep=""
+                "\n", 
+                donors.donors[name_input].email_text(-1), 
+                sep=""
                 )
             break
-
-# def add_donation(donor_name, donation_amount):
-#     '''
-#     Adds donation amount to donor's list of donations.  If donor does not exist
-#     yet, they are created and added to the donor dictionary.
-#     '''
-#     donors.setdefault(donor_name, []).append(donation_amount)
 
 def create_report():
     '''
