@@ -17,7 +17,7 @@ dc = dm.DonorCollection({
 })
 
 def test_create_donor():
-    assert d1.name == "dude1"
+    assert d1.name == "Dude1"
     assert d1.donations == []
     assert d2.donations == [100.00]
     assert d3.donations == [100.00, 200.00]
@@ -43,9 +43,9 @@ def test_donorcollection():
     assert d4.name in dc.names
 
 def test_donorcollection_add_donation():
-    dc.add_donation("dude1", 500)
-    print(dc.donors['dude1'].donations)
-    assert dc.donors["dude1"].donations == [10, 20.0, 500]
-    dc.add_donation("dude5", 1)
-    print(dc.donors['dude5'].donations)
-    assert dc.donors['dude5'].donations == [1]
+    dc.add_donation("Dude1", 500)
+    print(dc.donors['Dude1'].donations)
+    assert dc.donors["Dude1"].donations == [10, 20.0, 500]
+    dc.add_donation("Dude5", 1)
+    print(dc.donors['Dude5'].donations)
+    assert dc.donors['Dude5'].donations == [1]
