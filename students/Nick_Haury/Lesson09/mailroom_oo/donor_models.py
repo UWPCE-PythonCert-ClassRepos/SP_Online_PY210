@@ -95,6 +95,10 @@ class DonorCollection:
     def names(self):
         return list(self.donors.keys())
 
+    @property
+    def lower_names(self):
+        return [name.lower() for name in self.names]
+
     def report(self):
         report_list = ["\nDonor Name" + " "*15 + "|  Total Given  "
                          "| Num Gifts |   Average Gift\n"]
@@ -106,8 +110,10 @@ class DonorCollection:
         return report_list
 
     def add_donation(self, donor_name, donation):
-        if donor_name in self.names:
-            self.donors[donor_name].add_donation(donation)
+        if donor_name.lower() in self.lower_names:
+            # check to see if different capitalization is being used
+            index = self.lower_names.index(donor_name.lower())
+            self.donors[self.names[index]].add_donation(donation)
         else:
             self.donors[donor_name] = Donor(donor_name, [donation])
 
