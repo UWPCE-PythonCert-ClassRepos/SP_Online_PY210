@@ -17,7 +17,7 @@ def fibonacci(n):
     else:
         return fibonacci(n-1)+fibonacci(n-2)
 
-print(fibonacci(7))
+# print(fibonacci(7))
 
 def lucas(n):
     if n==0:
@@ -27,14 +27,31 @@ def lucas(n):
     else:
         return lucas(n-1)+lucas(n-2)
 
-print(lucas(4))
+# print(lucas(4))
 
-# def sumseries(n, n0, n1):
-#     if n0==0:
-#         return 0
-#     elif n1==1:
-#         return 1
-#     else:
-#         return sumseries(n-1)+sumseries(n-2)
+def sumseries(n, n0=0, n1=1):
+    if n0==0 and n1==1:
+        if n==0:
+            return 0
+        elif n==1:
+            return 1
+        else:
+            return sumseries(n-1)+sumseries(n-2)
+    elif n0==2 and n1==1:
+        if n==0:
+            return 2
+        elif n==1:
+            return 1
+        else:
+            return sumseries(n-1, n0, n1)+sumseries(n-2, n0, n1)
+    else:
+        if n==0:
+            return n0
+        elif n==1:
+            return n1
+        else:
+            return sumseries(n-1, n0, n1)+sumseries(n-2, n0, n1)
 
-# print(sumseries(5, 3, 2))
+print(sumseries(7))
+print(sumseries(4, 2, 1))
+print(sumseries(4, 3, 2))
