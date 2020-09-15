@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import statistics as st
 
 '''
 Classes for the object oriented version of the mailroom program.
@@ -29,9 +30,12 @@ class Donor:
            "\n\nEver Greatefully Yours,\n\n"
            "X" + ("_" * 20) + "\n")
     
-    def __init__(self, donor_name, donations = []):
+    def __init__(self, donor_name, donations = None):
+        if donations == None:
+            self._donations = []
+        else:
+            self._donations = donations
         self._name = donor_name
-        self._donations = donations
 
     @property
     def name(self):
@@ -67,6 +71,10 @@ class Donor:
     def __repr__(self):
         return f'Donor("{self._name}", {self.donations})'
 
+    def __lt__(self, other):
+        '''sorts by sum of donations, then alphabetical by Donor name'''
+        return (sum(self.donations), self.name) < (sum(other.donations), other.name)
+
 
 class DonorCollection:
 
@@ -74,7 +82,8 @@ class DonorCollection:
         if isinstance(donor_dict_input, dict):
             self.donors = donor_dict_input
         else:
-            raise TypeError("donor_dict_input must be a dictionary")
+            raise TypeError("donor_dict_input must be a dictionary"
+                            "of form {'donor name':Donor()'}")
 
     def add_donor(self, donor):
         if isinstance(donor, Donor):
@@ -87,7 +96,14 @@ class DonorCollection:
         return list(self.donors.keys())
 
     def report(self):
-        pass
+        report_list = ["\nDonor Name" + " "*15 + "|  Total Given  "
+                         "| Num Gifts |   Average Gift\n"]
+        for donor in sorted(self.donors.values(), reverse=True):
+            report_list.append(f"{donor.name:26}"
+                               f"${sum(donor.donations):14,.2f}"
+                               f"{len(donor.donations):11}  "
+                               f"${st.mean(donor.donations):16,.2f}\n")
+        return report_list
 
     def add_donation(self, donor_name, donation):
         if donor_name in self.names:
