@@ -7,6 +7,7 @@ import cli_main as cm
 Test for the object oriented version of the mailroom program.
 '''
 
+# instantiate inital classes to test
 d1 = dm.Donor("Dude1")
 d2 = dm.Donor("Dude2", [100.00])
 d3 = dm.Donor("Dude3", [100.00, 200.00])
@@ -15,6 +16,14 @@ dc = dm.DonorCollection({
     d2.name:d2,
     d3.name:d3
 })
+
+test_string = (f"Dear {d3.name},\n\n"
+           "It is with incredible gratitude that we accept your wonderfully "
+           f"generous donation of ${d3.donations[-1]:,.2f}.  Your "
+           "contribution will truly make a difference in the path forward "
+           "towards funding our common goal."
+           "\n\nEver Greatefully Yours,\n\n"
+           "X" + ("_" * 20) + "\n")
 
 def test_create_donor():
     assert d1.name == "Dude1"
@@ -31,7 +40,12 @@ def test_add_donation():
     d1.add_donation(20.0)
     assert d1.donations == [10, 20.0]
 
+def test_donor_email_text():
+    assert d3.email_text(-1) == test_string
+    assert d3.email_text(50) == None
+
 def test_donorcollection():
+    # test if checks for invalid input
     with pytest.raises(TypeError):
         dm.DonorCollection("invalid")
     assert dc.names == [d1.name, d2.name, d3.name]
