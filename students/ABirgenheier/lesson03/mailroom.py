@@ -1,95 +1,85 @@
-database = [
-    ["Mike", 3, 200, 150, 50],
-    ["Tony", 3, 150, 50, 250],
-    ["Sarah", 3, 150, 150, 150]
+import sys
+
+donar_list = [
+    ("Mike", [200, 150, 50]),
+    ("Tony", [150, 50, 250]),
+    ("Sarah", [150, 150, 150]),
 ]
 
-
-def menu():
-    user_input = input(
-        "Please select from following options: (s) to select donar, (c) to create report, or (q) to quit program:   ")
-    while user_input != 'q' or user_input != 'Q':
-        if user_input == 's' or user_input == 'S':
-            sendReport()
-        elif user_input == 'c' or user_input == 'C':
-            createReport()
-        else:
-            print("Unknown command.. try again!  ")
-
-        user_input = input(
-            "Please select from following options: (s) to select donar, (c) to create report, or (q) to quit program:   ")
+# Calculates average $$ per donar
 
 
-def sendReport():
-    user_input = input(
-        "Would you like to (a) add a donar, (s) select a donor, (sa) select all donars , or (q) to quit:   ")
-    options = {
-        "a": addDonar,
-        "s": selectDonar,
-        "sa": selectAllDonar
-    }
-    while user_input != "q":
-        if user_input in options:
-            selected_function = options[user_input]
-            selected_function()
+def average(donar_ave):
+    return (sum(donar_ave) / len(donar_ave))
 
 
-def addDonar():
-    _name = input("Please insert name of donar:   ")
-    i = 1
-    _donations = []
-    while i < 4:
-        _donation = int(input("Please insert amount donated by {name} for their donation number {number}:  ".format(
-            name=_name, number=i)))
-        _donations.append(_donation)
-        i += 1
-    print("Added {name} and their 3 donations of a sum of ${sum}".format(
-        name=_name, sum=sum((_donations))))
-    database.append("[{name}, 3".format(
-        name=_name))
-    database.extend(_donations)
-    print(database)
-    menu()
+# Calculates average donation amount per donar
+def total_donated(don_amts):
+    return sum(don_amts[1])
+
+# Prompts info from user, and sends thank you.
 
 
-def selectDonar():
-    _name = input("Please insert name of donar you would like to view:   ")
-    i = 0
-    while i < len(database):
-        if _name == database[i][0]:
-            _message = input(
-                "Please insert the message you would like to send to {name}:   ".format(name=_name))
-            print("""You wrote.....
-            Dear {name},
-            {message} """.format(name=_name, message=_message))
-            menu()
-        i += 1
-    print("Im sorry, I do not believe we have a record of {name} in our system. Try again.".format(
-        name=_name))
-    selectDonar()
+def thank_you():
+    donar_name = input(
+        "Enter donors full name (type 'list' to display all names)? > ").title()
+    if donar_name == '':
+        return
+    if donar_name.lower() == 'list':
+        for i in range(len(donar_list)):
+            print(donar_list[i][0])
+        return
+
+    donation_amt = input("\n""How much did " + donar_name + " donate? > ")
+    amt = round(float(donation_amt), 2)
+
+    for i in range(len(donar_list)):
+        if donar_name == donar_list[i][0]:
+            donar_list[i][1].append(amt)
+            break
+    else:
+        donar_list.append((donar_name, [amt]))
+
+    # display a default thank you note addressed to the donor
+    print('\n'.join(('\n''Dear ' + donar_name.title() + ',' + '\n',
+                     'Thank you for your generous donation of $' + donation_amt + '.',
+                     'Your commitment goes a long way in helping us',
+                     'solve things that need to be solved.' + '\n',
+                     'Warm regards,' + '\n',
+                     'Me (:')))
+
+# Creates and displays report from all donars
 
 
-def selectAllDonar():
-    i = 0
-    while i < len(database):
-        _donars = database[i][0]
-        print(_donars)
-        i += 1
-    _message = input(
-        "Please insert the message you would like to send the donars above:  ")
-    print("Message:  {sent}".format(sent=_message))
-    print("Sent!")
-
-    menu()
-
-
-def createReport():
-    row = "| {name:<10s} | {num:17d} | {n1:14d} | {n2:13d} | {n3:13d} |".format
-    for p in database:
+def create_report():
+    print('{:20}{:15}{:15}{:15}'.format('Donar Name',
+                                        '| Total Given', '| Num Gifts', '| Average Gift'))
+    print('-' * 65)
+    s_list = sorted(donar_list, key=total_donated, reverse=True)
+    for i in range(len(s_list)):
         print(
-            "|   Name     |   No Donations    |   Donation 1   |  Donation 2   |  Donation 3   |")
-        print(row(name=p[0], num=p[1], n1=p[2], n2=p[3],  n3=p[4]))
-        menu()
+            f'{s_list[i][0]:<20} $ {sum(s_list[i][1]):<13.2f} {len(s_list[i][1]):<13} $ {average(s_list[i][1]):<15.2f}')
 
 
-menu()
+def quit_program():
+    # exit the function
+    print("Bye!")
+    sys.exit()  # exit the interactive script
+
+
+if __name__ == "__main__":
+    while True:
+        prompt = input(
+            "What would you like to do?:\n"
+            "s - Send a Thank you\n"
+            "c - Create a report\n"
+            "q - Quit\n"
+            "Please select:  \n")
+        if prompt.lower() == "s":
+            thank_you()
+        elif prompt.lower() == "c":
+            create_report()
+        elif prompt.lower() == "q":
+            quit_program()
+        else:
+            print("\nPlease enter s, c, or q\n")

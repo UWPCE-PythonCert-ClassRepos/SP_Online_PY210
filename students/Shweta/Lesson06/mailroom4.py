@@ -1,14 +1,15 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 #mailroom part 1- from chapter 3
 
 import sys
 import os
+from operator import itemgetter
 
 #####################different messages#################
 
 ''' initial donars list '''
 
-donar_db={"William Gate,III":[100000.00,45000.00],
+donar_db={"William Gate,III":[1000.00,4500.00],
           "Mark Zuckerbergs":[16000.00,2300.00],
           "Jeff Bezos":[23400.00,1200.00],
           "Paul Allen":[2345.00,1200.00],
@@ -83,15 +84,16 @@ def send_letter():
            
     print("Your letter is in {} ".format(os.getcwd()))
 
+
 ########################Create Report #####################
-        
+
 def create_report():
     '''task 2 of the mailroom - create report'''       
     top='{:20}| {:>20}|{:>20}| {:>20}'.format('Donor Name', 'Total Given','Num Gifts', 'Average Gift')
     print(top)
     print('-'*100)
-
-    for key,value in sorted(donar_db.items()):
+    print(type(donar_db))
+    for key,value in sorted(donar_db.items(),key=lambda item:item[1], reverse=True):
         line='{:20} ${:>20.2f}   {:20}   ${:20.2f}'.format(key,sum(value),len(value),(sum(value)/len(value)))
         print(line)
     print('')

@@ -46,7 +46,6 @@ class Doctype(Element):
     
     def render(self, out_file, cur_ind=""):
         
-
         html_tag = (cur_ind + self.tag+" "+Element().tag)
         out_file.write("<!{}>\n".format(html_tag))
 
