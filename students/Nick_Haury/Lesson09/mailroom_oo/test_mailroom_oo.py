@@ -2,6 +2,7 @@
 import pytest
 import donor_models as dm
 import cli_main as cm
+import statistics as st
 
 '''
 Test for the object oriented version of the mailroom program.
@@ -17,7 +18,7 @@ dc = dm.DonorCollection({
     d3.name:d3
 })
 
-test_string = (f"Dear {d3.name},\n\n"
+email_string = (f"Dear {d3.name},\n\n"
            "It is with incredible gratitude that we accept your wonderfully "
            f"generous donation of ${d3.donations[-1]:,.2f}.  Your "
            "contribution will truly make a difference in the path forward "
@@ -41,7 +42,7 @@ def test_add_donation():
     assert d1.donations == [10, 20.0]
 
 def test_donor_email_text():
-    assert d3.email_text(-1) == test_string
+    assert d3.email_text(-1) == email_string
     assert d3.email_text(50) == None
 
 def test_donorcollection():
@@ -54,6 +55,7 @@ def test_donorcollection():
         dc.add_donor("not a Donor")
     d4 = dm.Donor("Dude4")
     dc.add_donor(d4)
+    print(d4.__repr__)
     assert d4.name in dc.names
 
 def test_donorcollection_add_donation():
@@ -63,3 +65,16 @@ def test_donorcollection_add_donation():
     dc.add_donation("Dude5", 1)
     print(dc.donors['Dude5'].donations)
     assert dc.donors['Dude5'].donations == [1]
+
+def test_report():
+    dc.add_donation('Dude4', 5)
+    report_string = ("\nDonor Name" + " "*15 + "|  Total Given  | Num Gifts |"
+                     "   Average Gift\n")
+    for donor in sorted(dc.donors.values(), reverse=True):
+        report_string += (f"{donor.name:26}"
+                        f"${sum(donor.donations):14,.2f}"
+                        f"{len(donor.donations):11}  "
+                        f"${st.mean(donor.donations):16,.2f}\n")
+    print(report_string)
+    assert "".join(dc.report()) == report_string
+    print("".join(dc.report()))
