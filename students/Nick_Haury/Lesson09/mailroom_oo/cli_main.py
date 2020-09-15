@@ -81,10 +81,10 @@ def thank_you():
                 print(name)
             print()
         else:
-            if ty_input.lower() not in [name.lower() for name in donors.names]:
+            if ty_input.lower() not in donors.lower_names:
                 while True:
                     yn_input = input(
-                        f'{ty_input} was not found.  Would you like to add'
+                        f'\n{ty_input} was not found.  Would you like to add'
                         ' them to the donor list?\n>>').lower()
                     if yn_input == 'n' or yn_input == 'no':
                         print()
@@ -93,7 +93,7 @@ def thank_you():
                         donation_prompt(ty_input)
                         break
                     else:
-                        print("Please answer (y)es or (n)o")
+                        print("\nPlease answer (y)es or (n)o")
                 break  # break out of upper while loop
             else:
                 donation_prompt(ty_input)
@@ -125,13 +125,7 @@ def create_report():
     amount.  Includes donor name, total donated, number of donations,
     and average donation amount.
     '''
-    pass
-    # print("\nDonor Name" + " "*15 + "|  Total Given  | Num Gifts |   "
-    #       "Average Gift")
-    # print("- "*36)
-    # for row in get_report_text():
-    #     print(row)
-    # print()
+    print("".join(donors.report()))
 
 if __name__ == "__main__":
     
