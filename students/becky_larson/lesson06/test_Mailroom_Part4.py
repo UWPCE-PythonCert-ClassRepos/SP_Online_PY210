@@ -35,7 +35,7 @@ def test_get_report():
     assert row4 == "Cher                       $     1,245.00             2  $      622.50"
     assert row5 == "Charlie Brown              $       175.01             3  $       58.34"
     
-def test_get_letter_text():
+def test_get_letter_text_1():
     donation_dict = {}
     donation_dict['name'] = 'Frank'
     donation_dict['donation'] = float(100)
@@ -44,3 +44,14 @@ def test_get_letter_text():
     assert actual[0:11] == expected
 
  
+def test_get_letter_text_2():
+    donation_dict = {}
+    donation_dict['name'] = 'Frank'
+    donation_dict['donation'] = float(100)
+    actual = mailroom_part4.get_letter_text(donation_dict)
+    assert(donation_dict['name']) in actual
+    money = "{0:.2f}".format(donation_dict['donation'])
+    print(money)
+    assert(money) in actual
+
+

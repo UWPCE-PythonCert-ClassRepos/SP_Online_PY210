@@ -9,7 +9,7 @@ today = date.today()
 """Mailroom Part 4"""
 """ Updates from Part 3
 1. Refactored for testing
-"""
+"""money
 
 
 # Prompt user to choose from menu of 4 actions:
@@ -86,6 +86,7 @@ def create_card(donator, amount, fldr):
     try:
         with open(file_path, 'w+') as f:
             f.write(ty_text)
+            print(ty_text)
     except IOError:
         print(f"IOError: Error writing to file: {write_path}")
 
@@ -210,7 +211,7 @@ def ask_for_folder():
     global user_folder
 
     # as creating folders is platform specific, end if not Windows. 
-    import platform
+    import platform 
     
     if not platform.system().lower() == 'windows':
         print(f'Sorry, future development requested but not currently enabled for {platform.system()} platform')
