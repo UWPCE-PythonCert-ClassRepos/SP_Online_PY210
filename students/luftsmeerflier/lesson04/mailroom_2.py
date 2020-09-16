@@ -30,11 +30,6 @@ def send_thank_you(first_name='', last_name=''):
 	else:
 		amount = input("How much did {} donate?\n".format(name))
 		date = input("When was the donation? YYYY-MM-DD\n")
-		try: 
-			print(amount > 0)
-		except:
-			print("That is an invalid donation amount")
-
 		write_letters(name, amount, date)
 
 
@@ -72,7 +67,7 @@ def create_report():
 		average = total / num_gifts
 		
 		print((name).ljust(30) + '$'.ljust(2) + str(total).ljust(15) + str(num_gifts).ljust(10) + '$'.ljust(2) + str(round(average, 2)))
-		
+
 	print('\n')
 
 
@@ -99,23 +94,14 @@ prompt = "\n".join(("Please select from the following options:",
 	"2 - Create a Report",
 	"3 - Send letters to all donors.",
 	"4 - quit"
-	))
+))
 
 
 def main():
 	while True:
-		response = int(input(prompt + "\n")) # continuously collect user selection
-		try:
-			isinstance(response, int)
-			reponse > 0
-			response < 5
-			#now redirect to feature functions based on the user selection
-			arg_dict.get(response)()
-
-		except:
-			print("Please input a valid selection")
-			return
-			
+		response = int(input(prompt + "\n")) # continuously colelct user selection
+		# now redirect to feature functions based on the user selection
+		arg_dict.get(response)()
 
 
 if __name__ == "__main__":

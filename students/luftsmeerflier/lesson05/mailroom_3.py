@@ -20,7 +20,7 @@ def send_thank_you(first_name='', last_name=''):
 	else:
 		pass
 
-	name = input('What is the name of the donor?\n').title()
+	name = input('What is the name of the donor? (First and Last i.e. "John Quigley"\n').title()
 	donor = donors.get(name)
 
 	if donor:
@@ -28,14 +28,19 @@ def send_thank_you(first_name='', last_name=''):
 		date = list(donor.keys())[0]
 		write_letters(name, amount, date)
 	else:
+		
 		amount = input("How much did {} donate?\n".format(name))
 		date = input("When was the donation? YYYY-MM-DD\n")
-		try: 
-			print(amount > 0)
-		except:
-			print("That is an invalid donation amount")
-
-		write_letters(name, amount, date)
+		try:
+			if amount > 0:
+				print("That is an invalid donation amount")
+				return 1
+			else:
+				write_letters(name, amount, date)
+		except TypeError:
+			print("Please input respones")
+			print("\n")
+			return 1
 
 
 def write_letters(name, amount, date):	
@@ -105,16 +110,12 @@ prompt = "\n".join(("Please select from the following options:",
 def main():
 	while True:
 		response = int(input(prompt + "\n")) # continuously collect user selection
-		try:
-			isinstance(response, int)
-			reponse > 0
-			response < 5
+		if response >0 and response < 5:
 			#now redirect to feature functions based on the user selection
 			arg_dict.get(response)()
-
-		except:
+		else:
 			print("Please input a valid selection")
-			return
+			return 1
 			
 
 

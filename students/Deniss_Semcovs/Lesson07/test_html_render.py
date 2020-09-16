@@ -299,7 +299,7 @@ def test_header02():
 
 def test_doctype():
     DOCTYPE = Doctype()
-#    e = Element()
+    e = Element()
     file_contents = render_result(DOCTYPE)
     assert "<!DOCTYPE html>\n" in file_contents
     print(file_contents)
@@ -343,6 +343,7 @@ def test_indent_contents():
     lines = file_contents.split("\n")
     assert lines[1].startswith(Element.indent)
 
+#### I couldn't figure out how to add one tag above another 
 def test_multiple_indent():
 #     """
 #     make sure multiple levels get indented fully
