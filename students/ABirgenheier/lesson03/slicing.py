@@ -1,67 +1,46 @@
-def first_last_exchange(n):
-    if len(n) > 1:
-        result = n[-1] + n[1:-1] + n[0]
-        print(result)
-        return result
-    else:
-        print(n)
-        return n
-
-# Works
-# first_last_exchange("hamburger")
+def exchange_first_last(seq):
+    new_line = seq[-1:] + seq[1:-1] + seq[:1]
+    return new_line
 
 
-def every_other_removed(n):
-    if len(n) > 2:
-        # Uses length of string to find end point of start, stop, step function
-        # Creates dynamic ability to process many different lengths of strings.
-        result = n[0: len(n): 2]
-        print(result)
-        return result
-    else:
-        print(n)
-        return(n)
+def every_other_letter_removed(seq):
+    new_line = seq[0:-1:2]
+    return new_line
 
 
-# Works
-# every_other_removed("hamburger")
-
-def remove_first_four_last_four(n):
-    if len(n) > 8:
-        result = n[4: (len(n) - 5)]
-        print(result)
-        return result
-    else:
-        return False
+def first_4_last_4_gone_every_others_remain(seq):
+    new_line = seq[4:-4:2]
+    return new_line
 
 
-# Works
-# remove_first_four_last_four("hamburger_helper")
+def element_reversed(seq):
+    new_line = seq[::-1]
+    return new_line
 
 
-def reverse_with_slicing(n):
-    reverseSlicing = []
-    i = 0
-    while i < len(n):
-        letter = n[-(i) - 1]
-        reverseSlicing.extend(letter)
-        i += 1
-    print(reverseSlicing)
+def every_third_new_orders(seq):
+    devider = len(seq)//3
+    new_line = seq[-int(devider):] + seq[:int(devider)] + \
+        seq[int(devider):-int(devider)]
+    return new_line
+
+# Test
 
 
-# Works
-# reverse_with_slicing("hamburger")
+a_string = "this is a string"
+a_tuple = (2, 54, 13, 12, 5, 32)
 
+print(exchange_first_last(a_string))
+print(every_other_letter_removed(a_string))
+print(first_4_last_4_gone_every_others_remain(a_string))
+print(element_reversed(a_string))
+print(every_third_new_orders(a_string))
 
-def reverse_thirds(n):
-    if len(n) > 9:
-        first = n[:len(n)/3]
-        middle = n[len(n)/4: - len(n) / 3]
-        last = n[-len(n)/3:]
-        print(last + middle + first)
-    else:
-        print(n)
-
-
-# Works
-# reverse_thirds("hamburger_helper")
+assert exchange_first_last(a_string) == "ghis is a strint"
+assert exchange_first_last(a_tuple) == (32, 54, 13, 12, 5, 2)
+assert every_other_letter_removed(a_string) == "ti sasrn"
+assert first_4_last_4_gone_every_others_remain(a_string) == " sas"
+assert element_reversed(a_string) == "gnirts a si siht"
+assert every_third_new_orders(a_string) == "tringthis is a s"
+print('\n')
+print("Test completed")

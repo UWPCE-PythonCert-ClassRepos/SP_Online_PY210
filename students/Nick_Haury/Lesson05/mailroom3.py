@@ -57,9 +57,9 @@ def main():
 
     while True:
         choice = input(prompt)
-        if choice in choice_dict:
+        try:
             choice_dict[choice]()
-        else:
+        except KeyError:
             print(str(choice) + " is an invalid selection, "
                   "please make a valid selection \n")
 
@@ -88,18 +88,17 @@ def thank_you():
             try:
                 donation_amount = float(input("Please enter donation amount:"
                                               "\n>>"))
+                if donation_amount <= 0:
+                    raise ValueError
             except ValueError:
-                print("Please only enter a single number for donation"
+                print("Please only enter a single positive number for donation"
                       " amount\n")
             else:
-                if donation_amount > 0:
-                    add_donation(ty_input, donation_amount)
-                    print(
-                        "\n", create_email(ty_input, donation_amount), sep=""
-                        )
-                    break
-                else:
-                    print("Please enter a positive number\n")
+                add_donation(ty_input, donation_amount)
+                print(
+                    "\n", create_email(ty_input, donation_amount), sep=""
+                    )
+                break
 
 
 def print_donors():

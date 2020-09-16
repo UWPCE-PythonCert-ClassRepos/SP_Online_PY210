@@ -1,76 +1,44 @@
-import os
-filename = os.path.basename(__file__)
-_string = [(2, 123.4567, 100000, 12345.67, 98765.4321000), (6, 12.3333, 4444.1, 123.321),
-           (10, 321.3121, 11.2, 9876543.1), (3, 3213.2222, 222.123, 3.123)]
+# import os
+# filename = os.path.basename(__file__)
+tups = (3, 123.123123, 100000, 9929.01)
 
 
-def task_one():
-    temp_list = []
-    for i in _string:
-        item = "00000" + str(i[0])
-        temp_list.append(item)
-    _sort = temp_list.sort()
-    for i in temp_list:
-        print(f"{filename}{i[]} {i[1:]}")
-
-    # Works
-    # task_one()
-
-    def task_two():
-        temp_list = []
-        for i in _string:
-            item = "00000" + str(i[0])
-            temp_list.append(item)
-        _sort = temp_list.sort()
-        for i in temp_list:
-            print(f"{filename}{i[0]}{i[1:]}")
-
-    # Works
-    # task_two()
+print("Task One: >>>")
+print('file_{:03d} :    {:.2f}, {:.2e}, {:.2e}\n'.format(
+    tups[0], tups[1], tups[2], tups[3]))
+print("Task Two: >>>")
+print(f'file_{tups[0]:03d} :    {tups[1]:.2f}, {tups[2]:.2e}, {tups[3]:.2e}\n')
 
 
-def task_three(in_tuple):
-    t = []
-    for i in range(in_tuple):
-        t.append(i)
-    _tuple = tuple(t)
-    print(
-        f"There are {len(_tuple)} items in the tuple: {_tuple}")
-
-# Works
-# task_three(51)
+print("Task Three: >>>")
 
 
-def task_four():
-    _tuple = (1231, 23, 64, -2, .1, 34, 304)
-    _sorted_tuple = sorted(_tuple)
-    print(_sorted_tuple)
-
-# Works
-# print(task_four())
+def formatter(in_tuple):
+    form_string = 'The ' + str(len(in_tuple)) + ' numbers are: {:d}'
+    for tup in range(len(in_tuple)-1):
+        form_string += ', {:d}\n'
+    return form_string.format(*in_tuple)
 
 
-_list = ['orange', 1.3, 'lemon', 1.1]
+print("Task Four: >>>")
+print(f'file_{tups[0]:03d} :    {tups[1]:.2f}, {tups[2]:.2e}, {tups[3]:.2e}\n')
+task_four_tuples = (4, 30, 2017, 2, 27)
+print('{3:02d}, {4:02d}, {2:02d}, {0:02d}, {1:02d}\n'.format(*task_four_tuples))
+
+print("Task Five: >>>")
+task_five_dict = ['oranges', 1.3, 'lemons', 1.1]
+print(
+    f'The weight of an {task_five_dict[0][:-1]} is {task_five_dict[1]} and the weight of a {task_five_dict[2][:-1]} is {task_five_dict[3]}.')
+print(
+    f'The weight of an {task_five_dict[0][:-1].upper()} is {task_five_dict[1]*1.2} and the weight of a {task_five_dict[2][:-1].upper()} is {task_five_dict[3]*1.2}.\n')
 
 
-def task_five():
-    print(
-        f"The weight of an {_list[0]} is {_list[1]}, while the weight of a {_list[-2]} is {_list[-1]}")
-    print(
-        f"The weight of an {str(_list[0]).title()} is {int(_list[1]) * 1.2}, while the weight of a {str(_list[-2]).title()} is {int(_list[-1]) * 1.2}")
+print("Task Six: >>>")
+print('{:<15}{:<10}{:<9}'.format('name', 'age', 'cost'))
+print('{:<15}{:<10}{:<7.2f}'.format('Sylvester', 49, 584.84))
+print('{:<15}{:<10}{:<7.2f}'.format('Forest', 6, 435537.9145))
+print('{:<15}{:<10}{:<7.2f}\n'.format('Park Bench', 34, 3814.11))
 
-# Works
-# task_five()
-
-
-_dict = [["fruit", 2.55, "yes", 1], ["car", 15000, "yes", 10],
-         ["house", 355000, "yes", 20], ["boat", 32500, "no", 5], ["book", 15, "no", 2]]
-
-
-def task_six():
-    row = "| {item:<16s} | {price:<0f} | {necessary:<3s} | {lifespan:<2f}".format
-    for i in _dict:
-        print(row(item=i[0], price=i[1], necessary=i[2], lifespan=i[3]))
-
-
-task_six()
+print("Task Six (extra): >>>")
+tups = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+print(('{:<5}' * len(tups)).format(*tups))

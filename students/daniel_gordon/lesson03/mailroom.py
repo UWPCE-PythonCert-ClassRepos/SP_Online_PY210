@@ -1,6 +1,6 @@
 #!/bin/user/env python3
 
-DEBUG = True
+DEBUG = False
 
 def get_names(record):
     """Extracts the first element from each list in a list of lists"""
