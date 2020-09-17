@@ -62,7 +62,7 @@ def create_card(donator, amount, fldr):
     donation_dict['donation'] = float(amount)
 
     ty_text = 'Dear {name},\
-    \n\n\tThank you for your very kind donation of ${donation:.2f}.\
+    \n\n\tThank you for your very kind donation of ${donation:,.2f}.\
     \n\n\tIt will be put to very good use.\n\n\t\t\tSincerely,\
     \n\t\t\t   -The Team'.format(**donation_dict)
 
@@ -71,6 +71,8 @@ def create_card(donator, amount, fldr):
 
     with open(file_path, 'w+') as f:
         f.write(ty_text)
+
+    print(f"\n** Thank you note to {donation_dict['name']} for ${donation_dict['donation']:,.2f} written to {write_path}.  **\n")
 
     return True
 
@@ -106,7 +108,7 @@ def create_report(donors):
     Sort report by total donations
     """
 
-    print("** You've selected to create a report.  **\n")
+    print("\n** You've selected to create a report.  **\n")
     col1 = 'Donor Name'
     col2 = 'Total Given'
     col3 = 'Num Gifts'
@@ -119,7 +121,9 @@ def create_report(donors):
         count = len(donations)
         total = sum(donations)
         avg = total/count
-        print(f'{donor:25}  ${total:13.2f}   {count:11}  ${avg:12.2f}')
+        print(f'{donor:25}  ${total:13,.2f}   {count:11}  ${avg:12,.2f}')
+    
+    print("\n** Thank you!  **\n")
     return
 
 
