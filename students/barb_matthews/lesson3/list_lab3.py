@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
 
-## Lesson 3.2 List Lab
+## Lesson 3.3 List Lab, delete user input disliked fruits
 ## By: B. Matthews
-## 9/15/2020
+## 9/17/2020
 
 ## Add a fruit to the list
 fruits = ['Apples', 'Pears', 'Oranges', 'Peaches']
 yummyfruit = ['something']
 delfruit = ['something']
-delindex = 0
 
 print("Fruit choices are: ", fruits)
 fruits.pop()

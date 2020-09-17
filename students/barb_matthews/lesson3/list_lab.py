@@ -7,26 +7,38 @@
 ## Add a fruit to the list
 fruits = ['Apples', 'Pears', 'Oranges', 'Peaches']
 yummyfruit = ['something']
+delfruit = ['something']
 
 print("Fruit choices are: ", fruits)
-yummyfruit[0] = input("Enter a fruit to add >> ")
-fruits = fruits + yummyfruit
-print("Fruit choices are: ", fruits)
+fruits.pop()
+print(fruits)
+delfruit[0] = input("Enter a fruit to delete >> ")
+
+for i,item in enumerate(fruits):
+    print(item)
+    delindex = i
+    if (item == delfruit):
+        fruits.pop(delindex)
+        print(fruits)
+
+#yummyfruit[0] = input("Enter a fruit to add >> ")
+#fruits = fruits + yummyfruit
+#print("Fruit choices are: ", fruits)
 
 ## Ask for a number and display that order of fruit in list
-n = int(input("Enter a number >> "))
-print("You typed: ", n)
-n-=1
-print("Here's your fruit:", fruits[n])
+#n = int(input("Enter a number >> "))
+#print("You typed: ", n)
+#n-=1
+#print("Here's your fruit:", fruits[n])
 
-fruits = ["Lychees"] + fruits
-print("even more fruit!\n", fruits)
-fruits.insert(0,"Watermelons")
-print("so much fruit!\n", fruits)
+#fruits = ["Lychees"] + fruits
+#print("even more fruit!\n", fruits)
+#fruits.insert(0,"Watermelons")
+#print("so much fruit!\n", fruits)
 
 ## Display all fruits beginning with P
-match = "P"
-for i,item in enumerate(fruits):
+#match = "P"
+#for i,item in enumerate(fruits):
     #print(item[0][0])
-    if (item[0][0] == match):
-        print("\nFruits with P are found: ", item)
+    #if (item[0][0] == match):
+        #print("\nFruits with P are found: ", item)
