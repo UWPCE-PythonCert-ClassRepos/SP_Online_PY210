@@ -78,15 +78,15 @@ def series_two():
 
 def series_three():
     for i in fruits_list:
-        _question = input(f"Do you like {i}; 'yes' or 'no'...   ")
-        if _question == "No" or _question == "no" or _question == "N" or _question == "n":
+        question = input(f"Do you like {i}; 'yes' or 'no'...   ")
+        if question.lower() in ("no", "n"):
             fruits_list.remove(i)
-            print("You dont like {i}... deleted!")
+            print("You don't like {i}... deleted!")
             print(fruits_list)
-        elif _question == "Yes" or _question == "yes" or _question == "Y" or _question == "y":
+        elif question.lower() in ("yes", "y"):
             print(f"You like {i}, good to know!")
         else:
-            print("You didnt follow directions... start again!")
+            print("You didn't follow directions... start again!")
             series_three()
 
 # Works
@@ -95,9 +95,9 @@ def series_three():
 
 def series_four():
     i = 0
-    _delete_last = input(
+    delete_last = input(
         "Would you like to delete first and last item from list while we reverse order of all items?  ")
-    if _delete_last == "Yes" or _delete_last == "yes" or _delete_last == "Y" or _delete_last == "y":
+    if delete_last.lower() in ("Yes", "y"):
         while i < len(fruits_list[1: -1]):
             print(fruits_list[1 + i][::-1])
             i += 1
