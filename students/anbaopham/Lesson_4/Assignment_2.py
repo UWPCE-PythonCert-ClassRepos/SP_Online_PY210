@@ -7,7 +7,7 @@ donor_db = [("William Gates, III", [653772.32, 12.17]),
             ("Mark Zuckerberg", [1663.23, 4300.87, 10432.0]),]
 
 def get_name_list():
-    name_list =[]
+    name_list = []
     for i in donor_db:
         name_list.append(i[0])
     return name_list
@@ -25,10 +25,10 @@ prompt = "\n".join(("Welcome to the mailroom!",
           "4 - exit_program",
           ">>> "))
 
-def add_donation_amount(FullName, donation_amount):
+def add_donation_amount(full_name, donation_amount):
     for i in donor_db:
 
-        if FullName == i[0]:
+        if full_name == i[0]:
             #donation_amount = int(input("Enter donation amount >> "))
             i[1].append(donation_amount)
 
@@ -40,31 +40,31 @@ def add_donation_amount(FullName, donation_amount):
 def send_a_Thank_You():
     while True:
         name_list = get_name_list()
-        FullName = input("Pleass enter Full Name >> ")
-        if FullName == "list":
+        full_name = input("Pleass enter Full Name >> ")
+        if full_name == "list":
             print("\n".join(name_list))
         else:
             break
-    donation_amount=int(input("Enter donation amount >> "))
+    donation_amount= int(input("Enter donation amount >> "))
 
-    if FullName not in name_list:
+    if full_name not in name_list:
         new_donor = []
         #donation_amount=int(input("Enter donation amount >> "))
-        new_donor = (FullName,[donation_amount],)
+        new_donor = (full_name,[donation_amount],)
         donor_db.append(new_donor)
 
     else:
-        add_donation_amount(FullName, donation_amount)
+        add_donation_amount(full_name, donation_amount)
 
 
-    print(f"Thank Mr/Ms {FullName.upper()} for donation $ {donation_amount}")
+    print(f"Thank Mr/Ms {full_name.upper()} for donation $ {donation_amount}")
 
     print(donor_db)
-    l1 = FullName.split()
+    l1 = full_name.split()
     first_name = l1[0]
     last_name = l1[1]
 
-    template = """Dear {FullName},
+    template = """Dear {full_name},
     Thank you for your very kind donation of ${donation_amount}
     It will be put to very good use.
         Sincerely,
@@ -77,11 +77,11 @@ def send_a_Thank_You():
 
 def get_first_last_name():
     name_list = get_name_list()
-    fl_name_list =[]
+    first_last_name_list= []
     for i in range(len(name_list)):
         l = name_list[i].split()
         if len(l)>2:
-            l[1:] =[" ".join(l[1:])]
+            l[1:] = [" ".join(l[1:])]
         fl_name_list.append(l)
     return fl_name_list
 
@@ -105,8 +105,8 @@ def Thank_You_letter_template(first_name, last_name, donation_amount):
 
 
 def send_ALL_Thank_You():
-    fl_name_list = get_first_last_name()
-    FullName_list = get_name_list()
+    first_last_name_list= get_first_last_name()
+    full_name_list = get_name_list()
     for i in range(len(fl_name_list)):
         first_name = fl_name_list[i][0]
         last_name = fl_name_list[i][1]
@@ -117,22 +117,22 @@ def send_ALL_Thank_You():
 def create_a_Report():
     l = (["Donor Name", "Total Given", "Num Gifts", "Average Gift"])
     temp_list = []
-    l1 =[]
+    l1 = []
 
-    totalGiven =0
+    total_given =0
     for x in donor_db:
         temp_list.append(x[0])
         tg = sum(list((x[1])))
-        totalGiven = str(tg)
-        temp_list.append(totalGiven)
+        total_given = str(tg)
+        temp_list.append(total_given)
         ng = len(x[1])
-        numGift = str(ng)
-        temp_list.append(numGift)
-        #aveGift = str(round(totalGiven/numGift,2))
+        num_gift = str(ng)
+        temp_list.append(num_gift)
+        #ave_gift = str(round(total_given/num_gift,2))
         aG = round(tg/ng,2)
-        aveGift = str(aG)
-        temp_list.append(aveGift)
-        #report_table.append(x[0], totalGiven, numGift, aveGift)
+        ave_gift = str(aG)
+        temp_list.append(ave_gift)
+        #report_table.append(x[0], total_given, num_gift, ave_gift)
     m = 0
     while m< len(temp_list):
         l1.append(temp_list[m:m+4])
