@@ -4,7 +4,7 @@ def task_1(seq):
     for i in seq[1::]:
         n = format(i,'e')
         x.append(n)
-    file_name =[]
+    file_name = []
     tempL = str(x[0])
     if len(tempL) == 1:
         file_name = "00" + str(seq[0])
