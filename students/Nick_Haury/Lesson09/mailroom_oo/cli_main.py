@@ -5,15 +5,16 @@ import sys
 
 '''
 Implementation of the mailroom program from the first week, but this time using
-an object oriented approach.  
+an object oriented approach.  This program acts as the client user interface,
+which takes input from a user and prints output based on commands.
 '''
 
 # create initial DonorCollection class to use throughout program
 donors = dm.DonorCollection({
-    'William Gates, III':dm.Donor("William Gates, III", [653772.32, 12.17]),
-    "Mark Zuckerberg":dm.Donor("Mark Zuckerberg", [1663.23, 4300.87, 10432.0]),
-    "Jeff Bezos":dm.Donor("Jeff Bezos", [877.33]),
-    "Paul Allen":dm.Donor("Paul Allen", [663.23, 43.87, 1.32])
+    'william gates, iii':dm.Donor("William Gates, III", [653772.32, 12.17]),
+    "mark zuckerberg":dm.Donor("Mark Zuckerberg", [1663.23, 4300.87, 10432.0]),
+    "jeff bezos":dm.Donor("Jeff Bezos", [877.33]),
+    "paul allen":dm.Donor("Paul Allen", [663.23, 43.87, 1.32])
 })
 
 def quit():
@@ -50,18 +51,19 @@ def main():
         try:
             choice_dict[choice]()
         except KeyError:
-            print(str(choice) + " is an invalid selection, "
+            print("\n" + str(choice) + " is an invalid selection, "
                   "please make a valid selection \n")
 
 
 def thank_you():
     '''
     Function for adding a donor to DonorCollection or adding additional
-    donations to a previous donor and creating a thank you message.
+    donations to a previous donor.  After, creates a message thanking them for
+    their generous donation.
 
-    prompts the user for a full name.  If the user types "list", then print
+    Prompts the user for a full name.  If the user types "list", then print
     a list of donor names and re-prompt.  If a name is typed that is not
-    in the list, add the name to the list.  If a name is typed that is
+    in the list, user is asked if they'd like to add the Donor.  Otherwise if
     already in the list, then use it.  Once a name is selected, a
     donation amount is specified.  Donation amount input by users is then
     added to the donation history of the name.  Email is then automatically
@@ -77,11 +79,11 @@ def thank_you():
 
         if ty_input.lower() == "list":
             print("\nCurrent Donors: ")
-            for name in donors.names:
+            for name in donors.display_names:
                 print(name)
             print()
         else:
-            if ty_input.lower() not in donors.lower_names:
+            if ty_input.lower() not in donors.names:
                 while True:
                     yn_input = input(
                         f'\n{ty_input} was not found.  Would you like to add'
@@ -109,12 +111,12 @@ def donation_prompt(name_input):
                 raise ValueError("Donation amount must be positive")
         except ValueError:
             print("\nPlease only enter a single positive number for "
-                "donation amount\n")
+                "donation amount")
         else:
             donors.add_donation(name_input, donation_amount)
             print(
                 "\n", 
-                donors.donors[name_input].email_text(-1), 
+                donors.donors[name_input.lower()].email_text(-1), 
                 sep=""
                 )
             break
@@ -122,8 +124,8 @@ def donation_prompt(name_input):
 def create_report():
     '''
     Prints a list of donors, sorted by total historical donation
-    amount.  Includes donor name, total donated, number of donations,
-    and average donation amount.
+    amount and alphabetically by first name.  Includes donor name,
+    total donated, number of donations, and average donation amount.
     '''
     print("".join(donors.report()))
 
