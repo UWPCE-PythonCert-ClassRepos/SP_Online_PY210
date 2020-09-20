@@ -5,10 +5,10 @@ def task_1(seq):
         n = format(i,'e')
         x.append(n)
     file_name = []
-    tempL = str(x[0])
-    if len(tempL) == 1:
+    temp_list = str(x[0])
+    if len(temp_list) == 1:
         file_name = "00" + str(seq[0])
-    elif len(tempL) == 2:
+    elif len(temp_list) == 2:
         file_name = "0"+str(seq[0])
     else:
         file_name = seq[0]
