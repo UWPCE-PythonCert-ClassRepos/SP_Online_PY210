@@ -5,7 +5,7 @@ donor_db = [("William Gates, III", [653772.32, 12.17]),
             ("Mark Zuckerberg", [1663.23, 4300.87, 10432.0]),]
 
 def get_name_list():
-    name_list =[]
+    name_list = []
     for i in donor_db:
         name_list.append(i[0])
     return name_list
@@ -22,10 +22,10 @@ prompt = "\n".join(("Welcome to the mailroom!",
           "3 - Exit",
           ">>> "))
 
-def add_donation_amount(FullName, donation_amount):
+def add_donation_amount(full_name, donation_amount):
     for i in donor_db:
 
-        if FullName == i[0]:
+        if full_name == i[0]:
             #donation_amount = int(input("Enter donation amount >> "))
             i[1].append(donation_amount)
 
@@ -37,32 +37,32 @@ def add_donation_amount(FullName, donation_amount):
 def send_a_Thank_You():
     while True:
         name_list = get_name_list()
-        FullName = input("Pleass enter Full Name >> ")
-        if FullName == "list":
+        full_name = input("Pleass enter Full Name >> ")
+        if full_name == "list":
             print("\n".join(name_list))
         else:
             break
     donation_amount=int(input("Enter donation amount >> "))
 
-    if FullName not in name_list:
+    if full_name not in name_list:
         new_donor = []
         #donation_amount=int(input("Enter donation amount >> "))
-        new_donor = (FullName,[donation_amount],)
+        new_donor = (full_name,[donation_amount],)
         donor_db.append(new_donor)
 
     else:
-        add_donation_amount(FullName, donation_amount)
+        add_donation_amount(full_name, donation_amount)
 
 
-    print(f"Thank Mr/Ms {FullName.upper()} for donation $ {donation_amount}")
+    print(f"Thank Mr/Ms {full_name.upper()} for donation $ {donation_amount}")
     print(donor_db)
 
 def create_a_Report():
     l = (["Donor Name", "Total Given", "Num Gifts", "Average Gift"])
     temp_list = []
-    l1 =[]
+    l1 = []
 
-    totalGiven =0
+    totalGiven = 0
     for x in donor_db:
         temp_list.append(x[0])
         tg = sum(list((x[1])))
@@ -77,7 +77,7 @@ def create_a_Report():
         temp_list.append(aveGift)
         #report_table.append(x[0], totalGiven, numGift, aveGift)
     m = 0
-    while m< len(temp_list):
+    while m < len(temp_list):
         l1.append(temp_list[m:m+4])
         m = m+4
 
