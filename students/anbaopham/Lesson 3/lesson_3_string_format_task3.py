@@ -7,5 +7,5 @@ def formatter(in_tuple):
 
 
 
-in_tuple = (1,3,5,7,8)
+in_tuple = (1, 3, 5, 7, 8)
 formatter(in_tuple)
