@@ -1,7 +1,7 @@
 
 fruit_list = ["Apples", "Pears","Oranges","Peaches"]
 
-updated_list =[]
+updated_list = []
 def remove_fruit(deleted_fruit, newList, updated_list):
     n =0
     for i in newList:
@@ -11,25 +11,25 @@ def remove_fruit(deleted_fruit, newList, updated_list):
                     updated_list.append(j)
                 else:
                     pass
-            n = n+1
+            n = n + 1
             break
     return updated_list, n
 m = 0
 while m < 1:
     for i in fruit_list:
-        askQ = input("do you love {} ? ".format(i).lower() )
-        if len(askQ) == 0:
+        ask_question = input("do you love {} ? ".format(i).lower() )
+        if len(ask_question) == 0:
             print("please try again")
             break
 
 
-        elif askQ.lower() == "yes" or askQ.lower() == "y":
+        elif ask_question.lower() == "yes" or ask_question.lower() == "y":
             print("good")
             pass
 
-        elif askQ.lower() == "no" or askQ.lower() == "n":
+        elif ask_question.lower() == "no" or ask_question.lower() == "n":
             remove_fruit(i,fruit_list,updated_list)
-        elif askQ.lower() =="exit" or askQ.lower() == "x":
+        elif ask_question.lower() =="exit" or ask_question.lower() == "x":
             m = m+1
             break
         else:
