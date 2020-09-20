@@ -27,9 +27,9 @@ def get_value(words, pair):
 
 def build_trigrams(words):
     trigrams = {}
-    value =[]
+
     random_choice = random.choice(words)
-    n =words.index(random_choice)
+    n = words.index(random_choice)
     for i in range(n,len(words)-2):
         pair = words[i:i+2]
         key = " ".join(pair)
@@ -47,8 +47,8 @@ def build_trigrams(words):
 
 
 def display_dictionary(trigrams):
-    for x,y in trigrams.items():
-        print(x,y)
+    for x, y in trigrams.items():
+        print(x, y)
 
 
 
