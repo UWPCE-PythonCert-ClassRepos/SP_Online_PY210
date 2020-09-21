@@ -64,7 +64,7 @@ def add_donation(donors, donator):
         try:
             donation = float(donation)
         except ValueError:
-            continue
+            print('ValueError: Please enter a numeric value')
         else:
             if donation > 0:
                 break
@@ -73,7 +73,6 @@ def add_donation(donors, donator):
 
     donors[donator] = donors[donator] + [donation]
     return donation
-
 
 
 def create_card(donator, amount, fldr):
@@ -86,16 +85,20 @@ def create_card(donator, amount, fldr):
     donation_dict['donation'] = float(amount)
 
     ty_text = 'Dear {name},\
-    \n\n\tThank you for your very kind donation of ${donation:.2f}.\
+    \n\n\tThank you for your very kind donation of ${donation:,.2f}.\
     \n\n\tIt will be put to very good use.\n\n\t\t\tSincerely,\
     \n\t\t\t   -The Team'.format(**donation_dict)
 
     file_name = donation_dict['name'].replace(' ', '_') + '.txt'
     file_path = os.path.join(fldr, file_name)
 
-    with open(file_path, 'w+') as f:
-        f.write(ty_text)
+    try:
+        with open(file_path, 'w+') as f:
+            f.write(ty_text)
+    except IOError:
+        print(f"IOError: Error writing to file: {write_path}")
 
+    print(f"\n** Thank you note to {donation_dict['name']} for ${donation_dict['donation']:,.2f} written to {write_path}.  **\n")
     return True
 
 
@@ -136,24 +139,38 @@ def create_report(donors):
     """
 
     print("** You've selected to create a report.  **\n")
+    report = []
+    
     col1 = 'Donor Name'
     col2 = 'Total Given'
     col3 = 'Num Gifts'
     col4 = 'Average Gift'
-    print(f'{col1:25} | {col2:13} | {col3:11} | {col4:13}')
-    print('-'*70)
+    # print(f'{col1:25} | {col2:13} | {col3:11} | {col4:13}')
+    # print('-'*70)
+    report.append(f'{col1:25} | {col2:13} | {col3:11} | {col4:13}')
+    report.append('-'*70)
 
     donors = dict(sorted(donors.items(), key=sort_key, reverse=True))
     for donor, donations in donors.items():
         count = len(donations)
         total = sum(donations)
         avg = total/count
-        print(f'{donor:25}  ${total:13.2f}   {count:11}  ${avg:12.2f}')
-    return
+        # print(f'{donor:25}  ${total:13,.2f}   {count:11}  ${avg:12,.2f}')
+        report.append(f'{donor:25}  ${total:13,.2f}   {count:11}  ${avg:12,.2f}')
+    report = '\n'.join(report)
+    print(report)
+    print("\n** Thank you!  **\n")
 
 
 def ask_for_folder():
     global user_folder
+
+    # as creating folders is platform specific, end if not Windows. 
+    import platform
+    
+    if not platform.system().lower() == 'windows':
+        print(f'Sorry, future development requested but not currently enabled for {platform.system()} platform')
+        exit_program(0)
 
     text = "\n".join(("\n\n\nEnter folder Name or hit enter for default",
                         " >"))
@@ -213,20 +230,32 @@ def get_selection():
 
 if __name__ == '__main__':
 
-    response = ''
-    write_path = ask_for_folder()
-    print(f'writing to file: {write_path}')
+    try:
+        response = ''
+        write_path = ask_for_folder()
+        print(f'writing to file: {write_path}')
+    
+        switch_func_dict = {
+            '1': send_ty,
+            '2': create_report,
+            '3': send_all_ty,
+            '4': exit_program
+        }
 
-    switch_func_dict = {
-        '1': send_ty,
-        '2': create_report,
-        '3': send_all_ty,
-        '4': exit_program
-    }
-
-    while True:
-        response = get_selection()
-        if response in switch_func_dict:
-            switch_func_dict.get(response, "nothing")(donor_db)
-        else:
-            print("Please enter valid option")
+        while True:
+            response = get_selection()
+            try:
+                # if response in switch_func_dict:
+                # switch_func_dict.get(response, "nothing")()
+                #switch_func_dict.get(response, "nothing")(donor_db)
+                switch_func_dict[response](donor_db)
+                # else:
+                #    print("Please enter valid option")
+            except KeyError:
+                print('Please select a value 1-4')
+        
+    except KeyboardInterrupt:
+        print('\n\nKeyboardInterrupt: Interrupted and Exiting')
+        sys.exit(0)
+        
+        
