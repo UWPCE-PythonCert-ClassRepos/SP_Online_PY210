@@ -87,11 +87,8 @@ class OneLineTag(Element):
 
     # Override render method to print a single line
     def render(self, out_file, cur_ind=''):
-        """Render single line tag.
-
-        self.content should be a two element list:
-            [0] = tag
-            [1] = text
+        """
+        Render single line tag.
         """
         self._open(out_file, cur_ind=cur_ind)
         out_file.write(f'{self.content[0]}')
