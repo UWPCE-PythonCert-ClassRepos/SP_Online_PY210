@@ -22,12 +22,6 @@ donors = {"Morgan Stanely": [0.01, 20.00],
             "Stephen Girard": [60000],
             "Andrew Carnegie": [0.04, 999.99]}
 
-#DefaultDict
-'''
-donor = namedtuple('Name', [])
-dd = defaultdict(tuple)
-dd['this'].append(23)
-'''
 
 #Single Thank You
 def receiver():
