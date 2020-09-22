@@ -38,7 +38,7 @@ def add_donation_amount(full_name, donation_amount):
 
 
 
-def send_a_Thank_You():
+def send_a_thank_you():
     while True:
         name_list = get_name_list()
         full_name = input("Pleass enter Full Name >> ")
@@ -97,7 +97,7 @@ def get_first_last_name():
         first_last_name_list.append(l)
     return first_last_name_list
 
-def Thank_You_letter_template(first_name, last_name, donation_amount):
+def thank_you_letter_template(first_name, last_name, donation_amount):
     first_name = first_name
     last_name = last_name
     donation_amount = donation_amount
@@ -116,17 +116,19 @@ def Thank_You_letter_template(first_name, last_name, donation_amount):
 
 
 
-def send_ALL_Thank_You():
+def send_all_thank_you():
     first_last_name_list= get_first_last_name()
     full_name_list = get_name_list()
     for i in range(len(first_last_name_list)):
         first_name = first_last_name_list[i][0]
         last_name = first_last_name_list[i][1]
-        Thank_You_letter_template(first_name, last_name, 10)
+        thank_you_letter_template(first_name, last_name, 10)
 
+def sort_total_given(l1):
+    #return donor_db[0].split(" ")[1]
+    return l1[1]
 
-
-def create_a_Report():
+def create_a_report():
     l = (["Donor Name", "Total Given", "Num Gifts", "Average Gift"])
     temp_list = []
     l1 = []
@@ -150,8 +152,8 @@ def create_a_Report():
         l1.append(temp_list[m:m+4])
         m = m+4
 
-    l1 =sorted(l1, key = sort_key)
-
+    #l1 =sorted(l1, key = sort_key)
+    l1 =sorted(l1, key = sort_total_given)
     l1.insert(0,l)
 
     new_list = []
@@ -172,7 +174,7 @@ def exit_program():
     print("Bye!")
     sys.exit()  # exit the interactive script
 
-response_dict ={"1": send_a_Thank_You, "2": create_a_Report, "3": send_ALL_Thank_You, "4": exit_program}
+response_dict ={"1": send_a_thank_you, "2": create_a_report, "3": send_all_thank_you, "4": exit_program}
 def main():
     while True:
         response = input(prompt)  # continuously collect user selection
