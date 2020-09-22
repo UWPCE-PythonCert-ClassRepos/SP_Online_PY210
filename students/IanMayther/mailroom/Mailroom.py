@@ -28,9 +28,9 @@ def receiver():
     viable_ans = False
     #Determine Previous Donor
     while viable_ans == False:
-        new_vs_ex = input("New Donor [Y/N/Quit]? ")
+        #new_vs_ex = input("New Donor [Y/N/Quit]? ")
         #place_dict = {"Y":"goodbye"}
-
+        new_vs_ex = input("Donor Name: ")
         if new_vs_ex.lower() == "y":
             name = new_donor()
             if name.lower() == "quit":
@@ -188,3 +188,4 @@ main_selections = {"1" : receiver,
 #Main Exicutable
 if __name__ == '__main__':
     main_menu(choice_menu, main_selections)
+    print(gift(26.56))
