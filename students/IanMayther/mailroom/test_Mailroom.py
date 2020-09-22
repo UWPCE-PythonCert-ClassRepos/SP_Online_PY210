@@ -22,11 +22,12 @@ Send Letters
 
 
 # you can change this import to test different versions
-from Mailroom import receiver, quit, donors
+from Mailroom import receiver, quit, donors, gift
 
 def test_1():
     assert quit() == "quit"
 
 def test_2():
     assert "Andrew Carnegie" in donors.keys()
+
 

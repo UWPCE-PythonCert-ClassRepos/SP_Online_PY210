@@ -29,6 +29,7 @@ def receiver():
     #Determine Previous Donor
     while viable_ans == False:
         new_vs_ex = input("New Donor [Y/N/Quit]? ")
+        #place_dict = {"Y":"goodbye"}
 
         if new_vs_ex.lower() == "y":
             name = new_donor()
@@ -92,7 +93,7 @@ def ver_don(giver):
     return exist
 '''
 #Get Value of Donation
-def gift():
+def gift(value = float(0.0)):
     while True:
         try:
             value = float(input("What is the value of the donation: "))
