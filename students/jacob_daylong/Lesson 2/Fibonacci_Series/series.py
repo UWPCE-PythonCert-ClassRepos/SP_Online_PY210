@@ -19,7 +19,7 @@ def sum_series(n, n0=0, n1=1):
         return n1
     else:
         return sum_series(n-1, n0, n1)+sum_series(n-2, n0, n1)
-    pass
+
 
 def fibonacci(n):
      """
@@ -39,7 +39,7 @@ def fibonacci(n):
      '''
 
      return sum_series(n)
-     pass
+
 
 def lucas(n):
     """
@@ -59,7 +59,7 @@ def lucas(n):
     '''
 
     return sum_series(n, n0=2, n1=1)
-    pass
+
 
 """
 Test block
