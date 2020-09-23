@@ -1,10 +1,9 @@
-
-import mailroom4
+import mailroom_4
 import os.path
 import pathlib
 
 
-mailroom4.donars_data = mailroom4.donars()
+mailroom_4.donars_data = mailroom_4.donars()
 
 
 def test_donars():
