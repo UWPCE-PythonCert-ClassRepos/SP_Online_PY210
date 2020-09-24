@@ -28,8 +28,15 @@ def receiver():
     viable_ans = False
     #Determine Previous Donor
     while viable_ans == False:
-        #new_vs_ex = input("New Donor [Y/N/Quit]? ")
-        #place_dict = {"Y":"goodbye"}
+        new_vs_ex = input("Donor Name? ")
+        donation_value = input("What is the value of the donation? ")
+        if new_vs_ex.lower() == "quit" or donation_value.lower() == "quit":
+            name = "quit"
+            viable_ans = True
+        else:
+            print(new_donor(new_vs_ex))
+
+        '''
         new_vs_ex = input("Donor Name: ")
         if new_vs_ex.lower() == "y":
             name = new_donor()
@@ -59,6 +66,7 @@ def receiver():
             viable_ans = True
         else:
             print("Please enter a viable answer.")
+        '''
 
     #Didn't use comprehension because, only wanted 1 set of values
     for k, v in donors.items():
@@ -70,13 +78,11 @@ def receiver():
 
 
 #New Donor
-def new_donor():
-    name_of_new = input("What is the New Donor's Name: ")
-    if name_of_new.lower() == "quit":
-        name_of_new = "quit"
-    elif name_of_new not in donors:
-        dol_val = gift()
-        donors[name_of_new] = [dol_val]
+def new_donor(name):
+    if name not in donors:
+        name_of_new = False
+    else:
+        name_of_new = True
 
     return name_of_new
 
@@ -93,7 +99,7 @@ def ver_don(giver):
     return exist
 '''
 #Get Value of Donation
-def gift(value = float(0.0)):
+def gift(value):
     while True:
         try:
             value = float(input("What is the value of the donation: "))
