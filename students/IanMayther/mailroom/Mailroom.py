@@ -20,7 +20,8 @@ donors = {"Morgan Stanely": [0.01, 20.00],
             "Cornelius Vanderbilt": [800, 15, 10.00],
             "John D. Rockefeller": [7000, 150.00, 25],
             "Stephen Girard": [60000],
-            "Andrew Carnegie": [0.04, 999.99]}
+            "Andrew Carnegie": [0.04, 999.99],
+            "Me": [10.00, 500.00]}
 
 
 #Single Thank You
@@ -41,51 +42,20 @@ def receiver():
                 name = "quit"
                 viable_ans = True
         
-        if new_donor(new_vs_ex):
-            donors[new_vs_ex].append(donation_value)
-            print(donors[new_vs_ex])
-            gift(donation_value)
+        if new_donor(new_vs_ex): 
+            donors[new_vs_ex].append(gift(donation_value))            
             viable_ans = True
         else:
             donors[new_vs_ex] = [gift(donation_value)]
-
-        '''
-        new_vs_ex = input("Donor Name: ")
-        if new_vs_ex.lower() == "y":
-            name = new_donor()
-            if name.lower() == "quit":
-                name = "quit"
             viable_ans = True
-        elif new_vs_ex.lower() == "quit":
-            name = "quit"
-            viable_ans = True
-        elif new_vs_ex.lower() == "n":
-            #to replace with comprehension
-            i = 1
-            temp_list = [key for key in sorted(donors.keys())]
-            for key in sorted(donors):
-                print(f"[{i}] - {key}")
-                i += 1
-                #"Commented" for comprehension => temp_list.append(key)
 
-            donor_name = input("Who gave the donation [#]? ")
-
-            if donor_name.lower() == "quit":
-                name = "quit"
-
-            name = temp_list[int(donor_name)-1]
-            don_val = gift()
-            donors[name].append(don_val)
-            viable_ans = True
-        else:
-            print("Please enter a viable answer.")
-        '''
+        name = new_vs_ex
 
     #Didn't use comprehension because, only wanted 1 set of values
     for k, v in donors.items():
-        if k == name:
+        if k == new_vs_ex:
             don_val = sum(v)
-            print("\n" + email(name, don_val))
+            print("\n" + thank_you(name, don_val))
 
     return name
 
@@ -109,18 +79,6 @@ def new_donor(name):
 
     return name_of_new
 
-'''
-Not need since using a dictionary for collection
-#Donor Verification
-def ver_don(giver):
-    exist = False
-    for i in range(len(donors)):
-        if giver == donors[i][0]:
-            exist = True
-        else:
-            exist = False
-    return exist
-'''
 #Get Value of Donation
 def gift(donation):
     if isinstance(donation, float):
@@ -129,12 +87,26 @@ def gift(donation):
         #raise TypeError
         while True:
             try:
+                value = float(donation)
+                break      
+            except ValueError:
+                print("Not a valid donation value")
+                break
+    return value
+
+'''
+        while True:
+            try:
                 value = float(input("What is the value of the donation: "))
                 break      
             except ValueError:
                 print("Not a valid donation value")
-    return value
 
+'''
+#Print Thank you
+def thank_you(to_donor, gift_amount):
+    body = f"Thanks {to_donor} for your ${round(gift_amount,2)} in donations."
+    return body
 
 #Print Email
 def email(to_donor, gift_amount):
@@ -158,19 +130,7 @@ def print_report():
     print("\n")
     print("{0:<25s}|{1:^15s}|{2:^15s}|{3:>12s}".format("Donor Name", "Total Given", "# of Gifts","Avg. Gift"))
     print("-" * 72)
-    
-    #Table Data
-    '''
-    for k, v in sorted(donors.items(), key=lambda t: sum(t[1]), reverse=True):
-        #Process Data 
-        total = sum(v)
-        #Gift Count  
-        No_Gifts = len(v)
-        #Calc Average
-        Ave_Gift = total / No_Gifts
-        #Print Table
-        print("{0:<25s}${1:>14.2f}{2:>17d}  ${3:>11.2f}".format(k, total, No_Gifts, Ave_Gift, end =''))
-    '''
+
     #Replaced with comprehension
     new_dict = {k: [sum(v), len(v), sum(v)/len(v)] for k, v in sorted(donors.items())}
     for k in sorted(new_dict.items(), key=lambda t: t[1], reverse=True):

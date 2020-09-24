@@ -34,12 +34,13 @@ def test_gift_float():
     assert gift(75.54) == 75.54
 
 def test_gift_string():
+    #USE CONTEXT?
     with pytest.raises(TypeError):
         gift("String")
 
 def test_thank_you():
-    output = "Thanks Andrew Carnegie for your $77.00 donation."
-    assert email("Andrew Carnegie", 77.00) == output
+    output = "Thanks Andrew Carnegie for your $77.0 in donations."
+    assert thank_you("Andrew Carnegie", 77.00) == output
 
 def test_create_report():
     assert create_report(donors) is True
