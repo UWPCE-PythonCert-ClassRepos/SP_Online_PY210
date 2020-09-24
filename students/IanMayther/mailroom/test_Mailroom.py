@@ -31,9 +31,11 @@ def test_new_donor():
     assert new_donor("William Gates") is False
 
 def test_gift_float():
-    with pytest.raises(TypeError) as excinfo:
+    assert gift(75.54) == 75.54
+
+def test_gift_string():
+    with pytest.raises(TypeError):
         gift("String")
-    excinfo.match("String")
 
 def test_thank_you():
     output = "Thanks Andrew Carnegie for your $77.00 donation."

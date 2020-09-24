@@ -28,13 +28,26 @@ def receiver():
     viable_ans = False
     #Determine Previous Donor
     while viable_ans == False:
+        place_dict = {"list" : donor_list,
+                        "quit" : quit,
+                        }
         new_vs_ex = input("Donor Name? ")
-        donation_value = input("What is the value of the donation? ")
-        if new_vs_ex.lower() == "quit" or donation_value.lower() == "quit":
+        if new_vs_ex.lower() == "quit":
             name = "quit"
             viable_ans = True
         else:
-            print(new_donor(new_vs_ex))
+            donation_value = input("What is the value of the donation? ")
+            if donation_value.lower() == "quit":
+                name = "quit"
+                viable_ans = True
+        
+        if new_donor(new_vs_ex):
+            donors[new_vs_ex].append(donation_value)
+            print(donors[new_vs_ex])
+            gift(donation_value)
+            viable_ans = True
+        else:
+            donors[new_vs_ex] = [gift(donation_value)]
 
         '''
         new_vs_ex = input("Donor Name: ")
@@ -76,6 +89,16 @@ def receiver():
 
     return name
 
+#Donor List
+def donor_list():
+    i = 1
+    temp_list = [key for key in sorted(donors.keys())]
+    for key in sorted(donors):
+        print(f"[{i}] - {key}")
+        i += 1
+
+    return temp_list
+
 
 #New Donor
 def new_donor(name):
@@ -99,13 +122,17 @@ def ver_don(giver):
     return exist
 '''
 #Get Value of Donation
-def gift(value):
-    while True:
-        try:
-            value = float(input("What is the value of the donation: "))
-            break      
-        except ValueError:
-            print("Not a valid donation value")
+def gift(donation):
+    if isinstance(donation, float):
+        value = donation
+    else:
+        #raise TypeError
+        while True:
+            try:
+                value = float(input("What is the value of the donation: "))
+                break      
+            except ValueError:
+                print("Not a valid donation value")
     return value
 
 
@@ -194,4 +221,3 @@ main_selections = {"1" : receiver,
 #Main Exicutable
 if __name__ == '__main__':
     main_menu(choice_menu, main_selections)
-    print(gift(26.56))
