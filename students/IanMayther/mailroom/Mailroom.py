@@ -27,29 +27,33 @@ donors = {"Morgan Stanely": [0.01, 20.00],
 #Single Thank You
 def receiver():
     viable_ans = False
+    place_dict = {"list" : donor_list,
+                "quit" : quit,
+                }
     #Determine Previous Donor
     while viable_ans == False:
-        place_dict = {"list" : donor_list,
-                        "quit" : quit,
-                        }
-        new_vs_ex = input("Donor Name? ")
-        if new_vs_ex.lower() == "quit":
-            name = "quit"
-            viable_ans = True
-        else:
-            donation_value = input("What is the value of the donation? ")
-            if donation_value.lower() == "quit":
+        try:
+            new_vs_ex = input("Donor Name? ")
+            if place_dict[new_vs_ex.lower()]() == "quit"
+                break
+            
+            if new_vs_ex.lower() == "quit":
                 name = "quit"
                 viable_ans = True
-        
-        if new_donor(new_vs_ex): 
-            donors[new_vs_ex].append(gift(donation_value))            
-            viable_ans = True
-        else:
-            donors[new_vs_ex] = [gift(donation_value)]
-            viable_ans = True
+            else:
+                donation_value = input("What is the value of the donation? ")
+                if donation_value.lower() == "quit":
+                    name = "quit"
+                    viable_ans = True
+            
+            if new_donor(new_vs_ex): 
+                donors[new_vs_ex].append(gift(donation_value))            
+                viable_ans = True
+            else:
+                donors[new_vs_ex] = [gift(donation_value)]
+                viable_ans = True
 
-        name = new_vs_ex
+            name = new_vs_ex
 
     #Didn't use comprehension because, only wanted 1 set of values
     for k, v in donors.items():
@@ -68,7 +72,6 @@ def donor_list():
         i += 1
 
     return temp_list
-
 
 #New Donor
 def new_donor(name):
@@ -123,7 +126,6 @@ Derek Zoolander\n
 Founder and C.E.O. of Derek Zoolander Charity for Ants Who Can't Read Good (DZCAWCRG)\n"""
     return body
 
-
 #Create Reportmy_List = {}
 def print_report():
     #Header
@@ -176,7 +178,6 @@ main_selections = {"1" : receiver,
                     "3" : send_letter,
                     "4" : quit,
                     }
-    
 
 #Main Exicutable
 if __name__ == '__main__':
