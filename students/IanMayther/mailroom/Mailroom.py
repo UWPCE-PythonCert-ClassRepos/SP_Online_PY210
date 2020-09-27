@@ -27,33 +27,36 @@ donors = {"Morgan Stanely": [0.01, 20.00],
 #Single Thank You
 def receiver():
     viable_ans = False
-    place_dict = {"list" : donor_list,
-                "quit" : quit,
-                }
-    #Determine Previous Donor
+
     while viable_ans == False:
-        try:
-            new_vs_ex = input("Donor Name? ")
-            if place_dict[new_vs_ex.lower()]() == "quit"
-                break
-            
-            if new_vs_ex.lower() == "quit":
+        new_vs_ex = input("Donor Name? ")
+        
+        if new_vs_ex.lower() == "quit":
+            name = "quit"
+            viable_ans = True
+        elif new_vs_ex == "list":
+            donor_list()
+            don_num = int(input("Select # above: "))
+            temp_list = [key for key in sorted(donors.keys())]
+            name = temp_list[don_num]
+            print(name)
+        else:
+            donation_value = input("What is the value of the donation? ")            
+            if donation_value.lower() == "quit":
                 name = "quit"
                 viable_ans = True
-            else:
-                donation_value = input("What is the value of the donation? ")
-                if donation_value.lower() == "quit":
-                    name = "quit"
-                    viable_ans = True
-            
-            if new_donor(new_vs_ex): 
-                donors[new_vs_ex].append(gift(donation_value))            
+            elif isinstance(gift(donation_value), float):
                 viable_ans = True
-            else:
-                donors[new_vs_ex] = [gift(donation_value)]
-                viable_ans = True
+                
+        
+        if new_donor(new_vs_ex): 
+            donors[new_vs_ex].append(gift(donation_value))            
+            viable_ans = True
+        else:
+            donors[new_vs_ex] = [gift(donation_value)]
+            viable_ans = True
 
-            name = new_vs_ex
+        name = new_vs_ex
 
     #Didn't use comprehension because, only wanted 1 set of values
     for k, v in donors.items():
@@ -87,14 +90,13 @@ def gift(donation):
     if isinstance(donation, float):
         value = donation
     else:
-        #raise TypeError
         while True:
             try:
                 value = float(donation)
                 break      
             except ValueError:
-                print("Not a valid donation value")
-                break
+                raise ValueError()
+
     return value
 
 '''

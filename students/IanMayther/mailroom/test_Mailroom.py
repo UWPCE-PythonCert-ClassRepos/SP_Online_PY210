@@ -34,8 +34,7 @@ def test_gift_float():
     assert gift(75.54) == 75.54
 
 def test_gift_string():
-    #USE CONTEXT?
-    with pytest.raises(TypeError):
+    with pytest.raises(ValueError):
         gift("String")
 
 def test_thank_you():
