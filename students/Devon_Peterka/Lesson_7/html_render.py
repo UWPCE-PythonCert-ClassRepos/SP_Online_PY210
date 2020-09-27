@@ -57,9 +57,9 @@ class Head(Element):
 class OneLineTag(Element):
     def render(self, out_file, cur_indent=''):
         self.indent += cur_indent
-        out_file.write(self._open_tag()[:-1])
+        out_file.write(self._open_tag(self.indent)[:-1])
         out_file.write(' '.join(self.content))
-        out_file.write(self._close_tag())
+        out_file.write(self._close_tag(self.indent))
 
 class Title(OneLineTag):
     tag = 'title'
@@ -91,8 +91,10 @@ class Ul(Element):
 class Li(Element):
     tag = 'li'
 
-class Header(OneLineTag):
+class H(OneLineTag):
     def __init__(self, level, content=None, **kwargs):
         self.tag = f'h{level}'
         super().__init__(content, **kwargs)
         
+class Meta(SelfClosingTag):
+    tag = 'meta'
