@@ -284,10 +284,41 @@ def test_hr_withattributes():
     print(file_contents)
     assert file_contents == '<hr width="400" />\n'
 
+def test_hr_fails():
+    '''
+    Test to verify horizontal rule fails with non-keyword argument
+    '''
+    with pytest.raises(TypeError):
+        br = Br('some content')
+
 def test_br():
     '''
     Test to verify line break behaves properly
     '''
+    br = Br()
+    file_contents = render_result(br)
+    print(file_contents)
+    assert file_contents == '<br />\n'
+
+def test_br_fails():
+    '''
+    Test to verify line break fails with non-keyword argument
+    '''
+    with pytest.raises(TypeError):
+        br = Br('some content')
+
+########
+# STEP 6
+########
+def test_linkA():
+    '''
+    Test to verify anchor/link class works properly
+    '''
+    a = A('http://google.com', 'link to google')
+    
+    file_contents = render_result(a)
+    
+    assert file_contents == '<a href="http://google.com">link to google</a>\n'
 
 # Add your tests here!
 
