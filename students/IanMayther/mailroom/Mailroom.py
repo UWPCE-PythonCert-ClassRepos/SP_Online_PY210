@@ -9,8 +9,7 @@ donors = {"Morgan Stanely": [0.01, 20.00],
             "Cornelius Vanderbilt": [800, 15, 10.00],
             "John D. Rockefeller": [7000, 150.00, 25],
             "Stephen Girard": [60000],
-            "Andrew Carnegie": [0.04, 999.99],
-            "Me": [10.00, 500.00]}
+            "Andrew Carnegie": [0.04, 999.99],}
 
 
 #Single Thank You
