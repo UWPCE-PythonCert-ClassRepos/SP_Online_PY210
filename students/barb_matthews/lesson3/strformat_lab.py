@@ -7,7 +7,7 @@
 stuff = (2, 123.4567, 10000, 12345.67)
 l = len(stuff)
 test_tuple = (8, 4, 5, 11, 222, 9, 1)
-
+tt = (4, 30, 2017, 2, 27)
 
 ## Task 1
 def do_this():
@@ -23,6 +23,12 @@ def formatter(in_tuple):
     a = ", ".join(["{}"]*how_long)
     print("length: ", how_long, "tuple: ", a.format(*in_tuple))
     return a.format(*in_tuple)
+
+## Task 4
+def something(in_tuple):
+    k = formatter(in_tuple)
+    
+
 
 do_this()
 do_another_thing()
