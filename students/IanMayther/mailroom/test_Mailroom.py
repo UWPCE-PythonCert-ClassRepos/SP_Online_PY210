@@ -27,8 +27,19 @@ Quit:
 # you can change this import to test different versions receiver, quit, donors, gift, new_donor, email
 from Mailroom import *
 
-def test_new_donor():
-    assert new_donor("William Gates") is False
+@pytest.mark.parametrize(
+    'a, expected', [
+        ("Morgan Stanely", True),
+        ("Cornelius Vanderbilt", True),
+        ("John D. Rockefeller", True),
+        ("Stephen Girard", True),
+        ("Andrew Carnegie", True),
+        ("William Gates", False),
+        ("Jeffery Bezos", False)
+    ]
+)
+def test_new_donor(a, expected):
+    assert new_donor(a) is expected
 
 def test_gift_float():
     assert gift(75.54) == 75.54
@@ -41,8 +52,18 @@ def test_thank_you():
     output = "Thanks Andrew Carnegie for your $77.0 in donations."
     assert thank_you("Andrew Carnegie", 77.00) == output
 
-def test_create_report():
-    assert create_report(donors) is True
+
+@pytest.mark.parametrize(
+    'a, expected', [
+        ("Morgan Stanely", 20.01),
+        ("Cornelius Vanderbilt", 825.00),
+        ("John D. Rockefeller", 7175.00),
+        ("Stephen Girard", 60000.00),
+        ("Andrew Carnegie", 1000.03),
+    ]
+)
+def test_calc_report(a, expected):
+    assert calc_report[a] == expected
 
 def test_print_report():
     assert print_report(create_report) is True
