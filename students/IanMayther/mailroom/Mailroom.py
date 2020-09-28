@@ -4,17 +4,6 @@ import pathlib
 import io
 from collections import defaultdict, namedtuple
 
-#DELIVERABLES
-'''
-Use comprehensions where appropriate
-
-Use dicts where appropriate.
-See if you can use a dict to switch between the user’s selections.
-See if you can use a dict to switch between the users selections. see Using a Dictionary to switch for what this means.
-Convert your main donor data structure to be a dict.
-Try to use a dict and the .format() method to produce the letter as one big template, rather than building up a big string that produces the letter in parts.
-'''
-
 #Donors
 donors = {"Morgan Stanely": [0.01, 20.00],
             "Cornelius Vanderbilt": [800, 15, 10.00],
@@ -29,40 +18,33 @@ def receiver():
     viable_ans = False
 
     while viable_ans == False:
-        new_vs_ex = input("Donor Name? ")
-        
+        new_vs_ex = input("Donor Name, List, Quit? ")
+        name = new_vs_ex
         if new_vs_ex.lower() == "quit":
             name = "quit"
             viable_ans = True
-        elif new_vs_ex == "list":
-            donor_list()
+        elif new_vs_ex.lower() == "list":
+            don_list = donor_list()
             don_num = int(input("Select # above: "))
-            temp_list = [key for key in sorted(donors.keys())]
-            name = temp_list[don_num]
-            print(name)
-        else:
+            name = don_list[don_num-1]
+
+        if new_vs_ex.lower() != "quit":
             donation_value = input("What is the value of the donation? ")            
             if donation_value.lower() == "quit":
-                name = "quit"
-                viable_ans = True
+                    name = "quit"
+                    viable_ans = True
             elif isinstance(gift(donation_value), float):
-                viable_ans = True
-                
+                    viable_ans = True                
         
-        if new_donor(new_vs_ex): 
-            donors[new_vs_ex].append(gift(donation_value))            
+        if new_donor(name): 
+            donors[name].append(gift(donation_value))            
             viable_ans = True
         else:
-            donors[new_vs_ex] = [gift(donation_value)]
+            donors[name] = [gift(donation_value)]
             viable_ans = True
 
-        name = new_vs_ex
-
-    #Didn't use comprehension because, only wanted 1 set of values
-    for k, v in donors.items():
-        if k == new_vs_ex:
-            don_val = sum(v)
-            print("\n" + thank_you(name, don_val))
+    don_val = sum(donors[name])
+    print("\n" + thank_you(name, don_val))
 
     return name
 
@@ -99,15 +81,6 @@ def gift(donation):
 
     return value
 
-'''
-        while True:
-            try:
-                value = float(input("What is the value of the donation: "))
-                break      
-            except ValueError:
-                print("Not a valid donation value")
-
-'''
 #Print Thank you
 def thank_you(to_donor, gift_amount):
     body = f"Thanks {to_donor} for your ${round(gift_amount,2)} in donations."
@@ -128,16 +101,18 @@ Derek Zoolander\n
 Founder and C.E.O. of Derek Zoolander Charity for Ants Who Can't Read Good (DZCAWCRG)\n"""
     return body
 
-#Create Reportmy_List = {}
+def calc_report(my_dict):
+    new_dict = {k: [sum(v), len(v), sum(v)/len(v)] for k, v in sorted(my_dict.items())}
+    calc_dict = sorted(new_dict.items(), key=lambda t: t[1], reverse=True)
+    return calc_dict
+
 def print_report():
     #Header
     print("\n")
     print("{0:<25s}|{1:^15s}|{2:^15s}|{3:>12s}".format("Donor Name", "Total Given", "# of Gifts","Avg. Gift"))
     print("-" * 72)
 
-    #Replaced with comprehension
-    new_dict = {k: [sum(v), len(v), sum(v)/len(v)] for k, v in sorted(donors.items())}
-    for k in sorted(new_dict.items(), key=lambda t: t[1], reverse=True):
+    for k in calc_report(donors):
         print("{0:<25s}${1:>14.2f}{2:>17d}  ${3:>11.2f}".format(k[0], k[1][0], k[1][1], k[1][2], end =''))
     print("\n") 
     return
@@ -183,4 +158,5 @@ main_selections = {"1" : receiver,
 
 #Main Exicutable
 if __name__ == '__main__':
+    print(calc_report(donors))
     main_menu(choice_menu, main_selections)
