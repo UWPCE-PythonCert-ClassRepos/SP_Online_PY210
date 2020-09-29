@@ -1,0 +1,7 @@
+horz = ('+'+ 4 * '-'+ '+' + 4 * '-'+'+')
+vert = ('|' +  4*' ' + '|' + 4*' ' + '|')
+print(horz)
+print(vert,vert,vert,vert,sep='\n')
+print(horz)
+print(vert,vert,vert,vert,sep='\n')
+print(horz)

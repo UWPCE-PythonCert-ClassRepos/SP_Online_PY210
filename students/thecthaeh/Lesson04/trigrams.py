@@ -1,17 +1,15 @@
 #!/usr/bin/env python3
 import random
+from collections import defaultdict
+import sys
 
-"""Produce a trigram using The Adventures of Sherlock Holmes.
+"""Produce a trigram using The Adventures of Sherlock Holmes. 
 
-"""
-#testing the script using a small string to get the code correct
-words = "I wish I may I wish I might".split()
-file_path = "./Lesson04/sherlock_small.txt"
+The trigram breaks the given text into groups of three adjacent words where the first two words 
+act as a dict key and the third word acts as a value. The next word group starts with the second 
+word of the previous group. This pattern continues through the end of the text.
 
-#test that a longer string works
-more_words = "I believe I am that I believe I can be who I believe".split()
-
-"""example of how the dict should look:
+Example of how a trigrams dict should look using the string "I wish I may I wish I might":
 
 trigrams = 
 {("I wish"): ["I", "I"],
@@ -19,71 +17,71 @@ trigrams =
 ("I may"): ["I"],
 ("may I"): ["wish"],}
 
-Examples of generated text to expect if using words as the original text:
+Examples of generated text to expect if using the above string as the original text:
 [I wish I may I wish I might]
 [I wish I might]
 [I wish I may I wish I may I wish I might] #and so on...
 """
-trigrams = {}
+
+filename = './sherlock_small.txt'
 
 def build_trigrams(words):
-    """Build up the trigrams dict from a given string.
+    """Build up the trigrams dict from a list of words.
     
-    returns a dict of:
+    returns a dict with:
         keys: adjacent word pairs
-        values: the word that immediately follows the last word of the key
+        values: a list of words that immediately follow the key
     """
+    trigrams = defaultdict(list)
+    pf_list = []
+    
     for x in range(len(words) - 2):
-        pair = tuple(words[x:x + 2]) # will be the keys in trigrams. try frozen sets instead of tuples
-        follower = words[x + 2] # will be the values in trigrams
+        pair = words[x:x + 2] # will be the keys in trigrams.
+        follower = words[x + 2] # will be the values in trigrams.
+        pf_list.append([pair, follower])
 
-        #try to update this to use defaultdict(list) instead
-        if pair in trigrams:
-            trigrams[pair].append(follower)
-        else:
-            trigrams[pair] = [follower]
+    for pair, follower in pf_list:
+        trigrams[tuple(pair)].append(follower)
 
     return trigrams
 
-def generator(trigrams):
-    """Creates a random "sentence" using trigrams."""
+def use_trigrams(trigrams, words):
+    """Create the new text using the trigrams dict.
     
-    #determine first word pair randomly
-    new_text = [word for word in random.choice(list(trigrams.keys()))]
-
-    while tuple(new_text[-2:]) in trigrams:
-        if len(new_text) > (len(words) * 2):
-            break
+    """
+    
+    #determine a random first word pair
+    text = [pair for pair in random.choice(list(trigrams.keys()))]
+    
+    #build the rest of the list
+    while len(text) < len(words):
+        if tuple(text[-2:]) not in trigrams:
+            text.append(random.choice(words))
+            if text[-1] == text[-2]:
+                del text[-1]
+                text.append(random.choice(words))
         else:
-            new_text.append(random.choice(trigrams[tuple(new_text[-2:])]))
+            text.append(random.choice(trigrams[tuple(text[-2:])]))
     
-    new_text[0].upper()
-    
-    new_string = " ".join(new_text)
-    
-    print(f"{new_string}.")
-    
-    return trigrams
+    text_str = " ".join(text)
 
-def build_words(file_path):
-    file_string = ""
+    return f"{text_str}."
+
+def text_processor(filename):
+    """Take in a given file and use it to create the word list.
     
-    try:
-        with open(file_path, 'r') as f:
-            file_string = f.read()
-            words = file_string.split()
-    except OSError:
-        print("File path invalid, using more words.")
-        words = more_words
-        
+    """
+
+    with open(filename, 'r') as f:
+        read_data = f.read()
+        words = read_data.split()
+    
     return words
 
-def main():
-    file_path
-    build_words(file_path)
-    build_trigrams(words)
-    generator(trigrams)
-
-
 if __name__ == "__main__":
-    main()
+    
+    words = text_processor(filename)
+    trigrams = build_trigrams(words)
+    new_text = use_trigrams(trigrams, words)
+    
+    print(new_text)

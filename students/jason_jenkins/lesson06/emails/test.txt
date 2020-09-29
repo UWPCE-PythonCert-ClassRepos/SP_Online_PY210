@@ -1,0 +1,5 @@
+Dear test
+	Thank you for your donation of $123.00.
+	It will be put to very good use.
+Sincerely,
+-The Team

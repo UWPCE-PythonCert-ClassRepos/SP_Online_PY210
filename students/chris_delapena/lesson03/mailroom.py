@@ -41,11 +41,12 @@ From the original prompt, the user should be able to quit the script cleanly.
 
 import sys
 
+
 donor_db = [("William Gates, III", [653772.32, 12.17]),
             ("Jeff Bezos", [877.33]),
             ("Paul Allen", [663.23, 43.87, 1.32]),
-            ("Mark Zuckerberg", [1663.23, 4300.87, 10432.0])
-            ]
+            ("Mark Zuckerberg", [1663.23, 4300.87, 10432.0]
+            )]
 
 prompt = "\n".join(("Mail Room Program version 1.0",
             "Please choose from below options:",
@@ -72,10 +73,12 @@ def thank_you():
             print(donor[0])
             print('-'*60)
     else:
+        #if donor is found in db
         for i in donor_db:
             if donor_name == i[0]: #Use i[0] to handle tuple
                 donation_amount = input(prompt_amount)
                 donation_amount = float(donation_amount) #String to float
+                i[1].append(donation_amount) ##i[1] to add into tuple
                 print('-'*60)
                 print(f"Dear {donor_name}, thank you for your generous donation of ${donation_amount}."
                 " Regards, the Club Owners")
