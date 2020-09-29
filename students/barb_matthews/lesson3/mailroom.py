@@ -9,3 +9,29 @@
 
 import sys
 
+prompt = "\n".join(("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nMailroom for Lazy Fundraisers\n",
+          "Please choose an option:",
+          "1) Send a Thank-you",
+          "2) Create a Report",
+          "3) Quit",
+          "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n>>> "))
+
+def exit_menu():
+    print("Ok, get back to asking for donations.")
+    sys.exit()  # exit the interactive script
+
+def main():
+    while True:
+        response = input(prompt)  # continuously collect user selection
+        if response == "1":
+            thanks()
+        elif response == "2":
+            report()
+        elif response == "3":
+            exit_menu()
+        else:
+            print("\n" * 100)
+            print("Try again. What option?")
+
+if __name__ == "__main__":
+    main()
