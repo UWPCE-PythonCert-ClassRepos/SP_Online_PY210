@@ -77,13 +77,13 @@ def test_file_creation():
     obj = Path(path)
     assert obj.exists()
 
-#needs more work
+#paramtrize
 def test_body_letter():
-    text = "Greetings"
-    thank_letter = "Andrew Carnegie_Thank you Letter.txt"
+    text = "Greetings Andrew Carnegie"
+    thank_letter = os.path.join("Andrew Carnegie_Thank you Letter.txt")
     with open(thank_letter, 'r') as f:
-        line = thank_letter.readline()
-    assert body_letter == text is True
+        line = f.readline()
+    assert text in line
 
 def test_quit():
     assert quit() == "quit"
