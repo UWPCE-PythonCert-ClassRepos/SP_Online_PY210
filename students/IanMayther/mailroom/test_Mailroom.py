@@ -27,7 +27,7 @@ Quit:
 
 
 # you can change this import to test different versions receiver, quit, donors, gift, new_donor, email
-from Mailroom import *
+from Mailroom import donors, new_donor, gift, thank_you, calc_report, send_letter, pathlib, quit
 
 @pytest.mark.parametrize(
     'a, expected', [
@@ -69,18 +69,35 @@ def test_calc_report(a, ex1):
     test_dict = calc_report(tester)
     assert test_dict[a][0] == ex1
 
-
-#paramtrize
-def test_file_creation():
+@pytest.mark.parametrize(
+    'a, expected', [
+        ("Morgan Stanely", True),
+        ("Cornelius Vanderbilt", True),
+        ("John D. Rockefeller", True),
+        ("Stephen Girard", True),
+        ("Andrew Carnegie", True),
+    ]
+)
+def test_file_creation(a, expected):
+    letter_name = a + "__Thank you Letter.txt"
     path = pathlib.Path.cwd()
-    os.path.join("Andrew Carnegie_Thank you Letter.txt")
+    os.path.join(letter_name)
     obj = Path(path)
-    assert obj.exists()
+    assert obj.exists() is expected
 
-#paramtrize
-def test_body_letter():
-    text = "Greetings Andrew Carnegie"
-    thank_letter = os.path.join("Andrew Carnegie_Thank you Letter.txt")
+@pytest.mark.parametrize(
+    'a', [
+        ("Morgan Stanely"),
+        ("Cornelius Vanderbilt"),
+        ("John D. Rockefeller"),
+        ("Stephen Girard"),
+        ("Andrew Carnegie"),
+    ]
+)
+def test_body_letter(a):
+    text = "Greetings " + a
+    letter_name = a + "_Thank you Letter.txt"
+    thank_letter = os.path.join(letter_name)
     with open(thank_letter, 'r') as f:
         line = f.readline()
     assert text in line

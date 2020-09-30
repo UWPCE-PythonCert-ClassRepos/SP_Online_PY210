@@ -157,5 +157,4 @@ main_selections = {"1" : receiver,
 
 #Main Exicutable
 if __name__ == '__main__':
-    print(calc_report(donors))
     main_menu(choice_menu, main_selections)
