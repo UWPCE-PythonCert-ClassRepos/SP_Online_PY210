@@ -97,6 +97,7 @@ def test_file_creation(a, expected):
 def test_body_letter(a):
     text = "Greetings " + a
     letter_name = a + "_Thank you Letter.txt"
+    path = pathlib.Path.cwd()
     thank_letter = os.path.join(letter_name)
     with open(thank_letter, 'r') as f:
         line = f.readline()
