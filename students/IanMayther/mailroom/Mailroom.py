@@ -2,6 +2,7 @@
 
 import pathlib
 import io
+import os
 from collections import defaultdict, namedtuple
 
 #Donors
@@ -118,10 +119,10 @@ def print_report():
 
 #Send Letter
 def send_letter():
-    path = pathlib.Path.cwd()
+    path = pathlib.Path.cwd() / 'mailroom'
     for k, v in donors.items():
         file_name = k + '_Thank you Letter.txt'
-        with open(file_name, 'w') as l:
+        with open(os.path.join(path, file_name), 'w') as l:
             l.write(email(k, sum(v)))
     print(f"Sending Letters to disk: {path}\n")
     pass
