@@ -48,24 +48,24 @@ render_page(page, "test_html_output1.html")
 # The rest of the steps have been commented out.
 #  Uncomment them as you move along with the assignment.
 
-# ## Step 2
-# ##########
+## Step 2
+##########
 
 page = hr.Html()
- 
+
 body = hr.Body()
- 
+
 body.append(hr.P("Here is a paragraph of text -- there could be more of them, "
-                   "but this is enough  to show that we can do some text"))
- 
+                 "but this is enough  to show that we can do some text"))
+
 body.append(hr.P("And here is another piece of text -- you should be able to add any number"))
- 
+
 page.append(body)
- 
+
 render_page(page, "test_html_output2.html")
 
-# # Step 3
-# ##########
+# Step 3
+##########
 
 page = hr.Html()
 
@@ -84,8 +84,8 @@ page.append(body)
 
 render_page(page, "test_html_output3.html")
 
-# # Step 4
-# ##########
+# Step 4
+##########
 
 page = hr.Html()
 
@@ -104,8 +104,8 @@ page.append(body)
 
 render_page(page, "test_html_output4.html")
 
-# # Step 5
-# #########
+# Step 5
+#########
 
 page = hr.Html()
 
@@ -126,8 +126,8 @@ page.append(body)
 
 render_page(page, "test_html_output5.html")
 
-# # Step 6
-# #########
+# Step 6
+#########
 
 page = hr.Html()
 

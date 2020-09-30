@@ -16,9 +16,11 @@ class Donor:
 
     Parameters
     ----------
-    donor_name : str
-        Name of donor
-    donations   :   list
+    name            :   str
+        Name of donor in lowercase
+    display_name    :   str
+        Name of donor with original capitalization
+    donations       :   list
         list of ints or floats that are donations made by donor
     """
 
@@ -35,11 +37,16 @@ class Donor:
             self._donations = []
         else:
             self._donations = donations
-        self._name = donor_name
+        self._name = donor_name.lower()
+        self._display_name = donor_name
 
     @property
     def name(self):
         return self._name
+
+    @property
+    def display_name(self):
+        return self._display_name
     
     @property
     def donations(self):
@@ -48,7 +55,7 @@ class Donor:
     def email_text(self, donation_index):
         try:
             return self.email_template_string.format(
-                self.name, self.donations[donation_index])
+                self.display_name, self.donations[donation_index])
         except IndexError:
             return None
 
@@ -96,26 +103,25 @@ class DonorCollection:
         return list(self.donors.keys())
 
     @property
-    def lower_names(self):
-        return [name.lower() for name in self.names]
+    def display_names(self):
+        return [donor.display_name for donor in self.donors.values()]
 
     def report(self):
         report_list = ["\nDonor Name" + " "*15 + "|  Total Given  "
                          "| Num Gifts |   Average Gift\n"]
         for donor in sorted(self.donors.values(), reverse=True):
-            report_list.append(f"{donor.name:26}"
+            report_list.append(f"{donor.display_name:26}"
                                f"${sum(donor.donations):14,.2f}"
                                f"{len(donor.donations):11}  "
                                f"${st.mean(donor.donations):16,.2f}\n")
         return report_list
 
     def add_donation(self, donor_name, donation):
-        if donor_name.lower() in self.lower_names:
+        if donor_name.lower() in self.names:
             # check to see if different capitalization is being used
-            index = self.lower_names.index(donor_name.lower())
-            self.donors[self.names[index]].add_donation(donation)
+            self.donors[donor_name.lower()].add_donation(donation)
         else:
-            self.donors[donor_name] = Donor(donor_name, [donation])
+            self.donors[donor_name.lower()] = Donor(donor_name, [donation])
 
 
 if __name__ == "__main__":
