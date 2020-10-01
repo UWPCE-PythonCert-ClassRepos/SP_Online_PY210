@@ -1,3 +1,4 @@
+# Fibonacci series
 def fibonacci(n):
     """ Calculates the nth position of the Fibonacci sequence """
     seq = [0,1]
@@ -8,6 +9,7 @@ def fibonacci(n):
         seq.append(out)
     return seq[n]
 
+# Fibonacci series
 def lucas(n):
     """ Calculates the nth position of the Lucas sequence. code carries over from above with
         the exception of the starting values (2,1 lucas vs 0,1 in fib)"""
