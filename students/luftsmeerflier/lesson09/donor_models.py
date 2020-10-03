@@ -66,12 +66,10 @@ class DonorCollection:
         elif donation < 0:
             error_message = "The value '{}' for {} is unsuiable. Please remediate this".format(donation, name)
             print(error_message)
-            exit()
 
         elif not name.replace(' ', '').isalpha():
             error_message = "The name '{}' is incompatible with our systme. Please enter a value using the Roman alphabet.".format(name)
             print(error_message)
-            exit()
 
     def get_report(self):
         heading = "{: <16}|{: <16}|{: <16}|{: <16}|".format('Donor Name', 'Total Given', 'Num Gifts', 'Average Gift')
