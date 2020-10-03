@@ -26,6 +26,10 @@ def add_donation(name, money):
     donors.setdefault(name,[]).append(money)
     return True
 
+def thank_you(name, money):
+    """Create thank you text"""
+    return f"Thank you {name} for your generous donation of {money}"
+
 def get_key(donor):
     """Extracts the sum of list form donor"""
     return get_total(donor[1])
@@ -44,7 +48,21 @@ def report_entry(donor):
     num = len(donor[1])
     average = total / num
     return f"{donor[0]:<25}  ${total:>11.2f} {num:>11}  ${average:>12.2f}"
-    
+
+def make_path(path):
+    """Make a directory at the given path"""
+    path = pathlib.Path(path)
+    if not path.exists(): path.mkdir() 
+    return True
+
+def write_letter(donor):
+    """Generate the text for a letter"""
+    letter = f"Dear {donor},\n\n"
+    letter += f"\tThank you for your donation of {donors[donor][-1]}\n\n"
+    letter += "\tSincerly,\n"
+    letter += "\t\tThe Team"
+    return letter
+
 def send_thank_you():
     """Records a new donation and thanks the donor"""
     #Find out who to thank
@@ -71,8 +89,7 @@ def send_thank_you():
         except ValueError:
             print("Please enter a number")
     add_donation(name, money)
-    #Send thank you
-    print(f"Thank you {name} for your generous donation of {money}")
+    print(thank_you(name, money))
     return True
     
 def create_a_report():
@@ -88,17 +105,10 @@ def create_a_report():
 
 def send_letters():
     """Creates a letter for each donor thanking them for there latest donation"""
-    path = pathlib.Path('./letters')
-    #Asking for permission (not forgivness) makes more sense in this case
-    #It's simpler and more readable to add a one line check before the loop
-    #Rather than a nested loop that by definition can only run for the first donor
-    if not path.exists(): path.mkdir() 
+    make_path("./letters")
     for donor in donors:
         with open(f"./letters/{donor}.txt", "w") as file:
-            file.write(f"Dear {donor},\n\n")
-            file.write(f"\tThank you for your donation of {donors[donor][-1]}\n\n")
-            file.write("\tSincerly,\n")
-            file.write("\t\tThe Team")
+            file.write(write_letter(donor))
     return True
 
 def exit_menu():
