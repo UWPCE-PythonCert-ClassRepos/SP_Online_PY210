@@ -67,6 +67,7 @@ def test_render_element():
 
     # This uses the render_results utility above
     file_contents = render_result(e).strip()
+    print(file_contents)
 
     # making sure the content got in there.
     assert("this is some text") in file_contents
