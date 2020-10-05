@@ -57,6 +57,10 @@ def test_str():
 	output = temp_stdout.getvalue().strip()
 	assert "Circle with radius: 3" in output
 
+def test_from_diameter():
+	assert Circle.from_diameter(3).diameter == 3
+	assert Circle.from_diameter(4).radius == 2
+
 def test_repr():
 	temp_stdout = StringIO()
 	with contextlib.redirect_stdout(temp_stdout):
@@ -115,6 +119,10 @@ def test_str():
 		print(sphere2)
 	output = temp_stdout.getvalue().strip()
 	assert "Sphere with radius: 3" in output
+
+def test_sphere_from_diameter():
+	assert Sphere.from_diameter(3).diameter == 3
+	assert Sphere.from_diameter(4).radius == 2
 
 def test_repr():
 	temp_stdout = StringIO()

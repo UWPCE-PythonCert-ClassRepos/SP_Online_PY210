@@ -19,6 +19,11 @@ class Circle:
 	def area(self):
 		return pi * self.radius ** 2
 
+	@classmethod
+	def from_diameter(class_object, diameter):
+		radius = diameter / 2
+		return class_object(radius)
+
 	def __repr__(self):
 		return 'Circle({})'.format(self.radius)
 
@@ -81,5 +86,8 @@ class Sphere(Circle):
 	def __str__(self):
 		return 'Sphere with radius: {}'.format(self.radius)
 
-sphere1 = Sphere(2)
-print(repr(sphere1))
+# sphere1 = Sphere(2)
+# print(repr(sphere1))
+
+s = Sphere.from_diameter(4)
+print(s.diameter)

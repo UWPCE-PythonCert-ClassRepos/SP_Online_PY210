@@ -30,7 +30,22 @@ def test_send_letter_all():
 	with open('Bob_Marquardt.txt', 'r') as f:
 	 	assert "Bob Marquardt" in f.read()
 
+# def test_add_update_donor():
+# 	donations = None
+# 	input_values = ["Bob Marquardt", 40, '05-08-1994']
 
-test_send_thank_you()
-test_get_report()
-test_send_letter_all()
+# 	def mock_input(s):
+# 		return input_values.pop(0)
+# 	Donor.badd_update_donor.input = mock_input
+
+# 	add_update_donor('first')
+
+# 	out, error = capsys.readouterr()
+
+# 	temp_stdout = StringIO()
+# 	with contextlib.redirect_stdout(temp_stdout):
+# 		donations.get_report()
+# 	output = temp_stdout.getvalue().strip()
+# 	assert "Bob Marquardt" in output
+
+
