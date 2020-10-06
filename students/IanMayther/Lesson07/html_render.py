@@ -19,15 +19,15 @@ class Element(object):
     def append(self, new_content):
         self.contents.append(new_content)
 
-    @classmethod
-    def render(cls, out_file):
+    #@classmethod
+    def render(self, out_file):
         #loop through the contents
-        out_file.write("<{}>\n".format(cls.tag))
+        out_file.write("<{}>\n".format(self.tag))
         for content in self.contents:            
             out_file.write(content)
             out_file.write("\n")
         
-        out_file.write("</{}>\n".format(cls.tag))
+        out_file.write("</{}>\n".format(self.tag))
 
 
 class Html(Element):

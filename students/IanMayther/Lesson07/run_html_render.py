@@ -36,14 +36,14 @@ def render_page(page, filename, indent=None):
 # Step 1
 #########
 
-page = hr.Element()
+# # # page = hr.Element()
 
-page.append("Here is a paragraph of text -- there could be more of them, "
-            "but this is enough  to show that we can do some text")
+# # # page.append("Here is a paragraph of text -- there could be more of them, "
+# # #             "but this is enough  to show that we can do some text")
 
-page.append("And here is another piece of text -- you should be able to add any number")
+# # # page.append("And here is another piece of text -- you should be able to add any number")
 
-render_page(page, "test_html_output1.html")
+# # # render_page(page, "test_html_output1.html")
 
 # The rest of the steps have been commented out.
 #  Uncomment them as you move along with the assignment.
@@ -63,6 +63,7 @@ body.append(hr.P("And here is another piece of text -- you should be able to add
 page.append(body)
 
 render_page(page, "test_html_output2.html")
+
 
 # # Step 3
 # ##########
