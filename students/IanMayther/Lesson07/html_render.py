@@ -22,12 +22,13 @@ class Element(object):
     #@classmethod
     def render(self, out_file):
         #loop through the contents
-        out_file.write("<{}>\n".format(self.tag))
-        for content in self.contents:            
-            out_file.write(content)
+        for content in self.contents:  
+            out_file.write("<{}>\n".format(self.tag))          
+            #out_file.write(content)
+            content.render(out_file)
             out_file.write("\n")
+            out_file.write("</{}>\n".format(self.tag))
         
-        out_file.write("</{}>\n".format(self.tag))
 
 
 class Html(Element):
