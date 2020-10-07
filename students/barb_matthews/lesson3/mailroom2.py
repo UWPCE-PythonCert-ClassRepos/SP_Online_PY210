@@ -37,26 +37,38 @@ prompt2 = "\n".join(("**********************************\nThank-You Options\n",
           "   q - Quit",
           "**********************************\n> "))
 
-def thanks():
+def thanks(data):
     """Prints a donor thank-you to the screen, maybe user copies it to email"""
-    active_donor = []
+    #active_donor = []
     name = ''
-    donation = 1.00
+    money = []
 
     while True:
         choice = input(prompt2)
         if choice.lower() == "name":
-            name = choice
-            ## check if name is in index, if not then add it
+            found = 0
+            name = input("What name?\n")
 
-            ## prompt for donation amount, add it to name record in the index
+            ## check if name is in index, if not then add it
+            for i, item in enumerate(data):
+                if (not (i % 2)):           ## Compare the name fields
+                    if (name == item):
+                        found = i+1         ## points to donation amounts
+                        print(item)
+                    else:
+                        data = data + name
+                        found = len(data)
+                        ## prompt for donation amount, add it to name record in the index
+                        money = input("What donation amount?\n")
+                        data = data + money
+                        print("Added %s gave %f\n" % (name, money))
 
             ## use fstrings to display a thank-you letter to the screen
 
         elif choice.lower() == "list":
             print("The current names are: ")
             ## enumerate through the index and print names
-            for i, item in enumerate(index):
+            for i, item in enumerate(data):
                 if (not (i % 2)):
                     print(item)
             print('\n')
@@ -82,7 +94,7 @@ def main():
     while True:
         response = input(prompt)  # continuously collect user selection
         if response == "1":
-            thanks()
+            thanks(index)
         elif response == "2":
             report()
         elif response == "3":
