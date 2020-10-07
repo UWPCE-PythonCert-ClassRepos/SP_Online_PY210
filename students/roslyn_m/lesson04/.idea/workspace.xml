@@ -2,11 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="417cc4b8-9445-4687-9127-a221ff5e751f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/dict_lab.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Mountain.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/copy_mountian.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/copy_salmon.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/file_lab.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/salmon_population.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/students.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../lesson03/list_lab.py" beforeDir="false" afterPath="$PROJECT_DIR$/../lesson03/list_lab.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lesson03/mailroom.py" beforeDir="false" afterPath="$PROJECT_DIR$/../lesson03/mailroom.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lesson03/slicinglab.py" beforeDir="false" afterPath="$PROJECT_DIR$/../lesson03/slicinglab.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lesson03/strformat_lab.py" beforeDir="false" afterPath="$PROJECT_DIR$/../lesson03/strformat_lab.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dict_lab.py" beforeDir="false" afterPath="$PROJECT_DIR$/dict_lab.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,8 +38,8 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="settings.editor.selected.configurable" value="Errors" />
   </component>
-  <component name="RunManager" selected="Python.test2">
-    <configuration name="dict_lab" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.mailroom2">
+    <configuration name="file_lab" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="lesson04" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -47,28 +51,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/dict_lab.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="list_lab" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="lesson04" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../lesson03" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../lesson03/list_lab.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/file_lab.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -90,6 +73,48 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../lesson03/mailroom.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="mailroom2" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="lesson04" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/mailroom2.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="lesson04" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -121,10 +146,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.mailroom2" />
+        <item itemvalue="Python.test" />
         <item itemvalue="Python.test2" />
-        <item itemvalue="Python.list_lab" />
         <item itemvalue="Python.mailroom" />
-        <item itemvalue="Python.dict_lab" />
+        <item itemvalue="Python.file_lab" />
       </list>
     </recent_temporary>
   </component>
@@ -146,25 +172,73 @@
       <screen x="56" y="23" width="1736" height="1097" />
     </state>
     <state x="583" y="226" key="#Inspections/56.23.1736.1097@56.23.1736.1097" timestamp="1600716787861" />
-    <state width="1704" height="283" key="GridCell.Tab.0.bottom" timestamp="1600815211300">
+    <state x="636" y="408" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1601003150944">
       <screen x="56" y="23" width="1736" height="1097" />
     </state>
-    <state width="1704" height="283" key="GridCell.Tab.0.bottom/56.23.1736.1097@56.23.1736.1097" timestamp="1600815211300" />
-    <state width="1704" height="283" key="GridCell.Tab.0.center" timestamp="1600815211299">
+    <state x="636" y="408" key="#com.intellij.fileTypes.FileTypeChooser/56.23.1736.1097@56.23.1736.1097" timestamp="1601003150944" />
+    <state x="600" y="521" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1601697782005">
       <screen x="56" y="23" width="1736" height="1097" />
     </state>
-    <state width="1704" height="283" key="GridCell.Tab.0.center/56.23.1736.1097@56.23.1736.1097" timestamp="1600815211299" />
-    <state width="1704" height="283" key="GridCell.Tab.0.left" timestamp="1600815211299">
-      <screen x="56" y="23" width="1736" height="1097" />
+    <state x="600" y="521" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/56.23.1736.1097@56.23.1736.1097" timestamp="1601697782005" />
+    <state width="1704" height="357" key="GridCell.Tab.0.bottom" timestamp="1602098136138">
+      <screen x="49" y="23" width="1743" height="1097" />
     </state>
-    <state width="1704" height="283" key="GridCell.Tab.0.left/56.23.1736.1097@56.23.1736.1097" timestamp="1600815211299" />
-    <state width="1704" height="283" key="GridCell.Tab.0.right" timestamp="1600815211300">
-      <screen x="56" y="23" width="1736" height="1097" />
+    <state width="1704" height="283" key="GridCell.Tab.0.bottom/1792.-219.1920.1057/52.23.1740.1097@1792.-219.1920.1057" timestamp="1601410510619" />
+    <state width="1704" height="283" key="GridCell.Tab.0.bottom/1792.-219.1920.1057/54.23.1738.1097@1792.-219.1920.1057" timestamp="1601418626518" />
+    <state width="1704" height="357" key="GridCell.Tab.0.bottom/49.23.1743.1097@49.23.1743.1097" timestamp="1602098136138" />
+    <state width="1704" height="357" key="GridCell.Tab.0.bottom/51.23.1741.1097@51.23.1741.1097" timestamp="1602088482610" />
+    <state width="1704" height="357" key="GridCell.Tab.0.bottom/54.23.1738.1097@54.23.1738.1097" timestamp="1602049846878" />
+    <state width="1704" height="357" key="GridCell.Tab.0.bottom/56.23.1736.1097@56.23.1736.1097" timestamp="1602049265225" />
+    <state width="1704" height="357" key="GridCell.Tab.0.center" timestamp="1602098136138">
+      <screen x="49" y="23" width="1743" height="1097" />
     </state>
-    <state width="1704" height="283" key="GridCell.Tab.0.right/56.23.1736.1097@56.23.1736.1097" timestamp="1600815211300" />
+    <state width="1704" height="283" key="GridCell.Tab.0.center/1792.-219.1920.1057/52.23.1740.1097@1792.-219.1920.1057" timestamp="1601410510619" />
+    <state width="1704" height="283" key="GridCell.Tab.0.center/1792.-219.1920.1057/54.23.1738.1097@1792.-219.1920.1057" timestamp="1601418626518" />
+    <state width="1704" height="357" key="GridCell.Tab.0.center/49.23.1743.1097@49.23.1743.1097" timestamp="1602098136138" />
+    <state width="1704" height="357" key="GridCell.Tab.0.center/51.23.1741.1097@51.23.1741.1097" timestamp="1602088482609" />
+    <state width="1704" height="357" key="GridCell.Tab.0.center/54.23.1738.1097@54.23.1738.1097" timestamp="1602049846877" />
+    <state width="1704" height="357" key="GridCell.Tab.0.center/56.23.1736.1097@56.23.1736.1097" timestamp="1602049265224" />
+    <state width="1704" height="357" key="GridCell.Tab.0.left" timestamp="1602098136138">
+      <screen x="49" y="23" width="1743" height="1097" />
+    </state>
+    <state width="1704" height="283" key="GridCell.Tab.0.left/1792.-219.1920.1057/52.23.1740.1097@1792.-219.1920.1057" timestamp="1601410510618" />
+    <state width="1704" height="283" key="GridCell.Tab.0.left/1792.-219.1920.1057/54.23.1738.1097@1792.-219.1920.1057" timestamp="1601418626517" />
+    <state width="1704" height="357" key="GridCell.Tab.0.left/49.23.1743.1097@49.23.1743.1097" timestamp="1602098136138" />
+    <state width="1704" height="357" key="GridCell.Tab.0.left/51.23.1741.1097@51.23.1741.1097" timestamp="1602088482609" />
+    <state width="1704" height="357" key="GridCell.Tab.0.left/54.23.1738.1097@54.23.1738.1097" timestamp="1602049846876" />
+    <state width="1704" height="357" key="GridCell.Tab.0.left/56.23.1736.1097@56.23.1736.1097" timestamp="1602049265223" />
+    <state width="1704" height="357" key="GridCell.Tab.0.right" timestamp="1602098136138">
+      <screen x="49" y="23" width="1743" height="1097" />
+    </state>
+    <state width="1704" height="283" key="GridCell.Tab.0.right/1792.-219.1920.1057/52.23.1740.1097@1792.-219.1920.1057" timestamp="1601410510619" />
+    <state width="1704" height="283" key="GridCell.Tab.0.right/1792.-219.1920.1057/54.23.1738.1097@1792.-219.1920.1057" timestamp="1601418626518" />
+    <state width="1704" height="357" key="GridCell.Tab.0.right/49.23.1743.1097@49.23.1743.1097" timestamp="1602098136138" />
+    <state width="1704" height="357" key="GridCell.Tab.0.right/51.23.1741.1097@51.23.1741.1097" timestamp="1602088482610" />
+    <state width="1704" height="357" key="GridCell.Tab.0.right/54.23.1738.1097@54.23.1738.1097" timestamp="1602049846877" />
+    <state width="1704" height="357" key="GridCell.Tab.0.right/56.23.1736.1097@56.23.1736.1097" timestamp="1602049265224" />
+    <state width="1704" height="350" key="GridCell.Tab.1.bottom" timestamp="1602049697367">
+      <screen x="54" y="23" width="1738" height="1097" />
+    </state>
+    <state width="1704" height="350" key="GridCell.Tab.1.bottom/54.23.1738.1097@54.23.1738.1097" timestamp="1602049697367" />
+    <state width="1704" height="350" key="GridCell.Tab.1.center" timestamp="1602049697367">
+      <screen x="54" y="23" width="1738" height="1097" />
+    </state>
+    <state width="1704" height="350" key="GridCell.Tab.1.center/54.23.1738.1097@54.23.1738.1097" timestamp="1602049697367" />
+    <state width="1704" height="350" key="GridCell.Tab.1.left" timestamp="1602049697366">
+      <screen x="54" y="23" width="1738" height="1097" />
+    </state>
+    <state width="1704" height="350" key="GridCell.Tab.1.left/54.23.1738.1097@54.23.1738.1097" timestamp="1602049697366" />
+    <state width="1704" height="350" key="GridCell.Tab.1.right" timestamp="1602049697367">
+      <screen x="54" y="23" width="1738" height="1097" />
+    </state>
+    <state width="1704" height="350" key="GridCell.Tab.1.right/54.23.1738.1097@54.23.1738.1097" timestamp="1602049697367" />
     <state x="450" y="179" key="SettingsEditor" timestamp="1600697910923">
       <screen x="56" y="23" width="1736" height="1097" />
     </state>
     <state x="450" y="179" key="SettingsEditor/56.23.1736.1097@56.23.1736.1097" timestamp="1600697910923" />
+    <state x="2405" y="11" width="670" height="676" key="search.everywhere.popup" timestamp="1601395784059">
+      <screen x="1792" y="-219" width="1920" height="1057" />
+    </state>
+    <state x="2405" y="11" width="670" height="676" key="search.everywhere.popup/1792.-219.1920.1057/54.23.1738.1097@1792.-219.1920.1057" timestamp="1601395784059" />
   </component>
 </project>
