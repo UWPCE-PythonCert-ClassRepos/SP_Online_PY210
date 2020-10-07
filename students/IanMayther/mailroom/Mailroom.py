@@ -2,111 +2,89 @@
 
 import pathlib
 import io
+import os
 from collections import defaultdict, namedtuple
-
-#DELIVERABLES
-'''
-Use comprehensions where appropriate
-
-Use dicts where appropriate.
-See if you can use a dict to switch between the user’s selections.
-See if you can use a dict to switch between the users selections. see Using a Dictionary to switch for what this means.
-Convert your main donor data structure to be a dict.
-Try to use a dict and the .format() method to produce the letter as one big template, rather than building up a big string that produces the letter in parts.
-'''
 
 #Donors
 donors = {"Morgan Stanely": [0.01, 20.00],
             "Cornelius Vanderbilt": [800, 15, 10.00],
             "John D. Rockefeller": [7000, 150.00, 25],
             "Stephen Girard": [60000],
-            "Andrew Carnegie": [0.04, 999.99]}
+            "Andrew Carnegie": [0.04, 999.99],}
 
-#DefaultDict
-'''
-donor = namedtuple('Name', [])
-dd = defaultdict(tuple)
-dd['this'].append(23)
-'''
 
 #Single Thank You
 def receiver():
     viable_ans = False
-    #Determine Previous Donor
-    while viable_ans == False:
-        new_vs_ex = input("New Donor [Y/N/Quit]? ")
 
-        if new_vs_ex.lower() == "y":
-            name = new_donor()
-            if name.lower() == "quit":
-                name = "quit"
-            viable_ans = True
-        elif new_vs_ex.lower() == "quit":
+    while viable_ans == False:
+        new_vs_ex = input("Donor Name, List, Quit? ")
+        name = new_vs_ex
+        if new_vs_ex.lower() == "quit":
             name = "quit"
             viable_ans = True
-        elif new_vs_ex.lower() == "n":
-            #to replace with comprehension
-            i = 1
-            temp_list = [key for key in sorted(donors.keys())]
-            for key in sorted(donors):
-                print(f"[{i}] - {key}")
-                i += 1
-                #"Commented" for comprehension => temp_list.append(key)
+        elif new_vs_ex.lower() == "list":
+            don_list = donor_list()
+            don_num = int(input("Select # above: "))
+            name = don_list[don_num-1]
 
-            donor_name = input("Who gave the donation [#]? ")
-
-            if donor_name.lower() == "quit":
-                name = "quit"
-
-            name = temp_list[int(donor_name)-1]
-            don_val = gift()
-            donors[name].append(don_val)
+        if new_vs_ex.lower() != "quit":
+            donation_value = input("What is the value of the donation? ")            
+            if donation_value.lower() == "quit":
+                    name = "quit"
+                    viable_ans = True
+            elif isinstance(gift(donation_value), float):
+                    viable_ans = True                
+        
+        if new_donor(name): 
+            donors[name].append(gift(donation_value))            
             viable_ans = True
         else:
-            print("Please enter a viable answer.")
+            donors[name] = [gift(donation_value)]
+            viable_ans = True
 
-    #Didn't use comprehension because, only wanted 1 set of values
-    for k, v in donors.items():
-        if k == name:
-            don_val = sum(v)
-            print("\n" + email(name, don_val))
+    don_val = sum(donors[name])
+    print("\n" + thank_you(name, don_val))
 
     return name
 
+#Donor List
+def donor_list():
+    i = 1
+    temp_list = [key for key in sorted(donors.keys())]
+    for key in sorted(donors):
+        print(f"[{i}] - {key}")
+        i += 1
+
+    return temp_list
 
 #New Donor
-def new_donor():
-    name_of_new = input("What is the New Donor's Name: ")
-    if name_of_new.lower() == "quit":
-        name_of_new = "quit"
-    elif name_of_new not in donors:
-        dol_val = gift()
-        donors[name_of_new] = [dol_val]
+def new_donor(name):
+    if name not in donors:
+        name_of_new = False
+    else:
+        name_of_new = True
 
     return name_of_new
 
-'''
-Not need since using a dictionary for collection
-#Donor Verification
-def ver_don(giver):
-    exist = False
-    for i in range(len(donors)):
-        if giver == donors[i][0]:
-            exist = True
-        else:
-            exist = False
-    return exist
-'''
 #Get Value of Donation
-def gift():
-    while True:
-        try:
-            value = float(input("What is the value of the donation: "))
-            break      
-        except ValueError:
-            print("Not a valid donation value")
+def gift(donation):
+    if isinstance(donation, float):
+        value = donation
+    else:
+        while True:
+            try:
+                value = float(donation)
+                break      
+            except ValueError:
+                raise ValueError()
+
     return value
 
+#Print Thank you
+def thank_you(to_donor, gift_amount):
+    body = f"Thanks {to_donor} for your ${round(gift_amount,2)} in donations."
+    return body
 
 #Print Email
 def email(to_donor, gift_amount):
@@ -123,39 +101,28 @@ Derek Zoolander\n
 Founder and C.E.O. of Derek Zoolander Charity for Ants Who Can't Read Good (DZCAWCRG)\n"""
     return body
 
+def calc_report(my_dict):
+    new_dict = {k: [sum(v), len(v), sum(v)/len(v)] for k, v in sorted(my_dict.items())}
+    calc_dict = sorted(new_dict.items(), key=lambda t: t[1], reverse=True)
+    return calc_dict
 
-#Create Reportmy_List = {}
 def print_report():
     #Header
     print("\n")
     print("{0:<25s}|{1:^15s}|{2:^15s}|{3:>12s}".format("Donor Name", "Total Given", "# of Gifts","Avg. Gift"))
     print("-" * 72)
-    
-    #Table Data
-    '''
-    for k, v in sorted(donors.items(), key=lambda t: sum(t[1]), reverse=True):
-        #Process Data 
-        total = sum(v)
-        #Gift Count  
-        No_Gifts = len(v)
-        #Calc Average
-        Ave_Gift = total / No_Gifts
-        #Print Table
-        print("{0:<25s}${1:>14.2f}{2:>17d}  ${3:>11.2f}".format(k, total, No_Gifts, Ave_Gift, end =''))
-    '''
-    #Replaced with comprehension
-    new_dict = {k: [sum(v), len(v), sum(v)/len(v)] for k, v in sorted(donors.items())}
-    for k in sorted(new_dict.items(), key=lambda t: t[1], reverse=True):
+
+    for k in calc_report(donors):
         print("{0:<25s}${1:>14.2f}{2:>17d}  ${3:>11.2f}".format(k[0], k[1][0], k[1][1], k[1][2], end =''))
     print("\n") 
     return
 
 #Send Letter
 def send_letter():
-    path = pathlib.Path.cwd()
+    path = pathlib.Path.cwd() / 'mailroom'
     for k, v in donors.items():
         file_name = k + '_Thank you Letter.txt'
-        with open(file_name, 'w') as l:
+        with open(os.path.join(path, file_name), 'w') as l:
             l.write(email(k, sum(v)))
     print(f"Sending Letters to disk: {path}\n")
     pass
@@ -188,7 +155,6 @@ main_selections = {"1" : receiver,
                     "3" : send_letter,
                     "4" : quit,
                     }
-    
 
 #Main Exicutable
 if __name__ == '__main__':
