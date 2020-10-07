@@ -180,8 +180,34 @@ def test_sub_element():
 ########
 # Step 3
 ########
+def test_Head():
+    e = Head("This should be 1 line")
 
-# Add your tests here!
+    file_contents = render_result(e).strip()
+
+    assert("This should be 1 line") in file_contents
+    print(file_contents)
+    assert file_contents.endswith("</Head>")
+
+def test_OneLineTag():
+    e = OneLineTag("This should be 1 line")
+
+    file_contents = render_result(e).strip()
+
+    assert("This should be 1 line") in file_contents
+    print(file_contents)
+    assert file_contents.endswith("</OneLineTag>")
+
+def test_Title():
+    e = Title("this is the title")
+
+    file_contents = render_result(e).strip()
+
+    assert file_contents.startswith("<title>")
+    assert("this is the title") in file_contents
+    print(file_contents)
+    assert file_contents.endswith("</title>")
+
 
 # #####################
 # # indentation testing
