@@ -214,6 +214,24 @@ def test_OneLineTag_append():
     with pytest.raises(NotImplementedError):
         e.append("More words")
 
+########
+# Step 4
+########
+
+def test_attributes():
+    e = P("A paragraph of text", style="text-align: center", id="intro")
+
+    file_contents = render_result(e).strip()
+    print(file_contents)  # so we can see it if the test fails
+
+    assert "A paragraph of text" in file_contents
+
+    assert file_contents.endswith("</p>")
+
+    assert file_contents.startswith("<p")
+    assert 'style="text-align: center"' in file_contents
+    assert 'id="intro"' in file_contents
+    assert False
 
 # #####################
 # # indentation testing
