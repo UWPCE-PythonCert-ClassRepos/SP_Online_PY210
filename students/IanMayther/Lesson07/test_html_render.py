@@ -203,10 +203,16 @@ def test_Title():
 
     file_contents = render_result(e).strip()
 
-    assert file_contents.startswith("<Title>")
+    assert file_contents.startswith("<title>")
     assert("PythonClass - Session 6 example") in file_contents
     print(file_contents)
-    assert file_contents.endswith("</Title>")
+    assert file_contents.endswith("</title>")
+    assert "\n" not in file_contents
+
+def test_OneLineTag_append():
+    e = OneLineTag("Starter words")
+    with pytest.raises(NotImplementedError):
+        e.append("More words")
 
 
 # #####################

@@ -10,7 +10,7 @@ class Element(object):
 
     tag = 'html'
 
-    def __init__(self, content=None):
+    def __init__(self, content=None, **kwargs):
         if content is None:
             self.contents = []
         else:
@@ -48,16 +48,13 @@ class Head(Element):
 class OneLineTag(Element):
     tag = 'OneLineTag'
 
+    def append(self, new_content):
+        raise NotImplementedError
+
     def render(self, out_file):
         #loop through the contents
         for content in self.contents:  
             out_file.write("<{}>{}</{}>".format(self.tag, content, self.tag))          
-            # try:
-            #     content.render(out_file)
-            # except AttributeError:
-            #     out_file.write(content)
-            # out_file.write("\n")
-            # out_file.write("</{}>\n".format(self.tag))
 
 class Title(OneLineTag):
-    tag = 'Title'
+    tag = 'title'
