@@ -199,14 +199,14 @@ def test_OneLineTag():
     assert file_contents.endswith("</OneLineTag>")
 
 def test_Title():
-    e = Title("this is the title")
+    e = Title("PythonClass - Session 6 example")
 
     file_contents = render_result(e).strip()
 
-    assert file_contents.startswith("<title>")
-    assert("this is the title") in file_contents
+    assert file_contents.startswith("<Title>")
+    assert("PythonClass - Session 6 example") in file_contents
     print(file_contents)
-    assert file_contents.endswith("</title>")
+    assert file_contents.endswith("</Title>")
 
 
 # #####################
