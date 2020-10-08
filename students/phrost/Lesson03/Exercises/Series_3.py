@@ -11,4 +11,4 @@ for fruit in fruit_lower:
             break
         else:
            print(f'please say yes or no do you like {fruit}: ')
-print(fruit_lower)
+print(fruit_copy)
