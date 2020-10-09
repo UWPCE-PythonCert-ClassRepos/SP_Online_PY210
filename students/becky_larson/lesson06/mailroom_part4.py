@@ -9,7 +9,7 @@ today = date.today()
 """Mailroom Part 4"""
 """ Updates from Part 3
 1. Refactored for testing
-"""money
+"""
 
 
 # Prompt user to choose from menu of 4 actions:
@@ -31,6 +31,7 @@ donor_db = {"Cher": [1000.00, 245.00],
 
 default_folder = "thank_you_cards"
 
+
 def get_input(prompt):
     response = input(prompt)
     return response
@@ -48,14 +49,15 @@ def list_donors():
 def add_donor(donator, donation):
     """      Add new donor with donation
     """
-    
+
     donor_db[donator] = []
     donor_db[donator] = donor_db[donator] + [donation]
+
 
 def update_donor(donator, donation):
     """      update donor with new donation
     """
-    
+
     donor_db[donator] = donor_db[donator] + [donation]
 
 
@@ -68,6 +70,7 @@ def get_letter_text(donation_dict):
     \n\t\t\t   -The Team'.format(**donation_dict)
 
     return formatted
+
 
 def create_card(donator, amount, fldr):
     """
@@ -91,6 +94,7 @@ def create_card(donator, amount, fldr):
         print(f"IOError: Error writing to file: {write_path}")
 
     print(f"\n** Thank you note to {donation_dict['name']} for ${donation_dict['donation']:,.2f} written to {write_path}.  **\n")
+
 
 def get_donor_name():
     donor_prompt = "\n".join(("\nEnter Full name of donor",
@@ -122,7 +126,7 @@ def send_ty(donors):
             continue
         else:
             donation = get_donation()
-            if donor_exists(donor_name):            
+            if donor_exists(donor_name):
                 update_donor(donor_name, donation)
                 create_card(donor_name, donation, write_path)
                 break
@@ -162,6 +166,7 @@ def get_donation():
 
 
 def get_report(data_passed):
+
     report = []
     sorted_donors = dict(sorted(data_passed.items(), key=sort_key, reverse=True))
     for donor in sorted_donors.items():
@@ -175,10 +180,12 @@ def get_report(data_passed):
         report.append(write_row)
 
     return report
-        
+
+
 def display_report():
     for row in get_report(donor_db):
         print(row)
+
 
 def display_report_header():
     header = []
@@ -192,6 +199,7 @@ def display_report_header():
     header.append('-'*70)
     return header
 
+
 def create_report(donors):
     """
     Print formatted report of donors and donations
@@ -199,8 +207,6 @@ def create_report(donors):
     """
     report = []
 
-    for row in get_report(donor_db):
-        print(row)
     report_header = [display_report_header()]
     report_body = [display_report()]
     print(report_header)
@@ -212,13 +218,13 @@ def ask_for_folder():
 
     # as creating folders is platform specific, end if not Windows. 
     import platform 
-    
+
     if not platform.system().lower() == 'windows':
         print(f'Sorry, future development requested but not currently enabled for {platform.system()} platform')
         exit_program(0)
 
     text = "\n".join(("\n\n\nEnter folder Name or hit enter for default",
-                        " >"))
+                      " >"))
     folder_prompt = get_input(text)
 
     if folder_prompt:
@@ -269,7 +275,7 @@ def get_selection():
                         " > "))
 
     response = get_input(menu_prompt)
-    
+
     return response
 
 
@@ -279,7 +285,7 @@ if __name__ == '__main__':
         response = ''
         write_path = ask_for_folder()
         print(f'writing to file: {write_path}')
-    
+
         switch_func_dict = {
             '1': send_ty,
             '2': create_report,
@@ -292,13 +298,13 @@ if __name__ == '__main__':
             try:
                 # if response in switch_func_dict:
                 # switch_func_dict.get(response, "nothing")()
-                #switch_func_dict.get(response, "nothing")(donor_db)
+                # switch_func_dict.get(response, "nothing")(donor_db)
                 switch_func_dict[response](donor_db)
                 # else:
                 #    print("Please enter valid option")
             except KeyError:
                 print('Please select a value 1-4')
-        
+ 
     except KeyboardInterrupt:
         print('\n\nKeyboardInterrupt: Interrupted and Exiting')
         sys.exit(0)

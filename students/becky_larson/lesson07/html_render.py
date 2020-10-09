@@ -4,7 +4,17 @@
 A class-based system for rendering html.
 """
 
-
+""" 
+belarson (note: pytest)
+run results:
+1. Issue in title with extra begin tag:  <title>        <title>PythonClass = Revision 1087:</title>
+   Would advise adding text to look for single tag
+   Title is OneLineTag.  Checking others using that (anchor, header). 
+   Found issue with anchor too in run 6: <a href="http://google.com">        <a href="http://google.com">link</a>
+   Found issue with header in run 7: <h2>        <h2>PythonClass - Class 6 example</h2>
+   
+Resolved: class OneLineTag was writing tag twice
+"""
 # This is the framework for the base class
 class Element(object):
     tag = "html"
@@ -69,7 +79,8 @@ class Head(Element):
 class OneLineTag(Element):
 
     def render(self, out_file, cur_ind=""):
-        out_file.write(cur_ind + self._open_tag())
+        # oops, only need this one time. Fixed 9/25/2020
+        # out_file.write(cur_ind + self._open_tag())
         out_file.write(cur_ind+self._open_tag())
         out_file.write(self.contents[0])
         out_file.write(self._close_tag())

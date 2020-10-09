@@ -201,6 +201,9 @@ def test_title():
     assert file_contents.startswith("<title>")
     assert file_contents.endswith("</title>")
     assert "\n" not in file_contents
+    # belarson added test 9/25/2020 as was writing twice.  
+    # valid test on this OneLineTag class item as should write only one title tag.
+    assert file_contents.count("<title>") == 1
 
 def test_one_line_tag_append():
     """
