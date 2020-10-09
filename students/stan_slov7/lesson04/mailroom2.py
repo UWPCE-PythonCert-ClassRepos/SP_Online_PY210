@@ -11,7 +11,6 @@ import sys
 import os.path
 #to get current working directory to write and place the email_all() files into
 
-
 #updated data structure to a dict using 'donor names' as the keys and the respective list of donations as values
 donor_dict = {'Jeff Bridges' : [1309.45, 7492.32], 
               'Alice Summers' : [3178.67, 9823.00], 
@@ -96,12 +95,6 @@ def add_donation(d_name, n_donation):
     print(email_templates(d_name, n_donation, 1))
     #added using template dict and new function as confirmation that new donation was added to donor's donation list
 
-        
-####replace with template dict instead
-#def print_email(new_donor, new_donation):
-    #print("Dear {:s},\n\n\tThank you for the generous donation of ${:.2f}!\n\n"
-          #"You will forever hold a place in our hearts, have a wonderful day!\n".format(new_donor.title(), new_donation))
-
 
 #Updated for dicts: specifically building up the donor history tuples list by collecting the data from donor_dict
 def create_report():
@@ -127,6 +120,56 @@ def create_report():
     print(divider, "\n")
 
 
+#new added function and the added 4th option to the main menu selection
+def write_email_all():
+    for d_Name, d_Amounts in donor_dict.items():
+        filename = "_".join(d_Name.title().split()) + ".txt"
+        with open(filename, 'w') as email_file:
+            email_file.write(email_templates(d_Name, sum(d_Amounts), 3))
+            #produce a letter with their historical total of donations to each donor as .txt file 
+            #in current directory that this program is running in
+        print("Creating .txt file: ", filename, "...\n")
+    print("Files written to the Current Directory: ", current_dir, "\n")
+    
+
+#new added function 
+def email_templates(dname, damt, template_num):
+    #function returns the appropriate template based on template_num where the layout_dict is passed to .format()
+    
+    layout_dict = {"donor_name" : dname.title(),
+                   "donation_amount" : damt,
+                   "new_pgph_indent" : '\t',
+                   "line_break" : '\n\n',
+                   "greeting" : "Have a positively wonderful day!",
+                   "signature_indent" : ' '*25,
+                   "sender_indent" : ' '*20,
+                   "sender_name" : "Your Friendly Neighborhood CEOs"
+                  }
+
+
+    added_donation_template = "\n".join(("\n\tNew Donation Amount of: ${donation_amount:.2f} has been recorded in the donor database,",
+                              "under the associated Donor Name: {donor_name}. Thanks for contributing!{line_break}")).format(**layout_dict)
+    
+    email_individual_template = "\n".join(("Dear {donor_name},{line_break}",
+                                "{new_pgph_indent}Thank you for the generous donation of: ${donation_amount:.2f}!{line_break}",
+                                "You will forever hold a place in our hearts! {greeting}{line_break}",
+                                "{sender_indent}Sincerely,{line_break}",
+                                "{signature_indent} - {sender_name}{line_break}")).format(**layout_dict) 
+    
+    email_all_template = "\n".join(("Dear {donor_name},{line_break}",
+                         "{new_pgph_indent}Thank you for your repeated historical donations totalling: ${donation_amount:.2f}!{line_break}",
+                         "Your long time generosity recognized you as a pillar of our community!{line_break}",
+                         "{greeting}{line_break}",
+                         "{sender_indent}Sincerely,{line_break}",
+                         "{signature_indent} - {sender_name}{line_break}")).format(**layout_dict) 
+    
+    
+    templates = {1 : added_donation_template,
+                 2 : email_individual_template,
+                 3 : email_all_template
+                }
+    
+    return templates[template_num]
 
 
 def sort_key(hist_tup):
@@ -140,9 +183,6 @@ def quit_program():
 
 #Updated for dicts: redirect to functions based on selection using new dict structure, and call function from dict
 def main():
-
-    #current_dir = os.getcwd()
-    #initialized in global namespace so that can confirm where files written in email_all() function
     
     os.chdir(current_dir)
     #To ensure files get written in current working directory
