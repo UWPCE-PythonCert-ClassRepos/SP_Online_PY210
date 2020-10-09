@@ -11,6 +11,7 @@ import sys
 import os.path
 #to get current working directory to write and place the email_all() files into
 
+
 #updated data structure to a dict using 'donor names' as the keys and the respective list of donations as values
 donor_dict = {'Jeff Bridges' : [1309.45, 7492.32], 
               'Alice Summers' : [3178.67, 9823.00], 
@@ -205,7 +206,7 @@ main_menu_dict = {1 : send_thank_you,
 
 if __name__ == "__main__":
     
-    # this block to guard against your code running automatically if this module is imported
+    # block to guard against your code running automatically if this module is imported
     main()
     
     
