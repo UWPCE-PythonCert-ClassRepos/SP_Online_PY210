@@ -26,18 +26,11 @@ class Element(object):
             open_tag.append(" {0}=\"{1}\"".format(key, value))
         open_tag.append(">\n")
         output_file = "".join(open_tag)
-        output_file = "Test Text"
-        #return output_file
+        return output_file
 
-    #@classmethod
     def render(self, out_file):
         #loop through the contents
-        # open_tag = ["<{}".format(self.tag)]
-        # for key, value in self.attributes.items():
-        #     open_tag.append(" {0}=\"{1}\"".format(key, value))
-        # open_tag.append(">\n")
-        place_text = form_tag()
-        out_file.write(place_text)
+        out_file.write(self.form_tag())
         for content in self.contents:           
             try:
                 content.render(out_file)
@@ -71,3 +64,36 @@ class OneLineTag(Element):
 
 class Title(OneLineTag):
     tag = 'title'
+
+class SelfClosingTag(Element):
+    tag = 'SelfClosing'
+
+    def __init__(self, content=None, **kwargs):
+        self.attributes = kwargs
+        if content is not None:
+            raise TypeError
+
+    def form_tag(self):
+        open_tag = ["<{}".format(self.tag)]
+        for key, value in self.attributes.items():
+            open_tag.append(" {0}=\"{1}\"".format(key, value))
+        open_tag.append("/>")
+        output_file = "".join(open_tag)
+        return output_file
+
+    def render(self, out_file):
+        #loop through the contents
+        out_file.write(self.form_tag())           
+        # try:
+        #     content.render(out_file)
+        # except TypeError:
+        #     out_file.write(content)
+        # out_file.write("\n")
+        # out_file.write("</{}>\n".format(self.tag))
+'''
+class Hr(SelfClosingTag):
+    tag = 'hr'
+
+class Br(SelfClosingTag):
+    tag = 'br'
+'''

@@ -235,7 +235,6 @@ def test_attributes():
     assert file_contents[:-1].index(">") > file_contents.index('id="intro"')
     assert file_contents[:file_contents.index(">")].count(" ") == 3
 
-
 def test_form_tag():
     e = P("Input Text", first="test1", second="test2")
 
@@ -245,6 +244,41 @@ def test_form_tag():
     assert "test1" in e.form_tag()
     assert "test2" in e.form_tag()
 
+########
+# Step 5
+########
+
+def test_SelfClosingTag1():
+    with pytest.raises(TypeError):
+        SelfClosingTag("Input", width=400)
+
+def test_SelfClosingTag2():
+    e = SelfClosingTag(width=400)
+
+    file_contents = render_result(e).strip()
+    assert file_contents.startswith("<SelfClosing")
+    assert("width=400") in file_contents
+    print(file_contents)
+    assert file_contents.endswith("/>")
+    assert "\n" not in file_contents
+
+def test_Hr():
+    e = Hr(width=400)
+
+    file_contents = render_result(e).strip()
+    assert file_contents.startswith("<hr>")
+    assert("width=400") in file_contents
+    print(file_contents)
+    assert file_contents.endswith("/>")
+    assert "\n" not in file_contents
+
+def test_Br():
+    e = Br()
+
+    file_contents = render_result(e).strip()
+    assert("<br>") in file_contents
+    print(file_contents)
+    assert file_contents.endswith("/>")   
 
 # #####################
 # # indentation testing
