@@ -11,8 +11,7 @@ class Element(object):
     tag = 'html'
 
     def __init__(self, content=None, **kwargs):
-        if **kwargs is not None:
-            attributes = {**kwargs}
+        self.attributes = kwargs
         if content is None:
             self.contents = []
         else:
@@ -25,8 +24,10 @@ class Element(object):
     def render(self, out_file):
         #loop through the contents
         open_tag = ["<{}".format(self.tag)]
-        for k, v in self.attributes:
-            open_tag.append(" {k}:{v}")
+        for key, value in self.attributes.items():
+            place_key = str(key)
+            place_value = str(value)
+            open_tag.append(" {0}=\"{1}\"".format(key, value))
         open_tag.append(">\n")
         out_file.write("".join(open_tag))
         for content in self.contents:  

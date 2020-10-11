@@ -231,7 +231,10 @@ def test_attributes():
     assert file_contents.startswith("<p")
     assert 'style="text-align: center"' in file_contents
     assert 'id="intro"' in file_contents
-    assert False
+
+    assert file_contents[:-1].index(">") > file_contents.index('id="intro"')
+    assert file_contents[:file_contents.index(">")].count(" ") == 3
+    #assert False
 
 # #####################
 # # indentation testing
