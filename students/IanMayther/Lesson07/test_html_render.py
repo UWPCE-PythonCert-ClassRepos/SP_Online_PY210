@@ -248,53 +248,53 @@ def test_form_tag():
 # Step 5
 ########
 
-def test_SelfClosingTag1():
+def test_hr():
+    """a simple horizontal rule with no attributes"""
+    hr = Hr()
+    file_contents = render_result(hr)
+    print(file_contents)
+    assert file_contents == '<hr />\n'
+
+
+def test_hr_attr():
+    """a horizontal rule with an attribute"""
+    hr = Hr(width=400)
+    file_contents = render_result(hr)
+    print(file_contents)
+    assert file_contents == '<hr width="400" />\n'
+
+def test_br():
+    br = Br()
+    file_contents = render_result(br)
+    print(file_contents)
+    assert file_contents == "<br />\n"
+
+
+def test_content_in_br():
     with pytest.raises(TypeError):
-        SelfClosingTag("Input", width=400)
+        br = Br("some content")
 
-def test_SelfClosingTag2():
-    e = SelfClosingTag(width=400)
 
-    file_contents = render_result(e).strip()
-    assert file_contents.startswith("<SelfClosing")
-    assert("width=\"400\"") in file_contents
-    print(file_contents)
-    assert file_contents.endswith("/>")
-    assert "\n" not in file_contents
-
-def test_Hr():
-    e = Hr(width=400)
-
-    file_contents = render_result(e).strip()
-    assert file_contents.startswith("<hr")
-    assert("width=\"400\"") in file_contents
-    print(file_contents)
-    assert file_contents.endswith("/>")
-    assert "\n" not in file_contents
-
-def test_Br():
-    e = Br()
-
-    file_contents = render_result(e).strip()
-    assert("<br/>") in file_contents
-    print(file_contents)
-    assert file_contents.endswith("/>")
+def test_append_content_in_br():
+    with pytest.raises(TypeError):
+        br = Br()
+        br.append("some content")
 
 ########
 # Step 6
 ########
 
-def test_A():
-    e = A("https://facebook.com", "link to Facebook")
+# def test_A():
+#     e = A("https://facebook.com", "link to Facebook")
 
-    file_contents = render_result(e).strip()
-    assert("<a") in file_contents
-    print(file_contents)
-    assert "</a>" in file_contents
+#     file_contents = render_result(e).strip()
+#     assert("<a") in file_contents
+#     print(file_contents)
+#     assert "</a>" in file_contents
 
-def test_A_content():
-    with pytest.raises(TypeError):
-        e = A("https://facebook.com", 45) 
+# def test_A_content():
+#     with pytest.raises(TypeError):
+#         e = A("https://facebook.com", 45) 
 
 
 # #####################

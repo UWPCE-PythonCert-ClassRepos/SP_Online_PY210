@@ -20,24 +20,28 @@ class Element(object):
     def append(self, new_content):
         self.contents.append(new_content)
 
-    def form_tag(self):
+    def _open_tag(self):
         open_tag = ["<{}".format(self.tag)]
         for key, value in self.attributes.items():
             open_tag.append(" {0}=\"{1}\"".format(key, value))
-        open_tag.append(">\n")
-        output_file = "".join(open_tag)
-        return output_file
+        open_tag.append(">")
+        open_tag = "".join(open_tag)
+        return open_tag
+
+    def _close_tag(self):
+        return "</{}>".format(self.tag)
 
     def render(self, out_file):
         #loop through the contents
-        out_file.write(self.form_tag())
+        out_file.write(self._open_tag())
+        out_file.write('\n')
         for content in self.contents:           
             try:
                 content.render(out_file)
             except AttributeError:
                 out_file.write(content)
-            out_file.write("\n")
-            out_file.write("</{}>\n".format(self.tag))
+        out_file.write(self._close_tag())
+        out_file.write("\n")
         
 class Html(Element):
     tag = 'html'
@@ -82,7 +86,8 @@ class SelfClosingTag(Element):
         return output_file
 
     def render(self, out_file):
-        out_file.write(self.form_tag())           
+        tag = self._open_tag()[:-1] + " />\n"
+        out_file.write(tag)          
 
 class Hr(SelfClosingTag):
     tag = 'hr'
@@ -96,6 +101,6 @@ class A(Element):
     def __init__(self, link, content=None):
         self.link = link
         if isinstance(content, str):
-            self.content = content
+            self.content = [content]
         else:
             raise TypeError
