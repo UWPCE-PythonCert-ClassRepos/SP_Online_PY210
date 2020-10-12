@@ -128,7 +128,8 @@ def regex(story):
 	# p = re.compile('\*+.*\*+')
 	# m = p.match(story)
 	# print(m)
-	m = re.search('\*+\sSTART OF THIS PROJECT GUTENBERG EBOOK.+?\*\*\*', story)
+	# m = re.search('\*+\sSTART OF THIS PROJECT GUTENBERG EBOOK.+?\*\*\*', story)
+	m = re.search('Tom Swift, who had been slowly looking through the pages of a magazine', story)
 	delimiter = m.group()
 
 	content = story.split(delimiter,1)[1]
