@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import sys  # importing for script exit functionality
-import os.path as path  # for testing file creation
 
 '''
 This is the Lesson05 rendition of the mailroom program.  Copying the dictionary
@@ -105,7 +104,7 @@ def thank_you():
                 break
 
 
-def get_donor_list(donors=donors):
+def get_donor_list():
     return list(donors.keys())
 
 
@@ -124,7 +123,7 @@ def create_email_text(donor_name, donation_amount):
            "X" + ("_" * 20) + "\n")
 
 
-def add_donation(donor_name, donation_amount, donors=donors):
+def add_donation(donor_name, donation_amount):
     '''
     Adds donation amount to donor's list of donations.  If donor does not exist
     yet, they are created and added to the donor dictionary.
@@ -146,7 +145,7 @@ def create_report():
     print()
 
 
-def get_report_text(donors=donors):
+def get_report_text():
 
     def sort_key(donor):
         # sorting by the sum of donations
@@ -164,149 +163,11 @@ def get_report_text(donors=donors):
     return text_list
 
 
-def write_letters(donors=donors):
+def write_letters():
     for key in donors:
         with open(f'{key}.txt', 'w') as f:
             f.write(create_email_text(key, donors[key][-1]))
     print()
-
-# Run unit tests
-
-
-def test_get_donor_list_1():
-    # works with default donor dict
-    donors = {
-              "William Gates, III": [653772.32, 12.17],
-              "Mark Zuckerberg": [1663.23, 4300.87, 10432.0],
-              "Jeff Bezos": [877.33],
-              "Paul Allen": [663.23, 43.87, 1.32]
-    }
-    expected_list = ["William Gates, III", "Mark Zuckerberg", "Jeff Bezos",
-                     "Paul Allen"]
-    assert get_donor_list(donors) == expected_list
-
-
-def test_get_donor_list_2():
-    # works with single donor
-    donors = {"William Gates, III": [653772.32, 12.17]}
-    expected_list = ["William Gates, III"]
-    assert get_donor_list(donors) == expected_list
-
-
-def test_get_donor_list_3():
-    # works with empty donor dict
-    donors = {}
-    expected_list = []
-    assert get_donor_list(donors) == expected_list
-
-
-def test_add_donation_1():
-    # adds single donor and donation as expected
-    donors = {
-              "William Gates, III": [653772.32, 12.17],
-              "Mark Zuckerberg": [1663.23, 4300.87, 10432.0],
-              "Jeff Bezos": [877.33],
-              "Paul Allen": [663.23, 43.87, 1.32]
-    }
-    donor_name = "The Dude"
-    donation_amount = 100.00
-    expected_dict = {
-              "William Gates, III": [653772.32, 12.17],
-              "Mark Zuckerberg": [1663.23, 4300.87, 10432.0],
-              "Jeff Bezos": [877.33],
-              "Paul Allen": [663.23, 43.87, 1.32],
-              "The Dude": [100.0]
-    }
-    add_donation(donor_name, donation_amount, donors)
-    assert donors == expected_dict
-
-
-def test_add_donation_2():
-    # correctly adds donation if donor already in dict
-    donors = {"William Gates, III": [653772.32, 12.17]}
-    expected_dict = {"William Gates, III": [653772.32, 12.17, 100.0]}
-    add_donation("William Gates, III", 100.00, donors)
-    assert donors == expected_dict
-
-
-def test_get_report_text_1():
-    # works with default donor dict
-    donors = {
-              "William Gates, III": [653772.32, 12.17],
-              "Mark Zuckerberg": [1663.23, 4300.87, 10432.0],
-              "Jeff Bezos": [877.33],
-              "Paul Allen": [663.23, 43.87, 1.32]
-    }
-    expected_list = [
-        "William Gates, III        $    653,784.49          2  $"
-        "      326,892.24",
-        "Mark Zuckerberg           $     16,396.10          3  $"
-        "        5,465.37",
-        "Jeff Bezos                $        877.33          1  $"
-        "          877.33",
-        "Paul Allen                $        708.42          3  $"
-        "          236.14"
-    ]
-    assert get_report_text(donors) == expected_list
-
-
-def test_get_report_text_2():
-    # works with 1 donor in dict
-    donors = {"William Gates, III": [653772.32, 12.17]}
-    expected_list = [
-        "William Gates, III        $    653,784.49          2  $"
-        "      326,892.24"]
-    assert get_report_text(donors) == expected_list
-
-
-def test_get_report_text_3():
-    # works with empty donor dict
-    donors = {}
-    expected_list = []
-    assert get_report_text(donors) == expected_list
-
-
-def test_get_report_text_4():
-    # works with initial dict in backwards summation order
-    donors = {
-            "Paul Allen": [663.23, 43.87, 1.32],
-            "Jeff Bezos": [877.33],
-            "Mark Zuckerberg": [1663.23, 4300.87, 10432.0],
-            "William Gates, III": [653772.32, 12.17]
-    }
-    expected_list = [
-        "William Gates, III        $    653,784.49          2  $"
-        "      326,892.24",
-        "Mark Zuckerberg           $     16,396.10          3  $"
-        "        5,465.37",
-        "Jeff Bezos                $        877.33          1  $"
-        "          877.33",
-        "Paul Allen                $        708.42          3  $"
-        "          236.14"
-    ]
-    assert get_report_text(donors) == expected_list
-
-
-def test_write_letters():
-    # files are created in directory
-    donors = {
-            "test1": [663.23, 43.87, 1.32],
-            "test2": [877.33]
-    }
-    write_letters(donors)
-    for donor in donors:
-        assert path.exists(f"{donor}.txt")
-
-
-def test_create_email_text():
-    text = ("Dear Donor,\n\n"
-            "It is with incredible gratitude that we accept your wonderfully "
-            "generous donation of $1,000.00.  Your "
-            "contribution will truly make a difference in the path forward "
-            "towards funding our common goal."
-            "\n\nEver Greatefully Yours,\n\n"
-            "X" + ("_" * 20) + "\n")
-    assert create_email_text("Donor", 1000) == text
 
 
 if __name__ == "__main__":
