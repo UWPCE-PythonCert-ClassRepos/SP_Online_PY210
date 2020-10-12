@@ -90,10 +90,9 @@ class SelfClosingTag(Element):
         #     out_file.write(content)
         # out_file.write("\n")
         # out_file.write("</{}>\n".format(self.tag))
-'''
+
 class Hr(SelfClosingTag):
     tag = 'hr'
 
 class Br(SelfClosingTag):
     tag = 'br'
-'''
