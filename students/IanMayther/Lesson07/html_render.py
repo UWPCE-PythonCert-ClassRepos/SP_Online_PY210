@@ -82,17 +82,20 @@ class SelfClosingTag(Element):
         return output_file
 
     def render(self, out_file):
-        #loop through the contents
         out_file.write(self.form_tag())           
-        # try:
-        #     content.render(out_file)
-        # except TypeError:
-        #     out_file.write(content)
-        # out_file.write("\n")
-        # out_file.write("</{}>\n".format(self.tag))
 
 class Hr(SelfClosingTag):
     tag = 'hr'
 
 class Br(SelfClosingTag):
     tag = 'br'
+
+class A(Element):
+    tag = "a"
+
+    def __init__(self, link, content=None):
+        self.link = link
+        if isinstance(content, str):
+            self.content = content
+        else:
+            raise TypeError

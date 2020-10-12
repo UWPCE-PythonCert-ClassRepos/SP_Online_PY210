@@ -278,7 +278,24 @@ def test_Br():
     file_contents = render_result(e).strip()
     assert("<br/>") in file_contents
     print(file_contents)
-    assert file_contents.endswith("/>")   
+    assert file_contents.endswith("/>")
+
+########
+# Step 6
+########
+
+def test_A():
+    e = A("https://facebook.com", "link to Facebook")
+
+    file_contents = render_result(e).strip()
+    assert("<a") in file_contents
+    print(file_contents)
+    assert "</a>" in file_contents
+
+def test_A_content():
+    with pytest.raises(TypeError):
+        e = A("https://facebook.com", 45) 
+
 
 # #####################
 # # indentation testing
