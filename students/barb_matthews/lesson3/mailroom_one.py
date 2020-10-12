@@ -39,8 +39,8 @@ prompt2 = "\n".join(("**********************************\nThank-You Options\n",
 
 def thanks():
     """Prints a donor thank-you to the screen, maybe user copies it to email"""
-    name = []
     found = 0
+    found_it = False
 
     while True:
         choice = input(prompt2)
@@ -48,35 +48,38 @@ def thanks():
             name = input("What name?\n")
 
             ## check if name is in index, if not then add it
-            for i, item in enumerate(huge_list):
-                if (name in item):           ## Compare the name fields
-                    found = huge_list.index(item)
+            for item in huge_list:
+                print(name.lower(), item[0].lower())
+                if (name.lower() == item[0].lower()):           ## Compare the name fields
+                    print(name, item[0])
+                    found_it = True
+                    found = huge_list.index(item)               ## Name is found
                     what = input("What donation amount to add?\n")
-                    huge_list[found][1].append(float(what))
-                    #print(huge_list[found])
-                    print("\n" * 100, "Email: Thank you, %s, for your generous donation of $%.2f. "
+                    item[1].append(float(what))
+                    print(item)
+                    print("\n" * 5, "Email: Thank you, %s, for your generous donation of $%.2f. "
                                      "We appreciate your support.\n" % (name, float(what)))
                     time.sleep(3)
-                    break
 
-                else:
-                    donor_record = [name]
-                    huge_list.append(donor_record)      ## If new donor, add it to end of list
-                    found = len(huge_list) - 1
+            ## Name is not found
 
-                    ## prompt for donation amount, add it to name record in the index
-                    what = input("What donation amount?\n")
-                    huge_list[found].append([float(what)])
-                    #print(huge_list)
-                    print("\n" * 100, "Email: Thank you, %s for your generous donation of $%.2f. "
-                                  "We appreciate your support.\n" % (name, float(what)))
-                    time.sleep(3)
-                    break
+            if (found_it == False):
+                donor_item = [name]
+                huge_list.append(donor_item)      ## If new donor, add it to end of list
+                found = len(huge_list) - 1
+
+                ## prompt for donation amount, add it to name record in the index
+                what = input("What donation amount?\n")
+                huge_list[found].append([float(what)])
+                #print(huge_list)
+                print("\n" * 100, "Email: Thank you, %s for your generous donation of $%.2f. "
+                              "We appreciate your support.\n" % (name, float(what)))
+                time.sleep(3)
 
         elif choice.lower() == "list":
             print("The current names are: ")
             ## enumerate through the index and print names
-            for i, item in enumerate(huge_list):
+            for item in huge_list:
                 print(item[0])
             print('\n')
 
