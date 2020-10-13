@@ -49,7 +49,7 @@ def thanks():
 
             ## check if name is in index, if not then add it
             for item in huge_list:
-                print(name.lower(), item[0].lower())
+                #print(name.lower(), item[0].lower())
                 if (name.lower() == item[0].lower()):           ## Compare the name fields
                     print(name, item[0])
                     found_it = True
@@ -57,12 +57,11 @@ def thanks():
                     what = input("What donation amount to add?\n")
                     item[1].append(float(what))
                     print(item)
-                    print("\n" * 5, "Email: Thank you, %s, for your generous donation of $%.2f. "
+                    print("\n" * 100, "Email: Thank you, %s, for your generous donation of $%.2f. "
                                      "We appreciate your support.\n" % (name, float(what)))
                     time.sleep(3)
 
             ## Name is not found
-
             if (found_it == False):
                 donor_item = [name]
                 huge_list.append(donor_item)      ## If new donor, add it to end of list
