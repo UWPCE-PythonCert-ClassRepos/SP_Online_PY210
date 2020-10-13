@@ -8,8 +8,6 @@ Created 10/5/2020
 Updated 10/11/2020
 """
 
-#belarson: add tests for failures and complete passed tests
-
 donors_data = {Donor("Cher", [1000.00, 245.00]),
                Donor("Drew Barrymore", [25000.00]),
                Donor("Charlie Brown", [25.00, 50.01, 100.00]),
@@ -102,14 +100,6 @@ def test_add_donation():
     donor.add_donation(150.50)
     print(f'.... donor.donations[-1] {donor.donations[-1]}')
     assert donor.donations[-1] == 150.50
-
-
-def test_donations():
-    pass 
-
-
-def test_donor_name():
-    pass 
 
 
 def test_num_donations():
@@ -208,16 +198,7 @@ def test_donor_repr():
     assert donor.__repr__() == f"Donor('{test_name}', {test_donations})"
 
 
-def test_sort_key():
-    pass
-
-
-def test_sort_by_donations():
-    pass
-
-
 # data collection tests
-# belarson -- add test to add donation
 #------------------------------------------------------------------------
 check_donor_names = ["Cher", "Drew Barrymore", "Charlie Brown",
                        "Jack Black","Sam Smith"]
@@ -271,6 +252,22 @@ def test_donor_collection_append():
     assert "Peter Pan" in donor_collection.donors
 
 
+def test_donor_collection_add_donation():
+    """ Add a donation to donor in collection """
+    donor_collection = DonorCollection(donors_data)
+    donor_name = "Cher"
+    donation_amt = 150
+    donor_collection[donor_name].add_donation(donation_amt)
+
+    test_donor = donor_collection[donor_name]
+    print(f'tdcad.... test_donor.num_donations : {test_donor.num_donations}')
+    print(f'tdcad.... test_donor.donations[-1] : {test_donor.donations[-1]}')
+
+    assert test_donor.donations[-1] == float(donation_amt)
+    assert test_donor.num_donations == 3
+    #assert False
+
+
 """!!! update test results if data changes  """
 donors_data_report = {Donor("Cher", [1000.00, 245.00]),
 				   Donor("Drew Barrymore", [25000.00]),
@@ -301,6 +298,7 @@ def test_donor_collection_report():
     for avg in avg_donations:
         assert avg in donor_collection.report()
 
+"""
 
 def test_donor_collection_str():
     donor_collection = DonorCollection(donors_data)
@@ -324,7 +322,6 @@ def test_donor_collection_str():
 
     test_val = "'Drew Barrymore': Donor('Drew Barrymore', [25000.0])"
     assert test_val in str(donor_str)
-
 
 def test_donor_collection_repr():
     donor_collection = DonorCollection(donors_data)
@@ -350,3 +347,4 @@ def test_donor_collection_repr():
 
     test_val = "'Drew Barrymore': Donor('Drew Barrymore', [25000.0])"
     assert test_val in str(donor_repr)
+"""

@@ -209,7 +209,6 @@ class DonorCollection:
     """DonorCollection: holds all of the donor objects
     Methods to add a new donor, search for a given donor, etc.
     If you want a way to save and re-load your data, this class would hold that method, too.
-    belarson update
     """
     def __init__(self, donors=()):
         """
@@ -242,6 +241,16 @@ class DonorCollection:
         :return: donors
         """
         return tuple(self._donors)
+
+
+    def __getitem__(self, donor_name: str):
+        """
+        return Donor object using [] operator
+        :param donor_name: key as name of donor
+        :return: Donor object donations
+        """
+        return self._donors[donor_name]
+
 
 
     def list_donors(self):

@@ -6,8 +6,6 @@ Created 10/5/2020
 Updated 10/11/2020
 """
 
-# belarson - add check if donor exists
-# add donation not complete
 from donor_models import DonorCollection, Donor
 import sys
 
@@ -81,7 +79,7 @@ def send_ty():
                         "  or 'q' to return to main menu",
                         "  "
                         " > "))
-    donor_name = safe_input(donor_prompt)
+    donor_name = safe_input(donor_prompt).title()
 
     if donor_name.lower() == 'list':
         print(f"List of donors: {', '.join([donor for donor in donor_collection.donors])}")
@@ -89,10 +87,8 @@ def send_ty():
         add_donor(donor_name)
         add_donation(donor_name)
     else:
-        while True:
-            add_donation(donor_name)
-            continue
-        print(f"{donor_collection[donor_name].send_ty()}")
+        add_donation(donor_name)
+    print(f"{donor_collection[donor_name].format_ty()}")
 
 
 def add_donor(donor_name: str):
@@ -101,11 +97,9 @@ def add_donor(donor_name: str):
     :param donor_name:
     :return:
     """
-    donor_response = safe_input(f"Donor {donor_name} does not exist, do you want to add donor to database (Y/N)?: ").lower().strip()
-    if donor_response and donor_response[0] == "y":
-        donor_collection.append(Donor(donor_name))
-    else:
-        exit()
+    donor_collection.append(Donor(donor_name))
+    print(f'Added new donor: {donor_name}')
+
 
 
 def add_donation(donor_name: str):
@@ -114,17 +108,32 @@ def add_donation(donor_name: str):
     :param donor_name:
     :return:
     """
-    donation = float(safe_input("Please enter the donation amount: ").strip('$'))
-    if donation == "q":
-        return
+    donation_amt = get_donation_amt()
+    donor_collection[donor_name].add_donation(donation_amt)
+        
 
-    try:
-        # getting TypeError belarson -- fix
-        donor_collection[donor_name].add_donation(donation)
-    except (TypeError, ValueError) as donation_err:
-        raise donation_err
+def get_donation_amt():
+    """
+    Accepts user input for a donation amount and 
+    returns the donation amount 
+    """
+
+    donation = 0
+
+    while donation <= 0:
+        donation = safe_input("Please enter the donation amount: ").strip('$')
+        try:
+            donation = float(donation)
+        except ValueError:
+            print("Not a valid donation amount.")
+            donation = 0
+        else:
+            if donation <= 0:
+                print("Not a valid donation amount.")
+    return donation
 
 
+        
 def create_report():
     """
     Print formatted report of donors and donations. Sort report by total donations
