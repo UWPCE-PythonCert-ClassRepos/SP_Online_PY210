@@ -60,10 +60,54 @@ while not del_success:
     else:
         print('{} not found in fruit list.  Please retry.'.format(response))
 
-print(fruit2)        
+print(fruit2)
+        
 #
+#Series 3
 #
+#############################################
+print('\n\nSeries 3')
+
+print(fruit)
+
+#Ask the user if they like each fruit, if no delete the fruit from the list
+#Create a copy of fruit as you should not iterate on the list that we are going to modify
+fruit3 = fruit[:]
+for f in fruit:
+    response = input(f'Do you like {f.lower()}?')
+    while response not in ['yes','no']:
+        response = input(f'Please answer \'yes\' or \'no\'.  Do you like {f}?')
+    if response == 'yes':
+        continue
+    else:
+        fruit3.remove(f)
+        print(f'Removed {f} from list.')
+        
+print(f'You like the following fruit: {fruit3}')
+
+
 #
+#Series 4
+#
+#############################################
+print('\n\nSeries 4')
+
+print(fruit)
+
+#Copy fruit list and but reverse the letters of each item
+fruit4 = []
+for f in fruit:
+    fruit4.append(f[::-1])
+print('Reversed letters...')
+print(fruit4)
+
+#Delete the last item of the original list.  Display the original list and the copy
+fruit4a = fruit[:-1]
+print(f'Original list:                 {fruit}')
+print(f'Original list minus last item: {fruit4a}')
+
+
+
 
 
 
