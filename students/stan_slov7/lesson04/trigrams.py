@@ -40,11 +40,19 @@ def build_text(word_pairs):
     idx = ntext
     ntext_lst = ntext.split() # new text as a list of words
     
+    # add in some literal limiting factor so program doesnt hang/crash for long input text file
+    limiter = 110000
+    cnt = 0
     while idx in word_pairs:
         next_list = word_pairs[idx]
         next_word = random.choice(next_list)
         ntext_lst.append(next_word) # add new value word to the list of new text words
         idx = " ".join(ntext_lst[-2:]) # update index
+        # keeping track of words total to compare against the limiting factor
+        cnt += 1
+        # when word count exceeds limiting factor break out of building loop
+        if cnt > limiter:
+            break
         
     ntext = " ".join(ntext_lst) # simple word list converter to text
     return(ntext)
@@ -81,11 +89,26 @@ if __name__ == "__main__":
         print("You must pass in a filename")
         sys.exit(1)
     
-    in_data = read_in_data(filename)
-    words = make_words(in_data)
-    word_pairs = build_trigrams(words)
-    new_text = build_text(word_pairs)
-
+    # provide specific header skip for long version and omit any superflous details, e.g. chapter index etc.
+    if filename == "sherlock.txt":
+        in_data = read_in_data(filename,61)
+    else:
+        in_data = read_in_data(filename)
+        
     print()
+    print("Reading in data from file:", filename, "\n")
+    print("Located in directory:", current_dir, "\n")
+    
+    words = make_words(in_data)
+    print("Making words...\n")
+    print("Total words length:",len(words),"\n")
+    
+    word_pairs = build_trigrams(words)
+    print("Building trigrams based on word pairs...\n")
+    
+    new_text = build_text(word_pairs)
+    print("Printing generated text...\n")
     print(new_text)
+    print()
+    print("-------End of Generated Text-------\n")
     
