@@ -235,15 +235,6 @@ def test_attributes():
     assert file_contents[:-1].index(">") > file_contents.index('id="intro"')
     assert file_contents[:file_contents.index(">")].count(" ") == 3
 
-def test_form_tag():
-    e = P("Input Text", first="test1", second="test2")
-
-    file_contents = render_result(e).strip()
-    print(file_contents)
-
-    assert "test1" in e.form_tag()
-    assert "test2" in e.form_tag()
-
 ########
 # Step 5
 ########

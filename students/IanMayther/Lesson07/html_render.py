@@ -40,6 +40,7 @@ class Element(object):
                 content.render(out_file)
             except AttributeError:
                 out_file.write(content)
+            out_file.write("\n")
         out_file.write(self._close_tag())
         out_file.write("\n")
         
@@ -75,15 +76,11 @@ class SelfClosingTag(Element):
     def __init__(self, content=None, **kwargs):
         self.attributes = kwargs
         if content is not None:
-            raise TypeError
+            raise TypeError("SelfClosingTag can not contain any contents")
+        super().__init__(content=content, **kwargs)
 
-    def form_tag(self):
-        open_tag = ["<{}".format(self.tag)]
-        for key, value in self.attributes.items():
-            open_tag.append(" {0}=\"{1}\"".format(key, value))
-        open_tag.append("/>")
-        output_file = "".join(open_tag)
-        return output_file
+    def append(self, *args):
+        raise TypeError("You can not add content to a SelfClosingTag")
 
     def render(self, out_file):
         tag = self._open_tag()[:-1] + " />\n"
