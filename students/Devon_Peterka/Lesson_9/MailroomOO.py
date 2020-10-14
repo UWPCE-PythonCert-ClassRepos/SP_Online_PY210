@@ -1,12 +1,8 @@
 #!/usr/bin/env python3
 
-class Donor(Object)
-    def __init__(self, first, last, donation=0):
-        self._name = ' '.join(first, last)
-        self._donations = donation
+import Donor
 
-    @property
-    def name(self):
-        return self._name
+donor = Donor('Dave', 'Jones')
 
-    
+print(donor.name)
+print(donor.donations)

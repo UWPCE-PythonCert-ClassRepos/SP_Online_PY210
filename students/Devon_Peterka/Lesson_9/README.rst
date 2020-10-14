@@ -1,6 +1,9 @@
-*****LESSON 9*****
----Mailroom-OO.py---
+*****LESSON 9*****\n
+---MailroomOO.py---\n
 Similar to mailroom part 1 assignment from lesson 3 but utilizing an object-oriented approach.
 
----test_Mailroom-OO.py---
+---test_MailroomOO.py---\n
 Test suite for Mailroom-OO.py
+
+---Donor.py---\n
+Class definition for the donor class used in MailroomOO.py script.  Contains definition of donor attributes (name, donation history, etc.) as well as functionality to alter the attributes.
