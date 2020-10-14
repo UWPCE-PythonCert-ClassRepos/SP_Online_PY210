@@ -24,5 +24,6 @@ class Donor(object):
         self._donations.append(donations)
     
     def last_donation(self):
-        if self._donatins = []: raise AttributeError, f'No donations from {self.full_name} on record.'
+        if self._donations == []:
+            raise AttributeError (f'No donations from {self.full_name} on record.')
         return self._donations[-1]

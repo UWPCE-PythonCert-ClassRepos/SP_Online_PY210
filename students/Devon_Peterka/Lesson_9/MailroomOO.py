@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import Donor
+from Donor import Donor
 
 donor = Donor('Dave', 'Jones')
 
