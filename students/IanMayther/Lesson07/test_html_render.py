@@ -275,17 +275,17 @@ def test_append_content_in_br():
 # Step 6
 ########
 
-# def test_A():
-#     e = A("https://facebook.com", "link to Facebook")
+def test_A():
+    e = A("https://google.com", "link to Google")
 
-#     file_contents = render_result(e).strip()
-#     assert("<a") in file_contents
-#     print(file_contents)
-#     assert "</a>" in file_contents
+    file_contents = render_result(e).strip()
+    assert("<a") in file_contents
+    print(file_contents)
+    assert "</a>" in file_contents
 
-# def test_A_content():
-#     with pytest.raises(TypeError):
-#         e = A("https://facebook.com", 45) 
+def test_A_content():
+    with pytest.raises(TypeError):
+        e = A("https://google.com", 45) 
 
 
 # #####################

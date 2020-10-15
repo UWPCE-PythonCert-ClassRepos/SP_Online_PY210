@@ -92,12 +92,8 @@ class Hr(SelfClosingTag):
 class Br(SelfClosingTag):
     tag = 'br'
 
-class A(Element):
+class A(OneLineTag):
     tag = "a"
 
-    def __init__(self, link, content=None):
-        self.link = link
-        if isinstance(content, str):
-            self.content = [content]
-        else:
-            raise TypeError
+    def __init__(self, link, content=None, **kwargs):
+        super().__init__(content, **kwargs)
