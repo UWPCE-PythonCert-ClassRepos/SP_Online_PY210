@@ -1,8 +1,0 @@
-﻿################################################################################
-# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
-################################################################################
-
-*.json
-*.sqlite
-*.suo
-/students/jacob_daylong/Lesson 3/test.py
