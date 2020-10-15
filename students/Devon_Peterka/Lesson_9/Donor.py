@@ -22,6 +22,10 @@ class Donor(object):
         '''
         return f'Donor({self._name[0]}, {self._name[1]})'
 
+    def __lt__(self, other):
+        return (self.total_donation, self._name[1], self._name[0]) < (other.total_donation, other._name[1], other._name[0])
+
+
     @property
     def name(self):
         '''
@@ -52,6 +56,14 @@ class Donor(object):
     @property
     def total_donation(self):
         if self._donations == []:
-            raise AttributeError (f'No donations from {self.full_name} on record.')
+            return 0
         else:
             return sum(self._donations)
+
+    @staticmethod
+    def sort_by_name(self):
+        return (self._name[1], self._name[0], self.total_donation)
+    
+    @staticmethod
+    def sort_by_donations(self):
+        return (self.total_donation, self._name[1], self._name[0])

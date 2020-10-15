@@ -73,6 +73,18 @@ class test_Donor(unittest.TestCase):
         self.assertEqual(self.donor2.donations, [500])
         self.assertEqual(self.donor3.donations, [300,50,9])
 
+    def test_sort(self):
+        d_list = [self.donor1, self.donor2, self.donor3]
+        self.assertEqual(sorted(d_list), [self.donor1, self.donor3, self.donor2])
+    
+    def test_sort_by_name(self):
+        d_list = [self.donor1, self.donor2, self.donor3]
+        self.assertEqual(sorted(d_list, key=Donor.sort_by_name), [self.donor3, self.donor1, self.donor2])
+
+    def test_sort_by_donation(self):
+        d_list = [self.donor1, self.donor2, self.donor3]
+        self.assertEqual(sorted(d_list, key=Donor.sort_by_donations,), [self.donor1, self.donor3, self.donor2])
+
 class test_Mailroom(unittest.TestCase):
     def setUp(self):
         pass
