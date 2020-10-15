@@ -306,6 +306,7 @@ def test_indent():
 
     print(file_contents)
     lines = file_contents.split("\n")
+    print(lines)
     assert lines[0].startswith("   <")
     print(repr(lines[-1]))
     assert lines[-1].startswith("   <")
@@ -321,6 +322,7 @@ def test_indent_contents():
 
     print(file_contents)
     lines = file_contents.split("\n")
+    print(lines)
     assert lines[1].startswith(Element.indent)
 
 
@@ -336,7 +338,9 @@ def test_multiple_indent():
 
     print(file_contents)
     lines = file_contents.split("\n")
+    print(lines)
     for i in range(3):  # this needed to be adapted to the <DOCTYPE> tag
+        print(lines[i+1])
         assert lines[i + 1].startswith(i * Element.indent + "<")
 
         assert lines[4].startswith(3 * Element.indent + "some")
