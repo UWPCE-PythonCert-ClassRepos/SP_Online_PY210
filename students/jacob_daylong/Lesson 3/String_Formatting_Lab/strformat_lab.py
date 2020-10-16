@@ -54,5 +54,13 @@ print(f"The weight of an {format_this[0]} is {format_this[1]} and the weight of 
 print()
 print("Task 5b:")
 print(f"The weight of an {format_this[0]} is {format_this[1]*1.2} and the weight of a {format_this[2]} is {format_this[3]*1.2}.")
+print()
 
 #Task 6
+print("Task 6:")
+table = [['Jake', 32, 60000],
+         ['Jon', 45, 34000],
+         ['Reggie', 56, 700],
+         ['Tammy', 44, 90]]
+for row in table:
+    print('{:>{width}s} {:>{width}d} {:>{width}d}'.format(*row, width = 10))
