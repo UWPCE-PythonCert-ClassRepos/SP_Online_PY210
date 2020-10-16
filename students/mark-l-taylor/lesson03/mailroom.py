@@ -36,9 +36,9 @@ def add_donation(name):
     
 def generate_email(name, amount):
     '''Generate email thanking the donation.'''
-    email = '\n'.join(['','Dear {},'.format(name),'',
+    email = '\n'.join(['', 'Dear {},'.format(name), '',
             'Thank you for your generous donation of ${:.2f}.'.format(float(amount)),
-            'Your donation will continue to allow us to put a smile on our patients faces.','',
+            'Your donation will continue to allow us to put a smile on our patients faces.', '',
             'Sincerly,',
             'The Last Laugh Program'])
     print(email)
@@ -53,13 +53,16 @@ def send_thanks():
             print(d)
     elif name in get_donor_names():
         amount = add_donation(name)
-        generate_email(name,amount)
+        generate_email(name, amount)
+    elif name.lower() == 'quit':
+        print('Returning to main menu.')
+        return
     else:
         print('\n{} 1is a new donor! Adding to donor database.'.format(name))
         #Add new donor with empty donation
-        donors.append([name,[]])
+        donors.append([name, []])
         amount = add_donation(name)
-        generate_email(name,amount)        
+        generate_email(name, amount)        
              
 def donation_sort(data):
     ''' Sort the report data by the total given.'''
@@ -73,7 +76,7 @@ def create_report():
     frmt_header = '{:<26}|{:^13}|{:^11}|{:>13}'
     frmt_line   = '{:<26} ${:>11.2f} {:>11}  ${:>12.2f}'
     print('\nDonations Summary:\n')
-    print(frmt_header.format('Donor Name','Total Given','Num Gifts','Average Gift'))
+    print(frmt_header.format('Donor Name', 'Total Given', 'Num Gifts', 'Average Gift'))
     print('-'*66)
     
     #Convert the donor data into report form
@@ -92,23 +95,23 @@ def prompt_actions():
     ''' Prompt user for action they would like to perform'''
     
     print('\nWhat would you like to do?')
-    for i,act in enumerate(actions):
+    for i, act in enumerate(actions):
         print(f'\t({i+1}) {act}')
     
     #Get user action
     response = input('Please select an action: ')
     while True:
-        if not response.isnumeric() or int(response) not in list(range(1,len(actions)+1)):
+        if not response.isnumeric() or int(response) not in list(range(1, len(actions)+1)):
             response = input(f'Select a number between 1 and {len(actions)}: ')
         else:
-            return int(response),actions[int(response)-1]
+            return int(response), actions[int(response)-1]
     
 if __name__ == '__main__':
 
     #Begin the script by asking the user what they want to do
     #program will continue to loop until the user selects the Quit option
     while True:
-        resp_num,resp_str = prompt_actions()   
+        resp_num, resp_str = prompt_actions()   
         if resp_str == 'Send a Thank You':
             send_thanks()
         elif resp_str == 'Create a Report':
