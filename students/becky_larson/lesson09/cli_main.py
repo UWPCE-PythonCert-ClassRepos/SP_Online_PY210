@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
-Becky Larson 
+Becky Larson
 Created 10/5/2020
 Updated 10/11/2020
 """
@@ -19,7 +19,8 @@ Methods: Add a donation, Format thank you note to donator
 format_ty(self):
 
 2) DonorCollection holds all of the donor objects
-Methods: List Donors, Add donor, Create report of donors Sorted by total donations
+Methods: List Donors, Add donor,
+         Create report of donors Sorted by total donations
 Static Method: create DonorCollection instance from dict
 """
 
@@ -38,7 +39,6 @@ def menu_selection(prompt, **dispatch_dict):
     prompts user for input and calls function object in dispatch_dict
     :param prompt: user input prompt
     :param dispatch_dict: dict of dispatch functions
-    :return:
     """
     while True:
         try:
@@ -65,20 +65,18 @@ def safe_input(prompt):
         return response
 
 
-
 def send_ty():
     """
-    prompt user for a donor name; if name exists, prompts for donation, 
+    prompt user for a donor name; if name exists, prompts for donation,
         otherwise add name to DonorCollection object;
     'list' displays a list of donors
     print thank you to donor
-    :return: None
     """
     donor_prompt = "\n".join(("\nEnter Full name of donor",
-                        "  or Enter list to show current donors",
-                        "  or 'q' to return to main menu",
-                        "  "
-                        " > "))
+                              "  or Enter list to show current donors",
+                              "  or 'q' to return to main menu",
+                              "  "
+                              " > "))
     donor_name = safe_input(donor_prompt).title()
 
     if donor_name.lower() == 'list':
@@ -95,27 +93,24 @@ def add_donor(donor_name: str):
     """
     if donor not in DB, add donor; prompt user for initial donation
     :param donor_name:
-    :return:
     """
     donor_collection.append(Donor(donor_name))
     print(f'Added new donor: {donor_name}')
-
 
 
 def add_donation(donor_name: str):
     """
     Prompts user for donation amount; adds to Donor's donations
     :param donor_name:
-    :return:
     """
     donation_amt = get_donation_amt()
     donor_collection[donor_name].add_donation(donation_amt)
-        
+
 
 def get_donation_amt():
     """
-    Accepts user input for a donation amount and 
-    returns the donation amount 
+    Accepts user input for a donation amount and
+    returns the donation amount
     """
 
     donation = 0
@@ -133,12 +128,10 @@ def get_donation_amt():
     return donation
 
 
-        
 def create_report():
     """
-    Print formatted report of donors and donations. Sort report by total donations
-    :param collection: collection of Donor objects
-    :return: None
+    Print formatted report of donors and donations.
+    Sort report by total donations
     """
     if not donor_collection.donors:
         raise ValueError("No Donors in Data Collection")
@@ -152,13 +145,14 @@ def exit_program():
     print('Thank you')
     return 3
 
+
 donors_data = {Donor("Cher", [1000.00, 245.00]),
                Donor("Drew Barrymore", [25000.00]),
                Donor("Charlie Brown", [25.00, 50.01, 100.00]),
                Donor("Jack Black", [256.00, 752.50, 10101.00]),
                Donor("Sam Smith", [5500.00, 24.00]),
                }
- 
+
 if __name__ == "__main__":
 
     donor_collection = DonorCollection(donors_data)

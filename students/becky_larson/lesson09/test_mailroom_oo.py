@@ -3,9 +3,10 @@ from donor_models import DonorCollection
 from donor_models import Donor
 
 """
-Becky Larson 
+Becky Larson
 Created 10/5/2020
 Updated 10/11/2020
+Final Test Run 10/15/2020 (24 passed)
 """
 
 donors_data = {Donor("Cher", [1000.00, 245.00]),
@@ -17,11 +18,11 @@ donors_data = {Donor("Cher", [1000.00, 245.00]),
 
 
 donor_list = ["Cher, 1000.00, 245.00",
-               "Drew Barrymore, 25000.00",
-               "Charlie Brown, 25.00, 50.01, 100.00",
-               "Jack Black, 256.00, 752.50, 10101.00",
-               "Sam Smith, 5500.00, 24.00"
-               ]
+              "Drew Barrymore, 25000.00",
+              "Charlie Brown, 25.00, 50.01, 100.00",
+              "Jack Black, 256.00, 752.50, 10101.00",
+              "Sam Smith, 5500.00, 24.00"
+              ]
 
 
 """ don't run unless special test
@@ -185,10 +186,10 @@ def test_donor__lt__():
 
 
 def test_from_string():
-    donor = Donor.from_string("Sam Smith,500.00,25.00,34.00,44.00,84.00")
+    donor = Donor.from_string("Sam Smith, 500.00, 25.00, 34.00, 44.00, 84.00")
     print(f'.... donor {donor}')
     assert donor.donor_name == "Sam Smith"
-    assert donor.donations == [500.0,25.0,34.0,44.0,84.0]
+    assert donor.donations == [500.0, 25.0, 34.0, 44.0, 84.0]
 
 
 def test_donor_repr():
@@ -199,9 +200,9 @@ def test_donor_repr():
 
 
 # data collection tests
-#------------------------------------------------------------------------
+# ------------------------------------------------------------------------
 check_donor_names = ["Cher", "Drew Barrymore", "Charlie Brown",
-                       "Jack Black","Sam Smith"]
+                     "Jack Black", "Sam Smith"]
 
 
 def test_donor_collection__init():
@@ -209,7 +210,7 @@ def test_donor_collection__init():
     print(f'tidc.... len(donor_collection) {len(donor_collection)}')
     assert len(donor_collection) == 5
     for donor in check_donor_names:
-       assert donor in donor_collection.donors
+        assert donor in donor_collection.donors
 
 
 def test_donor_collection_list():
@@ -265,16 +266,15 @@ def test_donor_collection_add_donation():
 
     assert test_donor.donations[-1] == float(donation_amt)
     assert test_donor.num_donations == 3
-    #assert False
 
 
 """!!! update test results if data changes  """
 donors_data_report = {Donor("Cher", [1000.00, 245.00]),
-				   Donor("Drew Barrymore", [25000.00]),
-				   Donor("Charlie Brown", [25.00, 50.01, 100.00]),
-				   Donor("Jack Black", [256.00, 752.50, 10101.00]),
-				   Donor("Sam Smith", [5500.00, 24.00]),
-				   }
+                      Donor("Drew Barrymore", [25000.00]),
+                      Donor("Charlie Brown", [25.00, 50.01, 100.00]),
+                      Donor("Jack Black", [256.00, 752.50, 10101.00]),
+                      Donor("Sam Smith", [5500.00, 24.00]),
+                      }
 
 
 def test_donor_collection_report():
@@ -297,6 +297,7 @@ def test_donor_collection_report():
         assert total in donor_collection.report()
     for avg in avg_donations:
         assert avg in donor_collection.report()
+
 
 """
 
@@ -325,7 +326,7 @@ def test_donor_collection_str():
 
 def test_donor_collection_repr():
     donor_collection = DonorCollection(donors_data)
-    
+
 #    assert donor_collection.__repr__() == expected
     donor_repr = donor_collection.__repr__()
     print(f"tdcr_ donor_repr  : {donor_repr}")

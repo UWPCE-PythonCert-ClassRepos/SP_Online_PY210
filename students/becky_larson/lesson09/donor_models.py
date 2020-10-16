@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
-Becky Larson 
+Becky Larson
 Created 10/5/2020
 Updated 10/11/2020
 """
@@ -10,8 +10,8 @@ Updated 10/11/2020
 Donor Class: responsible for donor data encapsulation
 
 This class holds information about a single donor.
-Donor has attributes, properties, and methods to provide access to donor-specific information that is needed.
-Any code that only accesses information about a single donor should be part of this class.
+Donor has attributes, properties ^ methods to provide access to donor.
+Only code accesses info about a single donor should be part of this class.
 """
 
 
@@ -36,7 +36,6 @@ class Donor:
         else:
             self.add_donation(donations)
 
-
     def add_donation(self, donation):
         """
         adds donation amount to Donor donations
@@ -51,7 +50,6 @@ class Donor:
             except TypeError as type_err:
                 raise type_err("invalid donation type")
 
-
     @property
     def donations(self):
         """
@@ -59,7 +57,6 @@ class Donor:
         :return: list of donations
         """
         return self._donations
-
 
     @property
     def donor_name(self):
@@ -69,12 +66,10 @@ class Donor:
         """
         return self._donor_name
 
-
     @property
     def first_name(self):
         """ getter for donor first name """
         return self.donor_name.split()[0]
-
 
     @property
     def last_name(self):
@@ -86,7 +81,6 @@ class Donor:
 
         return last_name
 
-
     @classmethod
     def from_donor_name(cls, donor_name):
         """
@@ -96,7 +90,6 @@ class Donor:
         :return:
         """
         return cls(donor_name)
-
 
     @property
     def num_donations(self):
@@ -125,13 +118,11 @@ class Donor:
         else:
             return(self.total_donations/self.num_donations)
 
-
     def __len__(self):
         """
         Return the count of the donations.
         """
         return len(self.donations)
-
 
     def format_ty(self):
         """
@@ -140,11 +131,10 @@ class Donor:
         """
         formatted = f"Dear {self.donor_name},"\
         f"\n\n\tThank you for your very kind donation of ${self.donations[-1]:,.2f}."\
-        "\n\n\tIt will be put to very good use.\n\n\t\t\tSincerely,"\
-        "\n\t\t\t   -The Team"
+         "\n\n\tIt will be put to very good use.\n\n\t\t\tSincerely,"\
+         "\n\t\t\t   -The Team"
 
         return formatted
-
 
     def report_row(self):
         """
@@ -158,7 +148,6 @@ class Donor:
                          self.avg_donation
                          )
 
-
     def __str__(self):
         """
         Return the donor in a string.
@@ -167,7 +156,6 @@ class Donor:
         donations = ",".join([f"{d:.02f}" for d in self._donations])
         return f"{self._donor_name},{donations}"
 
-
     def __lt__(self, other):
         """
         Return if this donor is less than another donor based on donations.
@@ -175,7 +163,6 @@ class Donor:
         tuple_self = (self.total_donations, self.avg_donation)
         tuple_other = (other.total_donations, other.avg_donation)
         return tuple_self < tuple_other
-
 
     @classmethod
     def from_string(cls, input):
@@ -189,17 +176,14 @@ class Donor:
         self = cls(name, donations)
         return self
 
-
     def __repr__(self):
         """
         :return: string of self instantiation
         """
         return f"Donor({self._donor_name!r}, {self._donations!r})"
 
-
     def sort_key(self):
         return self.last_name, self.first_name, self.donations
-
 
     def sort_by_donations(self):
         return self.total_donations
@@ -208,7 +192,6 @@ class Donor:
 class DonorCollection:
     """DonorCollection: holds all of the donor objects
     Methods to add a new donor, search for a given donor, etc.
-    If you want a way to save and re-load your data, this class would hold that method, too.
     """
     def __init__(self, donors=()):
         """
@@ -226,13 +209,11 @@ class DonorCollection:
                     raise TypeError("object is not of type Donor")
         self.append(donors)
 
-
     def __len__(self):
         """
         Return the length of the donor list.
         """
         return len(self._donors)
-
 
     @property
     def donors(self):
@@ -242,7 +223,6 @@ class DonorCollection:
         """
         return tuple(self._donors)
 
-
     def __getitem__(self, donor_name: str):
         """
         return Donor object using [] operator
@@ -251,14 +231,11 @@ class DonorCollection:
         """
         return self._donors[donor_name]
 
-
-
     def list_donors(self):
         returned_list = []
         for donor in self._donors:
             returned_list.append(donor)
         return returned_list
-
 
     def is_donor_new(self, donor_name):
         is_donor_new = True
@@ -268,7 +245,6 @@ class DonorCollection:
                 break
 
         return is_donor_new
-
 
     def append(self, donor: Donor):
         """
@@ -284,7 +260,6 @@ class DonorCollection:
                     raise TypeError("object is not of type Donor")
         else:
             self._donors[donor.donor_name] = donor
-
 
     def report(self):
         """
@@ -304,7 +279,6 @@ class DonorCollection:
                             reverse=True)]) \
                + "\n"
 
-
     def __str__(self):
         """
         prints Donor Collection object
@@ -312,10 +286,8 @@ class DonorCollection:
         """
         return f"DonorCollection: {self._donors}"
 
-
     def __repr__(self):
         """
         :return: string of self instantiation
         """
         return f"DonorCollection({self._donors})"
-
