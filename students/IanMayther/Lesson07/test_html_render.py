@@ -276,12 +276,13 @@ def test_append_content_in_br():
 ########
 
 def test_A():
-    e = A("https://google.com", "link to Google")
+    e = A("https://facebook.com", "link to Facebook")
 
     file_contents = render_result(e).strip()
-    assert("<a") in file_contents
     print(file_contents)
-    assert "</a>" in file_contents
+    assert file_contents.startswith("<a")
+    assert file_contents.endswith("</a>")
+    assert ("<a>") not in file_contents
 
 def test_A_content():
     with pytest.raises(TypeError):

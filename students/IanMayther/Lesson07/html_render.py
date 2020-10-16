@@ -65,7 +65,7 @@ class OneLineTag(Element):
     def render(self, out_file):
         #loop through the contents
         for content in self.contents:  
-            out_file.write("<{}>{}</{}>".format(self.tag, content, self.tag))          
+            out_file.write("{}{}{}".format(self._open_tag, self.content, self._close_tag))          
 
 class Title(OneLineTag):
     tag = 'title'
@@ -96,4 +96,5 @@ class A(OneLineTag):
     tag = "a"
 
     def __init__(self, link, content=None, **kwargs):
+        kwargs['href'] = link
         super().__init__(content, **kwargs)
