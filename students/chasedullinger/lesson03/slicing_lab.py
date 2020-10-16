@@ -14,9 +14,9 @@ def reverse_sequence(seq):
 
 def reorder_thirds(seq):
     seq_length=len(seq)
-    first_third = seq[:seq_length//3]
-    last_third = seq[-seq_length//3:]
-    middle_third = seq[seq_length//3:-seq_length//3]
+    first_third = seq[:seq_length // 3]
+    last_third = seq[-seq_length // 3:]
+    middle_third = seq[seq_length // 3 : -seq_length //3]
     return last_third+first_third+middle_third
 
 

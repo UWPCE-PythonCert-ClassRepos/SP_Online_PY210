@@ -1,35 +1,40 @@
 #!/usr/bin/env python3
+# PY210 Lesson 03 List Lab Exercise - Chase Dullinger
 
-### Series 1 ###
+# Series 1 ###
 
-#Create a list that contains “Apples”, “Pears”, “Oranges” and “Peaches”.
-list_of_fruit = ["Apples","Pears","Oranges", "Peaches"]
+# Create a list that contains “Apples”, “Pears”, “Oranges” and “Peaches”.
+list_of_fruit = ["Apples", "Pears", "Oranges", "Peaches"]
 
-#Display the list (plain old print() is fine…).
+# Display the list (plain old print() is fine…).
 print(list_of_fruit)
 
 # Ask the user for another fruit and add it to the end of the list.
 response = input("Enter a new item for the list > ")
 list_of_fruit.append(response)
 
-#Display the list.
+# Display the list.
 print(list_of_fruit)
 
-# Ask the user for a number and display the number back to the user and the fruit corresponding to that number (on a 1-is-first basis). Remember that Python uses zero-based indexing, so you will need to correct.
+# Ask the user for a number and display the number back to the user and
+# the fruit corresponding to that number (on a 1-is-first basis).
+# Remember that Python uses zero-based indexing, so you will need to correct.
 display_number_string = input("Enter number of item to display >")
 
-display_number = int(display_number_string) #convert string to int for indexing
+# convert string to int for indexing
+display_number = int(display_number_string)
 
 if display_number < 1 or display_number > len(list_of_fruit):
     print("The number entered is out of range for the list")
 else:
-    print(list_of_fruit[display_number-1])
+    print(list_of_fruit[display_number - 1])
 
-# Add another fruit to the beginning of the list using “+” and display the list.
+# Add another fruit to the beginning of the list using “+” and display the list
 list_of_fruit = ["Grapes"] + list_of_fruit
 print(list_of_fruit)
 
-# Add another fruit to the beginning of the list using insert() and display the list.
+# Add another fruit to the beginning of the list using insert()
+# and display the list.
 list_of_fruit.insert(0, "Pineapple")
 print(list_of_fruit)
 
@@ -38,7 +43,7 @@ for fruit in list_of_fruit:
     if fruit.startswith("P"):
         print(fruit)
 
-### Series 2 ###
+# Series 2 ###
 
 # Display the list.
 print(list_of_fruit)
@@ -52,7 +57,8 @@ list_of_fruit.remove(response)
 print(list_of_fruit)
 
 
-# (Bonus: Multiply the list times two. Keep asking until a match is found. Once found, delete all occurrences.)
+# (Bonus: Multiply the list times two. Keep asking until a match is found.
+# Once found, delete all occurrences.)
 double_list_of_fruit = list_of_fruit * 2
 print(double_list_of_fruit)
 found_item = False
@@ -62,37 +68,42 @@ while not found_item:
         continue
     else:
         while response in double_list_of_fruit:
-                double_list_of_fruit.remove(response)
+            double_list_of_fruit.remove(response)
         found_item = True
 print(double_list_of_fruit)
 
 
-### Series 3 ###
-# Ask the user for input displaying a line like “Do you like apples?” for each fruit in the list (making the fruit all lowercase).
+# Series 3 ###
+# Ask the user for input displaying a line like “Do you like apples?” for each
+# fruit in the list (making the fruit all lowercase).
 print(list_of_fruit)
-duplicate_list_of_fruit = list_of_fruit[::] # need to iterate over a copy of the list to avoid removing the wrong item
+# need to iterate over a copy of the list to avoid removing the wrong item
+duplicate_list_of_fruit = list_of_fruit[::]
 for fruit in duplicate_list_of_fruit:
     print(fruit)
-    acceptable_response=False
+    acceptable_response = False
     while not acceptable_response:
         response = input("Do you like {}? >".format(fruit.lower()))
 # For each “no”, delete that fruit from the list.
         if response == "no":
             list_of_fruit.remove(fruit)
-# For any answer that is not “yes” or “no”, prompt the user to answer with one of those two values (a while loop is good here)
+# For any answer that is not “yes” or “no”, prompt the user to answer with one
+# of those two values (a while loop is good here)
         if response == "yes" or response == "no":
             acceptable_response = True
 
 # Display the list.
 print(list_of_fruit)
 
-### Series 4 ###
-# Make a new list with the contents of the original, but with all the letters in each item reversed.
+# Series 4 ###
+# Make a new list with the contents of the original, but with all the letters
+# in each item reversed.
 new_list_of_fruit = []
 for fruit in list_of_fruit:
     new_list_of_fruit.append(fruit[::-1])
 
-# Delete the last item of the original list. Display the original list and the copy.
+# Delete the last item of the original list.
+# Display the original list and the copy.
 list_of_fruit.pop()
 print(list_of_fruit)
 print(new_list_of_fruit)
