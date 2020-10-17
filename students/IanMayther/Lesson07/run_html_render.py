@@ -35,7 +35,7 @@ def render_page(page, filename, indent=None):
 
 # Step 1
 #########
-
+'''
 page = hr.Element()
 
 page.append("Here is a paragraph of text -- there could be more of them, "
@@ -152,7 +152,7 @@ body.append("to google")
 page.append(body)
 
 render_page(page, "test_html_output6.html")
-
+'''
 # Step 7
 #########
 

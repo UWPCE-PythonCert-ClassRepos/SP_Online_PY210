@@ -124,6 +124,7 @@ def test_html():
     assert("and this is some more text") in file_contents
     print(file_contents)
     assert file_contents.endswith("</html>")
+    assert False
 
 
 def test_body():
@@ -175,8 +176,6 @@ def test_sub_element():
     assert "</p>" in file_contents
 
 
-
-
 ########
 # Step 3
 ########
@@ -189,6 +188,7 @@ def test_Head():
     print(file_contents)
     assert file_contents.endswith("</Head>")
 
+
 def test_OneLineTag():
     e = OneLineTag("This should be 1 line")
 
@@ -197,6 +197,7 @@ def test_OneLineTag():
     assert("This should be 1 line") in file_contents
     print(file_contents)
     assert file_contents.endswith("</OneLineTag>")
+
 
 def test_Title():
     e = Title("PythonClass - Session 6 example")
@@ -209,10 +210,12 @@ def test_Title():
     assert file_contents.endswith("</title>")
     assert "\n" not in file_contents
 
+
 def test_OneLineTag_append():
     e = OneLineTag("Starter words")
     with pytest.raises(NotImplementedError):
         e.append("More words")
+
 
 ########
 # Step 4
@@ -253,6 +256,7 @@ def test_hr_attr():
     file_contents = render_result(hr)
     print(file_contents)
     assert file_contents == '<hr width="400" />\n'
+
 
 def test_br():
     br = Br()
