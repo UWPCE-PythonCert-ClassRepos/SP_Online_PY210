@@ -284,11 +284,6 @@ def test_A():
     assert file_contents.endswith("</a>")
     assert ("<a>") not in file_contents
 
-def test_A_content():
-    with pytest.raises(TypeError):
-        e = A("https://google.com", 45) 
-
-
 # #####################
 # # indentation testing
 # #  Uncomment for Step 9 -- adding indentation

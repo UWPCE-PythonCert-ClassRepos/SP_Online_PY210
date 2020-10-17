@@ -63,9 +63,10 @@ class OneLineTag(Element):
         raise NotImplementedError
 
     def render(self, out_file):
-        #loop through the contents
-        for content in self.contents:  
-            out_file.write("{}{}{}".format(self._open_tag, self.content, self._close_tag))          
+        out_file.write(self._open_tag())
+        out_file.write(self.contents[0])
+        out_file.write(self._close_tag())
+          
 
 class Title(OneLineTag):
     tag = 'title'
