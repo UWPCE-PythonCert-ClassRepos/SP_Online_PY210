@@ -4,15 +4,6 @@
 #| Mailroom Part 3 - Assign #4 of Lesson 5 |
 #+-----------------------------------------+
 
-#[x] 1.Exceptions
-  # [x] - main input
-  # [x] get_name, get_amount 
-  # - input errors: change to safe_input
-  # - value errors: add try--except blocks
-  # [x] - file errors: write_file
-#[x] 2.Comprehensions: new_list from dict : changes for loop to comprehension to calculate donation totals
-
-
 import sys, os.path  
 
 
@@ -52,7 +43,7 @@ def write_file(fname,text):
         file = open(fname,'w')
     except (OSError, IOError):
         print("File Open Error occured for: ",fname)
-        
+
 # Catch File Write Exceptions
     try:                            
         file.write(text)
