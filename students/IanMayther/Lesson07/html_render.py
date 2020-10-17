@@ -101,3 +101,13 @@ class A(OneLineTag):
 
 class Ul(Element):
     tag = "Ul"
+
+class Li(Element):
+    tag = "Li"
+
+class H(OneLineTag):
+    tag = "h"
+
+    def __init__(self, level, content=None, **kwargs):
+        self.tag = self.tag + str(level)
+        super().__init__(content, **kwargs)
