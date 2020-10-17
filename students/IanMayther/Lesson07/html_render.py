@@ -67,7 +67,6 @@ class OneLineTag(Element):
         out_file.write(self.contents[0])
         out_file.write(self._close_tag())
           
-
 class Title(OneLineTag):
     tag = 'title'
 
@@ -99,3 +98,6 @@ class A(OneLineTag):
     def __init__(self, link, content=None, **kwargs):
         kwargs['href'] = link
         super().__init__(content, **kwargs)
+
+class Ul(Element):
+    tag = "Ul"

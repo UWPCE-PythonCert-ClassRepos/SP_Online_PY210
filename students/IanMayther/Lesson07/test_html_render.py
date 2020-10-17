@@ -284,6 +284,40 @@ def test_A():
     assert file_contents.endswith("</a>")
     assert ("<a>") not in file_contents
 
+########
+# Step 7
+########
+
+def test_ul():
+    e = Ul("List Item 1")
+    e.append("List Item 2")
+
+    file_contents = render_result(e).strip()
+
+    assert("Item 1") in file_contents
+    assert("Item 2") in file_contents
+
+
+def test_li():
+    e = Li("List Item 1")
+    e.append("List Item 2")
+
+    file_contents = render_result(e).strip()
+
+    assert("Item 1") in file_contents
+    assert("Item 2") in file_contents
+    assert file_contents.index("Item 1") < file_contents.index("Item 2")
+
+
+def test_h():
+    e = H(2, "This is a Header!")
+    
+    file_contents = render_result(e).strip()
+    print(file_contents)
+    assert("Header!") in file_contents
+    assert file_contents.startswith("<h2>")
+    assert file_contents.endswith("</h2>")
+
 # #####################
 # # indentation testing
 # #  Uncomment for Step 9 -- adding indentation
