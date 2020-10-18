@@ -434,12 +434,23 @@ def test_element_indent1():
     assert file_contents.endswith("</html>")
 
 def test_OLT():
-    e = OneLineTag("blue", "    ")
+    e = OneLineTag("blue")
 
     file_contents = render_result(e).strip()
 
     print(file_contents)
 
-    assert file_contents.startswith("<")
-    assert file_contents.endswith("/>")
-    assert False
+    assert file_contents.startswith("<OneLineTag")
+    assert file_contents.endswith("/OneLineTag>")
+    #assert False
+
+def test_SCT():
+    e = SelfClosingTag()
+
+    file_contents = render_result(e).strip()
+
+    print(file_contents)
+
+    assert file_contents.startswith("<SelfClosing")
+    assert file_contents.endswith(">")
+    #assert False
