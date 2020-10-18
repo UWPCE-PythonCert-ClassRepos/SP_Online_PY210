@@ -64,7 +64,7 @@ class Head(Element):
     def render(self, out_file):
         out_file.write(self._open_tag())
         out_file.write('\n')
-        out_file.write('<{}/>\n'.format(Meta.tag))
+        #out_file.write('<{}/>\n'.format(Meta.tag))
         for content in self.contents:           
             try:
                 content.render(out_file)
@@ -131,4 +131,4 @@ class H(OneLineTag):
         super().__init__(content, **kwargs)
 
 class Meta(SelfClosingTag):
-    tag = "meta charset=\"UTF-8\" "
+    tag = "meta"
