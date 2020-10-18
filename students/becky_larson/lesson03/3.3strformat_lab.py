@@ -2,6 +2,7 @@
 """
 Completed 8/23/2020 but realized 10/17/202 it hadn't been turned in for grade.
 Added the extra assignment.
+10/17/2020: update git and turn in
 """
 
 
