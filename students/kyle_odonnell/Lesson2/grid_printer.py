@@ -3,6 +3,7 @@
 # Description: Introduction to Python: Lesson 2 Exercise 2.2
 # ChangeLog:
 # KODonnell,10.14.2020,Created script
+# KODonnell,10.17.2020,Added Comments
 # ------------------------------------------------------------------------- #
 
 
@@ -13,15 +14,15 @@ def print_grid():
     plus = "+"
     minus = " - "
     column = "|"
-    across = (plus+4*minus)*2+plus
-    down = (column+12*" ")*2+column
-    print(across)
-    for i in range(4):
+    across = (plus+4*minus)*2+plus  # define row for top and bottom of square perimeters with 2 squares
+    down = (column+12*" ")*2+column  # define row for sides of square perimeters with 2 squares
+    print(across)  # print top row
+    for i in range(4):  # print 'down' columns for square size 4
         print(down)
-    print(across)
-    for i in range(4):
+    print(across)   # print 'across' row
+    for i in range(4):  # print 'down' columns for square size 4
         print(down)
-    print(across)
+    print(across)  # print bottom row
 
 
 def print_grid1(n):
@@ -29,14 +30,16 @@ def print_grid1(n):
     :param n: (int) size of grid
     :return: nothing
     """
-    if n < 2:
+
+    if n < 2:  # assign square size x to 1 if n less than 2
         x =1
-    else: x = n//2
+    else:  # assign square size x to closest integer under n if n larger than 2
+        x = n//2
     plus = "+"
     minus = " - "
     column = "|"
-    across = (plus+x*minus)*2+plus
-    down = (column+x*3*" ")*2+column
+    across = (plus+x*minus)*2+plus  # define row for top and bottom of square perimeters
+    down = (column+x*3*" ")*2+column  # define row for sides of square perimeters
     print(across)
     for i in range(x):
         print(down)
@@ -54,19 +57,20 @@ def print_grid2(m,n):
     :return: nothing
     """
 
-    if n < 2:
+    if n < 2:  # assign square size x to 1 if n less than 2
         x = 1
-    else: x = n//1
+    else:  # assign square size x to closest integer under n if n larger than 2
+        x = n//1
     plus = "+"
     minus = " - "
     column = "|"
-    across = (plus+x*minus)*m+plus
-    down = (column+x*3*" ")*m+column
+    across = (plus+x*minus)*m+plus  # define row for top and bottom of square perimeters
+    down = (column+x*3*" ")*m+column  # define row for sides of square perimeters
     for z in range(m):
-        print(across)
-        for i in range(n):
-            print(down)
-    print(across)
+        print(across)  # print 'across' row for each square in grid height m
+        for i in range(n):  #
+            print(down)  # print n 'down' rows for each square in grid height m
+    print(across)  # print bottom border of grid
 
 
 #  Test grid functions
