@@ -35,7 +35,7 @@ def render_page(page, filename, indent=None):
 
 # Step 1
 #########
-'''
+
 page = hr.Element()
 
 page.append("Here is a paragraph of text -- there could be more of them, "
@@ -194,7 +194,7 @@ render_page(page, "test_html_output7.html")
 
 # Step 8 and 9
 ##############
-'''
+
 page = hr.Html()
 
 

@@ -23,7 +23,6 @@ class Element(object):
         self.contents.append(new_content)
 
     def render(self, out_file, cur_ind=""):
-        #loop through the contents
         out_file.write(cur_ind + self._open_tag())
         out_file.write('\n')
         for content in self.contents:           
@@ -66,7 +65,6 @@ class Head(Element):
     def render(self, out_file, cur_ind=""):
         out_file.write(self._open_tag())
         out_file.write('\n')
-        #out_file.write('<{}/>\n'.format(Meta.tag))
         for content in self.contents:           
             try:
                 content.render(out_file)

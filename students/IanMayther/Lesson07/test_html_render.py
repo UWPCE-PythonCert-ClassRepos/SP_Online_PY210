@@ -442,7 +442,7 @@ def test_OLT():
 
     assert file_contents.startswith("<OneLineTag")
     assert file_contents.endswith("/OneLineTag>")
-    #assert False
+
 
 def test_SCT():
     e = SelfClosingTag()
@@ -453,4 +453,3 @@ def test_SCT():
 
     assert file_contents.startswith("<SelfClosing")
     assert file_contents.endswith(">")
-    #assert False
