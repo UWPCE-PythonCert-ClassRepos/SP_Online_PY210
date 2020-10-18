@@ -30,4 +30,19 @@ def test_radius():
 def test_diameter():
     c = Circle(4)
 
-    assert c.diameter == 8 
+    assert c.diameter == 8
+
+########
+# Step 3
+########
+
+def test_dia_rad():
+    c = Circle(8)
+
+    assert c.radius == 8
+    assert c.diameter == 16
+
+    c.diameter = 8
+
+    assert c.radius == 4
+    assert c.diameter == 8
