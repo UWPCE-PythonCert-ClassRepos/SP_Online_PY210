@@ -432,3 +432,14 @@ def test_element_indent1():
     assert lines[1].startswith(Element.indent + "thi")
     assert lines[2] == "</html>"
     assert file_contents.endswith("</html>")
+
+def test_OLT():
+    e = OneLineTag("blue", "    ")
+
+    file_contents = render_result(e).strip()
+
+    print(file_contents)
+
+    assert file_contents.startswith("<")
+    assert file_contents.endswith("/>")
+    assert False
