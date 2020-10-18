@@ -124,7 +124,6 @@ def test_html():
     assert("and this is some more text") in file_contents
     print(file_contents)
     assert file_contents.endswith("</html>")
-    assert False
 
 
 def test_body():
@@ -321,6 +320,33 @@ def test_h():
     assert("Header!") in file_contents
     assert file_contents.startswith("<h2>")
     assert file_contents.endswith("</h2>")
+
+########
+# Step 8
+########
+
+def test_Doc_Tag():
+    e = Html("this is some text")
+    e.append("and this is some more text")
+
+    file_contents = render_result(e).strip()
+
+    assert("this is some text") in file_contents
+    assert("and this is some more text") in file_contents
+    print(file_contents)
+    assert file_contents.startswith("<!DOCTYPE html>")
+    assert file_contents.endswith("</html>")
+
+
+def test_meta():
+    e = Head("This should be 1 line")
+
+    file_contents = render_result(e).strip()
+
+    assert("This should be 1 line") in file_contents
+    print(file_contents)
+    assert("<meta charset=\"UTF-8\" />") in file_contents
+    assert file_contents.endswith("</Head>") 
 
 # #####################
 # # indentation testing

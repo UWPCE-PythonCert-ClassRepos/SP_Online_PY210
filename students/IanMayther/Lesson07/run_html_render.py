@@ -152,7 +152,7 @@ body.append("to google")
 page.append(body)
 
 render_page(page, "test_html_output6.html")
-'''
+
 # Step 7
 #########
 
@@ -190,7 +190,7 @@ body.append(list)
 page.append(body)
 
 render_page(page, "test_html_output7.html")
-
+'''
 # # Step 8 and 9
 # ##############
 

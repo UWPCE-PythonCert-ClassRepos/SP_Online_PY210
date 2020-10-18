@@ -40,12 +40,17 @@ class Element(object):
                 content.render(out_file)
             except AttributeError:
                 out_file.write(content)
-            out_file.write("\n")
+            out_file.write('\n')
         out_file.write(self._close_tag())
-        out_file.write("\n")
+        out_file.write('\n')
         
 class Html(Element):
     tag = 'html'
+
+    def render(self, out_file):
+        out_file.write('<!DOCTYPE html>')
+        out_file.write('\n')
+        super().render(out_file)
 
 class Body(Element):
     tag = 'body'
@@ -55,6 +60,19 @@ class P(Element):
 
 class Head(Element):
     tag = 'Head'
+
+    def render(self, out_file):
+        out_file.write(self._open_tag())
+        out_file.write('\n')
+        out_file.write('<{}/>\n'.format(Meta.tag))
+        for content in self.contents:           
+            try:
+                content.render(out_file)
+            except AttributeError:
+                out_file.write(content)
+            out_file.write('\n')
+        out_file.write(self._close_tag())
+        out_file.write('\n')
 
 class OneLineTag(Element):
     tag = 'OneLineTag'
@@ -111,3 +129,6 @@ class H(OneLineTag):
     def __init__(self, level, content=None, **kwargs):
         self.tag = self.tag + str(level)
         super().__init__(content, **kwargs)
+
+class Meta(SelfClosingTag):
+    tag = "meta charset=\"UTF-8\" "
