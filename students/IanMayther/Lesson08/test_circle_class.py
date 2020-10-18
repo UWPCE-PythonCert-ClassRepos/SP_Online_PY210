@@ -14,11 +14,20 @@ from circle_class import *
 # Step 1
 ########
 
-def test_circle1():
+def test_circle():
     with pytest.raises(AttributeError):
         c = Circle()
 
-def test_circle2():
+def test_radius():
     c = Circle(4)
 
     assert c.radius == 4
+
+########
+# Step 2
+########
+
+def test_diameter():
+    c = Circle(4)
+
+    assert c.diameter == 8 

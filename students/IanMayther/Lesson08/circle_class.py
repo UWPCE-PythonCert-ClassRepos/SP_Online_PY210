@@ -13,5 +13,6 @@ class Circle(object):
         else:
             self.radius = rad
 
-    # @property
-    # def diameter(self, rad):
+    @property
+    def diameter(self):
+        return 2 * self.radius
