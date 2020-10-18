@@ -22,17 +22,6 @@ class Element(object):
     def append(self, new_content):
         self.contents.append(new_content)
 
-    def _open_tag(self):
-        open_tag = ["{}<{}".format(self.indent, self.tag)]
-        for key, value in self.attributes.items():
-            open_tag.append(" {0}=\"{1}\"".format(key, value))
-        open_tag.append(">")
-        open_tag = "".join(open_tag)
-        return open_tag
-
-    def _close_tag(self):
-        return "{}</{}>".format(self.indent, self.tag)
-
     def render(self, out_file, cur_ind=""):
         #loop through the contents
         out_file.write(cur_ind + self._open_tag())
@@ -43,9 +32,20 @@ class Element(object):
             except AttributeError:
                 out_file.write(cur_ind + self.indent + content)
             out_file.write('\n')
-        out_file.write(cur_ind + self._close_tag())
-        out_file.write('\n')
-        
+        out_file.write(cur_ind + self._close_tag())    
+    
+    def _open_tag(self):
+        open_tag = ["<{}".format(self.tag)]
+        for key, value in self.attributes.items():
+            open_tag.append(" {0}=\"{1}\"".format(key, value))
+        open_tag.append(">")
+        open_tag = "".join(open_tag)
+        return open_tag
+
+    def _close_tag(self):
+        return "</{}>".format(self.tag)
+
+
 class Html(Element):
     tag = 'html'
 
@@ -84,8 +84,8 @@ class OneLineTag(Element):
 
     def render(self, out_file, cur_ind=""):
         out_file.write(cur_ind + self._open_tag())
-        out_file.write(cur_ind + self.contents[0])
-        out_file.write(cur_ind + self._close_tag())
+        out_file.write(self.contents[0])
+        out_file.write(self._close_tag())
           
 class Title(OneLineTag):
     tag = 'title'

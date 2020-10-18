@@ -47,7 +47,7 @@ render_page(page, "test_html_output1.html")
 
 # The rest of the steps have been commented out.
 #  Uncomment them as you move along with the assignment.
-'''
+
 ## Step 2
 ##########
 
@@ -64,7 +64,7 @@ page.append(body)
 
 render_page(page, "test_html_output2.html")
 
-'''
+
 # # Step 3
 # ##########
 
@@ -194,7 +194,7 @@ render_page(page, "test_html_output7.html")
 
 # Step 8 and 9
 ##############
-
+'''
 page = hr.Html()
 
 
@@ -231,4 +231,3 @@ body.append(list)
 page.append(body)
 
 render_page(page, "test_html_output8.html")
-'''
