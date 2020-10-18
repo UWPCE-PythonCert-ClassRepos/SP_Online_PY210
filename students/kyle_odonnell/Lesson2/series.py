@@ -3,32 +3,30 @@
 # Description: Introduction to Python: Lesson 2 Exercise 2.4
 # ChangeLog:
 # KODonnell,10.14.2020,Created script
+# KODonnell,10.17.2020,Updated comments and docstrings
 # ------------------------------------------------------------------------- #
 
 def fibonacci(n):
-    """ compute the nth Fibonacci number """
-    return sum_series(n)
+    """
+    compute the nth Fibonacci number
+    :param n: index of fibonacci sequence to calculate
+    :return: nth number of Fibonacci Sequence
+    """
+    return sum_series(n)  # Call sum_series with default arguments
 
 def lucas(n):
-    """ compute the nth Lucas number """
-    return sum_series(n,2,1)
+    """ compute the nth Lucas number
+    :param n: index of Lucas sequence to calculate
+    :return: nth number of Lucas Sequence
+    """
+
+    return sum_series(n,2,1)  # Call sum_series with 2,1 as start of sequence
 
 def sum_series(n, n0=0, n1=1):
     """
     compute the nth value of a summation series.
-
     :param n0=0: value of zeroth element in the series
     :param n1=1: value of first element in the series
-
-    This function should generalize the fibonacci() and the lucas(),
-    so that this function works for any first two numbers for a sum series.
-    Once generalized that way, sum_series(n, 0, 1) should be equivalent to fibonacci(n).
-    And sum_series(n, 2, 1) should be equivalent to lucas(n).
-
-    sum_series(n, 3, 2) should generate another series with no specific name
-
-    The defaults are set to 0, 1, so if you don't pass in any values, you'll
-    get the fibonacci series
     """
 
     fib = [n0,n1]
@@ -36,6 +34,8 @@ def sum_series(n, n0=0, n1=1):
             fib.append(fib[-1]+fib[-2])
     return fib[n]
 
+
+# Confirm functions run as expected
 if __name__ == "__main__":
     # run some tests
     assert fibonacci(0) == 0
