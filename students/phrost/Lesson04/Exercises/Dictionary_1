@@ -1,0 +1,23 @@
+###Lesson 4 - Dictionary 1
+
+cakes = {
+    'name' : 'chris',
+    'city' : 'seattle',
+    'cake' : 'chocolate'
+    }
+print(cakes)
+del[cakes['cake']]
+print(cakes)
+cakes['fruit'] = 'Mango'
+print(cakes)
+for key, value in cakes.items():
+    print(f'Key: {key}')
+for key, value in cakes.items():
+    print(f'Value: {value}')
+if 'cake' in cakes:
+    print('yes cake is key')
+else:
+    print('no cake for you')
+if 'Mango' in cakes.values():
+    print('mango mango')
+
