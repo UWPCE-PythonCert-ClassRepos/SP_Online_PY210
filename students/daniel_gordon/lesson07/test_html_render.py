@@ -178,9 +178,9 @@ def test_sub_element():
 
 
 
-########
-# Step 3
-########
+###########
+# Steps 3-8
+###########
 
 # Add your tests here!
 
@@ -189,7 +189,23 @@ def test_title():
     
     file_contents = render_result(e).strip()
     
-    assert file_contents == "<title> A test </title>"
+    assert file_contents == "<title> A Test </title>"
+
+def test_attr():
+    e = P("Some text", id="test", style="text-align: center")
+    e.append("Some more text")
+    
+    file_contents = render_result(e).strip()
+    
+    assert 'id="test"' in file_contents
+    assert 'style="text-align: center"' in file_contents
+
+def test_class_attr():
+    e = P("Some text", clas="test")
+    
+    file_contents = render_result(e).strip()
+    
+    assert 'class="test"' in file_contents
 
 # #####################
 # # indentation testing
