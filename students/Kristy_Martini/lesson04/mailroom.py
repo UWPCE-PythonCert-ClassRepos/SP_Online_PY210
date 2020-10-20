@@ -20,8 +20,8 @@ class Report:
         """ Add new donor to report"""
         self.donors.append(Donor)
 
-    def create_report(self):
-        sorted_donors = sorted(self.donors, key=operator.attrgetter('total_gift_value'), reverse=True)
+    def create_report(self, newReport):
+        sorted_donors = sorted(newReport.donors, key=operator.attrgetter('total_gift_value'), reverse=True)
 
         """ Display donor report to the user"""
         print("Donor Name          | Total Given   | Num Gifts | Average Gift")
@@ -30,6 +30,7 @@ class Report:
             line_str = '{0:21}'.format(donor.name) + "$" + '{0:14}'.format(donor.total_gift_value) + '{0:12}'.format(donor.num_gifts) + " $" + '{0:12}'.format(donor.average_gift)
             print(line_str)
         print("\n")
+        prompt_user(newReport)
 
 class Donor:
     """ Donor class stores the info associated with each donor"""
@@ -103,10 +104,10 @@ def prompt_user(newReport=None):
         newReport = Report()
 
     """ Displays menu of user options"""
-    # arg_dict = {1: check_name(newReport), 
-    #             2: newReport.create_report(), 
-    #             3: send_thank_you_multiple(newReport), 
-    #             4: quit()}
+    arg_dict = {"1": check_name, 
+                "2": newReport.create_report, 
+                "3": send_thank_you_multiple, 
+                "4": quit}
 
     print("Hello! Welcome to the donation portal. You may enter 'quit' any time you are prompted to return to this screen.")
     print("What would you like to do today?")
@@ -116,23 +117,23 @@ def prompt_user(newReport=None):
     print("4. Quit")
     choice = input("Please enter the number associated with your choice: ")
 
-    # arg_dict.get(int(choice), 4)
+    arg_dict[choice](newReport)
     
-    if choice == "1":
-        if newReport is None:
-            newReport = Report()
-        check_name(newReport)
-    elif choice == "2":
-        if newReport is None:
-            newReport = Report()
-        newReport.create_report()
-        prompt_user(newReport)
-    elif choice == "3":
-        if newReport is None:
-            newReport = Report()
-        send_thank_you_multiple(newReport)
-    elif choice == "4":
-        quit()
+    # if choice == "1":
+    #     if newReport is None:
+    #         newReport = Report()
+    #     check_name(newReport)
+    # elif choice == "2":
+    #     if newReport is None:
+    #         newReport = Report()
+    #     newReport.create_report()
+    #     prompt_user(newReport)
+    # elif choice == "3":
+    #     if newReport is None:
+    #         newReport = Report()
+    #     send_thank_you_multiple(newReport)
+    # elif choice == "4":
+    #     quit()
 
 if __name__ == "__main__":
     prompt_user()
