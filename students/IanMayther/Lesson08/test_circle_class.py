@@ -61,3 +61,13 @@ def test_area_set():
     c = Circle(2)
     with pytest.raises(AttributeError):
         c.area = 42
+
+########
+# Step 5
+########
+
+def test_class_method():
+    c = Circle.from_diameter(8)
+
+    assert c.diameter == 8
+    assert c.radius == 4
