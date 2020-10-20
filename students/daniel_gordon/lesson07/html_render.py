@@ -52,7 +52,7 @@ class OneLineTag(Element):
         
     def render(self, out_file):
         self.open_tag(out_file)
-        out_file.write(f"> {self.content[0]} </{self.tag}>")
+        out_file.write(f"> {self.content[0]} </{self.tag}>\n")
 
 class SelfClosingTag(Element):
     """Renders a self closing tag, ie: <hr/>, <br/>"""
@@ -71,12 +71,19 @@ class SelfClosingTag(Element):
         
 class Html(Element):
     tag = "html"
+    
+    def render(self, out_file, *args, **kwargs):
+        out_file.write("<!DOCTYPE html>")
+        super().render(out_file, *args, **kwargs)
 
 class Head(Element):
     tag = "head"
 
 class Title(OneLineTag):
     tag = "title"
+
+class Meta(SelfClosingTag):
+    tag = "meta"
     
 class Body(Element):
     tag = "body"
@@ -90,3 +97,19 @@ class Hr(SelfClosingTag):
 class Br(SelfClosingTag):
     tag = "br"
 
+class A(OneLineTag):
+    tag = "a"
+    
+    def __init__(self, link, *args, **kwargs):
+        super().__init__(*args, href = link, **kwargs)
+
+class Ul(Element):
+    tag = "ul"
+
+class Li(Element):
+   tag = "li"
+
+class H(OneLineTag):
+    def __init__(self, level, *args, **kwargs):
+        self.tag = f"h{level}"
+        super().__init__(*args, **kwargs)

@@ -124,6 +124,7 @@ def test_html():
     assert("this is some text") in file_contents
     assert("and this is some more text") in file_contents
     print(file_contents)
+    assert file_contents.startswith("<!DOCTYPE html>")
     assert file_contents.endswith("</html>")
 
 
@@ -135,7 +136,7 @@ def test_body():
 
     assert("this is some text") in file_contents
     assert("and this is some more text") in file_contents
-
+    print(file_contents)
     assert file_contents.startswith("<body>")
     assert file_contents.endswith("</body>")
 
@@ -148,7 +149,7 @@ def test_p():
 
     assert("this is some text") in file_contents
     assert("and this is some more text") in file_contents
-
+    print(file_contents)
     assert file_contents.startswith("<p>")
     assert file_contents.endswith("</p>")
 
@@ -174,6 +175,7 @@ def test_sub_element():
     # but make sure the embedded element's tags get rendered!
     assert "<p>" in file_contents
     assert "</p>" in file_contents
+    print(file_contents)
 
 
 
@@ -190,6 +192,7 @@ def test_title():
     file_contents = render_result(e).strip()
     
     assert file_contents == "<title> A Test </title>"
+    print(file_contents)
 
 def test_attr():
     e = P("Some text", id="test", style="text-align: center")
@@ -199,23 +202,64 @@ def test_attr():
     
     assert 'id="test"' in file_contents
     assert 'style="text-align: center"' in file_contents
+    print(file_contents)
 
 def test_class_attr():
     e = P("Some text", clas="test")
     file_contents = render_result(e).strip()    
     assert 'class="test"' in file_contents
+    print(file_contents)
     
 def test_hr():
     e = Hr(width = 400)
     file_contents = render_result(e).strip()
     assert file_contents == '<hr width="400" />' 
+    print(file_contents)
     
 def test_br():
     e = Br()
     file_contents = render_result(e).strip()
     assert file_contents == '<br />' 
+    print(file_contents)
 
+def test_link():
+    e = A("www.google.com", "link")
+    file_contents = render_result(e).strip()
+    assert file_contents == '<a href="www.google.com"> link </a>'
+    print(file_contents)
 
+def test_list():
+    e = Ul(id = "list")
+    e.append(Li("First item in list"))
+    e.append(Li("Last item in list"))
+    file_contents = render_result(e).strip()
+    
+    assert "<li>" in file_contents
+    assert "</li>" in file_contents
+    print(file_contents)
+    assert file_contents.startswith('<ul id="list">')
+    assert file_contents.endswith('</ul>')
+
+def test_header():
+    e = Body(H(1,"Largest text"))
+    e.append(H(2,"Next size"))
+    e.append(H(3,"Last for this test"))
+    file_contents = render_result(e).strip()
+    
+    assert "<h1>" in file_contents
+    assert "<h2>" in file_contents
+    assert "<h3>" in file_contents
+    assert "</h1>" in file_contents
+    assert "</h2>" in file_contents
+    assert "</h3>" in file_contents
+    print(file_contents)
+
+def test_meta():
+    e = Meta(charset="UTF-8")
+    file_contents = render_result(e).strip()
+    
+    assert file_contents == '<meta charset="UTF-8" />'    
+    print(file_contents)
 
 # #####################
 # # indentation testing
