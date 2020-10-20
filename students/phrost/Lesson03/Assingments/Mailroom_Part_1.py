@@ -77,7 +77,7 @@ def report():
         donate_avg = donate_sum/donate_num
         donate_name.append((name,donate_sum,donate_num,donate_avg))
 
-    donate_name.sort(key=sort_key)
+    donate_name.sort(key=sort_key, reverse=True)
 
     print("{:25s} |$ {:11s} | {:9s} |$ {:12s}".format(
           "Donor Name", "Total Given", "Num Gifts", "Average Gift"))
