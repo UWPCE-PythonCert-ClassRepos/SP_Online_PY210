@@ -27,8 +27,7 @@ class Element(object):
         self.content.append(new_content)
 
     def render(self, out_file):
-        out_file.write(f"<{self.tag}")
-        self.render_attr(out_file);
+        self.open_tag(out_file)
         out_file.write(">\n")
         for line in self.content:
             try:
@@ -37,17 +36,38 @@ class Element(object):
                 out_file.write(f"{line}\n")
         out_file.write(f"</{self.tag}>\n")
     
+    def open_tag(self, out_file):
+        out_file.write(f"<{self.tag}")
+        self.render_attr(out_file);
+    
     def render_attr(self, out_file):
         for key, value in self.attrs:
             out_file.write(f' {key}="{value}"')
 
 class OneLineTag(Element):
-    """Renders a simple tag"""
+    """Renders a simple tag, content must be stringable"""
+    
+    def append(self, new_content):
+        raise TypeError("OneLineTags only take one line of text")
         
     def render(self, out_file):
-        out_file.write(f"<{self.tag}")
-        self.render_attr(out_file)
+        self.open_tag(out_file)
         out_file.write(f"> {self.content[0]} </{self.tag}>")
+
+class SelfClosingTag(Element):
+    """Renders a self closing tag, ie: <hr/>, <br/>"""
+    
+    def __init__(self, content = None, *args, **kwargs):
+        if content:
+            raise TypeError("SelfClosingTags cannot hold content")
+        super().__init__(*args, **kwargs)
+    
+    def append(self, new_content):
+        raise TypeError("SelfClosingTags cannot hold content")
+    
+    def render(self, out_file):
+        self.open_tag(out_file)
+        out_file.write(" />\n")
         
 class Html(Element):
     tag = "html"
@@ -63,3 +83,10 @@ class Body(Element):
     
 class P(Element):
     tag = "p"
+
+class Hr(SelfClosingTag):
+    tag = "hr"
+
+class Br(SelfClosingTag):
+    tag = "br"
+

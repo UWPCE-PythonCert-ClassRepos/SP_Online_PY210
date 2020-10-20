@@ -202,10 +202,20 @@ def test_attr():
 
 def test_class_attr():
     e = P("Some text", clas="test")
-    
-    file_contents = render_result(e).strip()
-    
+    file_contents = render_result(e).strip()    
     assert 'class="test"' in file_contents
+    
+def test_hr():
+    e = Hr(width = 400)
+    file_contents = render_result(e).strip()
+    assert file_contents == '<hr width="400" />' 
+    
+def test_br():
+    e = Br()
+    file_contents = render_result(e).strip()
+    assert file_contents == '<br />' 
+
+
 
 # #####################
 # # indentation testing
