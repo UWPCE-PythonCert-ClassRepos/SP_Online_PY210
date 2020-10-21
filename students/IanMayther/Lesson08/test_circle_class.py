@@ -71,3 +71,8 @@ def test_class_method():
 
     assert c.diameter == 8
     assert c.radius == 4
+
+
+########
+# Step 6
+########
