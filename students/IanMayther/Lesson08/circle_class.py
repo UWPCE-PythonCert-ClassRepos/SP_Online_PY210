@@ -14,6 +14,12 @@ class Circle:
         else:
             self.radius = rad
 
+    def __str__(self):
+        return 'Circle with radius: %.4f'%(self.radius)
+
+    def __repr__(self):
+        return 'Circle(%i)'%(self.radius)
+
     @property
     def diameter(self):
         'Calculate diameter of circle'
