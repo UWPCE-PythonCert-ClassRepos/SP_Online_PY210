@@ -15,10 +15,10 @@ class Circle:
             self.radius = rad
 
     def __str__(self):
-        return 'Circle with radius: %.4f'%(self.radius)
+       return '{} with radius: {:.4f}'.format(self.__class__.__name__,self.radius)
 
     def __repr__(self):
-        return 'Circle(%i)'%(self.radius)
+        return '{self.__class__.__name__}({self.radius})'.format(self=self)
 
     @property
     def diameter(self):

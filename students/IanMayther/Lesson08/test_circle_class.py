@@ -81,9 +81,10 @@ def test_printing():
     c = Circle(4)
 
     assert str(c) == 'Circle with radius: 4.0000'
-    #assert print(c) == 'Circle with radius: 4.0000'
     assert repr(c) == 'Circle(4)'
+    assert print(c) == 'Circle with radius: 4.0000'
+    print(c)
 
     d = eval(repr(c))
-
+    
     assert d == Circle(4)
