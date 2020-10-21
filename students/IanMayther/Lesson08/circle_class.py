@@ -15,10 +15,27 @@ class Circle:
             self.radius = rad
 
     def __str__(self):
-       return '{} with radius: {:.4f}'.format(self.__class__.__name__,self.radius)
+       return f'{self.__class__.__name__} with radius: {self.radius:.4f}'
 
     def __repr__(self):
-        return '{self.__class__.__name__}({self.radius})'.format(self=self)
+        return f'{self.__class__.__name__}({self.radius})'
+
+    def __add__(self, other_circle):
+        total = self.radius + other_circle.radius
+        return Circle(total)
+
+    def __eq__(self, other_circle):
+        return self.radius == other_circle.radius
+
+    def __mul__(self, other_circle):
+        if isinstance(other_circle, int):
+            prod = self.radius * other_circle
+        else:
+            prod = self.radius * other_circle.radius
+        return Circle(prod)
+
+    def __rmul__(self, value):
+        return self.__mul__(value)
 
     @property
     def diameter(self):

@@ -88,3 +88,17 @@ def test_printing():
     d = eval(repr(c))
     
     assert d == Circle(4)
+
+########
+# Step 7
+########
+
+def test_circle_add():
+    c1 = Circle(2)
+    c2 = Circle(4)
+
+    assert Circle(6) == Circle(6)
+    assert c1 + c2 == Circle(6)
+    assert c1 * c2 == Circle(8)
+    assert c2 * 3 == Circle(12)
+    assert 3 * c2 == Circle(12)
