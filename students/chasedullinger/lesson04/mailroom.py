@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# PY210 Lesson 03 MailRoom 1 - Chase Dullinger
+# PY210 Lesson 04 MailRoom 2 - Chase Dullinger
 
 import sys
 
