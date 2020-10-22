@@ -37,6 +37,9 @@ class Circle:
     def __rmul__(self, value):
         return self.__mul__(value)
 
+    def __lt__(self, other_circle):
+        return self.radius < other_circle.radius
+
     @property
     def diameter(self):
         'Calculate diameter of circle'
@@ -55,3 +58,16 @@ class Circle:
     def area(self):
         'Calculates area of circle'
         return round(math.pi * self.radius ** 2, 5)
+
+class Sphere(Circle):
+    """
+    A class-based system for rendering a sphere.
+    """
+
+    @property
+    def volume(self):
+        return (4/3) * math.pi * self.radius ** 3
+
+    @property
+    def area(self):
+        return 4 * math.pi * self.radius ** 2
