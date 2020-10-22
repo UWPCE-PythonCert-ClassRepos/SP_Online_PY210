@@ -3,9 +3,6 @@
 import sys
 import random
 
-words = "I wish I may I wish I might I could I would".split()
-words = "I wish I may I wish I might".split()
-
 
 def read_in_data(filename, header_line=None, end_of_file_line=None):
     """Reads in filename and returns a list of the lines it contained.
@@ -71,9 +68,11 @@ def get_random_word_pair(trigrams):
     words = random.choice(list(trigrams.keys()))
     return words
 
+
 def get_random_percentage(percentage=50):
     """Return true X% of the time"""
     return random.randrange(100) < percentage
+
 
 def make_sentence(trigrams, max_length=100, min_length=3):
     """build up a sentence from the trigrams
@@ -102,7 +101,7 @@ def make_sentence(trigrams, max_length=100, min_length=3):
     sentence = " ".join(sentence_words)
     sentence[0].capitalize()  # Always need to capitalize the first word
 
-    if sentence.endswith((",", ".","?","!")):
+    if sentence.endswith((",", ".", "?", "!")):
         sentence = sentence[:-1]
     # Choose how to end the sentence (i.e. period, ?, or !)
     if get_random_percentage(80):
@@ -113,6 +112,7 @@ def make_sentence(trigrams, max_length=100, min_length=3):
         sentence += "!"
 
     return sentence.replace(" ,", ",")  # strip off the space ahead of commas
+
 
 def build_text(trigrams, max_sentences=1000, min_sentences=100):
     """build up a text from sentences created with trigrams
@@ -140,7 +140,6 @@ if __name__ == "__main__":
         print("You must pass in a filename")
         sys.exit(1)
     header_line = "*** START OF THIS PROJECT GUTENBERG EBOOK"
-    header_line = None
     end_of_file_line = "End of the Project Gutenberg EBook"
     in_data = read_in_data(filename, header_line, end_of_file_line)
     words = make_words(in_data)
