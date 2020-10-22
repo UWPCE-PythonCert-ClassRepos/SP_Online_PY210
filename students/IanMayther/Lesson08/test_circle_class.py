@@ -82,12 +82,6 @@ def test_printing():
 
     assert str(c) == 'Circle with radius: 4.0000'
     assert repr(c) == 'Circle(4)'
-    assert print(c) == 'Circle with radius: 4.0000'
-    print(c)
-
-    d = eval(repr(c))
-    
-    assert d == Circle(4)
 
 ########
 # Step 7
@@ -123,14 +117,20 @@ def test_comparability():
     assert c2 == c3
 
 def test_circle_list():
-    circles = [Circle(2), Circle(1), Circle(5)]
+    '''Testing sort function'''
+    c1 = Circle(1)
+    c2 = Circle(2)
+    c5 = Circle(5)
+    circles = [c2, c1, c5]
+    circles.sort()
 
-    assert circles.sort() == '[Circle(1), Circle(2), Circle(5)]'
+    assert circles == [Circle(1), Circle(2), Circle(5)]
 
 ########
 # Step 9
 ########
 
+'''Sphere testing'''
 def test_sphere():
     with pytest.raises(AttributeError):
         s = Sphere()
