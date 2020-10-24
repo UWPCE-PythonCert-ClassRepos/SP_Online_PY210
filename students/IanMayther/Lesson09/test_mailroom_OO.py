@@ -14,42 +14,42 @@ from Donor_Models import *
 # Step 1 - Donor Class Testing
 ##############################
 
-def test_donor_init():
-    '''Instantiate donors'''
-    with pytest.raises(AttributeError):
-        d = Donor()
+# def test_donor_init():
+#     '''Instantiate donors'''
+#     with pytest.raises(AttributeError):
+#         d = Donor()
     
-    with pytest.raises(TypeError):
-        d = Donor(15)
+#     with pytest.raises(TypeError):
+#         d = Donor(15)
 
-    d = Donor("Morgan Stanley")
+#     d = Donor("Morgan Stanley")
 
-#paramatize
-def test_don_str():
-    '''Donor class string'''
-    Morgan_Stanley = Donor("Morgan Stanley")
+# #paramatize
+# def test_don_str():
+#     '''Donor class string'''
+#     Morgan_Stanley = Donor("Morgan Stanley")
 
-    assert str(Morgan_Stanley) == 'Morgan Stanley'
+#     assert str(Morgan_Stanley) == 'Morgan Stanley'
 
-#paramatize
-def test_don_repr():
-    '''Donor class repr'''
-    Morgan_Stanley = Donor("Morgan Stanley")
+# #paramatize
+# def test_don_repr():
+#     '''Donor class repr'''
+#     Morgan_Stanley = Donor("Morgan Stanley")
 
-    assert repr(Morgan_Stanley) == 'Morgan Stanley([])'
+#     assert repr(Morgan_Stanley) == 'Morgan Stanley([])'
 
-def test_init_donation():
-    '''Creating first donation'''
-    d = Donor('Paul')
-    d.append(15)
+# def test_init_donation():
+#     '''Creating first donation'''
+#     d = Donor('Paul')
+#     d.append(15)
 
-    assert d.donations == [15]
-    d.append([16, 17])
-    assert d.donations == [15, 16, 17]
+#     assert d.donations == [15]
+#     d.append([16, 17])
+#     assert d.donations == [15, 16, 17]
 
-##############################
+###################################
 # Step 2 - Donor Collection Testing
-##############################
+###################################
 
 # @pytest.mark.parametrize(
 #     'a, expected', [
@@ -62,18 +62,28 @@ def test_init_donation():
 #         ("Jeffery Bezos", False)
 #     ]
 # )
-def test_exist_dict():
-    assert Donor_Collect['Morgan Stanley'] #is expected
+def test_col_init():
+    dc = Donor_Collect()
+
+    assert dc.donors == [MS]
 
 def test_col_str():
-    d = Donor_Collect()
+    dc = Donor_Collect()
 
-    assert str(d) == "Collection of Donors: William Gates"
+    assert str(dc) == "Collection of Donors: Morgan Stanley"
 
 def test_col_repr():
-    d = Donor_Collect()
+    dc = Donor_Collect()
+    d = Donor('Morgan Stanley')
 
-    assert repr(d) == '[]'
+    assert repr(dc) == repr(d)
+
+def test_col_append():
+    d = Donor_Collect()
+    JDR = Donor('John D. Rockefeller')
+
+    assert JDR in d
+
 '''
 create donor
 track name?

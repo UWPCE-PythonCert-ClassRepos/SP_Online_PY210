@@ -37,8 +37,21 @@ class Donor_Collect(object):
     """
     Processes all the donors information doesn't work with donor functions
     """
-    donors = {"Morgan Stanely": [0.01, 20.00],
-            "Cornelius Vanderbilt": [800, 15, 10.00],
-            "John D. Rockefeller": [7000, 150.00, 25],
-            "Stephen Girard": [60000],
-            "Andrew Carnegie": [0.04, 999.99],}        
+
+    # donors = []
+
+    def __init__(self):
+        MS = Donor("Morgan Stanely")
+        '''
+        CV = Donor("Cornelius Vanderbilt")
+        JDR = Donor("John D. Rockefeller")
+        SG = Donor("Stephen Girard")
+        AC = Donor("Andrew Carnegie")
+        '''
+        self.donors = [MS]
+
+    def __str__(self):
+        return "Collection of Donors: {}".format(str(self.donors))
+
+    def __repr__(self):
+        return "{}".format(repr(self.donors))
