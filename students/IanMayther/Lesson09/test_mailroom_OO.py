@@ -19,30 +19,29 @@ def test_donor_init():
     with pytest.raises(AttributeError):
         d = Donor()
     
-    with pytest.raises(AttributeError):
+    with pytest.raises(TypeError):
         d = Donor(15)
 
     d = Donor("Morgan Stanley")
 
-def test_init_donation():
-    '''Creating first donation'''
-    d = Donor()
-    d.append(15)
-
-    assert d.donations == [15]
-
 #paramatize
 def test_str():
-    Morgan_Stanley = Donor()
+    Morgan_Stanley = Donor("Morgan Stanley")
 
-    assert str(Morgan_Stanley) == "Morgan Stanley"
+    assert str(Morgan_Stanley) == 'Morgan Stanley'
 
 #paramatize
 def test_repr():
-    Morgan_Stanley = Donor()
-    Morgan_Stanley.append(16)
+    Morgan_Stanley = Donor("Morgan Stanley")
 
-    assert repr(Morgan_Stanley) == 'Morgan Stanley([16])'
+    assert repr(Morgan_Stanley) == 'Morgan Stanley([])'
+
+def test_init_donation():
+    '''Creating first donation'''
+    d = Donor('Paul')
+    d.append(15)
+
+    assert d.donations == [15]
 
 '''
 create donor

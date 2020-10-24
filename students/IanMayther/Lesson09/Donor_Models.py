@@ -16,4 +16,15 @@ class Donor(object):
         elif isinstance(name, str):
             self.name = name
         else:
-            raise AttributeError()
+            raise TypeError("Input must be str")
+
+    def __str__(self):
+        return str(self.name)
+
+    def __repr__(self):
+        return "{}({})".format(self.name, self.donations)
+
+    def append(self,new_content):
+        don = float(new_content)
+        return self.donations.append(don)
+        
