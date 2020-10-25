@@ -71,3 +71,92 @@ def test_class_method():
 
     assert c.diameter == 8
     assert c.radius == 4
+
+
+########
+# Step 6
+########
+
+def test_printing():
+    c = Circle(4)
+
+    assert str(c) == 'Circle with radius: 4.0000'
+    assert repr(c) == 'Circle(4)'
+
+########
+# Step 7
+########
+
+def test_circle_add():
+    '''Testing math functions'''
+    c1 = Circle(2)
+    c2 = Circle(4)
+
+    assert Circle(6) == Circle(6)
+    assert c1 + c2 == Circle(6)
+    assert c1 * c2 == Circle(8)
+    assert c2 * 3 == Circle(12)
+    assert 3 * c2 == Circle(12)
+    assert 3 * c2 == c2 * 3
+
+########
+# Step 8
+########
+
+def test_comparability():
+    '''Testing if comparing functions'''
+    c1 = Circle(2)
+    c2 = Circle(4)
+
+    assert not c1 > c2
+    assert c1 < c2
+    assert not c1 == c2
+
+    c3 = Circle(4)
+
+    assert c2 == c3
+
+def test_circle_list():
+    '''Testing sort function'''
+    c1 = Circle(1)
+    c2 = Circle(2)
+    c5 = Circle(5)
+    circles = [c2, c1, c5]
+    circles.sort()
+
+    assert circles == [Circle(1), Circle(2), Circle(5)]
+
+########
+# Step 9
+########
+
+'''Sphere testing'''
+def test_sphere():
+    with pytest.raises(AttributeError):
+        s = Sphere()
+
+def test_sphere_radius():
+    s = Sphere(4)
+
+    assert s.radius == 4
+
+def test_sphere_diameter():
+    s = Sphere(4)
+
+    assert s.diameter == 8
+
+def test_volume():
+    s = Sphere(1)
+
+    assert s.volume == (4/3) * math.pi
+
+def test_surface_area():
+    s = Sphere(2)
+    
+    assert s.area == 4 * math.pi * 4
+
+def test_sphere_dunder():
+    s = Sphere(4)
+
+    assert str(s) == 'Sphere with radius: 4.0000'
+    assert repr(s) == 'Sphere(4)'
