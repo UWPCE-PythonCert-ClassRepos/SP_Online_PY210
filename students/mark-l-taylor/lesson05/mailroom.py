@@ -14,10 +14,15 @@ def get_donor_names():
 
 def add_donation(name):
     """Prompt user for donation and add to donor data."""
-    amount = input('Enter donation amount in dollars: ')
-    # convert the amount to a float and add to donor
-    donors[name].append(float(amount))
-    return amount
+    while True:
+        amount = input('Enter donation amount in dollars: ')
+        try:
+            # convert the amount to a float and add to donor
+            donors[name].append(float(amount))
+        except ValueError:
+            print('Value must be a number!')
+        else:
+            return amount
 
 
 def generate_email(name, amount):
@@ -112,10 +117,10 @@ def prompt_actions():
     # Get user action
     response = input('Please select an action: ')
     while True:
-        if not response.isnumeric() or int(response) not in enumerate_actions:
-            response = input(f'Select a number between 1 and {len(main_actions)}: ')
-        else:
+        try:
             return int(response), enumerate_actions[int(response)]
+        except ValueError:
+            response = input(f'Select a number between 1 and {len(main_actions)}: ')
 
 
 #
