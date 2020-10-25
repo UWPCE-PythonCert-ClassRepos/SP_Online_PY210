@@ -70,9 +70,13 @@ def add_donation(donor):
         return
     if donor not in donor_db:
         add_donor(donor)
-    donor_db[donor].append(float(response))
+    try:  # check to make sure we can convert response to a float
+        donor_db[donor].append(float(response))
 
-    print(compose_email(donor, float(response)))
+        print(compose_email(donor, float(response)))
+    except ValueError:
+        print("Please enter a numeric value for donation amount")
+        add_donation(donor)  # Retry adding with the same donor
 
 
 def compose_email(donor, amount):
@@ -135,8 +139,11 @@ def create_all_letters():
     """Writes letters for all donors and saves them to disk"""
     for donor in donor_db:
         total_given, total_gifts, average_gift = get_donor_stats(donor)
-        with open(f"{donor}.txt", "w") as f:
-            f.write(compose_email(donor, total_given))
+        try:
+            with open(f"{donor}.txt", "w") as f:
+                f.write(compose_email(donor, total_given))
+        except IOError:
+            print(f"Could not write file for {donor}")
 
 
 def quit_program():
