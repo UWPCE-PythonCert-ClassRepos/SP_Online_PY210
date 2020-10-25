@@ -84,10 +84,8 @@ def create_report():
     print(frmt_header.format('Donor Name', 'Total Given', 'Num Gifts', 'Average Gift'))
     print('-' * 66)
 
-    # Convert the donor data into report form
-    fmt_data = []
-    for d in donors:
-        fmt_data.append([d, sum(donors[d]), len(donors[d]), sum(donors[d]) / len(donors[d])])
+    # Convert the donor data into report form, using list comprehension
+    fmt_data = [[d, sum(donors[d]), len(donors[d]), sum(donors[d]) / len(donors[d])] for d in donors]
 
     # Sort the data by the total amount given
     fmt_data.sort(key=donation_sort, reverse=True)
