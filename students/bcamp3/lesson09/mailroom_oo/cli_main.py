@@ -12,43 +12,44 @@ This script accepts user input to perform the following donation database tasks:
 
 from donor_models import *
 
-c = DonorCollection()
 
 def send_thank_you():
     """Process donation and send Thank You to individual donor."""
-    name = input('\nEnter the full name of the donor > ')
+    name = input('\nEnter the full name of the donor >  ')
     if name == 'list':
         print('\nPrinting list of current donors :\n')
-        for i, donor in enumerate(c.donor_list, start=1):
-            print(f"{i:>4d}:  {donor}")
+        for i, name in enumerate(db.donor_list, start=1):
+            print(f"{i:>4d}:  {name}")
         send_thank_you()
     elif name in ['quit', 'q']:
         return None
     else:
-        index = c.check_name(name)
-        print(index)
-        if index >= 0:
-            print(f'Donor {c.donors[index].name} found in donor database\n')
-            d = c.donors[index]
+        _name = name.upper()
+        if _name in db.donors.keys():
+            print(f' ---> Donor {_name} found in donor database\n')
         else:
-            print(f'Adding {name.upper()} to donor database')
-            d = Donor(name)
-            c.add_donor(d)
-        print(c.donor_list)
-        print(c.check_name(name.upper()))
-        amt = input('\nEnter a donation amount > $ ')
+            print(f' ++++ Adding {_name} to donor database\n')
+        amt = input('Enter a donation amount > $ ')
+        if amt.lower() in ['quit', 'q']:
+            return None
         while True:
             try:
-                d.add_donation(amt)
+                db.update_donor(_name, amt)
             except ValueError:
                 amt = input('\nPlease enter a valid dollar amount > $ ')
             else:
                 break
-        print(c.thank_you(d.name))
+        print(db.donors[_name].send_thank_you)
 
 
 def create_report():
-    pass
+    """Create a donor database summary report."""
+    #       1234567890123456789012345 $12345678901  1234567890  $123456789012
+    print(' Donor Name               | Total Given | Num Gifts | Average Gift')
+    print(' -----------------------------------------------------------------')
+    for row in db.report:
+        print(row)
+
 
 def menu_selection(prompt, dispatch_dict):
     """Menu prompt."""
@@ -80,6 +81,17 @@ main_dispatch = {'1': send_thank_you,
 
 if __name__ == "__main__":
     """Execute the main menu prompt."""
+    # initialize donor collection database
+    db = DonorCollection()
+    # preallocating donor collection database with some donor info
+    donors = [['Katherine elmhurst', 'DAVID Anderson', 'edward Harvik',
+               'rebecca manriquez', 'callum zelnick'],
+              [[1000., 1500., 1900.], [10865., 5750.], [200., 200., 200.],
+              [1750., 1500.], [101.]]]
+    for i, donor in enumerate(donors[0]):
+        for amt in donors[1][i]:
+            db.update_donor(donor, amt)
+    # query user input
     while True:
         try:
             menu_selection(main_prompt, main_dispatch)
