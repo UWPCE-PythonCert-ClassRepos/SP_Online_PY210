@@ -14,38 +14,53 @@ from Donor_Models import *
 # Step 1 - Donor Class Testing
 ##############################
 
-# def test_donor_init():
-#     '''Instantiate donors'''
-#     with pytest.raises(AttributeError):
-#         d = Donor()
+def test_donor_init():
+    '''Instantiate donors'''
+    with pytest.raises(AttributeError):
+        d = Donor()
     
-#     with pytest.raises(TypeError):
-#         d = Donor(15)
+    with pytest.raises(TypeError):
+        d = Donor(15)
 
-#     d = Donor("Morgan Stanley")
+    d = Donor("Morgan Stanley")
 
-# #paramatize
-# def test_don_str():
-#     '''Donor class string'''
-#     Morgan_Stanley = Donor("Morgan Stanley")
+#paramatize
+def test_don_str():
+    '''Donor class string'''
+    Morgan_Stanley = Donor("Morgan Stanley")
 
-#     assert str(Morgan_Stanley) == 'Morgan Stanley'
+    assert str(Morgan_Stanley) == 'Morgan Stanley'
 
-# #paramatize
-# def test_don_repr():
-#     '''Donor class repr'''
-#     Morgan_Stanley = Donor("Morgan Stanley")
+#paramatize
+def test_don_repr():
+    '''Donor class repr'''
+    Morgan_Stanley = Donor("Morgan Stanley")
 
-#     assert repr(Morgan_Stanley) == 'Morgan Stanley([])'
+    assert repr(Morgan_Stanley) == 'Morgan Stanley([])'
 
-# def test_init_donation():
-#     '''Creating first donation'''
-#     d = Donor('Paul')
-#     d.append(15)
+def test_init_donation():
+    '''Creating first donation'''
+    d = Donor('Paul')
+    d.append(15)
 
-#     assert d.donations == [15]
-#     d.append([16, 17])
-#     assert d.donations == [15, 16, 17]
+    assert d.donations == [15]
+    d.append([16, 17])
+    assert d.donations == [15, 16, 17]
+
+def test_thankyou_note():
+    M_S = Donor("Morgan Stanley")
+    M_S.donations = [10]
+    M_S.append(7.50)
+
+    assert M_S.thank_you() == "Thanks Morgan Stanley for your $17.50 in donations."
+
+def test_thankyou_email():
+    M_S = Donor("Morgan Stanley")
+    M_S.donations = [10]
+    M_S.append(7.5)
+
+    assert M_S.email().startswith("Greetings Morgan Stanley")
+
 
 ###################################
 # Step 2 - Donor Collection Testing
@@ -79,10 +94,20 @@ def test_col_repr():
     assert repr(dc) == repr(d)
 
 def test_col_append():
-    d = Donor_Collect()
+    ''''Testing if Donor appends to Donor_Collection'''
+    dc = Donor_Collect()
     JDR = Donor('John D. Rockefeller')
+    dc.append(JDR)
 
-    assert JDR in d
+    ans = False
+    for i in dc.donors:
+        if i == JDR:
+            ans = True
+        
+    assert ans
+
+    with pytest.raises(AttributeError):
+        dc.append('False Item')
 
 '''
 create donor

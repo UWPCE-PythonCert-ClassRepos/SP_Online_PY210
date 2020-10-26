@@ -32,6 +32,21 @@ class Donor(object):
                 self.donations.append(new_content[i])
         return self.donations
 
+    def email(self):
+        body = f"""Greetings {self.name}\n
+    \n
+    Thank you so much for your generous contribution to our charity.\n
+    It is donors like you who make our work of building schools for ants' possible.\n
+    With your gift of ${sum(self.donations)}, means (10) or (20) more schools can be built to help the ants learn to read.\n
+    \n
+    Sincerely,\n
+    Derek Zoolander\n
+    Founder and C.E.O. of Derek Zoolander Charity for Ants Who Can't Read Good (DZCAWCRG)\n"""
+        return body
+
+    def thank_you(self):
+        body = "Thanks {} for your ${:.2f} in donations.".format(self.name, sum(self.donations))
+        return body
 
 class Donor_Collect(object):
     """
@@ -55,3 +70,10 @@ class Donor_Collect(object):
 
     def __repr__(self):
         return "{}".format(repr(self.donors))
+
+    def append(self,new_content):
+        if isinstance(new_content, Donor):
+            self.donors.append(new_content)
+        else:
+            raise AttributeError("Only Class Donors can be append to .Donors list")
+        return self.donors
