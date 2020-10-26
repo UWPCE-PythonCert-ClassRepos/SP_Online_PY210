@@ -163,16 +163,11 @@ if __name__ == '__main__':
                     except ValueError:
                         print("Entry failed: Donations must be entered as a number!")
                         break
-
-
-
         elif choice == "2":
             create_report(DONOR_LIST)
-
         elif choice == "3":
             close_app()
             break
-
         else:
             pass
 
