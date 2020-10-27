@@ -77,6 +77,7 @@ print(list_double)
 
 # -------SERIES 3 -------#
 # Ask the user for input displaying a line like “Do you like apples?” for each fruit in the list (making the fruit all lowercase).
+remove_list = []
 for item in list:
     input_preference = input("Do you like " + item + ' ? Please enter "y" or "n": ')
     input_preference = str(input_preference.lower())
