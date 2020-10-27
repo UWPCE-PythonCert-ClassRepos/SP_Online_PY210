@@ -1,7 +1,13 @@
 # !/usr/bin/env python3
+"""
+Completed 8/23/2020 but realized 10/17/202 it hadn't been turned in for grade.
+Added the extra assignment.
+10/17/2020: update git and turn in
+"""
 
 
 def task1(input):
+    print(f"\n++++++++++ {task1.__name__} ++++++++++\n")
     # First element is used to generate filename to help with sorting
     the_list = list(input)
 
@@ -20,6 +26,7 @@ def task1(input):
 
 
 def task2(input):
+    print(f"\n++++++++++ {task2.__name__} ++++++++++\n")
     # same input as task1 but use different formatting method
     the_list = list(input)
 
@@ -32,6 +39,8 @@ def task2(input):
 
 
 def formatter_task3(*in_tuple):
+    print(f"\n++++++++++ {formatter_task3.__name__} ++++++++++")
+    print(f"\tHow many values passed? {len(in_tuple)}\n")
 
     ll = len(in_tuple)
     ll_2 = len(in_tuple)-1
@@ -43,6 +52,7 @@ def formatter_task3(*in_tuple):
 
 
 def task4(ff):
+    print(f"\n++++++++++ {task4.__name__} ++++++++++\n")
     print("task4: ", ff)
     # given a tuple, use index numbers to specify positions
     return f'{ff[3]:02d} {ff[4]:d} {ff[2]:d} {ff[0]:02d} {ff[1]:d}'
@@ -50,6 +60,7 @@ def task4(ff):
 
 
 def task5(input):
+    print(f"\n++++++++++ {task5.__name__} ++++++++++\n")
     print("task5: ", input)
     f1 = input[0]
     f2 = input[2]
@@ -59,6 +70,7 @@ def task5(input):
 
 
 def task6(input):
+    print(f"\n++++++++++ {task6.__name__} ++++++++++\n")
     print("task6: ", input)
     # print table of several rows, with name, age and cost
     # Make some costs in hundreds and thousands to test alignment specifiers.
@@ -71,6 +83,14 @@ def task6(input):
 
     for row in input:
         print(f'{row[0]:{name_len}}{row[1]:{age_len}}{row[2]:{cost_len}}')
+
+
+def task6_extra(input):
+    print(f"\n++++++++++ {task6_extra.__name__} ++++++++++\n")
+    print("task6_extra: ", input)
+
+    for row in input: 
+        print("{:5}".format(row), end=" ")
 
 
 # This it to be contents in tuple '02 27 2017 04 30'
@@ -89,7 +109,8 @@ print(task4(task4_input))
 
 print(task5(['oranges', 1.3, 'lemons', 1.1]))
 
-arr = [['Ann', 14, 1023.01], ['Elizabeth', 37, 106310.23], ['Jackson', 52, 30]]
+arr = [['Elizabeth', 37, 106310.23], ['Ann', 14, 1023.01], ['Jackson', 52, 30]]
 # max length of each column
 # print([max(len(str(x)) for x in line) for line in zip(*arr)])
 task6(arr)
+task6_extra(range(10))
