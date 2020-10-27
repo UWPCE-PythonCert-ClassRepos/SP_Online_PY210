@@ -7,7 +7,7 @@
 
 # Data -------------------------------------------------------------------- #
 
-# Databse for donor information
+# Database for donor information
 DONOR_LIST = [
     {"Donor Name": "William Gates, III", "Total Given": 653784.49, "Num Gifts": 2, "Average Gift": 326892.24},
     {"Donor Name": "Mark Zuckerberg", "Total Given": 16396.10, "Num Gifts": 3, "Average Gift": 5465.37},

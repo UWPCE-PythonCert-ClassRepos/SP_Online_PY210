@@ -1,6 +1,3 @@
-Å
-
-
 # the first and last items exchanged
 def exchange_first_last(seq):
     return seq[-1::] + seq[1:-1] + seq[0:1]
