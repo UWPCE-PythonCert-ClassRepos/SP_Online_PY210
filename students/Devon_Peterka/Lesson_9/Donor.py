@@ -10,10 +10,18 @@ class Donor(object):
     Donation field is optional.  Multiple initial donations can be input
     as a list.
     '''
-    def __init__(self, first, last, donation=[]):
+    def __init__(self, first, last, donation=None):
+        '''
+        Initializes donor name atribute.  Initializes an empty list
+        (donation history) if no initial donation is given.  If
+        multiple initial donations are given, passes the list to
+        donations attribute.  If a single initial donation is given,
+        initializes a list starting with that donation value.
+        '''
         self._name = (first.title(), last.title())
-        donation = donation if type(donation) is list else [donation]
-        self._donations = donation
+        if donation is None:
+            donation = []
+        self._donations = donation if type(donation) is list else [donation]
 
     def __repr__(self):
         '''

@@ -3,6 +3,9 @@
 import unittest
 import MailroomOO as mailroom
 from Donor import Donor
+from DonorCollection import DonorCollection
+import io
+import sys
 
 class test_Donor(unittest.TestCase):
     '''
@@ -85,6 +88,21 @@ class test_Donor(unittest.TestCase):
         d_list = [self.donor1, self.donor2, self.donor3]
         self.assertEqual(sorted(d_list, key=Donor.sort_by_donations,), [self.donor1, self.donor3, self.donor2])
 
-class test_Mailroom(unittest.TestCase):
+class test_DonorCollection(unittest.TestCase):
     def setUp(self):
-        pass
+        '''
+        Sets up a collection of 4-5 donors each with 1-3 donations each.
+        '''
+        
+    def test_list(self):
+        '''
+        Tests what happens when the user inputs 'list'
+        
+        *** needs to be adjusted to match this program
+        '''
+        capturedOutput = io.StringIO()
+        sys.stdout = capturedOutput
+#        (call function)
+        sys.stdout = sys.__stdout__
+        self.assertEqual(capturedOutput.getvalue(), "something")
+
