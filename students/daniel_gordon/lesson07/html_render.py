@@ -9,6 +9,7 @@ A class-based system for rendering html.
 class Element(object):
     #tag here allows the test script to test the framework without extending it
     tag = "html"
+    indent = "    "
     
     def __init__(self, content=None, **kwargs):
         """
@@ -26,18 +27,18 @@ class Element(object):
     def append(self, new_content):
         self.content.append(new_content)
 
-    def render(self, out_file):
-        self.open_tag(out_file)
+    def render(self, out_file, ind=""):
+        self.open_tag(out_file, ind)
         out_file.write(">\n")
         for line in self.content:
             try:
-                line.render(out_file)
+                line.render(out_file, ind+self.indent)
             except AttributeError:
-                out_file.write(f"{line}\n")
-        out_file.write(f"</{self.tag}>\n")
+                out_file.write(f"{ind}{self.indent}{line}\n")
+        out_file.write(f"{ind}</{self.tag}>\n")
     
-    def open_tag(self, out_file):
-        out_file.write(f"<{self.tag}")
+    def open_tag(self, out_file, ind):
+        out_file.write(f"{ind}<{self.tag}")
         self.render_attr(out_file);
     
     def render_attr(self, out_file):
@@ -50,8 +51,8 @@ class OneLineTag(Element):
     def append(self, new_content):
         raise TypeError("OneLineTags only take one line of text")
         
-    def render(self, out_file):
-        self.open_tag(out_file)
+    def render(self, out_file, ind=""):
+        self.open_tag(out_file, ind)
         out_file.write(f"> {self.content[0]} </{self.tag}>\n")
 
 class SelfClosingTag(Element):
@@ -65,16 +66,16 @@ class SelfClosingTag(Element):
     def append(self, new_content):
         raise TypeError("SelfClosingTags cannot hold content")
     
-    def render(self, out_file):
-        self.open_tag(out_file)
+    def render(self, out_file, ind=""):
+        self.open_tag(out_file, ind)
         out_file.write(" />\n")
         
 class Html(Element):
     tag = "html"
     
-    def render(self, out_file, *args, **kwargs):
-        out_file.write("<!DOCTYPE html>")
-        super().render(out_file, *args, **kwargs)
+    def render(self, out_file, ind="", *args, **kwargs):
+        out_file.write(f"{ind}<!DOCTYPE html>\n")
+        super().render(out_file, ind, *args, **kwargs)
 
 class Head(Element):
     tag = "head"
