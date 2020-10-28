@@ -22,7 +22,7 @@ class Donor(object):
         return str(self.name)
 
     def __repr__(self):
-        return "{}({})".format(self.name, self.donations)
+        return "{}".format(self.name)
 
     def append(self,new_content):
         if isinstance(new_content, (float, int)):
@@ -61,14 +61,15 @@ class Donor_Collect(object):
     donors = []
 
     def __init__(self):
-        '''
+        
         MS = Donor("Morgan Stanley")
+        '''
         CV = Donor("Cornelius Vanderbilt")
         JDR = Donor("John D. Rockefeller")
         SG = Donor("Stephen Girard")
         AC = Donor("Andrew Carnegie")
-        
-        self.donors = [MS]'''
+        '''
+        self.donors = [MS]
 
     def __str__(self):
         return "Collection of Donors: {}".format(str(self.donors))
@@ -86,7 +87,7 @@ class Donor_Collect(object):
     def calc_report(self):
         new_dict = {}
         for donor in self.donors:
-            new_dict[str(Donor)] = []
+            new_dict[donor] = []
             new_dict[donor].append(sum(Donor.donations))
             new_dict[donor].append(len(Donor.donations))
             new_dict[donor].append(sum(Donor.donations)/len(Donor.donations))

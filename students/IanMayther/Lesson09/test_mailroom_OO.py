@@ -36,7 +36,7 @@ def test_don_repr():
     '''Donor class repr'''
     Morgan_Stanley = Donor("Morgan Stanley")
 
-    assert repr(Morgan_Stanley) == 'Morgan Stanley([])'
+    assert repr(Morgan_Stanley) == 'Morgan Stanley'
 
 def test_init_donation():
     '''Creating first donation'''
@@ -55,36 +55,13 @@ def test_thankyou_note():
     assert M_S.thank_you() == "Thanks Morgan Stanley for your $17.50 in donations."
 
 def test_thankyou_email():
+    '''Test email text'''
     M_S = Donor("Morgan Stanley")
     M_S.donations = [10]
     M_S.append(7.5)
 
     assert M_S.email().startswith("Greetings Morgan Stanley")
     assert M_S.email().endswith("(DZCAWCRG)\n")
-
-'''
-def test_total_value():
-    M_S = Donor("Morgan Stanley")
-    M_S.donations = [10]
-    M_S.append(7.50)
-
-    assert M_S.total == 17.50
-
-def test_average():
-    M_S = Donor("Morgan Stanley")
-    M_S.donations = [10]
-    M_S.append(7.50)
-
-    assert M_S.average == (17.50/2)
-
-def test_total_gifts():
-    M_S = Donor("Morgan Stanley")
-    M_S.donations = [10]
-    M_S.append(7.50)
-
-    assert M_S.total_gift == 17.50
-'''
-
 
 ###################################
 # Step 2 - Donor Collection Testing
@@ -104,9 +81,10 @@ def test_total_gifts():
 def test_col_init():
     dc = Donor_Collect()
     MS = Donor("Morgan Stanley")
-    MS.donations = []
+    #MS.donations = []
 
-    assert repr(MS) in dc.donors
+    print(dc)
+    assert "".join(dc.donors) == "Morgan Stanley"
 
 def test_col_str():
     dc = Donor_Collect()
@@ -146,8 +124,9 @@ def test_sum_gift():
     # print(dc.donors)
     new_dict = dc.calc_report()    
 
+    print(M_S.donations)
     print(dc.calc_report())
-    assert new_dict[0] == "Morgan Stanley"
+    assert new_dict[1] == "Morgan Stanley"
     assert new_dict[1][0] == 17.5
     assert new_dict[1][1] == 2 
     assert new_dict[1][2] == 8.75
