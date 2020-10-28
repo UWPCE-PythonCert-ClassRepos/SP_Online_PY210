@@ -48,22 +48,27 @@ class Donor(object):
         body = "Thanks {} for your ${:.2f} in donations.".format(self.name, sum(self.donations))
         return body
 
+    #Propreties of donors for calculations
+
+
+
+
 class Donor_Collect(object):
     """
     Processes all the donors information doesn't work with donor functions
     """
 
-    # donors = []
+    donors = []
 
     def __init__(self):
-        MS = Donor("Morgan Stanely")
         '''
+        MS = Donor("Morgan Stanley")
         CV = Donor("Cornelius Vanderbilt")
         JDR = Donor("John D. Rockefeller")
         SG = Donor("Stephen Girard")
         AC = Donor("Andrew Carnegie")
-        '''
-        self.donors = [MS]
+        
+        self.donors = [MS]'''
 
     def __str__(self):
         return "Collection of Donors: {}".format(str(self.donors))
@@ -77,3 +82,12 @@ class Donor_Collect(object):
         else:
             raise AttributeError("Only Class Donors can be append to .Donors list")
         return self.donors
+
+    def calc_report(self):
+        new_dict = {}
+        for donor in self.donors:
+            new_dict[str(Donor)] = []
+            new_dict[donor].append(sum(Donor.donations))
+            new_dict[donor].append(len(Donor.donations))
+            new_dict[donor].append(sum(Donor.donations)/len(Donor.donations))
+        return new_dict

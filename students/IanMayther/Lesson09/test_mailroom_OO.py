@@ -60,6 +60,30 @@ def test_thankyou_email():
     M_S.append(7.5)
 
     assert M_S.email().startswith("Greetings Morgan Stanley")
+    assert M_S.email().endswith("(DZCAWCRG)\n")
+
+'''
+def test_total_value():
+    M_S = Donor("Morgan Stanley")
+    M_S.donations = [10]
+    M_S.append(7.50)
+
+    assert M_S.total == 17.50
+
+def test_average():
+    M_S = Donor("Morgan Stanley")
+    M_S.donations = [10]
+    M_S.append(7.50)
+
+    assert M_S.average == (17.50/2)
+
+def test_total_gifts():
+    M_S = Donor("Morgan Stanley")
+    M_S.donations = [10]
+    M_S.append(7.50)
+
+    assert M_S.total_gift == 17.50
+'''
 
 
 ###################################
@@ -79,8 +103,10 @@ def test_thankyou_email():
 # )
 def test_col_init():
     dc = Donor_Collect()
+    MS = Donor("Morgan Stanley")
+    MS.donations = []
 
-    assert dc.donors == [MS]
+    assert repr(MS) in dc.donors
 
 def test_col_str():
     dc = Donor_Collect()
@@ -108,6 +134,23 @@ def test_col_append():
 
     with pytest.raises(AttributeError):
         dc.append('False Item')
+
+def test_sum_gift():
+    dc = Donor_Collect()
+    M_S = Donor("Morgan Stanley")
+    dc.append(M_S)
+    M_S.donations = [10]
+    M_S.append(7.50)
+
+    # print(sum(M_S.donations))
+    # print(dc.donors)
+    new_dict = dc.calc_report()    
+
+    print(dc.calc_report())
+    assert new_dict[0] == "Morgan Stanley"
+    assert new_dict[1][0] == 17.5
+    assert new_dict[1][1] == 2 
+    assert new_dict[1][2] == 8.75
 
 '''
 create donor
