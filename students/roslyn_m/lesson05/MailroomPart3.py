@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # Title: Mailroom Part 2 (Lesson 4)
 # Dev: Roslyn Melookaran
-# Date: 10/2/20
+# Date: 10/26/20
 # Change Log: (Who, When, What)
-# R. Melookaran, 10/2/20, created script)
+# R. Melookaran, 10/26/20, created script)
 # --------------------------------------------------------------
 
 # ----------Functions----------#
@@ -44,16 +44,23 @@ def thank_you_note(donor_all):
         user_input = input(
             'Please type the FULL NAME of the donor who you would like to write a thank you note to. If you would like to see a complete donor list, type "list": ')
     for person in donor_all:
-        for pvalue in person.values():
-            if user_input.title() == pvalue:
+        if user_input.title() == person["Name"]:
+            try:
                 donation_amt = float(input("Please enter the donation amount: "))
-                person["Total"] = person["Total"] + donation_amt
-                person["Qty"] = person["Qty"] + 1
-                person["Avg"] = round(person["Total"] / person["Qty"], 2)
-                existing = True
-                person_to_thank = person
+            except ValueError:
+                print("Your input was not valid!")
+                donation_amt = float(input("Please enter the donation amount: "))
+            person["Total"] = person["Total"] + donation_amt
+            person["Qty"] = person["Qty"] + 1
+            person["Avg"] = round(person["Total"] / person["Qty"], 2)
+            existing = True
+            person_to_thank = person
     if existing != True:
-        donation_amt = float(input("Please enter the donation amount: "))
+        try:
+            donation_amt = float(input("Please enter the donation amount: "))
+        except ValueError:
+            print("Your input was not valid!")
+            donation_amt = float(input("Please enter the donation amount: "))
         person_add = {"Name": user_input.title(), "Total": donation_amt, "Qty": 1, "Avg": donation_amt}
         donor_all.append(person_add)
         person_to_thank = person_add
@@ -119,11 +126,29 @@ dict = {
 if __name__ == '__main__':
     options_menu()
     user_input = option_input()
-    user_input = int(user_input)
-    while user_input != 4:
-        dict.get(user_input)(donor_list)
-        options_menu()
+    try:
+        user_input = int(user_input)
+    except ValueError:
+        print("You must enter a number from 1-4")
         user_input = option_input()
         user_input = int(user_input)
+    while user_input != 4:
+        try:
+            dict.get(user_input)(donor_list)
+        except TypeError:
+            print("You must enter a number from 1-4")
+        options_menu()
+        user_input = option_input()
+        try:
+            user_input = int(user_input)
+        except ValueError:
+            print("You must enter a number from 1-4")
+            user_input = option_input()
+            user_input = int(user_input)
     exit_input = input('Thanks for using the program. Hit enter to exit.')
+
+# Overall I tried to see which for loops I could replace with comprehensions.
+# In both the thank_you_note and send_all_thank_you functions, the for loops were not "Processing a sequence of items to create another sequence."
+# In both functions I found the for loops to be more complex and it seemed like attempting to make a comprehension out of them would make for a far more difficult code to decipher
+# I chose to not replace any of my for loops with comprehensions in this exercise
 
