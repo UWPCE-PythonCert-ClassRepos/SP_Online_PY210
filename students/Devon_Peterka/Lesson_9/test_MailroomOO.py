@@ -93,16 +93,80 @@ class test_DonorCollection(unittest.TestCase):
         '''
         Sets up a collection of 4-5 donors each with 1-3 donations each.
         '''
-        
-    def test_list(self):
-        '''
-        Tests what happens when the user inputs 'list'
-        
-        *** needs to be adjusted to match this program
-        '''
-        capturedOutput = io.StringIO()
-        sys.stdout = capturedOutput
-#        (call function)
-        sys.stdout = sys.__stdout__
-        self.assertEqual(capturedOutput.getvalue(), "something")
+        self.donor1 = Donor('Dave', 'Jones')
+        self.donor2 = Donor('Jerry', 'morts', 500)
+        self.donor3 = Donor('jack', 'El',  [300,50,9])
+        self.donor4 = Donor('Jenifer', 'Yelb', [12000, 5000])
+        self.donor5 = Donor('Ermy', 'Hermy', [0.53])
+        donors = [self.donor1, self.donor2, self.donor3,
+                  self.donor4, self.donor5]
+        # Coincidentally, we're testing the init function here as well.
+        self.Donor_List = DonorCollection(donors)
 
+    def test_inits_and_repr(self):
+        '''
+        Test to verify DonorCollection behaves as expected:
+            Throws exceptions with invalid inputs
+            Accepts empty inputs
+            Accepts multiple inputs (already tested technically)
+        '''
+        self.assertEqual(str(self.Donor_List), '[Donor(Dave, Jones), Donor(Jerry, Morts), Donor(Jack, El), Donor(Jenifer, Yelb), Donor(Ermy, Hermy)]')
+
+    def test_invalid_init(self):
+        '''
+        Verify exceptions are raised when invalid inputs are used to
+        initialize class object.  Both of the following cases should
+        raise an exception:
+            1) non-Donor object input
+            2) mixture of Donor and non-Donor objects input
+        '''
+        with self.assertRaises(TypeError):
+            D = DonorCollection('Five')
+
+        with self.assertRaises(TypeError):
+            bad_list = [self.donor1, self.donor3, 8, '!']
+            D = DonorCollection(bad_list)
+        
+    def test_empty_init(self):
+        '''
+        Verify DonorCollection object can be initialized empty.
+        '''
+        D = DonorCollection()
+        self.assertEqual(str(D), '[]')
+
+#    def test_list(self):
+#        '''
+#        Tests what happens when the user inputs 'list'
+#
+#        *** needs to be adjusted to match this program
+#        '''
+#        capturedOutput = io.StringIO()
+#        sys.stdout = capturedOutput
+##        (call function)
+#        sys.stdout = sys.__stdout__
+#        self.assertEqual(capturedOutput.getvalue(), "something")
+
+    def test_add_donor(self):
+        '''
+        Tests that a donor can be added to the collection.
+        '''
+        donor6 = Donor('Glumpy', 'Terpintine', 800)
+        print(type(donor6))
+        self.Donor_List.add(donor6)
+        self.assertEqual(str(self.Donor_List), '[Donor(Dave, Jones), Donor(Jerry, Morts), Donor(Jack, El), Donor(Jenifer, Yelb), Donor(Ermy, Hermy), Donor(Glumpy, Terpintine)]')
+
+    def test_add_fail(self):
+        '''
+        Verifies that add donor function exits with exception when fed
+        a non-Donor object.
+        '''
+        with self.assertRaises(TypeError):
+            self.Donor_List.add('five')
+
+    def test_new(self):
+        '''
+        Test functionality to create Donor object and simultaneously add
+        it to the DonorCollection object.
+        '''
+        self.Donor_List.new('Aks', 'Jeeves', [82])
+        self.assertEqual(self.Donor_List,'[Donor(Dave, Jones), Donor(Jerry, Morts), Donor(Jack, El), Donor(Jenifer, Yelb),  Donor(Ermy, Hermy), Donor(Aks, Jeeves)]')
