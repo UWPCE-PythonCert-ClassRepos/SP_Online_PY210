@@ -24,19 +24,35 @@ def test_donor_init():
 
     d = Donor("Morgan Stanley")
 
-#paramatize
-def test_don_str():
+@pytest.mark.parametrize(
+    'a, b', [
+        ('M_S', "Morgan Stanley"),
+        ('C_V', "Cornelius Vanderbilt"),
+        ('J_D_R', "John D. Rockefeller"),
+        ('S_G', "Stephen Girard"),
+        ('A_C', "Andrew Carnegie"),
+    ]
+)
+def test_don_str(a, b):
     '''Donor class string'''
-    Morgan_Stanley = Donor("Morgan Stanley")
+    a = Donor(b)
 
-    assert str(Morgan_Stanley) == 'Morgan Stanley'
+    assert str(a) == b
 
-#paramatize
-def test_don_repr():
+@pytest.mark.parametrize(
+    'a, b', [
+        ('M_S', "Morgan Stanley"),
+        ('C_V', "Cornelius Vanderbilt"),
+        ('J_D_R', "John D. Rockefeller"),
+        ('S_G', "Stephen Girard"),
+        ('A_C', "Andrew Carnegie"),
+    ]
+)
+def test_don_repr(a, b):
     '''Donor class repr'''
-    Morgan_Stanley = Donor("Morgan Stanley")
+    a = Donor(b)
 
-    assert repr(Morgan_Stanley) == 'Morgan Stanley'
+    assert repr(a) == b
 
 def test_init_donation():
     '''Creating first donation'''
@@ -80,22 +96,13 @@ def test_thankyou_email():
 # )
 def test_col_init():
     dc = Donor_Collect()
-    MS = Donor("Morgan Stanley")
-    #MS.donations = []
 
-    print(dc)
-    assert "".join(dc.donors) == "Morgan Stanley"
-
-def test_col_str():
-    dc = Donor_Collect()
-
-    assert str(dc) == "Collection of Donors: Morgan Stanley"
-
-def test_col_repr():
-    dc = Donor_Collect()
-    d = Donor('Morgan Stanley')
-
-    assert repr(dc) == repr(d)
+    assert isinstance(dc.donors, list)
+    assert isinstance(dc.donors[0], Donor)
+    assert isinstance(dc.donors[1], Donor)
+    assert isinstance(dc.donors[2], Donor)
+    assert isinstance(dc.donors[3], Donor)
+    assert isinstance(dc.donors[4], Donor)
 
 def test_col_append():
     ''''Testing if Donor appends to Donor_Collection'''
@@ -115,21 +122,14 @@ def test_col_append():
 
 def test_sum_gift():
     dc = Donor_Collect()
-    M_S = Donor("Morgan Stanley")
-    dc.append(M_S)
-    M_S.donations = [10]
-    M_S.append(7.50)
-
-    # print(sum(M_S.donations))
-    # print(dc.donors)
+    JDR = Donor('John D. Rockefeller')
+    dc.append(JDR)
     new_dict = dc.calc_report()    
 
-    print(M_S.donations)
-    print(dc.calc_report())
-    assert new_dict[1] == "Morgan Stanley"
-    assert new_dict[1][0] == 17.5
-    assert new_dict[1][1] == 2 
-    assert new_dict[1][2] == 8.75
+    assert new_dict[JDR] is not None
+    assert new_dict[JDR][0] == 48.0
+    assert new_dict[JDR][1] == 3 
+    assert new_dict[JDR][2] == 16
 
 '''
 create donor
@@ -141,7 +141,7 @@ str
 repr
 
 
-confirm starting dict
+confirm starting list
 confirm existance
 don col str
 don col repr

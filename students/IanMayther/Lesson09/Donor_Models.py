@@ -63,13 +63,13 @@ class Donor_Collect(object):
     def __init__(self):
         
         MS = Donor("Morgan Stanley")
-        '''
+
         CV = Donor("Cornelius Vanderbilt")
         JDR = Donor("John D. Rockefeller")
         SG = Donor("Stephen Girard")
         AC = Donor("Andrew Carnegie")
-        '''
-        self.donors = [MS]
+
+        self.donors = [MS, CV, JDR, SG, AC]
 
     def __str__(self):
         return "Collection of Donors: {}".format(str(self.donors))
