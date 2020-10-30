@@ -46,9 +46,24 @@ def thank_you():
 
 def create_report():
     donors.report_of_donors()
+    return_input = input(f"{sub_menu_prompt}")
+    if return_input in ["menu", "quit"]:
+            sub_menu_switch[return_input.lower()]()
 
 def thank_all_donors():
-    pass
+    while True:
+        dir_name = input(f"What would you like to call the directory?\n{sub_menu_prompt}")
+        if dir_name.lower() in ["menu", "quit"]:
+            sub_menu_switch[dir_name.lower()]()
+            return False
+        else:
+            try:
+                wd = os.getcwd()
+                os.mkdir(wd + "/" + dir_name)
+                donors.thank_all_donors(dir_name)
+                return False
+            except FileExistsError:
+                print("Please try a different file name")
 
 def quit_program():
     print("Bye!")

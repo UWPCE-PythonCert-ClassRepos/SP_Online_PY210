@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import os
+
 class Donor():
 
     def __init__(self, name, donation_amount=None):
@@ -46,7 +48,6 @@ class DonorCollection():
         return "\n".join(donor_list)
     
     def report_of_donors(self):
-        print(self.table_header())
         for donor in self.donors.values():
             name = donor.name
             total_donation_amount = sum(donor.donation_amount)
@@ -59,3 +60,11 @@ class DonorCollection():
     
     def row_formatter(self, row):
         return "{:25}|${:11.2f}|{:10}|${:11.2f}".format(*row)
+
+    def thank_all_donors(self, dir_name):
+        wd = os.getcwd()
+        for donor in self.donors.values():
+            file_path = wd + "/" + dir_name + "/" + donor.name + ".txt"
+            letter = donor.thank_you_letter()
+            with open(file_path, "w") as f:
+                f.write(letter)
