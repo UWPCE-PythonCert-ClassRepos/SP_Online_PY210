@@ -61,15 +61,15 @@ class Donor_Collect(object):
     donors = []
 
     def __init__(self):
-        
+        '''
+        TO BE REMOVED LATER
         MS = Donor("Morgan Stanley")
-
         CV = Donor("Cornelius Vanderbilt")
         JDR = Donor("John D. Rockefeller")
         SG = Donor("Stephen Girard")
         AC = Donor("Andrew Carnegie")
-
-        self.donors = [MS, CV, JDR, SG, AC]
+        '''
+        self.donors = []
 
     def __str__(self):
         return "Collection of Donors: {}".format(str(self.donors))
@@ -91,4 +91,5 @@ class Donor_Collect(object):
             new_dict[donor].append(sum(Donor.donations))
             new_dict[donor].append(len(Donor.donations))
             new_dict[donor].append(sum(Donor.donations)/len(Donor.donations))
-        return new_dict
+        calc_dict = sorted(new_dict.items(), key=lambda t: t[1], reverse=True)
+        return calc_dict

@@ -1,11 +1,11 @@
-import argparse
+from collections import OrderedDict 
 import operator
 import os
 
 class Report:
     def __init__(self):
         """ Report class holds the list of all donors and information associated with them."""
-        self.donors = list()
+        self.donors = dict()
         Kristy = Donor("Kristy Martini", 0, 3, 3000)
         Mikey = Donor("Mike Martini", 0, 7, 3424834)
         Cathy = Donor("Cathy Martini", 0, 7, 63833)
@@ -18,16 +18,19 @@ class Report:
 
     def add_donor(self,Donor):
         """ Add new donor to report"""
-        self.donors.append(Donor)
+        self.donors[Donor.name] = Donor
 
     def create_report(self, newReport):
-        sorted_donors = sorted(newReport.donors, key=operator.attrgetter('total_gift_value'), reverse=True)
-
+        donor_list = list(newReport.donors.values())
+        sorted_donors = sorted(donor_list, key=operator.attrgetter('total_gift_value'), reverse=True)
+        sorted_dict = dict()
+        for donor in sorted_donors:
+            sorted_dict[donor.name] = donor
         """ Display donor report to the user"""
         print("Donor Name          | Total Given   | Num Gifts | Average Gift")
         print("--------------------------------------------------------------")
-        for donor in sorted_donors:
-            line_str = '{0:21}'.format(donor.name) + "$" + '{0:14}'.format(donor.total_gift_value) + '{0:12}'.format(donor.num_gifts) + " $" + '{0:12}'.format(donor.average_gift)
+        for value in sorted_dict.values():
+            line_str = '{0:21}'.format(value.name) + "$" + '{0:14}'.format(value.total_gift_value) + '{0:12}'.format(value.num_gifts) + " $" + '{0:12}'.format(value.average_gift)
             print(line_str)
         print("\n")
         prompt_user(newReport)
@@ -67,12 +70,12 @@ def check_name(newReport=None):
         name_to_thank= input("Please enter the full name of the donor you'd like to thank, or enter 'quit' to exit: ")
         if name_to_thank == "quit":
             prompt_user(newReport)
-    for donor in newReport.donors:
-        if donor.name == name_to_thank:
+    if name_to_thank in newReport.donors:
             donor_found = True
             donation_amount = input("Please enter the donation amount for which you want to thank this donor: ")
             if donation_amount == "quit":
                 prompt_user(newReport)
+            donor = newReport.donors[name_to_thank]
             donor.add_gift(int(donation_amount))
             send_thank_you(donor)
             prompt_user(newReport)
@@ -83,7 +86,7 @@ def check_name(newReport=None):
             prompt_user(newReport)
         newDonor = Donor(name_to_thank, int(donation_amount), 1, int(donation_amount))
         newReport.add_donor(newDonor)
-        send_thank_you(donor)
+        send_thank_you(newDonor)
         prompt_user(newReport)
 
 def send_thank_you(donor):
@@ -95,7 +98,7 @@ def send_thank_you(donor):
         f.write("Your generous gifts swill allow us to continue to serve our community in the hopes of a better world")
 
 def send_thank_you_multiple(newReport):
-    for donor in newReport.donors:
+    for donor in newReport.donors.values():
         send_thank_you(donor)
     prompt_user(newReport)
 

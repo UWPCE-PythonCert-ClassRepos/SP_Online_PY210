@@ -5,6 +5,7 @@
 # ChangeLog (Who,When,What):
 # Kate Golenkova, 10/20/2020, Created script
 # Kate Golenkova, 10/23/2020, Changed script
+# Kate Golenkova, 10/26/2020, Changed script
 # ---------------------------------------------------------------------------- #
 import sys
 # Data ----------------------------------------------------------------------- #
@@ -65,23 +66,23 @@ def thank_you():
         else:
             if check_name(full_name):
                 print("This donor is in the list.")
-                add_donation(full_name)
-                send_email(full_name)
-                break
             else:
                 add_name(full_name)
-                add_donation(full_name)
-                send_email(full_name)
-                break
+
+            add_donation(full_name)
+            send_email(full_name)
+            break
 
 # Functions for block Create Report ------------------------------------------ #
 def create_report():
     print("\n{:20} | {:10} | {:10} | {:10}".format("Donor Name", "Total Given", "Num Gifts", "Average Gift"))
     print("_"*62)
+    full_list.sort(key=lambda x: -sum(x[1]))
     for i in full_list:
         total_given = sum(i[1])
         num_gifts = len(i[1])
         average = total_given/num_gifts
+
         print("\n{:20} | {:10} | {:10} | {:10.2f}".format(i[0], total_given, num_gifts, average))
         print("-" * 62)
 
