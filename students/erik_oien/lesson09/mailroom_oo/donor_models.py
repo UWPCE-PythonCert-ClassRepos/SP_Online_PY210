@@ -48,18 +48,14 @@ class DonorCollection():
         return "\n".join(donor_list)
     
     def report_of_donors(self):
+        report_of_donors = []
         for donor in self.donors.values():
             name = donor.name
             total_donation_amount = sum(donor.donation_amount)
             total_donations = len(donor.donation_amount)
             avg_donation = total_donation_amount / total_donations
-            print(self.row_formatter([name, total_donation_amount, total_donations, avg_donation]))
-
-    def table_header(self):
-        return "\n".join(("{:25}|{:12}|{:10}|{:12}".format("Donor Name", "Total Given", "Num Gifts", "Average Gift"), "-" * 62))
-    
-    def row_formatter(self, row):
-        return "{:25}|${:11.2f}|{:10}|${:11.2f}".format(*row)
+            report_of_donors.append([name, total_donation_amount, total_donations, avg_donation])
+        return report_of_donors
 
     def thank_all_donors(self, dir_name):
         wd = os.getcwd()

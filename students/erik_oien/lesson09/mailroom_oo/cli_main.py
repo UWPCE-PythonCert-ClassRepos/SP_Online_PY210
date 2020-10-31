@@ -45,7 +45,10 @@ def thank_you():
             return False
 
 def create_report():
-    donors.report_of_donors()
+    donor_report = donors.report_of_donors()
+    print("\n".join(("{:25}|{:12}|{:10}|{:12}".format("Donor Name", "Total Given", "Num Gifts", "Average Gift"), "-" * 62)))
+    for donor in donor_report:
+        print("{:25}|${:11.2f}|{:10}|${:11.2f}".format(*donor))
     return_input = input(f"{sub_menu_prompt}")
     if return_input in ["menu", "quit"]:
             sub_menu_switch[return_input.lower()]()
