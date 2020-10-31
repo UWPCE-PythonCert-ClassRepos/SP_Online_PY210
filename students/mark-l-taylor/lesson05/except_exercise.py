@@ -13,10 +13,10 @@ from except_test import fun, more_fun, last_fun
 # Figure out what the exception is, catch it and while still
 # in that catch block, try again with the second item in the list
 first_try = ['spam', 'cheese', 'mr death']
+
 try:
     joke = fun(first_try[0])
 except NameError:
-    print("NameError, name is not defined when {} is selected. Now trying {}: ".format(first_try[0], first_try[1]))
     joke = fun(first_try[1])
 
 # Here is a try/except block. Add an else that prints not_joke
@@ -44,10 +44,14 @@ else:
 # parameters. (pun intended)
 
 langs = ['java', 'c', 'python']
+
 try:
     more_joke = more_fun(langs[0])
 except IndexError:
     more_joke = more_fun(langs[1])
 else:
     more_joke = more_fun(langs[2])
+finally:
     last_fun()
+
+
