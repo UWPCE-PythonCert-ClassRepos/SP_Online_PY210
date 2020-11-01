@@ -4,7 +4,7 @@
 # ChangeLog (Who,When,What):
 # JEmbury, 9/18/2020, created new script
 #--------------------------------------------------------------#
-for i in range (0,101):
+for i in range (1,101):
     if i%3==0 and i%5==0: # check if divisible by 3 and 5
         print("FizzBuzz")
     elif i%3==0: # check if divisible by 3
