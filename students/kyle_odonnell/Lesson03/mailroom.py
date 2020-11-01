@@ -28,7 +28,6 @@ def add_donation_amount(name, donation, db):  # Add new donation to database
     :param db: (list) of dictionaries with donation information:
     :return: (list) of dictionaries
     """
-    in_list = False
     for entry in db:
         if name.lower() == entry["Donor Name"].lower():
             total = float(donation) + float(entry["Total Given"])
@@ -37,8 +36,8 @@ def add_donation_amount(name, donation, db):  # Add new donation to database
             entry["Total Given"] = total
             entry["Num Gifts"] = num
             entry["Average Gift"] = average
-            in_list = True
-    if not in_list:
+            break
+    else:
         new_entry = {"Donor Name": name.title(), "Total Given": donation, "Num Gifts": 1, "Average Gift": donation}
         db.append(new_entry)
     return db
@@ -98,7 +97,7 @@ def thank_you_letter(name, donation):  # Print thank you letter
     """
     print("""
     Dear {},
-    Thank you for your recent donation of ${} to our organization. 
+    Thank you for your recent donation of ${:.2f} to our organization. 
     We rely on the generous contributions of kind people like you to help fund our cause and make the world a better place.
     Sincerely,
     Kyle at Kelby Doggo Inc.""".format(name, donation))
@@ -118,10 +117,10 @@ def create_report(db):  # Generate report based on donor database
     :return: nothing
     """
     db.sort(key=get_total_given, reverse=True)  # Sort table by total donated amount
-    heading = "| {dn:<20s}\t| {tg:<10s}\t| {ng:<10s} | {ag:<10s} |".format
+    heading = "| {dn:<20s}\t| {tg:<10s}\t| {ng:<10s} | {ag:<10s}   |".format
     row = "{dn:<20s} \t {ds:<1s} {tg:>9.2f} \t {ng:>10d} \t {ds2:<1} {ag:>9.2f} ".format
     print(heading(dn="Donor Name", tg="Total Given", ng="Num Gifts", ag="Average Gift"))
-    print("---------------------------------------------------------------------")
+    print("-----------------------------------------------------------------------")
     for entry in db:
         print(row(dn=entry["Donor Name"], ds="$", tg=entry["Total Given"],
                   ng=entry["Num Gifts"], ds2="$", ag=entry["Average Gift"]))

@@ -2,7 +2,7 @@
 # Task One
 seq = (2, 123.4567, 10000, 12345.67)
 
-x = '{}{:03}:   {:.2f}, {:.2e}, {:2.2e}'.format("file_", seq[0], round(seq[1], 2), seq[2], seq[3])
+x = '{}{:03}:   {:.2f}, {:.2e}, {:.2e}'.format("file_", seq[0], round(seq[1], 2), seq[2], seq[3])
 print("Task 1:", x)
 
 
@@ -21,7 +21,7 @@ t = (1, 2, 3)
 
 
 def formatter(in_tuple):
-    form_string = "The {:d} numbers are: " + "{:d}, "*(len(t)-1) + "{:d}"
+    form_string = "The {:d} numbers are: " + (",".join(["{}"] * len(in_tuple)))
     return form_string.format(len(in_tuple), *in_tuple)
 
 
