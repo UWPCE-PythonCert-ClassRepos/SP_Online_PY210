@@ -8,13 +8,14 @@ class Donor(object):
     """
     Control all data related to a specific donor
     """
-    donations = []
+    #donations = []
 
     def __init__(self, name=None):
         if name is None:
             raise AttributeError("Must supply Donor Name")
         elif isinstance(name, str):
             self.name = name
+            self.donations = []
         else:
             raise TypeError("Input must be str")
 
@@ -58,7 +59,7 @@ class Donor_Collect(object):
     Processes all the donors information doesn't work with donor functions
     """
 
-    donors = []
+    #donors = []
 
     def __init__(self):
         '''
@@ -88,10 +89,14 @@ class Donor_Collect(object):
         new_dict = {}
         for donor in self.donors:
             new_dict[repr(donor)] = []
-            new_dict[repr(donor)].append(sum(Donor.donations))
-            new_dict[repr(donor)].append(len(Donor.donations))
-            new_dict[repr(donor)].append(sum(Donor.donations)/len(Donor.donations))
-        return new_dict
+            new_dict[repr(donor)].append(sum(donor.donations))
+            new_dict[repr(donor)].append(len(donor.donations))
+            new_dict[repr(donor)].append(sum(donor.donations)/len(donor.donations))
+
+
+        temp_dict = {k: [sum(v), len(v), sum(v)/len(v)] for k, v in sorted(new_dict.items())}
+        calc_dict = sorted(temp_dict.items(), key=lambda t: t[1], reverse=True)
+        return calc_dict
 
     def print_report(self):
         #Header

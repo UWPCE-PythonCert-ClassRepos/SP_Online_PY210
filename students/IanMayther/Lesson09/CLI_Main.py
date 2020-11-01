@@ -6,13 +6,6 @@ import math
 from Donor_Models import Donor, Donor_Collect  
 
 '''Initial setup'''
-'''
-donors = {"Morgan Stanely": [0.01, 20.00],
-            "Cornelius Vanderbilt": [800, 15, 10.00],
-            "John D. Rockefeller": [7000, 150.00, 25],
-            "Stephen Girard": [60000],
-            "Andrew Carnegie": [0.04, 999.99],}
-'''
 
 don_col = Donor_Collect()
 MS = Donor("Morgan Stanley")    
@@ -25,6 +18,11 @@ don_col.append(CV)
 don_col.append(JDR)
 don_col.append(SG)
 don_col.append(AC)
+MS.append([0.01, 20.00])
+CV.append([800, 15, 10.00])
+JDR.append([7000, 150.00, 25])
+SG.append([60000])
+AC.append([0.04, 999.99])
 
 
 if __name__ == "__main__":

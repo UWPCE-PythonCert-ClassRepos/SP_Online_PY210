@@ -58,12 +58,12 @@ def test_don_repr(a, b):
 
 def test_init_donation():
     '''Creating first donation'''
-    d = Donor('Paul')
-    d.append(15)
+    Paul = Donor('Paul')
+    Paul.donations = [15]
 
-    assert d.donations == [15]
-    d.append([16, 17])
-    assert d.donations == [15, 16, 17]
+    assert Paul.donations == [15]
+    Paul.append([16, 17])
+    assert Paul.donations == [15, 16, 17]
 
 def test_thankyou_note():
     M_S = Donor("Morgan Stanley")
@@ -85,28 +85,10 @@ def test_thankyou_email():
 # Step 2 - Donor Collection Testing
 ###################################
 
-# @pytest.mark.parametrize(
-#     'a, expected', [
-#         ("Morgan Stanley", True),
-#         ("Cornelius Vanderbilt", True),
-#         ("John D. Rockefeller", True),
-#         ("Stephen Girard", True),
-#         ("Andrew Carnegie", True),
-#         ("William Gates", False),
-#         ("Jeffery Bezos", False)
-#     ]
-# )
 def test_col_init():
     dc = Donor_Collect()
 
     assert isinstance(dc.donors, list)
-    '''
-    assert isinstance(dc.donors[0], Donor)
-    assert isinstance(dc.donors[1], Donor)
-    assert isinstance(dc.donors[2], Donor)
-    assert isinstance(dc.donors[3], Donor)
-    assert isinstance(dc.donors[4], Donor)
-    '''
 
 def test_col_append():
     ''''Testing if Donor appends to Donor_Collection'''
@@ -125,21 +107,24 @@ def test_col_append():
         dc.append('False Item')
 
 def test_sum_gift():
-    dc = Donor_Collect()
-    JDR = Donor('John D. Rockefeller')
-    dc.append(JDR)
-    new_dict = dc.calc_report()    
+    DC = Donor_Collect()
+    WG = Donor('Bill Gates')
+    WG.donations = [15]
+    WG.append([16, 17])
+    DC.append(WG)
+    new_dict = DC.calc_report()    
 
     print(new_dict)
-    assert isinstance(new_dict, dict)
-    assert new_dict[repr(JDR)] is not None
-    assert new_dict[repr(JDR)][0] == 48.0
-    assert new_dict[repr(JDR)][1] == 3 
-    assert new_dict[repr(JDR)][2] == 16
+    assert isinstance(new_dict, list)
+    assert new_dict[0] is not None
+    assert new_dict[1] == 48.0
+    assert new_dict[1][1] == 3 
+    assert new_dict[1][2] == 16
 
 def test_print_report():
     dc = Donor_Collect()
     JDR = Donor('John D. Rockefeller')
+    JDR.donations = [1500]
     dc.append(JDR)
 
     dc.print_report()
@@ -155,13 +140,22 @@ def test_print_report():
 ###################################
 
 def test_cli_init():
-    '''Confirms initial donor set is setup correctly'''
+    '''Confirms initial donor set is correct'''
     assert isinstance(don_col.donors, list)
     assert MS in don_col.donors
     assert CV in don_col.donors
     assert JDR in don_col.donors
     assert SG in don_col.donors
     assert AC in don_col.donors
+
+def test_init_values():
+    '''Confirms inital donor donation values are correct'''
+    assert sum(MS.donations) == 20.01
+    assert sum(CV.donations) == 825.00
+    assert sum(JDR.donations) == 7175.00
+    assert sum(SG.donations) == 60000
+    assert sum(AC.donations) == 1000.03
+
 
 '''
 create donor
@@ -181,4 +175,11 @@ report calc
 report print
 
 CLI
+donors in list
+donor donation value
+add new donor
+send thank you
+sen email
+print report
+quit
 '''
