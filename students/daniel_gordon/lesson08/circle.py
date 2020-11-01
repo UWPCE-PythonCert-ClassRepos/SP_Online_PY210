@@ -80,5 +80,13 @@ class Circle():
         return self.radius == other.radius
     
     def __le__(self, other):
-        return self.radius == other.radius
-        
+        return self.radius <= other.radius
+ 
+class Sphere(Circle):
+    @property
+    def area(self):
+        return 4*pi*(self.radius**2)
+    
+    @property
+    def volume(self):
+        return 4/3*pi*(self.radius**3)

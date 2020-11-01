@@ -63,12 +63,16 @@ def test_comparisons():
     assert (c1 < c2) == True
     assert (c1 > c2) == False
     assert (c1 == c2) == False
+    assert (c2 <= c1) == False
+    assert (c2 >= c1) == True
     
     c1 = Circle(3.5)
     c2 = Circle(3.5)
     assert (c1 == c2) == True
     assert (c1 <= c2) == True
-    assert (c2 >= c2) == True
+    assert (c1 >= c2) == True
+    assert (c1 < c2) == False
+    assert (c1 > c2) == False
 
 def test_sort():
     nums = [num for num in range(1,15)]
@@ -77,3 +81,11 @@ def test_sort():
     circles = [Circle(r) for r in nums] 
     circles.sort()
     assert circles == order
+
+def test_sphere():
+    s = Sphere(6)
+    assert str(s) == "A Sphere of radius 6"
+    assert repr(s) == "Sphere(6)"
+    test_vol = pi*4/3*6**3
+    assert s.volume == test_vol
+    assert s.area == 144*pi
