@@ -49,8 +49,14 @@ print("Task 5:", fruit_string)
 
 row = "{name:<5s} \t {age:>5d} {price:>10.2f}".format
 x = [["Bob", 45, 10.00], ["Mary", 29, 1000.99], ["Max", 50, 1030.98]]
-print("Task 6:")
+print("Task 6 Part 1:")
 for i in x:
     print(row(name=i[0], age=i[1], price=i[2]))
 
 
+tup = (1, 2, 5, 24, 5, 10, 34, 23, 24, 90)
+
+
+rows = ("{:5d}\t" * len(tup)).format(*tup)
+print("Task 6 Part 2:")
+print(rows)
