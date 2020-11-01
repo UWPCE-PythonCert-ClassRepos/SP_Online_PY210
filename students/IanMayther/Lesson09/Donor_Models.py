@@ -87,9 +87,20 @@ class Donor_Collect(object):
     def calc_report(self):
         new_dict = {}
         for donor in self.donors:
-            new_dict[donor] = []
-            new_dict[donor].append(sum(Donor.donations))
-            new_dict[donor].append(len(Donor.donations))
-            new_dict[donor].append(sum(Donor.donations)/len(Donor.donations))
-        calc_dict = sorted(new_dict.items(), key=lambda t: t[1], reverse=True)
-        return calc_dict
+            new_dict[repr(donor)] = []
+            new_dict[repr(donor)].append(sum(Donor.donations))
+            new_dict[repr(donor)].append(len(Donor.donations))
+            new_dict[repr(donor)].append(sum(Donor.donations)/len(Donor.donations))
+        return new_dict
+
+    def print_report(self):
+        #Header
+        print("\n")
+        print("{0:<25s}|{1:^15s}|{2:^15s}|{3:>12s}".format("Donor Name", "Total Given", "# of Gifts","Avg. Gift"))
+        print("-" * 72)
+
+        for k, v in self.calc_report().items():
+            print("{0:<25s}${1:>14.2f}{2:>17d}  ${3:>11.2f}".format(k, v[0], v[1], v[2], end =''))
+        print("\n")
+
+        return

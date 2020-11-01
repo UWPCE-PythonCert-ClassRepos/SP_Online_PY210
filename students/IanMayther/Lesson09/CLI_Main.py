@@ -14,18 +14,18 @@ donors = {"Morgan Stanely": [0.01, 20.00],
             "Andrew Carnegie": [0.04, 999.99],}
 '''
 
-dc = Donor_Collect()
+don_col = Donor_Collect()
 MS = Donor("Morgan Stanley")    
 CV = Donor("Cornelius Vanderbilt")
 JDR = Donor("John D. Rockefeller")
 SG = Donor("Stephen Girard")
 AC = Donor("Andrew Carnegie")
-dc.append(MS)
-dc.append(CV)
-dc.append(JDR)
-dc.append(SG)
-dc.append(AC)
+don_col.append(MS)
+don_col.append(CV)
+don_col.append(JDR)
+don_col.append(SG)
+don_col.append(AC)
 
 
 if __name__ == "__main__":
-    print(dc)
+    print(don_col)

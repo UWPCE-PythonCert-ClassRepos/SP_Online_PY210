@@ -6,9 +6,11 @@ test code for mailroom_OO.py
 import io
 import pytest
 import math
+#import CLI_Main
 
 # import * is often bad form, but makes it easier to test everything in a module.
 from Donor_Models import *
+from CLI_Main import *
 
 ##############################
 # Step 1 - Donor Class Testing
@@ -129,10 +131,37 @@ def test_sum_gift():
     new_dict = dc.calc_report()    
 
     print(new_dict)
-    assert new_dict[JDR] is not None
-    assert new_dict[JDR][0] == 48.0
-    assert new_dict[JDR][1] == 3 
-    assert new_dict[JDR][2] == 16
+    assert isinstance(new_dict, dict)
+    assert new_dict[repr(JDR)] is not None
+    assert new_dict[repr(JDR)][0] == 48.0
+    assert new_dict[repr(JDR)][1] == 3 
+    assert new_dict[repr(JDR)][2] == 16
+
+def test_print_report():
+    dc = Donor_Collect()
+    JDR = Donor('John D. Rockefeller')
+    dc.append(JDR)
+
+    dc.print_report()
+    out_file = io.StringIO()
+    out_file.write(dc.print_report())
+    file_contents = str(out_file)
+    #print(file_contents)
+    assert file_contents.startswith("Donor Name")
+    assert file_contents.endswith('\n')
+
+###################################
+# Step 3 - CLI Testing
+###################################
+
+def test_cli_init():
+    '''Confirms initial donor set is setup correctly'''
+    assert isinstance(don_col.donors, list)
+    assert MS in don_col.donors
+    assert CV in don_col.donors
+    assert JDR in don_col.donors
+    assert SG in don_col.donors
+    assert AC in don_col.donors
 
 '''
 create donor
@@ -150,4 +179,6 @@ don col str
 don col repr
 report calc
 report print
+
+CLI
 '''
