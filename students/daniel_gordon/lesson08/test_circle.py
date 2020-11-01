@@ -1,4 +1,5 @@
 import pytest
+import random
 
 from math import pi
 from circle import *
@@ -6,6 +7,8 @@ from circle import *
 def test_init():
     c = Circle(5)
     assert c.radius == 5
+    with pytest.raises(ValueError):
+        Circle(-3)
 
 def test_diameter():
     c = Circle(7)
@@ -32,10 +35,45 @@ def test_add():
     c += Circle(5)
     assert c.radius == 10
 
-def test_mult():
+def test_sub():
+    c = Circle(7) - Circle(3)
+    assert c == Circle(4)
+    c -= Circle(1)
+    assert c == Circle(3)
+    with pytest.raises(ValueError):
+        c -= c    
+
+def test_mul():
     c = Circle(1) * 4
     assert c.radius == 4
     c *= 3
     assert c.radius == 12
-    c = 0.5 * c
-    assert c.radius == 6
+    c = 1.5 * c
+    assert c.radius == 18
+
+def test_div():
+    c = Circle(15) / 3
+    assert c == Circle(5)
+    c /= 2
+    assert c == Circle(2.5)
+
+def test_comparisons():
+    c1 = Circle(2)
+    c2 = Circle(5)
+    assert (c1 < c2) == True
+    assert (c1 > c2) == False
+    assert (c1 == c2) == False
+    
+    c1 = Circle(3.5)
+    c2 = Circle(3.5)
+    assert (c1 == c2) == True
+    assert (c1 <= c2) == True
+    assert (c2 >= c2) == True
+
+def test_sort():
+    nums = [num for num in range(1,15)]
+    order = [Circle(r) for r in nums]
+    random.shuffle(nums)
+    circles = [Circle(r) for r in nums] 
+    circles.sort()
+    assert circles == order
