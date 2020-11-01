@@ -50,7 +50,7 @@ def menu_options():  # Display menu options
     :return: nothing
     """
     print('''
-    ******OPTIONS MENU*******
+    ******MENU OPTIONS*******
     Option 1: Send a Thank You
     Option 2: Create a Report
     Option 3: Exit \n''')
