@@ -23,4 +23,4 @@ def test_area():
 
 def test_print():
     c = Circle(4)
-    assert str(c) == "A circle of radius 4"
+    assert str(c) == "A Circle of radius 4"

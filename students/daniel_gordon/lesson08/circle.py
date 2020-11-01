@@ -6,8 +6,8 @@ class Circle():
     
     @classmethod
     def from_diameter(cls, diameter):
-        self = cls()
-        self.diameter = diameter
+        radius = diameter/2
+        return cls(radius)
     
     @property
     def diameter(self):
@@ -22,4 +22,4 @@ class Circle():
         return pi*(self.radius**2)
     
     def __repr__(self):
-        return f"A circle of radius {self.radius}"
+        return f"A {self.__class__.__name__} of radius {self.radius}"
