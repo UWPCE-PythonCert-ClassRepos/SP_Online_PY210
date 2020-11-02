@@ -6,7 +6,7 @@ import math
 from Donor_Models import Donor, Donor_Collect  
 
 '''Initial setup'''
-
+#Default Values
 don_col = Donor_Collect()
 MS = Donor("Morgan Stanley")    
 CV = Donor("Cornelius Vanderbilt")
@@ -24,6 +24,80 @@ JDR.append([7000, 150.00, 25])
 SG.append([60000])
 AC.append([0.04, 999.99])
 
+#Single Thank You
+def receiver():
+    viable_ans = False
+
+    while viable_ans == False:
+        new_vs_ex = input("Donor Name, List, Quit? ")
+        name = new_vs_ex
+        if new_vs_ex.lower() == "quit":
+            name = "quit"
+            viable_ans = True
+        elif new_vs_ex.lower() == "list":
+            don_col.print_don_list()
+            don_num = int(input("Select # above: "))
+            name = don_list[don_num-1]
+
+        if new_vs_ex.lower() != "quit":
+            donation_value = input("What is the value of the donation? ")            
+            if donation_value.lower() == "quit":
+                    name = "quit"
+                    viable_ans = True
+            elif isinstance(gift(donation_value), float):
+                    viable_ans = True                
+        
+        if new_donor(name): 
+            donors[name].append(gift(donation_value))            
+            viable_ans = True
+        else:
+            donors[name] = [gift(donation_value)]
+            viable_ans = True
+
+    don_val = sum(donors[name])
+    print("\n" + thank_you(name, don_val))
+
+    return name
+
+#Send Letter
+def send_letter():
+    path = pathlib.Path.cwd() / 'mailroom'
+    for k, v in donors.items():
+        file_name = k + '_Thank you Letter.txt'
+        with open(os.path.join(path, file_name), 'w') as l:
+            l.write(email(k, sum(v)))
+    print(f"Sending Letters to disk: {path}\n")
+    pass
+
+#Quit
+def quit():
+    print("Quitting, Thank you.")
+    return "quit"
+
+#Main Menu Options
+def main_menu(prompt, dict_choice):
+    while True:
+        choice = input(prompt)
+#Try to handle non-list selections        
+        try:
+            if dict_choice[choice]() == "quit":
+                break
+        except KeyError:
+            print("Please enter a number from the list.")
+
+choice_menu = ("Choose an Action:\n"
+            "\n"
+            "1 - Send Thank You to Single Donor.\n"
+            "2 - Create Report.\n"
+            "3 - Send Letters to ALL Donor.\n"
+            "4 - Quit.\n")
+
+main_selections = {"1" : receiver,
+                    "2" : don_col.print_report(),
+                    "3" : send_letter,
+                    "4" : quit,
+                    }
+
 
 if __name__ == "__main__":
-    print(don_col)
+    main_menu(choice_menu, main_selections)

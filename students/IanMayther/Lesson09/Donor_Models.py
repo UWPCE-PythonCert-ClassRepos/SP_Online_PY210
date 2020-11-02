@@ -104,8 +104,14 @@ class Donor_Collect(object):
         print("{0:<25s}|{1:^15s}|{2:^15s}|{3:>12s}".format("Donor Name", "Total Given", "# of Gifts","Avg. Gift"))
         print("-" * 72)
 
-        for k, v in self.calc_report().items():
-            print("{0:<25s}${1:>14.2f}{2:>17d}  ${3:>11.2f}".format(k, v[0], v[1], v[2], end =''))
+        for i in self.calc_report():
+            print("{0:<25s}${1:>14.2f}{2:>17d}  ${3:>11.2f}".format(i[0], i[1][0], i[1][1], i[1][2], end =''))
         print("\n")
 
         return
+    
+    def print_don_list(self):
+        i = 1
+        for item in self.donors:
+            print(f"[{i}] - {item}")
+            i += 1

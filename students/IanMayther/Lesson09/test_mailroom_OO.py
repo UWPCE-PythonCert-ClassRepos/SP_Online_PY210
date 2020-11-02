@@ -117,9 +117,10 @@ def test_sum_gift():
     print(new_dict)
     assert isinstance(new_dict, list)
     assert new_dict[0] is not None
-    assert new_dict[1] == 48.0
-    assert new_dict[1][1] == 3 
-    assert new_dict[1][2] == 16
+    assert isinstance(new_dict[0], tuple)
+    assert new_dict[0][1][0] == 67.0
+    assert new_dict[0][1][1] == 3 
+    assert new_dict[0][1][2] == 67.0/3
 
 def test_print_report():
     dc = Donor_Collect()
