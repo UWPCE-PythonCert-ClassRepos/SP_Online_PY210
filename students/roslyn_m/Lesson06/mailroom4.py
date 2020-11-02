@@ -111,8 +111,8 @@ def send_all_thank_you(donor_all):
         filename = filename + ".txt"
         with open(filename, 'w') as f:
             f.write(string)
-        print("Thank you note files have been created and saved in current folder!")
-    return
+    print("Thank you note files have been created and saved in current folder!")
+    return donor_all
 
 
 # ----------Variables----------#

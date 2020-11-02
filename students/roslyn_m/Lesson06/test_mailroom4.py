@@ -1,6 +1,13 @@
+#!/usr/bin/env python3
+# Title: Mailroom Part 4 Test (Lesson 6)
+# Dev: Roslyn Melookaran
+# Date: 10/28/20
+# Change Log: (Who, When, What)
+# R. Melookaran, 10/28/20, created script)
 import mailroom4
 import unittest
 from unittest.mock import patch
+import os
 
 option_input_tester = 1
 person_input_tester = "William Gates"
@@ -69,7 +76,22 @@ class TestListSum(unittest.TestCase):
         assert result == donor_sorted
         return
 
+    @staticmethod
+    def test_file_creation(donor_all):
+        mailroom4.send_all_thank_you(donor_all)
+        current = os.getcwd()
+        list_files = os.listdir(current)
+        filename1 = "PaulAllen.txt"
+        filename2 = "MarkZuckerberg.txt"
+        filename3 = "WilliamGates.txt"
+        filename4 = "JeffBezos.txt"
+        assert filename1 in list_files
+        assert filename2 in list_files
+        assert filename3 in list_files
+        assert filename4 in list_files
 
+
+TestListSum.test_file_creation(donor_dict)
 TestListSum.test_sorted_list(donor_dict, donor_list_sorted)
 TestListSum.test_option_input(option_input_tester)
 TestListSum.test_person_input(person_input_tester)
