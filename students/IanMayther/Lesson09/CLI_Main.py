@@ -37,36 +37,40 @@ def receiver():
         elif new_vs_ex.lower() == "list":
             don_col.print_don_list()
             don_num = int(input("Select # above: "))
-            name = don_list[don_num-1]
+            name = don_col.donors[don_num-1]
 
         if new_vs_ex.lower() != "quit":
             donation_value = input("What is the value of the donation? ")            
             if donation_value.lower() == "quit":
                     name = "quit"
                     viable_ans = True
-            elif isinstance(gift(donation_value), float):
+            elif isinstance(donation_value, float):
                     viable_ans = True                
         
-        if new_donor(name): 
-            donors[name].append(gift(donation_value))            
+        if name in don_col.donors: 
+            name.append(donation_value)
             viable_ans = True
         else:
-            donors[name] = [gift(donation_value)]
+            #need string modification work here
+            name = Donor(name)
+            name.append(donation_value)
+            don_col.append(name)
             viable_ans = True
 
-    don_val = sum(donors[name])
-    print("\n" + thank_you(name, don_val))
+    print("\n" + name.thank_you() + "\n")
 
     return name
 
 #Send Letter
 def send_letter():
+    '''
     path = pathlib.Path.cwd() / 'mailroom'
     for k, v in donors.items():
         file_name = k + '_Thank you Letter.txt'
         with open(os.path.join(path, file_name), 'w') as l:
             l.write(email(k, sum(v)))
     print(f"Sending Letters to disk: {path}\n")
+    '''
     pass
 
 #Quit
@@ -101,3 +105,5 @@ main_selections = {"1" : receiver,
 
 if __name__ == "__main__":
     main_menu(choice_menu, main_selections)
+    for donor in don_col.donors:
+        print(donor.donations)
