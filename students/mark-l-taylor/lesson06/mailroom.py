@@ -9,20 +9,27 @@ import datetime
 
 def get_donor_names():
     """Generate a list of donors."""
-    return donors.keys()
+    return list(donors.keys())
 
 
-def add_donation(name):
+def add_donation(name, amount):
+    """Add donation information to donor data"""
+    if name not in get_donor_names():
+        print('\n{} is a new donor! Adding to donor database.'.format(name))
+        # Add new donor with empty donation
+        donors[name] = []
+    donors[name].append(amount)
+
+
+def prompt_for_donation(name):
     """Prompt user for donation and add to donor data."""
     while True:
         amount = input('Enter donation amount in dollars: ')
         try:
-            # convert the amount to a float and add to donor
-            donors[name].append(float(amount))
+            # convert the amount to a float
+            return float(amount)
         except ValueError:
             print('Value must be a number!')
-        else:
-            return amount
 
 
 def generate_email(name, amount):
@@ -49,11 +56,8 @@ def send_thanks():
         print('Returning to main menu.')
         return
     else:
-        if name not in get_donor_names():
-            print('\n{} is a new donor! Adding to donor database.'.format(name))
-            # Add new donor with empty donation
-            donors[name] = []
-        amount = add_donation(name)
+        amount = prompt_for_donation(name)
+        add_donation(name, amount)
         print(generate_email(name, amount))
 
 
@@ -75,23 +79,28 @@ def donation_sort(data):
     return data[1]
 
 
+def generate_report_data():
+    """ Create the report data lines"""
+    # Convert the donor data into report form, using list comprehension
+    fmt_data = [[d, sum(donors[d]), len(donors[d]), sum(donors[d]) / len(donors[d])] for d in donors]
+
+    # Sort the data by the total amount given
+    fmt_data.sort(key=donation_sort, reverse=True)
+    return fmt_data
+
+
 def create_report():
     """ Create a formatted report of the donor data."""
 
+    # Print the formatted header lines
     frmt_header = '{:<26}|{:^13}|{:^11}|{:>13}'
     frmt_line = '{:<26} ${:>11.2f} {:>11}  ${:>12.2f}'
     print('\nDonations Summary:\n')
     print(frmt_header.format('Donor Name', 'Total Given', 'Num Gifts', 'Average Gift'))
     print('-' * 66)
 
-    # Convert the donor data into report form, using list comprehension
-    fmt_data = [[d, sum(donors[d]), len(donors[d]), sum(donors[d]) / len(donors[d])] for d in donors]
-
-    # Sort the data by the total amount given
-    fmt_data.sort(key=donation_sort, reverse=True)
-
     # Print the sorted data in the report format
-    for f in fmt_data:
+    for f in generate_report_data():
         print(frmt_line.format(*f))
 
 
