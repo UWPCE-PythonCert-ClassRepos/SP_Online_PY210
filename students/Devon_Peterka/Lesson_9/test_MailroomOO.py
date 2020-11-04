@@ -87,11 +87,17 @@ class test_Donor(unittest.TestCase):
     def test_sort_by_donation(self):
         d_list = [self.donor1, self.donor2, self.donor3]
         self.assertEqual(sorted(d_list, key=Donor.sort_by_donations,), [self.donor1, self.donor3, self.donor2])
+    
+    def test_send_thanks(self):
+        message = "Dear Jay Marks,\n\nThank you for your generous donation of $3,700.00 toward our cause.  Your gift is most appreciated.\n\nThank you,\nOur Charity"
+        self.assertEqual(Donor.send_thanks('Jay', 'Marks', 3700), message)
 
 class test_DonorCollection(unittest.TestCase):
     def setUp(self):
         '''
-        Sets up a collection of 4-5 donors each with 1-3 donations each.
+        Sets up a collection of 4-5 donors each with 1-3 donations each, as per
+        assignment prompt.  Mailroom module is left "empty" so a hypothetical user could
+        simply populate it and would not have to delete the initial Donor set.
         '''
         self.donor1 = Donor('Dave', 'Jones')
         self.donor2 = Donor('Jerry', 'morts', 500)
@@ -134,18 +140,6 @@ class test_DonorCollection(unittest.TestCase):
         D = DonorCollection()
         self.assertEqual(str(D), '[]')
 
-#    def test_list(self):
-#        '''
-#        Tests what happens when the user inputs 'list'
-#
-#        *** needs to be adjusted to match this program
-#        '''
-#        capturedOutput = io.StringIO()
-#        sys.stdout = capturedOutput
-##        (call function)
-#        sys.stdout = sys.__stdout__
-#        self.assertEqual(capturedOutput.getvalue(), "something")
-
     def test_add_donor(self):
         '''
         Tests that a donor can be added to the collection.
@@ -169,4 +163,40 @@ class test_DonorCollection(unittest.TestCase):
         it to the DonorCollection object.
         '''
         self.Donor_List.new('Aks', 'Jeeves', [82])
-        self.assertEqual(self.Donor_List,'[Donor(Dave, Jones), Donor(Jerry, Morts), Donor(Jack, El), Donor(Jenifer, Yelb),  Donor(Ermy, Hermy), Donor(Aks, Jeeves)]')
+        self.assertEqual(str(self.Donor_List),'[Donor(Dave, Jones), Donor(Jerry, Morts), Donor(Jack, El), Donor(Jenifer, Yelb), Donor(Ermy, Hermy), Donor(Aks, Jeeves)]')
+
+    def test_list(self):
+        '''
+        Tests alphabetical listing of DonorCollection object
+        constituents.
+        '''
+        self.assertEqual(str(self.Donor_List.list), '[Donor(Jack, El), Donor(Ermy, Hermy), Donor(Dave, Jones), Donor(Jerry, Morts), Donor(Jenifer, Yelb)]')
+
+    def test_list_donations(self):
+        '''
+        Tests listing of DonorCollection object by net donation.
+        '''
+        self.assertEqual(str(self.Donor_List.list_by_donation), '[Donor(Jenifer, Yelb), Donor(Jerry, Morts), Donor(Jack, El), Donor(Ermy, Hermy), Donor(Dave, Jones)]')
+
+    def test_indexslice(self):
+        '''
+        Test that a single, or several, Donor object(s) can be
+        "plucked" from the DonorCollection object
+        '''
+        self.assertEqual(str(self.Donor_List[1]), 'Donor(Jerry, Morts)')
+        self.assertEqual(str(self.Donor_List[1:3]), '[Donor(Jerry, Morts), Donor(Jack, El)]')
+
+    def test_report(self):
+        '''
+        Tests that a report window is generated correctly for printing.
+        '''
+        report =   ('Donor Name          |  Total Given   | Gifts |  Average Gift  |\n'
+                    '--------------------|----------------|-------|----------------|\n'
+                    'Jenifer Yelb........| $    17,000.00 |   2   | $     8,500.00 |\n'
+                    'Jerry Morts.........| $       500.00 |   1   | $       500.00 |\n'
+                    'Jack El.............| $       359.00 |   3   | $       119.67 |\n'
+                    'Ermy Hermy..........| $         0.53 |   1   | $         0.53 |\n'
+                    'Dave Jones..........| $         0.00 |   0   | $         0.00 |\n'
+                    '--------------------|----------------|-------|----------------|\n')
+        assert(self.Donor_List.report(self.Donor_List.list_by_donation) == report)
+

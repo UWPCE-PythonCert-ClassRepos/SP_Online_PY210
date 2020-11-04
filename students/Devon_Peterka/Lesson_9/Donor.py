@@ -75,3 +75,9 @@ class Donor(object):
     @staticmethod
     def sort_by_donations(self):
         return (self.total_donation, self._name[1], self._name[0])
+
+    @staticmethod
+    def send_thanks(first, last, amount):
+        if type(amount) not in (int, float):
+            raise TypeError ('Donation amount must be a number.')
+        return f"Dear {first.title()} {last.title()},\n\nThank you for your generous donation of ${amount:,.2f} toward our cause.  Your gift is most appreciated.\n\nThank you,\nOur Charity"

@@ -22,6 +22,12 @@ class DonorCollection():
 
     def __repr__(self):
         return str(self.donor_list)
+    
+    def __str__(self):
+        return str(self.donor_list)
+    
+    def __getitem__(self, index):
+        return self.donor_list[index]
 
     def add(self, input):
         if type(input) is not Donor:
@@ -29,11 +35,34 @@ class DonorCollection():
         self.donor_list.append(input)
 
     def new(self, first, last, donations):
-        return 200
+        new_donor = Donor(first, last, [donations])
+        self.add(new_donor)
 
-#    @property
-#    def alphabetical(self):
-#        '''
-#        Generates an alphabetical list of donors by name.
-#        '''
-#        return sorted(
+    @property
+    def list(self):
+        '''
+        Generates an alphabetical list of donors by name.
+        '''
+        return sorted(self.donor_list,key=Donor.sort_by_name)
+    
+    @property
+    def list_by_donation(self):
+        '''
+        Generates a list of donors sorted by total donation in
+        descending order.
+        '''
+        return sorted(self.donor_list, key=Donor.sort_by_donations, reverse=True)
+    
+    @staticmethod
+    def report(donors):
+        header = 'Donor Name          |  Total Given   | Gifts |  Average Gift  |\n'
+        linebreak = ('-' * 20 + '|' + '-' * 16 + '|' + '-' * 7 + '|' + '-' * 16 + '|\n')
+        report_output = header + linebreak
+        for i in range(len(donors)):
+            donor = donors[i].full_name
+            donation = donors[i].total_donation
+            gifts = len(donors[i].donations)
+            avg = 0 if gifts == 0 else donation/gifts
+            report_output += f'{donor:.<20}| ${donation:>13,.2f} | {gifts:^5d} | ${avg:13,.2f} |\n'
+        report_output += linebreak
+        return report_output
