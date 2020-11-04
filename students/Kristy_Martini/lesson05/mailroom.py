@@ -13,23 +13,27 @@ class Report:
         Nick = Donor("Nick Martini", 0, 50, 47484949)
 
         initial_donors = [Kristy, Mikey, Nick, Bill, Cathy]
-        for donor in initial_donors:
-            self.add_donor(donor)
+        [self.add_donor(donor) for donor in initial_donors]
 
     def add_donor(self,Donor):
         """ Add new donor to report"""
         self.donors[Donor.name] = Donor
+    
+    def sort_donors(self, newReport):
+        """ Sorts donors by total gift value given"""
+        newReport.unsorted_list = list(newReport.donors.values())
+        newReport.sorted_list = sorted(newReport.unsorted_list, key=operator.attrgetter('total_gift_value'), reverse=True)
+        newReport.sorted_dict = dict()
+        for donor in newReport.sorted_list:
+            newReport.sorted_dict[donor.name] = donor
 
     def create_report(self, newReport):
-        donor_list = list(newReport.donors.values())
-        sorted_donors = sorted(donor_list, key=operator.attrgetter('total_gift_value'), reverse=True)
-        sorted_dict = dict()
-        for donor in sorted_donors:
-            sorted_dict[donor.name] = donor
         """ Display donor report to the user"""
+        newReport.sort_donors(newReport)
+
         print("Donor Name          | Total Given   | Num Gifts | Average Gift")
         print("--------------------------------------------------------------")
-        for value in sorted_dict.values():
+        for value in newReport.sorted_dict.values():
             line_str = '{0:21}'.format(value.name) + "$" + '{0:14}'.format(value.total_gift_value) + '{0:12}'.format(value.num_gifts) + " $" + '{0:12}'.format(value.average_gift)
             print(line_str)
         print("\n")
@@ -42,10 +46,10 @@ class Donor:
         self.gift_value = gift_value
         self.num_gifts = num_gifts
         self.total_gift_value = total_gift_value
-        if self.num_gifts == 1:
-            self.average_gift = self.gift_value
-        else:
+        try:
             self.average_gift = self.total_gift_value/self.num_gifts
+        except ZeroDivisionError:
+            self.average_gift = 0
 
     def add_gift(self, amount):
         """ Add gift amount to a donor already present in database"""
@@ -55,7 +59,6 @@ class Donor:
 
 def check_name(newReport=None):
     """ Check the name of the donor before sending a thank you, add to donor list if they do not exist"""
-
     if newReport is None:
         newReport = Report()
 
@@ -63,30 +66,25 @@ def check_name(newReport=None):
     name_to_thank = input("Please enter the full name of the donor you'd like to thank, or enter 'list' to view a list of current donors: ")
     if name_to_thank == "quit":
         prompt_user(newReport)
-    donor_found = False
     if name_to_thank == "list":
         newReport.create_report()
         print("Would you like to thank a donor from this list?")
         name_to_thank= input("Please enter the full name of the donor you'd like to thank, or enter 'quit' to exit: ")
         if name_to_thank == "quit":
             prompt_user(newReport)
-    if name_to_thank in newReport.donors:
-            donor_found = True
-            donation_amount = input("Please enter the donation amount for which you want to thank this donor: ")
-            if donation_amount == "quit":
-                prompt_user(newReport)
-            donor = newReport.donors[name_to_thank]
-            donor.add_gift(int(donation_amount))
-            send_thank_you(donor)
-            prompt_user(newReport)
-    if donor_found == False:
+    try: 
+        donor = newReport.donors[name_to_thank]
+    except KeyError:
         print(name_to_thank, " is a new donor. They will be added to our database.")
+        newDonor = Donor(name_to_thank, 0, 0, 0)
+        newReport.add_donor(newDonor)
+        donor = newReport.donors[newDonor.name]
+    finally:
         donation_amount = input("Please enter the donation amount for which you want to thank this donor: ")
         if donation_amount == "quit":
             prompt_user(newReport)
-        newDonor = Donor(name_to_thank, int(donation_amount), 1, int(donation_amount))
-        newReport.add_donor(newDonor)
-        send_thank_you(newDonor)
+        donor.add_gift(int(donation_amount))
+        send_thank_you(donor)
         prompt_user(newReport)
 
 def send_thank_you(donor):
@@ -98,9 +96,11 @@ def send_thank_you(donor):
         f.write("Your generous gifts swill allow us to continue to serve our community in the hopes of a better world")
 
 def send_thank_you_multiple(newReport):
-    for donor in newReport.donors.values():
-        send_thank_you(donor)
+    [send_thank_you(donor) for donor in newReport.donors.values()]
     prompt_user(newReport)
+
+def quit_program(newReport=None):
+    quit()
 
 def prompt_user(newReport=None):
     if newReport is None:
@@ -119,24 +119,11 @@ def prompt_user(newReport=None):
     print("3. Send letters to all donors.")
     print("4. Quit")
     choice = input("Please enter the number associated with your choice: ")
-
-    arg_dict[choice](newReport)
     
-    # if choice == "1":
-    #     if newReport is None:
-    #         newReport = Report()
-    #     check_name(newReport)
-    # elif choice == "2":
-    #     if newReport is None:
-    #         newReport = Report()
-    #     newReport.create_report()
-    #     prompt_user(newReport)
-    # elif choice == "3":
-    #     if newReport is None:
-    #         newReport = Report()
-    #     send_thank_you_multiple(newReport)
-    # elif choice == "4":
-    #     quit()
+    try:
+        arg_dict[choice](newReport)
+    except KeyError:
+        prompt_user(newReport)
 
 if __name__ == "__main__":
     prompt_user()

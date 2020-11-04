@@ -16,7 +16,8 @@ first_try = ['spam', 'cheese', 'mr death']
 try:
     joke = fun(first_try[0])
 except NameError:
-    print("NameError, name is not defined when {} is selected. Now trying {}: ".format(first_try[0], first_try[1]))
+    print("The value canoot be found.")
+finally:
     joke = fun(first_try[1])
 
 # Here is a try/except block. Add an else that prints not_joke
@@ -47,7 +48,13 @@ langs = ['java', 'c', 'python']
 try:
     more_joke = more_fun(langs[0])
 except IndexError:
+    print("The value being accessed is out of index.")
+
+try:
     more_joke = more_fun(langs[1])
+except IndexError:
+    print("The value being accessed is out of index.")
 else:
     more_joke = more_fun(langs[2])
+finally:
     last_fun()
