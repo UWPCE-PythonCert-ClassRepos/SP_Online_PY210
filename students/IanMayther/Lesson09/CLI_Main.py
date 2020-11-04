@@ -3,7 +3,7 @@
 import io
 import math
 
-from Donor_Models import Donor, Donor_Collect  
+from Donor_Models import *  
 
 '''Initial setup'''
 #Default Values
@@ -82,7 +82,7 @@ def send_letter():
 
 def report_bro():
     don_col.print_report()
-    pass
+    return
 
 #Quit
 def quit():
@@ -108,7 +108,7 @@ choice_menu = ("Choose an Action:\n"
             "4 - Quit.\n")
 
 main_selections = {"1" : receiver,
-                    "2" : report_bro,
+                    "2" : don_col.print_report,
                     "3" : send_letter,
                     "4" : quit,
                     }
@@ -118,3 +118,4 @@ if __name__ == "__main__":
     main_menu(choice_menu, main_selections)
     for donor in don_col.donors:
         print(donor.donations)
+    print(don_col.calc_report())

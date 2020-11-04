@@ -93,10 +93,10 @@ class Donor_Collect(object):
             new_dict[repr(donor)].append(len(donor.donations))
             new_dict[repr(donor)].append(sum(donor.donations)/len(donor.donations))
 
-
+PROBLEM HERE
         temp_dict = {k: [sum(v), len(v), sum(v)/len(v)] for k, v in sorted(new_dict.items())}
-        calc_dict = sorted(temp_dict.items(), key=lambda t: t[1], reverse=True)
-        return calc_dict
+        #calc_dict = sorted(temp_dict.items(), key=lambda t: t[0][1][0], reverse=True)
+        return temp_dict
 
     def print_report(self):
         #Header
