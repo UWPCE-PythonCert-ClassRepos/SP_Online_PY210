@@ -34,10 +34,15 @@ def receiver():
         if new_vs_ex.lower() == "quit":
             name = "quit"
             viable_ans = True
+            break
         elif new_vs_ex.lower() == "list":
             don_col.print_don_list()
             don_num = int(input("Select # above: "))
-            name = don_col.donors[don_num-1]
+            try:
+                name = don_col.donors[don_num-1]
+            except IndexError:
+                print("Must select a value from the list!")
+                name = "quit"
 
         if new_vs_ex.lower() != "quit":
             donation_value = input("What is the value of the donation? ")            
@@ -48,16 +53,18 @@ def receiver():
                     viable_ans = True                
         
         if name in don_col.donors: 
-            name.append(donation_value)
+            name.append(float(donation_value))
             viable_ans = True
         else:
             #need string modification work here
             name = Donor(name)
-            name.append(donation_value)
+            name.append(float(donation_value))
             don_col.append(name)
             viable_ans = True
-
-    print("\n" + name.thank_you() + "\n")
+    try:
+        print("\n" + name.thank_you() + "\n")
+    except AttributeError:
+        name = "quit"    
 
     return name
 
@@ -71,6 +78,10 @@ def send_letter():
             l.write(email(k, sum(v)))
     print(f"Sending Letters to disk: {path}\n")
     '''
+    pass
+
+def report_bro():
+    don_col.print_report()
     pass
 
 #Quit
@@ -97,7 +108,7 @@ choice_menu = ("Choose an Action:\n"
             "4 - Quit.\n")
 
 main_selections = {"1" : receiver,
-                    "2" : don_col.print_report(),
+                    "2" : report_bro,
                     "3" : send_letter,
                     "4" : quit,
                     }

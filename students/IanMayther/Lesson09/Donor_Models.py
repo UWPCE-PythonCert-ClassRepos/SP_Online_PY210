@@ -108,7 +108,7 @@ class Donor_Collect(object):
             print("{0:<25s}${1:>14.2f}{2:>17d}  ${3:>11.2f}".format(i[0], i[1][0], i[1][1], i[1][2], end =''))
         print("\n")
 
-        return
+        return self.calc_report
     
     def print_don_list(self):
         i = 1
