@@ -116,6 +116,5 @@ main_selections = {"1" : receiver,
 
 if __name__ == "__main__":
     main_menu(choice_menu, main_selections)
-    for donor in don_col.donors:
-        print(donor.donations)
+    
     print(don_col.calc_report())

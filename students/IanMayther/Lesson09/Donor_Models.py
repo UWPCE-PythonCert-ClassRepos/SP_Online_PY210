@@ -8,7 +8,6 @@ class Donor(object):
     """
     Control all data related to a specific donor
     """
-    #donations = []
 
     def __init__(self, name=None):
         if name is None:
@@ -93,10 +92,7 @@ class Donor_Collect(object):
             new_dict[repr(donor)].append(len(donor.donations))
             new_dict[repr(donor)].append(sum(donor.donations)/len(donor.donations))
 
-PROBLEM HERE
-        temp_dict = {k: [sum(v), len(v), sum(v)/len(v)] for k, v in sorted(new_dict.items())}
-        #calc_dict = sorted(temp_dict.items(), key=lambda t: t[0][1][0], reverse=True)
-        return temp_dict
+        return new_dict
 
     def print_report(self):
         #Header
@@ -104,7 +100,8 @@ PROBLEM HERE
         print("{0:<25s}|{1:^15s}|{2:^15s}|{3:>12s}".format("Donor Name", "Total Given", "# of Gifts","Avg. Gift"))
         print("-" * 72)
 
-        for i in self.calc_report():
+        temp_dict = sorted(self.calc_report().items(), key=lambda t: t[1], reverse=True)
+        for i in temp_dict:
             print("{0:<25s}${1:>14.2f}{2:>17d}  ${3:>11.2f}".format(i[0], i[1][0], i[1][1], i[1][2], end =''))
         print("\n")
 

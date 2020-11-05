@@ -122,13 +122,6 @@ def test_sum_gift():
     assert new_dict[repr(WG)][1] == 3 
     assert new_dict[repr(WG)][2] == 16.0
 
-    # assert isinstance(new_dict, list)
-    # assert new_dict[0] is not None
-    # assert isinstance(new_dict[0], tuple)
-    # assert new_dict[0][1][0] == 48.0
-    # assert new_dict[0][1][1] == 3 
-    # assert new_dict[0][1][2] == 16.0
-
 def test_print_report():
     dc = Donor_Collect()
     JDR = Donor('John D. Rockefeller')
