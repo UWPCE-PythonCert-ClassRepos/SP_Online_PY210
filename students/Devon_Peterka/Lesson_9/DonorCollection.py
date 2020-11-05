@@ -4,6 +4,13 @@ from Donor import Donor
 
 class DonorCollection():
     def __init__(self, donors=None):
+        '''
+        User input is first initialized as a list, if not one already.
+        If a lone donor object is provided as input, it is loaded into
+        a list with only that Donor object.  If no input is given, an
+        empty list is initialized.  If a list is given, each constituent
+        index is checked to verify all inputs are indeed Donor objects.
+        '''
         # Make user input into a list if not already.  If a donor
         # object, initialize a list containing it.  If None, initialize
         # an empty list.  Otherwise accept as-is - for now...
@@ -27,14 +34,24 @@ class DonorCollection():
         return str(self.donor_list)
     
     def __getitem__(self, index):
+        '''
+        Allows for indexing and sorting.
+        '''
         return self.donor_list[index]
 
     def add(self, input):
+        '''
+        Adds a new Donor object to the DonorCollection object.
+        '''
         if type(input) is not Donor:
             raise TypeError('Input must be a single Donor object.')
         self.donor_list.append(input)
 
     def new(self, first, last, donations):
+        '''
+        Simultaneously creates a new Donor object and adds it to the
+        DonorCollection object.
+        '''
         new_donor = Donor(first, last, [donations])
         self.add(new_donor)
 
@@ -55,6 +72,13 @@ class DonorCollection():
     
     @staticmethod
     def report(donors):
+        '''
+        Returns a formatted report of donorst, their total donation,
+        number of donations, and average donation.  Order is determined
+        by the donors list input into the function.  This allows for the
+        user to determine if they want it sorted by donation, name, or
+        some other sorting parameter.
+        '''
         header = 'Donor Name          |  Total Given   | Gifts |  Average Gift  |\n'
         linebreak = ('-' * 20 + '|' + '-' * 16 + '|' + '-' * 7 + '|' + '-' * 16 + '|\n')
         report_output = header + linebreak

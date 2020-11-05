@@ -31,6 +31,9 @@ class Donor(object):
         return f'Donor({self._name[0]}, {self._name[1]})'
 
     def __lt__(self, other):
+        '''
+        Establishes how multiple Donor objects are to be compared.
+        '''
         return (self.total_donation, self._name[1], self._name[0]) < (other.total_donation, other._name[1], other._name[0])
 
 
@@ -44,25 +47,39 @@ class Donor(object):
     @property
     def full_name(self):
         '''
-        Returns
+        Returns Donor object's full name, first then last.
         '''
         return f'{self._name[0]} {self._name[1]}'
 
     @property
     def donations(self):
+        '''
+        Returns a list of all donations of the Donor object.
+        '''
         return list(self._donations)
     
     def add_donation(self, *donations):
+        '''
+        Adds a new donation to a Donor object's donation list.
+        '''
         self._donations = self._donations + list(donations)
     
     @property
     def last_donation(self):
+        '''
+        Returns the most recent donation from a Donor object.  Or raises
+        an AttributeError if none exists.
+        '''
         if self._donations == []:
             raise AttributeError (f'No donations from {self.full_name} on record.')
         return self._donations[-1]
     
     @property
     def total_donation(self):
+        '''
+        Returns total sum of a Donor objects donations.  Or zero if no
+        donations are present.
+        '''
         if self._donations == []:
             return 0
         else:
@@ -70,10 +87,18 @@ class Donor(object):
 
     @staticmethod
     def sort_by_name(self):
+        '''
+        Sort key function that allows for sorting of multiple Donor
+        objects alphabetically by last name.
+        '''
         return (self._name[1], self._name[0], self.total_donation)
     
     @staticmethod
     def sort_by_donations(self):
+        '''
+        Sort key function that allows for sorting by the total donation
+        of each Donor object
+        '''
         return (self.total_donation, self._name[1], self._name[0])
 
     @staticmethod

@@ -49,7 +49,7 @@ def send_thanks():
     os.system('clear')
 
 def view_report():
-    pass
+    print(DonorCollection.report(donors.list_by_donation))
 
 def exit_program():
     '''
@@ -62,14 +62,80 @@ def exit_program():
     sys.exit()
 
 def write_thanks():
-    first = input('Donor First Name: ')
-    last = input('Donor Last Name: ')
-    if 'Donor(first, last)' in donors:
-        different_person = False if input(f'Has {first} {last} donated before? (y/n): ').lower() == 'y' else True
-    amount = input('Donation Amount: ')
-    donors.new(first, last, amount)
+    '''
+    Asks user for a Donor's name and donation amount.  Any of the
+    "back_out" keywords at any of these inputs will back out to main
+    menu.
+    
+    The donation amount must be a string that is capable of being turned
+    to a float type number.  If not, the input is rejected and user is
+    re-prompted.
+    
+    The existing DonorCollection object is searched for a Donor object
+    that matches the name of the inputs.  If one is found, user is asked
+    to confirm that this donation is made by the same Donor.  If so,
+    the new donation is added to the existing Donor object.  If not, a
+    new Donor object with the name and amount input is created.
+    
+    A thank you message is drafted for the donation and printed on the
+    screen.
+    '''
+    first = input('Donor First Name: ').title()
+    if first.lower() in back_outs: return 'back'
+
+    last = input('Donor Last Name: ').title()
+    if last.lower() in back_outs: return 'back'
+
+    while True:
+        amount = input('Donation Amount: ')
+        if amount in back_outs: return 'back'
+        # Make amount variable a float value
+        try:
+            amount = float(amount)
+            break
+        # Throw an error message if amount cannot be made a float value
+        except ValueError:
+            print('\nERROR:\nDonation amount must be a number.\n')
+            continue
+
+
+    # Check if Donor exists in the collection already
+    existing_donor = 'no'
+    for i in range(len(donors.list)):
+        # Check new donation donor against existing donors one-by-one
+        if f'Donor({first}, {last})' == str(donors[i]):
+            existing_donor = input(f'Is this the same {first} {last} who made these donations {donors[i].donations}? (y/n) : ').lower()
+            if existing_donor in back_outs: return 'back'
+            
+            # Only accept certain inputs.  Re-try iteration if invalid
+            # input received.
+            if existing_donor not in ('y','n','yes','no'):
+                print('\ninvalid input.  try again.\n')
+                i = i-1
+                continue
+
+            # If ID'd as an existing donor, append their donation
+            # history and break out of loop.
+            if existing_donor in ('y', 'yes'):
+                donors[i].add_donation(amount)
+                break
+
+    # Add to donor list if new donor
+    if existing_donor in ('n', 'no'):
+        donors.new(first, last, amount)
+
+    # "Send" a thank you regardless of if they're new or existing donor
+    print('MESSAGE WILL READ:\n\n---')
+    print(Donor.send_thanks(first, last, amount))
+    input('---\n\npress ENTER to continue...')
+    os.system('clear')
+    return 'back'
 
 def donor_list():
+    '''
+    Prints a list of all the Donor objects in alphabetical order by
+    donor's last name.  Leaves list on screen for user reference.
+    '''
     os.system('clear')
     print('Current Donors:')
     for i in range(len(donors.list)):
@@ -77,7 +143,8 @@ def donor_list():
     print()
     
 # Initial donor data for script
-donors = DonorCollection([Donor('Bill', 'Turner', [1500.99, 3500, 800.25]), Donor('Jack', 'Yelb', [145.72, 1350.25]), Donor('Kelly', 'Jones', [250.00, 57.00]), Donor('Mark', 'Tomles', [600.00]), Donor('Guido', 'Roccio', [1153.90, 47.15]), Donor('Mary', 'Jaco', [27500.00])])
+#donors = DonorCollection([Donor('Bill', 'Turner', [1500.99, 3500, 800.25]), Donor('Jack', 'Yelb', [145.72, 1350.25]), Donor('Kelly', 'Jones', [250.00, 57.00]), Donor('Mark', 'Tomles', [600.00]), Donor('Guido', 'Roccio', [1153.90, 47.15]), Donor('Mary', 'Jaco', [27500.00])])
+donors = DonorCollection()
 
 # List of values that will universally return to menu or quit
 back_outs = ['back', 'exit', 'quit', 'q', 'end', 'clear']
@@ -110,6 +177,7 @@ main_disp = {send_thanks: ['thank',
                            'view donor report'
                            'donor report'
                           ],
+             donor_list: ['list'],
              exit_program: ['3'] + back_outs
             }
 
