@@ -1,4 +1,3 @@
-from collections import OrderedDict 
 import operator
 import os
 
@@ -15,29 +14,29 @@ class Report:
         initial_donors = [Kristy, Mikey, Nick, Bill, Cathy]
         [self.add_donor(donor) for donor in initial_donors]
 
-    def add_donor(self,Donor):
+    def add_donor(self, Donor):
         """ Add new donor to report"""
         self.donors[Donor.name] = Donor
     
-    def sort_donors(self, newReport):
+    def sort_donors(self, new_report):
         """ Sorts donors by total gift value given"""
-        newReport.unsorted_list = list(newReport.donors.values())
-        newReport.sorted_list = sorted(newReport.unsorted_list, key=operator.attrgetter('total_gift_value'), reverse=True)
-        newReport.sorted_dict = dict()
-        for donor in newReport.sorted_list:
-            newReport.sorted_dict[donor.name] = donor
+        new_report.unsorted_list = list(new_report.donors.values())
+        new_report.sorted_list = sorted(new_report.unsorted_list, key=operator.attrgetter('total_gift_value'), reverse=True)
+        new_report.sorted_dict = dict()
+        for donor in new_report.sorted_list:
+            new_report.sorted_dict[donor.name] = donor
 
-    def create_report(self, newReport):
+    def create_report(self, new_report):
         """ Display donor report to the user"""
-        newReport.sort_donors(newReport)
+        new_report.sort_donors(new_report)
 
         print("Donor Name          | Total Given   | Num Gifts | Average Gift")
         print("--------------------------------------------------------------")
-        for value in newReport.sorted_dict.values():
+        for value in new_report.sorted_dict.values():
             line_str = '{0:21}'.format(value.name) + "$" + '{0:14}'.format(value.total_gift_value) + '{0:12}'.format(value.num_gifts) + " $" + '{0:12}'.format(value.average_gift)
             print(line_str)
         print("\n")
-        prompt_user(newReport)
+        prompt_user(new_report)
 
 class Donor:
     """ Donor class stores the info associated with each donor"""
@@ -57,35 +56,34 @@ class Donor:
         self.num_gifts += 1
         self.average_gift = self.total_gift_value/self.num_gifts
 
-def check_name(newReport=None):
+def check_name(new_report=None):
     """ Check the name of the donor before sending a thank you, add to donor list if they do not exist"""
-    if newReport is None:
-        newReport = Report()
-
+    if new_report is None:
+        new_report = Report()
     print("To whom would you like to send a thank you?")
     name_to_thank = input("Please enter the full name of the donor you'd like to thank, or enter 'list' to view a list of current donors: ")
     if name_to_thank == "quit":
-        prompt_user(newReport)
+        prompt_user(new_report)
     if name_to_thank == "list":
-        newReport.create_report()
+        new_report.create_report(new_report)
         print("Would you like to thank a donor from this list?")
         name_to_thank= input("Please enter the full name of the donor you'd like to thank, or enter 'quit' to exit: ")
         if name_to_thank == "quit":
-            prompt_user(newReport)
+            prompt_user(new_report)
     try: 
-        donor = newReport.donors[name_to_thank]
+        donor = new_report.donors[name_to_thank]
     except KeyError:
         print(name_to_thank, " is a new donor. They will be added to our database.")
         newDonor = Donor(name_to_thank, 0, 0, 0)
-        newReport.add_donor(newDonor)
-        donor = newReport.donors[newDonor.name]
+        new_report.add_donor(newDonor)
+        donor = new_report.donors[newDonor.name]
     finally:
         donation_amount = input("Please enter the donation amount for which you want to thank this donor: ")
         if donation_amount == "quit":
-            prompt_user(newReport)
+            prompt_user(new_report)
         donor.add_gift(int(donation_amount))
         send_thank_you(donor)
-        prompt_user(newReport)
+        prompt_user(new_report)
 
 def send_thank_you(donor):
     """ Print a thank you to the donor"""
@@ -93,22 +91,22 @@ def send_thank_you(donor):
     output_file = donor.name + ".txt"
     with open(os.path.join(output_dir, output_file), 'w') as f:
         f.write("Thank you " + donor.name + " for your charitable gift to our organization.\n We could not operate without the generostiy of donors like yourself.")
-        f.write("Your generous gifts swill allow us to continue to serve our community in the hopes of a better world")
+        f.write("Your generous gift of " + donor.total_gift_value + " will allow us to continue to serve our community in the hopes of a better world")
 
-def send_thank_you_multiple(newReport):
-    [send_thank_you(donor) for donor in newReport.donors.values()]
-    prompt_user(newReport)
+def send_thank_you_multiple(new_report):
+    [send_thank_you(donor) for donor in new_report.donors.values()]
+    prompt_user(new_report)
 
-def quit_program(newReport=None):
+def quit_program(new_report=None):
     quit()
 
-def prompt_user(newReport=None):
-    if newReport is None:
-        newReport = Report()
+def prompt_user(new_report=None):
+    if new_report is None:
+        new_report = Report()
 
     """ Displays menu of user options"""
     arg_dict = {"1": check_name, 
-                "2": newReport.create_report, 
+                "2": new_report.create_report, 
                 "3": send_thank_you_multiple, 
                 "4": quit}
 
@@ -121,9 +119,9 @@ def prompt_user(newReport=None):
     choice = input("Please enter the number associated with your choice: ")
     
     try:
-        arg_dict[choice](newReport)
+        arg_dict[choice](new_report)
     except KeyError:
-        prompt_user(newReport)
+        prompt_user(new_report)
 
 if __name__ == "__main__":
     prompt_user()
