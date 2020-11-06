@@ -28,6 +28,7 @@ class DonorCollection():
     def __init__(self):
         self.donors = {}
     
+    @staticmethod
     def initialize_donor_dict(donor_data):
         donors = DonorCollection()
         for name, amounts in donor_data.items():
@@ -39,7 +40,7 @@ class DonorCollection():
         self.donors[donor.name] = donor
     
     def check_donors(self, name):
-        return any(donor for donor in self.donors.values()if donor.name.lower() == name.lower())
+        return any(donor for donor in self.donors.values() if donor.name.lower() == name.lower())
 
     def list_donors(self):
         donor_list = []
