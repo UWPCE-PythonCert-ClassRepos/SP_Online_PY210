@@ -3,7 +3,7 @@
 import io
 import math
 
-from Donor_Models import *  
+from Donor_Models import Donor, Donor_Collect  
 
 '''Initial setup'''
 #Default Values
@@ -68,28 +68,10 @@ def receiver():
 
     return name
 
-#Send Letter
-def send_letter():
-    '''
-    path = pathlib.Path.cwd() / 'mailroom'
-    for k, v in donors.items():
-        file_name = k + '_Thank you Letter.txt'
-        with open(os.path.join(path, file_name), 'w') as l:
-            l.write(email(k, sum(v)))
-    print(f"Sending Letters to disk: {path}\n")
-    '''
-    pass
-
-def report_bro():
-    don_col.print_report()
-    return
-
-#Quit
 def quit():
     print("Quitting, Thank you.")
     return "quit"
 
-#Main Menu Options
 def main_menu(prompt, dict_choice):
     while True:
         choice = input(prompt)
@@ -109,12 +91,10 @@ choice_menu = ("Choose an Action:\n"
 
 main_selections = {"1" : receiver,
                     "2" : don_col.print_report,
-                    "3" : send_letter,
+                    "3" : don_col.send_letter,
                     "4" : quit,
                     }
 
 
 if __name__ == "__main__":
     main_menu(choice_menu, main_selections)
-    
-    print(don_col.calc_report())

@@ -9,7 +9,7 @@ import math
 #import CLI_Main
 
 # import * is often bad form, but makes it easier to test everything in a module.
-from Donor_Models import *
+from Donor_Models import Donor, Donor_Collect
 from CLI_Main import *
 
 ##############################
@@ -128,13 +128,22 @@ def test_print_report():
     JDR.donations = [1500]
     dc.append(JDR)
 
-    dc.print_report()
+    EJ = Donor('Elton John')
+    EJ.donations = [1600]
+    dc.append(EJ)
+
+    temp_list = dc.print_report()
+   
+    assert isinstance(temp_list, list)
+    assert isinstance(temp_list[0], tuple)
+    print(temp_list[0])
+    assert temp_list[1] == repr(JDR)
+'''    
     out_file = io.StringIO()
     out_file.write(dc.print_report())
     file_contents = str(out_file)
     #print(file_contents)
-    assert file_contents.startswith("Donor Name")
-    assert file_contents.endswith('\n')
+''' 
 
 ###################################
 # Step 3 - CLI Testing
@@ -157,6 +166,8 @@ def test_init_values():
     assert sum(SG.donations) == 60000
     assert sum(AC.donations) == 1000.03
 
+def test_quit():
+    assert quit() == "quit"
 
 '''
 create donor

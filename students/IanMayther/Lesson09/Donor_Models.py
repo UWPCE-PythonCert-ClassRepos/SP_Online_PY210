@@ -4,6 +4,10 @@
 Donor Class and Donation Class
 """
 
+import pathlib
+import os
+import math
+
 class Donor(object):
     """
     Control all data related to a specific donor
@@ -34,23 +38,19 @@ class Donor(object):
 
     def email(self):
         body = f"""Greetings {self.name}\n
-    \n
-    Thank you so much for your generous contribution to our charity.\n
-    It is donors like you who make our work of building schools for ants' possible.\n
-    With your gift of ${sum(self.donations)}, means (10) or (20) more schools can be built to help the ants learn to read.\n
-    \n
-    Sincerely,\n
-    Derek Zoolander\n
-    Founder and C.E.O. of Derek Zoolander Charity for Ants Who Can't Read Good (DZCAWCRG)\n"""
+        \n
+        Thank you so much for your generous contribution to our charity.\n
+        It is donors like you who make our work of building schools for ants' possible.\n
+        With your gift of ${math.fsum(self.donations)}, means (10) or (20) more schools can be built to help the ants learn to read.\n
+        \n
+        Sincerely,\n
+        Derek Zoolander\n
+        Founder and C.E.O. of Derek Zoolander Charity for Ants Who Can't Read Good (DZCAWCRG)\n"""
         return body
 
     def thank_you(self):
         body = "Thanks {} for your ${:.2f} in donations.".format(self.name, sum(self.donations))
         return body
-
-    #Propreties of donors for calculations
-
-
 
 
 class Donor_Collect(object):
@@ -58,17 +58,7 @@ class Donor_Collect(object):
     Processes all the donors information doesn't work with donor functions
     """
 
-    #donors = []
-
     def __init__(self):
-        '''
-        TO BE REMOVED LATER
-        MS = Donor("Morgan Stanley")
-        CV = Donor("Cornelius Vanderbilt")
-        JDR = Donor("John D. Rockefeller")
-        SG = Donor("Stephen Girard")
-        AC = Donor("Andrew Carnegie")
-        '''
         self.donors = []
 
     def __str__(self):
@@ -104,11 +94,20 @@ class Donor_Collect(object):
         for i in temp_dict:
             print("{0:<25s}${1:>14.2f}{2:>17d}  ${3:>11.2f}".format(i[0], i[1][0], i[1][1], i[1][2], end =''))
         print("\n")
-
-        return self.calc_report
+#self.calc_report
+        return temp_dict
     
     def print_don_list(self):
         i = 1
         for item in self.donors:
             print(f"[{i}] - {item}")
             i += 1
+
+    def send_letter(self):
+        path = pathlib.Path.cwd() / 'Lesson09'
+        for i in self.donors:
+            file_name = repr(i) + '_Thank you Letter.txt'
+            with open(os.path.join(path, file_name), 'w') as l:
+                l.write(i.email())
+        print(f"Sending Letters to disk: {path}\n")
+        pass
