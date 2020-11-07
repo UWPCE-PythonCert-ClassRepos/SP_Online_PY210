@@ -1,8 +1,9 @@
 # ------------------------------------------------------------------------ #
 # Title: mailroom.py
-# Description: Assignment for Lesson03
+# Description: Assignment for Lesson04
 # KODonnell,10.25.2020,created script
-# KODonnell, 11.05.2020 added switchboard dict for menu
+# KODonnell, 11.05.2020 added switch dict menu
+# KODonnell, 11.07.2020 added function to generate letters
 # ------------------------------------------------------------------------- #
 
 
@@ -41,6 +42,19 @@ def add_donation_amount(name, donation, db):  # Add new donation to database
     return db
 
 
+def generate_letters(db):
+    for entry in db:
+        name = entry["Donor Name"].split(" ")
+        file_name = ("_".join(name)) + ".txt"
+        file = open(file_name, "w")
+        file.write("""
+        Dear {}, 
+        Thank you for your contributions totalling {} with {} gifts with an average of {}""".format(*entry.items()))
+        file.close()
+    print("All of your letters have been created!")
+    return list(db)
+
+
 # Presentation (Input/Output)  -------------------------------------------- #
 def menu_options():  # Display menu options
     """ Print menu for users
@@ -48,9 +62,10 @@ def menu_options():  # Display menu options
     """
     print('''
     ******MENU OPTIONS*******
-    Option 1: Send a Thank You
+    Option 1: Draft a Thank You
     Option 2: Create a Report
-    Option 3: Exit \n''')
+    Option 3: Generate Letters
+    Option 4: Exit \n''')
 
 
 def display_names(db):  # Display list of donor names
@@ -122,7 +137,7 @@ def create_report(db):  # Generate report based on donor database
     for entry in db:
         print(row(dn=entry["Donor Name"], ds="$", tg=entry["Total Given"],
                   ng=entry["Num Gifts"], ds2="$", ag=entry["Average Gift"]))
-
+    return list(db)
 
 def welcome_message():  # Display welcome message
     """ Print welcome message when program is launched
@@ -139,6 +154,10 @@ def close_app():  # Display message when user leaves
 
 
 def option_one_func(db):
+    """ Add new name or new donation to existing name to donor database
+    :param db: (list) of dictionaries with donor information
+    :return: nothing
+    """
     while True:
         name_string = enter_name()
         if name_string.lower() == "cancel":  # Cancel task
@@ -157,19 +176,10 @@ def option_one_func(db):
     return list(db)
 
 
-def option_two_func(db):
-    create_report(db)
-    return list(db)
-
-
-def option_four_func(db):
-    pass
-
-
 switch_func_dict = {
     1: option_one_func,
-    2: option_two_func,
-    3: option_four_func
+    2: create_report,
+    3: generate_letters
 }
 
 
@@ -180,7 +190,7 @@ if __name__ == '__main__':
         menu_options()
         try:
             choice = int(prompt_menu_option())
-            if choice == 3:
+            if choice == 4:
                 break
             else:
                 donor_list = switch_func_dict.get(choice)(donor_list)
