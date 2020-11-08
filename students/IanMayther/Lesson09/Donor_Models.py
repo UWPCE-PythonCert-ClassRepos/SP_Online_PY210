@@ -7,6 +7,7 @@ Donor Class and Donation Class
 import pathlib
 import os
 import math
+import re
 
 class Donor(object):
     """
@@ -29,6 +30,7 @@ class Donor(object):
         return "{}".format(self.name)
 
     def append(self,new_content):
+        '''Appends Donor donations'''
         if isinstance(new_content, (float, int)):
             self.donations.append(float(new_content))
         elif isinstance(new_content, list):
@@ -37,6 +39,7 @@ class Donor(object):
         return self.donations
 
     def email(self):
+        '''Creates text for thank you email'''
         body = f"""Greetings {self.name}\n
         \n
         Thank you so much for your generous contribution to our charity.\n
@@ -49,6 +52,7 @@ class Donor(object):
         return body
 
     def thank_you(self):
+        '''Creates Thank you for individual donors'''
         body = "Thanks {} for your ${:.2f} in donations.".format(self.name, sum(self.donations))
         return body
 
@@ -68,6 +72,7 @@ class Donor_Collect(object):
         return "{}".format(repr(self.donors))
 
     def append(self,new_content):
+        '''Append Donors to collection'''
         if isinstance(new_content, Donor):
             self.donors.append(new_content)
         else:
@@ -75,6 +80,7 @@ class Donor_Collect(object):
         return self.donors
 
     def calc_report(self):
+        ''''Creates table values for processing'''
         new_dict = {}
         for donor in self.donors:
             new_dict[repr(donor)] = []
@@ -85,6 +91,7 @@ class Donor_Collect(object):
         return new_dict
 
     def print_report(self):
+        '''Prints Donor data for reports'''
         #Header
         print("\n")
         print("{0:<25s}|{1:^15s}|{2:^15s}|{3:>12s}".format("Donor Name", "Total Given", "# of Gifts","Avg. Gift"))
@@ -94,16 +101,18 @@ class Donor_Collect(object):
         for i in temp_dict:
             print("{0:<25s}${1:>14.2f}{2:>17d}  ${3:>11.2f}".format(i[0], i[1][0], i[1][1], i[1][2], end =''))
         print("\n")
-#self.calc_report
+
         return temp_dict
     
     def print_don_list(self):
+        '''Creates list for selection from existing donors'''
         i = 1
         for item in self.donors:
             print(f"[{i}] - {item}")
             i += 1
 
     def send_letter(self):
+        '''Outputs Email for all donors'''
         path = pathlib.Path.cwd() / 'Lesson09'
         for i in self.donors:
             file_name = repr(i) + '_Thank you Letter.txt'
@@ -111,3 +120,19 @@ class Donor_Collect(object):
                 l.write(i.email())
         print(f"Sending Letters to disk: {path}\n")
         pass
+
+    def donor_validation(self, test_name):
+        '''Validate if donor exists'''
+        don_name = ''
+        valid = False
+        temp_list = re.findall('[A-Z][^A-Z]*', str(test_name))
+        for word in temp_list:
+            don_name += word[0]
+
+        for donor in self.donors:
+            if don_name == str(donor):
+                valid = True
+            else:
+                valid = False
+
+        return valid

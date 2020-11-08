@@ -163,3 +163,15 @@ def test_init_values():
 
 def test_quit():
     assert quit() == "quit"
+
+def test_donor_validation():
+    DC = Donor_Collect()
+    JDR = Donor("Jonny D. Rose")
+    DC.append(JDR)
+
+    Jinny_D_Rose = Donor("Jinny D. Rose")
+    EJ = Donor("Elton John")
+    DC.append(EJ)
+
+    assert DC.donor_validation(Jinny_D_Rose) == True
+    assert DC.donor_validation(EJ) == False
