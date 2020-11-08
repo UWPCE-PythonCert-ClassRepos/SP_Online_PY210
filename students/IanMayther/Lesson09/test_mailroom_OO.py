@@ -123,6 +123,7 @@ def test_sum_gift():
     assert new_dict[repr(WG)][2] == 16.0
 
 def test_print_report():
+    '''Confirm list sorting before printing'''
     dc = Donor_Collect()
     JDR = Donor('John D. Rockefeller')
     JDR.donations = [1500]
@@ -136,14 +137,8 @@ def test_print_report():
    
     assert isinstance(temp_list, list)
     assert isinstance(temp_list[0], tuple)
-    print(temp_list[0])
-    assert temp_list[1] == repr(JDR)
-'''    
-    out_file = io.StringIO()
-    out_file.write(dc.print_report())
-    file_contents = str(out_file)
-    #print(file_contents)
-''' 
+    assert temp_list[0][0] == str(EJ)
+    assert temp_list[1][0] == str(JDR)
 
 ###################################
 # Step 3 - CLI Testing
@@ -168,30 +163,3 @@ def test_init_values():
 
 def test_quit():
     assert quit() == "quit"
-
-'''
-create donor
-track name?
-track donations
-append donation
-init
-str
-repr
-
-
-confirm starting list and values
-confirm existance
-don col str
-don col repr
-report calc
-report print
-
-CLI
-donors in list
-donor donation value
-add new donor
-send thank you
-sen email
-print report
-quit
-'''
