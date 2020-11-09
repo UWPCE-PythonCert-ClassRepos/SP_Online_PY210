@@ -29,6 +29,8 @@ class Donor(object):
     def __repr__(self):
         return "{}".format(self.name)
 
+#create property for donor initials
+
     def append(self,new_content):
         '''Appends Donor donations'''
         if isinstance(new_content, (float, int)):
@@ -122,7 +124,10 @@ class Donor_Collect(object):
         pass
 
     def donor_validation(self, test_name):
-        '''Validate if donor exists'''
+        '''
+        Validate if donor exists
+        Return True if donor initials matches existing
+        '''
         don_name = ''
         valid = False
         temp_list = re.findall('[A-Z][^A-Z]*', str(test_name))
@@ -130,8 +135,9 @@ class Donor_Collect(object):
             don_name += word[0]
 
         for donor in self.donors:
-            if don_name == str(donor):
+            if don_name == str(donor.name):
                 valid = True
+                break
             else:
                 valid = False
 
