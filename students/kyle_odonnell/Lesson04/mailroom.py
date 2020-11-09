@@ -42,10 +42,14 @@ def add_donation_amount(name, donation, db):  # Add new donation to database
     return db
 
 
-def generate_letters(db):
+def generate_all_letters(db):
     for entry in db:
+        name_list = []
         name = entry["Donor Name"].split(" ")
-        file_name = ("_".join(name)) + ".txt"
+        for i in name:
+            i = i.strip(",")
+            name_list.append(i)
+        file_name = "_".join(name_list) + ".txt"
         file = open(file_name, "w")
         file.write("""
         Dear {}, 
@@ -175,13 +179,20 @@ def option_one_func(db):
                 break
     return list(db)
 
+def generate_letters_choice:
+    choice = input("""Generate Letters Options (Enter 1 or 2)
+    """)
 
 switch_func_dict = {
     1: option_one_func,
     2: create_report,
-    3: generate_letters
+    3: generate_letters_choice
 }
 
+switch_func_dict2 = {
+    1: generate_all_letters,
+    2: generate_one_letter
+}
 
 # Main Body of Script  ---------------------------------------------------- #
 if __name__ == '__main__':
