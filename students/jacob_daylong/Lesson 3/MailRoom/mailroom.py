@@ -4,6 +4,7 @@
 #It should have a data structure that holds a list of your donors and a history of the amounts they have donated.
 #This structure should be populated at first with at least five donors, with between 1 and 3 donations each. You can store that data structure in the global namespace.
 #The script should prompt the user (you) to choose from a menu of 3 actions: “Send a Thank You”, “Create a Report” or “quit”.
+from operator import itemgetter, attrgetter
 
 TotalGiven = 0.00
 FullName = ''
@@ -54,12 +55,15 @@ def create_report(TableHeader, DonorTable):
     print()
     print('|{:<{width}s}|{:<{width}s}|{:<{width}s}|{:<{width}s}|'.format(*TableHeader, width = 20))
     print('-------------------------------------------------------------------------------------')
-    for row in DonorTable:
+    SortedDonors = sorted(DonorTable, key=DonorSortKey, reverse=True)
+    for row in SortedDonors:
         DonationTotal = sum(row[1:])
         DonationAvg = DonationTotal/(len(row)-1)
         DonationQty = len(row)-1
-
+ 
         print('|{:<{width}s}|${:<19.2f}|{:<{width}d}|${:<19.2f}|'.format(row[0], DonationTotal, DonationQty, DonationAvg, width = 20))
+
+
 
 def main():
     while True:

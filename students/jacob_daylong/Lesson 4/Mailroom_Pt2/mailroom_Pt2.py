@@ -42,7 +42,8 @@ def thankyou_print():
 def create_report(TableHeader, DonorTable):
     print('\n|{:<{width}s}|{:<{width}s}|{:<{width}s}|{:<{width}s}|'.format(*TableHeader, width = 20))
     print('-------------------------------------------------------------------------------------')
-    for entry in DonorTable:
+    SortedDonors = sorted(DonorTable, key=DonorSortKey, reverse=True)
+    for entry in SortedDonors:
         DonationTotal = sum(DonorTable.get(entry))
         DonationQty = len(DonorTable.get(entry))
         DonationAvg = DonationTotal/DonationQty
@@ -54,6 +55,9 @@ def dict_init():
     DonorTable['Bobby Newport'] = [2000, 100]
     DonorTable['Johnny Mnemonic'] = [900, 800, 1000]
     DonorTable['Phillip Dick'] = [2220]
+
+def DonorSortKey(entry):
+    return sum(DonorTable.get(entry))
 
 def main():
     while True:
