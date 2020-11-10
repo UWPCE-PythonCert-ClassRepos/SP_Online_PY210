@@ -6,7 +6,6 @@ test code for mailroom_OO.py
 import io
 import pytest
 import math
-#import CLI_Main
 
 # import * is often bad form, but makes it easier to test everything in a module.
 from Donor_Models import Donor, Donor_Collect
@@ -80,6 +79,11 @@ def test_thankyou_email():
 
     assert M_S.email().startswith("Greetings Morgan Stanley")
     assert M_S.email().endswith("(DZCAWCRG)\n")
+
+def test_initials():
+    JDR = Donor('John David Rosen')
+
+    assert JDR.initials == 'JDR'
 
 ###################################
 # Step 2 - Donor Collection Testing
@@ -171,7 +175,6 @@ def test_donor_validation():
 
     Jinny_D_Rose = Donor("Jinny D. Rose")
     EJ = Donor("Elton John")
-    DC.append(EJ)
 
     assert DC.donor_validation(Jinny_D_Rose) == True
     assert DC.donor_validation(EJ) == False

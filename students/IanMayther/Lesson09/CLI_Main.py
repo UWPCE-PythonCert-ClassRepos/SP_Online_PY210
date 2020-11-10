@@ -62,6 +62,16 @@ def receiver():
             except ValueError:
                 print("Donation must be whole number or decimal value")
                 name = "quit"
+        elif don_col.donor_validation(name):
+            confirmation = input("Confirm donor name:")
+            if confirmation == name:
+                name = Donor(name)
+                name.append(float(donation_value))
+                don_col.append(name)
+                viable_ans = True
+            else:
+                print("Names not the same please restart")
+                name = "quit"
         elif name != "quit":
             name = Donor(name)
             name.append(float(donation_value))

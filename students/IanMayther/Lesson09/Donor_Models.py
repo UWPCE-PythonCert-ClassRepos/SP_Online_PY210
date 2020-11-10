@@ -29,7 +29,14 @@ class Donor(object):
     def __repr__(self):
         return "{}".format(self.name)
 
-#create property for donor initials
+    @property
+    def initials(self):
+        don_name = ''
+        temp_list = re.findall('[A-Z][^A-Z]*', str(self.name))
+        for word in temp_list:
+            don_name += word[0]
+
+        return don_name
 
     def append(self,new_content):
         '''Appends Donor donations'''
@@ -128,14 +135,17 @@ class Donor_Collect(object):
         Validate if donor exists
         Return True if donor initials matches existing
         '''
-        don_name = ''
         valid = False
-        temp_list = re.findall('[A-Z][^A-Z]*', str(test_name))
-        for word in temp_list:
-            don_name += word[0]
+        don_name = ''
+        if isinstance(test_name, Donor):
+            don_name = test_name.initials
+        else:
+            temp_list = re.findall('[A-Z][^A-Z]*', str(test_name))
+            for word in temp_list:
+                don_name += word[0]
 
         for donor in self.donors:
-            if don_name == str(donor.name):
+            if don_name == donor.initials:
                 valid = True
                 break
             else:
