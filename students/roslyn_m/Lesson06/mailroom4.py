@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-# Title: Mailroom Part 3 (Lesson 5)
+# Title: Mailroom Part 4 (Lesson 6)
 # Dev: Roslyn Melookaran
-# Date: 10/26/20
+# Date: 10/28/20
 # Change Log: (Who, When, What)
-# R. Melookaran, 10/26/20, created script)
-# R. Melookaran, 10/29/20, revised script to turn donor list into a donor dict)
+# R. Melookaran, 10/28/20, created script)
 # --------------------------------------------------------------
+
 
 # ----------Functions----------#
 
@@ -22,8 +22,30 @@ def option_input():
     """ Gather input from user on what action they want.
                 :return: user_selection (string)
                 """
-    user_selection = input('Please select option 1-3: ')
+    while True:
+        user_selection = input('Please select option 1-3: ')
+        try:
+            user_selection = int(user_selection)
+            break
+        except ValueError:
+            print("You must enter a number from 1-4")
     return user_selection
+
+
+def person_input():
+    user_input = input(
+        'Please type the FULL NAME of the donor who you would like to write a thank you note to. If you would like to see a complete donor list, type "list": ')
+    user_input = user_input.title()
+    return user_input
+
+
+def donation_input():
+    try:
+        donation_amt = float(input("Please enter the donation amount: "))
+    except ValueError:
+        print("Your input was not valid!")
+        donation_amt = float(input("Please enter the donation amount: "))
+    return donation_amt
 
 
 def thank_you_note(donor_all):
@@ -36,35 +58,28 @@ def thank_you_note(donor_all):
                   :param: donor_all (dictionary of donors)
                   :return: donor_all (dictionary of donors)
                   """
-    user_input = input(
-        'Please type the FULL NAME of the donor who you would like to write a thank you note to. If you would like to see a complete donor list, type "list": ')
+    donation_new = []
+    user_input = person_input()
     existing = False
-    while user_input.title() == "List":
+
+    while user_input == "List":
         for k, v in donor_all.items():
             print("%s has made the following donations: %s" % (k, v))
-        user_input = input(
-            'Please type the FULL NAME of the donor who you would like to write a thank you note to. If you would like to see a complete donor list, type "list": ')
+        user_input = person_input()
+    donation_amt = donation_input()
+    donation_new = [user_input, donation_amt]
+
     for k, v in donor_all.items():
-        if user_input.title() == k:
-            try:
-                donation_amt = float(input("Please enter the donation amount: "))
-            except ValueError:
-                print("Your input was not valid!")
-                donation_amt = float(input("Please enter the donation amount: "))
-            v.append(donation_amt)
+        if donation_new[0] == k:
+            v.append(donation_new[1])
             existing = True
     if existing != True:
-        try:
-            donation_amt = float(input("Please enter the donation amount: "))
-        except ValueError:
-            print("Your input was not valid!")
-            donation_amt = float(input("Please enter the donation amount: "))
-        donor_all.update({user_input: [donation_amt]})
+        donor_all.update({donation_new[0]: [donation_new[1]]})
     print("The following thank you note will be emailed to the donor: ")
     print(
         '"Dear {}, \n Thank you so much for your gracious donation of ${:.2f}. We are so thankful for your strong support!! \nCheers,\nRoslyn Melookaran"'.format(
-            user_input.title(), donation_amt))
-    return
+            donation_new[0], donation_new[1]))
+    return donor_all
 
 
 def create_report(donor_all):
@@ -80,7 +95,7 @@ def create_report(donor_all):
     for person in sorted_donors:
         print(f'{person[1]:20}  ${person[0]:^12}{person[2]:9}      ${person[3]:^12}')
     print("\n")
-    return
+    return sorted_donors
 
 
 def send_all_thank_you(donor_all):
@@ -96,8 +111,8 @@ def send_all_thank_you(donor_all):
         filename = filename + ".txt"
         with open(filename, 'w') as f:
             f.write(string)
-        print("Thank you note files have been created and saved in current folder!")
-    return
+    print("Thank you note files have been created and saved in current folder!")
+    return donor_all
 
 
 # ----------Variables----------#
@@ -113,24 +128,8 @@ dict = {
 if __name__ == '__main__':
     options_menu()
     user_input = option_input()
-    try:
-        user_input = int(user_input)
-    except ValueError:
-        print("You must enter a number from 1-4")
-        user_input = option_input()
-        user_input = int(user_input)
     while user_input != 4:
-        try:
-            dict.get(user_input)(donor_dict)
-        except TypeError:
-            print("You must enter a number from 1-4")
+        dict.get(user_input)(donor_dict)
         options_menu()
         user_input = option_input()
-        try:
-            user_input = int(user_input)
-        except ValueError:
-            print("You must enter a number from 1-4")
-            user_input = option_input()
-            user_input = int(user_input)
     exit_input = input('Thanks for using the program. Hit enter to exit.')
-

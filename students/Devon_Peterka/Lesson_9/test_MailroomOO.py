@@ -3,6 +3,9 @@
 import unittest
 import MailroomOO as mailroom
 from Donor import Donor
+from DonorCollection import DonorCollection
+import io
+import sys
 
 class test_Donor(unittest.TestCase):
     '''
@@ -84,7 +87,116 @@ class test_Donor(unittest.TestCase):
     def test_sort_by_donation(self):
         d_list = [self.donor1, self.donor2, self.donor3]
         self.assertEqual(sorted(d_list, key=Donor.sort_by_donations,), [self.donor1, self.donor3, self.donor2])
+    
+    def test_send_thanks(self):
+        message = "Dear Jay Marks,\n\nThank you for your generous donation of $3,700.00 toward our cause.  Your gift is most appreciated.\n\nThank you,\nOur Charity"
+        self.assertEqual(Donor.send_thanks('Jay', 'Marks', 3700), message)
 
-class test_Mailroom(unittest.TestCase):
+class test_DonorCollection(unittest.TestCase):
     def setUp(self):
-        pass
+        '''
+        Sets up a collection of 4-5 donors each with 1-3 donations each, as per
+        assignment prompt.  Mailroom module is left "empty" so a hypothetical user could
+        simply populate it and would not have to delete the initial Donor set.
+        '''
+        self.donor1 = Donor('Dave', 'Jones')
+        self.donor2 = Donor('Jerry', 'morts', 500)
+        self.donor3 = Donor('jack', 'El',  [300,50,9])
+        self.donor4 = Donor('Jenifer', 'Yelb', [12000, 5000])
+        self.donor5 = Donor('Ermy', 'Hermy', [0.53])
+        donors = [self.donor1, self.donor2, self.donor3,
+                  self.donor4, self.donor5]
+        # Coincidentally, we're testing the init function here as well.
+        self.Donor_List = DonorCollection(donors)
+
+    def test_inits_and_repr(self):
+        '''
+        Test to verify DonorCollection behaves as expected:
+            Throws exceptions with invalid inputs
+            Accepts empty inputs
+            Accepts multiple inputs (already tested technically)
+        '''
+        self.assertEqual(str(self.Donor_List), '[Donor(Dave, Jones), Donor(Jerry, Morts), Donor(Jack, El), Donor(Jenifer, Yelb), Donor(Ermy, Hermy)]')
+
+    def test_invalid_init(self):
+        '''
+        Verify exceptions are raised when invalid inputs are used to
+        initialize class object.  Both of the following cases should
+        raise an exception:
+            1) non-Donor object input
+            2) mixture of Donor and non-Donor objects input
+        '''
+        with self.assertRaises(TypeError):
+            D = DonorCollection('Five')
+
+        with self.assertRaises(TypeError):
+            bad_list = [self.donor1, self.donor3, 8, '!']
+            D = DonorCollection(bad_list)
+        
+    def test_empty_init(self):
+        '''
+        Verify DonorCollection object can be initialized empty.
+        '''
+        D = DonorCollection()
+        self.assertEqual(str(D), '[]')
+
+    def test_add_donor(self):
+        '''
+        Tests that a donor can be added to the collection.
+        '''
+        donor6 = Donor('Glumpy', 'Terpintine', 800)
+        print(type(donor6))
+        self.Donor_List.add(donor6)
+        self.assertEqual(str(self.Donor_List), '[Donor(Dave, Jones), Donor(Jerry, Morts), Donor(Jack, El), Donor(Jenifer, Yelb), Donor(Ermy, Hermy), Donor(Glumpy, Terpintine)]')
+
+    def test_add_fail(self):
+        '''
+        Verifies that add donor function exits with exception when fed
+        a non-Donor object.
+        '''
+        with self.assertRaises(TypeError):
+            self.Donor_List.add('five')
+
+    def test_new(self):
+        '''
+        Test functionality to create Donor object and simultaneously add
+        it to the DonorCollection object.
+        '''
+        self.Donor_List.new('Aks', 'Jeeves', [82])
+        self.assertEqual(str(self.Donor_List),'[Donor(Dave, Jones), Donor(Jerry, Morts), Donor(Jack, El), Donor(Jenifer, Yelb), Donor(Ermy, Hermy), Donor(Aks, Jeeves)]')
+
+    def test_list(self):
+        '''
+        Tests alphabetical listing of DonorCollection object
+        constituents.
+        '''
+        self.assertEqual(str(self.Donor_List.list), '[Donor(Jack, El), Donor(Ermy, Hermy), Donor(Dave, Jones), Donor(Jerry, Morts), Donor(Jenifer, Yelb)]')
+
+    def test_list_donations(self):
+        '''
+        Tests listing of DonorCollection object by net donation.
+        '''
+        self.assertEqual(str(self.Donor_List.list_by_donation), '[Donor(Jenifer, Yelb), Donor(Jerry, Morts), Donor(Jack, El), Donor(Ermy, Hermy), Donor(Dave, Jones)]')
+
+    def test_indexslice(self):
+        '''
+        Test that a single, or several, Donor object(s) can be
+        "plucked" from the DonorCollection object
+        '''
+        self.assertEqual(str(self.Donor_List[1]), 'Donor(Jerry, Morts)')
+        self.assertEqual(str(self.Donor_List[1:3]), '[Donor(Jerry, Morts), Donor(Jack, El)]')
+
+    def test_report(self):
+        '''
+        Tests that a report window is generated correctly for printing.
+        '''
+        report =   ('Donor Name          |  Total Given   | Gifts |  Average Gift  |\n'
+                    '--------------------|----------------|-------|----------------|\n'
+                    'Jenifer Yelb........| $    17,000.00 |   2   | $     8,500.00 |\n'
+                    'Jerry Morts.........| $       500.00 |   1   | $       500.00 |\n'
+                    'Jack El.............| $       359.00 |   3   | $       119.67 |\n'
+                    'Ermy Hermy..........| $         0.53 |   1   | $         0.53 |\n'
+                    'Dave Jones..........| $         0.00 |   0   | $         0.00 |\n'
+                    '--------------------|----------------|-------|----------------|\n')
+        assert(self.Donor_List.report(self.Donor_List.list_by_donation) == report)
+
