@@ -15,14 +15,16 @@ import sys
 # Processing  ------------------------------------------------------------- #
 def read_file(file):
     """ Read text from file
-    :param file: string with name of file
+    :param file: (string) with name of file:
     :return: string
     """
+    file_text = ""
     while True:
         try:
             with open(file) as a_file:
-                file_text = a_file.read()
-                break
+                for line in a_file:
+                    file_text += line
+            break
         except FileNotFoundError:
             file = input("{} not found. Please enter the name of an existing file: ".format(file_name))
     return file_text
@@ -30,13 +32,13 @@ def read_file(file):
 
 def build_trigram(words):
     """ Generate trigrams from string
-    :param words: string
+    :param words: (string) of original text:
     :return: dict
     """
     corpus = words.split()  # map to list of words
     word_list = []
     for w in corpus:  # remove punctuation at word boundaries
-        t = w.strip("*:;- ?!'\"").lower()
+        t = w.strip("*:“”;()- ?!'\"").lower()
         word_list.append(t)
     trigram = {}
     for i in range(len(word_list)-2):  # create word pair tuples
@@ -50,8 +52,8 @@ def build_trigram(words):
 
 def generate_text(trigrams, size=40):
     """Generate new text based on trigrams
-    :param trigrams: dict of word pairings and following words
-    :param size: integer of desired length
+    :param trigrams: (dictionary) of word pairings and following words:
+    :param size: (integer) of desired word length for new text
     :return: string
     """
     text_list = []
@@ -101,5 +103,5 @@ if __name__ == "__main__":
     word_pairs = build_trigram(in_data)
     new_text = generate_text(word_pairs, text_length-3)
     # output new text
-    print("*****Here is your excerpt*****")
+    print("***** Here is your excerpt *****")
     print(new_text)

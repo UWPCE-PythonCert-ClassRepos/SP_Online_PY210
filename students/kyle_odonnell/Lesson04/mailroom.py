@@ -47,13 +47,13 @@ def generate_letters(db):
     :param db: (list) of dictionaries with donation information:
     :return: nothing
     """
-    choice = input("""
+    file_option = input("""
     Okay, let's create some letters! You can:
     1. Create a letter for a specific donor
     2. Create letters for all donors \n
     Please select an option (1 or 2): """)
 
-    if int(choice.strip()) == 1:
+    if int(file_option.strip()) == 1:
         name_list = []
         name = input("Enter the name of the donor you want to write to: ").capitalize()
         for i in name.split(" "):
@@ -74,7 +74,7 @@ def generate_letters(db):
         except UnboundLocalError:
             print("No one with the name {} is in your database.".format(name))
 
-    elif int(choice.strip()) == 2:
+    elif int(file_option.strip()) == 2:
         for d in db:
             name_list = []
             name = d["Donor Name"].split(" ")
@@ -149,7 +149,7 @@ def thank_you_letter(name, donation):  # Print thank you letter
     print("""
     Dear {},
     Thank you for your recent donation of ${:.2f} to our organization. 
-    We rely on the generous contributions of kind people like you to help fund our cause and make the world a better place.
+    We rely on the generous contributions of kind people like you to help fund our cause.
     Sincerely,
     Kyle at Kelby Doggo, Inc.""".format(name, donation))
 
@@ -176,6 +176,7 @@ def create_report(db):  # Generate report based on donor database
         print(row(dn=entry["Donor Name"], ds="$", tg=entry["Total Given"],
                   ng=entry["Num Gifts"], ds2="$", ag=entry["Average Gift"]))
     return list(db)
+
 
 def welcome_message():  # Display welcome message
     """ Print welcome message when program is launched
@@ -212,7 +213,6 @@ def option_one_func(db):
                 print("Entry failed: Donations must be entered as a number!")
                 break
     return list(db)
-
 
 
 switch_func_dict = {
