@@ -1,59 +1,105 @@
+# ------------------------------------------------------------------------ #
+# Title: Trigrams.py
+# Description: Trigrams assignment for Lesson04
+# KODonnell,11.08.2020,created script
+# KODonnell,11.09.2020,updated text generation
+# ------------------------------------------------------------------------- #
+
+
 #!/usr/bin/env python3
 
-
 import random
+import sys
 
-word_string = "Katas are about trying something many times. In this one, what we’re experimenting with is not just the code, but the heuristics of processing the text. What do we do with punctuation? Paragraphs? Do we have to implement backtracking if we chose a next word that turns out to be a dead end?".split()
 
-def build_trigrams(words):
-    trigram= {}
-    for i in range(len(words)-2):
-        pair = (words[i], words[i+1])
+# Processing  ------------------------------------------------------------- #
+def read_file(file):
+    """ Read text from file
+    :param file: string with name of file
+    :return: string
+    """
+    while True:
         try:
-            trigram[pair].append(words[i+2])
+            with open(file) as a_file:
+                file_text = a_file.read()
+                break
+        except FileNotFoundError:
+            file = input("{} not found. Please enter the name of an existing file: ".format(file_name))
+    return file_text
+
+
+def build_trigram(words):
+    """ Generate trigrams from string
+    :param words: string
+    :return: dict
+    """
+    corpus = words.split()  # map to list of words
+    word_list = []
+    for w in corpus:  # remove punctuation at word boundaries
+        t = w.strip("*:;- ?!'\"").lower()
+        word_list.append(t)
+    trigram = {}
+    for i in range(len(word_list)-2):  # create word pair tuples
+        pair = (word_list[i], word_list[i+1])
+        try:
+            trigram[pair].append(word_list[i+2])  # add "follower" words to existing key values
         except KeyError:
-            trigram.update({pair:[words[i+2]]})
+            trigram.update({pair: [word_list[i+2]]})  # add new dict entry for new word pairs
     return trigram
 
 
-def generate_text(trigrams, size):
-    new_text = []
-    random_key = random.choice(list(trigrams.keys()))
+def generate_text(trigrams, size=40):
+    """Generate new text based on trigrams
+    :param trigrams: dict of word pairings and following words
+    :param size: integer of desired length
+    :return: string
+    """
+    text_list = []
+    random_key = random.choice(list(trigrams.keys()))  # start new text list with random dict key
     for i in random_key:
-        new_text.append(i)
-    random_value = random.choice(trigrams[random_key])
-    new_text.append(random_value)
+        text_list.append(i)
+    random_value = random.choice(trigrams[random_key])  # pull random "follower" word based on key
+    text_list.append(random_value)
     for num in range(int(size)):
-        key = new_text[-2], new_text[-1]
+        key = text_list[-2], text_list[-1]  # call dict keys based on most recently added words in list
         while True:
             try:
                 new_word = random.choice(trigrams[key])
-                new_text.append(new_word)
+                text_list.append(new_word)
                 break
             except KeyError:
-                key = new_text[-4], new_text[-3]
-    new_string = " ".join(new_text)
-    return new_string
+                key = text_list[-4], text_list[-3]  # look further back if last two words not in dict keys
+    new_string = " ".join(text_list) + "."  # create new string based on list
+    formatted_string = ""
+    for i, x in enumerate(new_string):
+        if i == 0:  # capitalize first word of text
+            formatted_string += x.capitalize()
+        elif i > 1 and new_string[i-2] == ".":  # capitalize letters after periods
+            formatted_string += x.capitalize()
+        elif new_string[i-1:i+2] == " i ":   # capitalize pronoun "I"
+            formatted_string += x.capitalize()
+        else:
+            formatted_string += x
+    return formatted_string
 
 
+# Main Body of Script  ---------------------------------------------------- #
 
-def read_file(file_name):
-    objFile = open(file_name, "r")
-    corpus = ""
-    for i in objFile:
-        corpus.append(i)
-    objFile.close()
-    return corpus
-
-
-text_corpus = read_file("sherlock.txt")
-tri = (build_trigrams(word_string))
-print(generate_text(tri, 10))
-
-
-
-
-
-#if __name__ == "__main__":
-#    trigrams_dict = build_trigrams(word_string)
-#    print(trigrams_dict)
+if __name__ == "__main__":
+    # get the filename from the command line
+    try:
+        file_name = sys.argv[1]
+    except IndexError:
+        file_name = input("Please enter a file name:\n")
+    # get desired length of generated text
+    try:
+        text_length = int(input("How many words would you like to generate?\n"))
+    except TypeError:
+        text_length = int(input("Please enter the number of words you would like as an integer:\n"))
+    # process data
+    in_data = read_file(file_name)
+    word_pairs = build_trigram(in_data)
+    new_text = generate_text(word_pairs, text_length-3)
+    # output new text
+    print("*****Here is your excerpt*****")
+    print(new_text)

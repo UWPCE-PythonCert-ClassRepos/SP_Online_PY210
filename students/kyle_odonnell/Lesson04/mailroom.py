@@ -2,8 +2,8 @@
 # Title: mailroom.py
 # Description: Assignment for Lesson04
 # KODonnell,10.25.2020,created script
-# KODonnell, 11.05.2020 added switch dict menu
-# KODonnell, 11.07.2020 added function to generate letters
+# KODonnell,11.05.2020 added switch dict menu
+# KODonnell,11.07.2020 added function to generate letters
 # ------------------------------------------------------------------------- #
 
 
@@ -42,20 +42,54 @@ def add_donation_amount(name, donation, db):  # Add new donation to database
     return db
 
 
-def generate_all_letters(db):
-    for entry in db:
+def generate_letters(db):
+    """ Write letters to text files for every donor in database
+    :param db: (list) of dictionaries with donation information:
+    :return: nothing
+    """
+    choice = input("""
+    Okay, let's create some letters! You can:
+    1. Create a letter for a specific donor
+    2. Create letters for all donors \n
+    Please select an option (1 or 2): """)
+
+    if int(choice.strip()) == 1:
         name_list = []
-        name = entry["Donor Name"].split(" ")
-        for i in name:
+        name = input("Enter the name of the donor you want to write to: ").capitalize()
+        for i in name.split(" "):
             i = i.strip(",")
             name_list.append(i)
         file_name = "_".join(name_list) + ".txt"
-        file = open(file_name, "w")
-        file.write("""
-        Dear {}, 
-        Thank you for your contributions totalling {} with {} gifts with an average of {}""".format(*entry.items()))
-        file.close()
-    print("All of your letters have been created!")
+        for d in db:
+            if d["Donor Name"] == name:
+                donor_data = (d["Donor Name"], d["Total Given"])
+        try:
+            with open(file_name, "w") as a_file:
+                a_file.write("""Dear {}, 
+                Thank you for your collective contributions of ${:.2f} over the years. 
+                Your generous donations have been put to good use!
+                Sincerely, 
+                Kyle at Kelby Doggo, Inc""".format(*donor_data))
+            print("Success! You will have a new file for {} in your local directory".format(name))
+        except UnboundLocalError:
+            print("No one with the name {} is in your database.".format(name))
+
+    elif int(choice.strip()) == 2:
+        for d in db:
+            name_list = []
+            name = d["Donor Name"].split(" ")
+            for i in name:
+                i = i.strip(",")
+                name_list.append(i)
+            file_name = "_".join(name_list) + ".txt"
+            donor_data = (d["Donor Name"], d["Total Given"])
+            with open(file_name, "w") as a_file:
+                a_file.write("""Dear {},
+                Thank you for your collective contributions of ${:.2f} over the years. 
+                Your generous donations have been put to good use!
+                Sincerely, 
+                Kyle at Kelby Doggo, Inc""".format(*donor_data))
+        print("Success! Check your local directory for newly created letters.")
     return list(db)
 
 
@@ -117,7 +151,7 @@ def thank_you_letter(name, donation):  # Print thank you letter
     Thank you for your recent donation of ${:.2f} to our organization. 
     We rely on the generous contributions of kind people like you to help fund our cause and make the world a better place.
     Sincerely,
-    Kyle at Kelby Doggo Inc.""".format(name, donation))
+    Kyle at Kelby Doggo, Inc.""".format(name, donation))
 
 
 def get_total_given(db):  # Return total total donated amount per donor
@@ -179,20 +213,14 @@ def option_one_func(db):
                 break
     return list(db)
 
-def generate_letters_choice:
-    choice = input("""Generate Letters Options (Enter 1 or 2)
-    """)
+
 
 switch_func_dict = {
     1: option_one_func,
     2: create_report,
-    3: generate_letters_choice
+    3: generate_letters
 }
 
-switch_func_dict2 = {
-    1: generate_all_letters,
-    2: generate_one_letter
-}
 
 # Main Body of Script  ---------------------------------------------------- #
 if __name__ == '__main__':
