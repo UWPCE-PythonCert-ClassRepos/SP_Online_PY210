@@ -4,6 +4,7 @@
 # KODonnell,10.25.2020,created script
 # KODonnell,11.05.2020 added switch dict menu
 # KODonnell,11.07.2020 added function to generate letters
+# KODonnell,11.10.2020 split file writing functions into multiple funcs
 # ------------------------------------------------------------------------- #
 
 
@@ -255,5 +256,3 @@ if __name__ == '__main__':
                 donor_list = switch_func_dict.get(choice)(donor_list)
         except ValueError:
             pass
-
-
