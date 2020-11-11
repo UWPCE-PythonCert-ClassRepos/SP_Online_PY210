@@ -18,24 +18,34 @@ class Report:
         """ Add new donor to report"""
         self.donors[Donor.name] = Donor
     
-    def sort_donors(self, new_report):
+    def sort_donors(self, new_report=None):
         """ Sorts donors by total gift value given"""
+        if new_report is None:
+            new_report = self
         new_report.unsorted_list = list(new_report.donors.values())
         new_report.sorted_list = sorted(new_report.unsorted_list, key=operator.attrgetter('total_gift_value'), reverse=True)
         new_report.sorted_dict = dict()
         for donor in new_report.sorted_list:
             new_report.sorted_dict[donor.name] = donor
 
-    def create_report(self, new_report):
+    def create_report(self, new_report=None):
         """ Display donor report to the user"""
+        if new_report is None:
+            new_report = Report()
         new_report.sort_donors(new_report)
-
-        print("Donor Name          | Total Given   | Num Gifts | Average Gift")
-        print("--------------------------------------------------------------")
+        report_lines = []
+        report_lines.append("Donor Name          | Total Given   | Num Gifts | Average Gift")
+        report_lines.append("--------------------------------------------------------------")
         for value in new_report.sorted_dict.values():
-            line_str = '{0:21}'.format(value.name) + "$" + '{0:14}'.format(value.total_gift_value) + '{0:12}'.format(value.num_gifts) + " $" + '{0:12}'.format(value.average_gift)
-            print(line_str)
-        print("\n")
+            new_line = '{0:21}'.format(value.name) + "$" + '{0:14}'.format(value.total_gift_value) + '{0:12}'.format(value.num_gifts) + " $" + '{0:12}'.format(value.average_gift)
+            report_lines.append(new_line)
+        report_lines.append("\n")
+        return report_lines
+
+    def display_report(self, new_report):
+        report_lines = new_report.create_report(new_report)
+        for line in report_lines:
+            print(line)
         prompt_user(new_report)
 
 class Donor:
@@ -65,7 +75,7 @@ def check_name(new_report=None):
     if name_to_thank == "quit":
         prompt_user(new_report)
     if name_to_thank == "list":
-        new_report.create_report(new_report)
+        new_report.display_report(new_report)
         print("Would you like to thank a donor from this list?")
         name_to_thank= input("Please enter the full name of the donor you'd like to thank, or enter 'quit' to exit: ")
         if name_to_thank == "quit":
@@ -90,12 +100,17 @@ def send_thank_you(donor):
     output_dir = os.getcwd()
     output_file = donor.name + ".txt"
     with open(os.path.join(output_dir, output_file), 'w') as f:
-        f.write("Thank you " + donor.name + " for your charitable gift to our organization.\n We could not operate without the generostiy of donors like yourself.")
-        f.write("Your generous gift of " + donor.total_gift_value + " will allow us to continue to serve our community in the hopes of a better world")
+        f.write("Thank you " + donor.name + " for your charitable gift to our organization.\nWe could not operate without the generosityy of donors like yourself.\n")
+        f.write("Your generous gift of $" + str(donor.total_gift_value) + " will allow us to continue to serve our community in the hopes of a better world.\n")
+        f.write("   -Kristy Martini")
 
 def send_thank_you_multiple(new_report):
     [send_thank_you(donor) for donor in new_report.donors.values()]
+
+def send_mutliple_and_prompt(new_report):
+    send_thank_you_multiple(new_report)
     prompt_user(new_report)
+
 
 def quit_program(new_report=None):
     quit()
@@ -106,8 +121,8 @@ def prompt_user(new_report=None):
 
     """ Displays menu of user options"""
     arg_dict = {"1": check_name, 
-                "2": new_report.create_report, 
-                "3": send_thank_you_multiple, 
+                "2": new_report.display_report, 
+                "3": send_mutliple_and_prompt, 
                 "4": quit}
 
     print("Hello! Welcome to the donation portal. You may enter 'quit' any time you are prompted to return to this screen.")
