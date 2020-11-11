@@ -42,37 +42,40 @@ def add_donation_amount(name, donation, db):  # Add new donation to database
     return db
 
 
-
-
 def generate_one_letter(db):
-
+    """ Write letter for one donor to file
+    :param db: (list) of dictionaries with donor information
+    :return: db
+    """
     name_list = []
     name = input("Enter the name of the donor you want to write to: ")
     for i in name.split(" "):
         i = i.strip(",")
         name_list.append(i)
     file_name = "_".join(name_list) + ".txt"
-    while True:
-        try:
-            for d in db:
-                if d["Donor Name"].lower() == name.lower():
-                    donor_data = (d["Donor Name"], d["Total Given"])
-            with open(file_name, "w") as a_file:
-                a_file.write("""Dear {},
-                    Thank you for your collective contributions of ${:.2f} over the years.
-                    Your generous donations have been put to good use!
-                    Sincerely,
-                    Kyle at Kelby Doggo, Inc""".format(*donor_data))
-            print("Success! You will have a new file for {} in your local directory".format(name.title()))
-            break
-        except UnboundLocalError:
-            print("No one with the name {} is in your database.".format(name))
-            break
+    name_in_file = False
+    for d in db:
+        if d["Donor Name"].lower() == name.lower():
+            donor_data = (d["Donor Name"], d["Total Given"])
+            name_in_file = True
+    if name_in_file:
+        with open(file_name, "w") as a_file:
+            a_file.write("""Dear {},
+                Thank you for your collective contributions of ${:.2f} over the years.
+                Your generous donations have been put to good use!
+                Sincerely,
+                Kyle at Kelby Doggo, Inc""".format(*donor_data))
+        print("Success! You will have a new file for {} in your local directory".format(name.title()))
+    else:
+        print("No one with the name {} is in your database.".format(name))
     return db
 
 
 def generate_all_letters(db):
-
+    """ Generate letter files for all donors in database
+    :param db: (list) of dictionaries with donor information
+    :return: db
+    """
     for d in db:
         name_list = []
         name = d["Donor Name"].split(" ")
@@ -190,7 +193,7 @@ def close_app():  # Display message when user leaves
     print("Closing Mailroom App...Goodbye!")
 
 
-def option_one_func(db):
+def option_one_func(db):  # Update database
     """ Add new name or new donation to existing name to donor database
     :param db: (list) of dictionaries with donor information
     :return: nothing
