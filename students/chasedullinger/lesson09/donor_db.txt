@@ -1,0 +1,5 @@
+William Gates III,653772.32,12.17
+Jeff Bezos,877.33,100.0
+Paul Allen,663.23,43.87,1.32
+Mark Zuckerberg,1663.23,4300.87,10432.0
+Willie Nelson,1000.0
