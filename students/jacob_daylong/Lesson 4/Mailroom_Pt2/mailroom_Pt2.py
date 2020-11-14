@@ -1,8 +1,8 @@
 ﻿import tempfile
 
-FullName = ''
-TableHeader = ['Donor Name', 'Total Given', 'Num Gifts', 'Average Gift']
-DonorTable = {}
+full_name = ''
+table_header = ['Donor Name', 'Total Given', 'Num Gifts', 'Average Gift']
+donor_table = {}
 
 def menu():
     dict_menu = {'\n1.': 'Send a Thank You', '2.' : 'Create a Report', '3.' : 'Send Thank You - All Donors', '4.' : 'Quit'}
@@ -11,65 +11,65 @@ def menu():
 
 def thankyou_note(entry):
     note =(f'\nDear {entry}, \nThank you for your donation of ' 
-          f'${sum(DonorTable.get(entry)):.2f}. \nSincerely, Jake\n')
+          f'${sum(donor_table.get(entry)):.2f}. \nSincerely, Jake\n')
     return note
 
-def send_thankyou(FullName):
-    FullName = input("\nPlease enter donor's Full Name: ")
-    while FullName == 'List':
-        for entry in DonorTable:
+def send_thankyou(full_name):
+    full_name = input("\nPlease enter donor's Full Name: ")
+    while full_name == 'List':
+        for entry in donor_table:
             print(entry)
-        FullName = input("\nPlease enter donor's Full Name: ")
+        full_name = input("\nPlease enter donor's Full Name: ")
 
-    DonorAmt = float(input("Please enter the amount given: "))
+    donor_amt = float(input("Please enter the amount given: "))
 
-    if FullName not in DonorTable:
-         DonorTable[FullName] = [DonorAmt]
+    if full_name not in donor_table:
+         donor_table[full_name] = [donor_amt]
     else:
-         DonorTable[FullName] += [DonorAmt]
+         donor_table[full_name] += [donor_amt]
 
-    print(thankyou_note(FullName))
+    print(thankyou_note(full_name))
 
 def thankyou_print():
-    for entry in DonorTable:
-        dir = tempfile.gettempdir()
+    for entry in donor_table:
+        dir = tempfile.gettempdir() + "/"
         filename = entry + '.txt'
         f = open(dir + filename, 'w')
         f.write(thankyou_note(entry))
         f.close
     print(dir)
 
-def create_report(TableHeader, DonorTable):
-    print('\n|{:<{width}s}|{:<{width}s}|{:<{width}s}|{:<{width}s}|'.format(*TableHeader, width = 20))
+def create_report(table_header, donor_table):
+    print('\n|{:<{width}s}|{:<{width}s}|{:<{width}s}|{:<{width}s}|'.format(*table_header, width = 20))
     print('-------------------------------------------------------------------------------------')
-    SortedDonors = sorted(DonorTable, key=DonorSortKey, reverse=True)
-    for entry in SortedDonors:
-        DonationTotal = sum(DonorTable.get(entry))
-        DonationQty = len(DonorTable.get(entry))
-        DonationAvg = DonationTotal/DonationQty
-        print('|{:<{width}s}|${:<19.2f}|{:<{width}d}|${:<19.2f}|\n'.format(entry, DonationTotal, DonationQty, DonationAvg, width = 20))
+    sorted_donors = sorted(donor_table, key=donor_sort_key, reverse=True)
+    for entry in sorted_donors:
+        donation_total = sum(donor_table.get(entry))
+        donation_qty = len(donor_table.get(entry))
+        donation_avg = donation_total/donation_qty
+        print('|{:<{width}s}|${:<19.2f}|{:<{width}d}|${:<19.2f}|\n'.format(entry, donation_total, donation_qty, donation_avg, width = 20))
 
 def dict_init():
-    DonorTable['Jane Doe'] = [10000, 4000, 2000]
-    DonorTable['John Doe'] = [10000, 2000, 5000, 3000]
-    DonorTable['Bobby Newport'] = [2000, 100]
-    DonorTable['Johnny Mnemonic'] = [900, 800, 1000]
-    DonorTable['Phillip Dick'] = [2220]
+    donor_table['Jane Doe'] = [10000, 4000, 2000]
+    donor_table['John Doe'] = [10000, 2000, 5000, 3000]
+    donor_table['Bobby Newport'] = [2000, 100]
+    donor_table['Johnny Mnemonic'] = [900, 800, 1000]
+    donor_table['Phillip Dick'] = [2220]
 
-def DonorSortKey(entry):
-    return sum(DonorTable.get(entry))
+def donor_sort_key(entry):
+    return sum(donor_table.get(entry))
 
 def main():
     while True:
         menu()
-        UserInput = input("\nChoice Selected: \n")
-        if UserInput == '1':
-            send_thankyou(FullName)
-        elif UserInput == '2':
-            create_report(TableHeader, DonorTable)
-        elif UserInput == '3':
+        user_input = input("\nChoice Selected: \n")
+        if user_input == '1':
+            send_thankyou(full_name)
+        elif user_input == '2':
+            create_report(table_header, donor_table)
+        elif user_input == '3':
             thankyou_print()
-        elif UserInput == '4':
+        elif user_input == '4':
             break
 
 if __name__ == "__main__":
