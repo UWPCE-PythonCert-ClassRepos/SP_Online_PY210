@@ -1,4 +1,4 @@
-#Lesson 3 assignment
+#Lesson 4 assignment
 import sys
 from operator import itemgetter
 #Initial donor list
