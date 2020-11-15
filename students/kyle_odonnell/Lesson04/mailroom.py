@@ -79,7 +79,7 @@ def close_app(db):
     :return: nothing
     """
     print("Closing the Mailroom Program...Goodbye!")
-    quit()
+    exit()
 
 
 # Presentation (Input/Output)  -------------------------------------------- #
