@@ -13,6 +13,7 @@ def thirds(seq):
     print(front)
     print(middle)
     print(end)
+    print(end + front + middle)
   
 
-thirds(seq3)
+thirds(seq)
