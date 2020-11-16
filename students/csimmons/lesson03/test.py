@@ -6,7 +6,7 @@ seq3 = 'The quick brown fox jumps over the lazy dog'
 def thirds(seq):
     thirds = len(seq)/3
     print(int(thirds))
-    front = seq[:thirds]
+    front = seq[:int(thirds)]
     print(front)
     middle = seq[:thirds]
     end = seq[:thirds]
