@@ -23,6 +23,13 @@ def remove_four_begin_end(seq):
     
 def reverse(seq):
     print(seq[::-1])
-#exchange_first_last(seq)
-#remove_every_other(seq)
-remove_four_begin_end(seq)
+
+def thirds(seq):
+    third = len(seq)/3
+    front = seq[:int(third)]
+    middle = seq[int(third):(int(third)*2)]
+    end = seq[(int(third)*2):]
+    print(front)
+    print(middle)
+    print(end)
+    print(end + front + middle)
