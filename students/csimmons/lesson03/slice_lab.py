@@ -4,6 +4,7 @@
 # slicing_lab.py: Slice Lab Exercises
 # Created 11/16/2020 - csimmons
 
+
 def remove_four_begin_end(seq):
     middle = seq[4:-4:2]
     return middle
@@ -25,10 +26,10 @@ b_list = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24]
 a_string = 'April is the cruellest month, breeding Lilacs out of the dead land'
 b_string = 'GaiusJuliusCeasar'
 
-print(reverse(a_list))
-print(reverse(b_list))
-print(reverse(a_string))
-print(reverse(b_string))
+#print(exchange_first_last(a_list))
+#print(exchange_first_last(b_list))
+#print(exchange_first_last(a_string))
+#print(exchange_first_last(b_string))
 
 
 if __name__ == "__main__":
