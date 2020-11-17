@@ -5,12 +5,15 @@ a_string = 'April is the cruellest month, breeding Lilacs out of the dead land'
 b_string = 'GaiusJuliusCeasar'
 
 
+
 def remove_every_other(seq):
-    if type(seq) == str:
-        print('This is a string')
-    else:
-        del seq[1::2]
-        return seq
+    return seq[0::2]
+ 
+assert remove_every_other(a_string) == 'Arli h rels ot,bedn iasoto h edln'
+assert remove_every_other(b_string) == 'Gisuisesr'
+assert remove_every_other(a_list) == [1, 3, 5, 7, 9, 11, 13, 15, 17, 19]
+assert remove_every_other(b_list) == [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23]
+print('remove_every_other() tests all passed')
 
 print('list1')
 print(remove_every_other(a_list))
