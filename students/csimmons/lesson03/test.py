@@ -5,20 +5,22 @@ c_list = ['ant', 'bear', 'cat', 'dog', 'eagle', 'fox','gnat', 'hawk', 'iguana', 
 a_string = 'April is the cruellest month, breeding Lilacs out of the dead land'
 b_string = 'GaiusJuliusCeasar'
 
-def rearrage_thirds(seq):
-    third = len(seq)/3
-    front = seq[:int(third)]
-    middle = seq[int(third):(int(third)*2)]
-    end = seq[(int(third)*2):]
-    return (end + front + middle)
+
+def remove_every_other(seq):
+    return seq[0::2]
+
+def remove_four_begin_end(seq):
+   return seq[4:-4:2]
+
+def reverse(seq):
+    return seq[::-1]
+
 
 print('list3')
-print(rearrage_thirds(c_list))
-print('list2')
-print(rearrage_thirds(b_list))
-print ('string1')
-print(rearrage_thirds(a_string))
-print ('string2')
-print(rearrage_thirds(b_string))
+print(remove_every_other(c_list))
+print ('list3')
+print(remove_four_begin_end(c_list))
+print ('list3')
+print(reverse(c_list))
 
 
