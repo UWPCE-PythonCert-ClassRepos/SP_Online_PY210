@@ -5,9 +5,9 @@ a_string = 'April is the cruellest month, breeding Lilacs out of the dead land'
 b_string = 'GaiusJuliusCeasar'
 
 
-
-def remove_every_other(seq):
-    return seq[0::2]
+def remove_four_begin_end(seq):
+    middle = seq[4:-4:2]
+    return middle
  
 assert remove_every_other(a_string) == 'Arli h rels ot,bedn iasoto h edln'
 assert remove_every_other(b_string) == 'Gisuisesr'
