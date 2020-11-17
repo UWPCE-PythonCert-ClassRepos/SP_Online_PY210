@@ -1,25 +1,24 @@
 #!usr/bin/env/python3
 a_list = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
 b_list = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24]
+c_list = ['ant', 'bear', 'cat', 'dog', 'eagle', 'fox','gnat', 'hawk', 'iguana', 'jackal', 'kangaroo']
 a_string = 'April is the cruellest month, breeding Lilacs out of the dead land'
 b_string = 'GaiusJuliusCeasar'
 
+def rearrage_thirds(seq):
+    third = len(seq)/3
+    front = seq[:int(third)]
+    middle = seq[int(third):(int(third)*2)]
+    end = seq[(int(third)*2):]
+    return (end + front + middle)
 
-def remove_four_begin_end(seq):
-    middle = seq[4:-4:2]
-    return middle
- 
-assert remove_every_other(a_string) == 'Arli h rels ot,bedn iasoto h edln'
-assert remove_every_other(b_string) == 'Gisuisesr'
-assert remove_every_other(a_list) == [1, 3, 5, 7, 9, 11, 13, 15, 17, 19]
-assert remove_every_other(b_list) == [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23]
-print('remove_every_other() tests all passed')
-
-print('list1')
-print(remove_every_other(a_list))
+print('list3')
+print(rearrage_thirds(c_list))
 print('list2')
-print(remove_every_other(b_list))
+print(rearrage_thirds(b_list))
 print ('string1')
-print(remove_every_other(a_string))
+print(rearrage_thirds(a_string))
 print ('string2')
-print(remove_every_other(b_string))
+print(rearrage_thirds(b_string))
+
+
