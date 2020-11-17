@@ -4,18 +4,10 @@
 # slicing_lab.py: Slice Lab Exercises
 # Created 11/16/2020 - csimmons
 
-def exchange_first_last(seq):
-    seq[0],seq[-1] = seq[-1],seq[0]
-    return(seq)
-
-def remove_every_other(seq):
-    del seq[1::2]
-    return seq
-
 def remove_four_begin_end(seq):
     middle = seq[4:-4:2]
     return middle
-    
+
 def reverse(seq):
     return seq[::-1]
 
@@ -33,10 +25,10 @@ b_list = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24]
 a_string = 'April is the cruellest month, breeding Lilacs out of the dead land'
 b_string = 'GaiusJuliusCeasar'
 
-print(remove_every_other(a_list))
-print(remove_every_other(b_list))
-print(remove_every_other(a_string))
-print(remove_every_other(b_string))
+print(reverse(a_list))
+print(reverse(b_list))
+print(reverse(a_string))
+print(reverse(b_string))
 
 
 if __name__ == "__main__":
