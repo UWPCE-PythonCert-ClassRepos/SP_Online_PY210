@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Craig Simmons
 # Python 210
-# slicing_lab.py: Slice Lab Exercises
+# slice_lab.py: Slice Lab Exercises
 # Created 11/16/2020 - csimmons
 
 # because strings are immutable, the expression in else clause
