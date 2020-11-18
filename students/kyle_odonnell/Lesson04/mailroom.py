@@ -5,19 +5,20 @@
 # KODonnell,11.05.2020 added switch dict menu
 # KODonnell,11.07.2020 added function to generate letters
 # KODonnell,11.10.2020 split file writing functions into multiple funcs
+# KODonnell,11.14.2020 updated to *actually* have a dictionary database
 # ------------------------------------------------------------------------- #
 
 
 # Data -------------------------------------------------------------------- #
 
-# Database for donor information
-donor_list = [
-    {"Donor Name": "William Gates, III", "Total Given": 653784.49, "Num Gifts": 2, "Average Gift": 326892.24},
-    {"Donor Name": "Mark Zuckerberg", "Total Given": 16396.10, "Num Gifts": 3, "Average Gift": 5465.37},
-    {"Donor Name": "Jeff Bezos", "Total Given": 877.33, "Num Gifts": 1, "Average Gift": 877.33},
-    {"Donor Name": "Paul Allen", "Total Given": 708.42, "Num Gifts": 3, "Average Gift": 236.14},
-    {"Donor Name": "Elon Musk", "Total Given": 50.00, "Num Gifts": 2, "Average Gift": 25.00}
-]
+# Dictionary database for donor information
+donor_dict = {
+    "William Gates, III": [653784.49, 2, 326892.24],
+    "Mark Zuckerberg": [16396.10, 3, 5465.37],
+    "Jeff Bezos": [877.33, 1, 877.33],
+    "Paul Allen": [708.42,  3, 236.14],
+    "Elon Musk": [50.00, 2, 25.00]
+}
 
 
 # Processing  ------------------------------------------------------------- #
@@ -25,103 +26,87 @@ def add_donation_amount(name, donation, db):  # Add new donation to database
     """ Add new donation to database
     :param name: (string) with name of donor:
     :param donation: (float) amount of donation:
-    :param db: (list) of dictionaries with donation information:
-    :return: (list) of dictionaries
+    :param db: (dictionary) with donor information:
+    :return: dictionary
     """
-    for entry in db:
-        if name.lower() == entry["Donor Name"].lower():
-            total = float(donation) + float(entry["Total Given"])
-            num = int(entry["Num Gifts"]) + 1
-            average = round((total/num), 2)
-            entry["Total Given"] = total
-            entry["Num Gifts"] = num
-            entry["Average Gift"] = average
-            break
+    if name in db:
+        [total, num] = db[name][:2]
+        total_update = donation + total
+        num_update = num + 1
+        average_update = round(total/num_update, 2)
+        db[name] = [total_update, num_update, average_update]
     else:
-        new_entry = {"Donor Name": name.title(), "Total Given": donation, "Num Gifts": 1, "Average Gift": donation}
-        db.append(new_entry)
+        db[name] = [donation, 1, donation]
     return db
 
 
-def generate_one_letter(db):
+def generate_one_letter(db):  # Create letter file for one donor
     """ Write letter for one donor to file
-    :param db: (list) of dictionaries with donor information
+    :param db: (dictionary) with donor information
     :return: db
     """
-    name_list = []
-    name = input("Enter the name of the donor you want to write to: ")
-    for i in name.split(" "):
-        i = i.strip(",")
-        name_list.append(i)
-    file_name = "_".join(name_list) + ".txt"
-    name_in_file = False
-    for d in db:
-        if d["Donor Name"].lower() == name.lower():
-            donor_data = (d["Donor Name"], d["Total Given"])
-            name_in_file = True
-    if name_in_file:
+    name = input("What donor would you like to write to? ")
+    try:
+        name_list = (name.replace(",", "")).split(" ")
+        file_name = ("_".join(name_list)) + ".txt"
         with open(file_name, "w") as a_file:
-            a_file.write("""Dear {},
-                Thank you for your collective contributions of ${:.2f} over the years.
-                Your generous donations have been put to good use!
-                Sincerely,
-                Kyle at Kelby Doggo, Inc""".format(*donor_data))
-        print("Success! You will have a new file for {} in your local directory".format(name.title()))
-    else:
-        print("No one with the name {} is in your database.".format(name))
+            a_file.write(letter_text(name.title(), db[name.title()][0]))
+        print("Check your local directory for a letter to {}".format(name))
+    except KeyError:
+        print("{} is not in your database!".format(name))
+    press_enter_to_continue()
     return db
 
 
-def generate_all_letters(db):
+def generate_all_letters(db):  # Create letter file for all donors
     """ Generate letter files for all donors in database
-    :param db: (list) of dictionaries with donor information
+    :param db: (dictionary) with donor information
     :return: db
     """
-    for d in db:
-        name_list = []
-        name = d["Donor Name"].split(" ")
-        for i in name:
-            i = i.strip(",")
-            name_list.append(i)
-        file_name = "_".join(name_list) + ".txt"
-        donor_data = (d["Donor Name"], d["Total Given"])
+    for i, v in db.items():
+        name_list = (i.replace(",", "")).split(" ")
+        file_name = ("_".join(name_list)) + ".txt"
         with open(file_name, "w") as a_file:
-            a_file.write("""Dear {},
-            Thank you for your collective contributions of ${:.2f} over the years.
-            Your generous donations have been put to good use!
-            Sincerely,
-            Kyle at Kelby Doggo, Inc""".format(*donor_data))
-    print("Success! Check your local directory for newly created letters.")
-    return list(db)
+            a_file.write(letter_text(i.title(), v[0]))
+    print("Check your local directory for letter files!")
+    press_enter_to_continue()
+    return db
+
+
+def close_app(db):
+    """ Print goodbye message and exit
+    :param db: (dictionary) with donor information:
+    :return: nothing
+    """
+    print("Closing the Mailroom Program...Goodbye!")
+    exit()
 
 
 # Presentation (Input/Output)  -------------------------------------------- #
+def welcome_message():  # Display welcome message
+    """ Print welcome message when program is launched
+    :return: nothing
+    """
+    print("\nWelcome to the Mailroom Program!")
+
+
 def menu_options():  # Display menu options
-    """ Print menu for users
+    """ Print menu options for users
     :return: nothing
     """
     print('''
     ******MENU OPTIONS*******
-    Option 1: Draft a Thank You
-    Option 2: Create a Report
-    Option 3: Generate Letters
+    Option 1: Write Letter for New Donation
+    Option 2: Generate Letters for Donors
+    Option 3: Create a Report
     Option 4: Exit \n''')
 
 
-def display_names(db):  # Display list of donor names
-    """ Print list of donor names
-    :param db: (list) of dictionaries with donation information
-    :return: nothing
-    """
-    for i, entry in enumerate(db):
-        print(str(i + 1) + ".", "Donor Name:", entry["Donor Name"])
-
-
-def prompt_menu_option():  # Elicit menu option
+def prompt_menu_option():  # Elicit main menu option
     """ Prompt menu option
     :return: string
     """
-    menu_option = input("Please select an option from the menu (1-3): ")
+    menu_option = input("Please select an option from the menu (1-4): ")
     return menu_option
 
 
@@ -133,6 +118,17 @@ def enter_name():  # Elicit donor name
     return name
 
 
+def display_names(db):  # Display list of donor names
+    """ Print list of donor names
+    :param db: (dictionary) with donor information
+    :return: nothing
+    """
+    count = 1
+    for i, v in db.items():
+        print("{}. Donor Name: {}".format(count, i))
+        count += 1
+
+
 def enter_donation(name):  # Elicit donation amount
     """ Prompt donation amount for donor
     :param name: (string) with name of donor:
@@ -142,88 +138,57 @@ def enter_donation(name):  # Elicit donation amount
     return donation
 
 
-def thank_you_letter(name, donation):  # Print thank you letter
-    """ Print thank you letter for donors
-    :param name: (string) with name of donor
-    :param donation:  (float) with amount of donation
-    :return: nothing
-    """
-    print("""
-    Dear {},
-    Thank you for your recent donation of ${:.2f} to our organization.
-    We rely on the generous contributions of kind people like you to help fund our cause.
-    Sincerely,
-    Kyle at Kelby Doggo, Inc.""".format(name, donation))
-
-
-def get_total_given(db):  # Return total total donated amount per donor
-    """ Get total donations per donor
-    :param db: (list) of dictionaries with donor information
-    :return: float
-    """
-    return db["Total Given"]
-
-
-def create_report(db):  # Generate report based on donor database
+def create_report(db):  # Generate report based on database
     """ Print report of donor database
-    :param db: (list) of dictionaries with donor information
-    :return: nothing
+    :param db: (dictionary) with donor information
+    :return: db
     """
-    db.sort(key=get_total_given, reverse=True)  # Sort table by total donated amount
-    heading = "| {dn:<20s}\t| {tg:<10s}\t| {ng:<10s} | {ag:<10s}   |".format
-    row = "{dn:<20s} \t {ds:<1s} {tg:>9.2f} \t {ng:>10d} \t {ds2:<1} {ag:>9.2f} ".format
+    sorted_db = sorted(db.items(), key=lambda x: x[1], reverse=True)  # Sort items by total donated amount
+    heading = "| {dn:<20s}\t| {tg:<15s}\t| {ng:<10s} | {ag:<15s}   |".format
+    row = "{dn:<20s} \t {ds:<1s} {tg:>14.2f} \t {ng:>10d} \t {ds2:<1} {ag:>14.2f} ".format
     print(heading(dn="Donor Name", tg="Total Given", ng="Num Gifts", ag="Average Gift"))
-    print("-----------------------------------------------------------------------")
-    for entry in db:
-        print(row(dn=entry["Donor Name"], ds="$", tg=entry["Total Given"],
-                  ng=entry["Num Gifts"], ds2="$", ag=entry["Average Gift"]))
-    return list(db)
+    print("----------------------------------------------------------------------------")
+    for i in sorted_db:
+        name = i[0]
+        print(row(dn=name, ds="$", tg=db[name][0],
+                  ng=db[name][1], ds2="$", ag=db[name][2]))
+    print("\n")
+    press_enter_to_continue()
+    return db
 
 
-def welcome_message():  # Display welcome message
-    """ Print welcome message when program is launched
-    :return: nothing
-    """
-    print("\nWelcome to the Mailroom Program!")
-
-
-def close_app():  # Display message when user leaves
-    """ Print goodbye message when user closes program
-    :return: nothing
-    """
-    print("Closing Mailroom App...Goodbye!")
-
-
-def option_one_func(db):  # Update database
-    """ Add new name or new donation to existing name to donor database
-    :param db: (list) of dictionaries with donor information
-    :return: nothing
+def new_donation_letter(db):  # Update database
+    """ Add new donation to database and print letter
+    :param db: (dictionary) with donor information:
+    :return: db
     """
     while True:
-        name_string = enter_name()
+        name_string = enter_name().title()
         if name_string.lower() == "cancel":  # Cancel task
+            print("Cancelling task...")
             break
-        elif name_string.lower().strip() == "list":  # Print donor names
+        elif name_string.lower().strip() in ["list", "go to list", "show list"]:  # Print donor names
             display_names(db)
         else:
             try:
                 donation_amount = enter_donation(name_string)  # Prompt donation amount
-                db = add_donation_amount(name_string, donation_amount, db)
-                thank_you_letter(name_string, donation_amount)
+                db = add_donation_amount(name_string.strip(" "), donation_amount, db)
+                print(letter_text(name_string, donation_amount))
                 break
             except ValueError:
                 print("Entry failed: Donations must be entered as a number!")
                 break
-    return list(db)
+    press_enter_to_continue()
+    return db
 
 
-def generate_letter_choice(db):
+def generate_letter_choice(db):  # Prompt for letter writing options
     """ Write letters to text files for every donor in database
-    :param db: (list) of dictionaries with donation information:
-    :return: nothing
+    :param db: (dictionary) with donor information:
+    :return: db
     """
     file_option = int(input("""
-    Okay, let's create some letters! You can:
+    Okay, let's generate some letter files! You can:
     1. Create a letter for a specific donor
     2. Create letters for all donors \n
     Please select an option (1 or 2): """))
@@ -231,17 +196,43 @@ def generate_letter_choice(db):
     return db
 
 
+def letter_text(name, value):  # Format string for thank you letter
+    """Generate thank you letter text
+    :param name: (string) with name of donor
+    :param value: (float) with donation amount
+    :return: string
+    """
+    letter = """
+    Dear {},
+    Thank you for your collective contributions of ${:.2f} over the years.
+    Your generous donations have been put to good use!
+    Sincerely,
+    Kyle at Kelby Doggo, Inc\n""".format(name, value)
+    return letter
+
+
+def press_enter_to_continue():
+    """ Prompt user to press enter to continue
+    :return: nothing
+    """
+    input("Press 'Enter' to Continue\n")
+
+
+# Switch function dictionary for main menu
 switch_func_dict = {
-    1: option_one_func,
-    2: create_report,
-    3: generate_letter_choice
+    1: new_donation_letter,
+    2: generate_letter_choice,
+    3: create_report,
+    4: close_app
 }
 
 
+# Switch function dictionary for letter writing choice
 switch_func_letter_dict = {
     1: generate_one_letter,
     2: generate_all_letters
 }
+
 
 # Main Body of Script  ---------------------------------------------------- #
 if __name__ == '__main__':
@@ -250,9 +241,6 @@ if __name__ == '__main__':
         menu_options()
         try:
             choice = int(prompt_menu_option())
-            if choice == 4:
-                break
-            else:
-                donor_list = switch_func_dict.get(choice)(donor_list)
+            donor_dict = switch_func_dict.get(choice)(donor_dict)
         except ValueError:
             pass
