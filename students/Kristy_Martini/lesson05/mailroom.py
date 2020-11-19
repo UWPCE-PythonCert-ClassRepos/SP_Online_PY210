@@ -91,7 +91,7 @@ def send_thank_you(donor):
     output_file = donor.name + ".txt"
     with open(os.path.join(output_dir, output_file), 'w') as f:
         f.write("Thank you " + donor.name + " for your charitable gift to our organization.\n We could not operate without the generostiy of donors like yourself.")
-        f.write("Your generous gift of " + donor.total_gift_value + " will allow us to continue to serve our community in the hopes of a better world")
+        f.write("Your generous gift of " + str(donor.total_gift_value) + " will allow us to continue to serve our community in the hopes of a better world")
 
 def send_thank_you_multiple(new_report):
     [send_thank_you(donor) for donor in new_report.donors.values()]
