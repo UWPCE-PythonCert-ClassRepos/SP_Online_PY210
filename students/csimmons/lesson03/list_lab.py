@@ -58,13 +58,29 @@ def series_two(fruits):
     return(double_fruit)
 '''
 def series_three(fruits):
-   #using the list from series_one, display it
+    #using the list from series_one, display it
     print(fruits)
+    #Ask for user input with a line like “Do you like apples?” for each fruit in the list 
+    #Display the fruit name in all lowercase.
+    for fruit in fruits:
+        #Handle Yes/No answers For Yes, leave it. For No remove it
+        # if answer is something else, remind user to enter Yes or No until she does
+        while True:
+            fruit_lower = fruit.lower()
+            user_answer = input('Do you like ' + fruit_lower + '? Yes or No: ')
+            if user_answer == 'Yes':
+                break
+            elif user_answer == 'No':
+                fruits.remove(fruit)
+                break
+            else:
+                print('Please enter "Yes" or "No"')
+    #Display list of fruit the user likes
+    print('You like the following fruits: ' + str(fruits))
 
 
 
 
-
-series_one(fruits)
-series_two(fruits)
+#series_one(fruits)
+#series_two(fruits)
 series_three(fruits)
