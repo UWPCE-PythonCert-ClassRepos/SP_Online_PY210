@@ -6,7 +6,7 @@
 
 # list data for all exercises
 fruits = ['Apples', 'Pears', 'Oranges', 'Blueberries']
-
+'''
 def series_one(fruits):
     # Display the list of fruits
     print('We have the following fruits available: ' + str(fruits))
@@ -56,7 +56,15 @@ def series_two(fruits):
             double_fruit.remove(user_remove)
     print(double_fruit)
     return(double_fruit)
+'''
+def series_three(fruits):
+   #using the list from series_one, display it
+    print(fruits)
+
+
+
 
 
 series_one(fruits)
 series_two(fruits)
+series_three(fruits)
