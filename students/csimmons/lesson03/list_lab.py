@@ -83,9 +83,23 @@ def series_three(fruits):
     #Display list of fruit the user likes
     print('You like the following fruits: ' + str(fruits))
 
+def series_four(fruits):
+    print('\nSeries Four Exercises ************')
+    #using the list from series_one, display it
+    print(fruits)
+    # Make new list with the contents of original, but all the letters in each item reversed.
+    new_fruits = []
+    for fruit in fruits:
+        new_fruits.append(fruit[::-1])
+    print(new_fruits)
+    #Delete last item of new and original lists
+    del new_fruits[-1]
+    del fruits[-1]
+    print(new_fruits)
+    print(fruits)
+    print('\nAll List Exercises Complete!')
 
-
-
-series_one(fruits)
-series_two(fruits)
-series_three(fruits)
+#series_one(fruits)
+#series_two(fruits)
+#series_three(fruits)
+series_four(fruits)
