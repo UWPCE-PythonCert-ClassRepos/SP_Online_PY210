@@ -6,8 +6,9 @@
 
 # list data for all exercises
 fruits = ['Apples', 'Pears', 'Oranges', 'Blueberries']
-'''
+
 def series_one(fruits):
+    print('Series One Exercises ************')
     # Display the list of fruits
     print('We have the following fruits available: ' + str(fruits))
     # Ask user for another fruit and add to end of the list
@@ -32,6 +33,7 @@ def series_one(fruits):
 
 
 def series_two(fruits):
+    print('\nSeries Two Exercises ************')
     #using the list from series_one, display it
     print(fruits)
     #Remove last fruit from list and display
@@ -46,6 +48,7 @@ def series_two(fruits):
     print(fruits)
     # Bonus Section - Multiply list times two. Keep asking until match is found
     # Once found, delete all occurences
+    print('\nSeries Two Bonus Code ************')
     double_fruit = fruits * 2 
     print(double_fruit)
     user_remove = input("Please select another fruit to delete from the list (using the fruit's name):  ")
@@ -55,9 +58,11 @@ def series_two(fruits):
         while user_remove in double_fruit:
             double_fruit.remove(user_remove)
     print(double_fruit)
-    return(double_fruit)
-'''
+    #return(double_fruit)
+    #return(fruits)
+
 def series_three(fruits):
+    print('\nSeries Three Exercises ************')
     #using the list from series_one, display it
     print(fruits)
     #Ask for user input with a line like “Do you like apples?” for each fruit in the list 
@@ -81,6 +86,6 @@ def series_three(fruits):
 
 
 
-#series_one(fruits)
-#series_two(fruits)
+series_one(fruits)
+series_two(fruits)
 series_three(fruits)
