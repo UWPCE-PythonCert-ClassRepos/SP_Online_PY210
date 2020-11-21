@@ -57,9 +57,8 @@ def series_two(fruits):
     for fruit in double_fruit:
         while user_remove in double_fruit:
             double_fruit.remove(user_remove)
+    # print doubled list
     print(double_fruit)
-    #return(double_fruit)
-    #return(fruits)
 
 def series_three(fruits):
     print('\nSeries Three Exercises ************')
@@ -99,7 +98,9 @@ def series_four(fruits):
     print(fruits)
     print('\nAll List Exercises Complete!')
 
-#series_one(fruits)
-#series_two(fruits)
-#series_three(fruits)
+
+
+series_one(fruits)
+series_two(fruits)
+series_three(fruits)
 series_four(fruits)
