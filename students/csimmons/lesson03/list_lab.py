@@ -5,9 +5,10 @@
 # Created 11/16/2020 - csimmons
 
 fruits = ['Apples', 'Pears', 'Oranges', 'Blueberries']
-'''
+
+
+
 def series_one(fruits):
-    #fruit = ['Apples', 'Pears', 'Oranges', 'Blueberries']
     print('We have the following fruits available: ' + str(fruits))
     add_fruit = input('What kind of fruit do you want to add?  ')
     fruits.append(add_fruit)
@@ -24,10 +25,9 @@ def series_one(fruits):
             print(fruit)
     return fruits
 
-series_one(fruits)
-'''
-def series_two():
-    fruits = ['Banana', 'Pineapple', 'Apples', 'Pears', 'Oranges', 'Blueberries', 'khl']
+
+def series_two(fruits):
+    #fruits = ['Banana', 'Pineapple', 'Apples', 'Pears', 'Oranges', 'Blueberries', 'khl']
     print(fruits)
     fruits.pop(-1)
     print(fruits)
@@ -36,25 +36,22 @@ def series_two():
         user_remove = input('Oh no! The fruit you entered is not in the list. Please try again:  ')
     else:
         fruits.remove(user_remove)
-        print(fruits)
-    return fruits
-'''
-    double_fruit = fruits*2
+    print(fruits)
+    print("Fin")
+    
+    # Bonus Section
+    double_fruit = fruits * 2 
+    print(double_fruit)
     user_remove = input("Please select another fruit to delete from the list (using the fruit's name):  ")
     while user_remove not in double_fruit:
         user_remove = input('Oh no! The fruit you entered is not in the list. Please try again:  ')
     for fruit in double_fruit:
         while user_remove in double_fruit:
             double_fruit.remove(user_remove)
-    
+    print(double_fruit)
+    print(fruits)
     return(double_fruit)
 
 
-
-    print(double_fruit)
-
-
-
-    print(fruits)
-'''
-series_two()
+series_one(fruits)
+series_two(fruits)
