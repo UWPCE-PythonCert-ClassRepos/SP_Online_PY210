@@ -22,12 +22,26 @@ print('\nTask Three Excercise:')
 print("the 3 numbers are: {:d}, {:d}, {:d}".format( 1, 2, 3))
 seq = ( 1, 2, 3, 4, 5)
 def test(seq):
-    print(seq)
-
-
-
-    
+    num_args = len(seq)
+    print(num_args)
+    replacer = '{:d}, '
+    make_fstring = 'The {:d} are: ' + (replacer * num_args)
+    print(make_fstring)
+    make_replacer = make_fstring[:-2]
+    full = '"' + make_fstring[:-2] + '."'
+    print(full)
+    print(full.format(len(seq), *seq))
 test(seq)
+
+'''
+dynamic_str = "The {:d} are: " + (",".join(["{}"] * len(in_tuple)))
+    return form_string.format(len(in_tuple), *in_tuple)
+
+
 #def formatter(tuple_a):
+def formatter(seq):
+    form_string = "The {:d} numbers are: " + (",".join(["{}"] * len(in_tuple)))
+    return form_string.format(len(in_tuple), *in_tuple)
  #   do_something_here_to_make_a_format_string
 #   return form_string.format(*in_tuple)
+'''
