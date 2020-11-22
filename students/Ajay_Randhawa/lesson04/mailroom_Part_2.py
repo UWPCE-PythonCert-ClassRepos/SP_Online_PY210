@@ -50,7 +50,7 @@ def send_thankyou():
                 break
         else:
             # if donor is not found, adds new
-            donorlist[response] = [amount, 1 ,amount]
+            donorlist[response] = [amount, 1, amount]
             
                 
 
@@ -58,7 +58,7 @@ def send_thankyou():
 
 
 def create_report():
-    sorted_list = sorted(donorlist, key=itemgetter(1), reverse = True)
+    sorted_list = sorted(donorlist.items())
     # defining common symbols
     symbol = '$'
     symbol1 = '|'
@@ -68,7 +68,7 @@ def create_report():
     print(string_header)
     print("-----------------------------------------------------------")
     #printing the values in the donorlist
-    for donor, (total, number, average) in donorlist.items():
+    for donor, (total, number, average) in sorted_list:
         string = '{:20}{:>2}{:10}{:11}{:>5}{:11}'.format(donor, symbol, total, number, symbol, average)
         print(string)
         print("\n")
