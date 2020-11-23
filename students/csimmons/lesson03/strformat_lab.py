@@ -18,30 +18,54 @@ print(f'file_{tuple1[0]:0>3d}, {tuple1[1]:.2f}, {tuple1[2]:.2e}, {tuple1[3]:.2e}
 
 # Task 3
 # Rewrite "the 3 numbers are: {:d}, {:d}, {:d}".format(1,2,3) to accept arbitrary # of values
-print('\nTask Three Excercise:')
-print("the 3 numbers are: {:d}, {:d}, {:d}".format( 1, 2, 3))
-seq = ( 1, 2, 3, 4, 5)
+print('\nTask Three Excercise: Dynamically accept any # of values')
+numbers1 = ( 1, 2, 3, 4, 5, 6, 7, 8, 9)
+numbers2 = ( 10, 20, 30, 40)
+
 def test(seq):
-    num_args = len(seq)
-    print(num_args)
     replacer = '{:d}, '
-    make_fstring = 'The {:d} are: ' + (replacer * num_args)
-    print(make_fstring)
-    make_replacer = make_fstring[:-2]
+    make_fstring = 'The {:d} numbers are: ' + (replacer * len(seq))
     full = '"' + make_fstring[:-2] + '."'
-    print(full)
     print(full.format(len(seq), *seq))
-test(seq)
-
-'''
-dynamic_str = "The {:d} are: " + (",".join(["{}"] * len(in_tuple)))
-    return form_string.format(len(in_tuple), *in_tuple)
+test(numbers1)
+test(numbers2)
 
 
-#def formatter(tuple_a):
-def formatter(seq):
-    form_string = "The {:d} numbers are: " + (",".join(["{}"] * len(in_tuple)))
-    return form_string.format(len(in_tuple), *in_tuple)
- #   do_something_here_to_make_a_format_string
-#   return form_string.format(*in_tuple)
-'''
+# Task 4
+# Given a 5 element tuple: ( 4, 30, 2017, 2, 27), print: '02 27 2017 04 30'
+print('\nTask Four Excercise:')
+
+datetime = ( 4, 30, 2017, 2, 27) 
+print('string.format():    ' + "{3:0>2d} {4:d} {2:d} {0:0>2d} {1:d}".format(*datetime))
+print('fstring:    ' + f"{datetime[3]:0>2d} {datetime[4]:d} {datetime[2]:d} {datetime[0]:0>2d} {datetime[1]:d}")
+
+
+# Task 5
+# Given this list ['oranges', 1.3, 'lemons', 1.1] write an fstring for:
+# "The weight of an orange is 1.3 and the weight of a lemon is 1.1"
+print('\nTask Five Excercise:')
+
+fruits = ['oranges', 1.3, 'lemons', 1.1]
+text_1 = "The weight of an "
+text_2 = "and the weight of a "
+# fstring formatting. Take plural of fruit and make singular
+f1_str = f"{fruits[0].replace('s', '')} is {fruits[1]:.1f} "
+f2_str = f"{fruits[2].replace('s', '')} is {fruits[3]:.1f}"
+print(text_1 + f1_str + text_2 + f2_str)
+
+# Change f-string to display fruit name in uppercase and 20% higher weight
+mod = 1.2
+f3_str = f"{(fruits[0].upper()).replace('S', '')} is {(fruits[1] * mod):.1f} "
+f4_str = f"{(fruits[2].upper()).replace('S', '')} is {(fruits[3]* mod):.1f} "
+print(text_1 + f3_str + text_2 + f4_str)
+
+# Task 6
+# Write some Python code to print a table of several rows, each with a name, an age and a cost. 
+# Make sure some of the costs are in the hundreds and thousands to test your alignment specifiers.
+
+# And for an extra task, given a tuple with 10 consecutive numbers, can you work how to quickly 
+# print the tuple in columns that are 5 charaters wide? It can be done on one short line!
+
+table_data = (['Kevin', 49, 20.56], ['Bruce', 3, 256], ['Matt', 100, 1005.50], ['Randy', 34, 35000.89])
+
+
