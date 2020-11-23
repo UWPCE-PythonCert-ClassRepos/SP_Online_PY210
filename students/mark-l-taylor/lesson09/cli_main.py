@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 
 from donor_models import Donor, DonorCollection
+import donor_data
 
-""" Mailroom Program Part 1
+""" Mailroom Program
     The Last Laugh Program
     https://simpsons.fandom.com/wiki/Last_Laugh_Program
 """
@@ -14,10 +15,10 @@ def prompt_for_donation(name):
     while True:
         amount = input('Enter donation amount in dollars: ')
         try:
-            # convert the amount to a float
-            return float(amount)
+            # Value checking is handled by the Donor Class
+            return Donor(name, amount)
         except ValueError:
-            print('Value must be a number!')
+            print('Value must be a number greater than zero.')
 
 
 def send_thanks():
@@ -26,7 +27,7 @@ def send_thanks():
     name = input('\nWho would you like to send a thank you to?\n(Tip: type \'list\' for possible names)\n')
     if name == 'list':
         print('Current Donors:')
-        for d in get_donor_names():
+        for d in donors.donor_names:
             print(d)
         # Repeat question for donor email
         send_thanks()
@@ -34,16 +35,23 @@ def send_thanks():
         print('Returning to main menu.')
         return
     else:
-        amount = prompt_for_donation(name)
-        add_donation(name, amount)
-        print(generate_email(name, amount))
+        #Add donation by adding a donor object.  The DonorCollection checks for existing donor and if present adds the
+        #donation amount, otherwise a new donor instance is added.
+        donors.add_donor(prompt_for_donation(name))
+        print(donors.donors[name].generate_email)
 
 
-def add_don():
-    if name not in get_donor_names():
-        print('\n{} is a new donor! Adding to donor database.'.format(name))
-        # Add new donor with empty donation
-        donors[name] = []
+def create_report():
+    print('\n'.join(donors.create_report()))
+
+
+def letters_all():
+    """Generage all the latest donation letter"""
+    print('\nGenerating donations letters:')
+    dl = donors.letters_all()
+    for name, fname in dl:
+        print(f'{name:20} --> {fname}')
+
 
 def quit_program():
     """Quit the program"""
@@ -66,9 +74,13 @@ def prompt_actions():
     response = input('Please select an action: ')
     while True:
         try:
-            return int(response), enumerate_actions[int(response)]
-        except ValueError:
+            i = int(response)
+            a = enumerate_actions[int(response)]
+            #return int(response), enumerate_actions[int(response)]
+            return i, a
+        except (ValueError, KeyError) as e:
             response = input(f'Select a number between 1 and {len(main_actions)}: ')
+
 
 
 #
@@ -83,14 +95,11 @@ main_actions = {'Send thank you to single donor': send_thanks,
 #
 # Data Set
 #
-donors = {'Homer Simpson': [25.15],
-          'Charles Burns': [0.01, 0.05],
-          'Kent Brockman': [105.75, 225.76, 387.90],
-          'Ned Flanders': [1054.85, 2345.00, 876.50],
-          'Barney Gumble': [15.25, 35.75, 12.99],
-          }
 
 if __name__ == '__main__':
+    #Intialize the donor data
+    donors = DonorCollection.donorDict(donor_data.donors)
+
     # Begin the script by asking the user what they want to do
     # program will continue to loop until the user selects the Quit option
     while True:
