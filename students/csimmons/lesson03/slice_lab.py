@@ -11,7 +11,9 @@ b_list = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24]
 a_string = 'April is the cruellest month, breeding Lilacs out of the dead land'
 b_string = 'GaiusJuliusCeasar'
 
-# one function to rule them all - replaced the hybrid str / list with below
+# Replaced first try at exchange_first_last() with a 
+# slice only solution at Natasha's request
+
 def exchange_first_last(seq):
     return(seq[-1:] + seq[1:-1] + seq[:1])
     

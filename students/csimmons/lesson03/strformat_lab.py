@@ -67,6 +67,8 @@ for data in table_data:
 
 # And for an extra task, given a tuple with 10 consecutive numbers, can you work how to quickly 
 # print the tuple in columns that are 5 charaters wide? It can be done on one short line!
+
+# Wrapped the numbers between "\" to show width of the columns and numbers centered
 numbers = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
 single_row = "\n" + ("|{:^5d}" * len(numbers)).format(*numbers)
 print(single_row + "|\n")
