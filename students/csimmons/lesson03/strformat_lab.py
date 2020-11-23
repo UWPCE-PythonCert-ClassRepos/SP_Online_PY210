@@ -71,3 +71,9 @@ table_data = (['Kevin', 'Simmons', 49, 20.56], ['Bruce', 'Vercingetorix', 3, 256
 row = "| {fname:<8s} | {lname:<15s} | {age:<5d} | ${price:<10,.2f} |".format
 for data in table_data:
     print(row(fname=data[0], lname=data[1], age=data[2], price=data[3]))
+
+numbers = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+single_row = ("|{:^5d}" * len(numbers)).format(*numbers)
+print("Task 6 Part 2:")
+print(single_row)
+print("|{:^5d}" * len(numbers)).format(*numbers)
