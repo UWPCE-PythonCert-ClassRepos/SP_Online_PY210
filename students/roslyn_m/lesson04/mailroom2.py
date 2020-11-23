@@ -44,8 +44,8 @@ def thank_you_note(donor_all):
         user_input = input(
             'Please type the FULL NAME of the donor who you would like to write a thank you note to. If you would like to see a complete donor list, type "list": ')
     for person in donor_all:
-        for item in person:
-            if user_input.title() == item:
+        for pvalue in person.values():
+            if user_input.title() == pvalue:
                 donation_amt = float(input("Please enter the donation amount: "))
                 person["Total"] = person["Total"] + donation_amt
                 person["Qty"] = person["Qty"] + 1
