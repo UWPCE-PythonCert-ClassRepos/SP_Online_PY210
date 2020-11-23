@@ -66,6 +66,8 @@ print(text_1 + f3_str + text_2 + f4_str)
 # And for an extra task, given a tuple with 10 consecutive numbers, can you work how to quickly 
 # print the tuple in columns that are 5 charaters wide? It can be done on one short line!
 
-table_data = (['Kevin', 49, 20.56], ['Bruce', 3, 256], ['Matt', 100, 1005.50], ['Randy', 34, 35000.89])
-
-
+table_data = (['Kevin', 'Simmons', 49, 20.56], ['Bruce', 'Vercingetorix', 3, 256], 
+['Matt', 'Francis', 100, 1005.50], ['Randy', 'Taber', 34, 35000.89])
+row = "| {fname:<8s} | {lname:<15s} | {age:<5d} | ${price:<10,.2f} |".format
+for data in table_data:
+    print(row(fname=data[0], lname=data[1], age=data[2], price=data[3]))
