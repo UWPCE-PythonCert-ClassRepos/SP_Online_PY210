@@ -15,20 +15,28 @@ def thankyou_note(entry):
     return note
 
 def send_thankyou(full_name):
-    full_name = input("\nPlease enter donor's Full Name: ")
-    while full_name == 'List':
-        for entry in donor_table:
-            print(entry)
         full_name = input("\nPlease enter donor's Full Name: ")
+        while full_name == 'List':
+            for entry in donor_table:
+                print(entry)
+            full_name = input("\nPlease enter donor's Full Name: ")
+        try:
+            user_input = input("Please enter donation amount:")
+            if user_input.isnumeric:
+                donor_amt = float(user_input)
+            else:
+                raise ValueError
+        except (ValueError, UnboundLocalError):
+            print("Please Enter a valid number")
+            donor_amt = float(input("Please enter donation amount:"))
 
-    donor_amt = float(input("Please enter the amount given: "))
+        if full_name not in donor_table:
+                donor_table[full_name] = [donor_amt]
+        else:
+                donor_table[full_name] += [donor_amt]
+    
 
-    if full_name not in donor_table:
-         donor_table[full_name] = [donor_amt]
-    else:
-         donor_table[full_name] += [donor_amt]
-
-    print(thankyou_note(full_name))
+        print(thankyou_note(full_name))
 
 def thankyou_print():
     for entry in donor_table:
@@ -61,16 +69,22 @@ def donor_sort_key(entry):
 
 def main():
     while True:
-        menu()
-        user_input = input("\nChoice Selected: \n")
-        if user_input == '1':
-            send_thankyou(full_name)
-        elif user_input == '2':
-            create_report(table_header, donor_table)
-        elif user_input == '3':
-            thankyou_print()
-        elif user_input == '4':
-            break
+        try:
+            menu()
+            user_input = input("\nChoice Selected: \n")
+            if user_input == '1':
+                send_thankyou(full_name)
+            elif user_input == '2':
+                create_report(table_header, donor_table)
+            elif user_input == '3':
+                thankyou_print()
+            elif user_input == '4':
+                break
+            else:
+                raise KeyError
+        except KeyError:
+            print()
+            print("Please select a proper menu choice")
 
 if __name__ == "__main__":
     dict_init()
