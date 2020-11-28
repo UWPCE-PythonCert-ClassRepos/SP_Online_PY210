@@ -27,7 +27,7 @@ def menu_selection(dispatch_dict):
             if dispatch_dict[response]() == "exit_program":
                 break
         except KeyError:
-            print('\nValid inputs are 1, 2, 3 or 4. Please try again.\n')
+            print('\nVALID INPUTS ARE 1, 2, 3 OR 4. PLEASE TRY AGAIN.\n')
             
 
 
@@ -37,6 +37,7 @@ def send_thankyou():
     response = input("Enter Full Name:")
     #'response_type 0 indicates a restricted input is not used. Ex. "list"'
     response_type = 0
+    amount = 0
     #displays the list of all donors if the user inputs list
     if response == "list":
         print(donorlist.keys())
@@ -45,22 +46,27 @@ def send_thankyou():
         response_type = 1
         #if a special inpt is not used
     if response_type == 0:
-        #store the donation amount as an int
-        amount = int(input("Donation amount:"))
-        #Goes through each name in list to find a match, then updates the values.
-        for donor, donations in donorlist.items():
-            if donor == response:
-                donations[0] += amount
-                donations[1] += 1
-                donations[2] = round(donations[0] / donations[1])
-                break
-        else:
-            # if donor is not found, adds new
-            donorlist[response] = [amount, 1, amount]
+        try:
+            #store the donation amount as an int
+            amount = int(input("Donation amount:"))
+        except ValueError:
+            print('\nONLY INTEGERS ARE VALID INPUTS. PLEASE TRY AGAIN.\n')
+        if(amount > 0):
+            #Goes through each name in list to find a match, then updates the values.
+            for donor, donations in donorlist.items():
+                if donor == response:
+                    donations[0] += amount
+                    donations[1] += 1
+                    donations[2] = round(donations[0] / donations[1])
+                    break
+            else:
+                # if donor is not found, adds new
+
+                donorlist[response] = [amount, 1, amount]
             
                 
 
-        print(f'\nThank you {response} for your generous donation of {amount}\n')
+            print(f'\nThank you {response} for your generous donation of {amount}\n')
 
 
 def create_report():
