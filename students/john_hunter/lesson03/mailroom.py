@@ -11,49 +11,43 @@
 # Johnh, 2020-Sept-24 Basic clean up to get the script to execute, added main
 # Johnh, 2020-Sept-26 Definition of the send thank you function
 # Johnh, 2020-Oct-21 Code satsfies all requirements 
-# Johnh, 2020-Feb-25 Readablity Review, comments cleanup, SoC formatting
-# Johnh, 2020-Feb-25 Tested, passed
-# Johnh, 2020-Feb-25 Added to Git and submitted
+# Johnh, 2020-Oct-22 Readablity Review, comments cleanup, SoC formatting
+# Johnh, 2020-Oct-22 Tested, passed
+# Johnh, 2020-Oct-23 Review Git commit procedure
+# Johnh, 2020-Nov-23 Added to Git and submitted
+# Johnh, 2020-Nov-27 Refactor for style snake_case naming of functions
 #----------------------------------------#
 
-import time
 import sys
 
-
 ## Donors in the global namespace, dictionary by donor ID as key, first name
-# last name and donation history as additional data entries 
-## donor 
+# last name and donation history as additional data entries  
 donors =	{ '001' : ['Merriweather', 'Frank',10,15,100], '002' : ['Tran', 'Thomas',5,17,23], 
               '003' : ['Terrance', 'Stephanie', 31, 48, 108], '004': ['Robidas', 'Sam', 4,90, 101],
-              '005' : ['Cohen', 'Sandy', 29, 41, 70], '006' : ['Kemp', 'Shioban', 2, 23000, 19]
-}
-options = ('Send a Thank You', 'Report', 'Exit')
+              '005' : ['Cohen', 'Sandy', 29, 41, 70], '006' : ['Kemp', 'Shioban', 2, 23000, 19]}
 
-
-
-def userSelection():
-    """super basic UI to prompt user and handle selections
+def user_selection():
+    """Basic UI to prompt user and handle selections
     
     Returns: 'entry' a string with value 1, 2, or 3 selected by the user
     """
+    options = ('Send a Thank You', 'Create a Report', 'quit')
     print('Enter \'exit\' at anytime to quit')
     print('Select the Menu Option by Number')#Menu Selection Direction Output
-    for item in options:##Prints the options for the usr to select
+    for item in options:##Prints the options for the user to select
         index = options.index(item)
         print(str(index+1)+ '. ' + item)
     entry = input('enter option by number:')  
     if entry == 'exit':
-        quitIt()
+        quit_it()
     if not entry.isnumeric() or 1 > int(entry) or 3 < int(entry):
         print('You must select a number 1, 2, or 3.')
-        time.sleep(1)
-        userSelection()
+        user_selection()
     else: 
         print('You have selected ' + options[int(entry)-1])
-        time.sleep(1)
     return entry
 
-def sendTY():
+def send_ty():
     """Returns the text of the email with the donor name, description of the 
     donations
     Prompts to enter a 'Full Name' or list, if the name is not part of the 
@@ -63,7 +57,7 @@ def sendTY():
     return to the prompt
     """
     names = list()
-    ##Provide for the possible need to format a list of the Donor names
+    #Format a list of the Donor names
     maxLenOfFirst=0
     maxLenOfLast=0
     for key in donors:                     
@@ -73,8 +67,7 @@ def sendTY():
             maxLenOfLast = len(donors[key][0])
           
     while True:
-        inputName= input('Enter full name of donor or \'list\' to request list of donors: ')
-        
+        inputName= input('Enter full name of donor or \'list\' to request list of donors: ')  
         for key in donors:
             first = donors[key][1]
             last = donors[key][0]
@@ -82,7 +75,6 @@ def sendTY():
         
         if inputName == 'list':        
             for key in donors:
-                print(key)
                 first = donors[key][1]
                 last = donors[key][0]
                 print('{:{align}{width}}'.format(first, align='<', width=maxLenOfFirst) + \
@@ -91,7 +83,7 @@ def sendTY():
                 continue
             
         if inputName == 'exit':
-            quitIt()
+            quit_it()
         
         if inputName in names:
             listOrNot = 'y'
@@ -103,10 +95,9 @@ def sendTY():
         if listOrNot == 'n':
             first = inputName[0:inputName.index(' ')]
             last = inputName[inputName.index(' ')+1:]
-            addDonor(last, first)
+            add_donor(last, first)
             donorID = list(donors.keys())[-1]
             break
-    
     
     for key in donors:
         if donorID == key:
@@ -117,26 +108,32 @@ def sendTY():
     emailText3 = "Sincerely," + '\n' + 'John Hunter'
     print(emailText1 + '\n'*2 + emailText2 + '\n'*2 + emailText3 )
 
-def addDonor(last, first):
+def add_donor(last, first):
+    """Adds a donor to the donor dictionary and allows the user to add donation values
+    
+    Returns: 'None'
+    """
     choice = 'y'
     donations = list()
-    print('Add a Donor by entering the values as requested: ')
+    print('The name submitted is not on the list of donors.')
+    print('The donor name will be added, please add donation values: ')
     nextKey = '00' + str(int(list(donors.keys())[-1])+1)
     lastName = last
     firstName = first
     while choice == 'y':
-        donation = input('Enter a donation amount, enter \'0\' for no donation: ')
+        donation = input('Enter a donation amount, enter \'0\' to stop adding donation values: ')
         if donation == '0':
             choice = False
         else:
             donations.append(donation)
     newDonor = [lastName, firstName] + donations
     donors[nextKey]= newDonor
+    print('The new donor has been added:')
     print(newDonor)
+    print('The Thank You email for the new donor is:')
     return None 
     
-    
-def runReport():
+def run_report():
     """Returns a report of the donors by total historical amount
     The report should contain the Donor Name, total donated, number of 
     donations, and average donation amount as values in each row
@@ -150,8 +147,8 @@ def runReport():
     donKeys = list()
     donVals = list()
     listNow = list()
-    ##sortByAltTotal = list()
-    donorsTemp = dict()
+    #sortByAltTotal = list()
+    #donorsTemp = dict()
     donorsTempTwo = donors
     
     for key in donorsTempTwo:                     
@@ -181,15 +178,10 @@ def runReport():
         donVals.append(donorsTempTwo.get(keyOf))
         sortByTotal[indexOf]=-1
         
-        
-    
-    ##donKeys.reverse()
-    ##donVals.reverse()
     donorsTempTwo = dict(zip(donKeys,donVals))
-    print(donorsTempTwo)
     
-    print('{:{align}{width}}'.format('Donor Name', align='^', width=maxLenOfDonorName) +' | Total Donations | Number of Donations | Avg Donation')
-    print('-'*maxLenOfDonorName + '-------------------------------------------------------')
+    print('{:{align}{width}}'.format('Donor Name', align='^', width=maxLenOfDonorName) +' |   Total Given   |     Num of Gifts    | Avgerage Gift')
+    print('-'*maxLenOfDonorName + '--------------------------------------------------------')
     for key in donorsTempTwo:
         z = len(donorsTempTwo[key]) - 2
         total = 0
@@ -200,28 +192,26 @@ def runReport():
         first = donorsTempTwo[key][1]
         last = donorsTempTwo[key][0]
         print('{:{align}{width}}'.format(first, align='<', width=maxLenOfFirst) + \
-        ' ' + '{:{align}{width}}'.format(last, align='<', width=maxLenOfLast) + \
-        ' ' + '{:{align}{width}.5}'.format(str(total), align='^', width=17) + \
-        ' ' + '{:{align}{width}.5}'.format(str(number), align='^', width=21) + \
-        ' ' + '{:{align}{width}.5}'.format(str(average), align='^', width=15))
-
+        ' ' + '{:{align}{width}}'.format(last, align='<', width=maxLenOfLast) + '$' +\
+        ' ' + '{:{align}{width}.5}'.format(str(total), align='^', width=16) + \
+        ' ' + '{:{align}{width}.5}'.format(str(number), align='^', width=21) + '$' + \
+        ' ' + '{:{align}{width}.5}'.format(str(average), align='^', width=14))
       
-def quitIt(): 
+def quit_it(): 
     sys.exit(0)
 
 def main():
     
     while True:
-        entry = userSelection()
+        entry = user_selection()
         if entry == '1':
-            sendTY()
+            send_ty()
         elif entry == '2':
-            runReport()
+            run_report()
         elif entry == '3':
-            quitIt()
+            quit_it()
         
-    if __name__ == '__main__':
-        True
-main()  
+if __name__ == '__main__':
+    main()  
 
     
