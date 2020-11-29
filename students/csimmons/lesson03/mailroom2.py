@@ -17,6 +17,15 @@ donorlist = [
     ('Hussein Saffouri', [1000, 1000, 2100, 7000, 55000]),
     ]
 
+donorlist2 = [ 
+    ['Craig Simmons', 10000, 2500, 300],
+    ['Allen McConnell', 3000, 6000, 750, 20000],
+    ['Martin Acevedo', 2000, 5000],
+    ['Sutton Keaney', 24500, 500, 3000, 5000, 1000],
+    ['David Basilio', 750, 750, 750, 750, 5000, 750, 750],
+    ['Andrew McLaughlin', 2500, 500, 40000, 50],
+    ['Hussein Saffouri', 1000, 1000, 2100, 7000, 55000] 
+    ]
 userprompt = '\n'.join(('What would you like to do',
           'Please choose from the options below:',
           '1 - Send a Thank You letter',
@@ -45,19 +54,31 @@ def option_four():
     print('4 was selected')
     sys.exit()
 
+donorlist = [
+    ('Craig Simmons', [10000, 2500, 300]),
+    ('Allen McConnell', [3000, 6000, 750, 20000]),
+    ('Martin Acevedo', [2000, 5000]),
+    ('Sutton Keaney', [24500, 500, 3000, 5000, 1000]),
+    ('David Basilio', [750, 750, 750, 750, 5000, 750, 750]),
+    ('Andrew McLaughlin', [2500, 500, 40000, 50]),
+    ('Hussein Saffouri', [1000, 1000, 2100, 7000, 55000]),
+    ]
+
 def unpack(seq):
     new_donors =[]
     sum_this =[]
+    global total
     for i in range(len(seq)):
-        new_donors.append(seq[i][0])
+        #new_donors.append((seq[i][0])
         print(seq[i][0])
-        sum_this.append(seq[i][1])
-        print(seq[i][1])
-    
+        x = (seq[i][0])
+        new_donors.append(x)
 
-    
-    print(new_donors)
-    print(sum_this)
+        print(seq[i][1])
+        y = (seq[i][1])
+        total = total + y
+        sum_this.append(y)
+    print(total)
 
 unpack(donorlist)
 #print(mailroom_data1)
