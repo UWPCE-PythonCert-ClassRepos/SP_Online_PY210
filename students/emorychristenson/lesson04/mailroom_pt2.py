@@ -38,7 +38,7 @@ Use 'list' to view current donors, or 'quit' to return to the menu: """)
             print("\n",name)
         response = input("\nPlease enter a donor name: ")
     if response.lower() == "quit":
-        main()
+        pass
     else:
         amount = float(input("\nEnter a donation amount: "))
         
@@ -52,7 +52,7 @@ Use 'list' to view current donors, or 'quit' to return to the menu: """)
 def send_email(donor, amount):
     # Print donor name and amount into thank you email
     print(thanks_letter(donor, amount))
-    main()
+    exit()
 
 def sum_donations(donations):
     # Sorts by total amount given
@@ -76,26 +76,28 @@ def generate_report():
     main()
 
 def send_all_thanks():
+    print("Sending a thank you note to all donors!")
     for donor, amount in donors.items():
         total = sum(amount)
         filename = ('./' + donor + '.txt')
         with open(filename, 'w') as f:
          f.write(thanks_letter(donor, total)) 
-    main()
+
 
 def quit_program():
     exit()
 
 def main():
-    # Prompt user for option, run related function
-    print(main_prompt)
-
     menu = {1: thank_you, 2: generate_report, 3: send_all_thanks, 4: quit_program}
-    response = int(input("Please enter a number: "))
-    if response in menu:
-        menu[response]()
-    else:
-        response = int(input(f"{response} is not a valid input: "))
+    while True:
+        # Prompt user for option, run related function
+        print(main_prompt)
+
+        response = int(input("Please enter a number: "))
+        if response in menu:
+            menu[response]()
+        else:
+            response = int(input(f"{response} is not a valid input: "))
 
 
 if __name__ == "__main__":
