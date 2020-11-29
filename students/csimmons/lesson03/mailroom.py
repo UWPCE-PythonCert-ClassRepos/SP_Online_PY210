@@ -45,19 +45,22 @@ def everything_else():
     print('in catch-all function')
     sys.exit()
 
-def display_report(seq):
-    donor_names = []
-    gifts = []
-    for i in range(len(donorlist)):
-        donor_names.append(donorlist[i][0])
-        gifts.append(donorlist[i][1])
-    
-    donors = list(map(lambda x:x, donor_names))
-    charity = list(map(lambda x:x, gifts))
-    print(donors)
-    print(charity)
+
     
 
+def display_report(seq):
+    #donor_names = []
+    #gifts = []
+    #for i in range(len(donorlist)):
+        #donor_names.append(donorlist[i][0])
+        #gifts.append(donorlist[i][1])
+    donors = list(map(lambda x:x[0], donorlist))
+    gifts = list(map(lambda x:x[1], donorlist))
+    print(donors)
+    print(gifts)
+    
+
+   
 
     #print(donor_names)
     #print(gifts)
