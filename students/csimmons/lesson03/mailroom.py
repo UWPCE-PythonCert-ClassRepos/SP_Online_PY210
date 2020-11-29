@@ -49,13 +49,18 @@ def display_report(seq):
     donor_names = []
     gifts = []
     for i in range(len(donorlist)):
-        #print(str(donorlist[i]))
-        #print(str(donorlist[i][0]))
-        #print(str(donorlist[i][1]))
         donor_names.append(donorlist[i][0])
         gifts.append(donorlist[i][1])
-    print(donor_names)
-    print(gifts)
+    
+    donors = list(map(lambda x:x, donor_names))
+    charity = list(map(lambda x:x, gifts))
+    print(donors)
+    print(charity)
+    
+
+
+    #print(donor_names)
+    #print(gifts)
 
     
 
