@@ -30,11 +30,11 @@ def option_one():
     sys.exit()
 
 def option_two():
-     print('in option_two')
+    print('in option_two')
     sys.exit()
 
 def option_three():
-     print('in option_three')
+    print('in option_three')
     sys.exit()
 
 def option_exit():
