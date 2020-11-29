@@ -24,3 +24,48 @@ userprompt = '\n'.join(('What would you like to do',
           '3 - Add new donation data',
           '4 - Quit',
           '>>> '))
+
+def option_one():
+    print('in option_one')
+    sys.exit()
+
+def option_two():
+     print('in option_two')
+    sys.exit()
+
+def option_three():
+     print('in option_three')
+    sys.exit()
+
+def option_exit():
+    print('Thank you and goodbye!')
+    sys.exit()
+
+def everything_else():
+    print('in catch-all function')
+    sys.exit()
+
+def main():
+    response = input(userprompt)
+    while(True):
+        if response == '1':
+            print("option 1 selected")
+            option_one()
+        elif response == '2':
+            print("option 2 selected")
+            option_two()
+        elif response == '3':
+            print("option 3 selected")
+            option_three()
+        elif response == '4':
+            print("option 3 selected")
+            option_exit()
+        else:
+            print('Invalid')
+            everything_else()
+
+
+
+
+if __name__ == '__main__':
+    # main()
