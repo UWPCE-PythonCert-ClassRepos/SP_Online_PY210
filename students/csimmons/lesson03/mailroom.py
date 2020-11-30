@@ -51,7 +51,7 @@ def display_report(seq):
     #row = '{:<20s}{:1}{:<13,.2f}{:1}{:<10,.0f}{:1}{:<12,.2f}'.format('Bill Gates', '| $', 5463, '| ', 77, '| $', 1020)
     donors = list(map(lambda x:x[0], donorlist))
     gifts = list(map(lambda x:x[1], donorlist))
-    gift_info = []
+    all_info = []
     print(donors)
     print(gifts)
     print(header2)
@@ -60,7 +60,23 @@ def display_report(seq):
         print(str(len(gifts[i])) + '  # of items')
         print((donors[i]) + '  is the donor')
         print(gifts[i])
+        total_gift = 0
+        average_gift = 0
+        gift_info = []
+        for x in range(len(gifts[i])):
+            total_gift += gifts[i][x]
+        average_gift = total_gift / len(gifts[i])
+        gift_info.append(total_gift)
+        gift_info.append(len(gifts[i]))
+        gift_info.append(average_gift)
+        all_info.append(gift_info)
+        print(len(gifts[i]))
+        print(average_gift)
+        print(total_gift)
+        print(gift_info)
         print(header2)
+    print(all_info)
+    print(header2)
         #gift_total = 0
         #gift_num = 0
         #total gifts
