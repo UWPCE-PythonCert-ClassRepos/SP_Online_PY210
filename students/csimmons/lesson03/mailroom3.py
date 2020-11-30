@@ -95,7 +95,21 @@ def main():
 
 #main()
 #mailroom(donorlist2)
-
+def create_report():
+    sorted_list = sorted(donorlist, key=itemgetter(1), reverse = True)
+    # defining common symbols
+    symbol = '$'
+    symbol1 = '|'
+    #displaying header text for the table
+    string_header = '{:19}{:1}{:13}{:1}{:10}{:1}{:10}'.format("Donor Name", symbol1, " Total Given ", symbol1, " Num Gifts ", symbol1, " Average Gift ")
+    print("\n")
+    print(string_header)
+    print("-----------------------------------------------------------")
+    #printing the values in the donorlist
+    for donor in sorted_list:
+        string = '{:20}{:>2}{:10}{:11}{:>5}{:11}'.format(donor[0], symbol, donor[1][0], donor[1][1], symbol, donor[1][2])
+        print(string)
+        print("\n")
 
 
 

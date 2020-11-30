@@ -1,10 +1,7 @@
 #!/usr/bin/env python3
 # Craig Simmons
 # Python 210
-# mailroom.py
-# Created 11/23/2020 - csimmons
-
-import sys
+# mailroom.py# Created 11/23/2020 - csimmonsimport sys
 # mailroom(donorlist)
 #[donor, gifts]
 donorlist = [
@@ -49,21 +46,56 @@ def everything_else():
     
 
 def display_report(seq):
-    #donor_names = []
-    #gifts = []
-    #for i in range(len(donorlist)):
-        #donor_names.append(donorlist[i][0])
-        #gifts.append(donorlist[i][1])
+    header1 = '{:20}{:1}{:15}{:1}{:10}{:1}{:12}'.format('\n''Donor Name ', '|', ' Total Given ', '|', ' Num Gifts ', '|', ' Average Gift ')
+    header2 = ('_ ' * 32) +'\n'
+    #row = '{:<20s}{:1}{:<13,.2f}{:1}{:<10,.0f}{:1}{:<12,.2f}'.format('Bill Gates', '| $', 5463, '| ', 77, '| $', 1020)
+    #row = '{:<20s}{:1}{:<13,.2f}{:1}{:<10,.0f}{:1}{:<12,.2f}'.format('Bill Gates', '| $', 5463, '| ', 77, '| $', 1020)
     donors = list(map(lambda x:x[0], donorlist))
     gifts = list(map(lambda x:x[1], donorlist))
-    print(donors)
-    print(gifts)
+    print(len(gifts[0]))
+    print(gifts[0][0])
+    print(gifts[0][1])
+    print(len(gifts[1]))
+    print(gifts[0:])
+            
     
 
-   
+'''
+    for i in range(len(donors)-1):
+        print(donors[i] + ' ---- ')
+        gift = 0
+        print(len(gifts))
+        for x in range(len(gifts)-1):
+            print(i,x)
+            gift = int(gifts[i][x])
+            print(type(gift))
+            print(gift)
 
-    #print(donor_names)
-    #print(gifts)
+    print(header2)
+    Sum = (gifts[1][0])
+    print(gifts[1])
+    print(gifts[1][0])
+    new = (gifts[1][0])
+    newer = new + (gifts[1][1])
+    print(new)
+    print(newer)
+'''
+
+'''
+    print(average)
+    row = '{:<20s}{:1}{:<13,.2f}{:1}{:<10,.0f}{:1}{:<12,.2f}'.format('Bill Gates', '| $', 5463, '| ', 77, '| $', 1020)
+    print(header1)
+    print(header2)
+    print(row)
+    print(header2)
+    print(donors)
+    print(gifts)
+  
+row = "| {fname:<8s} | {lname:<15s} | {age:<5d} | ${price:<10,.2f} |".format
+for data in table_data:
+    print(row(fname=data[0], lname=data[1], age=data[2], price=data[3]))
+'''
+    
 
     
 
