@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 # Craig Simmons
 # Python 210
-# mailroom.py# Created 11/23/2020 - csimmonsimport sys
+# mailroom.py# Created 11/23/2020 - csimmons
+
+import sys
 # mailroom(donorlist)
 #[donor, gifts]
 donorlist = [
@@ -42,9 +44,6 @@ def everything_else():
     print('in catch-all function')
     sys.exit()
 
-
-    
-
 def display_report(seq):
     header1 = '{:20}{:1}{:15}{:1}{:10}{:1}{:12}'.format('\n''Donor Name ', '|', ' Total Given ', '|', ' Num Gifts ', '|', ' Average Gift ')
     header2 = ('_ ' * 32) +'\n'
@@ -52,53 +51,35 @@ def display_report(seq):
     #row = '{:<20s}{:1}{:<13,.2f}{:1}{:<10,.0f}{:1}{:<12,.2f}'.format('Bill Gates', '| $', 5463, '| ', 77, '| $', 1020)
     donors = list(map(lambda x:x[0], donorlist))
     gifts = list(map(lambda x:x[1], donorlist))
-    print(len(gifts[0]))
-    print(gifts[0][0])
-    print(gifts[0][1])
-    print(len(gifts[1]))
-    print(gifts[0:])
-            
     
-
-'''
-    for i in range(len(donors)-1):
-        print(donors[i] + ' ---- ')
-        gift = 0
-        print(len(gifts))
-        for x in range(len(gifts)-1):
-            print(i,x)
-            gift = int(gifts[i][x])
-            print(type(gift))
-            print(gift)
-
-    print(header2)
-    Sum = (gifts[1][0])
-    print(gifts[1])
-    print(gifts[1][0])
-    new = (gifts[1][0])
-    newer = new + (gifts[1][1])
-    print(new)
-    print(newer)
-'''
-
-'''
-    print(average)
-    row = '{:<20s}{:1}{:<13,.2f}{:1}{:<10,.0f}{:1}{:<12,.2f}'.format('Bill Gates', '| $', 5463, '| ', 77, '| $', 1020)
-    print(header1)
-    print(header2)
-    print(row)
-    print(header2)
     print(donors)
     print(gifts)
-  
-row = "| {fname:<8s} | {lname:<15s} | {age:<5d} | ${price:<10,.2f} |".format
-for data in table_data:
-    print(row(fname=data[0], lname=data[1], age=data[2], price=data[3]))
-'''
-    
+    print(header2)
+    donor_name = []
+    all_info = [[],]
+    gift_info = [[],]
 
     
 
+    print(gifts)
+    for gift in gifts:
+        print(gift)
+        gift_total = 0
+        gift_num = 0
+        #total gifts
+        for i in range(len(gift)):
+            gift_amount = gift[i]
+            gift_total = gift_amount + gift_total
+            
+        gift_num = len(gifts[i])
+        gift_info.append(gift_total)
+        gift_info.append(gift_num)
+        gift_info.append(gift_total/gift_num)
+        print(gift_info)
+    all_info.append(gift_info)
+    print(all_info)
+display_report(donorlist)
+'''    
 def main():
     response = input(userprompt)
     while(True):
@@ -115,12 +96,12 @@ def main():
             print("option 4 selected")
             option_exit()
         else:
-            display_report()
+            display_report(donorlist)
             #print('Invalid')
             #everything_else()
-display_report(donorlist)   
 
-'''
+
+
 if __name__ == '__main__':
     main()
 '''
