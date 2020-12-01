@@ -1,19 +1,20 @@
 #! /usr/bin/env python3
 
-## Lesson 4, Assignment 3, Mailroom Part 2
+## Lesson 4, Assignment 2, Mailroom Part 2
 ## By: B. Matthews
 ## https://uwpce-pythoncert.github.io/PythonCertDevel/exercises/mailroom-part2.html
 ## update to: use a dict for donor data; use dict for menu switching
 ## and write letters to files
 
 import sys
-#import copy
 import os
 
 ## Global variables
 donors = {'Harry Dresden': [10.00],
           'Queen Mab': [234.10, 1043.50],
-          'Molly Carpenter': [1000.00, 25.99, 321.45]}
+          'Molly Carpenter': [1000.00, 25.99, 321.45],
+          'Carlos Rameriz': [30.50, 30, 10],
+          'Wizard McCoy': [20, 5.00]}
 
 s_mylist = []
 average = 0
@@ -70,15 +71,16 @@ def exit_menu():
 def thank_files():
     """writes a donor thank-you and puts in a file for each donor"""
     cwd = os.getcwd()       # Current working dir
-    #number = len(donors)
 
     for person, amount in donors.items():
         pname = person.replace(' ', '_')
         path = os.path.join(cwd, pname)
         myfile = path + ".txt"
+        all = sum(donors[person])
 
         with open(myfile, 'w') as f:
-            f.write("Thanks %s " % (person))
+            f.write("Thank you, %s, for your continuing generous donations of $%.2f.\n"
+                    "We appreciate your support. Sincerely, Grateful Team" % (person, all))
             print("created file: ", myfile)
 
     return
@@ -128,8 +130,6 @@ def main():
     while True:
         response = input(prompt)    # continuously collect user selection
         menu1.get(response)()       # use menu dictionary to select correct function
-
-        print("you typed: ", response)
 
 ## Submenu calls main so it has to be here, but I usually like declarations at the top
 menu2 = {
