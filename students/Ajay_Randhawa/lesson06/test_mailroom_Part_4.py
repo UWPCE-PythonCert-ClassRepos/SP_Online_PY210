@@ -5,9 +5,10 @@ from mailroom_Part_4 import list_donor
 from mailroom_Part_4 import donorlist
 from mailroom_Part_4 import donor_addition
 from mailroom_Part_4 import decode_input
-from mailroom_Part_4 import lettersToAllDonors
+from mailroom_Part_4 import letters_ToAllDonors
 from mailroom_Part_4 import get_letter_text
 from mailroom_Part_4 import create_report
+from mailroom_Part_4 import *
 
 #test output of 'list' command
 def test_1():
@@ -29,11 +30,17 @@ def test_4():
     key, value = "Elon Musk", [1500, 3, 500]
     assert key in donorlist and value == donorlist[key]
 
+#test that the list is sorted by total amount in descending order
 def test_5():
-    assert create_report() is None
+    prev = []
+    for donor, (total, number, average) in create_report():
+        prev.append(total)
+        print(prev)
+    for index in range(len(prev)-1):
+        assert prev[index] >= prev[index+1]
 
 def test_6():
-    lettersToAllDonors()
+    letters_ToAllDonors()
     assert os.path.isfile("Elon_Musk.txt")
 
 def test_7():

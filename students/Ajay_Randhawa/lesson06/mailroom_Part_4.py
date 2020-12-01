@@ -20,7 +20,6 @@ prompt = "\n".join(("Please choose from the below options",
 
 sorted_list = []
 
-
 def menu_selection(dispatch_dict):
     while True:
         
@@ -93,7 +92,7 @@ def create_report():
     #displaying header text for the table
     string_header = '{:19}{:1}{:13}{:1}{:10}{:1}{:10}'.format("Donor Name", symbol1, " Total Given ", symbol1, " Num Gifts ", symbol1, " Average Gift ")
     get_report(string_header, sorted_list, symbol, symbol1)
-    
+    return sorted_list
 
 def get_report(string_header, sorted_list, symbol, symbol1):
     print("\n")
@@ -106,12 +105,13 @@ def get_report(string_header, sorted_list, symbol, symbol1):
         print("\n")
 
 def letters_ToAllDonors():
-    lobal sorted_list
+    global sorted_list
     sorted_list = sorted(donorlist.items(), key=lambda t: t[1][0], reverse=True)
     for donor, (total, number, average) in sorted_list:
         filename = donor.replace(" ", "_") + ".txt"
         with open(filename, 'w') as g:
             g.write(str(get_letter_text(donor, total)))
+    print("\n Letters created in current directory\n")
 
 def get_letter_text(name, amount):
     letter = "Dear %s,\n\n    Thank you for your very kind donation of %s.\n    It will be put to very good use.\n\nSincerely, \n-The Team"%(name, amount)
