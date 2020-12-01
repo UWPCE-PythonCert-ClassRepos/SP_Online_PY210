@@ -1,6 +1,6 @@
 #Lesson 5 assignment
 import sys
-from operator import itemgetter
+
 #Initial donor list
 donorlist = {"William Gates": [150, 2, 75], 
             "Mark Zuckerburg": [300, 3, 100], 
@@ -17,6 +17,8 @@ prompt = "\n".join(("Please choose from the below options",
     "3 - Send letters to all dononrs",
     "4 - Quit",
     ">>> "))
+
+sorted_list = []
 
 
 def menu_selection(dispatch_dict):
@@ -83,14 +85,15 @@ def donor_addition(donor_name, donor_amount):
 
 
 def create_report():
-    sorted_list = sorted(donorlist.items())
+    global sorted_list
+    sorted_list = sorted(donorlist.items(), key=lambda t: t[1][0], reverse=True)
     # defining common symbols
     symbol = '$'
     symbol1 = '|'
     #displaying header text for the table
     string_header = '{:19}{:1}{:13}{:1}{:10}{:1}{:10}'.format("Donor Name", symbol1, " Total Given ", symbol1, " Num Gifts ", symbol1, " Average Gift ")
     get_report(string_header, sorted_list, symbol, symbol1)
-    return print(string_header)
+    
 
 def get_report(string_header, sorted_list, symbol, symbol1):
     print("\n")
@@ -102,8 +105,10 @@ def get_report(string_header, sorted_list, symbol, symbol1):
         print(string)
         print("\n")
 
-def lettersToAllDonors():
-    for donor, (total, number, average) in donorlist.items():
+def letters_ToAllDonors():
+    lobal sorted_list
+    sorted_list = sorted(donorlist.items(), key=lambda t: t[1][0], reverse=True)
+    for donor, (total, number, average) in sorted_list:
         filename = donor.replace(" ", "_") + ".txt"
         with open(filename, 'w') as g:
             g.write(str(get_letter_text(donor, total)))
@@ -121,7 +126,7 @@ def exit_program():
 
 main_dispatch = {"1": send_thankyou,
                  "2": create_report,
-                 "3": lettersToAllDonors,
+                 "3": letters_ToAllDonors,
                  "4": exit_program
                  }
 
