@@ -1,6 +1,6 @@
 #Lesson 5 assignment
 import sys
-from operator import itemgetter
+
 #Initial donor list
 donorlist = {"William Gates": [150, 2, 75], 
             "Mark Zuckerburg": [300, 3, 100], 
@@ -63,14 +63,12 @@ def send_thankyou():
                 # if donor is not found, adds new
 
                 donorlist[response] = [amount, 1, amount]
-            
-                
 
             print(f'\nThank you {response} for your generous donation of {amount}\n')
 
 
 def create_report():
-    sorted_list = sorted(donorlist.items())
+    sorted_list = sorted(donorlist.items(), key=lambda t: t[1][0], reverse=True)
     # defining common symbols
     symbol = '$'
     symbol1 = '|'
@@ -85,13 +83,14 @@ def create_report():
         print(string)
         print("\n")
 
-def lettersToAllDonors():
+def letters_ToAllDonors():
     for donor, (total, number, average) in donorlist.items():
         letter = "Dear %s,\n\n    Thank you for your very kind donation of %s.\n    It will be put to very good use.\n\nSincerely, \n-The Team"%(donor, total)
 
         filename = donor.replace(" ", "_") + ".txt"
         with open(filename, 'w') as g:
             g.write(str(letter))
+    print("\nLetters created in current directory\n")
 
 
 def exit_program():
@@ -102,7 +101,7 @@ def exit_program():
 
 main_dispatch = {"1": send_thankyou,
                  "2": create_report,
-                 "3": lettersToAllDonors,
+                 "3": letters_ToAllDonors,
                  "4": exit_program
                  }
 
