@@ -13,13 +13,11 @@ import os
 donors = {'Harry Dresden': [10.00],
           'Queen Mab': [234.10, 1043.50],
           'Molly Carpenter': [1000.00, 25.99, 321.45],
-          'Carlos Rameriz': [30.50, 30, 10],
+          'Carlos Ramirez': [30.50, 30, 10],
           'Wizard McCoy': [20, 5.00]}
 
-s_mylist = []
 average = 0
 total = 0
-num_of_donations = 1
 
 prompt = "\n".join(("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nMailroom v.2\n",
                     "Please choose an option:",
@@ -46,21 +44,21 @@ def thanks():
 
 def report():
     """Prints a report to the screen of donors and amounts"""
-    #print("\n" * 100, "\a{:<23} | {:<15} | {:<15} | {:>15}".format("Name", "Total Donated ($)",
-                                                                   #"Number of Donations",
-                                                                   #"Average Amount ($)"))
+    print("\n" * 100, "\a{:<23} | {:<15} | {:<15} | {:>15}".format("Name", "Total Donated ($)",
+                                                                   "Number of Donations",
+                                                                   "Average Amount ($)"))
     print("-" * 87)
 
     ## Sort the list of donors in descending total donation amount order
-    #s_mylist = sorted(huge_list, key=lambda record : sum(record[1]), reverse=True)
 
-    #for person in s_mylist:
-       #total = sum(person[1])
-        #number = len(person[1])
-        #average = total/number
-        #print("{:<24} | {:>17,.2f} | {:>19} | {:>15,.2f}".format(person[0], total, number, average))
+    for each_key in donors:
+        #print('donors key', each_key, 'has value', donors[each_key])
+        total = sum(donors[each_key])
+        number = len(donors[each_key])
+        average = total/number
+        print("{:<24} | {:>17,.2f} | {:>19} | {:>15,.2f}".format(each_key, total, number, average))
 
-    print("\nThe donors and amounts will be printed here soon.\n")
+    print("\n\n")
     return
 
 def exit_menu():
