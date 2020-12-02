@@ -68,6 +68,7 @@ def display_report(seq):
     for i in range(len(all_info)):
         print(info_row(dname=all_info[i][0], total=all_info[i][1], gifts=all_info[i][2], avg=all_info[i][3]))
     print('\n')
+    main()
 
 
 
