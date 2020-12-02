@@ -298,14 +298,18 @@ def test_ul():
     ul = Ul()
     file_contents = render_result(ul)
     print(file_contents)
-    assert file_contents == '<ul />\n'
+    assert file_contents == '<ul>\n</ul>\n'
 
 def test_li():
     """a simple horizontal rule with no attributes"""
     li = Li()
     file_contents = render_result(li)
     print(file_contents)
-    assert file_contents == '<li />\n'
+    assert file_contents == '<li></li>\n'
+
+
+
+    
 # #####################
 # # indentation testing
 # #  Uncomment for Step 9 -- adding indentation

@@ -77,7 +77,9 @@ class OneLineTag(Element):
                     open_tag.append('"{}"'.format(value))
         open_tag.append(">")
         out_file.write("".join(open_tag))
-        out_file.write(self.contents[0])
+        for content in self.contents:
+            if content is not None:
+                out_file.write(content)
         out_file.write("</{}>\n".format(self.tag))
 
     def append(self, content):
@@ -127,6 +129,6 @@ class A(OneLineTag):
 class Ul(Element):
     tag = "ul"
 
-class Li(Element):
+class Li(OneLineTag):
     tag = "li"
         
