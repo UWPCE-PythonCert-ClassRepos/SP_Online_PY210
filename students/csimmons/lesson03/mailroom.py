@@ -45,52 +45,32 @@ def everything_else():
     sys.exit()
 
 def display_report(seq):
-    header1 = '{:20}{:1}{:15}{:1}{:10}{:1}{:12}'.format('\n''Donor Name ', '|', ' Total Given ', '|', ' Num Gifts ', '|', ' Average Gift ')
-    header2 = ('_ ' * 32) +'\n'
-    #row = '{:<20s}{:1}{:<13,.2f}{:1}{:<10,.0f}{:1}{:<12,.2f}'.format('Bill Gates', '| $', 5463, '| ', 77, '| $', 1020)
-    #row = '{:<20s}{:1}{:<13,.2f}{:1}{:<10,.0f}{:1}{:<12,.2f}'.format('Bill Gates', '| $', 5463, '| ', 77, '| $', 1020)
     donors = list(map(lambda x:x[0], donorlist))
     gifts = list(map(lambda x:x[1], donorlist))
     all_info = []
-    print(donors)
-    print(gifts)
-    print(header2)
+    header1 = '{:20}{:1}{:15}{:1}{:10}{:1}{:12}'.format('\n''Donor Name ', '|', ' Total Given ', '|', ' Num Gifts ', '|', ' Average Gift ')
+    header2 = ('_ ' * 31) +'\n'
+    info_row = '{dname:<20s} $ {total:<13,.2f} {gifts:^10d} $ {avg:<12,.2f}'.format
     for i in range(len(donorlist)):
-        print(str(i) + '  Index #')
-        print(str(len(gifts[i])) + '  # of items')
-        print((donors[i]) + '  is the donor')
-        print(gifts[i])
         total_gift = 0
         average_gift = 0
         gift_info = []
         for x in range(len(gifts[i])):
             total_gift += gifts[i][x]
         average_gift = total_gift / len(gifts[i])
+        gift_info.append(donors[i])
         gift_info.append(total_gift)
         gift_info.append(len(gifts[i]))
-        gift_info.append(average_gift)
+        gift_info.append(average_gift) 
         all_info.append(gift_info)
-        print(len(gifts[i]))
-        print(average_gift)
-        print(total_gift)
-        print(gift_info)
-        print(header2)
-    print(all_info)
+    print(header1)
     print(header2)
-        #gift_total = 0
-        #gift_num = 0
-        #total gifts
-        #for x in range(len(gifts[i])):
-            #print(len(gifts[i]))
-            # gift_amount = gift[i]
-            #gift_total = gift_amount + gift_total
-            #gift_num = len(gifts[i])
-            #gift_info.append(gift_total)
-            #gift_info.append(gift_num)
-            #gift_info.append(gift_total/gift_num)
+    for i in range(len(all_info)):
+        print(info_row(dname=all_info[i][0], total=all_info[i][1], gifts=all_info[i][2], avg=all_info[i][3]))
+    print('\n')
 
-display_report(donorlist)
-'''    
+
+
 def main():
     response = input(userprompt)
     while(True):
@@ -98,8 +78,7 @@ def main():
             print("option 1 selected")
             option_one()
         elif response == '2':
-            print("option 2 selected")
-            option_two()
+            display_report(donorlist)
         elif response == '3':
             print("option 3 selected")
             option_three()
@@ -115,4 +94,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-'''
