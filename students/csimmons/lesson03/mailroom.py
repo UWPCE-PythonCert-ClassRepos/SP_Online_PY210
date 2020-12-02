@@ -30,6 +30,11 @@ thankyou_prompt = '\n'.join(('Please enter a donor name',
 gift_prompt = '\n'.join(('Please enter the new donation',
                 '>>>  '))
 
+thankyou_note = '\n'.join(('Dear{},',
+                'We would like to thank you for your extremely generous',
+                'donation of ${:.2f} to the Anonymous Charity of Seattle.',
+                'Sincerely,',
+                'CA Simmons'))
 
 def insert_donor(response):
     new_donor = tuple([response,[]])
@@ -42,26 +47,30 @@ def insert_gift(gift):
     return donorlist
 
 
+
+
+
 #insert_donor('Jack Stenger')
 #insert_gift(10000)
 
 def send_thankyou():
     donors = list(map(lambda x:x[0], donorlist))
     response = input(thankyou_prompt)
-    gift = input(gift_prompt)
     if response.lower() == 'list':
         for donor in donors:
             print(donor)
-        print(gift)
         sys.exit()
     elif response.title() in donors:
-        insert_donor(response)
-        insert_gift(gift)
-        sys.exit()
-    elif response.title() not in donors:
+        print(thankyou_note.format('Jack', '30'))
+    else:
+        gift = input(gift_prompt)
+        new_donor = tuple([response,[]])
+        donorlist.append(new_donor)
+        get_index = (len(donorlist)-1)
+        donorlist[get_index][1].append(gift)
         print(donorlist)
-    
-#send_thankyou()1
+        sys.exit()
+#send_thankyou()
 
 
 def display_report(seq):
@@ -89,7 +98,6 @@ def display_report(seq):
         print(info_row(dname=all_info[i][0], total=all_info[i][1], gifts=all_info[i][2], avg=all_info[i][3]))
     print('\n')
     main()
-
 
 
 def main():
