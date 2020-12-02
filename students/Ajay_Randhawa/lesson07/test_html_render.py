@@ -262,6 +262,36 @@ def test_hr_attr():
     print(file_contents)
     assert file_contents == '<hr width="400" />\n'
 
+
+def test_br():
+    br = Br()
+    file_contents = render_result(br)
+    print(file_contents)
+    assert file_contents == "<br />\n"
+
+
+def test_content_in_br():
+    with pytest.raises(TypeError):
+        br = Br("some content")
+
+
+def test_append_content_in_br():
+    with pytest.raises(TypeError):
+        br = Br()
+        br.append("some content")
+
+
+def test_anchor():
+    a = A("http://google.com", "link to google")
+    file_contents = render_result(a)
+    print(file_contents)
+    googleLink = "http://google.com"
+    text = "<a href="'"{}"'">link to google</a>".format(googleLink)
+    print(text)
+    assert file_contents.startswith('<a ')
+    assert "http://google.com" in file_contents
+    assert ">link to google</a>" in file_contents
+
 # #####################
 # # indentation testing
 # #  Uncomment for Step 9 -- adding indentation
