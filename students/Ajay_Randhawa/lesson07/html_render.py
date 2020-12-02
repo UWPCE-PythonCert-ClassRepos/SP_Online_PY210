@@ -124,14 +124,9 @@ class A(OneLineTag):
         kwargs['href'] = link
         super().__init__(content, **kwargs)
 
-    # def render(self, out_file):
-    #     open_tag = ["<{}".format(self.tag)]
-    #     open_tag.append(" ")
-    #     open_tag.append("href=")
-    #     open_tag.append(self.link)
-    #     open_tag.append(">")
-    #     open_tag.append(self.contents)
-    #     open_tag.append("<")
-    #     open_tag.append(self.tag)
-    #     open_tag.append(">\n")
+class Ul(Element):
+    tag = "ul"
+
+class Li(Element):
+    tag = "li"
         

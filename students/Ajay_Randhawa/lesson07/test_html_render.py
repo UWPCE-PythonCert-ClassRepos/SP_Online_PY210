@@ -292,6 +292,20 @@ def test_anchor():
     assert "http://google.com" in file_contents
     assert ">link to google</a>" in file_contents
 
+
+def test_ul():
+    """a simple horizontal rule with no attributes"""
+    ul = Ul()
+    file_contents = render_result(ul)
+    print(file_contents)
+    assert file_contents == '<ul />\n'
+
+def test_li():
+    """a simple horizontal rule with no attributes"""
+    li = Li()
+    file_contents = render_result(li)
+    print(file_contents)
+    assert file_contents == '<li />\n'
 # #####################
 # # indentation testing
 # #  Uncomment for Step 9 -- adding indentation
