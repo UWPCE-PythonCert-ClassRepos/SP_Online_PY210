@@ -16,33 +16,53 @@ donorlist = [
     ('Hussein Saffouri', [1000, 1000, 2100, 7000, 55000]),
     ]
 
-userprompt = '\n'.join(('What would you like to do',
+menu_prompt = '\n'.join(('What would you like to do?',
           'Please choose from the options below:',
           '1 - Send a Thank You letter',
           '2 - Create a report',
-          '3 - Add new donation data',
-          '4 - Quit',
+          '3 - Quit',
           '>>> '))
 
-def option_one():
-    print('in option_one')
-    sys.exit()
+thankyou_prompt = '\n'.join(('Please enter a donor name',
+                '(Enter "List" for a list of current donors)',
+                '>>>  '))
 
-def option_two():
-    print('in option_two')
-    sys.exit()
+gift_prompt = '\n'.join(('Please enter the new donation',
+                '>>>  '))
 
-def option_three():
-    print('in option_three')
-    sys.exit()
 
-def option_exit():
-    print('Thank you and goodbye!')
-    sys.exit()
+def insert_donor(response):
+    new_donor = tuple([response,[]])
+    donorlist.append(new_donor)
+    return donorlist
+    #donorlist[7][1].append(1000)
+def insert_gift(gift):
+    get_index = (len(donorlist)-1)
+    donorlist[get_index][1].append(gift)
+    return donorlist
 
-def everything_else():
-    print('in catch-all function')
-    sys.exit()
+
+#insert_donor('Jack Stenger')
+#insert_gift(10000)
+
+def send_thankyou():
+    donors = list(map(lambda x:x[0], donorlist))
+    response = input(thankyou_prompt)
+    gift = input(gift_prompt)
+    if response.lower() == 'list':
+        for donor in donors:
+            print(donor)
+        print(gift)
+        sys.exit()
+    elif response.title() in donors:
+        insert_donor(response)
+        insert_gift(gift)
+        sys.exit()
+    elif response.title() not in donors:
+        print(donorlist)
+    
+#send_thankyou()1
+
 
 def display_report(seq):
     donors = list(map(lambda x:x[0], donorlist))
@@ -73,25 +93,19 @@ def display_report(seq):
 
 
 def main():
-    response = input(userprompt)
+    response = input(menu_prompt)
     while(True):
         if response == '1':
-            print("option 1 selected")
-            option_one()
+            send_thankyou()
         elif response == '2':
             display_report(donorlist)
         elif response == '3':
-            print("option 3 selected")
-            option_three()
-        elif response == '4':
-            print("option 4 selected")
-            option_exit()
+            print('Quitting Mailroom Application')
+            sys.exit()
         else:
             display_report(donorlist)
             #print('Invalid')
             #everything_else()
-
-
 
 if __name__ == '__main__':
     main()
