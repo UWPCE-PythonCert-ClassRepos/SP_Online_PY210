@@ -7,11 +7,11 @@ import sys
 
 donorlist = [
     ('Craig Simmons', [10000, 2500, 300]),
-    ('Allen McConnell', [3000, 6000, 750, 20000]),
+    ('Allen Connell', [3000, 6000, 750, 20000]),
     ('Martin Acevedo', [2000, 5000]),
     ('Sutton Keaney', [24500, 500, 3000, 5000, 1000]),
     ('David Basilio', [750, 750, 750, 750, 5000, 750, 750]),
-    ('Andrew McLaughlin', [2500, 500, 40000, 50]),
+    ('Andrew Laughlin', [2500, 500, 40000, 50]),
     ('Hussein Saffouri', [1000, 1000, 2100, 7000, 55000]),
     ]
 
@@ -35,7 +35,7 @@ def generate_thankyou(f_response, f_gift):
     We would like to thank you for your extremely generous donation 
     of ${:.2f} to the Anonymous Charity of Seattle.\n
     Sincerely,
-    CA Simmons """.format(f_response, f_gift))
+    CA Simmons \n""".format(f_response, f_gift))
 
 def insert_donor(response):
     new_donor = tuple([response,[]])
@@ -64,25 +64,25 @@ def send_thankyou():
         f_gift = float(gift)
         f_response = response.title()
 
-
-        get_index = donorlist.index('Craig Simmons')
-        print(get_index)
-        donorlist[get_index][1].append(gift)
+        for i in range(len(donorlist)-1):
+            if f_response == donorlist[i][0]:
+                donorlist[i][1].append(f_gift)
 
         generate_thankyou(f_response, f_gift)
-
         print(donorlist)
         main()
     else:
-        print(('{} is a new donor!').format(response))
+        f_response = response.title()
+        print(('{} is a new donor!').format(f_response))
+
         gift = input(gift_prompt)
         f_gift = float(gift)
         
-        new_donor = tuple([response,[]])
+        new_donor = tuple([f_response,[]])
         donorlist.append(new_donor)
 
         get_length = len(donorlist)-1
-        donorlist[get_length][1].append(gift)
+        donorlist[get_length][1].append(f_gift)
         #
         generate_thankyou(f_response, f_gift)
         print(donorlist)
