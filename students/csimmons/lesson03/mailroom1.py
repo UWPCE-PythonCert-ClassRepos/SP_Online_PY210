@@ -29,7 +29,13 @@ thanks_prompt = '\n'.join(('Please enter a donor name',
 gift_prompt = '\n'.join(('Please enter the new donation',
                 '>>>  '))
 
-
+def generate_thankyou(f_response, f_gift):
+    print("""
+    Dear {},
+    We would like to thank you for your extremely generous donation 
+    of ${:.2f} to the Anonymous Charity of Seattle.\n
+    Sincerely,
+    CA Simmons """.format(f_response, f_gift))
 
 def insert_donor(response):
     new_donor = tuple([response,[]])
@@ -45,25 +51,26 @@ def insert_gift(gift):
 def send_thankyou():
     donors = list(map(lambda x:x[0], donorlist))
     response = input(thanks_prompt)
-    thankyou_note = """Dear {donorname},
-    'We would like to thank you for your extremely generous'
-    'donation of ${donorgift:.2f} to the Anonymous Charity of Seattle.',
-    'Sincerely,',
-    'CA Simmons """.format
+    f_response = response.title()
 
     if response.lower() == 'list':
         for donor in donors:
             print(donor)
         print('\n')
         main()
+
     elif response.title() in donors:
         gift = input(gift_prompt)
         f_gift = float(gift)
-        get_index = donorlist.index(response.title())
-        #get_length = (len(donorlist)-1)
+        f_response = response.title()
+
+
+        get_index = donorlist.index('Craig Simmons')
+        print(get_index)
         donorlist[get_index][1].append(gift)
-        
-        print(thankyou_note(donorname=response.title(), donorgift=f_gift))
+
+        generate_thankyou(f_response, f_gift)
+
         print(donorlist)
         main()
     else:
@@ -74,10 +81,10 @@ def send_thankyou():
         new_donor = tuple([response,[]])
         donorlist.append(new_donor)
 
-        get_length = (len(donorlist)-1)
+        get_length = len(donorlist)-1
         donorlist[get_length][1].append(gift)
         #
-        print(thankyou_note(donorname=response, donorgift=f_gift))
+        generate_thankyou(f_response, f_gift)
         print(donorlist)
         main()
 
