@@ -2,8 +2,11 @@
 # Craig Simmons
 # Python 210
 # mailroom.py# Created 11/23/2020 - csimmons
+# Edited 12/3/2020 - csimmons
 
 import sys
+from operator import itemgetter, attrgetter, methodcaller
+
 donorlist = [
     ('Craig Simmons', [10000, 2500, 300]),
     ('Allen Connell', [3000, 6000, 750, 20000]),
@@ -65,7 +68,7 @@ def send_thankyou(donorlist):
         gift = input(gift_prompt)
         f_gift = float(gift)
         
-        new_donor = tuple([f_response,[]])
+        new_donor = tuple([f_response,[ ]])
         donorlist.append(new_donor)
 
         get_length = len(donorlist)-1
@@ -74,7 +77,6 @@ def send_thankyou(donorlist):
         generate_thankyou(f_response, f_gift)
        
         main()
-
 
 def display_report(donorlist):
     donors = list(map(lambda x:x[0], donorlist))
@@ -92,9 +94,10 @@ def display_report(donorlist):
         gift_info.append(len(gifts[i]))
         gift_info.append(average_gift)
         all_info.append(gift_info)
+    print(all_info)
+    all_info = sorted(all_info, key=itemgetter (1), reverse=True)
     printrow(all_info)
     main()
-
 
 def printrow(all_info):
     header1 = '{:20}{:1}{:15}{:1}{:10}{:1}{:12}'.format('\n''Donor Name ', '|', ' Total Given ', '|', ' Num Gifts ', '|', ' Average Gift ')
