@@ -4,7 +4,6 @@
 # mailroom.py# Created 11/23/2020 - csimmons
 
 import sys
-
 donorlist = [
     ('Craig Simmons', [10000, 2500, 300]),
     ('Allen Connell', [3000, 6000, 750, 20000]),
@@ -30,7 +29,7 @@ gift_prompt = '\n'.join(('Please enter the new donation',
                 '>>>  '))
 
 def generate_thankyou(f_response, f_gift):
-    print("""
+    print("""\n
     Dear {},
     We would like to thank you for your extremely generous donation 
     of ${:.2f} to the Anonymous Charity of Seattle.\n
@@ -38,7 +37,7 @@ def generate_thankyou(f_response, f_gift):
     CA Simmons \n""".format(f_response, f_gift))
 
 
-def send_thankyou():
+def send_thankyou(donorlist):
     donors = list(map(lambda x:x[0], donorlist))
     response = input(thanks_prompt)
     f_response = response.title()
@@ -53,16 +52,15 @@ def send_thankyou():
         gift = input(gift_prompt)
         f_gift = float(gift)
         f_response = response.title()
-
         for i in range(len(donorlist)-1):
             if f_response == donorlist[i][0]:
                 donorlist[i][1].append(f_gift)
-
         generate_thankyou(f_response, f_gift)
         main()
     else:
         f_response = response.title()
-        print(('{} is a new donor!').format(f_response))
+        
+        print(('\n{} is a new donor!').format(f_response))
 
         gift = input(gift_prompt)
         f_gift = float(gift)
@@ -74,7 +72,6 @@ def send_thankyou():
         donorlist[get_length][1].append(f_gift)
         #
         generate_thankyou(f_response, f_gift)
-        print(donorlist)
        
         main()
 
@@ -114,7 +111,7 @@ def main():
     response = input(menu_prompt)
     while(True):
         if response == '1':
-            send_thankyou()
+            send_thankyou(donorlist)
         elif response == '2':
             display_report(donorlist)
         elif response == '3':
