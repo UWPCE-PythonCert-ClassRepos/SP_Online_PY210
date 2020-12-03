@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 # ------------------------------------------------------------------------ #
 # Title: mailroom.py
 # Description: Assignment for Lesson04
@@ -9,8 +11,8 @@
 # KODonnell,11.22.2020 updated exception handling
 # KODonnell,11.29.2020 refactor for unit testing
 # ------------------------------------------------------------------------- #
+
 import sys
-import os
 
 # Data -------------------------------------------------------------------- #
 
@@ -33,14 +35,18 @@ def add_donation_amount(name, donation, donor_db):  # Add new donation to databa
     :param donor_db: (dictionary) with donor information:
     :return: dictionary
     """
+    success = False
     try:
         total_update = donation + donor_db[name][0]
         num_update = donor_db[name][1] + 1
         average_update = round(total_update/num_update, 2)
         donor_db[name] = [total_update, num_update, average_update]
+        success = True
     except KeyError:
         donor_db[name] = [donation, 1, donation]
-    return donor_db
+    except ValueError:
+        print("Entry failed: Donations must be entered as a number!")
+    return donor_db, success
 
 
 def format_report(donor_db):  # Format data in database
@@ -50,38 +56,24 @@ def format_report(donor_db):  # Format data in database
     :return: donor_db
     """
     report_list = []
-    sorted_donor_db = sorted(donor_db.items(), key=lambda x: x[1], reverse=True)  # Sort by total donated
+    # Sort by total donated
+    sorted_donor_db = sorted(donor_db.items(), key=lambda x: x[1], reverse=True)
+    # Format table header
     heading = "| {dn:<20s}\t| {tg:<15s}\t| {ng:<10s} | {ag:<15s}   |".format
-    report_list.append(heading(dn="Donor Name", tg="Total Given", ng="Num Gifts", ag="Average Gift"))
+    report_list.append(heading(dn="Donor Name", tg="Total Given",
+                               ng="Num Gifts", ag="Average Gift"))
     report_list.append("-" * 78)
-    row = "{dn:<20s} \t {ds:<1s} {tg:>14.2f} \t {ng:>10d} \t {ds2:<1} {ag:>14.2f} ".format
+    # Format Table rows
+    row = "{dn:<20s} \t {ds:<1s} {tg:>14.2f} \t " \
+          "{ng:>10d} \t {ds2:<1} {ag:>14.2f} ".format
     for i in sorted_donor_db:
         name = i[0]
         report_list.append(row(dn=name, ds="$", tg=donor_db[name][0],
-                  ng=donor_db[name][1], ds2="$", ag=donor_db[name][2]))
+                           ng=donor_db[name][1], ds2="$", ag=donor_db[name][2]))
     return report_list
 
 
-def generate_one_letter(donor_db):  # Create letter file for one donor
-    """
-    Write letter for one donor to file
-    :param donor_db: (dictionary) with donor information
-    :return: donor_db
-    """
-    name = input("What donor would you like to write to? ")
-    try:
-        name_list = (name.replace(",", "")).split(" ")
-        file_name = ("_".join(name_list)) + ".txt"
-        with open(file_name, "w") as a_file:
-            a_file.write(letter_text(name.title(), donor_db[name.title()][0]))
-        print("Check your local directory for a letter to {}".format(name))
-    except KeyError:
-        print("{} is not in your database!".format(name))
-    press_enter_to_continue()
-    return donor_db
-
-
-def generate_all_letters(donor_db):  # Create letter file for all donors
+def send_letters(donor_db):  # Create letter file for all donors
     """
     Generate letter files for all donors in database
     :param donor_db: (dictionary) with donor information
@@ -92,25 +84,23 @@ def generate_all_letters(donor_db):  # Create letter file for all donors
         file_name = ("_".join(name_list)) + ".txt"
         with open(file_name, "w") as a_file:
             a_file.write(letter_text(i.title(), v[0]))
-    print("Check your local directory for letter files!")
-    press_enter_to_continue()
     return donor_db
 
 
-def generate_letter_choice(donor_db):  # Prompt for letter writing options
+def letter_text(name, value):  # Format string for thank you letter
     """
-    Write letters to text files for every donor in database
-    :param donor_db: (dictionary) with donor information:
-    :return: donor_db
+    Generate thank you letter text
+    :param name: (string) with name of donor
+    :param value: (float) with donation amount
+    :return: string
     """
-    file_option = int(input("""
-    Okay, let's generate some letter files! You can:
-    1. Create a letter for a specific donor
-    2. Create letters for all donors \n
-    Please select an option (1 or 2): """))
-    donor_db = switch_func_letter_dict.get(file_option)(donor_db)
-    return donor_db
-
+    letter = """
+    Dear {},
+    Thank you for your collective contributions of ${:.2f} over the years.
+    Your generous donations have been put to good use!
+    Sincerely,
+    Kyle at Kelby Doggo, Inc\n""".format(name, value)
+    return letter
 
 
 # Presentation (Input/Output)  -------------------------------------------- #
@@ -130,7 +120,7 @@ def menu_options():  # Display menu options
     print('''
     ******MENU OPTIONS*******
     Option 1: Write Letter for New Donation
-    Option 2: Generate Letters for Donors
+    Option 2: Send Letters to Donors
     Option 3: Create a Report
     Option 4: Exit \n''')
 
@@ -175,9 +165,9 @@ def enter_donation(name):  # Elicit donation amount
     return donation
 
 
-def print_report(donor_db):  # Generate report based on database
+def print_report(donor_db):
     """
-    Print formatted
+    Print formatted report
     :param donor_db: (dictionary) with donor information
     :return: donor_db
     """
@@ -198,7 +188,7 @@ def close_app(donor_db):
     sys.exit()
 
 
-def new_donation_letter(donor_db):  # Update database
+def write_letter(donor_db):  # Update database
     """
     Add new donation to database and print letter
     :param donor_db: (dictionary) with donor information:
@@ -206,40 +196,56 @@ def new_donation_letter(donor_db):  # Update database
     """
     while True:
         name_string = enter_name().title()
-        if name_string.lower() == "cancel":  # Cancel task
+        # Cancel task
+        if name_string.lower() == "cancel":
             print("Cancelling task...")
             break
-        elif name_string.lower().strip() in ["list", "go to list", "show list"]:  # display names
+        # Print list of donors
+        elif name_string.lower().strip() in ["list", "go to list", "show list"]:
             display_names(donor_db)
         else:
-            try:
-                donation_amount = enter_donation(name_string)  # Prompt donation amount
-                donor_db = add_donation_amount(name_string.strip(" "), donation_amount, donor_db)
+            # Prompt donation amount
+            donation_amount = enter_donation(name_string)
+            # Add entry to database
+            donor_db, success = add_donation_amount(name_string.strip(" "),
+                                                    donation_amount, donor_db)
+            # Print letter
+            if success:
                 print(letter_text(name_string, donation_amount))
                 break
-            except ValueError:
-                print("Entry failed: Donations must be entered as a number!")
+            else:
                 break
     press_enter_to_continue()
     return donor_db
 
 
+def send_letter_menu():  # Prompt for letter writing options
+    """
+    Select option to send one or all letters
+    """
+    file_option = int(input("""
+    Okay, let's generate some letter files! You can:
+    1. Create a letter for a specific donor
+    2. Create letters for all donors
+    Please select an option (1 or 2): """))
+    return file_option
 
 
-def letter_text(name, value):  # Format string for thank you letter
-    """
-    Generate thank you letter text
-    :param name: (string) with name of donor
-    :param value: (float) with donation amount
-    :return: string
-    """
-    letter = """
-    Dear {},
-    Thank you for your collective contributions of ${:.2f} over the years.
-    Your generous donations have been put to good use!
-    Sincerely,
-    Kyle at Kelby Doggo, Inc\n""".format(name, value)
-    return letter
+def send_letter_choice(donor_db):
+    letter_choice = send_letter_menu()
+    if letter_choice == 1:
+        try:
+            name = input("What donor would you like to write to? ")
+            amount = donor_db[name.title()][0]
+            donor_data = {name: [amount]}
+            send_letters(donor_data)
+        except KeyError:
+            print("{} is not in your database!".format(name))
+    else:
+        send_letters(donor_db)
+    print("Check your local directory for letter files!")
+    press_enter_to_continue()
+    return donor_db
 
 
 def press_enter_to_continue():
@@ -251,17 +257,10 @@ def press_enter_to_continue():
 
 # Switch function dictionary for main menu
 switch_func_dict = {
-    1: new_donation_letter,
-    2: generate_letter_choice,
+    1: write_letter,
+    2: send_letter_choice,
     3: print_report,
     4: close_app
-}
-
-
-# Switch function dictionary for letter writing choice
-switch_func_letter_dict = {
-    1: generate_one_letter,
-    2: generate_all_letters
 }
 
 
