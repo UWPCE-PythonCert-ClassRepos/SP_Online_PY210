@@ -14,13 +14,15 @@ import os
 # test add_donation_amount()
 # test new entry
 def test_add_donation_amount_2():
-    assert mailroom.add_donation_amount("Kelby", 40, {}) == ({"Kelby": [40, 1, 40]}, False)
+    assert mailroom.add_donation_amount("Kelby", 40, {}) == \
+           ({"Kelby": [40, 1, 40]}, False)
 
 
 # test existing entry
 def test_add_donation_amount_3():
     db = {"Paul Revere": [72.24, 4, 400]}
-    assert mailroom.add_donation_amount("Paul Revere", 60, db) == ({"Paul Revere": [132.24, 5, 26.45]}, True)
+    assert mailroom.add_donation_amount("Paul Revere", 60, db) == \
+           ({"Paul Revere": [132.24, 5, 26.45]}, True)
 
 
 # test invalid amount type
@@ -35,7 +37,7 @@ def test_format_report_1():
     db = {"Fred Flinstone": [56.40, 2, 130]}
     heading = "| {dn:<20s}\t| {tg:<15s}\t| {ng:<10s} | {ag:<15s}   |".format
     assert mailroom.format_report(db)[0] == heading(dn="Donor Name", tg="Total Given",
-                                                     ng="Num Gifts", ag="Average Gift")
+                                                    ng="Num Gifts", ag="Average Gift")
 
 
 # test row formatting

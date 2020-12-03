@@ -2,7 +2,7 @@
 
 # ------------------------------------------------------------------------ #
 # Title: mailroom.py
-# Description: Assignment for Lesson04
+# Description: Updated for Lesson06
 # KODonnell,10.25.2020,created script
 # KODonnell,11.05.2020 added switch dict menu
 # KODonnell,11.07.2020 added function to generate letters
@@ -10,6 +10,7 @@
 # KODonnell,11.14.2020 updated to *actually* have a dictionary database
 # KODonnell,11.22.2020 updated exception handling
 # KODonnell,11.29.2020 refactor for unit testing
+# KODonnell,12.02.2020 update for unit testing
 # ------------------------------------------------------------------------- #
 
 import sys
@@ -53,7 +54,7 @@ def format_report(donor_db):  # Format data in database
     """
     Format report of donor database
     :param donor_db: (dictionary) with donor information
-    :return: donor_db
+    :return: string
     """
     report_list = []
     # Sort by total donated
@@ -75,16 +76,15 @@ def format_report(donor_db):  # Format data in database
 
 def send_letters(donor_db):  # Create letter file for all donors
     """
-    Generate letter files for all donors in database
+    Generate letter files for donors in database
     :param donor_db: (dictionary) with donor information
-    :return: donor_db
+    :return: nothing
     """
     for i, v in donor_db.items():
         name_list = (i.replace(",", "")).split(" ")
         file_name = ("_".join(name_list)) + ".txt"
         with open(file_name, "w") as a_file:
             a_file.write(letter_text(i.title(), v[0]))
-    return donor_db
 
 
 def letter_text(name, value):  # Format string for thank you letter
@@ -169,7 +169,7 @@ def print_report(donor_db):
     """
     Print formatted report
     :param donor_db: (dictionary) with donor information
-    :return: donor_db
+    :return: dictionary
     """
     formatted_report = format_report(donor_db)
     for row in formatted_report:
@@ -180,7 +180,7 @@ def print_report(donor_db):
 
 def close_app(donor_db):
     """
-    Print goodonor_dbye message and exit
+    Print goodbye message and exit
     :param donor_db: (dictionary) with donor information:
     :return: nothing
     """
@@ -190,12 +190,12 @@ def close_app(donor_db):
 
 def write_letter(donor_db):  # Update database
     """
-    Add new donation to database and print letter
+    Prompt new donation info and print letter
     :param donor_db: (dictionary) with donor information:
-    :return: donor_db
+    :return: dictionary
     """
     while True:
-        name_string = enter_name().title()
+        name_string = enter_name()
         # Cancel task
         if name_string.lower() == "cancel":
             print("Cancelling task...")
@@ -221,7 +221,8 @@ def write_letter(donor_db):  # Update database
 
 def send_letter_menu():  # Prompt for letter writing options
     """
-    Select option to send one or all letters
+    Prompt option to send one or all letters
+    :return: integer
     """
     file_option = int(input("""
     Okay, let's generate some letter files! You can:
@@ -232,18 +233,24 @@ def send_letter_menu():  # Prompt for letter writing options
 
 
 def send_letter_choice(donor_db):
+    """
+    Process choice to send one letter or all letters
+    :param donor_db: (dictionary) with donor information:
+    :return: dictionary
+    """
     letter_choice = send_letter_menu()
     if letter_choice == 1:
+        name = input("What donor would you like to write to? ")
         try:
-            name = input("What donor would you like to write to? ")
             amount = donor_db[name.title()][0]
             donor_data = {name: [amount]}
             send_letters(donor_data)
+            print("Check your local directory for a letter to {}!".format(name))
         except KeyError:
             print("{} is not in your database!".format(name))
     else:
         send_letters(donor_db)
-    print("Check your local directory for letter files!")
+        print("Check your local directory for letter files!")
     press_enter_to_continue()
     return donor_db
 
