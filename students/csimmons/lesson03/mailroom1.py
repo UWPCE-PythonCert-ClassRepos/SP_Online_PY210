@@ -37,16 +37,6 @@ def generate_thankyou(f_response, f_gift):
     Sincerely,
     CA Simmons \n""".format(f_response, f_gift))
 
-def insert_donor(response):
-    new_donor = tuple([response,[]])
-    donorlist.append(new_donor)
-    return donorlist
-    #donorlist[7][1].append(1000)
-def insert_gift(gift):
-    get_index = (len(donorlist)-1)
-    donorlist[get_index][1].append(gift)
-    return donorlist
-
 
 def send_thankyou():
     donors = list(map(lambda x:x[0], donorlist))
@@ -69,7 +59,6 @@ def send_thankyou():
                 donorlist[i][1].append(f_gift)
 
         generate_thankyou(f_response, f_gift)
-        print(donorlist)
         main()
     else:
         f_response = response.title()
@@ -86,16 +75,14 @@ def send_thankyou():
         #
         generate_thankyou(f_response, f_gift)
         print(donorlist)
+       
         main()
 
 
-def display_report(seq):
+def display_report(donorlist):
     donors = list(map(lambda x:x[0], donorlist))
     gifts = list(map(lambda x:x[1], donorlist))
     all_info = []
-    header1 = '{:20}{:1}{:15}{:1}{:10}{:1}{:12}'.format('\n''Donor Name ', '|', ' Total Given ', '|', ' Num Gifts ', '|', ' Average Gift ')
-    header2 = ('_ ' * 31) +'\n'
-    info_row = '{dname:<20s} $ {total:<13,.2f} {gifts:^10d} $ {avg:<12,.2f}'.format
     for i in range(len(donorlist)):
         total_gift = 0
         average_gift = 0
@@ -108,12 +95,19 @@ def display_report(seq):
         gift_info.append(len(gifts[i]))
         gift_info.append(average_gift)
         all_info.append(gift_info)
+    printrow(all_info)
+    main()
+
+
+def printrow(all_info):
+    header1 = '{:20}{:1}{:15}{:1}{:10}{:1}{:12}'.format('\n''Donor Name ', '|', ' Total Given ', '|', ' Num Gifts ', '|', ' Average Gift ')
+    header2 = ('_ ' * 32) +'\n'
+    info_row = '{dname:<20s}$ {total:>13,.2f} {gifts:^10d}  $ {avg:>12,.2f}'.format
     print(header1)
     print(header2)
     for i in range(len(all_info)):
         print(info_row(dname=all_info[i][0], total=all_info[i][1], gifts=all_info[i][2], avg=all_info[i][3]))
     print('\n')
-    main()
 
 
 def main():
