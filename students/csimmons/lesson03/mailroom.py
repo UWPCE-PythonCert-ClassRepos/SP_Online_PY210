@@ -17,7 +17,7 @@ donorlist = [
     ('Hussein Saffouri', [1000, 1000, 2100, 7000, 55000]),
     ]
 
-menu_prompt = '\n'.join(('\nPlease choose from the options below:\n',
+menu_prompt = '\n'.join(('Please choose from the options below:\n',
           '1 - Send a Thank You letter',
           '2 - Create a report',
           '3 - Quit',
@@ -25,16 +25,16 @@ menu_prompt = '\n'.join(('\nPlease choose from the options below:\n',
 
 thanks_prompt = '\n'.join(('\nPlease enter a donor name:',
                 '(Enter "List" to see current donors, "Exit" to return to main menu)',
-                '>>>  '))
+                '\n>>>  '))
 
-gift_prompt = '\n'.join(('Please enter the new donation',
+gift_prompt = '\n'.join(('Please enter the donation amount (a "$" is not needed)',
                 '>>>  '))
 
 def generate_thankyou(f_response, f_gift):
     print("""\n
     Dear {},
     We would like to thank you for your extremely generous donation 
-    of ${:.2f} to the Anonymous Charity of Seattle.\n
+    of ${:,.2f} to the Anonymous Charity of Seattle.\n
     Sincerely,
     CA Simmons \n""".format(f_response, f_gift))
 
@@ -43,9 +43,10 @@ def send_thankyou(donorlist):
     response = input(thanks_prompt)
     f_response = response.title()
     if response.lower() == 'list':
-        
+        print('\nMaster List of Donors:\n')
         for donor in donors:
             print(donor)
+        print('\n')
         main()
     elif response.lower() == 'exit':
         main()
@@ -86,12 +87,11 @@ def display_report(donorlist):
         gift_info.append(len(gifts[i]))
         gift_info.append(average_gift)
         all_info.append(gift_info)
-    print(all_info)
     all_info = sorted(all_info, key=itemgetter (1), reverse=True)
-    printrow(all_info)
+    print_donorlist(all_info)
     main()
 
-def printrow(all_info):
+def print_donorlist(all_info):
     header1 = '{:20}{:1}{:15}{:1}{:10}{:1}{:12}'.format('\n''Donor Name ', '|', ' Total Given ', '|', ' Num Gifts ', '|', ' Average Gift ')
     header2 = ('_ ' * 32) +'\n'
     info_row = '{dname:<20s}$ {total:>13,.2f} {gifts:^10d}  $ {avg:>12,.2f}'.format
@@ -99,6 +99,7 @@ def printrow(all_info):
     print(header2)
     for i in range(len(all_info)):
         print(info_row(dname=all_info[i][0], total=all_info[i][1], gifts=all_info[i][2], avg=all_info[i][3]))
+    print('\n')
 
 def main():
     response = input(menu_prompt)
@@ -115,5 +116,5 @@ def main():
             main()
 
 if __name__ == '__main__':
-    print('\nWelcome to the Mailroom Application')
+    print('\nWelcome to the Mailroom Application!')
     main()
