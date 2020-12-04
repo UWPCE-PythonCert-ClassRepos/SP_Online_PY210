@@ -30,6 +30,32 @@ thanks_prompt = '\n'.join(('\nPlease enter a donor name:',
 gift_prompt = '\n'.join(('Please enter the donation amount (a "$" is not needed)',
                 '>>>  '))
 
+def print_donors(donors):
+    print('\nMaster List of Donors:\n')
+    for donor in donors:
+        print(donor)
+    print('\n')
+
+def exist_donor(response, donors):
+    gift = input(gift_prompt)   
+    f_gift = float(gift)
+    f_response = response.title()
+    for i in range(len(donorlist)-1):
+        if f_response == donorlist[i][0]:
+            donorlist[i][1].append(f_gift)
+    generate_thankyou(f_response, f_gift)
+
+def new_donor(response):    
+    f_response = response.title()
+    print(('\n{} is a new donor!').format(f_response))
+    gift = input(gift_prompt)
+    f_gift = float(gift)
+    new_donor = tuple([f_response,[ ]])
+    donorlist.append(new_donor)
+    get_length = len(donorlist)-1
+    donorlist[get_length][1].append(f_gift)
+    generate_thankyou(f_response, f_gift)
+
 def generate_thankyou(f_response, f_gift):
     print("""\n
     Dear {},
@@ -43,32 +69,15 @@ def send_thankyou(donorlist):
     response = input(thanks_prompt)
     f_response = response.title()
     if response.lower() == 'list':
-        print('\nMaster List of Donors:\n')
-        for donor in donors:
-            print(donor)
-        print('\n')
+        print_donors(donors)
         main()
     elif response.lower() == 'exit':
         main()
     elif response.title() in donors:
-        gift = input(gift_prompt)
-        f_gift = float(gift)
-        f_response = response.title()
-        for i in range(len(donorlist)-1):
-            if f_response == donorlist[i][0]:
-                donorlist[i][1].append(f_gift)
-        generate_thankyou(f_response, f_gift)
+        exist_donor(response, donors)
         main()
     else:
-        f_response = response.title()
-        print(('\n{} is a new donor!').format(f_response))
-        gift = input(gift_prompt)
-        f_gift = float(gift)
-        new_donor = tuple([f_response,[ ]])
-        donorlist.append(new_donor)
-        get_length = len(donorlist)-1
-        donorlist[get_length][1].append(f_gift)
-        generate_thankyou(f_response, f_gift)
+        new_donor(response)
         main()
 
 def display_report(donorlist):
