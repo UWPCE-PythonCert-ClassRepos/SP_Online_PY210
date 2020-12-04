@@ -9,7 +9,7 @@ from operator import itemgetter
 
 donorlist = [
     ('Mary Newcomer', [10000, 2500, 300]),
-    ('Chrissy Rutolo', [3000, 6000, 750, 20000]),
+    ('Christine Rutolo', [3000, 6000, 750, 20000]),
     ('Martin Acevedo', [2000, 5000]),
     ('Sutton Keaney', [24500, 500, 3000, 5000, 1000]),
     ('David Basilio', [750, 750, 750, 750, 5000, 750, 750]),
@@ -56,6 +56,16 @@ def new_donor(response):
     donorlist[get_length][1].append(f_gift)
     generate_thankyou(f_response, f_gift)
 
+def print_donorlist(all_info):
+    header1 = '{:20}{:1}{:15}{:1}{:10}{:1}{:12}'.format('\n''Donor Name ', '|', ' Total Given ', '|', ' Num Gifts ', '|', ' Average Gift ')
+    header2 = ('_ ' * 32) +'\n'
+    info_row = '{dname:<20s}$ {total:>13,.2f} {gifts:^10d}  $ {avg:>12,.2f}'.format
+    print(header1)
+    print(header2)
+    for i in range(len(all_info)):
+        print(info_row(dname=all_info[i][0], total=all_info[i][1], gifts=all_info[i][2], avg=all_info[i][3]))
+    print('\n')
+
 def generate_thankyou(f_response, f_gift):
     print("""\n
     Dear {},
@@ -99,16 +109,6 @@ def display_report(donorlist):
     all_info = sorted(all_info, key=itemgetter (1), reverse=True)
     print_donorlist(all_info)
     main()
-
-def print_donorlist(all_info):
-    header1 = '{:20}{:1}{:15}{:1}{:10}{:1}{:12}'.format('\n''Donor Name ', '|', ' Total Given ', '|', ' Num Gifts ', '|', ' Average Gift ')
-    header2 = ('_ ' * 32) +'\n'
-    info_row = '{dname:<20s}$ {total:>13,.2f} {gifts:^10d}  $ {avg:>12,.2f}'.format
-    print(header1)
-    print(header2)
-    for i in range(len(all_info)):
-        print(info_row(dname=all_info[i][0], total=all_info[i][1], gifts=all_info[i][2], avg=all_info[i][3]))
-    print('\n')
 
 def main():
     response = input(menu_prompt)
