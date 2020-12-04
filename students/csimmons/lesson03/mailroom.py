@@ -27,7 +27,7 @@ thanks_prompt = '\n'.join(('\nPlease enter a donor name:',
                 '(Enter "List" to see current donors, "Exit" to return to main menu)',
                 '\n>>>  '))
 
-gift_prompt = '\n'.join(('Please enter the donation amount (a "$" is not needed)',
+gift_prompt = '\n'.join(('\nPlease enter the donation amount ("$" and commas are not needed)',
                 '>>>  '))
 
 def print_donors(donors):
