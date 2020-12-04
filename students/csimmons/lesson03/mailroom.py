@@ -5,11 +5,11 @@
 # Edited 12/3/2020 - csimmons
 
 import sys
-from operator import itemgetter, attrgetter, methodcaller
+from operator import itemgetter
 
 donorlist = [
-    ('Craig Simmons', [10000, 2500, 300]),
-    ('Allen Connell', [3000, 6000, 750, 20000]),
+    ('Mary Newcomer', [10000, 2500, 300]),
+    ('Chrissy Rutolo', [3000, 6000, 750, 20000]),
     ('Martin Acevedo', [2000, 5000]),
     ('Sutton Keaney', [24500, 500, 3000, 5000, 1000]),
     ('David Basilio', [750, 750, 750, 750, 5000, 750, 750]),
@@ -17,15 +17,14 @@ donorlist = [
     ('Hussein Saffouri', [1000, 1000, 2100, 7000, 55000]),
     ]
 
-menu_prompt = '\n'.join(('What would you like to do?',
-          'Please choose from the options below:',
+menu_prompt = '\n'.join(('\nPlease choose from the options below:\n',
           '1 - Send a Thank You letter',
           '2 - Create a report',
           '3 - Quit',
           '>>> '))
 
-thanks_prompt = '\n'.join(('Please enter a donor name',
-                '(Enter "List" for a list of current donors)',
+thanks_prompt = '\n'.join(('\nPlease enter a donor name:',
+                '(Enter "List" to see current donors, "Exit" to return to main menu)',
                 '>>>  '))
 
 gift_prompt = '\n'.join(('Please enter the new donation',
@@ -39,18 +38,17 @@ def generate_thankyou(f_response, f_gift):
     Sincerely,
     CA Simmons \n""".format(f_response, f_gift))
 
-
 def send_thankyou(donorlist):
     donors = list(map(lambda x:x[0], donorlist))
     response = input(thanks_prompt)
     f_response = response.title()
-
     if response.lower() == 'list':
+        
         for donor in donors:
             print(donor)
-        print('\n')
         main()
-
+    elif response.lower() == 'exit':
+        main()
     elif response.title() in donors:
         gift = input(gift_prompt)
         f_gift = float(gift)
@@ -62,20 +60,14 @@ def send_thankyou(donorlist):
         main()
     else:
         f_response = response.title()
-        
         print(('\n{} is a new donor!').format(f_response))
-
         gift = input(gift_prompt)
         f_gift = float(gift)
-        
         new_donor = tuple([f_response,[ ]])
         donorlist.append(new_donor)
-
         get_length = len(donorlist)-1
         donorlist[get_length][1].append(f_gift)
-        #
         generate_thankyou(f_response, f_gift)
-       
         main()
 
 def display_report(donorlist):
@@ -107,8 +99,6 @@ def printrow(all_info):
     print(header2)
     for i in range(len(all_info)):
         print(info_row(dname=all_info[i][0], total=all_info[i][1], gifts=all_info[i][2], avg=all_info[i][3]))
-    print('\n')
-
 
 def main():
     response = input(menu_prompt)
@@ -118,12 +108,12 @@ def main():
         elif response == '2':
             display_report(donorlist)
         elif response == '3':
-            print('Quitting Mailroom Application')
+            print('\nThank You. Exiting the Mailroom Application\n')
             sys.exit()
         else:
-            print('oops, you entered something bad')
+            print('\nSorry, your response was not a valid option')
             main()
 
-
 if __name__ == '__main__':
+    print('\nWelcome to the Mailroom Application')
     main()
