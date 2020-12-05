@@ -38,9 +38,16 @@ Use 'list' to view current donors, or 'quit' to return to the menu: """)
             print("\n",name)
         response = input("\nPlease enter a donor name: ")
     if response.lower() == "quit":
-        print("Returning to main menu.")
+        print("\nReturning to main menu!")
     else:
-        amount = float(input("\nEnter a donation amount: "))
+        while True:
+            try:
+                amount = float(input("\nEnter a donation amount: "))
+            except ValueError:
+                amount = float(input("\nEnter a number amount: "))
+            except ZeroDivisionError:
+                amount = float(input("\nDonation must be more than 0: "))
+        
         if donors.get(response):
             donors[response].append(amount)
         else:        
@@ -50,7 +57,6 @@ Use 'list' to view current donors, or 'quit' to return to the menu: """)
 def send_email(donor, amount):
     # Print donor name and amount into thank you email
     print(thanks_letter(donor, amount))
-    exit()
 
 def sum_donations(donations):
     # Sorts by total amount given
@@ -73,12 +79,14 @@ def generate_report():
         print('{:<20} {:>5}{:>9.2f}{:>13} {:>9}{:>8.2f}'.format(name, '$', total, num, '$', average))
 
 def send_all_thanks():
-    print("Sending a thank you note to all donors!")
     for donor, amount in donors.items():
         total = sum(amount)
         filename = ('./' + donor + '.txt')
-        with open(filename, 'w') as f:
-         f.write(thanks_letter(donor, total)) 
+        try:
+            with open(filename, 'w') as f:
+                f.write(thanks_letter(donor, total))
+        except IOError:
+            print("Unable to save letter to {} in {}".format(donor, filename)) 
 
 
 def quit_program():
