@@ -7,7 +7,7 @@
 import sys
 from operator import itemgetter
 
-donorlist = [
+donorlist = dict([
     ('Mary Newcomer', [10000, 2500, 300]),
     ('Christine Rutolo', [3000, 6000, 750, 20000]),
     ('Martin Acevedo', [2000, 5000]),
@@ -15,7 +15,7 @@ donorlist = [
     ('David Basilio', [750, 750, 750, 750, 5000, 750, 750]),
     ('Andrew Laughlin', [2500, 500, 40000, 50]),
     ('Hussein Saffouri', [1000, 1000, 2100, 7000, 55000]),
-    ]
+    ])
 
 menu_prompt = '\n'.join(('Please choose from the options below:\n',
           '1 - Send a Thank You letter',
