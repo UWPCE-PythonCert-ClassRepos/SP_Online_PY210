@@ -6,7 +6,7 @@
 
 import os 
 import pathlib
-
+'''
 def dir_list():
     cwd = os.getcwd()
     files = os.listdir(cwd)
@@ -41,5 +41,11 @@ def large_copy(original, copy):
 # largefile.zip was a ~15GB file
 # copied it successfully in approx 11 mins
 # large_copy('largefile.zip', './copydir/largefile.zip')
+
 large_copy('anniedog.jpg', './copydir/anniedog2.jpg')
 
+
+'''
+
+def Languages():
+    d = dict([])
