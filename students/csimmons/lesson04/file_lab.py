@@ -35,11 +35,12 @@ while True:
 def file_copy():
     f_orig = 'file1.txt'
     f_new = 'file2.txt'
-   
-    with open('file1.txt', 'r') as f_orig:
-        for line in f_orig:
-            print(line, end='')
-        print(f_orig.read())
 
+    with open('file1.txt', 'r') as f_orig, open('file2.txt', 'w') as f_new:
+        for line in f_orig:
+            f_new.write(line)
+    print("Copied filet")
+
+file_copy()
 
 
