@@ -44,8 +44,12 @@ def large_copy(original, copy):
 
 large_copy('anniedog.jpg', './copydir/anniedog2.jpg')
 
-
 '''
 
-def Languages():
-    d = dict([])
+def languages(input_file):
+    with open(input_file, 'rt') as textfile:
+        lines = textfile.readlines()
+        for line in lines[1:]:
+            lang_half = line.split(':')[1].split(',')
+            print(lang_half)
+languages('students.txt')
