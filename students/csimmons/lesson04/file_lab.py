@@ -47,9 +47,12 @@ large_copy('anniedog.jpg', './copydir/anniedog2.jpg')
 '''
 
 def languages(input_file):
+    uber_list = []
     with open(input_file, 'rt') as textfile:
         lines = textfile.readlines()
         for line in lines[1:]:
-            lang_half = line.split(':')[1].split(',')
-            print(lang_half)
+            uber_list = line.split(':')[0]
+            lang_list = line.split(':')[1].split(',')
+            print(lang_list)
+            print(uber_list)
 languages('students.txt')
