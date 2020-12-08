@@ -46,6 +46,8 @@ large_copy('anniedog.jpg', './copydir/anniedog2.jpg')
 for i in range(len(set1)):
     if (set1[i].islower()):
         finalList.append(set1[i])
+
+    if char in line.islower():
 '''
 
 def languages(input_file):
@@ -55,13 +57,29 @@ def languages(input_file):
     with open(input_file, 'rt') as textfile:
         lines = textfile.readlines()
         for line in lines[1:]:
-            line = line.replace('\n', '').replace(' ', '')
-            if line.islower()
-            names = test.split(':')[0]
-            langs = test.split(':')[1].split(',')
-            print(test)
-            print(langs)
+            line = line.replace('\n', '').replace(' ', '').replace('nothing', '')
+            print('Line before nickname scrub', line)
+            names = line.split(':')[0]
+            langs = line.split(':')[1].split(',')
+            print(type(langs))
+            for lang in langs:
+                print(type(lang), ' : lang type')
+                print(type(langs), ' : langs type')
+                if lang.islower(): 
+                    break
+                else:
+                    lang.replace(lang, '')
+            print('lang replaced: ', langs)
+            '''
+            
+            for lang in lang:
+                if word.islower:
+                    langs = line.split(':')[1].split(',')
+            '''
+            print(line)
             print(names)
+            print(langs, '\n')
+            
     #print(langs)
     #print(names)
 languages('students.txt')
