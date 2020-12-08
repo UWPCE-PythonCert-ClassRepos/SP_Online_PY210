@@ -58,28 +58,21 @@ def languages(input_file):
         lines = textfile.readlines()
         for line in lines[1:]:
             line = line.replace('\n', '').replace(' ', '').replace('nothing', '')
-            print('Line before nickname scrub', line)
+            print('\nLine before splits:  ', line)
             names = line.split(':')[0]
+            print('name to be added to dict:  ', names)
             langs = line.split(':')[1].split(',')
-            print(type(langs))
-            for lang in langs:
-                print(type(lang), ' : lang type')
-                print(type(langs), ' : langs type')
-                if lang.islower(): 
+            print('langs before nickname removal: ', langs)
+            for word in langs:
+                if word.islower(): 
                     break
                 else:
-                    lang.replace(lang, '')
-            print('lang replaced: ', langs)
-            '''
-            
-            for lang in lang:
-                if word.islower:
-                    langs = line.split(':')[1].split(',')
-            '''
-            print(line)
-            print(names)
+                    langs.remove(word)
             print(langs, '\n')
-            
-    #print(langs)
-    #print(names)
+
+            datalist[names] = langs
+            #print(datalist, '\n')
+            #for lang in langs:
+
+
 languages('students.txt')
