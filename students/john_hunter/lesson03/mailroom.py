@@ -16,15 +16,16 @@
 # Johnh, 2020-Oct-23 Review Git commit procedure
 # Johnh, 2020-Nov-23 Added to Git and submitted
 # Johnh, 2020-Nov-27 Refactor for style snake_case naming of functions
+# Johnh, 2020-Dec-6  Refeactor for list to be used instead of Dictionary
 #----------------------------------------#
 
 import sys
 
-## Donors in the global namespace, dictionary by donor ID as key, first name
-# last name and donation history as additional data entries  
-donors =	{ '001' : ['Merriweather', 'Frank',10,15,100], '002' : ['Tran', 'Thomas',5,17,23], 
-              '003' : ['Terrance', 'Stephanie', 31, 48, 108], '004': ['Robidas', 'Sam', 4,90, 101],
-              '005' : ['Cohen', 'Sandy', 29, 41, 70], '006' : ['Kemp', 'Shioban', 2, 23000, 19]}
+## Donors in the global namespace
+
+donors = [['Frank Merriweather', 10, 15, 100], ['Thomas Tran', 5, 17, 23], \
+          ['Stephanie Terrance', 31, 48, 108], ['Sam Robidas', 4, 90, 101], \
+          ['Sandy Cohen', 29, 41, 70], ['Shioban Kemp', 2, 23000, 19]]
 
 def user_selection():
     """Basic UI to prompt user and handle selections
@@ -58,57 +59,58 @@ def send_ty():
     """
     names = list()
     #Format a list of the Donor names
-    maxLenOfFirst=0
-    maxLenOfLast=0
-    for key in donors:                     
-        if (len(donors[key][1])>maxLenOfFirst):    
-            maxLenOfFirst = len(donors[key][1])
-        if (len(donors[key][0])>maxLenOfLast):    
-            maxLenOfLast = len(donors[key][0])
-          
+    maxLenOfName=0
+    
+    for i in range(1,len(donors)):                     
+        if (len(donors[i][0])>maxLenOfName):    
+            maxLenOfName = len(donors[i][0])
+
     while True:
         inputName= input('Enter full name of donor or \'list\' to request list of donors: ')  
-        for key in donors:
-            first = donors[key][1]
-            last = donors[key][0]
-            names.append(first + ' ' + last)  
+        for j in range(len(donors)):
+            names.append(donors[j][0])  
         
         if inputName == 'list':        
-            for key in donors:
-                first = donors[key][1]
-                last = donors[key][0]
-                print('{:{align}{width}}'.format(first, align='<', width=maxLenOfFirst) + \
-                ' ' + '{:{align}{width}}'.format(last, align='<', width=maxLenOfLast))
+            for k in range(len(donors)):
+                name = donors[k][0]
+                print('{:{align}{width}}'.format(name, align='<', width=maxLenOfName))
             else: 
                 continue
-            
+        
         if inputName == 'exit':
             quit_it()
         
         if inputName in names:
             listOrNot = 'y'
-            donorID = '00'+str(names.index(inputName)+1)
             break
+        
         else :
             listOrNot = 'n'
-        
         if listOrNot == 'n':
-            first = inputName[0:inputName.index(' ')]
-            last = inputName[inputName.index(' ')+1:]
-            add_donor(last, first)
-            donorID = list(donors.keys())[-1]
+            add_donor(inputName)
+            listOrNot = 'n'
+            moreDonations = 'n'
             break
+    masDonations = 'Would you like to add more donations for ' + inputName + '? y/n: ' 
+    if listOrNot == 'y':
+        moreDonations = input(masDonations)    
+    if moreDonations == 'y':
+        totals = add_donations(inputName)
+    else:
+        totals = 0
+        for z in range(len(donors)):
+            if inputName == donors[z][0]:
+                for c in range(len(donors[z])-1):
+                    totals = totals + int(donors[z][c+1])
+                break
+
     
-    for key in donors:
-        if donorID == key:
-            name = str(donors[key][1]) + ' ' + str(donors[key][0]) + ','
-    
-    emailText1 = "Dear " + name
-    emailText2 = "Thank you for your generous donation."
+    emailText1 = "Dear " + inputName
+    emailText2 = "Thank you for your generous donation(s) of $" + str(totals) + '.'
     emailText3 = "Sincerely," + '\n' + 'John Hunter'
     print(emailText1 + '\n'*2 + emailText2 + '\n'*2 + emailText3 )
 
-def add_donor(last, first):
+def add_donor(name):
     """Adds a donor to the donor dictionary and allows the user to add donation values
     
     Returns: 'None'
@@ -117,51 +119,56 @@ def add_donor(last, first):
     donations = list()
     print('The name submitted is not on the list of donors.')
     print('The donor name will be added, please add donation values: ')
-    nextKey = '00' + str(int(list(donors.keys())[-1])+1)
-    lastName = last
-    firstName = first
     while choice == 'y':
         donation = input('Enter a donation amount, enter \'0\' to stop adding donation values: ')
         if donation == '0':
             choice = False
         else:
             donations.append(donation)
-    newDonor = [lastName, firstName] + donations
-    donors[nextKey]= newDonor
+    donations.insert(0,name)
+    newDonor = donations
+    donors.append(newDonor)
     print('The new donor has been added:')
     print(newDonor)
     print('The Thank You email for the new donor is:')
     return None 
-    
+
+def add_donations(name):
+    donations = list()
+    donation = int()
+    while True:
+        donation = int(input('Enter a donation amount, enter \'0\' to stop adding donation values: '))
+        if donation == 0:
+            break
+        else:
+            int(donation)
+            donations.insert(-1,donation)
+    for i in range(len(donors)):
+        if name == donors[i][0]:
+            donors[i] = donors[i] + donations
+            break
+    print(donors[i])
+    return sum(donors[i][1:])
+
 def run_report():
     """Returns a report of the donors by total historical amount
     The report should contain the Donor Name, total donated, number of 
     donations, and average donation amount as values in each row
    """ 
-    maxLenOfDonorName=0
-    maxLenOfFirst=0
-    maxLenOfLast=0
+    maxLenOfName=0
     total = 0
     y = 0
     sortByTotal = list()
-    donKeys = list()
-    donVals = list()
     listNow = list()
-    #sortByAltTotal = list()
-    #donorsTemp = dict()
     donorsTempTwo = donors
     
-    for key in donorsTempTwo:                     
-        if (len(donorsTempTwo[key][1])>maxLenOfFirst):    
-            maxLenOfFirst = len(donorsTempTwo[key][1])
-        if (len(donorsTempTwo[key][0])>maxLenOfLast):    
-            maxLenOfLast = len(donorsTempTwo[key][0])
+    for i in range(len(donorsTempTwo)):                     
+        if (len(donorsTempTwo[i][0])>maxLenOfName):    
+            maxLenOfName = len(donorsTempTwo[i][0])
     
-    maxLenOfDonorName = maxLenOfLast + maxLenOfFirst
-    
-    for key in donorsTempTwo:
-        listNow = donorsTempTwo[key]
-        listNow = listNow[2:]
+    for j in range(len(donorsTempTwo)):
+        listNow = donorsTempTwo[i]
+        listNow = listNow[1:]
         y = len(listNow)
         total=0
         for value in range(y):
@@ -170,33 +177,28 @@ def run_report():
     
     x=len(sortByTotal)
     
-    for i in range(x):
+    for k in range(x):
         maxItem = max(sortByTotal)
         indexOf = sortByTotal.index(maxItem)
-        keyOf = '00'+ str(indexOf+1)
-        donKeys.append(keyOf)
-        donVals.append(donorsTempTwo.get(keyOf))
         sortByTotal[indexOf]=-1
-        
-    donorsTempTwo = dict(zip(donKeys,donVals))
     
-    print('{:{align}{width}}'.format('Donor Name', align='^', width=maxLenOfDonorName) +' |   Total Given   |     Num of Gifts    | Avgerage Gift')
-    print('-'*maxLenOfDonorName + '--------------------------------------------------------')
-    for key in donorsTempTwo:
-        z = len(donorsTempTwo[key]) - 2
+    print('{:{align}{width}}'.format('Donor Name', align='^', width=maxLenOfName) + \
+          ' |   Total Given   |     Num of Gifts    | Avgerage Gift')
+    print('-'*maxLenOfName + '--------------------------------------------------------')
+    for l in range(len(donorsTempTwo)):
+        z = len(donorsTempTwo[l]) - 1
         total = 0
-        for j in range(z):
-            total = total + int(donorsTempTwo[key][j+2])
-        number = len(donorsTempTwo[key])-2
+        for m in range(z):
+            total = total + int(donorsTempTwo[l][m+1])
+        number = len(donorsTempTwo[l])-1
         average = total/number
-        first = donorsTempTwo[key][1]
-        last = donorsTempTwo[key][0]
-        print('{:{align}{width}}'.format(first, align='<', width=maxLenOfFirst) + \
-        ' ' + '{:{align}{width}}'.format(last, align='<', width=maxLenOfLast) + '$' +\
-        ' ' + '{:{align}{width}.5}'.format(str(total), align='^', width=16) + \
+        jeff = donorsTempTwo[l][0]
+        #last = donorsTempTwo[l][0]
+        print('{:{align}{width}}'.format(jeff, align='<', width=maxLenOfName) + \
+        ' ' + '$' + ' ' + '{:{align}{width}.5}'.format(str(total), align='^', width=16) + \
         ' ' + '{:{align}{width}.5}'.format(str(number), align='^', width=21) + '$' + \
-        ' ' + '{:{align}{width}.5}'.format(str(average), align='^', width=14))
-      
+        ' ' + '{:{align}{width}.2f}'.format(average, align='^', width=14))
+      #print("{:#.6g}".format(i))
 def quit_it(): 
     sys.exit(0)
 
