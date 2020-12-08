@@ -6,14 +6,15 @@
 
 import os 
 import pathlib
-'''
+
 def dir_list():
     cwd = os.getcwd()
     files = os.listdir(cwd)
-    print('CDW is: ', cwd)
+    print('\nThe CDW is: ', cwd)
+    print('\nList of files and directories in CWD:')
     for file in files:
         print(file)
-
+    print('\n')
 dir_list()
 
 def file_copy(original, copy):
@@ -22,8 +23,7 @@ def file_copy(original, copy):
             copy.write(byte)
     original.close()
     copy.close()
-    print("Copied ", original)
-
+    print('Copied file: ', original)
 file_copy('file1.txt', './copydir/file2.txt')
 file_copy('anniedog.jpg', './copydir/anniedog.jpg')
 
@@ -37,18 +37,14 @@ def large_copy(original, copy):
             copy.write(data_chunk)
     original.close()
     copy.close()
-    print("Copied ", original)
-# largefile.zip was a ~15GB file
-# copied it successfully in approx 11 mins
+    print('Copied really large file: ', original)
+# My largefile.zip was a ~15GB file
+# Program copied it successfully in approx 11 mins.
+# for obvious reasons, did not include largefile.zip.
+# Use anniedog.jpg to test if this works or make your own largedile.zip
 # large_copy('largefile.zip', './copydir/largefile.zip')
-
 large_copy('anniedog.jpg', './copydir/anniedog2.jpg')
-for i in range(len(set1)):
-    if (set1[i].islower()):
-        finalList.append(set1[i])
 
-    if char in line.islower():
-'''
 
 def languages(input_file):
     datalist = {}
@@ -68,9 +64,10 @@ def languages(input_file):
             datalist[names] = langs
             for lang in langs:
                 langs_set.add(lang)
+        print('\nList of (unique) programming languages known by celebrities\n')
+        count = 0
         for lang in langs_set:
             count = count + 1
-            print(count, ' ', lang)
-        print(langs_set) 
-
+            print('#', count, ': ', lang)
+        print('\nSet of unique programming languages:\n\n', langs_set) 
 languages('students.txt')
