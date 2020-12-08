@@ -43,16 +43,25 @@ def large_copy(original, copy):
 # large_copy('largefile.zip', './copydir/largefile.zip')
 
 large_copy('anniedog.jpg', './copydir/anniedog2.jpg')
-
+for i in range(len(set1)):
+    if (set1[i].islower()):
+        finalList.append(set1[i])
 '''
 
 def languages(input_file):
-    uber_list = []
+    datalist = {}
+    names = []
+    langs = []
     with open(input_file, 'rt') as textfile:
         lines = textfile.readlines()
         for line in lines[1:]:
-            uber_list = line.split(':')[0]
-            lang_list = line.split(':')[1].split(',')
-            print(lang_list)
-            print(uber_list)
+            line = line.replace('\n', '').replace(' ', '')
+            if line.islower()
+            names = test.split(':')[0]
+            langs = test.split(':')[1].split(',')
+            print(test)
+            print(langs)
+            print(names)
+    #print(langs)
+    #print(names)
 languages('students.txt')
