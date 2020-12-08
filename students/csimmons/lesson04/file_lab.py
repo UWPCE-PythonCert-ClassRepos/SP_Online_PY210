@@ -52,27 +52,25 @@ for i in range(len(set1)):
 
 def languages(input_file):
     datalist = {}
-    names = []
-    langs = []
+    langs_set = set()
+    count = 0
     with open(input_file, 'rt') as textfile:
         lines = textfile.readlines()
         for line in lines[1:]:
             line = line.replace('\n', '').replace(' ', '').replace('nothing', '')
-            print('\nLine before splits:  ', line)
             names = line.split(':')[0]
-            print('name to be added to dict:  ', names)
             langs = line.split(':')[1].split(',')
-            print('langs before nickname removal: ', langs)
-            for word in langs:
-                if word.islower(): 
+            for lang in langs:
+                if lang.islower(): 
                     break
                 else:
-                    langs.remove(word)
-            print(langs, '\n')
-
+                    langs.remove(lang)
             datalist[names] = langs
-            #print(datalist, '\n')
-            #for lang in langs:
-
+            for lang in langs:
+                langs_set.add(lang)
+        for lang in langs_set:
+            count = count + 1
+            print(count, ' ', lang)
+        print(langs_set) 
 
 languages('students.txt')
