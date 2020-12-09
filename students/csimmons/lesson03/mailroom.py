@@ -90,8 +90,12 @@ def send_thankyou(donorlist):
 def display_report(donorlist):
     donors = list(map(lambda x:x[0], donorlist))
     gifts = list(map(lambda x:x[1], donorlist))
+
+    print(donors[2])
+    print(gifts[2][1])
+
     all_info = []
-    for i in range(len(donorlist)):
+    for i, donor in enumerate(donorlist):
         total_gift = 0
         average_gift = 0
         gift_info = []
