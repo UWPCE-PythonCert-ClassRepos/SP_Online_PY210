@@ -2,7 +2,8 @@
 # Craig Simmons
 # Python 210
 # mailroom.py# Created 11/23/2020 - csimmons
-# Edited 12/3/2020 - csimmons
+# Edited 12/3/2020 - v1.1 - csimmons
+# Edited 12/10/2020 - v1.2 - csimmons
 
 import sys
 from operator import itemgetter
@@ -80,8 +81,8 @@ def send_thankyou(donorlist):
     response = input(thanks_prompt)
     if response.lower() == 'list':
         print_donors(donors)
-    elif response.lower() == 'exit':
-        main()
+    elif response.lower() == 'exit': 
+        menu()
     elif response.title() in donors:
         exist_donor(response, donors)
     else:
@@ -106,18 +107,21 @@ def display_report(donorlist):
     all_info = sorted(all_info, key=itemgetter (1), reverse=True)
     print_donorlist(all_info)
 
+def menu():
+    response = input(menu_prompt)
+    if response == '1':
+        send_thankyou(donorlist)
+    elif response == '2':
+        display_report(donorlist)
+    elif response == '3':
+        print('\nThank You. Exiting the Mailroom Application\n')
+        sys.exit()
+    else:
+        print('\nSorry, your response was not a valid option')
+
 def main():
     while True:
-        response = input(menu_prompt)
-        if response == '1':
-            send_thankyou(donorlist)
-        elif response == '2':
-            display_report(donorlist)
-        elif response == '3':
-            print('\nThank You. Exiting the Mailroom Application\n')
-            sys.exit()
-        else:
-            print('\nSorry, your response was not a valid option')
+        menu()
 
 if __name__ == '__main__':
     print('\nWelcome to the Mailroom Application!')
