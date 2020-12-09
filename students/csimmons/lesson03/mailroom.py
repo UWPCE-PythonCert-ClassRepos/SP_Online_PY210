@@ -77,18 +77,14 @@ def generate_thankyou(f_response, f_gift):
 def send_thankyou(donorlist):
     donors = list(map(lambda x:x[0], donorlist))
     response = input(thanks_prompt)
-    f_response = response.title()
     if response.lower() == 'list':
         print_donors(donors)
-        main()
     elif response.lower() == 'exit':
         main()
     elif response.title() in donors:
         exist_donor(response, donors)
-        main()
     else:
         new_donor(response)
-        main()
 
 def display_report(donorlist):
     donors = list(map(lambda x:x[0], donorlist))
@@ -108,11 +104,10 @@ def display_report(donorlist):
         all_info.append(gift_info)
     all_info = sorted(all_info, key=itemgetter (1), reverse=True)
     print_donorlist(all_info)
-    main()
 
 def main():
-    response = input(menu_prompt)
-    while(True):
+    while True:
+        response = input(menu_prompt)
         if response == '1':
             send_thankyou(donorlist)
         elif response == '2':
@@ -122,7 +117,6 @@ def main():
             sys.exit()
         else:
             print('\nSorry, your response was not a valid option')
-            main()
 
 if __name__ == '__main__':
     print('\nWelcome to the Mailroom Application!')
