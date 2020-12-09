@@ -63,8 +63,8 @@ def print_donorlist(all_info):
     info_row = '{dname:<20s}$ {total:>13,.2f} {gifts:^10d}  $ {avg:>12,.2f}'.format
     print(header1)
     print(header2)
-    for i in range(len(all_info)):
-        print(info_row(dname=all_info[i][0], total=all_info[i][1], gifts=all_info[i][2], avg=all_info[i][3]))
+    for idx, info in enumerate(all_info):
+        print(info_row(dname=all_info[idx][0], total=all_info[idx][1], gifts=all_info[idx][2], avg=all_info[idx][3]))
     print('\n')
 
 def generate_thankyou(f_response, f_gift):
