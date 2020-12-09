@@ -91,11 +91,4 @@ class TestListSum(unittest.TestCase):
         assert filename4 in list_files
 
 
-TestListSum.test_file_creation(donor_dict)
-TestListSum.test_sorted_list(donor_dict, donor_list_sorted)
-TestListSum.test_option_input(option_input_tester)
-TestListSum.test_person_input(person_input_tester)
-TestListSum.test_donation_input(donation_input_tester)
-TestListSum.test_thank_you_note(ty_input_tester)
-TestListSum.test_thank_you_note2(ty_input_tester2)
 
