@@ -38,12 +38,13 @@ def print_donors(donors):
 
 def exist_donor(response, donors):
     gift = input(gift_prompt)   
-    f_gift = float(gift)
-    f_response = response.title()
-    for i in range(len(donorlist)-1):
-        if f_response == donorlist[i][0]:
-            donorlist[i][1].append(f_gift)
-    generate_thankyou(f_response, f_gift)
+    float_gift = float(gift)
+    response = response.title()
+    for idx, donor in enumerate(donors):
+        print(idx, donor)
+        if response == donor:
+            donorlist[idx][1].append(float_gift)
+    generate_thankyou(response, float_gift)
 
 def new_donor(response):    
     f_response = response.title()
