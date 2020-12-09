@@ -67,3 +67,9 @@ print('s1 with "i" added', s1)
 print('Union between the 2 sets: ',s1.union(s2))
 print('Intersection between the 2 sets: ',s1.intersection(s2))
 
+Following files are part of this PR and are ready for instructor review:
+
+1. lesson03/mailroom.py: Reworked file to remove unnecessary main() calls and for loops using range() calls.
+2. lesson04/file_lab.py: Submission for file_lab exercise.  Note that the following files are also associated with this exercise, mainly as input files to demo the labs functionality:  /anniedog.jpg (binary file for read/copying by file_lab.py), /file1.txt (text file for reading/copying by file_lab.py), and /students.txt (txt file used as an input file for file_lab.py).
+3. lesson04/dict_lab.py: Submission for dictionary lab.
+https://github.com/UWPCE-PythonCert-ClassRepos/SP_Online_PY210/pull/1288
