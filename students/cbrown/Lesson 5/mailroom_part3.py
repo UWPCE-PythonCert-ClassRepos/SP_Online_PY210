@@ -1,8 +1,6 @@
-#mailroom part 3: adding exceptions & comprehension
 #!/usr/bin/env python3
-#Mailroom Script Part 3. Upgrading with comprehensions & exceptions
+#Mailroom Script Part 3
 import sys
-import tempfile
 
 donors = {"Bill Gates":[539000,235642],
           "Jeff Bezos":[108356,204295,897345],
@@ -34,7 +32,7 @@ def send_thanks():
     #prompt for donation amount
     try:
         amount = float(input("How Much Did This Person Donate?\n "))
-    except: #start prompt over again if exception occurs
+    except ValueError: #start prompt over again if exception occurs
         print('Please input the amount donated')
         send_thanks()
 
@@ -46,7 +44,9 @@ def send_thanks():
 
     #not found in list. Add new donor entry
     else:
-        donors[donor_name] = amount
+        new_entry = []
+        new_entry.append(amount)
+        donors[donor_name] = new_entry
 
     thanks_dict = {'donor_name':donor_name,'amount':amount}
 
@@ -73,7 +73,7 @@ def create_report():
     #sort donations dict by total amount
     sorted_donations = sorted(donors.items(),key= sum_value,reverse=True)
 
-    for k,v in sorted_donations:
+    for k, v in sorted_donations:
         name = k
         total_given = sum(v)
         num_gift = len(v)
