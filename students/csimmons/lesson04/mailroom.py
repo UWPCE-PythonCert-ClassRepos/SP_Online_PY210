@@ -117,15 +117,30 @@ def display_report(donorlist):
     all_info = sorted(all_info, key=itemgetter (1), reverse=True)
     print_donorlist(all_info)
 
+def program_exit():
+    print('\nThank You. Exiting the Mailroom Application\n')
+    sys.exit()
+
+def test():
+    print('Test')
+
+
+menu_options = {
+                1: send_thankyou,
+                2: display_report,
+                3: program_exit,
+                }
+
 def menu():
     response = input(menu_prompt)
     if response == '1':
-        send_thankyou(donorlist)
+        menu_options.get(1)()
     elif response == '2':
-        display_report(donorlist)
+        menu_options.get(2)()
     elif response == '3':
-        print('\nThank You. Exiting the Mailroom Application\n')
-        sys.exit()
+        menu_options.get(3)()
+    elif response == '4':
+        test()
     else:
         print('\nSorry, your response was not a valid option')
 
