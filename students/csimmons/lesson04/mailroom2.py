@@ -45,9 +45,9 @@ text_display_options = {
                 }
 
 menu_options = {
-                1: send_thankyou(donorlist),
-                2: display_report(donorlist),
-                3: program_exit(),
+                '1': send_thankyou(donorlist),
+                '2': display_report(donorlist),
+                '3': program_exit(),
                 }
 
 prompt_options = {
@@ -63,11 +63,11 @@ def program_exit():
 def menu():
     response = input(prompt_options['main_menu'])
     if response == '1':
-        menu_options[1]
+        menu_options['1']
     elif response == '2':
-        menu_options[2]
+        menu_options['2']
     elif response == '3':
-        menu_options[3]
+        menu_options['3']
     else:
         print(text_display_options['invalid_option'])
 
