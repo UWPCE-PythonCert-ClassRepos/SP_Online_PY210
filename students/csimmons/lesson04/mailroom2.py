@@ -8,7 +8,9 @@
 
 import sys
 from operator import itemgetter
-'''
+f_response = ''
+f_gift = ''
+
 donorlist = [
     ('Mary Newcomer', [10000, 2500, 300]),
     ('Christine Rutolo', [3000, 6000, 750, 20000]),
@@ -18,8 +20,9 @@ donorlist = [
     ('Andrew Laughlin', [2500, 500, 40000, 50]),
     ('Hussein Saffouri', [1000, 1000, 2100, 7000, 55000]),
     ]
-'''
+
 # replaced old list of sets/nested list with dictionary
+'''
 donorlist = {
     'Mary Newcomer': [10000, 2500, 300], 
     'Christine Rutolo': [3000, 6000, 750, 20000],
@@ -29,41 +32,36 @@ donorlist = {
     'Andrew Laughlin': [2500, 500, 40000, 50],
     'Hussein Saffouri': [1000, 1000, 2100, 7000, 55000],
     }
-
+'''
 text_display_options = {
-                'header1': '{:20}{:1}{:15}{:1}{:10}{:1}{:12}'
-                .format('\n''Donor Name ', '|', ' Total Given ', '|', ' Num     Gifts ', '|', ' Average Gift '),
-                'header2': ('_ ' * 32) +'\n',
-                'info_row': '{dname:<20s}$ {total:>13,.2f} {gifts:^10d}  $ {avg:>12,.2f}'.format,
-                'thankyou': '\nDear {},\nWe would like to thank you for your extremely generous donation of ${:,.2f} to the Anonymous Charity of Seattle.\nSincerely,n\HP Lovecraft\n'.format(f_response, f_gift),
-                'exit_msg': '\nThank You. Exiting the Mailroom Application\n',
-                'invalid_option': '\nSorry, your response was not a valid option',
-                'welcome': 'Welcome to the Mailroom Application!',
-                'donorList': '\nMaster List of Donors:\n'
+                'header1': '"{:20}{:1}{:15}{:1}{:10}{:1}{:12}".format("\nDonor Name ", "|", " Total Given ", "|", " Num Gifts ", "|", " Average Gift ")',
+                'header2': '("_ " * 32) + "\n"',
+                'info_row': '"{dname:<20s}$ {total:>13,.2f} {gifts:^10d}  $ {avg:>12,.2f}.format"',
+                'thankyou': '"\nDear {},\nWe would like to thank you for your extremely generous donation of ${:,.2f} to the Best Charity Ever of Seattle.\nSincerely,\nHP Lovecraft\n.format(f_response, f_gift)"',
+                'exit_msg': '"\nThank You. Exiting the Mailroom Application\n"',
+                'invalid_option': '"\nSorry, your response was not a valid option"',
+                'welcome': '"Welcome to the Mailroom Application!"',
+                'donorList': '"\nMaster List of Donors:\n"'
                 }
-
 
 menu_options = {
                 1: send_thankyou(donorlist),
                 2: display_report(donorlist),
                 3: program_exit(),
-                'List': print_donors(donors),
-                'Exit':  menu()
                 }
 
-
 prompt_options = {
-                'main_menu': '\n'.join(('Please choose from the options below:\n', '1 - Send a Thank You letter', '2 - Create a report', '3 - Quit', '>>> ')),
-                'thanks_menu': '\n'.join(('\nPlease enter a donor name:', '(Enter "List" to see current donors, "Exit" to return to main menu)','\n>>>  ')),
-                'gift_prompt': '\n'.join(('\nPlease enter the donation amount ("$" and commas are not needed)','>>>  '))
+                'main_menu': '"\n".join(("Please choose from the options below:\n", "1 - Send a Thank You letter", "2 - Create a report", "3 - Quit", ">>> "))',
+                'thanks_menu': '"\n".join(("\nPlease enter a donor name:", "(Enter \"List\" to see current donors, \"Exit\" to return to the main menu)","\n>>>  "))',
+                'gift_prompt': '"\n".join(("\nPlease enter the donation amount (\"$\" and commas are not needed)",">>>  "))'
                 }
 
 def program_exit():
-    print(text_display_options[exit_msg])
+    print(text_display_options['exit_msg'])
     sys.exit()
 
 def menu():
-    response = input(prompt_options[main_menu])
+    response = input(prompt_options['main_menu'])
     if response == '1':
         menu_options[1]
     elif response == '2':
@@ -71,8 +69,7 @@ def menu():
     elif response == '3':
         menu_options[3]
     else:
-        print('text_display_options[invalid_option]')
-
+        print(text_display_options['invalid_option'])
 
 def print_donors(donors):
     print('\nMaster List of Donors:\n')
@@ -81,7 +78,7 @@ def print_donors(donors):
     print('\n')
 
 def exist_donor(response, donors):
-    gift = input(gift_prompt)   
+    gift = input(prompt_options['gift_prompt'])   
     float_gift = float(gift)
     response = response.title()
     for idx, donor in enumerate(donors):
@@ -93,7 +90,7 @@ def exist_donor(response, donors):
 def new_donor(response):    
     f_response = response.title()
     print(('\n{} is a new donor!').format(f_response))
-    gift = input(gift_prompt)
+    gift = input(prompt_options['gift_prompt'])
     f_gift = float(gift)
     new_donor = tuple([f_response,[ ]])
     donorlist.append(new_donor)
@@ -102,29 +99,19 @@ def new_donor(response):
     generate_thankyou(f_response, f_gift)
 
 def print_donorlist(all_info):
-    '''
-    header1 = '{:20}{:1}{:15}{:1}{:10}{:1}{:12}'.format('\n''Donor Name ', '|', ' Total Given ', '|', ' Num Gifts ', '|', ' Average Gift ')
-    header2 = ('_ ' * 32) +'\n'
-    info_row = '{dname:<20s}$ {total:>13,.2f} {gifts:^10d}  $ {avg:>12,.2f}'.format
-    '''
-    print(header1)
-    print(header2)
+    print(text_display_options['header1'])
+    print(text_display_options['header2'])
     for idx, info in enumerate(all_info):
-        print(info_row(dname=all_info[idx][0], total=all_info[idx][1], gifts=all_info[idx][2], avg=all_info[idx][3]))
+        print(text_display_options['info_row'])
+        #print(info_row(dname=all_info[idx][0], total=all_info[idx][1], #gifts=all_info[idx][2], avg=all_info[idx][3]))
     print('\n')
 
 def generate_thankyou(f_response, f_gift):
-    '''print("""\n
-    Dear {},
-    We would like to thank you for your extremely generous donation 
-    of ${:,.2f} to the Anonymous Charity of Seattle.\n
-    Sincerely,
-    CA Simmons \n""".format(f_response, f_gift))
-    '''
+    print(text_display_options['thankyou'])
 
 def send_thankyou(donorlist):
     donors = list(map(lambda x:x[0], donorlist))
-    response = input(thanks_prompt)
+    response = input(prompt_options['thanks_menu'])
     if response.lower() == 'list':
         print_donors(donors)
     elif response.lower() == 'exit': 
@@ -153,18 +140,10 @@ def display_report(donorlist):
     all_info = sorted(all_info, key=itemgetter (1), reverse=True)
     print_donorlist(all_info)
 
-
-
-
-program_exit():
-    print('\nThank You. Exiting the Mailroom Application\n')
-    sys.exit()
-
-
 def main():
     while True:
         menu()
 
 if __name__ == '__main__':
-    print('\nWelcome to the Mailroom Application!')
+    print(text_display_options['welcome'])
     main()
