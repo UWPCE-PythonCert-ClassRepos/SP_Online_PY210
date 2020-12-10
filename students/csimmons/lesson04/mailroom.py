@@ -17,34 +17,12 @@ donorlist = [
     ('Andrew Laughlin', [2500, 500, 40000, 50]),
     ('Hussein Saffouri', [1000, 1000, 2100, 7000, 55000]),
     ]
-donorlist2 = {
-    'Mary Newcomer' : [10000, 2500, 300],
-    'Christine Rutolo' : [3000, 6000, 750, 20000],
-    'Martin Acevedo' : [2000, 5000],
-    'Sutton Keaney' : [24500, 500, 3000, 5000, 1000],
-    'David Basilio' : [750, 750, 750, 750, 5000, 750, 750],
-    'Andrew Laughlin' : [2500, 500, 40000, 50],
-    'Hussein Saffouri' : [1000, 1000, 2100, 7000, 55000],
-    }
-
-
-
-'''
-menu_prompt = '\n'.join(('Please choose from the options below:\n',
-          '1 - Send a Thank You letter',
-          '2 - Create a report',
-          '3 - Quit',
-          '>>> '))
-'''
 
 menu_prompt = '\n'.join(('Please choose from the options below:\n',
           '1 - Send a Thank You letter',
           '2 - Create a report',
           '3 - Quit',
-          '4 - new stuff',
           '>>> '))
-
-
 
 thanks_prompt = '\n'.join(('\nPlease enter a donor name:',
                 '(Enter "List" to see current donors, "Exit" to return to main menu)',
@@ -98,7 +76,7 @@ def generate_thankyou(f_response, f_gift):
     Sincerely,
     CA Simmons \n""".format(f_response, f_gift))
 
-def send_thankyou_old(donorlist):
+def send_thankyou(donorlist):
     donors = list(map(lambda x:x[0], donorlist))
     response = input(thanks_prompt)
     if response.lower() == 'list':
@@ -129,38 +107,15 @@ def display_report(donorlist):
     all_info = sorted(all_info, key=itemgetter (1), reverse=True)
     print_donorlist(all_info)
 
-def program_exit():
-    print('\nThank You. Exiting the Mailroom Application\n')
-    sys.exit()
-
-def send_thanks(donorlist2):
-    donors = list(donorlist2.keys())
-    response = input(thanks_prompt)
-    if response.lower() == 'list':
-        print_donors(donors)
-    elif response.lower() == 'exit': 
-        menu()
-    elif response.title() in donors:
-        exist_donor(response, donors)
-    else:
-        new_donor(response)
-
-menu_options = {1: send_thankyou,
-                2: display_report,
-                3: program_exit,
-                4: send_thanks,
-                }
-
 def menu():
     response = input(menu_prompt)
     if response == '1':
-        menu_options.get(1)(donorlist)
+        send_thankyou(donorlist)
     elif response == '2':
-        menu_options.get(2)
+        display_report(donorlist)
     elif response == '3':
-        menu_options.get(3)()
-    elif response == '4':
-        menu_options.get(4)()
+        print('\nThank You. Exiting the Mailroom Application\n')
+        sys.exit()
     else:
         print('\nSorry, your response was not a valid option')
 
