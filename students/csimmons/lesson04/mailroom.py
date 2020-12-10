@@ -121,9 +121,29 @@ def program_exit():
     print('\nThank You. Exiting the Mailroom Application\n')
     sys.exit()
 
-def test():
-    print('Test')
 
+def new_display_report(donorlist_dict):
+    count = 0
+    gift_info = []
+    all_info = []
+    for key, value in donorlist_dict.items():
+        donor_info = []
+        count=count+1
+        donor_info.append(key)
+        donor_info.append(sum(value))
+        donor_info.append(len(value))
+        donor_info.append(sum(value)/len(value))
+        print(donor_info, count)
+        all_info.append(donor_info)
+    print(all_info)    #print(gift_info.append(value))
+'''
+        gift_info.append(sum(value))
+        gift_info.append(len(value))
+        gift_info.append(sum(value)/len(value))
+        all_info.append(gift_info)
+    all_info = sorted(all_info, key=itemgetter (1), reverse=True)
+    print(all_info)
+'''
 
 menu_options = {
                 1: send_thankyou,
@@ -136,11 +156,11 @@ def menu():
     if response == '1':
         menu_options.get(1)()
     elif response == '2':
-        menu_options.get(2)()
+        menu_options.get(2)(donorlist_dict)
     elif response == '3':
         menu_options.get(3)()
     elif response == '4':
-        test()
+        new_display_report(donorlist_dict)
     else:
         print('\nSorry, your response was not a valid option')
 
