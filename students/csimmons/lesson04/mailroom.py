@@ -98,7 +98,7 @@ def send_thankyou(donorlist):
     else:
         new_donor(response)
 
-def display_report(donorlist):
+def old_display_report(donorlist):
     donors = list(map(lambda x:x[0], donorlist))
     gifts = list(map(lambda x:x[1], donorlist))
     all_info = []
@@ -122,7 +122,7 @@ def program_exit():
     sys.exit()
 
 
-def new_display_report(donorlist_dict):
+def display_report(donorlist_dict):
     count = 0
     gift_info = []
     all_info = []
@@ -135,15 +135,8 @@ def new_display_report(donorlist_dict):
         donor_info.append(sum(value)/len(value))
         print(donor_info, count)
         all_info.append(donor_info)
-    print(all_info)    #print(gift_info.append(value))
-'''
-        gift_info.append(sum(value))
-        gift_info.append(len(value))
-        gift_info.append(sum(value)/len(value))
-        all_info.append(gift_info)
     all_info = sorted(all_info, key=itemgetter (1), reverse=True)
-    print(all_info)
-'''
+    print_donorlist(all_info) 
 
 menu_options = {
                 1: send_thankyou,
