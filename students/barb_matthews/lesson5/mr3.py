@@ -90,18 +90,16 @@ def name_donors():
     name = input("What name?\n")
     #print("you entered", name)
     what = float(input("How much donated? --> "))
-    what_list = [what]
 
     if name not in donors:
-        donors[name] = what_list
+        donors[name] = [what]
         print("\n" * 50, "Dear %s,\n\nThank you for your generous donation of $%.2f. "
                           "We appreciate your support.\n\nSincerely, Grateful Team" % (name, what))
         print("\n" * 5)
 
     else:
-        donors[name].append(what)
         what_list = donors[name]
-        all = sum(what_list)
+        all = sum(what_list) + what
         print("\n" * 50, "Thank you, %s for your continuing generous donations of $%.2f.\n"
                           "We appreciate your support.\n\nSincerely, Grateful Team" % (name, all))
         print("\n" * 5)
@@ -110,7 +108,7 @@ def list_donors():
     """prints the donors which are the keys in the donors dictionary"""
 
     print('People who have donated:\n')
-    for person in donors:
+    for person, amount in donors.items():
         print(person)
     print('\n\n')
 
