@@ -8,15 +8,6 @@
 import sys
 from operator import itemgetter
 
-donorlist = [
-    ('Mary Newcomer', [10000, 2500, 300]),
-    ('Christine Rutolo', [3000, 6000, 750, 20000]),
-    ('Martin Acevedo', [2000, 5000]),
-    ('Sutton Keaney', [24500, 500, 3000, 5000, 1000]),
-    ('David Basilio', [750, 750, 750, 750, 5000, 750, 750]),
-    ('Andrew Laughlin', [2500, 500, 40000, 50]),
-    ('Hussein Saffouri', [1000, 1000, 2100, 7000, 55000]),
-    ]
 
 donorlist_dict = {
     'Mary Newcomer' : [10000, 2500, 300],
@@ -62,7 +53,7 @@ def new_donor(response):
     print(('\n{} is a new donor!').format(f_response))
     gift = input(gift_prompt)
     f_gift = float(gift)
-    
+    donorlist_dict[]
     new_donor = tuple([f_response,[ ]])
     donorlist.append(new_donor)
     get_length = len(donorlist)-1
@@ -81,12 +72,11 @@ def print_donorlist(all_info):
     print('\n')
 
 def generate_thankyou(f_response, f_gift):
-    print("""\n
-    Dear {},
-    We would like to thank you for your extremely generous donation 
-    of ${:,.2f} to the Anonymous Charity of Seattle.\n
-    Sincerely,
-    CA Simmons \n""".format(f_response, f_gift))
+    print(('\n Dear {},'
+        'We would like to thank you for your extremely generous donation'
+        'of ${:,.2f} to the Anonymous Charity of Seattle.\n'
+        'Sincerely,\n'
+        'CA Simmons \n'.format(f_response, f_gift))
 
 def send_thankyou(donorlist_dict):
     donors = list(donorlist_dict.keys())
@@ -115,7 +105,7 @@ def display_report(donorlist_dict):
         all_info.append(donor_info)
     all_info = sorted(all_info, key=itemgetter (1), reverse=True)
     print_donorlist(all_info) 
-
+# _________________________________________
 menu_options = {
                 1: send_thankyou,
                 2: display_report,
