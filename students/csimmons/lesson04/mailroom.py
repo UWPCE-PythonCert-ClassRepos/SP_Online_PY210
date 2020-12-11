@@ -39,44 +39,54 @@ def print_donors(donors):
     print('\n')
 
 def exist_donor(response, donors):
-    gift = input(gift_prompt)   
-    float_gift = float(gift)
+    gift = int(input(gift_prompt))
+    #float_gift = float(gift)
     response = response.title()
     for idx, donor in enumerate(donors):
         print(idx, donor)
         if response == donor:
-            donorlist[idx][1].append(float_gift)
-    generate_thankyou(response, float_gift)
+            donorlist[idx][1].append(gift)
+    generate_thankyou(response, gift)
 
 def new_donor(response):    
-    f_response = response.title()
-    print(('\n{} is a new donor!').format(f_response))
-    gift = input(gift_prompt)
-    f_gift = float(gift)
-    donorlist_dict[]
-    new_donor = tuple([f_response,[ ]])
-    donorlist.append(new_donor)
-    get_length = len(donorlist)-1
-    donorlist[get_length][1].append(f_gift)
-
-    generate_thankyou(f_response, f_gift)
+    response = response.title()
+    print(('\n{} is a new donor!').format(response))
+    gift = int(input(gift_prompt))
+    donorlist_dict[response] = [gift]
+    generate_thankyou(response, gift)
 
 def print_donorlist(all_info):
     header1 = '{:20}{:1}{:15}{:1}{:10}{:1}{:12}'.format('\n''Donor Name ', '|', ' Total Given ', '|', ' Num Gifts ', '|', ' Average Gift ')
     header2 = ('_ ' * 32) +'\n'
     info_row = '{dname:<20s}$ {total:>13,.2f} {gifts:^10d}  $ {avg:>12,.2f}'.format
     print(header1)
+    print(all_info)
     print(header2)
+    #for idx, info in enumerate(all_info):
+        #print(all_info[idx][0], type(all_info[idx][0]))
+        #print(all_info[idx][1], type(all_info[idx][1]))
+        #print(all_info[idx][2], type(all_info[idx][2]))
+        #print(all_info[idx][3], type(all_info[idx][3]))
     for idx, info in enumerate(all_info):
-        print(info_row(dname=all_info[idx][0], total=all_info[idx][1], gifts=all_info[idx][2], avg=all_info[idx][3]))
+        name1 = all_info[idx][0]
+        total1 = all_info[idx][1]
+        gifts1 = all_info[idx][2]
+        avg1 = all_info[idx][3]
+        #print('Name: ', name1, type(name1))
+        #print('Total: ', total1, type(total1))
+        #print('# Gifts: ', gifts1, type(gifts1))
+        #print('Avg: ', avg1, type(avg1))
+        #print(info_row(dname=all_info[idx][0], total=all_info[idx][1], 
+        #gifts=all_info[idx][2], avg=all_info[idx][3]))
+        print(info_row(dname=name1, total=total1, gifts=gifts1, avg=avg1))
     print('\n')
 
-def generate_thankyou(f_response, f_gift):
-    print(('\n Dear {},'
-        'We would like to thank you for your extremely generous donation'
-        'of ${:,.2f} to the Anonymous Charity of Seattle.\n'
-        'Sincerely,\n'
-        'CA Simmons \n'.format(f_response, f_gift))
+def generate_thankyou(response, gift):
+    print(('\nDear {},\n\n'
+        'We would like to thank you for your extremely generous donation\n'
+        'of ${:,.2f} to the Anonymous Charity of Seattle.\n\n'
+        'Sincerely,\n\n'
+        'CA Simmons \n'.format(response, gift)))
 
 def send_thankyou(donorlist_dict):
     donors = list(donorlist_dict.keys())
@@ -99,18 +109,32 @@ def display_report(donorlist_dict):
     for key, value in donorlist_dict.items():
         donor_info = []
         donor_info.append(key)
-        donor_info.append(sum(value))
+        error = list(value)
+        error1= sum(error)
+        print(value, type(value))
+        print(error1, type(error1))
+        #donor_info.append(sum(value))
+        donor_info.append(error1)
+        
+        
+
         donor_info.append(len(value))
         donor_info.append(sum(value)/len(value))
         all_info.append(donor_info)
     all_info = sorted(all_info, key=itemgetter (1), reverse=True)
     print_donorlist(all_info) 
-# _________________________________________
+
+def test(donorlist_dict):
+    print(donorlist_dict)
+
 menu_options = {
                 1: send_thankyou,
                 2: display_report,
                 3: program_exit,
+                4: test
                 }
+def test(donorlist_dict):
+    print(donorlist_dict)
 
 def menu():
     response = input(menu_prompt)
@@ -120,6 +144,8 @@ def menu():
         menu_options.get(2)(donorlist_dict)
     elif response == '3':
         menu_options.get(3)()
+    elif response == '4':
+        menu_options.get(4)(donorlist_dict)
     else:
         print('\nSorry, your response was not a valid option')
 
