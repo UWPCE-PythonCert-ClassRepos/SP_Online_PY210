@@ -62,10 +62,12 @@ def new_donor(response):
     print(('\n{} is a new donor!').format(f_response))
     gift = input(gift_prompt)
     f_gift = float(gift)
+    
     new_donor = tuple([f_response,[ ]])
     donorlist.append(new_donor)
     get_length = len(donorlist)-1
     donorlist[get_length][1].append(f_gift)
+
     generate_thankyou(f_response, f_gift)
 
 def print_donorlist(all_info):
@@ -86,8 +88,8 @@ def generate_thankyou(f_response, f_gift):
     Sincerely,
     CA Simmons \n""".format(f_response, f_gift))
 
-def send_thankyou(donorlist):
-    donors = list(map(lambda x:x[0], donorlist))
+def send_thankyou(donorlist_dict):
+    donors = list(donorlist_dict.keys())
     response = input(thanks_prompt)
     if response.lower() == 'list':
         print_donors(donors)
@@ -98,42 +100,18 @@ def send_thankyou(donorlist):
     else:
         new_donor(response)
 
-def old_display_report(donorlist):
-    donors = list(map(lambda x:x[0], donorlist))
-    gifts = list(map(lambda x:x[1], donorlist))
-    all_info = []
-    for i, donor in enumerate(donorlist):
-        total_gift = 0
-        average_gift = 0
-        gift_info = []
-        for j, gift in enumerate(gifts[i]):
-            total_gift += gifts[i][j]
-        average_gift = total_gift / len(gifts[i])
-        gift_info.append(donors[i])
-        gift_info.append(total_gift)
-        gift_info.append(len(gifts[i]))
-        gift_info.append(average_gift)
-        all_info.append(gift_info)
-    all_info = sorted(all_info, key=itemgetter (1), reverse=True)
-    print_donorlist(all_info)
-
 def program_exit():
     print('\nThank You. Exiting the Mailroom Application\n')
     sys.exit()
 
-
 def display_report(donorlist_dict):
-    count = 0
-    gift_info = []
     all_info = []
     for key, value in donorlist_dict.items():
         donor_info = []
-        count=count+1
         donor_info.append(key)
         donor_info.append(sum(value))
         donor_info.append(len(value))
         donor_info.append(sum(value)/len(value))
-        print(donor_info, count)
         all_info.append(donor_info)
     all_info = sorted(all_info, key=itemgetter (1), reverse=True)
     print_donorlist(all_info) 
@@ -147,13 +125,11 @@ menu_options = {
 def menu():
     response = input(menu_prompt)
     if response == '1':
-        menu_options.get(1)()
+        menu_options.get(1)(donorlist_dict)
     elif response == '2':
         menu_options.get(2)(donorlist_dict)
     elif response == '3':
         menu_options.get(3)()
-    elif response == '4':
-        new_display_report(donorlist_dict)
     else:
         print('\nSorry, your response was not a valid option')
 
