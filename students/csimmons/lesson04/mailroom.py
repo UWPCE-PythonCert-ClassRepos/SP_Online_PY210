@@ -8,7 +8,6 @@
 import sys
 from operator import itemgetter
 
-
 donorlist_dict = {
     'Mary Newcomer' : [10000, 2500, 300],
     'Christine Rutolo' : [3000, 6000, 750, 20000],
@@ -40,12 +39,10 @@ def print_donors(donors):
 
 def exist_donor(response, donors):
     gift = int(input(gift_prompt))
-    #float_gift = float(gift)
     response = response.title()
-    for idx, donor in enumerate(donors):
-        print(idx, donor)
+    for donor in donors:
         if response == donor:
-            donorlist[idx][1].append(gift)
+            donorlist_dict.setdefault(donor, []).append(gift)
     generate_thankyou(response, gift)
 
 def new_donor(response):    
@@ -60,24 +57,12 @@ def print_donorlist(all_info):
     header2 = ('_ ' * 32) +'\n'
     info_row = '{dname:<20s}$ {total:>13,.2f} {gifts:^10d}  $ {avg:>12,.2f}'.format
     print(header1)
-    print(all_info)
     print(header2)
-    #for idx, info in enumerate(all_info):
-        #print(all_info[idx][0], type(all_info[idx][0]))
-        #print(all_info[idx][1], type(all_info[idx][1]))
-        #print(all_info[idx][2], type(all_info[idx][2]))
-        #print(all_info[idx][3], type(all_info[idx][3]))
     for idx, info in enumerate(all_info):
         name1 = all_info[idx][0]
         total1 = all_info[idx][1]
         gifts1 = all_info[idx][2]
         avg1 = all_info[idx][3]
-        #print('Name: ', name1, type(name1))
-        #print('Total: ', total1, type(total1))
-        #print('# Gifts: ', gifts1, type(gifts1))
-        #print('Avg: ', avg1, type(avg1))
-        #print(info_row(dname=all_info[idx][0], total=all_info[idx][1], 
-        #gifts=all_info[idx][2], avg=all_info[idx][3]))
         print(info_row(dname=name1, total=total1, gifts=gifts1, avg=avg1))
     print('\n')
 
@@ -109,32 +94,18 @@ def display_report(donorlist_dict):
     for key, value in donorlist_dict.items():
         donor_info = []
         donor_info.append(key)
-        error = list(value)
-        error1= sum(error)
-        print(value, type(value))
-        print(error1, type(error1))
-        #donor_info.append(sum(value))
-        donor_info.append(error1)
-        
-        
-
+        donor_info.append(sum(value))
         donor_info.append(len(value))
         donor_info.append(sum(value)/len(value))
         all_info.append(donor_info)
     all_info = sorted(all_info, key=itemgetter (1), reverse=True)
     print_donorlist(all_info) 
 
-def test(donorlist_dict):
-    print(donorlist_dict)
-
 menu_options = {
                 1: send_thankyou,
                 2: display_report,
-                3: program_exit,
-                4: test
+                3: program_exit
                 }
-def test(donorlist_dict):
-    print(donorlist_dict)
 
 def menu():
     response = input(menu_prompt)
