@@ -30,6 +30,7 @@ def thanks_letter(donor, amount):
 
 # Allows user to select existing donor, add a new donor, or list all donors from the collection
 def thank_you():
+    """ Prompts user for donor name and amount """ 
     print("\nSend a thank you!\n")
     response = input("""Please type the name of the donor you'd like to thank.\n
 Use 'list' to view current donors, or 'quit' to return to the menu: """)
@@ -57,19 +58,23 @@ Use 'list' to view current donors, or 'quit' to return to the menu: """)
     send_email(response, amount)
 
 def add_donor(donor):
+    """ Adds a new donor to the dict """ 
     if not donors.get(donor):
         donors[donor] = []
 
 def add_donation(donor, amount):
+    """ Appends donation to donor's history """
     donors[donor].append(amount)
     return amount
 
 
 def send_email(donor, amount):
+    """ Sends a donor name and amount to be formatted to thank you letter """ 
     # Print donor name and amount into thank you email
     print(thanks_letter(donor, amount))
 
 def sum_donations(donations):
+    """ Sums the donations for a given donor """
     # Sorts by total amount given
     return sum(donations[1])
 
@@ -98,6 +103,7 @@ def display_report():
         print(line)
 
 def send_all_thanks():
+    """ Saves a thank you letter to all donors on the local disk """ 
     for donor, amount in donors.items():
         total = sum(amount)
         filename = ('./' + donor + '.txt')
