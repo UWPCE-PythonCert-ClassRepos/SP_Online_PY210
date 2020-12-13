@@ -45,7 +45,7 @@ class Report:
     def display_report(self, new_report):
         report_lines = new_report.create_report(new_report)
         for line in report_lines:
-            print(line)
+            terminal_print(line)
         prompt_user(new_report)
 
 class Donor:
@@ -70,25 +70,25 @@ def check_name(new_report=None):
     """ Check the name of the donor before sending a thank you, add to donor list if they do not exist"""
     if new_report is None:
         new_report = Report()
-    print("To whom would you like to send a thank you?")
-    name_to_thank = input("Please enter the full name of the donor you'd like to thank, or enter 'list' to view a list of current donors: ")
+    terminal_print("To whom would you like to send a thank you?")
+    name_to_thank = input_call("Please enter the full name of the donor you'd like to thank, or enter 'list' to view a list of current donors: ")
     if name_to_thank == "quit":
         prompt_user(new_report)
     if name_to_thank == "list":
         new_report.display_report(new_report)
-        print("Would you like to thank a donor from this list?")
-        name_to_thank= input("Please enter the full name of the donor you'd like to thank, or enter 'quit' to exit: ")
+        terminal_print("Would you like to thank a donor from this list?")
+        name_to_thank= input_call("Please enter the full name of the donor you'd like to thank, or enter 'quit' to exit: ")
         if name_to_thank == "quit":
             prompt_user(new_report)
     try: 
         donor = new_report.donors[name_to_thank]
     except KeyError:
-        print(name_to_thank, " is a new donor. They will be added to our database.")
+        terminal_print(name_to_thank, " is a new donor. They will be added to our database.")
         newDonor = Donor(name_to_thank, 0, 0, 0)
         new_report.add_donor(newDonor)
         donor = new_report.donors[newDonor.name]
     finally:
-        donation_amount = input("Please enter the donation amount for which you want to thank this donor: ")
+        donation_amount = input_call("Please enter the donation amount for which you want to thank this donor: ")
         if donation_amount == "quit":
             prompt_user(new_report)
         donor.add_gift(int(donation_amount))
@@ -115,6 +115,13 @@ def send_mutliple_and_prompt(new_report):
 def quit_program(new_report=None):
     quit()
 
+def input_call(prompt):
+    result = input(prompt)
+    return result
+
+def terminal_print(text):
+    print(text)
+
 def prompt_user(new_report=None):
     if new_report is None:
         new_report = Report()
@@ -131,7 +138,7 @@ def prompt_user(new_report=None):
     print("2. Create a Report.")
     print("3. Send letters to all donors.")
     print("4. Quit")
-    choice = input("Please enter the number associated with your choice: ")
+    choice = input_call("Please enter the number associated with your choice: ")
     
     try:
         arg_dict[choice](new_report)
