@@ -20,39 +20,31 @@ donorlist_dict = {
 
 donor = ''
 gift = ''
-def send_letters(donorlist_dict):
-    #file = 'donorletter.txt'
-    #os.mkdir('letters')
-    donors = list(donorlist_dict.keys())
-    all_gifts = list(donorlist_dict.values())
-    print(donors)
-    print(all_gifts)
-    for gifts in all_gifts:
-        gift = int(gifts[-1])
-        print(gift)
-    for donor in donors:
-        donor = donor.replace(' ', '_')
-        print(donor +'.txt')
-
-
 
 def generate_letter(donorlist_dict):
+    isdir = os.path.isdir('letters')  
+    print(isdir)
+    if isdir == True:
+        pass
+    else:
+        os.mkdir('letters')
     for key, value in donorlist_dict.items():
-        donor = key.replace(' ', '_')
-        print(donor)
+        donor = str(key.replace(' ', '_'))
         gifts = list(value)
-        gift = int(gifts[-1])
-        print(gift)
-        print(letter)
-
+        gift = float(gifts[-1])
+        full = letter.format(donor, gift)
+        print(full)
+        filename = 'letters/' + donor + '.txt'
+        with open(filename, 'w') as output:
+            output.write(full)
+        output.close
+        
 letter = (('\nDear {},\n\n'
         'We would like to thank you for your recent - and extremely\n'
         'generous - donation of ${:,.2f} to the Famous Charity of Seattle\n'
-        'and Greater King County. Your gift will help thousands!\n'
+        'and Greater King County. Your gift will help thousands, perhaps\n'
+        'even millions, enjoy the wonders of the Emerald city!\n\n'
         'Sincerely,\n\n'
-        'HP Lovecraft \n'.format(donor, gift)))
-
-def send_letters(donorlist_dict):
-
+        'H.P. Lovecraft \n'))
 
 generate_letter(donorlist_dict)
