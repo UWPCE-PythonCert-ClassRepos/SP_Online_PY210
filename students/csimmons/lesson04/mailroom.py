@@ -21,7 +21,8 @@ donorlist_dict = {
 menu_prompt = '\n'.join(('Please choose from the options below:\n',
           '1 - Send a Thank You letter',
           '2 - Create a report',
-          '3 - Quit',
+          '3 - Send thank you letters to all donors',
+          '4 - Quit',
           '>>> '))
 
 thanks_prompt = '\n'.join(('\nPlease enter a donor name:',
@@ -85,9 +86,8 @@ def send_thankyou(donorlist_dict):
     else:
         new_donor(response)
 
-def program_exit():
-    print('\nThank You. Exiting the Mailroom Application\n')
-    sys.exit()
+def send_letters():
+    print('I will get to this soon')
 
 def display_report(donorlist_dict):
     all_info = []
@@ -101,10 +101,15 @@ def display_report(donorlist_dict):
     all_info = sorted(all_info, key=itemgetter (1), reverse=True)
     print_donorlist(all_info) 
 
+def program_exit():
+    print('\nThank You. Exiting the Mailroom Application\n')
+    sys.exit()
+
 menu_options = {
                 1: send_thankyou,
                 2: display_report,
-                3: program_exit
+                3: send_letters,
+                4: program_exit
                 }
 
 def menu():
@@ -116,7 +121,7 @@ def menu():
     elif response == '3':
         menu_options.get(3)()
     elif response == '4':
-        menu_options.get(4)(donorlist_dict)
+        menu_options.get(4)()
     else:
         print('\nSorry, your response was not a valid option')
 
