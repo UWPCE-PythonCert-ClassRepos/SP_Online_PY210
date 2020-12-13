@@ -4,8 +4,11 @@
 # mailroom.py# Created 11/23/2020 - csimmons
 # Edited 12/3/2020 - v1.1 - csimmons
 # Edited 12/10/2020 - v1.2 - csimmons
+#edited 12/11 - 12/13 2020 - v2.0 -csimmons
 
 import sys
+import os 
+import pathlib
 from operator import itemgetter
 
 donorlist_dict = {
@@ -32,6 +35,14 @@ thanks_prompt = '\n'.join(('\nPlease enter a donor name:',
 gift_prompt = '\n'.join(('\nPlease enter the donation amount ("$" and commas are not needed)',
                 '>>>  '))
 
+letter = (('\nDear {},\n\n'
+        'We would like to thank you for your recent - and extremely\n'
+        'generous - donation of ${:,.2f} to the Famous Charity of Seattle\n'
+        'and Greater King County. Your gift will help thousands, perhaps\n'
+        'even millions, enjoy the wonders of the Emerald city!\n\n'
+        'Sincerely,\n\n'
+        'H.P. Lovecraft \n'))
+
 def print_donors(donors):
     print('\nMaster List of Donors:\n')
     for donor in donors:
@@ -44,14 +55,14 @@ def exist_donor(response, donors):
     for donor in donors:
         if response == donor:
             donorlist_dict.setdefault(donor, []).append(gift)
-    generate_thankyou(response, gift)
+    print(letter.format(response, gift))
 
 def new_donor(response):    
     response = response.title()
     print(('\n{} is a new donor!').format(response))
     gift = int(input(gift_prompt))
     donorlist_dict[response] = [gift]
-    generate_thankyou(response, gift)
+    print(letter.format(response, gift))
 
 def print_donorlist(all_info):
     header1 = '{:20}{:1}{:15}{:1}{:10}{:1}{:12}'.format('\n''Donor Name ', '|', ' Total Given ', '|', ' Num Gifts ', '|', ' Average Gift ')
@@ -66,14 +77,10 @@ def print_donorlist(all_info):
         avg1 = all_info[idx][3]
         print(info_row(dname=name1, total=total1, gifts=gifts1, avg=avg1))
     print('\n')
-
+'''
 def generate_thankyou(response, gift):
-    print(('\nDear {},\n\n'
-        'We would like to thank you for your extremely generous donation\n'
-        'of ${:,.2f} to the Anonymous Charity of Seattle.\n\n'
-        'Sincerely,\n\n'
-        'CA Simmons \n'.format(response, gift)))
-
+    print(letter.format(response, gift))
+'''
 def send_thankyou(donorlist_dict):
     donors = list(donorlist_dict.keys())
     response = input(thanks_prompt)
@@ -86,8 +93,22 @@ def send_thankyou(donorlist_dict):
     else:
         new_donor(response)
 
-def send_letters():
-    print('I will get to this soon')
+def generate_letters(donorlist_dict):
+    isdir = os.path.isdir('letters')  
+    if isdir == True:
+        pass
+    else:
+        os.mkdir('letters')
+    for key, value in donorlist_dict.items():
+        donor = str(key.replace(' ', '_'))
+        gifts = list(value)
+        gift = float(gifts[-1])
+        full = letter.format(donor, gift)
+        print(full)
+        filename = 'letters/' + donor + '.txt'
+        with open(filename, 'w') as output:
+            output.write(full)
+        output.close
 
 def display_report(donorlist_dict):
     all_info = []
@@ -108,7 +129,7 @@ def program_exit():
 menu_options = {
                 1: send_thankyou,
                 2: display_report,
-                3: send_letters,
+                3: generate_letters,
                 4: program_exit
                 }
 
@@ -119,7 +140,7 @@ def menu():
     elif response == '2':
         menu_options.get(2)(donorlist_dict)
     elif response == '3':
-        menu_options.get(3)()
+        menu_options.get(3)(donorlist_dict)
     elif response == '4':
         menu_options.get(4)()
     else:

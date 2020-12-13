@@ -23,7 +23,6 @@ gift = ''
 
 def generate_letter(donorlist_dict):
     isdir = os.path.isdir('letters')  
-    print(isdir)
     if isdir == True:
         pass
     else:
@@ -38,7 +37,7 @@ def generate_letter(donorlist_dict):
         with open(filename, 'w') as output:
             output.write(full)
         output.close
-        
+
 letter = (('\nDear {},\n\n'
         'We would like to thank you for your recent - and extremely\n'
         'generous - donation of ${:,.2f} to the Famous Charity of Seattle\n'
