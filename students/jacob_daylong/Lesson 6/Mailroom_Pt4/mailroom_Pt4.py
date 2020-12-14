@@ -11,11 +11,17 @@ def menu():
     for x, y in dict_menu.items():
         print(x, y)
 
-def thankyou_note(entry):
-    note =('Dear Jake, Thank you for your donation of $500. Sincerely, Jake')
+def thankyou_note(fullname, donor_amt):
+    note = (f'\nDear {fullname}, \nThank you for your donation of ' 
+          f'${donor_amt:.2f}. \nSincerely, Jake\n')
     return note
 
-def donor_name_collection(full_name = 'List'):
+def thankyou_notes(entry):
+    notes = (f'\nDear {entry}, \nThank you for your donation of ' 
+          f'${sum(donor_table.get(entry)):.2f}. \nSincerely, Jake\n')
+    return notes
+
+def donor_name_collection():
      full_name = input("\nPlease enter donor's Full Name: ")
      while full_name == 'List':
         for entry in donor_table:
@@ -33,6 +39,7 @@ def donor_name_collection(full_name = 'List'):
 
      send_thankyou(full_name, donor_amt)
 
+
 def send_thankyou(full_name, donor_amt):
         if full_name not in donor_table:
                 donor_table[full_name] = [donor_amt]
@@ -40,14 +47,14 @@ def send_thankyou(full_name, donor_amt):
                 donor_table[full_name] += [donor_amt]
     
 
-        print(thankyou_note(full_name))
+        print(thankyou_note(full_name, donor_amt))
 
 def thankyou_print():
     for entry in donor_table:
         dir = tempfile.gettempdir() + "/"
         filename = entry + '.txt'
         f = open(dir + filename, 'w')
-        f.write(thankyou_note(entry))
+        f.write(thankyou_notes(entry))
         f.close
     print(dir)
 
@@ -60,6 +67,7 @@ def create_report():
         donation_qty = len(donor_table.get(entry))
         donation_avg = donation_total/donation_qty
         print('|{:<{width}s}|${:<19.2f}|{:<{width}d}|${:<19.2f}|\n'.format(entry, donation_total, donation_qty, donation_avg, width = 20))
+    return sorted_donors
 
 def dict_init():
     donor_table['Jane Doe'] = [10000, 4000, 2000]
