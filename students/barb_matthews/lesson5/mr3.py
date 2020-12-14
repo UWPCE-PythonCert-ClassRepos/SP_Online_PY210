@@ -18,6 +18,7 @@ donors = {'Harry Dresden': [10.00],
 
 average = 0
 total = 0
+#s_myList = []
 
 prompt = "\n".join(("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nMailroom v.2\n",
                     "Please choose an option:",
@@ -44,6 +45,14 @@ def thanks():
 
 def report():
     """Prints a report to the screen of donors and amounts"""
+
+    first = 1     ## for sorting
+    k_first = 'Harry Dresden'
+    k_second = 'Harry Dresden'
+    k_third = 'Harry Dresden'
+    k_fourth = 'Harry Dresden'
+    k_fifth = 'Harry Dresden'
+
     print("\n" * 100, "\a{:<23} | {:<15} | {:<15} | {:>15}".format("Name", "Total Donated ($)",
                                                                    "Number of Donations",
                                                                    "Average Amount ($)"))
@@ -54,9 +63,48 @@ def report():
     for each_key in donors:
         #print('donors key', each_key, 'has value', donors[each_key])
         total = sum(donors[each_key])
-        number = len(donors[each_key])
-        average = total/number
-        print("{:<24} | {:>17,.2f} | {:>19} | {:>15,.2f}".format(each_key, total, number, average))
+
+        if total > first or total == first:
+            k_fifth = k_fourth
+            k_fourth = k_third
+            k_third = k_second
+            k_second = k_first
+            k_first = each_key
+            first = total
+        elif total > sum(donors[k_second]):
+            k_second = each_key
+        elif total > sum(donors[k_third]):
+            k_third = each_key
+        elif total > sum(donors[k_fourth]):
+            k_fourth = each_key
+        else:
+            k_fifth = each_key
+            continue
+
+    total = sum(donors[k_first])
+    number = len(donors[k_first])
+    average = total/number
+    print("{:<24} | {:>17,.2f} | {:>19} | {:>15,.2f}".format(k_first, total, number, average))
+
+    total = sum(donors[k_second])
+    number = len(donors[k_second])
+    average = total / number
+    print("{:<24} | {:>17,.2f} | {:>19} | {:>15,.2f}".format(k_second, total, number, average))
+
+    total = sum(donors[k_third])
+    number = len(donors[k_third])
+    average = total / number
+    print("{:<24} | {:>17,.2f} | {:>19} | {:>15,.2f}".format(k_third, total, number, average))
+
+    total = sum(donors[k_fourth])
+    number = len(donors[k_fourth])
+    average = total / number
+    print("{:<24} | {:>17,.2f} | {:>19} | {:>15,.2f}".format(k_fourth, total, number, average))
+
+    total = sum(donors[k_fifth])
+    number = len(donors[k_fifth])
+    average = total / number
+    print("{:<24} | {:>17,.2f} | {:>19} | {:>15,.2f}".format(k_fifth, total, number, average))
 
     print("\n\n")
     return
@@ -90,16 +138,18 @@ def name_donors():
     name = input("What name?\n")
     #print("you entered", name)
     what = float(input("How much donated? --> "))
+    what_list = [what]
 
     if name not in donors:
-        donors[name] = [what]
+        donors[name] = what_list
         print("\n" * 50, "Dear %s,\n\nThank you for your generous donation of $%.2f. "
                           "We appreciate your support.\n\nSincerely, Grateful Team" % (name, what))
         print("\n" * 5)
 
     else:
+        donors[name].append(what)
         what_list = donors[name]
-        all = sum(what_list) + what
+        all = sum(what_list)
         print("\n" * 50, "Thank you, %s for your continuing generous donations of $%.2f.\n"
                           "We appreciate your support.\n\nSincerely, Grateful Team" % (name, all))
         print("\n" * 5)
@@ -108,7 +158,7 @@ def list_donors():
     """prints the donors which are the keys in the donors dictionary"""
 
     print('People who have donated:\n')
-    for person, amount in donors.items():
+    for person in donors:
         print(person)
     print('\n\n')
 
