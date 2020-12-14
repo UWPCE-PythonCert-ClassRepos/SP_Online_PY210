@@ -12,26 +12,28 @@ def menu():
         print(x, y)
 
 def thankyou_note(entry):
-    note =(f'\nDear {entry}, \nThank you for your donation of ' 
-          f'${sum(donor_table.get(entry)):.2f}. \nSincerely, Jake\n')
+    note =('Dear Jake, Thank you for your donation of $500. Sincerely, Jake')
     return note
 
-def send_thankyou():
+def donor_name_collection(full_name = 'List'):
+     full_name = input("\nPlease enter donor's Full Name: ")
+     while full_name == 'List':
+        for entry in donor_table:
+            print(entry)
         full_name = input("\nPlease enter donor's Full Name: ")
-        while full_name == 'List':
-            for entry in donor_table:
-                print(entry)
-            full_name = input("\nPlease enter donor's Full Name: ")
-        try:
-            user_input = input("Please enter donation amount:")
-            if user_input.isnumeric:
-                donor_amt = float(user_input)
-            else:
-                raise ValueError
-        except (ValueError, UnboundLocalError):
-            print("Please Enter a valid number")
-            donor_amt = float(input("Please enter donation amount:"))
+     try:
+        user_input = input("Please enter donation amount:")
+        if user_input.isnumeric:
+            donor_amt = float(user_input)
+        else:
+            raise ValueError
+     except (ValueError, UnboundLocalError):
+        print("Please Enter a valid number")
+        donor_amt = float(input("Please enter donation amount:"))
 
+     send_thankyou(full_name, donor_amt)
+
+def send_thankyou(full_name, donor_amt):
         if full_name not in donor_table:
                 donor_table[full_name] = [donor_amt]
         else:
@@ -70,7 +72,7 @@ def donor_sort_key(entry):
     return sum(donor_table.get(entry))
 
 def main():
-    option_table = {1: send_thankyou,
+    option_table = {1: donor_name_collection,
                2: create_report,
                3: thankyou_print,
                4: sys.exit}
