@@ -77,10 +77,7 @@ def print_donorlist(all_info):
         avg1 = all_info[idx][3]
         print(info_row(dname=name1, total=total1, gifts=gifts1, avg=avg1))
     print('\n')
-'''
-def generate_thankyou(response, gift):
-    print(letter.format(response, gift))
-'''
+
 def send_thankyou(donorlist_dict):
     donors = list(donorlist_dict.keys())
     response = input(thanks_prompt)
@@ -101,14 +98,12 @@ def generate_letters(donorlist_dict):
         os.mkdir('letters')
     for key, value in donorlist_dict.items():
         donor = str(key.replace(' ', '_'))
-        gifts = list(value)
-        gift = float(gifts[-1])
-        full = letter.format(donor, gift)
-        print(full)
+        gift = (list(value))[-1]
         filename = 'letters/' + donor + '.txt'
         with open(filename, 'w') as output:
-            output.write(full)
+            output.write(letter.format(donor, gift))
         output.close
+    print('\nThank You letters were generated for all donors\n')
 
 def display_report(donorlist_dict):
     all_info = []
