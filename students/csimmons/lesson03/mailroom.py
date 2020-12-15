@@ -82,7 +82,7 @@ def send_thankyou(donorlist):
     if response.lower() == 'list':
         print_donors(donors)
     elif response.lower() == 'exit': 
-        menu()
+        return()
     elif response.title() in donors:
         exist_donor(response, donors)
     else:
