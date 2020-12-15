@@ -41,11 +41,14 @@ def exist_donor(response, donors):
     gift = input(gift_prompt)   
     float_gift = float(gift)
     response = response.title()
-    for idx, donor in enumerate(donors):
-        #print(idx, donor)
-        if response == donor:
-            donorlist[idx][1].append(float_gift)
+    for donor in donorlist:
+        if response == donor[0]:
+            donor[1].append(float_gift)
+            break
+    else:
+        donorlist.append([response, float_gift])
     generate_thankyou(response, float_gift)
+    
 
 def new_donor(response):    
     f_response = response.title()
