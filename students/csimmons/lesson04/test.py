@@ -18,7 +18,16 @@ donorlist_dict = {
     'Andrew Laughlin' : [2500, 500, 40000, 50],
     'Hussein Saffouri' : [1000, 1000, 2100, 7000, 55000],
     }
-
+    for i in range(len(words)-2): # why -2 ?
+   pair = words[i:i + 2]
+   follower = words[i + 2]
+word_list = word_library(text_file)
+    trigram = {}
+    for i in range(len(word_list)-2):
+        pair = tuple(word_list[i:i+2])
+        nextword = word_list[i+2]
+        trigram.setdefault(pair, []).append(nextword)
+    return 
 
 def dict_list(donorlist_dict):
     donors = donorlist_dict.keys()
