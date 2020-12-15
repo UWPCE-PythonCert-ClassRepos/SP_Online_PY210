@@ -42,7 +42,7 @@ def exist_donor(response, donors):
     float_gift = float(gift)
     response = response.title()
     for idx, donor in enumerate(donors):
-        print(idx, donor)
+        #print(idx, donor)
         if response == donor:
             donorlist[idx][1].append(float_gift)
     generate_thankyou(response, float_gift)
@@ -89,19 +89,14 @@ def send_thankyou(donorlist):
         new_donor(response)
 
 def display_report(donorlist):
-    donors = list(map(lambda x:x[0], donorlist))
-    gifts = list(map(lambda x:x[1], donorlist))
     all_info = []
-    for i, donor in enumerate(donorlist):
-        total_gift = 0
-        average_gift = 0
+    for donor, gift in donorlist:
+        total_gift = sum(gift)
+        average_gift = total_gift/len(gift)
         gift_info = []
-        for j, gift in enumerate(gifts[i]):
-            total_gift += gifts[i][j]
-        average_gift = total_gift / len(gifts[i])
-        gift_info.append(donors[i])
+        gift_info.append(donor)
         gift_info.append(total_gift)
-        gift_info.append(len(gifts[i]))
+        gift_info.append(len(gift))
         gift_info.append(average_gift)
         all_info.append(gift_info)
     all_info = sorted(all_info, key=itemgetter (1), reverse=True)
