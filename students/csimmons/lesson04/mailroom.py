@@ -70,7 +70,8 @@ def print_donorlist(all_info):
     info_row = '{dname:<20s}$ {total:>13,.2f} {gifts:^10d}  $ {avg:>12,.2f}'.format
     print(header1)
     print(header2)
-    for idx, info in enumerate(all_info):
+    for donor in all_info:
+        idx = all_info.index(donor)
         name1 = all_info[idx][0]
         total1 = all_info[idx][1]
         gifts1 = all_info[idx][2]
@@ -115,7 +116,6 @@ def display_report():
         donor_info.append(sum(value)/len(value))
         all_info.append(donor_info)
     all_info = sorted(all_info, key=itemgetter (1), reverse=True)
-    print(all_info)
     print_donorlist(all_info) 
 
 def program_exit():
@@ -139,7 +139,7 @@ menu_dict = {
 def menu_select(menu_prompt, menu_dict):
     while True:
         response = input(menu_prompt)
-        if menu_dict[response]() == 'q':
+        if menu_dict[response]() == 'exit menu':
             break
     
 if __name__ == '__main__':
