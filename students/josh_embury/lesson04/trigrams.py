@@ -34,7 +34,12 @@ def buildTrigrams(lst_input_words):
     return dict_trigrams
 
 def buildSentence(dict):
+    pass
+    # pick random key from dict
+    str_starter = 'I wish' # known key to test with
+    lst_new_sentence = [str_starter]
 
+    return str_newSentence
 #-----------------------------------------------#
 # Main
 #-----------------------------------------------#
