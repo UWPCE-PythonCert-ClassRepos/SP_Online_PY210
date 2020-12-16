@@ -78,19 +78,19 @@ def print_donorlist(all_info):
         print(info_row(dname=name1, total=total1, gifts=gifts1, avg=avg1))
     print('\n')
 
-def send_thankyou(donorlist_dict):
+def send_thankyou():
     donors = list(donorlist_dict.keys())
     response = input(thanks_prompt)
     if response.lower() == 'list':
         print_donors(donors)
     elif response.lower() == 'exit': 
-        menu()
+        return
     elif response.title() in donors:
         exist_donor(response, donors)
     else:
         new_donor(response)
 
-def generate_letters(donorlist_dict):
+def generate_letters():
     isdir = os.path.isdir('letters')  
     if isdir == True:
         pass
@@ -105,7 +105,7 @@ def generate_letters(donorlist_dict):
         output.close
     print('\nThank You letters were generated for all donors\n')
 
-def display_report(donorlist_dict):
+def display_report():
     all_info = []
     for key, value in donorlist_dict.items():
         donor_info = []
@@ -115,36 +115,33 @@ def display_report(donorlist_dict):
         donor_info.append(sum(value)/len(value))
         all_info.append(donor_info)
     all_info = sorted(all_info, key=itemgetter (1), reverse=True)
+    print(all_info)
     print_donorlist(all_info) 
 
 def program_exit():
     print('\nThank You. Exiting the Mailroom Application\n')
     sys.exit()
 
-menu_options = {
-                1: send_thankyou,
-                2: display_report,
-                3: generate_letters,
-                4: program_exit
-                }
+menu_prompt = '\n'.join(('Please choose from the options below:\n',
+          '1 - Send a Thank You letter',
+          '2 - Create a report',
+          '3 - Send thank you letters to all donors',
+          '4 - Quit',
+          '>>> '))
 
-def menu():
-    response = input(menu_prompt)
-    if response == '1':
-        menu_options.get(1)(donorlist_dict)
-    elif response == '2':
-        menu_options.get(2)(donorlist_dict)
-    elif response == '3':
-        menu_options.get(3)(donorlist_dict)
-    elif response == '4':
-        menu_options.get(4)()
-    else:
-        print('\nSorry, your response was not a valid option')
-
-def main():
+menu_dict = {
+            '1' : send_thankyou,
+            '2' : display_report,
+            '3' : generate_letters,
+            '4' : program_exit
+            }
+             
+def menu_select(menu_prompt, menu_dict):
     while True:
-        menu()
-
+        response = input(menu_prompt)
+        if menu_dict[response]() == 'q':
+            break
+    
 if __name__ == '__main__':
     print('\nWelcome to the Mailroom Application!')
-    main()
+    menu_select(menu_prompt, menu_dict)
