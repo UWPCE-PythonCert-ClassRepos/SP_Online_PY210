@@ -80,7 +80,7 @@ def print_donorlist(all_info):
     print('\n')
 
 def send_thankyou():
-    donors = list(donorlist_dict.keys())
+    donors = donorlist_dict.keys()
     response = input(thanks_prompt)
     if response.lower() == 'list':
         print_donors(donors)
