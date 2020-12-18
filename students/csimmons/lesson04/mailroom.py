@@ -70,15 +70,10 @@ def print_donorlist(all_info):
     info_row = '{dname:<20s}$ {total:>13,.2f} {gifts:^10d}  $ {avg:>12,.2f}'.format
     print(header1)
     print(header2)
-    for donor in all_info:
-        idx = all_info.index(donor)
-        name1 = all_info[idx][0]
-        total1 = all_info[idx][1]
-        gifts1 = all_info[idx][2]
-        avg1 = all_info[idx][3]
-        print(info_row(dname=name1, total=total1, gifts=gifts1, avg=avg1))
+    for name, total, gifts, avg in all_info: 
+        print(info_row(dname=name, total=total, gifts=gifts, avg=avg))
     print('\n')
-
+  
 def send_thankyou():
     donors = donorlist_dict.keys()
     response = input(thanks_prompt)
