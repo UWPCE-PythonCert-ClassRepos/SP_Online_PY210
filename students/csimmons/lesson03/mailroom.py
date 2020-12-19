@@ -2,7 +2,8 @@
 # Craig Simmons
 # Python 210
 # mailroom.py# Created 11/23/2020 - csimmons
-# Edited 12/3/2020 - csimmons
+# Edited 12/3/2020 - v1.1 - csimmons
+# Edited 12/10/2020 - v1.2 - csimmons
 
 import sys
 from operator import itemgetter
@@ -38,12 +39,16 @@ def print_donors(donors):
 
 def exist_donor(response, donors):
     gift = input(gift_prompt)   
-    f_gift = float(gift)
-    f_response = response.title()
-    for i in range(len(donorlist)-1):
-        if f_response == donorlist[i][0]:
-            donorlist[i][1].append(f_gift)
-    generate_thankyou(f_response, f_gift)
+    float_gift = float(gift)
+    response = response.title()
+    for donor in donorlist:
+        if response == donor[0]:
+            donor[1].append(float_gift)
+            break
+    else:
+        donorlist.append([response, float_gift])
+    generate_thankyou(response, float_gift)
+    
 
 def new_donor(response):    
     f_response = response.title()
@@ -62,9 +67,9 @@ def print_donorlist(all_info):
     info_row = '{dname:<20s}$ {total:>13,.2f} {gifts:^10d}  $ {avg:>12,.2f}'.format
     print(header1)
     print(header2)
-    for i in range(len(all_info)):
-        print(info_row(dname=all_info[i][0], total=all_info[i][1], gifts=all_info[i][2], avg=all_info[i][3]))
-    print('\n')
+    for name, total, gifts, avg in all_info: 
+        print(info_row(dname=name, total=total, gifts=gifts, avg=avg))
+    
 
 def generate_thankyou(f_response, f_gift):
     print("""\n
@@ -77,52 +82,44 @@ def generate_thankyou(f_response, f_gift):
 def send_thankyou(donorlist):
     donors = list(map(lambda x:x[0], donorlist))
     response = input(thanks_prompt)
-    f_response = response.title()
     if response.lower() == 'list':
         print_donors(donors)
-        main()
-    elif response.lower() == 'exit':
-        main()
+    elif response.lower() == 'exit': 
+        return()
     elif response.title() in donors:
         exist_donor(response, donors)
-        main()
     else:
         new_donor(response)
-        main()
 
 def display_report(donorlist):
-    donors = list(map(lambda x:x[0], donorlist))
-    gifts = list(map(lambda x:x[1], donorlist))
     all_info = []
-    for i in range(len(donorlist)):
-        total_gift = 0
-        average_gift = 0
+    for donor, gift in donorlist:
+        total_gift = sum(gift)
+        average_gift = total_gift/len(gift)
         gift_info = []
-        for x in range(len(gifts[i])):
-            total_gift += gifts[i][x]
-        average_gift = total_gift / len(gifts[i])
-        gift_info.append(donors[i])
+        gift_info.append(donor)
         gift_info.append(total_gift)
-        gift_info.append(len(gifts[i]))
+        gift_info.append(len(gift))
         gift_info.append(average_gift)
         all_info.append(gift_info)
     all_info = sorted(all_info, key=itemgetter (1), reverse=True)
     print_donorlist(all_info)
-    main()
+
+def menu():
+    response = input(menu_prompt)
+    if response == '1':
+        send_thankyou(donorlist)
+    elif response == '2':
+        display_report(donorlist)
+    elif response == '3':
+        print('\nThank You. Exiting the Mailroom Application\n')
+        sys.exit()
+    else:
+        print('\nSorry, your response was not a valid option')
 
 def main():
-    response = input(menu_prompt)
-    while(True):
-        if response == '1':
-            send_thankyou(donorlist)
-        elif response == '2':
-            display_report(donorlist)
-        elif response == '3':
-            print('\nThank You. Exiting the Mailroom Application\n')
-            sys.exit()
-        else:
-            print('\nSorry, your response was not a valid option')
-            main()
+    while True:
+        menu()
 
 if __name__ == '__main__':
     print('\nWelcome to the Mailroom Application!')
