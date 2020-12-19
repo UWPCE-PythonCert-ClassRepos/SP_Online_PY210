@@ -1,7 +1,10 @@
-# Byte-compiled / optimized / DLL files
+#Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
+test1.py
+test2.py
+
 
 # C extensions
 *.so
@@ -130,4 +133,3 @@ dmypy.json
 
 **/.vscode/
 **/.DS_Store
-
