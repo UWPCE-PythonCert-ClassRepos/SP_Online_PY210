@@ -1,23 +1,28 @@
 #! /usr/bin/env python3
 
-## Lesson 4, Assignment 2, Mailroom Part 2
+## Assignment 4, Mailroom Part 3
 ## By: B. Matthews
-## https://uwpce-pythoncert.github.io/PythonCertDevel/exercises/mailroom-part2.html
-## update to: use a dict for donor data; use dict for menu switching
-## and write letters to files
+## https://uwpce-pythoncert.github.io/PythonCertDevel/exercises/mailroom-part3.html
+## update to: improve by adding exception handling and comprehensions
 
 import sys
 import os
 
 ## Global variables
-donors = {'Harry Dresden': [10.00],
-          'Queen Mab': [234.10, 1043.50],
-          'Molly Carpenter': [1000.00, 25.99, 321.45],
-          'Carlos Ramirez': [30.50, 30, 10],
-          'Wizard McCoy': [20, 5.00]}
+#donors = {'Harry Dresden': [10.00],
+          #'Queen Mab': [234.10, 1043.50],
+          #'Molly Carpenter': [1000.00, 25.99, 321.45],
+          #'Carlos Ramirez': [30.50, 30, 10],
+          #'Wizard McCoy': [20, 5.00]}
+
+names = ['Harry Dresden', 'Queen Mab', 'Molly Carpenter', 'Carlos Ramirez', 'Wizard McCoy']
+donations = [[10.00], [234.10, 1043.50], [1000.00, 25.99, 321.45], [30.50, 30, 10], [20, 5.00]]
+
+donors = {name: amounts for name, amounts in zip(names, donations)}
 
 average = 0
 total = 0
+sorted_money = []
 
 prompt = "\n".join(("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nMailroom v.2\n",
                     "Please choose an option:",
@@ -25,7 +30,7 @@ prompt = "\n".join(("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nMailroom v.2\n",
                     "2) Create a Report",
                     "3) Send Thank-you letters to all donors (create files)",
                     "4) Quit",
-                    "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\a> "))
+                    "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n> "))
 
 prompt2 = "\n".join(("**********************************\nThank-You Options\n",
                      "What do you want to do?:",
@@ -34,29 +39,49 @@ prompt2 = "\n".join(("**********************************\nThank-You Options\n",
                      "3) Return to Main Menu",
                      "**********************************\n> "))
 
+def safe_input(some_prompt):
+    user_string = ''
+    try:
+        user_string = input(some_prompt)
+    except EOFError:
+        print("That didn't work\n")
+        return
+    except TypeError:
+        print("That didn't work\n")
+        return
+    except KeyboardInterrupt:
+        print("You really want to quit?\n")
+        return
+    finally:
+        return user_string
+
 def thanks():
     """Prints a donor thank-you to the screen"""
 
     while True:
-        choice = input(prompt2)
+        choice = safe_input(prompt2)
         menu2.get(choice)()         # use menu dictionary to select correct function
     return
 
+def sort_me(amounts):
+    return sum(amounts[1])
+
 def report():
     """Prints a report to the screen of donors and amounts"""
-    print("\n" * 100, "\a{:<23} | {:<15} | {:<15} | {:>15}".format("Name", "Total Donated ($)",
+
+    print("\n" * 100, "{:<23} | {:<15} | {:<15} | {:>15}".format("Name", "Total Donated ($)",
                                                                    "Number of Donations",
                                                                    "Average Amount ($)"))
     print("-" * 87)
 
     ## Sort the list of donors in descending total donation amount order
+    sorted_money = sorted(donors.items(), key=sort_me, reverse=True)
 
-    for each_key in donors:
-        #print('donors key', each_key, 'has value', donors[each_key])
-        total = sum(donors[each_key])
-        number = len(donors[each_key])
+    for person in sorted_money:
+        total = sum(person[1])
+        number = len(person[1])
         average = total/number
-        print("{:<24} | {:>17,.2f} | {:>19} | {:>15,.2f}".format(each_key, total, number, average))
+        print("{:<24} | {:>17,.2f} | {:>19} | {:>15,.2f}".format(person[0], total, number, average))
 
     print("\n\n")
     return
@@ -87,8 +112,7 @@ def name_donors():
     """Ask user for name of donor, add it if new, ask for dontation amount, print thanks.
     If the name is found, just add the new donation to their record"""
 
-    name = input("What name?\n")
-    #print("you entered", name)
+    name = safe_input("What name?\n")
     what = float(input("How much donated? --> "))
     what_list = [what]
 
@@ -114,9 +138,6 @@ def list_donors():
         print(person)
     print('\n\n')
 
-def exit_sub():
-    """something might go here"""
-
 menu1 = {
         '1': thanks,
         '2': report,
@@ -128,8 +149,11 @@ def main():
     """Prints the menu dispay to the screen and gets user input"""
 
     while True:
-        response = input(prompt)    # continuously collect user selection
-        menu1.get(response)()       # use menu dictionary to select correct function
+        response = safe_input(prompt)    # continuously collect user selection
+        try:
+            menu1.get(response)()        # use menu dictionary to select correct function
+        except TypeError:                ## This quits if user types cntrl-c
+            exit_menu()
 
 ## Submenu calls main so it has to be here, but I usually like declarations at the top
 menu2 = {
