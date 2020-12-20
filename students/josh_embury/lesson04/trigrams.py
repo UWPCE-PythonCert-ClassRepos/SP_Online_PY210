@@ -6,20 +6,34 @@
 # ChangeLog (Who,When,What):
 # JEmbury,12/13/2020,Created started script
 # ------------------------------------------------------------------------ #
-
+import random
 #--------------------------------------------#
 # Text processing
 #--------------------------------------------#
-words = 'I wish I may I wish I might.'.split() # basic word list to start
-def readText(str_filename):
+
+def read_text(str_filename):
     # this method reads a file and generates a list of words
     # input a filename as string
     # ouput a list of words
-    pass
+    f = open(str_filename)
+    flag = False
+    text = ''
+    while(True):
+        current_line = f.readline()
+        if current_line[:34] == 'End of the Project Gutenberg EBook':
+            break
+        if flag:
+            text = text + current_line
+        elif current_line[:41] == '*** START OF THIS PROJECT GUTENBERG EBOOK':
+            flag = True
+
+    #str_words = f.read()
+    f.close()
+    return text.split()
 #--------------------------------------------#
 # Trigram processing
 #--------------------------------------------#
-def buildTrigrams(lst_input_words):
+def build_trigrams(lst_input_words):
     # desc: create a dict of trigrams
     # assumption: list must be len()>2
     # input: a list of words as string objects
@@ -33,15 +47,46 @@ def buildTrigrams(lst_input_words):
         dict_trigrams[current_pair].append(lst_input_words[i])
     return dict_trigrams
 
-def buildSentence(dict):
-    pass
-    # pick random key from dict
-    str_starter = 'I wish' # known key to test with
-    lst_new_sentence = [str_starter]
+def start_sentence(dic):
+    # let's choose a random key in dict
+    while(True):
+        get_string = random.choice(list(dic.keys()))
+        str_starting_point = get_string.capitalize()
+        if '.' in str_starting_point:
+            pass
+        elif '-' in str_starting_point:
+            pass
+        elif '\'' in str_starting_point:
+            pass
+        elif str_starting_point not in dic:
+            pass
+        elif len(dic[str_starting_point]) < 1:
+            pass
+        else: break
+    return str_starting_point # known key to test with
 
-    return str_newSentence
+def build_sentence(dic):
+    # pick random key from dict
+    str_starter = start_sentence(dic)
+    lst_new_sentence = str_starter.split()
+    rough_num_of_words = 100
+    while(True):
+        current_pair = ' '.join(lst_new_sentence[-2:])
+        if current_pair[-1] == '.' and len(lst_new_sentence) >= rough_num_of_words:
+            break
+
+        if current_pair in dic:
+            current_tri = random.choice(dic[current_pair])
+            lst_new_sentence.append(current_tri)
+        else:
+            #lst_new_sentence.append('. ')
+            new_start = start_sentence(dic).split()
+            lst_new_sentence.append(new_start[0])
+            lst_new_sentence.append(new_start[1])
+    return ' '.join(lst_new_sentence)
 #-----------------------------------------------#
 # Main
 #-----------------------------------------------#
 if __name__ == '__main__':
-    print(buildTrigrams(words))
+    words = read_text('sherlock.txt')
+    print(build_sentence(build_trigrams(words)))
