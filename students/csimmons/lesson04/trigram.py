@@ -7,44 +7,47 @@
 import sys
 import os
 import random
-
-input = 'small.txt'
+#input = 'small.txt'
+input = 'sherlock_small.txt'
 welcome_prompt = "\nWelcome to the automatic book generator!\n"
-copy = 'copyfile.txt'
+trigrams = {}
 
-def open_file(input, copy):
-    print(input)
-    with open (input, 'r') as textfile, open(copy, 'w') as copy:
+def open_file(input):
+    with open (input, 'r') as textfile:
         while True:
             line = textfile.readline()
-            print(line)
-            copy.write(line)
             if not line:
                 break
-            prep_file(line)
+            clean_line(line)
 
-def prep_file(line):
+def clean_line(line):
     line = line.replace('\n', '').replace('--', ' ').replace(',','').replace('.', '').replace('(', '').replace(')', '')
-    clean_line = line.split(' ')
-    print(len(clean_line))
-    print(clean_line, '\n')
-    process_text(clean_line)
+    clean_words = line.split(' ')
+    process_text(clean_words)
 
-def process_text(clean_line):
-    trigram ={}
-    for i in range(len(clean_line)-2):
-        pair = clean_line[i:i+2]
-        follower = clean_line[i+2]
-        trigram[tuple(pair)] = follower
+def process_text(clean_words):
+    for i in range(len(clean_words)-2):
+        pair = tuple(clean_words[i:i+2])
+        third = clean_words[i+2]
+        if pair in trigrams:
+            trigrams[pair].append(third)
+        else:
+            trigrams[pair] = [third]
+    print(trigrams)
+
+        #trigram[tuple(pair)] = third
+        #print(trigram)
+       
+        
+        #trigram[tuple(pair)] = [follower]
                 #print(clean_line)
                 #print(pair)
                 #print(follower)clear
-    print(trigram)
 
 def main(input):
     print(input)
     print(welcome_prompt)
-    open_file(input, copy)
+    open_file(input)
     
     
 
