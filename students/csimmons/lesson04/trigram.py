@@ -10,19 +10,25 @@ import random
 
 input = 'small.txt'
 welcome_prompt = "\nWelcome to the automatic book generator!\n"
+copy = 'copyfile.txt'
 
-def open_file(input):
-    with open (input, 'r') as textfile:
+def open_file(input, copy):
+    print(input)
+    with open (input, 'r') as textfile, open(copy, 'w') as copy:
         while True:
             line = textfile.readline()
+            print(line)
+            copy.write(line)
             if not line:
                 break
+            prep_file(line)
 
 def prep_file(line):
     line = line.replace('\n', '').replace('--', ' ').replace(',','').replace('.', '').replace('(', '').replace(')', '')
     clean_line = line.split(' ')
     print(len(clean_line))
     print(clean_line, '\n')
+    process_text(clean_line)
 
 def process_text(clean_line):
     trigram ={}
@@ -33,8 +39,14 @@ def process_text(clean_line):
                 #print(clean_line)
                 #print(pair)
                 #print(follower)clear
-def main():
+    print(trigram)
+
+def main(input):
+    print(input)
     print(welcome_prompt)
+    open_file(input, copy)
+    
+    
 
 def old_main(input):
     trigram ={}

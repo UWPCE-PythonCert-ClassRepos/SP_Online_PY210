@@ -2,7 +2,7 @@
 # Craig Simmons
 # Python 210
 # trigram.py 
-# Created 12/13/2020 - csimmons
+
 input = 'small.txt'
 def main(input):
     trigram ={}
