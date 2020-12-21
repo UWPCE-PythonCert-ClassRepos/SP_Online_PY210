@@ -29,8 +29,8 @@ def sum_series(n, n0=0, n1=1):
     :param n1=1: value of first element in the series
     """
 
-    fib = [n0,n1]
-    for i in range(2,n+1):
+    fib = [n0,n1] # define set starting with n1,n2
+    for i in range(2,n+1): # calculate nth series of set
             fib.append(fib[-1]+fib[-2])
     return fib[n]
 
