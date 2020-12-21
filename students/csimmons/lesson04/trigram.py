@@ -23,7 +23,7 @@ def open_file(input):
             clean_line(line)
 
 def clean_line(line):
-    line = line.replace('\n', '').replace('--', ' ').replace(',','').replace('.', '').replace('(', '').replace(')', '')
+    line = line.replace('\n', '').replace('--', ' ').replace(',','').replace('.', '').replace('(', '').replace(')', '').replace(':', '')
     clean_words = line.split(' ')
     #print('clean_words type: ', type(clean_words))
     #print(len(clean_words))
@@ -38,26 +38,48 @@ def process_text(clean_words):
             trigrams[pair].append(third)
         else:
             trigrams[pair] = [third]
+    #create_text(trigrams)
     create_text(trigrams)
 
 def create_text(trigrams):
     starting_pair = random.choice(tuple(trigrams.keys()))
     print(starting_pair)
-    initial = (random.choice(starting_pair)).title()
-    
-    print('Initial word: ', initial)
-    
+    initial = starting_pair[0].title() + ' ' + starting_pair[1]
+    print(initial)
+   try new model ------
+    first, second = random.choice(list(my_dict.keys()))
+    list_of_words = [first, second] 
+    sen_len = random.randint(5,(len(my_dict.keys())-3))
+    while len(list_of_words) < sen_len:
+        new_start = tuple(list_of_words[-2:])
+        if new_start in my_dict.keys():
+            list_of_words.append(random.choice(list(my_dict[(list_of_words[-2], list_of_words[-1])])))
+        else:
+            list_of_words.append(random.choice(list(my_dict.values())))
+
+        
+    return " ".join(list_of_words).capitalize()
+    #for i in range(len(trigrams)):
+        #key = random.choice(tuple(trigrams.keys()))
+        #print(key)
+ 
 
 
-    '''
+'''
+    while (start_key in wp and len(text) <= max_size):
+        w = random.choice(wp[start_key])  # get a random word from dictonary
+        text = text + " " + w
+        start_key = start_key[1], w  # new key of 2nd word and new word
+        #print("current key ", start_key)
+    return text
     new_text = ''.join(starting_pair)
     #print(new_text)
     #print(len(trigrams))
- 
+
     for i in range(len(trigrams)):
-        key = random.choice(tuple(trigrams.keys()))
+        key = random.choice(tuple(trigrams.keys()))CLEr
         print(key)
-    '''
+'''
 
 
 
