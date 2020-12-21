@@ -18,11 +18,16 @@ def open_file(input):
             line = textfile.readline()
             if not line:
                 break
+            print('line is type: ', (type(line)))
+            print(line)
             clean_line(line)
 
 def clean_line(line):
     line = line.replace('\n', '').replace('--', ' ').replace(',','').replace('.', '').replace('(', '').replace(')', '')
     clean_words = line.split(' ')
+    print('clean_words type: ', type(clean_words))
+    print(len(clean_words))
+    #print('clean_words themselves: ', clean_words)
     process_text(clean_words)
 
 def process_text(clean_words):
@@ -33,46 +38,29 @@ def process_text(clean_words):
             trigrams[pair].append(third)
         else:
             trigrams[pair] = [third]
-    print(trigrams)
+    create_text(trigrams)
 
-        #trigram[tuple(pair)] = third
-        #print(trigram)
-       
-        
-        #trigram[tuple(pair)] = [follower]
-                #print(clean_line)
-                #print(pair)
-                #print(follower)clear
+def create_text(trigrams):
+    starting_pair = random.choice(tuple(trigrams.keys()))
+    print(starting_pair, type(starting_pair))
+    new_text = ''.join(starting_pair)
+    print(new_text)
+    while starting_pair in trigrams:
+        word = random.choice(trigrams[starting_pair])
+        print(word)
+        new_text = new_text + ' ' + word
+        print(new_text)
+        starting_pair = starting_pair[1], word
+        print(starting_pair)
+
+
+
 
 def main(input):
     print(input)
     print(welcome_prompt)
     open_file(input)
     
-    
-
-def old_main(input):
-    trigram ={}
-    with open (input, 'r') as textfile:
-        while True:
-            line = textfile.readline()
-            if not line:
-                break
-            line = line.replace('\n', '').replace('--', ' ').replace(',','').replace('.', '').replace('(', '').replace(')', '')
-            clean_line = line.split(' ')
-            print(len(clean_line))
-            print(clean_line, '\n')
-            #for i in range(len(clean_line)-2):
-            for i in range(10):
-                pair = clean_line[i:i+2]
-                follower = clean_line[i+2]
-                trigram[tuple(pair)] = follower
-                #print(clean_line)
-                #print(pair)
-                #print(follower)clear
-            print(trigram)
-
-               
 
         
 
