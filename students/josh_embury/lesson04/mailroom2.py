@@ -6,6 +6,7 @@
 # ChangeLog (Who,When,What):
 # JEmbury,12/12/2020,Created started script
 # JEmbury, 12/15/2020, Updated script per notes from CRobinson
+# JEmbury, 12/20/2020, Updated script to add donor listing funcitonality
 # ------------------------------------------------------------------------ #
 
 # Data
@@ -45,7 +46,12 @@ def get_user_choice():
     return choice
 
 def send_thank_you():
-    donor = input('Please enter full name of donor >>> ')
+    while(True):
+        donor = input('Please enter full name of donor >>> ')
+        if donor.lower() == 'list':
+            print(dict_donor_table.keys())
+        else:
+            break
     new_donation = int(input('Please enter the donation amount >>> '))
     if donor in dict_donor_table.keys():
         dict_donor_table[donor].append(new_donation)
