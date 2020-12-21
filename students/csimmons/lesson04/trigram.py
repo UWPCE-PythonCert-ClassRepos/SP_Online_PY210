@@ -18,15 +18,15 @@ def open_file(input):
             line = textfile.readline()
             if not line:
                 break
-            print('line is type: ', (type(line)))
-            print(line)
+            #print('line is type: ', (type(line)))
+            #print(line)
             clean_line(line)
 
 def clean_line(line):
     line = line.replace('\n', '').replace('--', ' ').replace(',','').replace('.', '').replace('(', '').replace(')', '')
     clean_words = line.split(' ')
-    print('clean_words type: ', type(clean_words))
-    print(len(clean_words))
+    #print('clean_words type: ', type(clean_words))
+    #print(len(clean_words))
     #print('clean_words themselves: ', clean_words)
     process_text(clean_words)
 
@@ -42,16 +42,23 @@ def process_text(clean_words):
 
 def create_text(trigrams):
     starting_pair = random.choice(tuple(trigrams.keys()))
-    print(starting_pair, type(starting_pair))
+    print(starting_pair)
+    initial = (random.choice(starting_pair)).title()
+    
+    print('Initial word: ', initial)
+    
+
+
+    '''
     new_text = ''.join(starting_pair)
-    print(new_text)
-    while starting_pair in trigrams:
-        word = random.choice(trigrams[starting_pair])
-        print(word)
-        new_text = new_text + ' ' + word
-        print(new_text)
-        starting_pair = starting_pair[1], word
-        print(starting_pair)
+    #print(new_text)
+    #print(len(trigrams))
+ 
+    for i in range(len(trigrams)):
+        key = random.choice(tuple(trigrams.keys()))
+        print(key)
+    '''
+
 
 
 
