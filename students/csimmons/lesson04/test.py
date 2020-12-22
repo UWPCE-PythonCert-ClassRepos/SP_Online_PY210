@@ -17,7 +17,21 @@ def write_text(my_dict):
     return " ".join(list_of_words).capitalize()
 
 
+  #builds random trigram text
+    for i in range(100):
+        new_seq = tuple(trigram_list[-2:])
+        if len(trigram_list) >= 250:
+                break
 
+        elif new_seq in tri_dict:
+            next_word = random.choice(tri_dict.get(new_seq))
+            trigram_list.append(next_word)
+
+        else:
+            break
+
+    full_text = " ".join(trigram_list)
+    print(full_text)
 
 
 

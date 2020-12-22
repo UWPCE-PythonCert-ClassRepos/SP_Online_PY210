@@ -18,16 +18,11 @@ def open_file(input):
             line = textfile.readline()
             if not line:
                 break
-            #print('line is type: ', (type(line)))
-            #print(line)
             clean_line(line)
 
 def clean_line(line):
     line = line.replace('\n', '').replace('--', ' ').replace(',','').replace('.', '').replace('(', '').replace(')', '').replace(':', '')
     clean_words = line.split(' ')
-    #print('clean_words type: ', type(clean_words))
-    #print(len(clean_words))
-    #print('clean_words themselves: ', clean_words)
     process_text(clean_words)
 
 def process_text(clean_words):
@@ -38,24 +33,25 @@ def process_text(clean_words):
             trigrams[pair].append(third)
         else:
             trigrams[pair] = [third]
-    #create_text(trigrams)
     create_text(trigrams)
 
-def create_text(trigrams):
 
-    #starting_pair = random.choice(tuple(trigrams.keys()))
-    #print(starting_pair)
-    #initial = starting_pair[0].title() + ' ' + starting_pair[1]
+def create_text(trigrams):
     first, second = random.choice(tuple(trigrams.keys()))
     word_list = [first.title(), second]
-    print(word_list)
-    print(word_list.split())
-    text_len = random.randint(3,(len(trigrams.keys())-3))
-    print(text_len)
+    text_len = random.randint(5,(len(trigrams.keys())-3))
+    key_test = tuple(word_list[-2:])
+
+    while len(word_list) < text_len:    
+        if key_test in trigrams.keys():
+            word_list.append(random.choice(list(trigrams[(word_list[-2],word_list[-1])])))
+        else:
+            word_list.append(random.choice(list(trigrams.values())))
+
 
     
     
-    #return " ".join(list_of_words).capitalize()clear
+    #return " ".join(list_wof_words).capitalize()clear
     #for i in range(len(trigrams)):
         #key = random.choice(tuple(trigrams.keys()))
         #print(key)
