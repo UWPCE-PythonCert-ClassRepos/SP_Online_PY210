@@ -42,23 +42,20 @@ def process_text(clean_words):
     create_text(trigrams)
 
 def create_text(trigrams):
-    starting_pair = random.choice(tuple(trigrams.keys()))
-    print(starting_pair)
-    initial = starting_pair[0].title() + ' ' + starting_pair[1]
-    print(initial)
-   try new model ------
-    first, second = random.choice(list(my_dict.keys()))
-    list_of_words = [first, second] 
-    sen_len = random.randint(5,(len(my_dict.keys())-3))
-    while len(list_of_words) < sen_len:
-        new_start = tuple(list_of_words[-2:])
-        if new_start in my_dict.keys():
-            list_of_words.append(random.choice(list(my_dict[(list_of_words[-2], list_of_words[-1])])))
-        else:
-            list_of_words.append(random.choice(list(my_dict.values())))
 
-        
-    return " ".join(list_of_words).capitalize()
+    #starting_pair = random.choice(tuple(trigrams.keys()))
+    #print(starting_pair)
+    #initial = starting_pair[0].title() + ' ' + starting_pair[1]
+    first, second = random.choice(tuple(trigrams.keys()))
+    word_list = [first.title(), second]
+    print(word_list)
+    print(word_list.split())
+    text_len = random.randint(3,(len(trigrams.keys())-3))
+    print(text_len)
+
+    
+    
+    #return " ".join(list_of_words).capitalize()clear
     #for i in range(len(trigrams)):
         #key = random.choice(tuple(trigrams.keys()))
         #print(key)
