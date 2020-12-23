@@ -4,7 +4,8 @@ import sys
 full_name = ''
 table_header = ['Donor Name', 'Total Given', 'Num Gifts', 'Average Gift']
 donor_table = {}
-
+sorted_donors = {}
+dir = ()
 
 def menu():
     dict_menu = {'\n1.': 'Send a Thank You', '2.' : 'Create a Report', '3.' : 'Send Thank You - All Donors', '4.' : 'Quit'}
@@ -56,6 +57,7 @@ def thankyou_print():
         f = open(dir + filename, 'w')
         f.write(thankyou_notes(entry))
         f.close
+    return dir
     print(dir)
 
 def create_report():
