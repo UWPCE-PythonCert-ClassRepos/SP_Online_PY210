@@ -39,3 +39,16 @@ class Html(Element):
 
 class Head(Element):
     tag = 'head'
+
+class OneLineTag(Element):
+
+    def render(self, out_file):
+        out_file.write("<{}>".format(self.tag))
+        out_file.write(self.contents[0])
+        out_file.write("</{}>\n".format(self.tag))
+
+    def append(self, content):
+        raise NotImplementedError
+
+class Title(OneLineTag):
+    tag = 'title'
