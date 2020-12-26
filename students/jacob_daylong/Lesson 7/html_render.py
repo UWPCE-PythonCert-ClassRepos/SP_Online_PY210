@@ -21,6 +21,21 @@ class Element(object):
     def render(self, out_file):
         out_file.write("<{}>\n".format(self.tag))
         for content in self.contents:
-            out_file.write(content)
+            try:
+                content.render(out_file)
+            except AttributeError:
+                out_file.write(content)
             out_file.write("\n")
         out_file.write("</{}>\n".format(self.tag))
+
+class Body(Element):
+    tag = 'body'
+
+class P(Element):
+    tag = 'p'
+
+class Html(Element):
+    tag = 'html'
+
+class Head(Element):
+    tag = 'head'
