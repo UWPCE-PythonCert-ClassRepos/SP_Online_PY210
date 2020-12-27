@@ -7,8 +7,8 @@
 import sys
 import os
 import random
-#input = 'small.txt'
-input = 'sherlock_small.txt'
+input = 'small.txt'
+
 welcome_prompt = "\nWelcome to the automatic book generator!\n"
 trigrams = {}
 
@@ -24,6 +24,7 @@ def clean_line(line):
     line = line.replace('\n', '').replace('--', ' ').replace(',','').replace('.', '').replace('(', '').replace(')', '').replace(':', '')
     clean_words = line.split(' ')
     process_text(clean_words)
+    
 
 def process_text(clean_words):
     for i in range(len(clean_words)-2):
@@ -33,21 +34,44 @@ def process_text(clean_words):
             trigrams[pair].append(third)
         else:
             trigrams[pair] = [third]
-    create_text(trigrams)
+    print(trigrams)
+    build_text(trigrams)
 
 
-def create_text(trigrams):
-    first, second = random.choice(tuple(trigrams.keys()))
-    word_list = [first.title(), second]
-    text_len = random.randint(5,(len(trigrams.keys())-3))
+def build_text(trigrams):
+    masterpiece_size = 500
+    #first, second = random.choice(tuple(trigrams.keys()))
+    # starting_key = [first.title(), second]
+    starting_key = random.choice(tuple(trigrams.keys()))
+    masterpiece = ' '.join(starting_key)
+    print(starting_key, type(starting_key))
+    print(masterpiece, type(masterpiece))
+    #while len(masterpiece) <= len(trigrams.items()):
+    while len(masterpiece) <= masterpiece_size:
+        print(len(masterpiece), len(trigrams.items()), len(trigrams.keys()))
+        next = random.choice(trigrams[starting_key])
+        print(next)
+        masterpiece = masterpiece + ' ' + next
+        print(masterpiece)
+        starting_key = starting_key[1], next
+        print(starting_key)
+    
+    # trigram_len = len(trigrams.items())
+    # print(trigram_len)
+    
+   
+
+ 
+    '''
+     text_len = random.randint(5,(len(trigrams.keys())-3))
     key_test = tuple(word_list[-2:])
-
+    print(word_list, len(word_list), text_len, key_test)
     while len(word_list) < text_len:    
         if key_test in trigrams.keys():
             word_list.append(random.choice(list(trigrams[(word_list[-2],word_list[-1])])))
         else:
             word_list.append(random.choice(list(trigrams.values())))
-
+    '''
 
     
     
