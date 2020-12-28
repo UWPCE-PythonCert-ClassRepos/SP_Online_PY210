@@ -21,7 +21,6 @@ def read_file(input):
                 break
             all_lines = all_lines + line
     textfile.close()
-    #print('In read_file(): ', all_lines)
     cleaner(all_lines)
 
 # cleaner working solid
@@ -29,7 +28,6 @@ def cleaner(all_lines):
     clean_lines = all_lines.replace('\n', ' ').replace('--', ' ').replace(',','').replace('.', '').replace('(', '').replace(')', '').replace(':', '')
     clean_lines = clean_lines.split(' ')
     clean_words = list(filter(None, clean_lines)) 
-    #print('In cleaner(): ', clean_lines)
     create_trigrams(clean_words)
     
 def create_trigrams(clean_words):
@@ -41,7 +39,6 @@ def create_trigrams(clean_words):
             trigrams[pair].append(third)
         else:
             trigrams[pair] = [third]
-    #print('In create_trigrams(): ', trigrams)
     build_text(trigrams)
 
 def build_text(trigrams):
@@ -53,8 +50,6 @@ def build_text(trigrams):
         w_one, w_two = key
         w_three = random.choice(value)
         word_list.extend([w_one, w_two, w_three])
-        print(w_one, w_two, w_three)
-    print(word_list)
     process_text(word_list)
     
 def process_text(word_list):
@@ -67,4 +62,10 @@ def main(input):
     
 
 if __name__ == '__main__':
-    main(input)
+    try:
+        input = 'sherlock_small.txt'
+        print(welcome_prompt)
+        main(input)
+    except IndexError:
+        print('Error, program exiting')
+        sys.exit()
