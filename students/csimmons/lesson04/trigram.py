@@ -8,9 +8,10 @@ import sys
 import os
 import random
 input = 'sherlock_small.txt'
+w_one = w_two = w_three = ''
 
 welcome_prompt = "\nWelcome to the automatic book generator!\n"
-trigrams = {}
+
 
 def open_file(input):
     with open (input, 'r') as textfile:
@@ -27,6 +28,7 @@ def clean_line(line):
     
 
 def process_text(clean_words):
+    trigrams = {}
     for i in range(len(clean_words)-2):
         pair = tuple(clean_words[i:i+2])
         third = clean_words[i+2]
@@ -34,34 +36,29 @@ def process_text(clean_words):
             trigrams[pair].append(third)
         else:
             trigrams[pair] = [third]
-    print(trigrams)
     build_text(trigrams)
-
-
-
-    # print(trigram_len)
-def build_text(trigrams):
-    masterpiece_size = 500
-    first, second = random.choice(tuple(trigrams.keys()))
-    word_pair = (first.title(), second)
-    masterpiece = list(word_pair)
-    print('Starting key: ', word_pair)
-
-
-    while len(masterpiece) <= masterpiece_size:
-        if word_pair in trigrams:
-            print('word_pair in trigrams:')
-            print(word_pair)
-            print(len(masterpiece), masterpiece_size)
-            masterpiece.append(random.choice(trigrams[word_pair]))
-            print(masterpiece)
-            word_pair = tuple(masterpiece[-2:])
-            print('new word pair: ', word_pair)
-        else:
-            print('word_pair NOT in trigrams:')
-            word_pair = random.choice(list(trigrams.keys()))
-            print(word_pair)
     
+
+def pick_random(trigrams):
+    key, value = random.choice(list(trigrams.items()))
+    w_one, w_two = key
+    w_three = random.choice(value)
+    return(w_one, w_two, w_three) 
+
+    
+
+def build_text(trigrams):
+    num_trigrams = len(trigrams.keys())
+    print(num_trigrams)
+    fair_copy = []
+    for x in range(num_trigrams):
+        print(x)
+        pick_random(trigrams)
+        fair_copy = w_one + ' ' + w_two + ' ' + w_three + ' '
+        print(fair_copy)
+
+
+
 
 
 def main(input):
@@ -69,8 +66,6 @@ def main(input):
     print(welcome_prompt)
     open_file(input)
     
-
-        
 
 if __name__ == '__main__':
     main(input)
