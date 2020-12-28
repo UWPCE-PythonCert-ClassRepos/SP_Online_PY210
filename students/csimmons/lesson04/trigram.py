@@ -3,15 +3,14 @@
 # Python 210
 # trigram.py 
 # Created 12/17/2020 - csimmons
+# Edited: 12/27/2020 - csimmons
 
 import sys
 import os
 import random
 input = 'sherlock_small.txt'
+welcome_prompt = "\nWelcome to the automatic book generator!"
 
-welcome_prompt = "\nWelcome to the automatic book generator!\n"
-
-# read file working solid
 def read_file(input):
     all_lines = ''
     with open(input, 'r') as textfile:
@@ -23,10 +22,10 @@ def read_file(input):
     textfile.close()
     cleaner(all_lines)
 
-# cleaner working solid
 def cleaner(all_lines):
     clean_lines = all_lines.replace('\n', ' ').replace('--', ' ').replace(',','').replace('.', '').replace('(', '').replace(')', '').replace(':', '')
     clean_lines = clean_lines.split(' ')
+    # removes any null entries in clean_lines
     clean_words = list(filter(None, clean_lines)) 
     create_trigrams(clean_words)
     
@@ -42,7 +41,9 @@ def create_trigrams(clean_words):
     build_text(trigrams)
 
 def build_text(trigrams):
-    multiplier = 1
+    # multiplier used to determine size of text generated for
+    # variable output sizes
+    multiplier = 5
     num_trigrams = len(trigrams.keys())
     word_list = []
     for i in range(num_trigrams * multiplier):
@@ -50,11 +51,16 @@ def build_text(trigrams):
         w_one, w_two = key
         w_three = random.choice(value)
         word_list.extend([w_one, w_two, w_three])
-    process_text(word_list)
+    process_text(word_list, trigrams)
     
-def process_text(word_list):
-    output_text = ' '.join([str(word) for word in word_list]) 
-    print(output_text)
+def process_text(word_list, trigrams):
+    # Can add other types of trigram post processing here, including 
+    # re-adding punctuation, capitalization, etc. This function is
+    # easily extendable
+    output_text = ' '.join([str(word) for word in word_list])
+    # prints both trigram dict and randomly generated text.
+    print('\nHere is the trigram dictionary:\n\n', trigrams)
+    print('\nHere is your randomly generated text:\n\n', output_text)
 
 
 def main(input):
