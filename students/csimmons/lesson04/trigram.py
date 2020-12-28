@@ -8,18 +8,20 @@ import sys
 import os
 import random
 input = 'sherlock_small.txt'
-w_one = w_two = w_three = ''
 
 welcome_prompt = "\nWelcome to the automatic book generator!\n"
 
-
-def open_file(input):
-    with open (input, 'r') as textfile:
+# read file working solid
+def read_file(input):
+    all_lines = ''
+    with open(input, 'r') as textfile:
         while True:
             line = textfile.readline()
             if not line:
                 break
-            clean_line(line)
+            all_lines = all_lines + line
+        print(all_lines)
+            #clean_line(line)
 
 def clean_line(line):
     line = line.replace('\n', '').replace('--', ' ').replace(',','').replace('.', '').replace('(', '').replace(')', '').replace(':', '')
