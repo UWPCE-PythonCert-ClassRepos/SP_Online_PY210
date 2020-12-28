@@ -4,12 +4,11 @@ test code for html_render.py
 This is just a start -- you will need more tests!
 """
 
-import io
-import pytest
-
 # import * is often bad form, but makes it easier to test everything in a module.
 from html_render import *
 import pytest
+import io
+
 
 # utility function for testing render methods
 # needs to be used in multiple tests, so we write it once here.
@@ -124,7 +123,7 @@ def test_html():
 
     assert("this is some text") in file_contents
     assert("and this is some more text") in file_contents
-    print(file_contents)
+    assert file_contents.startswith("<!DOCTYPE html>")
     assert file_contents.endswith("</html>")
 
 
@@ -166,6 +165,31 @@ def test_p():
     assert file_contents.startswith("<p>")
     assert file_contents.endswith("</p>")
 
+
+def test_ul():
+    e = Ul("this is some text")
+    e.append("and this is some more text")
+
+    file_contents = render_result(e).strip()
+
+    assert("this is some text") in file_contents
+    assert("and this is some more text") in file_contents
+    print(file_contents)
+    assert file_contents.startswith("<ul>")
+    assert file_contents.endswith("</ul>")
+
+
+def test_li():
+    e = Li("this is some text")
+    e.append("and this is some more text")
+
+    file_contents = render_result(e).strip()
+
+    assert("this is some text") in file_contents
+    assert("and this is some more text") in file_contents
+    print(file_contents)
+    assert file_contents.startswith("<li>")
+    assert file_contents.endswith("</li>")
 
 
 def test_sub_element():
@@ -219,6 +243,31 @@ def test_title():
     print(file_contents)
     assert file_contents.startswith("<title>")
     assert file_contents.endswith("</title>")
+    assert "\n" not in file_contents
+
+
+def test_h():
+    e = H(2, "this is some text")
+
+    file_contents = render_result(e).strip()
+
+    assert("this is some text") in file_contents
+    print(file_contents)
+    assert file_contents.startswith("<h2>")
+    assert file_contents.endswith("</h2>")
+    assert "\n" not in file_contents
+
+
+def test_a():
+    e = A("http://google.com", "link to google")
+
+    file_contents = render_result(e).strip()
+
+    assert("href=\"http://google.com") in file_contents
+    assert("link to google") in file_contents
+    print(file_contents)
+    assert file_contents.startswith("<a")
+    assert file_contents.endswith("</a>")
     assert "\n" not in file_contents
 
 
