@@ -20,15 +20,19 @@ def read_file(input):
             if not line:
                 break
             all_lines = all_lines + line
-        print(all_lines)
-            #clean_line(line)
+    textfile.close()
+    print('In read_file(): ', all_lines)
+    cleaner(all_lines)
 
-def clean_line(line):
-    line = line.replace('\n', '').replace('--', ' ').replace(',','').replace('.', '').replace('(', '').replace(')', '').replace(':', '')
-    clean_words = line.split(' ')
-    process_text(clean_words)
+# cleaner working solid
+def cleaner(all_lines):
+    clean_lines = all_lines.replace('\n', ' ').replace('--', ' ').replace(',','').replace('.', '').replace('(', '').replace(')', '').replace(':', '')
+    clean_lines = clean_lines.split(' ')
+    clean_lines = list(filter(None, clean_lines)) 
+    print('In cleaner(): ', clean_lines)
+    #process_text(clean_words)
     
-
+'''
 def process_text(clean_words):
     trigrams = {}
     for i in range(len(clean_words)-2):
@@ -38,7 +42,8 @@ def process_text(clean_words):
             trigrams[pair].append(third)
         else:
             trigrams[pair] = [third]
-    build_text(trigrams)
+    #build_text(trigrams)
+    print(trigrams)
     
 
 def pick_random(trigrams):
@@ -56,17 +61,15 @@ def build_text(trigrams):
     for x in range(num_trigrams):
         print(x)
         pick_random(trigrams)
-        fair_copy = w_one + ' ' + w_two + ' ' + w_three + ' '
+        #fair_copy = w_one + ' ' + w_two + ' ' + w_three + ' '
         print(fair_copy)
 
-
+'''
 
 
 
 def main(input):
-    print(input)
-    print(welcome_prompt)
-    open_file(input)
+    read_file(input)
     
 
 if __name__ == '__main__':
