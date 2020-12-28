@@ -21,19 +21,18 @@ def read_file(input):
                 break
             all_lines = all_lines + line
     textfile.close()
-    print('In read_file(): ', all_lines)
+    #print('In read_file(): ', all_lines)
     cleaner(all_lines)
 
 # cleaner working solid
 def cleaner(all_lines):
     clean_lines = all_lines.replace('\n', ' ').replace('--', ' ').replace(',','').replace('.', '').replace('(', '').replace(')', '').replace(':', '')
     clean_lines = clean_lines.split(' ')
-    clean_lines = list(filter(None, clean_lines)) 
-    print('In cleaner(): ', clean_lines)
-    #process_text(clean_words)
+    clean_words = list(filter(None, clean_lines)) 
+    #print('In cleaner(): ', clean_lines)
+    create_trigrams(clean_words)
     
-'''
-def process_text(clean_words):
+def create_trigrams(clean_words):
     trigrams = {}
     for i in range(len(clean_words)-2):
         pair = tuple(clean_words[i:i+2])
@@ -42,9 +41,14 @@ def process_text(clean_words):
             trigrams[pair].append(third)
         else:
             trigrams[pair] = [third]
-    #build_text(trigrams)
-    print(trigrams)
-    
+    #print('In create_trigrams(): ', trigrams)
+    build_text(trigrams)
+ 
+def build_text
+
+
+'''
+
 
 def pick_random(trigrams):
     key, value = random.choice(list(trigrams.items()))
