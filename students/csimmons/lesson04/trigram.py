@@ -43,33 +43,23 @@ def create_trigrams(clean_words):
             trigrams[pair] = [third]
     #print('In create_trigrams(): ', trigrams)
     build_text(trigrams)
- 
-def build_text
-
-
-'''
-
-
-def pick_random(trigrams):
-    key, value = random.choice(list(trigrams.items()))
-    w_one, w_two = key
-    w_three = random.choice(value)
-    return(w_one, w_two, w_three) 
-
-    
 
 def build_text(trigrams):
+    multiplier = 1
     num_trigrams = len(trigrams.keys())
-    print(num_trigrams)
-    fair_copy = []
-    for x in range(num_trigrams):
-        print(x)
-        pick_random(trigrams)
-        #fair_copy = w_one + ' ' + w_two + ' ' + w_three + ' '
-        print(fair_copy)
-
-'''
-
+    word_list = []
+    for i in range(num_trigrams * multiplier):
+        key, value = random.choice(list(trigrams.items()))
+        w_one, w_two = key
+        w_three = random.choice(value)
+        word_list.extend([w_one, w_two, w_three])
+        print(w_one, w_two, w_three)
+    print(word_list)
+    process_text(word_list)
+    
+def process_text(word_list):
+    output_text = ' '.join([str(word) for word in word_list]) 
+    print(output_text)
 
 
 def main(input):
