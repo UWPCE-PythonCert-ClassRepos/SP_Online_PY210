@@ -5,7 +5,6 @@ A class-based system for rendering html.
 """
 
 
-
 # This is the framework for the base class
 class Element(object):
 
@@ -23,15 +22,15 @@ class Element(object):
         self.contents.append(new_content)
 
     def render(self, out_file, cur_ind=""):
-        # loop through the list of contents:
-        out_file.write(self._open_tag())
+        self.indent = cur_ind
+        out_file.write(self.indent + self._open_tag())
         for content in self.contents:
             try:
-                content.render(out_file)
+                content.render(out_file, self.indent + "  ")
             except AttributeError:
-                out_file.write(content)
+                out_file.write(self.indent + "  " + content)
                 out_file.write("\n")
-        out_file.write(self._close_tag())
+        out_file.write(self.indent + self._close_tag())
 
     def _open_tag(self):
         if self.attributes:
@@ -49,6 +48,15 @@ class Element(object):
         return _close_tag
 
 
+class Html(Element):
+    tag = "html"
+
+    def render(self, out_file, cur_ind=""):
+        out_file.write("<!DOCTYPE html>")
+        out_file.write("\n")
+        Element.render(self, out_file, cur_ind)
+
+
 class Head(Element):
     tag = "head"
 
@@ -61,16 +69,12 @@ class P(Element):
     tag = "p"
 
 
-class Html(Element):
-    tag = "html"
-
-    def render(self, out_file, cur_ind=""):
-        out_file.write("<!DOCTYPE html>")
-        Element.render(self, out_file)
+class Ul(Element):
+    tag = "ul"
 
 
-class H(Element):
-    tag = "h"
+class Li(Element):
+    tag = "li"
 
 
 class OneLineTag(Element):
@@ -79,13 +83,29 @@ class OneLineTag(Element):
         raise NotImplementedError
 
     def render(self, out_file, cur_ind=""):
-        out_file.write((self._open_tag().strip("\n")))
-        out_file.write(self.contents[0])
+        self.indent = cur_ind + "  "
+        out_file.write(self.indent + self._open_tag().strip())
+        out_file.write(self.contents[0].strip())
         out_file.write(self._close_tag())
 
 
 class Title(OneLineTag):
     tag = "title"
+
+
+class H(OneLineTag):
+
+    def __init__(self, level, content=None, **kwargs):
+        self.tag = "h{}".format(level)
+        super().__init__(content, **kwargs)
+
+
+class A(OneLineTag):
+    tag = 'a'
+
+    def __init__(self, link, content=None, **kwargs):
+        kwargs['href'] = link
+        super().__init__(content, **kwargs)
 
 
 class SelfClosingTag(Element):
@@ -95,12 +115,13 @@ class SelfClosingTag(Element):
             raise TypeError("SelfClosingTag can not contain any content")
         super().__init__(content=content, **kwargs)
 
-    def render(self, outfile, cur_ind=""):
-        tag = self._open_tag()[:-2] + " />\n"
-        outfile.write(tag)
-
     def append(self, *args):
         raise TypeError("You can not add content to a SelfClosingTag")
+
+    def render(self, outfile, cur_ind=""):
+        self.indent = cur_ind + "  "
+        tag = self._open_tag()[:-2] + " />\n"
+        outfile.write(self.indent + tag)
 
 
 class Meta(SelfClosingTag):
@@ -113,31 +134,3 @@ class Hr(SelfClosingTag):
 
 class Br(SelfClosingTag):
     tag = "br"
-
-
-class A(OneLineTag):
-
-    tag = 'a'
-
-    def __init__(self, link, content=None, **kwargs):
-        kwargs['href'] = link
-        super().__init__(content, **kwargs)
-
-
-
-
-
-class UL(Element):
-    tag = "ul"
-
-
-class LI(Element):
-    tag = "li"
-
-
-class Header(OneLineTag):
-
-    def __init__(self, level, content=None, **kwargs):
-        self.tag = "h{}".format(level)
-        super().__init__(content, **kwargs)
-
