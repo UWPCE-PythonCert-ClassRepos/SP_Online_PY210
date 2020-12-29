@@ -33,6 +33,7 @@ def render_result(element, ind=""):
 # Step 1
 ########
 
+
 def test_init():
     """
     This only tests that it can be initialized with and without
@@ -80,33 +81,34 @@ def test_render_element():
     assert file_contents.count("<html>") == 1
     assert file_contents.count("</html>") == 1
 
+
 # Uncomment this one after you get the one above to pass
 # Does it pass right away?
+
 def test_render_element2():
-     """
-     Tests whether the Element can render two pieces of text
-     So it is also testing that the append method works correctly.
+    """
+    Tests whether the Element can render two pieces of text
+    So it is also testing that the append method works correctly.
 
-     It is not testing whether indentation or line feeds are correct.
-     """
-     e = Element()
-     e.append("this is some text")
-     e.append("and this is some more text")
+    It is not testing whether indentation or line feeds are correct.
+    """
+    e = Element()
+    e.append("this is some text")
+    e.append("and this is some more text")
 
-     # This uses the render_results utility above
-     file_contents = render_result(e).strip()
+    # This uses the render_results utility above
+    file_contents = render_result(e).strip()
 
-     # making sure the content got in there.
-     assert("this is some text") in file_contents
-     assert("and this is some more text") in file_contents
+    # making sure the content got in there.
+    assert("this is some text") in file_contents
+    assert("and this is some more text") in file_contents
 
+    # make sure it's in the right order
+    assert file_contents.index("this is") < file_contents.index("and this")
 
-     # make sure it's in the right order
-     assert file_contents.index("this is") < file_contents.index("and this")
-
-     # making sure the opening and closing tags are right.
-     assert file_contents.startswith("<html>")
-     assert file_contents.endswith("</html>")
+    # making sure the opening and closing tags are right.
+    assert file_contents.startswith("<html>")
+    assert file_contents.endswith("</html>")
 
 
 
@@ -116,6 +118,9 @@ def test_render_element2():
 
 # tests for the new tags
 def test_html():
+    """
+    Tests HTML tags and doctype are rendered correctly
+    """
     e = Html("this is some text")
     e.append("and this is some more text")
 
@@ -128,6 +133,9 @@ def test_html():
 
 
 def test_head():
+    """
+    Tests head tags are rendered correctly
+    """
     e = Head("this is some text")
     e.append("and this is some more text")
 
@@ -141,6 +149,9 @@ def test_head():
 
 
 def test_body():
+    """
+    Tests body tags are rendered correctly
+    """
     e = Body("this is some text")
     e.append("and this is some more text")
 
@@ -154,6 +165,9 @@ def test_body():
 
 
 def test_p():
+    """
+    Tests p tags are rendered correctly
+    """
     e = P("this is some text")
     e.append("and this is some more text")
 
@@ -167,6 +181,9 @@ def test_p():
 
 
 def test_ul():
+    """
+    Tests ul tags are rendered correctly
+    """
     e = Ul("this is some text")
     e.append("and this is some more text")
 
@@ -174,12 +191,14 @@ def test_ul():
 
     assert("this is some text") in file_contents
     assert("and this is some more text") in file_contents
-    print(file_contents)
     assert file_contents.startswith("<ul>")
     assert file_contents.endswith("</ul>")
-
+    print(file_contents)
 
 def test_li():
+    """
+    Tests ul tags are rendered correctly
+    """
     e = Li("this is some text")
     e.append("and this is some more text")
 
@@ -187,10 +206,9 @@ def test_li():
 
     assert("this is some text") in file_contents
     assert("and this is some more text") in file_contents
-    print(file_contents)
     assert file_contents.startswith("<li>")
     assert file_contents.endswith("</li>")
-
+    print(file_contents)
 
 def test_sub_element():
     """
@@ -221,42 +239,35 @@ def test_sub_element():
 ########
 
 # Add your tests here!
-def test_head():
-    e = Head("this is some text")
-    e.append("and this is some more text")
-
-    file_contents = render_result(e).strip()
-
-    assert("this is some text") in file_contents
-    assert("and this is some more text") in file_contents
-    print(file_contents)
-    assert file_contents.startswith("<head>")
-    assert file_contents.endswith("</head>")
-
 
 def test_title():
+    """
+    Tests that title tags are rendered correctly
+    """
     e = Title("this is some text")
 
     file_contents = render_result(e).strip()
 
     assert("this is some text") in file_contents
-    print(file_contents)
     assert file_contents.startswith("<title>")
     assert file_contents.endswith("</title>")
     assert "\n" not in file_contents
-
+    print(file_contents)
 
 def test_h():
+    """
+    Tests that head tags are rendered correctly
+    """
     e = H(2, "this is some text")
 
     file_contents = render_result(e).strip()
 
     assert("this is some text") in file_contents
-    print(file_contents)
+
     assert file_contents.startswith("<h2>")
     assert file_contents.endswith("</h2>")
     assert "\n" not in file_contents
-
+    print(file_contents)
 
 def test_a():
     e = A("http://google.com", "link to google")
@@ -265,11 +276,11 @@ def test_a():
 
     assert("href=\"http://google.com") in file_contents
     assert("link to google") in file_contents
-    print(file_contents)
+
     assert file_contents.startswith("<a")
     assert file_contents.endswith("</a>")
     assert "\n" not in file_contents
-
+    print(file_contents)
 
 def test_one_line_tag_append():
     """
@@ -329,6 +340,7 @@ def test_hr_attr():
 
 
 def test_br():
+    """tests br tag with no content"""
     br = Br()
     file_contents = render_result(br).strip(" ")
     print(file_contents)
@@ -336,26 +348,27 @@ def test_br():
 
 
 def test_content_in_br():
+    """tests br tag with content"""
     with pytest.raises(TypeError):
         br = Br("some content")
 
 
 def test_append_content_in_br():
+    """tests br tag with append method"""
     with pytest.raises(TypeError):
         br = Br()
         br.append("some content")
 
 
 def test_anchor():
-        a = A("http://google.com", "link to google")
-        file_contents = render_result(a).strip()
-        print(file_contents)
+    """tests anchor tag with link"""
+    a = A("http://google.com", "link to google")
+    file_contents = render_result(a).strip()
 
-        assert file_contents.startswith('<a ')
-        assert "href=\"http://google.com\">link to google" in file_contents
-        assert file_contents.endswith("</a>")
-
-
+    assert file_contents.startswith('<a ')
+    assert "href=\"http://google.com\">link to google" in file_contents
+    assert file_contents.endswith("</a>")
+    print(file_contents)
 
 #####################
 # indentation testing
@@ -404,7 +417,6 @@ def test_multiple_indent():
     lines = file_contents.split("\n")
     for i in range(3):  # this needed to be adapted to the <DOCTYPE> tag
         assert lines[i + 1].startswith(i * Element.indent + "<")
-
     assert lines[4].startswith(3 * Element.indent + "some")
 
 
