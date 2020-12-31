@@ -6,7 +6,6 @@
 # Edited: 12/27/2020 - csimmons
 
 import sys
-import os
 import random
 input = 'sherlock_small.txt'
 welcome_prompt = "\nWelcome to the automatic book generator!"
