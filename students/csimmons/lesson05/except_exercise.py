@@ -34,15 +34,11 @@ else:
 # What did that do? You can think of else in this context, as well as in
 # loops as meaning: "else if nothing went wrong"
 # (no breaks in  loops, no exceptions in try blocks)
-
 # Figure out what the exception is, catch it and in that same block
-#
 # try calling the more_fun function with the 2nd language in the list,
 # again assigning it to more_joke.
-#
 # If there are no exceptions, call the more_fun function with the last
 # language in the list
-
 # Finally, while still in the try/except block and regardless of whether
 # there were any exceptions, call the function last_fun with no
 # parameters. (pun intended)
