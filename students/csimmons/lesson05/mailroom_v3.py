@@ -4,7 +4,8 @@
 # mailroom.py# Created 11/23/2020 - csimmons
 # Edited 12/3/2020 - v1.1 - csimmons
 # Edited 12/10/2020 - v1.2 - csimmons
-#edited 12/11 - 12/13 2020 - v2.0 -csimmons
+# edited 12/11 - 12/13 2020 - v2.0 -csimmons
+# edited 12/30/2020 - v3.0 -csimmons
 
 import sys
 import os 
@@ -49,6 +50,7 @@ def print_donors(donors):
         print(donor)
     print('\n')
 
+# Possible candidate for list comp
 def exist_donor(response, donors):
     gift = int(input(gift_prompt))
     response = response.title()
@@ -57,6 +59,7 @@ def exist_donor(response, donors):
             donorlist_dict.setdefault(donor, []).append(gift)
     print(letter.format(response, gift))
 
+# Consider combining with existdonor()
 def new_donor(response):    
     response = response.title()
     print(('\n{} is a new donor!').format(response))
@@ -85,7 +88,7 @@ def send_thankyou():
         exist_donor(response, donors)
     else:
         new_donor(response)
-
+# handle this possible exception
 def generate_letters():
     isdir = os.path.isdir('letters')  
     if isdir == True:
@@ -116,7 +119,7 @@ def display_report():
 def program_exit():
     print('\nThank You. Exiting the Mailroom Application\n')
     sys.exit()
-
+# exception handling logic around prompt
 menu_prompt = '\n'.join(('Please choose from the options below:\n',
           '1 - Send a Thank You letter',
           '2 - Create a report',
