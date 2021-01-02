@@ -7,22 +7,19 @@ Created on Sat Nov 28 15:49:33 2020
 #slicing lab
 
 def seq_first_last_ex(sequence):
-    sequence=sequence[-1:] + sequence[1:-1] + sequence[:1]
-    return sequence
+
+    return sequence[-1:] + sequence[1:-1] + sequence[:1]
 def seq_remove_odd_letters(sequence):
-    sequence1=list()
-    for i in range(len(sequence)):
-        if i%2==0:
-            sequence1.append(sequence[i])
-    return sequence1
+    #Slicing Only
+    return sequence[::2]
+
 def seq_firstfour_lastfour(sequence):
     sequence=sequence[4:-4]
     return seq_remove_odd_letters(sequence)
 def seq_elements_reversed(sequence):
-    sequence1=list()
-    for i in range(len(sequence)):
-        sequence1.append(sequence[-(i+1)])
-    return sequence1
+    #Slicing only
+    return sequence[::-1]
+
 def seq_last_first_middle(sequence):
     sequence1=list()
     third=int(round(len(sequence)/3))
