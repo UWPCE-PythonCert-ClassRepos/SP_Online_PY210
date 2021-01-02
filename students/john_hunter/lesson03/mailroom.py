@@ -13,7 +13,6 @@ donors = [['Frank Merriweather', 10, 15, 100], ['Thomas Tran', 5, 17, 23], \
 
 def user_selection():
     """Basic UI to prompt user and handle selections
-
     Returns: 'entry' a string with value 1, 2, or 3 selected by the user
     """
     options = ('Send a Thank You', 'Create a Report', 'quit')
@@ -22,6 +21,7 @@ def user_selection():
     for item in options:##Prints the options for the user to select
         index = options.index(item)
         print(str(index+1)+ '. ' + item)
+
     entry = input('enter option by number:')
     if entry == 'exit':
         quit_it()
@@ -44,7 +44,6 @@ def send_ty():
     names = list()
     #Format a list of the Donor names
     max_len_of_name = 0
-
     for i in range(1, len(donors)):
         if len(donors[i][0]) > max_len_of_name:
             max_len_of_name = len(donors[i][0])
@@ -88,7 +87,6 @@ def send_ty():
                     totals = totals + int(donors[z][c+1])
                 break
 
-
     email_text_1 = "Dear " + input_name
     email_text_2 = "Thank you for your generous donation(s) of $" + str(totals) + '.'
     email_text_3 = "Sincerely," + '\n' + 'John Hunter'
@@ -131,11 +129,14 @@ def add_donations(name):
     while True:
         donation = \
         int(input('Enter a donation amount, enter \'0\' to stop adding donation values: '))
+
         if donation == 0:
             break
         else:
             int(donation)
+
             donations.insert(-1, donation)
+
     for i in range(len(donors)):
         if name == donors[i][0]:
             donors[i] = donors[i] + donations
@@ -177,7 +178,6 @@ def quit_it():
     sys.exit(0)
 
 def main():
-
     while True:
         entry = user_selection()
         if entry == '1':
