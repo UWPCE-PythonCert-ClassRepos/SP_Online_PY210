@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 # ------------------------------------------------------------------------ #
-# Title: Mailroom 2
-# Description: Updating mailroom script using dicts and IO files
+# Title: Mailroom 3
+# Description: Updating mailroom script using exceptions and comprehensions
 
 # ChangeLog (Who,When,What):
-# JEmbury,12/12/2020,Created started script
-# JEmbury, 12/15/2020, Updated script per notes from CRobinson
-# JEmbury, 12/20/2020, Updated script to add donor listing funcitonality
+# JEmbury,12/19/2020,Created started script
+# JEmbury, 12/20/2020, Updated script; added comprehension; added exception;
+# added donor listing funcionality
 # ------------------------------------------------------------------------ #
 
 # Data
@@ -22,8 +22,6 @@ dict_donor_table = {
 # IO methods
 #-----------------------------------------------#
 def show_menu():
-    # shows user list of options
-    # return is void
     """  Display a menu of choices to the user
     :return: nothing
     """
@@ -36,23 +34,44 @@ def show_menu():
     ''')
     print()  # Add an extra line for looks
 def get_user_choice():
-    # asks user for choice
-    # returns integer value of user's choice
     """ Gets the menu choice from a user
     :return: string
     """
-    choice = str(input("Which option would you like to perform? [1 to 4] - ")).strip()
+    while(True):
+        try:
+            choice = int(input("Which option would you like to perform? [1 to 4] - "))
+            if choice > 0 and choice < 5:
+                break
+            else:
+                print('Please enter value, 1 to 4!!!\n')
+        except ValueError:
+            print('Please enter an integer value, 1 to 4!!!\n')
     print()  # Add an extra line for looks
     return choice
 
 def send_thank_you():
+    """
+    Get donor/amount info from user. Update dict values. Print message to user.
+    """
     while(True):
         donor = input('Please enter full name of donor >>> ')
-        if donor.lower() == 'list':
+        if donor.lower() == 'q':
+            return
+        elif donor.lower() == 'list':
             print(dict_donor_table.keys())
+            print()
         else:
             break
-    new_donation = int(input('Please enter the donation amount >>> '))
+    while(True):
+        try:
+            new_donation = str(input('Please enter the donation amount >>> '))
+            if new_donation == 'q':
+                return
+            else:
+                new_donation = int(new_donation)
+            break
+        except ValueError:
+            print('Please enter an integer value!!!\n')
     if donor in dict_donor_table.keys():
         dict_donor_table[donor].append(new_donation)
     else:
@@ -60,6 +79,9 @@ def send_thank_you():
     print(thank_you_letter(donor, new_donation))
 
 def write_to_file(input_dict):
+    """
+    Write text to a .txt file
+    """
     for key in input_dict.keys():
         #print(thank_you_letter(key,get_donor_data(input_dict[key])[0]))
         with open(key + '.txt', 'w') as new_file:
@@ -86,10 +108,11 @@ def thank_you_letter(donor, amount):
     return str_thankyou
 
 def sums_donor_table(dict_input):
-    copy_donor_table = dict_input.copy()
-    donor_table_sums = {}
-    for item in copy_donor_table:
-        donor_table_sums[item] = sum(copy_donor_table[item])
+    """
+    Return a dict with format {dict_input key: sum[dict_input value]}
+    """
+    # Use dict comprehension
+    donor_table_sums = {name: sum(donations) for (name,donations) in dict_input.items()}
     return donor_table_sums
 
 def format_row(info_list):

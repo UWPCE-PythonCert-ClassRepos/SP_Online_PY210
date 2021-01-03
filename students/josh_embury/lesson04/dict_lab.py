@@ -36,15 +36,15 @@ for val in dict2.items():
     print(val)
 print()
 #Sets
-s2=set()
-s3=set()
-s4=set()
-for i in range(0,21):
-    if i%2 == 0:
+s2 = set()
+s3 = set()
+s4 = set()
+for i in range(0, 21):
+    if i % 2 == 0:
         s2.update([i])
-    if i%3 == 0:
+    if i % 3 == 0:
         s3.update([i])
-    if i%4 == 0:
+    if i % 4 == 0:
         s4.update([i])
 print(s2)
 print(s3)
@@ -56,8 +56,8 @@ print('\n is s4 a subset of s2?:')
 print(s4.issubset(s2))
 
 #Set 2:
-seta = set(['P','y','t','h','o','n'])
-setb = set(['m','a','r','t','h','o','n'])
+seta = set(['P', 'y', 't', 'h', 'o', 'n'])
+setb = set(['m', 'a', 'r', 't', 'h', 'o', 'n'])
 print('\n union of python and maration:')
 print(seta.union(setb))
 print('\n Intersection of python and marathon:')
