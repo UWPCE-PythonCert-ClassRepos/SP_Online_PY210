@@ -1,19 +1,20 @@
+
 #!/usr/bin/env python3
 # Craig Simmons
 # Python 210
 # mailroom.py# Created 11/23/2020 - csimmons
 # Edited 12/3/2020 - v1.1 - csimmons
 # Edited 12/10/2020 - v1.2 - csimmons
-#edited 12/11 - 12/13 2020 - v2.0 -csimmons
+# edited 12/11 - 12/13 2020 - v2.0 -csimmons
+# edited 12/30 - 12/31/2020 - v3.0 -csimmons
 
-import sys
-import os 
+import os, sys
 import pathlib
 from operator import itemgetter
 
 donorlist_dict = {
     'Mary Newcomer' : [10000, 2500, 300],
-    'Christine Rutolo' : [3000, 6000, 750, 20000],
+    'Christine Ruotolo' : [3000, 6000, 750, 20000],
     'Martin Acevedo' : [2000, 5000],
     'Sutton Keaney' : [24500, 500, 3000, 5000, 1000],
     'David Basilio' : [750, 750, 750, 750, 5000, 750, 750],
@@ -21,19 +22,23 @@ donorlist_dict = {
     'Hussein Saffouri' : [1000, 1000, 2100, 7000, 55000],
     }
 
-menu_prompt = '\n'.join(('Please choose from the options below:\n',
+menu_prompt = '\n'.join(('\nPlease choose from the options below:\n',
           '1 - Send a Thank You letter',
           '2 - Create a report',
           '3 - Send thank you letters to all donors',
           '4 - Quit',
-          '>>> '))
+          '\n>>> '))
 
 thanks_prompt = '\n'.join(('\nPlease enter a donor name:',
                 '(Enter "List" to see current donors, "Exit" to return to main menu)',
-                '\n>>>  '))
-
-gift_prompt = '\n'.join(('\nPlease enter the donation amount ("$" and commas are not needed)',
                 '>>>  '))
+
+gift_prompt = '\n'.join(('Please enter the donation amount: ',
+                '>>>  '))
+
+donation_err = '\nError: Please enter a number or decimal ("$" and commas not needed).'
+
+letter_err = '\nError: The letter for {} not generated. Please check the destination folder'
 
 letter = (('\nDear {},\n\n'
         'We would like to thank you for your recent - and extremely\n'
@@ -50,8 +55,21 @@ def print_donors(donors):
     print('\n')
 
 def exist_donor(response, donors):
-    gift = int(input(gift_prompt))
+    test = donorlist_dict.setdefault(donor, []).append(gift)
     response = response.title()
+    while True:
+        gift = input(gift_prompt)
+        try:
+            gift = float(gift)
+            break
+        except ValueError as error:
+            print(donation_err)
+    '''
+    if you're using dict.update don't assign it to the original variable since it returns None
+    [a.update(price=0) for a in data if a['price']=='']
+    without assignment will update the list...
+    
+    '''
     for donor in donors:
         if response == donor:
             donorlist_dict.setdefault(donor, []).append(gift)
@@ -59,8 +77,14 @@ def exist_donor(response, donors):
 
 def new_donor(response):    
     response = response.title()
-    print(('\n{} is a new donor!').format(response))
-    gift = int(input(gift_prompt))
+    print(('\n{} is a new donor!\n').format(response))
+    while True:
+        gift = input(gift_prompt)
+        try:
+            gift = float(gift)
+            break
+        except ValueError as error:
+            print(donation_err)
     donorlist_dict[response] = [gift]
     print(letter.format(response, gift))
 
@@ -96,9 +120,12 @@ def generate_letters():
         donor = str(key.replace(' ', '_'))
         gift = (list(value))[-1]
         filename = 'letters/' + donor + '.txt'
-        with open(filename, 'w') as output:
-            output.write(letter.format(donor, gift))
-        output.close
+        try:
+            with open(filename, 'w') as output:
+                output.write(letter.format(donor, gift))
+            output.close
+        except IOError:
+            print(letter_err.format(donor))
     print('\nThank You letters were generated for all donors\n')
 
 def display_report():
@@ -130,13 +157,19 @@ menu_dict = {
             '3' : generate_letters,
             '4' : program_exit
             }
-             
+
 def menu_select(menu_prompt, menu_dict):
+    selection = ['1', '2', '3', '4']
     while True:
         response = input(menu_prompt)
-        if menu_dict[response]() == 'exit menu':
-            break
-    
+        try:
+            if response not in selection:
+                print('\nNot a valid selection. Please try again!')
+            elif menu_dict[response]() == 'exit menu':
+                break
+        except KeyError:
+            print('\nNot a valid selection. Please try again!')
+
 if __name__ == '__main__':
-    print('\nWelcome to the Mailroom Application!')
+    print('\nWelcome to the Mailroom Application!\n')
     menu_select(menu_prompt, menu_dict)
