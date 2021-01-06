@@ -2,7 +2,6 @@
 test code for circle_class.py
 """
 
-
 from circle_class import *
 import math
 
