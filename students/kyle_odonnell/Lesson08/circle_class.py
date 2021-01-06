@@ -1,6 +1,7 @@
 import math
+import functools
 
-
+@functools.total_ordering
 class Circle:
     def __init__(self, r):
         self.radius = r
@@ -14,11 +15,24 @@ class Circle:
     def __add__(self, other):
         return Circle(self.radius + other.radius)
 
+    def __radd__(self, other):
+        return Circle.__add__(other)
+
     def __mul__(self, other):
         return Circle(self.radius * other)
 
     def __rmul__(self, other):
         return self.__mul__(other)
+
+    def __eq__(self, other):
+        return self.radius == other.radius
+
+    def __lt__(self, other):
+        return self.radius < other.radius
+
+    def __truediv__(self, other):
+        return Circle(self.radius / other.radius)
+
 
     @property
     def diameter(self):

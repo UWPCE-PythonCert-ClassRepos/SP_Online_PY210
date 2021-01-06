@@ -54,10 +54,26 @@ def test_add_protocol():
     c1 = Circle(2)
     c2 = Circle(4)
     assert (c1 + c2).radius == 6
+    assert (c2 + c1).radius == 6
+
 
 def test_mul_protocal():
     c1 = Circle(5)
     assert (c1 * 3).radius == 15
     assert (3 * c1).radius == 15
+    assert c1 * 3 == 3 * c1
 
 
+def test_equal_comp():
+    c1 = Circle(6)
+    c2 = Circle(8)
+    c3 = Circle(6)
+    assert c1.radius != c2.radius
+    assert c3.radius == c1.radius
+
+
+def test_lt_comp():
+    c1 = Circle(6)
+    c2 = Circle(8)
+    assert c1.radius < c2.radius
+    assert c2.radius > c1.radius
