@@ -1,3 +1,11 @@
+#!/usr/bin/env python3
+
+"""
+A class-based system for creating circle objects.
+"""
+
+
+
 import math
 import functools
 
@@ -63,3 +71,7 @@ class Sphere(Circle):
     @property
     def volume(self):
         return 4 / 3 * math.pi * self.radius ** 3
+
+    @property
+    def area(self):
+        return round(4 * math.pi * self.radius ** 2)
