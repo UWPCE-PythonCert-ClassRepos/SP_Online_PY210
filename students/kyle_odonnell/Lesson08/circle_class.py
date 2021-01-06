@@ -5,7 +5,6 @@ A class-based system for creating circle objects.
 """
 
 
-
 import math
 import functools
 
