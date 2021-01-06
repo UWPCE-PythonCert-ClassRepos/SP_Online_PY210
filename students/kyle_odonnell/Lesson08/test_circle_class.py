@@ -57,8 +57,7 @@ def test_add_protocol():
 
 def test_mul_protocal():
     c1 = Circle(5)
-    y = 3
-    assert (c1 * 3).radius == 20
-    assert (3 * c1).radius == 20
+    assert (c1 * 3).radius == 15
+    assert (3 * c1).radius == 15
 
 
