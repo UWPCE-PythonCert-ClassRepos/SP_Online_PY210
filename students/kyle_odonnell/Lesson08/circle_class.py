@@ -1,6 +1,7 @@
 import math
 import functools
 
+
 @functools.total_ordering
 class Circle:
     def __init__(self, r):
@@ -58,3 +59,7 @@ class Sphere(Circle):
 
     def __repr__(self):
         return "Sphere({})".format(self.radius)
+
+    @property
+    def volume(self):
+        return 4 / 3 * math.pi * self.radius ** 3

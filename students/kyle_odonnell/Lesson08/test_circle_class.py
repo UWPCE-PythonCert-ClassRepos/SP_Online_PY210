@@ -117,6 +117,6 @@ def test_sphere_repr():
 
 def test_volume():
     c = Sphere(4)
-    assert c.diameter == 4 / 3 * pi * 4 ** 3
-    d = Circle(8)
-    assert d.diameter == 4 / 3 * pi * 8 ** 3
+    assert c.volume == 4 / 3 * math.pi * 4 ** 3
+    d = Sphere(8)
+    assert d.volume == 4 / 3 * math.pi * 8 ** 3
