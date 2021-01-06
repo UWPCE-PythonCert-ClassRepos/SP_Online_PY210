@@ -38,14 +38,14 @@ def test_diameter_constructor():
 
 
 # test string method
-def test_str_method():
+def test_circle_str():
     c = Circle(4)
     assert str(c) == "Circle with radius: 4.000000"
     d = Circle.from_diameter(5)
     assert str(d) == "Circle with radius: 2.500000"
 
 
-def test_repr_method():
+def test_circle_repr():
     c = Circle(4)
     assert repr(c) == 'Circle(4)'
 
@@ -77,3 +77,46 @@ def test_lt_comp():
     c2 = Circle(8)
     assert c1.radius < c2.radius
     assert c2.radius > c1.radius
+
+
+def test_tru_div():
+    c1 = Circle(6)
+    c2 = Circle(8)
+    assert c1.radius / c2.radius == 6 / 8
+    assert c2.radius / c1.radius == 8 / 6
+
+
+def test_aug_add():
+    c1 = Circle(6)
+    c2 = Circle(8)
+    c2 += c1
+    assert c2.radius == 14
+
+
+def test_aug_mul():
+    c1 = Circle(6)
+    c1 *= 2
+    assert c1.radius == 12
+
+
+def test_pow():
+    c1 = Circle(5)
+    assert c1.radius ** 2 == 25
+
+
+def test_sphere_str():
+    c = Sphere(4)
+    assert str(c) == "Sphere with radius: 4.000000"
+    d = Sphere.from_diameter(5)
+    assert str(d) == "Sphere with radius: 2.500000"
+
+
+def test_sphere_repr():
+    c = Sphere(4)
+    assert repr(c) == 'Sphere(4)'
+
+def test_volume():
+    c = Sphere(4)
+    assert c.diameter == 4 / 3 * pi * 4 ** 3
+    d = Circle(8)
+    assert d.diameter == 4 / 3 * pi * 8 ** 3

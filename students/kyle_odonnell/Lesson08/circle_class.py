@@ -33,7 +33,6 @@ class Circle:
     def __truediv__(self, other):
         return Circle(self.radius / other.radius)
 
-
     @property
     def diameter(self):
         return 2 * self.radius
@@ -52,4 +51,10 @@ class Circle:
         return self
 
 
+class Sphere(Circle):
 
+    def __str__(self):
+        return "Sphere with radius: {:.6f}".format(self.radius)
+
+    def __repr__(self):
+        return "Sphere({})".format(self.radius)
