@@ -20,8 +20,9 @@ def test_create_dir():
     assert dir_exists == True
 
 def test_write_files():
-    test_data = ('Jane_Doe.txt', 'Jane Doe', 1000)
-    assert os.path.exists(test_data) == True
+    #test_data = ['Jane_Doe.txt', 'Jane Doe', 1000]
+    mail.write_files('Jane_Doe.txt', 'Jane Doe', 1000)
+    assert os.path.exists('Jane_Doe.txt') == True
    
 
 '''
