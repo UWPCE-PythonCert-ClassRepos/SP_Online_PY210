@@ -14,18 +14,36 @@ test_info = {
     'Hussein Saffouri' : [1000, 1000, 2100, 7000, 55000],
     }
 
+file_info = [
+                ['Count_Dracula.txt','Count Dracula', 10000 ],
+                ['Count_Chocula.txt','Count Chocula', 50000 ],
+                ['Mr_Nosferatu.txt','Mr Nosferatu', 30000 ],
+                ['Count_Yorga.txt','Count Yorga', 45000 ],
+                ]
+
 def test_create_dir():
     directory = 'letters'
     dir_exists = os.path.isdir(directory)
+    mail.create_dir()
     assert dir_exists == True
 
 def test_write_files():
-    #test_data = ['Jane_Doe.txt', 'Jane Doe', 1000]
     mail.write_files('Jane_Doe.txt', 'Jane Doe', 1000)
     assert os.path.exists('Jane_Doe.txt') == True
-   
+
+def test_write_multi_files():
+    for info in range(len(file_info)):
+        a = file_info[info][0]
+        b = file_info[info][1]
+        c = file_info[info][2]
+        mail.write_files(a, b, c)
+        assert os.path.exists(a) == True
 
 '''
+    mail.write_files('Jane_Doe.txt', 'Jane Doe', 1000)
+    assert os.path.exists('Jane_Doe.txt') == True
+
+
 def test_file_save():
     test_dict = create_test_dict()
     td = os.getcwdb()
