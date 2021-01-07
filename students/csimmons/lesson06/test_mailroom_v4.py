@@ -31,15 +31,14 @@ def test_create_dir():
 def test_write_files():
     mail.write_files('Jane_Doe.txt', 'Jane Doe', 1000)
     assert os.path.exists('Jane_Doe.txt') == True
-
+    
 def test_batch_thanks():
-    mail.test_batch_thanks()
-    for info in range(len(file_info)):
-        a = file_info[info][0]
-        b = file_info[info][1]
-        c = file_info[info][2]
-        mail.write_files(a, b, c)
-        assert os.path.exists(a) == True
+    file_names = ['Mary_Newcomer.txt', 'Christine_Ruotolo.txt', 'Martin_Acevedo.txt', 'Sutton_Keaney.txt', 'David_Basilio.txt', 'Andrew_Laughlin.txt', 'Hussein_Saffouri.txt']
+    mail.batch_thanks()
+    for file in file_names:
+        file = 'letters/' + file
+        print(file)
+        assert os.path.exists(file)
 
 def test_find_donor():
     found = 'Christine Ruotolo'
@@ -53,7 +52,5 @@ def test_list_donors():
     list2 = list(mail.donorlist_dict.keys())
     assert list1.sort() == list2.sort()
 
-def test_create_report():
-    test
-    test = mail.create_report()
-    print(test)
+
+
