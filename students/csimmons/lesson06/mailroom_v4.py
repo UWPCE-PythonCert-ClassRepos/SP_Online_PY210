@@ -56,11 +56,11 @@ text_dict = {
     }
 
 def create_dir():
-    isdir = os.path.isdir('rletters')  
+    isdir = os.path.isdir('letters')  
     if isdir == True:
         pass
     else:
-        os.mkdir('rletters')
+        os.mkdir('letters')
 
 def write_files(filename, donor, gift):
     with open(filename, 'w') as output:

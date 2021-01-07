@@ -19,7 +19,26 @@ def test_create_dir():
     dir_exists = os.path.isdir(directory)
     assert dir_exists == True
 
+def test_write_files():
+    test_data = ('Jane_Doe.txt', 'Jane Doe', 1000)
+    assert os.path.exists(test_data) == True
+   
+
 '''
+def test_file_save():
+    test_dict = create_test_dict()
+    td = os.getcwdb()
+    for person, donations in test_dict.items():
+        save_file(person, donations, td)
+
+#checks to see if the file was created properly
+def test_file_created():
+    name = 'Bill Gates'
+    test_message = 'This is a test'
+    mail.write_file(name,test_message)
+    fname = 'Bill Gates.txt'
+
+    assert os.path.isfile(fname) is True
 
 def test_get_letter_text():
     expected = "Frank, thanks a lot!"
