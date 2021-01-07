@@ -103,6 +103,7 @@ def add_donor(donor_name):
             print(text_dict.get('donation_err'))
     donorlist_dict[donor_name] = [gift]
     print(text_dict.get('letter').format(donor_name, gift))
+    return (donor_name, gift)
 
 def update_donor(donor_name):
     print(('\n{} is an existing donor!\n').format(donor_name))
@@ -132,7 +133,8 @@ def create_report():
         donor_info.append(sum(value)/len(value))
         all_info.append(donor_info)
     all_info = sorted(all_info, key=itemgetter (1), reverse=True)
-    print_data(all_info) 
+    print_data(all_info)
+    return all_info 
 
 def print_data(all_info):
     print(text_dict.get('header1'))
