@@ -36,8 +36,8 @@ def test_create_report():
 
 def test_create_dir():
     directory = 'letters'
-    dir_exists = os.path.isdir(directory)
     mail.create_dir()
+    dir_exists = os.path.isdir(directory)
     assert dir_exists == True
 
 def test_write_files():
