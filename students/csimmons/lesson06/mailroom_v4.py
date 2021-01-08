@@ -115,6 +115,7 @@ def update_donor(donor_name):
         except ValueError as error:
             print(text_dict.get('donation_err'))
     donorlist_dict.setdefault(donor_name, []).append(gift)
+    
     print(text_dict.get('letter').format(donor_name, gift))
 
 def list_donors():
