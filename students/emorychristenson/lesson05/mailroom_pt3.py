@@ -39,20 +39,19 @@ Use 'list' to view current donors, or 'quit' to return to the menu: """)
         response = input("\nPlease enter a donor name: ")
     if response.lower() == "quit":
         print("\nReturning to main menu!")
-    else:
-        while True:
-            try:
+    else:   
+        try:
                 amount = float(input("\nEnter a donation amount: "))
-            except ValueError:
+        except ValueError:
                 amount = float(input("\nEnter a number amount: "))
-            except ZeroDivisionError:
+        except ZeroDivisionError:
                 amount = float(input("\nDonation must be more than 0: "))
         
-        if donors.get(response):
-            donors[response].append(amount)
-        else:        
-            donors[response] = [amount]
-        send_email(response, amount)
+    if donors.get(response):
+        donors[response].append(amount)
+    else:        
+        donors[response] = [amount]
+    send_email(response, amount)
 
 def send_email(donor, amount):
     # Print donor name and amount into thank you email
@@ -97,11 +96,10 @@ def main():
     while True:
         # Prompt user for option, run related function
         print(main_prompt)
-
-        selection = int(input("Please enter a number: "))
-        if selection in menu:
+        try:
+            selection = int(input("Please enter a number: "))
             menu[selection]()
-        else:
+        except KeyError:
             selection = int(input(f"{selection} is not a valid input: "))
 
 
