@@ -61,10 +61,12 @@ def test_attributes():
     file_contents = render_result(e).strip()
     print(file_contents)
     assert "A paragraph of text" in file_contents
-    assert file_contents.endswith("</p>")
-    assert file_contents.startswith("<p")
-    assert 'style="text-align: center"' in file_contents
-    assert 'id="intro"' in file_contents
+    assert file_contents.endswith('</p>')
+    assert file_contents.startswith('<p ')
+    assert ' style="text-align: center"' in file_contents
+    assert ' id="intro"' in file_contents
+    assert file_contents[:-1].index(">") > file_contents.index('id="intro"')
+    assert file_contents[:file_contents.index(">")].count(" ") == 3
 
 def test_html():
     e = Html("this is some text")
@@ -122,18 +124,28 @@ def test_sub_element():
 
     file_contents = render_result(page)
     print(file_contents) # so we can see it if the test fails
-
-    # note: The previous tests should make sure that the tags are getting
-    #       properly rendered, so we don't need to test that here.
     assert "some plain text" in file_contents
     assert "A simple paragraph of text" in file_contents
     assert "Some more plain text." in file_contents
     assert "some plain text" in file_contents
-    # but make sure the embedded element's tags get rendered!
+
     assert "<p>" in file_contents
     assert "</p>" in file_contents
 
+def test_hr():
+    """a simple horizontal rule with no attributes"""
+    hr = Hr()
+    file_contents = render_result(hr)
+    print(file_contents)
+    assert file_contents == '<hr />\n'
 
+
+def test_hr_attr():
+    """a horizontal rule with an attribute"""
+    hr = Hr(width=400)
+    file_contents = render_result(hr)
+    print(file_contents)
+    assert file_contents == '<hr width="400" />\n'
 
 
 ########

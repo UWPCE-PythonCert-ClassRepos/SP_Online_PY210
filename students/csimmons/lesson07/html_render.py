@@ -22,14 +22,29 @@ class Element(object):
         self.contents.append(new_content)
 
     def render(self, out_file):
-        out_file.write("<{}>\n".format(self.tag))
+        #out_file.write(cur_ind)
+        out_file.write(self._opening_tag())
+        out_file.write("\n")
         for content in self.contents:
             try:
                 content.render(out_file)
             except AttributeError:
+                # out_file.write(cur_ind + self.indent)
                 out_file.write(content)
-            out_file.write("\n")
-        out_file.write("</{}>\n".format(self.tag))
+                out_file.write("\n")
+        #out_file.write(cur_ind)
+        out_file.write(self._closing_tag())
+        out_file.write("\n")
+
+    def _opening_tag(self):
+        open_tag = ["<{}".format(self.tag)]
+        for key, value in self.attributes:
+            open_tag.append(' {}=\"{}\"'.format(key, value))
+        open_tag.append(">")
+        return ''.join(open_tag)
+
+    def _closing_tag(self):
+        return "</{}>".format(self.tag)
 
 class OneLineTag(Element):
 
@@ -44,6 +59,15 @@ class OneLineTag(Element):
     
     def append(self, content):
         raise NotImplementedError
+
+class SelfClosingTag(Element):
+
+    def render(self, outfile):
+        tag = self._opening_tag()[:-1] + " />\n"
+        outfile.write(tag)
+
+class Hr(SelfClosingTag):
+    tag = 'hr'
 
 class Title(OneLineTag):
     tag = 'title'
