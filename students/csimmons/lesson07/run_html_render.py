@@ -8,33 +8,18 @@ Uncomment the steps as you add to your rendering.
 """
 
 from io import StringIO
-
-# importing the html_rendering code with a short name for easy typing.
 import html_render as hr
 
-
-# writing the file out:
 def render_page(page, filename, indent=None):
-    """
-    render the tree of elements
-
-    This uses StringIO to render to memory, then dump to console and
-    write to file -- very handy!
-    """
-
     f = StringIO()
     if indent is None:
         page.render(f)
     else:
         page.render(f, indent)
-
     print(f.getvalue())
     with open(filename, 'w') as outfile:
         outfile.write(f.getvalue())
 
-
-# Step 1
-#########
 
 page = hr.Element()
 
@@ -45,8 +30,6 @@ page.append("And here is another piece of text -- you should be able to add any 
 
 render_page(page, "test_html_output1.html")
 
-# The rest of the steps have been commented out.
-#  Uncomment them as you move along with the assignment.
 
 # ## Step 2
 # ##########
