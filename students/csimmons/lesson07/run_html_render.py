@@ -30,84 +30,75 @@ page.append("And here is another piece of text -- you should be able to add any 
 
 render_page(page, "test_html_output1.html")
 
+page = hr.Html()
 
-# ## Step 2
-# ##########
+body = hr.Body()
 
-# page = hr.Html()
+body.append(hr.P("Here is a paragraph of text -- there could be more of them, "
+                 "but this is enough  to show that we can do some text"))
 
-# body = hr.Body()
+body.append(hr.P("And here is another piece of text -- you should be able to add any number"))
 
-# body.append(hr.P("Here is a paragraph of text -- there could be more of them, "
-#                  "but this is enough  to show that we can do some text"))
+page.append(body)
 
-# body.append(hr.P("And here is another piece of text -- you should be able to add any number"))
+render_page(page, "test_html_output2.html")
 
-# page.append(body)
+page = hr.Html()
 
-# render_page(page, "test_html_output2.html")
+head = hr.Head()
+head.append(hr.Title("PythonClass = Revision 1087:"))
 
-# # Step 3
-# ##########
+page.append(head)
 
-# page = hr.Html()
+body = hr.Body()
 
-# head = hr.Head()
-# head.append(hr.Title("PythonClass = Revision 1087:"))
+body.append(hr.P("Here is a paragraph of text -- there could be more of them, "
+                 "but this is enough  to show that we can do some text"))
+body.append(hr.P("And here is another piece of text -- you should be able to add any number"))
 
-# page.append(head)
+page.append(body)
 
-# body = hr.Body()
+render_page(page, "test_html_output3.html")
 
-# body.append(hr.P("Here is a paragraph of text -- there could be more of them, "
-#                  "but this is enough  to show that we can do some text"))
-# body.append(hr.P("And here is another piece of text -- you should be able to add any number"))
 
-# page.append(body)
+page = hr.Html()
 
-# render_page(page, "test_html_output3.html")
+head = hr.Head()
+head.append(hr.Title("PythonClass = Revision 1087:"))
 
-# # Step 4
-# ##########
+page.append(head)
 
-# page = hr.Html()
+body = hr.Body()
 
-# head = hr.Head()
-# head.append(hr.Title("PythonClass = Revision 1087:"))
+body.append(hr.P("Here is a paragraph of text -- there could be more of them, "
+                 "but this is enough  to show that we can do some text",
+              style="text-align: center; font-style: oblique;"))
 
-# page.append(head)
+page.append(body)
 
-# body = hr.Body()
+render_page(page, "test_html_output4.html")
 
-# body.append(hr.P("Here is a paragraph of text -- there could be more of them, "
-#                  "but this is enough  to show that we can do some text",
-#               style="text-align: center; font-style: oblique;"))
+# Step 5
+#########
 
-# page.append(body)
+page = hr.Html()
 
-# render_page(page, "test_html_output4.html")
+head = hr.Head()
+head.append(hr.Title("PythonClass = Revision 1087:"))
 
-# # Step 5
-# #########
+page.append(head)
 
-# page = hr.Html()
+body = hr.Body()
 
-# head = hr.Head()
-# head.append(hr.Title("PythonClass = Revision 1087:"))
+body.append(hr.P("Here is a paragraph of text -- there could be more of them, "
+                 "but this is enough  to show that we can do some text",
+              style="text-align: center; font-style: oblique;"))
 
-# page.append(head)
+body.append(hr.Hr())
 
-# body = hr.Body()
+page.append(body)
 
-# body.append(hr.P("Here is a paragraph of text -- there could be more of them, "
-#                  "but this is enough  to show that we can do some text",
-#               style="text-align: center; font-style: oblique;"))
-
-# body.append(hr.Hr())
-
-# page.append(body)
-
-# render_page(page, "test_html_output5.html")
+render_page(page, "test_html_output5.html")
 
 # # Step 6
 # #########
