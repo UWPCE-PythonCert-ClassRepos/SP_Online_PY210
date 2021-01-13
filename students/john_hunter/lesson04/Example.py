@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Dec  8 19:47:11 2020
+
+@author: johnh
+"""
+
 #!/usr/bin/env python3
 import sys
 #Paths and File Processing
