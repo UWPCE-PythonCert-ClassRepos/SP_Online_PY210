@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 #Craig Simmons
+# Python 210
+# Lesson07 Asignment Created 01/09/2021 - csimmons
+# Edited 01/13/2021 - v1.0 - csimmons
 
 import io
 import pytest
