@@ -22,18 +22,14 @@ class Element(object):
         self.contents.append(new_content)
 
     def render(self, out_file, cur_ind=""):
-        #out_file.write(cur_ind)
-        out_file.write(self._opening_tag())
-        out_file.write("\n")
+        out_file.write(cur_ind + self._opening_tag() + '\n')
         for content in self.contents:
             try:
                 content.render(out_file)
             except AttributeError:
-                # out_file.write(cur_ind + self.indent)
-                out_file.write(content)
+                out_file.write(cur_ind + self.indent + content)
                 out_file.write("\n")
-        #out_file.write(cur_ind)
-        out_file.write(self._closing_tag())
+        out_file.write(cur_ind + self._closing_tag())
         out_file.write("\n")
 
     def _opening_tag(self):
@@ -92,6 +88,7 @@ class A(OneLineTag):
 class Header(OneLineTag):
     tag = 'h'
     def __init__(self, level, content=None, **kwargs):
+        self.attributes = kwargs
         self.tag += str(level)
         super().__init__(content, **kwargs)
 
@@ -100,10 +97,9 @@ class Title(OneLineTag):
 
 class Html(Element):
     tag = 'html'
-    def render(self, out_file):
-        #out_file.write(cur_ind)
-        out_file.write("<!DOCTYPE html>\n")
-        super().render(out_file)
+    def render(self, out_file, cur_ind=""):
+        out_file.write(cur_ind + "<!DOCTYPE html>\n")
+        super().render(out_file, cur_ind)
 
 class Head(Element):
     tag = 'head'
@@ -116,7 +112,7 @@ class P(Element):
 
 class Ol(Element):
     tag = 'ol'
-    def render(self, out_file):
+    def render(self, out_file, cur_ind=""):
         out_file.write(self._opening_tag())
         for content in self.contents:
             try:
@@ -127,22 +123,22 @@ class Ol(Element):
 
 class Ul(Element):
     tag = 'ul'
-    def render(self, out_file):
-        out_file.write(self._opening_tag())
+    def render(self, out_file, cur_ind=""):
+        out_file.write(cur_ind + self._opening_tag() + '\n')
         for content in self.contents:
             try:
                 content.render(out_file)
             except AttributeError:
                 out_file.write(content)
-        out_file.write(self._closing_tag())
+        out_file.write(cur_ind + self._closing_tag())
 
 class Li(Element):
     tag = 'li'
-    def render(self, out_file):
-        out_file.write(self._opening_tag())
+    def render(self, out_file, cur_ind=""):
+        out_file.write(cur_ind + self._opening_tag() + '\n')
         for content in self.contents:
             try:
                 content.render(out_file)
             except AttributeError:
                 out_file.write(content)
-        out_file.write(self._closing_tag())
+        out_file.write(cur_ind + self._closing_tag())
