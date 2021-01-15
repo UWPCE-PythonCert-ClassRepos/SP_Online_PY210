@@ -27,7 +27,7 @@ class Circle(object):
 
     @property
     def area(self):
-        return math.pi * self.radius ** 2
+        return pi * self.radius ** 2
 
     @classmethod
     def from_diameter(cls, d):
@@ -56,6 +56,22 @@ class Circle(object):
 
     def __ge__(self, c2):   
         return self.radius >= c2.radius
+
+class Sphere(Circle):
+
+    def __str__(self):
+        return f'Sphere with radius: {self.radius:.2f}'
+
+    def __repr__(self):
+        return f'Sphere({self.radius})'
+
+    @property
+    def volume(self):
+        return 4 / 3 * pi * self.radius ** 3
+
+    @property
+    def area(self):
+        return 4 * pi * self.radius ** 2
     
 
     
