@@ -9,8 +9,6 @@ import pytest
 from math import pi
 from circleclass import *
 
-# Tests instantiation -also verifies that radius was passed
-
 def test_init():
     c = Circle(5)
     assert c.radius == 5
@@ -38,9 +36,9 @@ def test_area_property():
     except AttributeError as error:
         print('c.area is ' + str(c.area))
     c.radius = 10
-    assert c.area == (pi * 100)
+    assert c.area == (math.pi * 100)
     c.diameter = 6
-    assert c.area == (pi * 9)
+    assert c.area == (math.pi * 9)
 
 def test_from_diameter():
     c = Circle(5)
@@ -94,6 +92,9 @@ def test_dunder_comparisons():
     assert c.radius > c2.radius
     assert not c.radius < c2.radius
 
-    def test_sort_key():
-        c = Circle(10)
-        c.sort_key()
+def test_basic_sorting():
+    circles = [Circle(2), Circle(4), Circle(3), Circle(8)]
+    circles.sort()
+    print(circles)
+    assert circles == [Circle(2), Circle(3), Circle(4), Circle(8)]
+    

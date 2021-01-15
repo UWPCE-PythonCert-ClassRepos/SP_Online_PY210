@@ -17,9 +17,6 @@ class Circle(object):
     def __repr__(self):
         return f'Circle({self.radius})'
 
-    def sort_key(self, value):
-        return self.value
-
     @property
     def diameter(self):
         return self.radius * 2
@@ -30,7 +27,7 @@ class Circle(object):
 
     @property
     def area(self):
-        return pi * self.radius ** 2
+        return math.pi * self.radius ** 2
 
     @classmethod
     def from_diameter(cls, d):
