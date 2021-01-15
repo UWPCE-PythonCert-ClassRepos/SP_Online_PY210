@@ -46,6 +46,13 @@ def test_from_diameter():
     c.radius = 10
     assert c.diameter == 20
 
+def test_from_diameter_sphere():
+    s = Sphere(5)
+    s.diameter = 20
+    assert s.radius == 10
+    s.radius = 10
+    assert s.diameter == 20
+
 def test_dunder_str():
     c = Circle(5)
     print(str(c))
