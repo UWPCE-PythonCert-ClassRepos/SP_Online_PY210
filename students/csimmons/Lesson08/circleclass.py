@@ -33,5 +33,11 @@ class Circle(object):
     def from_diameter(cls, d):
         return cls(d/2)
 
-    
+    def __add__(self, c2):
+        return self.__class__(self.radius + c2.radius)
 
+    def __mul__(self, value):
+        return self.__class__(self.radius * value)
+
+    def __rmul__(self, value):   
+        return self.__mul__(value)

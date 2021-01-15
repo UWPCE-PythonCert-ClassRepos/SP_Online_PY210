@@ -58,3 +58,18 @@ def test_dunder_repr():
     c = Circle(5)
     print(str(c))
     assert repr(c) == 'Circle(5)'
+
+def test_dunder_add():
+    c = Circle(5)
+    c2 = Circle(10)
+    assert c.radius + c2.radius == 15
+
+def test_dunder_mul():
+    c = Circle(5)
+    assert c.radius * 6 == 30
+    assert 6 * c.radius == 30
+
+def test_dunder_rmul():
+    c = Circle(5)
+    assert 6 * c.radius == 30
+    assert c.radius * 6 == 30
