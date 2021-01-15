@@ -17,6 +17,9 @@ class Circle(object):
     def __repr__(self):
         return f'Circle({self.radius})'
 
+    def sort_key(self, value):
+        return self.value
+
     @property
     def diameter(self):
         return self.radius * 2
@@ -41,3 +44,21 @@ class Circle(object):
 
     def __rmul__(self, value):   
         return self.__mul__(value)
+
+    def __eq__(self, c2):   
+        return self.radius == c2.radius
+
+    def __lt__(self, c2):   
+        return self.radius < c2.radius
+
+    def __gt__(self, c2):   
+        return self.radius > c2.radius
+
+    def __le__(self, c2):   
+        return self.radius <= c2.radius
+
+    def __ge__(self, c2):   
+        return self.radius >= c2.radius
+    
+
+    

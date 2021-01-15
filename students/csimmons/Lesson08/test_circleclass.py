@@ -73,3 +73,27 @@ def test_dunder_rmul():
     c = Circle(5)
     assert 6 * c.radius == 30
     assert c.radius * 6 == 30
+
+def test_dunder_comparisons():
+    c = Circle(10)
+    c2 = Circle(10)
+    assert c.radius == c2.radius
+    assert c.radius <= c2.radius
+    assert c.radius >= c2.radius
+    c = Circle(15)
+    c2 = Circle(10)
+    assert c.radius != c2.radius
+    c = Circle(5)
+    c2 = Circle(10)
+    assert c.radius < c2.radius
+    assert not c.radius > c2.radius
+    assert c.radius <= c2.radius
+    assert not c.radius >= c2.radius
+    c = Circle(15)
+    c2 = Circle(10)
+    assert c.radius > c2.radius
+    assert not c.radius < c2.radius
+
+    def test_sort_key():
+        c = Circle(10)
+        c.sort_key()
