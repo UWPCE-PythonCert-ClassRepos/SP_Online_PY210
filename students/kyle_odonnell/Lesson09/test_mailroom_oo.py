@@ -49,16 +49,15 @@ def test_add_donation():
 
 
 def test_donor_number():
-    d = Donor("Paul Allen")
-    d.add_number(3)
-    e = Donor("Mark Zuckerberg", 23, 1)
+    """Test donor number attribute"""
+    e = Donor("Mark Zuckerberg", 23, 3)
 
-    assert d.number == 3
-    assert e.number == 1
-    print(d.number)
+    assert e.number == 3
+    print(e.number)
 
 
 def test_add_number():
+    """Test add donor number method"""
     d = Donor("Paul Allen", amount=80, number=3)
     d.add_number(1)
 
@@ -69,6 +68,7 @@ def test_add_number():
 
 
 def test_donor_average():
+    """Test donor average method"""
     d = Donor("Paul Allen")
     d.donation = 100
     d.number = 3
@@ -78,6 +78,7 @@ def test_donor_average():
 
 
 def test_donor_eq():
+    """Test Donor equals operator"""
     c = Donor("Paul Allen", amount=800.87, number=3)
     d = Donor("Mark Zuckerberg", amount=-5, number=4.3)
     m = Donor("Marge Simpson")
@@ -90,6 +91,7 @@ def test_donor_eq():
 
 
 def test_donor_lt():
+    """Test Donor less than operator"""
     d = Donor("Paul Allen")
     d.donation = 100
     c = Donor("Kelby Doggy")
@@ -100,6 +102,7 @@ def test_donor_lt():
 
 
 def test_write_letter():
+    """Test write letter method"""
     d = Donor("Marge Simpson")
     d.donation = 150.43
     text = d.write_letter
@@ -116,6 +119,7 @@ def test_write_letter():
 
 
 def test_send_letter():
+    """Test send letter method"""
     d = Donor("Jon Snow")
     w = Donor("William Gates, III")
     d.donation = 150.43
@@ -126,7 +130,8 @@ def test_send_letter():
     assert os.path.isfile("William_Gates_III.txt")
 
 
-def test_data_collection_init():
+def test_donor_collections_init():
+    """Test DonorCollections Initializer"""
     w = Donor("William Gates, III", amount=400, number=1)
     m = Donor("Mark Zuckerberg", amount=600, number=5)
     j = Donor("Jeff Bezos", amount=877.33, number=2)
@@ -139,6 +144,7 @@ def test_data_collection_init():
 
 
 def test_donor_collection_str():
+    """Test DonorCollections string"""
     w = Donor("William Gates, III", amount=400, number=1)
     m = Donor("Mark Zuckerberg", amount=600, number=5)
     j = Donor("Jeff Bezos", amount=877.33, number=2)
@@ -149,6 +155,7 @@ def test_donor_collection_str():
 
 
 def test_add_donor():
+    """Test add donor method"""
     w = Donor("William Gates, III", amount=400, number=1)
     m = Donor("Mark Zuckerberg", amount=600, number=5)
     db = DonorCollections((w, m))
@@ -159,6 +166,7 @@ def test_add_donor():
 
 
 def test_format_collection():
+    """Test format collection method"""
     w = Donor("William Gates, III", amount=400, number=1)
     m = Donor("Mark Zuckerberg", amount=600, number=5)
     donor_db = DonorCollections((w, m))
@@ -172,6 +180,7 @@ def test_format_collection():
 
 
 def test_send_letters():
+    """Test send letters method"""
     w = Donor("William Gates, III", amount=400, number=1)
     m = Donor("Mark Zuckerberg", amount=600, number=5)
     j = Donor("Jeff Bezos", amount=877.33, number=2)
@@ -184,6 +193,7 @@ def test_send_letters():
 
 
 def test_get_names():
+    """Test get names method"""
     w = Donor("William Gates, III", amount=400, number=1)
     m = Donor("Mark Zuckerberg", amount=600, number=5)
     j = Donor("Jeff Bezos", amount=877.33, number=2)
