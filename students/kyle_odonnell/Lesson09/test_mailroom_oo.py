@@ -18,12 +18,6 @@ def test_donor_str():
     print(str(d))
 
 
-# def test_donor_repr():
-#     d = Donor("Paul Allen")
-#     assert repr(d) == Donor("Paul Allen")
-#     print(repr(d))
-
-
 def test_donor_amount():
     d = Donor("Paul Allen")
     d.donation = 100
@@ -78,14 +72,57 @@ def test_write_letter():
 
 
 def test_send_letter():
-    d = Donor("Marge Simpson")
+    d = Donor("Jon Snow")
     d.donation = 150.43
-    d.send_letter
-    assert os.path.isfile("Marge_Simpson.txt")
+    Donor.send_letter(d)
+    assert os.path.isfile("Jon_Snow.txt")
 
 
+def test_data_collection_init():
+    w = Donor("William Gates, III", amount=400, number=1)
+    m = Donor("Mark Zuckerberg", amount=600, number=5)
+    j = Donor("Jeff Bezos", amount=877.33, number=2)
+    db = DonorCollections((w, m, j))
+    assert w in db.list
+    assert m in db.list
+    assert j in db.list
+    print(db.list)
 
 
+def test_donor_collection_str():
+    w = Donor("William Gates, III", amount=400, number=1)
+    m = Donor("Mark Zuckerberg", amount=600, number=5)
+    j = Donor("Jeff Bezos", amount=877.33, number=2)
+    db = DonorCollections((w, m, j))
+    assert str(db) == "Donor Collection: ['Jeff Bezos', 'Mark Zuckerberg', 'William Gates, III']"
+    print(db)
 
 
+def test_add_donor():
+    w = Donor("William Gates, III", amount=400, number=1)
+    m = Donor("Mark Zuckerberg", amount=600, number=5)
+    db = DonorCollections((w, m))
+    j = Donor("Jeff Bezos", amount=877.33, number=2)
+    db.add_donor(j)
+    assert j in db.list
+
+
+def test_format_collection():
+    w = Donor("William Gates, III", amount=400, number=1)
+    m = Donor("Mark Zuckerberg", amount=600, number=5)
+    donor_db = DonorCollections((w, m))
+    d = DonorCollections.format(donor_db)
+    row = "{dn:<20s} \t {ds:<1s} {tg:>14.2f} \t " \
+          "{ng:>10d} \t {ds2:<1} {ag:>14.2f} ".format
+    assert d[1] == row(dn="Mark Zuckerberg", ds="$", tg=600,
+                                                ng=5, ds2="$", ag=120)
+    print(d)
+
+def test_send_letters():
+    w = Donor("William Gates, III", amount=400, number=1)
+    m = Donor("Mark Zuckerberg", amount=600, number=5)
+    j = Donor("Jeff Bezos", amount=877.33, number=2)
+    db = DonorCollections((w, m, j))
+    Donor.send_letter(db)
+    assert os.path.isfile("Mark_Zuckerberg.txt")
 
