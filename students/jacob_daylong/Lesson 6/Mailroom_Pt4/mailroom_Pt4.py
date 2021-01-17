@@ -57,8 +57,7 @@ def thankyou_print():
         f = open(dir + filename, 'w')
         f.write(thankyou_notes(entry))
         f.close
-    return dir
-    print(dir)
+    print("\n" + dir)
 
 def create_report():
     print('\n|{:<{width}s}|{:<{width}s}|{:<{width}s}|{:<{width}s}|'.format(*table_header, width = 20))

@@ -21,3 +21,30 @@ class Circle(object):
 
     def __repr__(self):
         return 'Circle({})'.format(self.radius)
+
+    def __add__(self, other):
+        return self.__class__(self.radius + other.radius)
+
+    def __mul__(self, other):
+        return self.__class__(self.radius * other.radius)
+
+    def __eq__(self, other):
+        return self.radius == other.radius
+
+    def __lt__(self, other):
+        return self.radius < other.radius
+
+class Sphere(Circle):
+    @property
+    def area(self):
+        return 4 * math.pi * (self.radius ** 2)
+
+    @property
+    def volume(self):
+        return (4/3) * math.pi * (self.radius ** 3)
+
+    def __str__(self):
+        return "Sphere with a radius of {0:.2f}".format(self.radius)
+
+    def __repr__(self):
+        return 'Sphere({})'.format(self.radius)
