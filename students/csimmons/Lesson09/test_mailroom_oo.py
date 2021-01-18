@@ -36,3 +36,20 @@ def test_total_donations():
         report.update({donor: total})
     assert report.get('Sutton Keaney') == 34000
 
+def test_number_donations():
+    d = Donor()
+    dc = DonorCollection()
+    report = {}
+    for donor, donation in dc.donors_db.items():
+        num = len(donation)
+        report.update({donor: num})
+    assert report.get('Mary Newcomer') == 3
+
+def test_avg_donation():
+    d = Donor()
+    dc = DonorCollection()
+    report = {}
+    for donor, donation in dc.donors_db.items():
+        avg = sum(donation) / len(donation)
+        report.update({donor: avg})
+    assert report.get('Martin Acevedo') == 3500
