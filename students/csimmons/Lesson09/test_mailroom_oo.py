@@ -20,11 +20,17 @@ def test_donorcollection_init():
     assert donate[0] == 3000
     assert donate2[4] == 5000
 
+def test_create_DonorObjs():
+    dc = DonorCollection()
+    for donor, donation in dc.donors_db.items():
+        objname = Donor(donor, donation)
+        assert objname.name == donor
+
 def test_add_donor():
     dc = DonorCollection()
-    craig = Donor(name= 'Craig Simmons',donations= 75000)
+    craig = Donor(name= 'Craig Simmons', donations= 75000)
     dc.donors_db.setdefault(craig.name, []).append(craig.donations)
-    gift = (dc.donors_db.get('Craig Simmons'))
+    gift = dc.donors_db.get('Craig Simmons')
     assert gift == [75000]
 
 def test_total_donations():
@@ -53,3 +59,10 @@ def test_avg_donation():
         avg = sum(donation) / len(donation)
         report.update({donor: avg})
     assert report.get('Martin Acevedo') == 3500
+
+def test_donor_list():
+    dc = DonorCollection()
+    donor_list = []
+    for donor in dc.donors_db.keys():
+        donor_list.append(donor)
+    assert donor_list == list(dc.donors_db.keys())

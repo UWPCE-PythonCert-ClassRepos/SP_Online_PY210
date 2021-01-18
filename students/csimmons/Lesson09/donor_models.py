@@ -54,19 +54,23 @@ class DonorCollection(object):
     }
 
     def __init_(self):
-        self.donors_db = []
+        self.donors_db = donors_db
 
     def add_donor(self, donor, donation):
         self.donors_db[donor] = Donor(donor,[donation])
         return self.donor_db
 
+    def update_donor(self, donor, donation):
+        self.donors_db[donor] = Donor(donor,[donation])
+        return self.donor_db
+
     @property
     def donor_list(self):
-        return list(self.donor_db)
+        return list(self.donors_db)
 
 
     def __repr__(self):
-        return "DonorCollection({})".format(self.donor_db)
+        return "DonorCollection({})".format(self.donors_db)
 
     def donor_info_setter():
         pass
@@ -75,9 +79,6 @@ class DonorCollection(object):
         pass
 
     def find_donor(self):
-        pass
-
-    def add_donor(self):
         pass
 
     def update_donor(self):
