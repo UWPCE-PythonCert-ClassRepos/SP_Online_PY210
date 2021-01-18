@@ -12,11 +12,30 @@
 # single thank you letter
 class Donor(object):
        
-    def __init__(self, name='', donation= []):
+    def __init__(self, name='', donations= []):
         self.name = name
-        self.donation = donation
-        
+        self.donations = donations
 
+    def __str__(self):
+        return f'Donor Name is: {self.name}'
+
+    def __repr__(self):
+        return f'Donor({self.name})'
+        
+    @property
+    def total_donations():
+        return sum(self.donations)
+
+    @property
+    def number_donations(self):
+        return len(self.donations)
+        
+    @property
+    def avg_donation():
+        return sum(self.donations) / len(self.donations)
+
+    def print_thankyou(self, name, donation):
+        pass
 
 # all donor objects - new donor, add donor, donor search, report generation
 # DonorCollection does NOT works directly with list of 
@@ -34,7 +53,41 @@ class DonorCollection(object):
     'Hussein Saffouri' : [1000, 1000, 2100, 7000, 55000],
     }
 
-    def __init__(self, name='', donation= 0, data='donors_db'):
-        self.name = name
-        self.donation = donation
-        self.donors_db = donors_db
+    def __init_(self):
+        self.donors_db = []
+
+    def add_donor(self, donor, donation):
+        self.donors_db[donor] = Donor(donor,[donation])
+        return self.donor_db
+
+    @property
+    def donor_list(self):
+        return list(self.donor_db)
+
+
+    def __repr__(self):
+        return "DonorCollection({})".format(self.donor_db)
+
+    def donor_info_setter():
+        pass
+
+    def donor_info_getter():
+        pass
+
+    def find_donor(self):
+        pass
+
+    def add_donor(self):
+        pass
+
+    def update_donor(self):
+        pass
+
+    def donor_list(self):
+        pass
+
+    def donor_report(self):
+        pass
+
+    def batch_thankyou(self):
+        pass
