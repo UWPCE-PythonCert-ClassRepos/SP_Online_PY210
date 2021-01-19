@@ -8,61 +8,113 @@
 import pytest
 from donor_models import *
 
+#Working
 def test_donor_init():
     d = Donor(name='Craig', donations= 500)
+    print(d.name, d.donations, d)
     assert d.name == 'Craig'
     assert d.donations == 500
 
+#Working
 def test_donorcollection_init():
     dc = DonorCollection()
     donate = dc.donors_db.get('Christine Ruotolo')
     donate2 = dc.donors_db.get('David Basilio')
+    print(donate, donate2)
     assert donate[0] == 3000
     assert donate2[4] == 5000
 
+# Working
 def test_create_DonorObjs():
     dc = DonorCollection()
     for donor, donation in dc.donors_db.items():
         objname = Donor(donor, donation)
+        print(objname, donation)
         assert objname.name == donor
 
+# Working
+def test_Donor_printables():
+    d = Donor(name='Craig', donations= 100)
+    print(str(d))
+    print(repr(d))
+    assert str(d) == 'Donor Name is: Craig'
+    assert repr(d) == 'Donor(Craig)'
+
+# Working
+def test_DonorCollection_printables():
+    dc = DonorCollection()
+    print(str(dc))
+    print(repr(dc))
+    assert str(dc) == 'str: DonorCollection Object'
+    assert repr(dc) == 'repr: DonorCollection Object'
+
+#Working
 def test_add_donor():
     dc = DonorCollection()
     craig = Donor(name= 'Craig Simmons', donations= 75000)
     dc.donors_db.setdefault(craig.name, []).append(craig.donations)
-    gift = dc.donors_db.get('Craig Simmons')
-    assert gift == [75000]
+    print(dc.donors_db.get('Craig Simmons'), craig)
+    assert (dc.donors_db.get('Craig Simmons')) == [75000]
 
+#Working
 def test_total_donations():
-    d = Donor()
     dc = DonorCollection()
-    report = {}
-    for donor, donation in dc.donors_db.items():
-        total = sum(donation)
-        report.update({donor: total})
-    assert report.get('Sutton Keaney') == 34000
+    d = Donor('Jen Palkha', [100, 300, 1000, 50, 50])
+    vals = dc.donors_db.get('Mary Newcomer')
+    e = Donor('Mary Newcomer', vals)
+    print(d, d.total_donations, d.number_donations, d.avg_donation)
+    print(e, e.total_donations, e.number_donations, e.avg_donation)
+    assert d.total_donations == 1500
+    assert e.total_donations == 12800
 
+#Working
 def test_number_donations():
-    d = Donor()
     dc = DonorCollection()
-    report = {}
-    for donor, donation in dc.donors_db.items():
-        num = len(donation)
-        report.update({donor: num})
-    assert report.get('Mary Newcomer') == 3
+    d = Donor('Jen Palkha', [100, 300, 1000, 50, 50])
+    vals = dc.donors_db.get('Mary Newcomer')
+    e = Donor('Mary Newcomer', vals)
+    print(d, d.total_donations, d.number_donations, d.avg_donation)
+    print(e, e.total_donations, e.number_donations, e.avg_donation)
+    assert d.number_donations == 5
+    assert e.number_donations == 3
 
+#Working
 def test_avg_donation():
-    d = Donor()
     dc = DonorCollection()
-    report = {}
-    for donor, donation in dc.donors_db.items():
-        avg = sum(donation) / len(donation)
-        report.update({donor: avg})
-    assert report.get('Martin Acevedo') == 3500
+    d = Donor('Jen Palkha', [100, 300, 1000, 50, 50])
+    vals = dc.donors_db.get('Mary Newcomer')
+    e = Donor('Mary Newcomer', vals)
+    print(d, d.total_donations, d.number_donations, d.avg_donation)
+    print(e, e.total_donations, e.number_donations, e.avg_donation)
+    assert d.avg_donation == 300
+    assert e.avg_donation == 4266 + 2/3
 
+#Working
 def test_donor_list():
     dc = DonorCollection()
-    donor_list = []
+    donors = []
     for donor in dc.donors_db.keys():
-        donor_list.append(donor)
-    assert donor_list == list(dc.donors_db.keys())
+        donors.append(donor)
+    end = dc.donor_list
+    assert end == list(donors)
+
+#Working
+def test_find_donor():
+    dc = DonorCollection()
+    find = dc.find_donor('Mary Newcomer')
+    find2 = dc.find_donor('Will Fail')
+    print(find, find2)
+    assert find == True
+    assert find2 == False
+
+#Working
+def test_totals_donations():
+    dc = DonorCollection()
+    d = Donor('Jen Palkha', [100, 300, 1000, 50, 50])
+    vals = dc.donors_db.get('Mary Newcomer')
+    e = Donor('Mary Newcomer', vals)
+    print(d, d.total_donations, d.number_donations, d.avg_donation)
+    print(e, e.total_donations, e.number_donations, e.avg_donation)
+    assert d.total_donations == 1500
+    assert e.total_donations == 12800
+
