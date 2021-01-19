@@ -62,4 +62,4 @@ class DonorCollection(object):
 
     def add_donor(self, donor, donation):
         self.donors_db[donor] = Donor(donor,[donation])
-        return self.donor_db
+        return self.donors_db

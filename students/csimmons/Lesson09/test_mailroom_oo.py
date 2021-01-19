@@ -52,9 +52,11 @@ def test_DonorCollection_printables():
 def test_add_donor():
     dc = DonorCollection()
     craig = Donor(name= 'Craig Simmons', donations= 75000)
+    anne = Donor(name= 'Anne Francis', donations= 5000)
     dc.donors_db.setdefault(craig.name, []).append(craig.donations)
-    print(dc.donors_db.get('Craig Simmons'), craig)
+    dc.donors_db.setdefault(anne.name, []).append(anne.donations)
     assert (dc.donors_db.get('Craig Simmons')) == [75000]
+    assert (dc.donors_db.get('Anne Francis')) == [5000]
 
 #Working
 def test_total_donations():
