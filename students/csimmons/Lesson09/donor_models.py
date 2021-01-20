@@ -59,9 +59,13 @@ class DonorCollection(object):
             return True
         else:
             return False
-        
     
     def add_donor(self, donor, donations):
+        new = Donor(donor, donations)
+        self.donors_db.setdefault(new.name, []).append(new.donations)
+        return self.donors_db
+
+    def update_donor(self, donor, donations):
         new = Donor(donor, donations)
         self.donors_db.setdefault(new.name, []).append(new.donations)
         return self.donors_db

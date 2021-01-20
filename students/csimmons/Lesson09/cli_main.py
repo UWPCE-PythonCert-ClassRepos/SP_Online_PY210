@@ -15,8 +15,29 @@ from data import *
 dc = DonorCollection()
 
 def add_new_donor():
-    dc.add_donor('Craigo', 500)
+    print('Craig is a new donor')
+    while True:
+        gift = input(text_dict.get('gift_prompt'))
+        try:
+            gift = float(gift)
+            break
+        except ValueError as error:
+            print(text_dict.get('donation_err'))
+    dc.add_donor(donor = 'Craigo', donations = gift)
     print(dc.donors_db)
+
+def updated_donor():
+    print('Update Mary')
+    while True:
+        gift = input(text_dict.get('gift_prompt'))
+        try:
+            gift = float(gift)
+            break
+        except ValueError as error:
+            print(text_dict.get('donation_err'))
+    dc.add_donor(donor = 'Mary Newcomer', donations = gift)
+    print(dc.donors_db)
+    #print(text_dict.get('letter').format(donor, gift))
 
 def list_donors():
     print('\nMaster List of Donors:\n')
@@ -40,7 +61,7 @@ menu_dict = {
             '1' : add_new_donor,
             '2' : run_donor_report,
             '3' : list_donors,
-            '4' : exit_program,
+            '4' : updated_donor,
             '5' : exit_program,
             '6' : exit_program
             }

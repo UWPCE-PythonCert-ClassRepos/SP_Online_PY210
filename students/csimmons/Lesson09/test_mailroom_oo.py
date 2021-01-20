@@ -118,6 +118,7 @@ def test_totals_donations():
     assert d.total_donations == 1500
     assert e.total_donations == 12800
 
+#Working
 def test_create_report():
     dc = DonorCollection()
     dc.create_report()
