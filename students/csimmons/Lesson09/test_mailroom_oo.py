@@ -7,6 +7,7 @@
 
 import pytest
 from donor_models import *
+from cli_main import *
 
 #Working
 def test_donor_init():
@@ -130,3 +131,20 @@ def test_create_report():
     print(dc.all_info)
     assert (dc.all_info[0]) == ['Craig Simmons', 75000, 1, 75000.0]
     assert (dc.all_info[4][0]) == 'Christine Ruotolo'
+
+def test_create_dir():
+    directory = 'letters'
+    create_dir()
+    dir_exists = os.path.isdir(directory)
+    assert dir_exists == True
+
+def test_write_files():
+    write_files('Jane_Doe.txt', 'Jane Doe', 1000)
+    assert os.path.exists('Jane_Doe.txt') == True
+
+def test_batch_thanks():
+    file_names = ['Mary_Newcomer.txt', 'Christine_Ruotolo.txt', 'Martin_Acevedo.txt', 'Sutton_Keaney.txt', 'David_Basilio.txt', 'Andrew_Laughlin.txt', 'Hussein_Saffouri.txt']
+    batch_thanks()
+    for file in file_names:
+        file = 'letters/' + file
+        assert os.path.exists(file)

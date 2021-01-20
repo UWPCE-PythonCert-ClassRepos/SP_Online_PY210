@@ -7,8 +7,9 @@
 
 
 import pytest
-import sys
+import sys, os
 from operator import itemgetter
+from io import StringIO
 from donor_models import *
 from data import *
 
@@ -22,13 +23,11 @@ def change_donor_info():
     elif name == 'exit': 
         return
     elif dc.find_donor(name) == True:
-        updated_donor(name)
+        updated_donor(name.title())
     else:
-        add_new_donor(name)
-
+        add_new_donor(name.title())
 
 def add_new_donor(name):
-    print(name, '  Craig is a new donor')
     while True:
         gift = input(text_dict.get('gift_prompt'))
         try:
@@ -36,11 +35,11 @@ def add_new_donor(name):
             break
         except ValueError as error:
             print(text_dict.get('donation_err'))
-    dc.edit_donor(donor = 'Craigo', donations = gift)
-    print(dc.donors_db)
+    dc.edit_donor(donor = name, donations = gift)
+    print(text_dict.get('letter').format(name, gift))
 
 def updated_donor(name):
-    print(name, '  Craig is an old soul')
+    name = name.title()
     while True:
         gift = input(text_dict.get('gift_prompt'))
         try:
@@ -48,10 +47,9 @@ def updated_donor(name):
             break
         except ValueError as error:
             print(text_dict.get('donation_err'))
-    dc.edit_donor(donor = 'Mary Newcomer', donations = gift)
-    print(dc.donors_db)
-    #print(text_dict.get('letter').format(donor, gift))
-
+    dc.edit_donor(donor = name, donations = gift)
+    print(text_dict.get('letter').format(name, gift))
+    
 def list_donors():
     print('\nMaster List of Donors:\n')
     for donor in dc.donor_list:
@@ -75,12 +73,13 @@ def create_dir():
 
 def write_files(filename, donor, gift):
     with open(filename, 'w') as output:
-        output.write(text_dict.get('letter').format(donor.replace('_', ' '), gift))
+        output.write(text_dict.get('letter').format(str(donor.replace('_', ' ')), gift))
     output.close
+
 # Need to edit
 def batch_thanks():
     create_dir()
-    for key, value in donorlist_dict.items():
+    for key, value in dc.donors_db.items():
         donor = str(key.replace(' ', '_'))
         gift = (list(value))[-1]
         filename = 'letters/' + donor + '.txt'
@@ -100,7 +99,7 @@ menu_dict = {
             '2' : change_donor_info,
             '3' : list_donors,
             '4' : run_donor_report,
-            '5' : exit_program,
+            '5' : batch_thanks,
             '6' : exit_program
             }
 
