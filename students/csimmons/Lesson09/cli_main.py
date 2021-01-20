@@ -14,8 +14,21 @@ from data import *
 
 dc = DonorCollection()
 
-def add_new_donor():
-    print('Craig is a new donor')
+def change_donor_info():
+    name = input(text_dict.get('donor_prompt'))
+    name = name.lower()
+    if name == 'list':
+        list_donors()
+    elif name == 'exit': 
+        return
+    elif dc.find_donor(name) == True:
+        updated_donor(name)
+    else:
+        add_new_donor(name)
+
+
+def add_new_donor(name):
+    print(name, '  Craig is a new donor')
     while True:
         gift = input(text_dict.get('gift_prompt'))
         try:
@@ -23,11 +36,11 @@ def add_new_donor():
             break
         except ValueError as error:
             print(text_dict.get('donation_err'))
-    dc.add_donor(donor = 'Craigo', donations = gift)
+    dc.edit_donor(donor = 'Craigo', donations = gift)
     print(dc.donors_db)
 
-def updated_donor():
-    print('Update Mary')
+def updated_donor(name):
+    print(name, '  Craig is an old soul')
     while True:
         gift = input(text_dict.get('gift_prompt'))
         try:
@@ -35,7 +48,7 @@ def updated_donor():
             break
         except ValueError as error:
             print(text_dict.get('donation_err'))
-    dc.add_donor(donor = 'Mary Newcomer', donations = gift)
+    dc.edit_donor(donor = 'Mary Newcomer', donations = gift)
     print(dc.donors_db)
     #print(text_dict.get('letter').format(donor, gift))
 
@@ -53,15 +66,40 @@ def run_donor_report():
         print(text_dict.get('info_row')(dname=name, total=total, gifts=gifts, avg=avg))
     print('\n')
 
+def create_dir():
+    isdir = os.path.isdir('letters')  
+    if isdir == True:
+        pass
+    else:
+        os.mkdir('letters')
+
+def write_files(filename, donor, gift):
+    with open(filename, 'w') as output:
+        output.write(text_dict.get('letter').format(donor.replace('_', ' '), gift))
+    output.close
+# Need to edit
+def batch_thanks():
+    create_dir()
+    for key, value in donorlist_dict.items():
+        donor = str(key.replace(' ', '_'))
+        gift = (list(value))[-1]
+        filename = 'letters/' + donor + '.txt'
+        try:
+            write_files(filename, donor, gift)
+        except IOError:
+            print(text_dict.get(letter_err.format(donor)))
+        write_files(filename, donor, gift)
+    print('\nThank You letters were generated for all donors\n')
+
 def exit_program():
     print('\nThank You. Exiting the Mailroom Application\n')
     sys.exit()
 
 menu_dict = {
-            '1' : add_new_donor,
-            '2' : run_donor_report,
+            '1' : change_donor_info,
+            '2' : change_donor_info,
             '3' : list_donors,
-            '4' : updated_donor,
+            '4' : run_donor_report,
             '5' : exit_program,
             '6' : exit_program
             }

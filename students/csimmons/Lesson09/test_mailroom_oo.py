@@ -49,14 +49,6 @@ def test_DonorCollection_printables():
     assert repr(dc) == 'repr: DonorCollection Object'
 
 #Working
-def test_add_donor():
-    dc = DonorCollection()
-    dc.add_donor('Craig Simmons', 75000)
-    dc.add_donor('Anne Francis', 5000)
-    assert (dc.donors_db.get('Craig Simmons')) == [75000]
-    assert (dc.donors_db.get('Anne Francis')) == [5000]
-
-#Working
 def test_total_donations():
     dc = DonorCollection()
     d = Donor('Jen Palkha', [100, 300, 1000, 50, 50])
@@ -90,13 +82,28 @@ def test_avg_donation():
     assert e.avg_donation == 4266 + 2/3
 
 #Working
-def test_donor_list():
+def test_add_donor():
     dc = DonorCollection()
-    donors = []
-    for donor in dc.donors_db.keys():
-        donors.append(donor)
-    end = dc.donor_list
-    assert end == list(donors)
+    dc.add_donor('Craig Simmons', 75000)
+    dc.add_donor('Anne Francis', 5000)
+    assert (dc.donors_db.get('Craig Simmons')) == [75000]
+    assert (dc.donors_db.get('Anne Francis')) == [5000]
+
+#Working
+def test_update_donor():
+    dc = DonorCollection()
+    dc.add_donor('Kurt Cobain', 1000)
+    dc.add_donor('William Shakespeare', 10000)
+    assert (dc.donors_db.get('Kurt Cobain')) == [1000]
+    assert (dc.donors_db.get('William Shakespeare')) == [10000]
+
+#Working
+def test_edit_donor():
+    dc = DonorCollection()
+    dc.add_donor('Atila Thehun', 250)
+    dc.add_donor('Joe Strummer', 25000)
+    assert (dc.donors_db.get('Atila Thehun')) == [250]
+    assert (dc.donors_db.get('Joe Strummer')) == [25000]
 
 #Working
 def test_find_donor():
@@ -108,15 +115,13 @@ def test_find_donor():
     assert find2 == False
 
 #Working
-def test_totals_donations():
+def test_donor_list():
     dc = DonorCollection()
-    d = Donor('Jen Palkha', [100, 300, 1000, 50, 50])
-    vals = dc.donors_db.get('Mary Newcomer')
-    e = Donor('Mary Newcomer', vals)
-    print(d, d.total_donations, d.number_donations, d.avg_donation)
-    print(e, e.total_donations, e.number_donations, e.avg_donation)
-    assert d.total_donations == 1500
-    assert e.total_donations == 12800
+    donors = []
+    for donor in dc.donors_db.keys():
+        donors.append(donor)
+    end = dc.donor_list
+    assert end == list(donors)
 
 #Working
 def test_create_report():

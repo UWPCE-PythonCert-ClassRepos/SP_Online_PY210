@@ -29,6 +29,7 @@ class Donor(object):
     def avg_donation(self):
         return sum(self.donations) / len(self.donations)
 
+
 class DonorCollection(object):
 
     donors_db = {
@@ -50,10 +51,6 @@ class DonorCollection(object):
     def __repr__(self):
         return f'repr: DonorCollection Object'
 
-    @property
-    def donor_list(self):
-        return list(self.donors_db.keys())
-
     def find_donor(self, name):
         if name in self.donors_db.keys():
             return True
@@ -61,11 +58,17 @@ class DonorCollection(object):
             return False
     
     def add_donor(self, donor, donations):
+        donor = donor.title()
         new = Donor(donor, donations)
         self.donors_db.setdefault(new.name, []).append(new.donations)
         return self.donors_db
 
     def update_donor(self, donor, donations):
+        new = Donor(donor, donations)
+        self.donors_db.setdefault(new.name, []).append(new.donations)
+        return self.donors_db
+
+    def edit_donor(self, donor, donations):
         new = Donor(donor, donations)
         self.donors_db.setdefault(new.name, []).append(new.donations)
         return self.donors_db
@@ -78,3 +81,7 @@ class DonorCollection(object):
             self.all_info.append(donor_info)
         self.all_info = sorted(self.all_info, key=itemgetter (1), reverse=True)
         return(self.all_info)
+
+    @property
+    def donor_list(self):
+        return list(self.donors_db.keys())
