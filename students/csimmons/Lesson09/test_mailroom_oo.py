@@ -51,10 +51,8 @@ def test_DonorCollection_printables():
 #Working
 def test_add_donor():
     dc = DonorCollection()
-    craig = Donor(name= 'Craig Simmons', donations= 75000)
-    anne = Donor(name= 'Anne Francis', donations= 5000)
-    dc.donors_db.setdefault(craig.name, []).append(craig.donations)
-    dc.donors_db.setdefault(anne.name, []).append(anne.donations)
+    dc.add_donor('Craig Simmons', 75000)
+    dc.add_donor('Anne Francis', 5000)
     assert (dc.donors_db.get('Craig Simmons')) == [75000]
     assert (dc.donors_db.get('Anne Francis')) == [5000]
 
@@ -120,3 +118,9 @@ def test_totals_donations():
     assert d.total_donations == 1500
     assert e.total_donations == 12800
 
+def test_create_report():
+    dc = DonorCollection()
+    dc.create_report()
+    print(dc.all_info)
+    assert (dc.all_info[0]) == ['Craig Simmons', 75000, 1, 75000.0]
+    assert (dc.all_info[4][0]) == 'Christine Ruotolo'

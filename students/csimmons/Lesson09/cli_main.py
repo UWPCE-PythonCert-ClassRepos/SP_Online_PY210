@@ -7,47 +7,57 @@
 
 
 import pytest
+import sys
+from operator import itemgetter
 from donor_models import *
+from data import *
 
-def donordata():
-    dc = DonorCollection()
-    for name, donations in dc.donors_db.items():
-        d = Donor(name, donations)
-        print(name, donations, d.total_donations, d.number_donations, d.avg_donation)
+dc = DonorCollection()
 
+def add_new_donor():
+    dc.add_donor('Craigo', 500)
+    print(dc.donors_db)
 
-def test_find_donor(name):
-    dc = DonorCollection()
-    '''
-    d = Donor(name= 'Craig Simmons', donations= 75000)
-    s = 'Mary Newcomer'
-    if s in dc.donors_db.keys():
-        print(s.donations, s.total_donations)
-    else:
-        print(s.donations)
-    '''
-    if name in dc.donors_db.keys():
-        print(name + ' is in the database')
-    else:
-        return False
+def list_donors():
+    print('\nMaster List of Donors:\n')
+    for donor in dc.donor_list:
+        print(donor)
+    print('\n')
 
-def initialize_donor_dict():
-        dc = DonorCollection()
-        for donor, donation in dc.donors_db.items():
-            objname = Donor(donor, donation)
-            print(objname)
-        print(dc)
+def run_donor_report():
+    dc.create_report()
+    print(text_dict.get('header1'))
+    print(text_dict.get('header2'))
+    for name, total, gifts, avg in dc.all_info: 
+        print(text_dict.get('info_row')(dname=name, total=total, gifts=gifts, avg=avg))
+    print('\n')
 
-def initialize_donor_dict():
-    dc = DonorCollection()
-    for donor, donation in dc.donors_db.items():
-        objname = Donor(donor, donation)
-        dc = dc + objname
-    return dc
+def exit_program():
+    print('\nThank You. Exiting the Mailroom Application\n')
+    sys.exit()
 
+menu_dict = {
+            '1' : add_new_donor,
+            '2' : run_donor_report,
+            '3' : list_donors,
+            '4' : exit_program,
+            '5' : exit_program,
+            '6' : exit_program
+            }
 
+def menu_select(menu_prompt, menu_dict):
+    selection = ['1', '2', '3', '4', '5', '6']
+    while True:
+        response = input(text_dict.get('menu_prompt'))
+        try:
+            if response not in selection:
+                print('\nNot a valid selection. Please try again!')
+            elif menu_dict[response]() == 'exit menu':
+                break
+        except KeyError:
+            print('\nNot a valid selection. Please try again!')
 
 
 if __name__ == '__main__':
     print('\nWelcome to the Mailroom Application!\n')
-    #menu_select(text_dict.get('menu_prompt'), menu_dict)
+    menu_select(text_dict.get('menu_prompt'), menu_dict)

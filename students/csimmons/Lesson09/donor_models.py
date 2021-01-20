@@ -4,7 +4,7 @@
 # mailroom_oo.py assignment
 # Donor classes 
 # Created 1/17/2021 - csimmons
-
+from operator import itemgetter
 class Donor(object):
        
     def __init__(self, name='', donations= []):
@@ -59,7 +59,18 @@ class DonorCollection(object):
             return True
         else:
             return False
-
-    def add_donor(self, donor, donation):
-        self.donors_db[donor] = Donor(donor,[donation])
+        
+    
+    def add_donor(self, donor, donations):
+        new = Donor(donor, donations)
+        self.donors_db.setdefault(new.name, []).append(new.donations)
         return self.donors_db
+
+    def create_report(self):
+        self.all_info = []
+        for donor, donation in self.donors_db.items():
+            d = Donor(donor, donation)
+            donor_info = [d.name, d.total_donations, d.number_donations, d.avg_donation]
+            self.all_info.append(donor_info)
+        self.all_info = sorted(self.all_info, key=itemgetter (1), reverse=True)
+        return(self.all_info)
