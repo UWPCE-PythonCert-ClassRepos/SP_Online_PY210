@@ -1,7 +1,6 @@
 from circle_class import *
 from math import pi
 
-
 def test_circle_radius():
     c = Circle(2)
     print(c.radius)
