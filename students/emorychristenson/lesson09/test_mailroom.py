@@ -14,13 +14,9 @@ class TestDonorClass(unittest.TestCase):
 
     def test_donor(self):
         assert self.D1.name == "John Jingleheimer"
-        # with self.assertRaises(TypeError):
-        #         self.D1.name = 5
-        # with self.assertRaises(ValueError):
-        #         self.D1.name = ""
 
     def test_donation(self):
-        assert self.D1.donations == [10]
+        assert self.D1.donations == [10]    
 
     def test_add_donation(self):
         self.D1.add_donation(10)
