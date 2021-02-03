@@ -1,0 +1,7 @@
+jeff bezos;30000.0,50000.0
+bill gates;20000.0,80000.0
+mark zuckerberg;15000.0
+paull allen;120000.0
+steve jobs;650000.0
+john lennon;40000.0
+tom brady;30000.0,200000.0

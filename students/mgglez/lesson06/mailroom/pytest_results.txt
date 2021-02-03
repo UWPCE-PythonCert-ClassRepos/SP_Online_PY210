@@ -1,0 +1,39 @@
+mercedes@MYLAP MINGW64 /c/UW/PythonCertificationCourse1/SP_Online_PY210/SP_Online_PY210/students/mgglez/lesson06/mailroom (master)
+$ pytest --cov-report term-missing --cov=mailroom tests/ -v
+============================= test session starts =============================
+platform win32 -- Python 3.8.3, pytest-6.2.2, py-1.10.0, pluggy-0.13.1 -- c:\python38\python.exe
+cachedir: .pytest_cache
+rootdir: C:\UW\PythonCertificationCourse1\SP_Online_PY210\SP_Online_PY210\students\mgglez\lesson06\mailroom
+plugins: cov-2.11.1
+collecting ... collected 16 items
+
+tests/test_mailroom.py::TestMailroom::test_create_donor_report PASSED    [  6%]
+tests/test_mailroom.py::TestMailroom::test_generate_donor_records_empty PASSED [ 12%]
+tests/test_mailroom.py::TestMailroom::test_generate_donor_records_successfully PASSED [ 18%]
+tests/test_mailroom.py::TestMailroom::test_generate_email PASSED         [ 25%]
+tests/test_mailroom.py::TestMailroom::test_read_data_from_file_no_file_found PASSED [ 31%]
+tests/test_mailroom.py::TestMailroom::test_read_data_from_file_successfully PASSED [ 37%]
+tests/test_mailroom.py::TestMailroom::test_say_goodbye PASSED            [ 43%]
+tests/test_mailroom.py::TestMailroom::test_send_letter_to_all_donors PASSED [ 50%]
+tests/test_mailroom.py::TestMailroom::test_send_letter_to_all_donors_empty_list PASSED [ 56%]
+tests/test_mailroom.py::TestMailroom::test_send_thank_you_to_single_donor_choice_add_new PASSED [ 62%]
+tests/test_mailroom.py::TestMailroom::test_send_thank_you_to_single_donor_choice_invalid PASSED [ 68%]
+tests/test_mailroom.py::TestMailroom::test_send_thank_you_to_single_donor_choice_invalid_donation PASSED [ 75%]
+tests/test_mailroom.py::TestMailroom::test_send_thank_you_to_single_donor_choice_list PASSED [ 81%]
+tests/test_mailroom.py::TestMailroom::test_send_thank_you_to_single_donor_choice_update_donor PASSED [ 87%]
+tests/test_mailroom.py::TestMailroom::test_send_thank_you_to_single_donor_choice_zero_donation PASSED [ 93%]
+tests/test_mailroom.py::TestMailroom::test_write_data_to_file PASSED     [100%]
+
+----------- coverage: platform win32, python 3.8.3-final-0 -----------
+Name                     Stmts   Miss  Cover   Missing
+------------------------------------------------------
+__init__.py                  0      0   100%
+mailroom.py                105     19    82%   18, 46-47, 182-201, 205
+setup.py                     2      2     0%   1-3
+tests\__init__.py            0      0   100%
+tests\test_mailroom.py     116      1    99%   185
+------------------------------------------------------
+TOTAL                      223     22    90%
+
+
+============================= 16 passed in 0.60s ==============================
